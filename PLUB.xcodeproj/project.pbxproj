@@ -37,6 +37,7 @@
 		BA88125928E48A3000BD832A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA88125B28E48A3000BD832A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA88126128E48A5800BD832A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +128,7 @@
 		BA88124C28E48A2F00BD832A /* PLUB */ = {
 			isa = PBXGroup;
 			children = (
+				BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */,
 				0A3E42D328E733BC00F62BF0 /* Configuration */,
 				0A3E42E228E7369600F62BF0 /* Sources */,
 				BA88124D28E48A2F00BD832A /* AppDelegate.swift */,
@@ -365,9 +367,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PLUB/PLUB.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B4G53F63TN;
+				DEVELOPMENT_TEAM = 2ZQR76M3UH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PLUB/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -393,9 +396,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PLUB/PLUB.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B4G53F63TN;
+				DEVELOPMENT_TEAM = 2ZQR76M3UH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PLUB/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
