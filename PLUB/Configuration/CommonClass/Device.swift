@@ -5,7 +5,6 @@
 //  Created by 양유진 on 2022/09/30.
 //
 
-import Foundation
 import UIKit
 
 // MARK: 디바이스의 크기, 여백 등의 정보를 담은 struct
