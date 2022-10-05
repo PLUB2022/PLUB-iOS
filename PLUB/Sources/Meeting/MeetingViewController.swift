@@ -1,13 +1,6 @@
-//
-//  ViewController.swift
-//  PLUB
-//
-//  Created by 홍승현 on 2022/09/28.
-//
-
 import UIKit
 
-class ViewController: BaseViewController {
+final class MeetingViewController: BaseViewController {
   
   
   // MARK: - Life Cycle
