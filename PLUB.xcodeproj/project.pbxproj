@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42D828E7343F00F62BF0 /* Constants.swift */; };
 		0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42DB28E734E800F62BF0 /* Device.swift */; };
+		0A81767F28F3105200C1E074 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81767E28F3105200C1E074 /* Preview.swift */; };
 		BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F228EDE10F00C20061 /* LoginViewController.swift */; };
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
 		BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		0A3E42D828E7343F00F62BF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A3E42DB28E734E800F62BF0 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		0A81767E28F3105200C1E074 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		BA42D1F228EDE10F00C20061 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3E42DB28E734E800F62BF0 /* Device.swift */,
+				0A81767E28F3105200C1E074 /* Preview.swift */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
+				0A81767F28F3105200C1E074 /* Preview.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
