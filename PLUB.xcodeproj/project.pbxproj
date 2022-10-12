@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42D828E7343F00F62BF0 /* Constants.swift */; };
 		0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42DB28E734E800F62BF0 /* Device.swift */; };
+		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
+		7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift */; };
+		7085678A28EEB73F008047DC /* RecommendedMeetingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* RecommendedMeetingHeaderView.swift */; };
+		7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */; };
+		7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678D28EFC4FB008047DC /* RegisterInterestTableViewCell.swift */; };
+		708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */; };
 		BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F228EDE10F00C20061 /* LoginViewController.swift */; };
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
 		BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */; };
@@ -29,6 +35,12 @@
 /* Begin PBXFileReference section */
 		0A3E42D828E7343F00F62BF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A3E42DB28E734E800F62BF0 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		7085678728EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedMeetingCollectionViewCell.swift; sourceTree = "<group>"; };
+		7085678928EEB73F008047DC /* RecommendedMeetingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedMeetingHeaderView.swift; sourceTree = "<group>"; };
+		7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestViewController.swift; sourceTree = "<group>"; };
+		7085678D28EFC4FB008047DC /* RegisterInterestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestTableViewCell.swift; sourceTree = "<group>"; };
+		708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestHeaderView.swift; sourceTree = "<group>"; };
 		BA42D1F228EDE10F00C20061 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
@@ -105,10 +117,24 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		7085678428EE9A84008047DC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */,
+				7085678728EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift */,
+				7085678928EEB73F008047DC /* RecommendedMeetingHeaderView.swift */,
+				7085678D28EFC4FB008047DC /* RegisterInterestTableViewCell.swift */,
+				708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				7085678428EE9A84008047DC /* Cell */,
 				BA88125128E48A2F00BD832A /* HomeViewController.swift */,
+				7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -252,16 +278,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
+				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
+				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
+				7085678A28EEB73F008047DC /* RecommendedMeetingHeaderView.swift in Sources */,
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
+				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
+				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
