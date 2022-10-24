@@ -8,6 +8,12 @@ import Then
 
 final class LoginViewController: BaseViewController {
   
+  // MARK: - Property
+  
+  private let stackView = UIStackView().then {
+    $0.spacing = 8
+    $0.axis = .vertical
+  }
   
   // MARK: - Life Cycle
   
@@ -19,10 +25,17 @@ final class LoginViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
+    
+    self.view.addSubview(stackView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    self.stackView.snp.makeConstraints { make in
+      make.centerX.equalToSuperview()
+      make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(162)
+    }
   }
   
   override func setupStyles() {
