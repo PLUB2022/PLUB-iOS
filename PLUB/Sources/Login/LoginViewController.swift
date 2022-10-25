@@ -15,6 +15,8 @@ final class LoginViewController: BaseViewController {
     $0.axis = .vertical
   }
   
+  private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .default, style: .black)
+  
   // MARK: - Life Cycle
   
   override func viewDidLoad() {
@@ -27,6 +29,10 @@ final class LoginViewController: BaseViewController {
     super.setupLayouts()
     
     self.view.addSubview(stackView)
+    
+    [appleLoginButton].forEach {
+      self.stackView.addArrangedSubview($0)
+    }
   }
   
   override func setupConstraints() {
