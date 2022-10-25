@@ -39,8 +39,12 @@ final class LoginViewController: BaseViewController {
     super.setupConstraints()
     
     self.stackView.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(162)
+      make.leading.trailing.equalToSuperview().inset(40)
+      make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(164)
+    }
+    
+    self.appleLoginButton.snp.makeConstraints { make in
+      make.height.equalTo(42)
     }
   }
   
