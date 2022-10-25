@@ -50,7 +50,7 @@ final class LoginViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .systemBackground
+    view.backgroundColor = .white
   }
   
   override func bind() {
