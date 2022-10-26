@@ -15,7 +15,9 @@ final class LoginViewController: BaseViewController {
     $0.axis = .vertical
   }
   
-  private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .default, style: .black)
+  private let appleLoginButton = UIButton(type: .system).then {
+    $0.backgroundColor = .black
+  }
   
   // MARK: - Life Cycle
   
@@ -44,7 +46,7 @@ final class LoginViewController: BaseViewController {
     }
     
     self.appleLoginButton.snp.makeConstraints { make in
-      make.height.equalTo(42)
+      make.height.equalTo(44)
     }
   }
   
