@@ -53,16 +53,11 @@ final class LoginViewController: BaseViewController {
       make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(164)
     }
     
-    self.naverLoginButton.snp.makeConstraints { make in
-      make.height.equalTo(44)
-    }
-    
-    self.kakaoLoginButton.snp.makeConstraints { make in
-      make.height.equalTo(44)
-    }
-    
-    self.appleLoginButton.snp.makeConstraints { make in
-      make.height.equalTo(44)
+    // == Button's constraints ==
+    [naverLoginButton, kakaoLoginButton, appleLoginButton].forEach {
+      $0.snp.makeConstraints { make in
+        make.height.equalTo(44)
+      }
     }
   }
   
