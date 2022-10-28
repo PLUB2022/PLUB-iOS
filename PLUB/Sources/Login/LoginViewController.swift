@@ -11,7 +11,8 @@ final class LoginViewController: BaseViewController {
   // MARK: - Property
   
   private let logoImageView = UIImageView().then {
-    $0.backgroundColor = UIColor(hex: 0x945CDB)
+    $0.contentMode = .scaleAspectFit
+    $0.image = UIImage(named: AssetName.logo)
   }
   
   private let stackView = UIStackView().then {
@@ -19,16 +20,16 @@ final class LoginViewController: BaseViewController {
     $0.axis = .vertical
   }
   
-  private let kakaoLoginButton = UIButton(type: .system).then {
-    $0.backgroundColor = .systemYellow
+  private let kakaoLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: AssetName.kakao), for: .normal)
   }
   
-  private let googleLoginButton = UIButton(type: .system).then {
-    $0.backgroundColor = .systemGray6
+  private let googleLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: AssetName.google), for: .normal)
   }
   
-  private let appleLoginButton = UIButton(type: .system).then {
-    $0.backgroundColor = .black
+  private let appleLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: AssetName.apple), for: .normal)
   }
   
   // MARK: - Life Cycle
@@ -54,7 +55,6 @@ final class LoginViewController: BaseViewController {
     
     self.logoImageView.snp.makeConstraints { make in
       make.horizontalEdges.equalToSuperview().inset(106)
-      make.height.equalTo(50)
       make.centerY.equalToSuperview().offset(-150)
     }
     
