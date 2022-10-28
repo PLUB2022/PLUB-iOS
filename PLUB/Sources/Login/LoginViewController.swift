@@ -90,3 +90,13 @@ extension LoginViewController {
     static let logo = "Logo"
   }
 }
+
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+struct LoginViewControllerPreview: PreviewProvider {
+  static var previews: some View {
+    LoginViewController().toPreview()
+  }
+}
+#endif
