@@ -19,12 +19,12 @@ final class LoginViewController: BaseViewController {
     $0.axis = .vertical
   }
   
-  private let naverLoginButton = UIButton(type: .system).then {
-    $0.backgroundColor = .systemGreen
-  }
-  
   private let kakaoLoginButton = UIButton(type: .system).then {
     $0.backgroundColor = .systemYellow
+  }
+  
+  private let googleLoginButton = UIButton(type: .system).then {
+    $0.backgroundColor = .systemGray6
   }
   
   private let appleLoginButton = UIButton(type: .system).then {
@@ -44,7 +44,7 @@ final class LoginViewController: BaseViewController {
     self.view.addSubview(logoImageView)
     self.view.addSubview(stackView)
     
-    [naverLoginButton, kakaoLoginButton, appleLoginButton].forEach {
+    [kakaoLoginButton, googleLoginButton, appleLoginButton].forEach {
       self.stackView.addArrangedSubview($0)
     }
   }
@@ -64,7 +64,7 @@ final class LoginViewController: BaseViewController {
     }
     
     // == Button's constraints ==
-    [naverLoginButton, kakaoLoginButton, appleLoginButton].forEach {
+    [kakaoLoginButton, googleLoginButton, appleLoginButton].forEach {
       $0.snp.makeConstraints { make in
         make.height.equalTo(44)
       }
