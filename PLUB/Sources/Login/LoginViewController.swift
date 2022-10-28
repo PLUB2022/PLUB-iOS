@@ -80,3 +80,13 @@ final class LoginViewController: BaseViewController {
     super.bind()
   }
 }
+
+extension LoginViewController {
+  
+  private enum AssetName {
+    static let apple = "Apple Login"
+    static let google = "Google Login"
+    static let kakao = "Kakao Login"
+    static let logo = "Logo"
+  }
+}
