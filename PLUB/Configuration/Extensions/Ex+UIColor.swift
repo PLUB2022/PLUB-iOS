@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - Init
+
 extension UIColor {
   
   /// 16진수(hex code)를 이용하여 색상을 지정합니다.
