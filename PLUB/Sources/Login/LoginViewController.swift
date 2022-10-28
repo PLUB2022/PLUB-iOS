@@ -10,6 +10,10 @@ final class LoginViewController: BaseViewController {
   
   // MARK: - Property
   
+  private let logoImageView = UIImageView().then {
+    $0.backgroundColor = UIColor(hex: 0x945CDB)
+  }
+  
   private let stackView = UIStackView().then {
     $0.spacing = 8
     $0.axis = .vertical
@@ -37,7 +41,7 @@ final class LoginViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    
+    self.view.addSubview(logoImageView)
     self.view.addSubview(stackView)
     
     [naverLoginButton, kakaoLoginButton, appleLoginButton].forEach {
@@ -47,6 +51,12 @@ final class LoginViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    self.logoImageView.snp.makeConstraints { make in
+      make.horizontalEdges.equalToSuperview().inset(106)
+      make.height.equalTo(50)
+      make.centerY.equalToSuperview().offset(-150)
+    }
     
     self.stackView.snp.makeConstraints { make in
       make.leading.trailing.equalToSuperview().inset(40)
