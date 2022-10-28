@@ -30,7 +30,6 @@ extension UIColor {
 // MARK: - Plub Color Palette
 
 extension UIColor {
-  
   static let main: UIColor        = .init(hex: 0x5F5FF9)
   static let subMain: UIColor     = .init(hex: 0xB5B5FB)
   static let background: UIColor  = .init(hex: 0xF5F3F6)
