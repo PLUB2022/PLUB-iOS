@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - Init
+
 extension UIColor {
   
   /// 16진수(hex code)를 이용하여 색상을 지정합니다.
@@ -25,8 +27,15 @@ extension UIColor {
       alpha: CGFloat(alpha)
     )
   }
-  
-  // MARK: 메인 테마 색 또는 자주 쓰는 색을 정의
-  // ex. label.textColor = .mainOrange
-  static var mainOrange: UIColor { UIColor(hex: 0xF5663F) }
+}
+
+// MARK: - Plub Color Palette
+
+extension UIColor {
+  static let main: UIColor        = .init(hex: 0x5F5FF9)
+  static let subMain: UIColor     = .init(hex: 0xB5B5FB)
+  static let background: UIColor  = .init(hex: 0xF5F3F6)
+  static let deepGray: UIColor    = .init(hex: 0x8C8C8C)
+  static let mediumGray: UIColor  = .init(hex: 0xC4C4C4)
+  static let lightGray: UIColor   = .init(hex: 0xE4E4E4)
 }
