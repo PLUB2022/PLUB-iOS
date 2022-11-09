@@ -20,6 +20,13 @@ final class LoginViewController: BaseViewController {
     $0.axis = .vertical
   }
   
+  private let termsLabel: UILabel = UILabel().then {
+    $0.text = "가입을 진행할 경우, 서비스 약관 및\n개인정보 처리방침에 동의한 것으로 간주합니다."
+    $0.textAlignment = .center
+    $0.numberOfLines = 0
+    $0.font = .caption
+  }
+  
   private let kakaoLoginButton = UIButton().then {
     $0.setImage(UIImage(named: AssetName.kakao), for: .normal)
   }
@@ -42,8 +49,9 @@ final class LoginViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    self.view.addSubview(logoImageView)
-    self.view.addSubview(stackView)
+    [logoImageView, stackView, termsLabel].forEach {
+      self.view.addSubview($0)
+    }
     
     [kakaoLoginButton, googleLoginButton, appleLoginButton].forEach {
       self.stackView.addArrangedSubview($0)
@@ -61,6 +69,11 @@ final class LoginViewController: BaseViewController {
     self.stackView.snp.makeConstraints { make in
       make.leading.trailing.equalToSuperview().inset(40)
       make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(164)
+    }
+    
+    self.termsLabel.snp.makeConstraints { make in
+      make.centerX.equalToSuperview()
+      make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(60)
     }
     
     // == Button's constraints ==
