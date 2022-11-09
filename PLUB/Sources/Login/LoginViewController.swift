@@ -21,10 +21,35 @@ final class LoginViewController: BaseViewController {
   }
   
   private let termsLabel: UILabel = UILabel().then {
-    $0.text = "가입을 진행할 경우, 서비스 약관 및\n개인정보 처리방침에 동의한 것으로 간주합니다."
+    let generalText = "가입을 진행할 경우, 서비스 약관 및\n개인정보 처리방침에 동의한 것으로 간주합니다."
+    
+    let generalAttributes: [NSAttributedString.Key: Any] = [
+      .foregroundColor: UIColor.black,
+      .font: UIFont.caption!
+    ]
+    let linkAttributes: [NSAttributedString.Key: Any] = [
+      .underlineStyle: NSUnderlineStyle.single.rawValue,
+      .foregroundColor: UIColor.main,
+      .font: UIFont.caption!
+    ]
+    let mutableString = NSMutableAttributedString()
+    
+    // generalAttributes(기본 스타일) 적용
+    mutableString.append(NSAttributedString(string: generalText, attributes: generalAttributes))
+      
+    // 각 문자열의 range에 맞게 linkAttributes 적용
+    mutableString.setAttributes(
+      linkAttributes,
+      range: (generalText as NSString).range(of: "서비스 약관")
+    )
+    mutableString.setAttributes(
+      linkAttributes,
+      range: (generalText as NSString).range(of: "개인정보 처리방침")
+    )
+
+    $0.attributedText = mutableString
     $0.textAlignment = .center
     $0.numberOfLines = 0
-    $0.font = .caption
   }
   
   private let kakaoLoginButton: UIButton = UIButton().then {
