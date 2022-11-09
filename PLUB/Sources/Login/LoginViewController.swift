@@ -10,12 +10,12 @@ final class LoginViewController: BaseViewController {
   
   // MARK: - Property
   
-  private let logoImageView = UIImageView().then {
+  private let logoImageView: UIImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
     $0.image = UIImage(named: AssetName.logo)
   }
   
-  private let stackView = UIStackView().then {
+  private let stackView: UIStackView = UIStackView().then {
     $0.spacing = 8
     $0.axis = .vertical
   }
@@ -27,15 +27,15 @@ final class LoginViewController: BaseViewController {
     $0.font = .caption
   }
   
-  private let kakaoLoginButton = UIButton().then {
+  private let kakaoLoginButton: UIButton = UIButton().then {
     $0.setImage(UIImage(named: AssetName.kakao), for: .normal)
   }
   
-  private let googleLoginButton = UIButton().then {
+  private let googleLoginButton: UIButton = UIButton().then {
     $0.setImage(UIImage(named: AssetName.google), for: .normal)
   }
   
-  private let appleLoginButton = UIButton().then {
+  private let appleLoginButton: UIButton = UIButton().then {
     $0.setImage(UIImage(named: AssetName.apple), for: .normal)
   }
   
