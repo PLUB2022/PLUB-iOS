@@ -15,7 +15,7 @@ final class LoginViewController: BaseViewController {
     $0.image = UIImage(named: AssetName.logo)
   }
   
-  private let stackView: UIStackView = UIStackView().then {
+  private let loginStackView: UIStackView = UIStackView().then {
     $0.spacing = 8
     $0.axis = .vertical
   }
@@ -74,12 +74,12 @@ final class LoginViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [logoImageView, stackView, termsLabel].forEach {
+    [logoImageView, loginStackView, termsLabel].forEach {
       self.view.addSubview($0)
     }
     
     [kakaoLoginButton, googleLoginButton, appleLoginButton].forEach {
-      self.stackView.addArrangedSubview($0)
+      self.loginStackView.addArrangedSubview($0)
     }
   }
   
@@ -91,7 +91,7 @@ final class LoginViewController: BaseViewController {
       make.centerY.equalToSuperview().offset(-150)
     }
     
-    self.stackView.snp.makeConstraints { make in
+    self.loginStackView.snp.makeConstraints { make in
       make.leading.trailing.equalToSuperview().inset(40)
       make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(164)
     }
