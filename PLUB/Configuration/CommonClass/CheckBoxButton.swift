@@ -11,13 +11,32 @@ import RxSwift
 import RxCocoa
 
 final class CheckBoxButton: UIButton {
-
+  
   private let checkStyle: ButtonType
+  
+  private let disposeBag = DisposeBag()
+  
+  /// 체크가 되어있다면 `true`, 아니면 `false`를 리턴합니다.
+  var isChecked = false {
+    willSet {
+      switch checkStyle {
+      case .full:
+        self.backgroundColor    = newValue ? .main : .lightGray
+      case .none:
+        self.backgroundColor    = newValue ? .main : .white
+        self.layer.borderColor  = newValue ? UIColor.main.cgColor : UIColor.lightGray.cgColor
+        
+        // 체크모양 이미지 설정
+        newValue ? setImage(Image.checkShape, for: .normal) : setImage(nil, for: .normal)
+      }
+    }
+  }
   
   init(type: ButtonType) {
     self.checkStyle = type
     super.init(frame: .zero)
     setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -35,6 +54,14 @@ final class CheckBoxButton: UIButton {
       self.layer.borderWidth = 2
       self.layer.borderColor = UIColor.lightGray.cgColor
     }
+  }
+  
+  private func bind() {
+    self.rx.tap
+      .bind { [weak self] in
+        self?.isChecked.toggle()
+      }
+      .disposed(by: disposeBag)
   }
 }
 
