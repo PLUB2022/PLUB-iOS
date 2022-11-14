@@ -11,8 +11,18 @@ import RxSwift
 import RxCocoa
 
 final class CheckBoxButton: UIButton {
+
+  private let checkStyle: ButtonType
   
+  init(type: ButtonType) {
+    self.checkStyle = type
+    super.init(frame: .zero)
+  }
   
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
 }
 
 extension CheckBoxButton {
