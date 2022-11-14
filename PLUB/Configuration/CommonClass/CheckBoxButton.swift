@@ -12,6 +12,8 @@ import RxCocoa
 
 final class CheckBoxButton: UIButton {
   
+  // MARK: - Property
+  
   private let checkStyle: ButtonType
   
   private let disposeBag = DisposeBag()
@@ -31,6 +33,8 @@ final class CheckBoxButton: UIButton {
       }
     }
   }
+  
+  // MARK: - Init
   
   init(type: ButtonType) {
     self.checkStyle = type
@@ -65,6 +69,8 @@ final class CheckBoxButton: UIButton {
   }
 }
 
+// MARK: - Enum
+
 extension CheckBoxButton {
   enum ButtonType {
     
@@ -79,5 +85,20 @@ extension CheckBoxButton {
 extension CheckBoxButton {
   private enum Image {
     static let checkShape = UIImage(named: "Check")
+  }
+}
+
+// MARK: - RxSwift Custom Property
+
+extension Reactive where Base: CheckBoxButton {
+  
+  var isChecked: ControlProperty<Bool> {
+    return base.rx.controlProperty(editingEvents: .touchUpInside) { checkbox in
+      checkbox.isChecked
+    } setter: { checkbox, value in
+      if checkbox.isChecked != value {
+        checkbox.isChecked = value
+      }
+    }
   }
 }
