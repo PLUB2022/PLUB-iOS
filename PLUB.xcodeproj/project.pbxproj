@@ -35,6 +35,7 @@
 		BA88126A28E48A8D00BD832A /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126928E48A8D00BD832A /* Then */; };
 		BA88126D28E48AB700BD832A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126C28E48AB700BD832A /* SnapKit */; };
 		BA88127028E48AC800BD832A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126F28E48AC800BD832A /* Alamofire */; };
+		BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE16028292221ED00D595FF /* CheckBoxButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		BA88125B28E48A3000BD832A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA88126128E48A5800BD832A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
+		BAE16028292221ED00D595FF /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			children = (
 				0A3E42DB28E734E800F62BF0 /* Device.swift */,
 				0A81767E28F3105200C1E074 /* Preview.swift */,
+				BAE16028292221ED00D595FF /* CheckBoxButton.swift */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
+				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
