@@ -8,20 +8,22 @@
 import UIKit
 import Then
 import SnapKit
+import Kingfisher
 
 class HomeCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "HomeCollectionViewCell"
     
     private let imageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
-        $0.image = UIImage(systemName: "xmark")
+        $0.contentMode = .scaleAspectFit
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.gray.cgColor
     }
     
     private let interestLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 12, weight: .regular)
+        $0.font = .systemFont(ofSize: 12, weight: .bold)
         $0.textColor = .black
         $0.textAlignment = .center
     }
@@ -52,5 +54,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     
     public func configureUI(with model: InterestCollectionType) {
         interestLabel.text = model.title
+        
+        imageView.image = UIImage(named: model.imageNamed)
     }
 }

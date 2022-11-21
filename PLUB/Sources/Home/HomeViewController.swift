@@ -32,6 +32,27 @@ enum InterestCollectionType: CaseIterable {
             return "컴퓨터"
         }
     }
+    
+    var imageNamed: String {
+        switch self {
+        case .Art:
+            return "ic_outline-palette"
+        case .SportFitness:
+            return "ic_outline-sports-basketball"
+        case .Investment:
+            return "ri_money-dollar-circle-line"
+        case .LanguageStudy:
+            return "fluent_local-language-24-filled"
+        case .Culture:
+            return "ph_film-strip"
+        case .Food:
+            return "fluent_food-pizza-24-regular"
+        case .Employment:
+            return "gg_work-alt"
+        case .Computer:
+            return "mi_computer"
+        }
+    }
 }
 
 enum HomeCollectionType: CaseIterable {
@@ -42,8 +63,11 @@ enum HomeCollectionType: CaseIterable {
 final class HomeViewController: BaseViewController {
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewCompositionalLayout { sec, env -> NSCollectionLayoutSection? in
-            return Self.createCompositionalSection(homeCollectionType: HomeCollectionType.allCases[sec])
+        let layout = UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
+            guard let `self` = self else {
+                return nil
+            }
+            return type(of: self).createCompositionalSection(homeCollectionType: HomeCollectionType.allCases[sec])
         }
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemBackground
@@ -55,15 +79,23 @@ final class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setCollectionView(collectionView)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "magnifyingglass"),
-            style: .done,
-            target: self,
-            action: #selector(didTappedSearchButton)
-        )
+        self.navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(
+                image: UIImage(named: "Vector 24"),
+                style: .done,
+                target: self,
+                action: #selector(didTappedSearchButton)
+            ),
+            UIBarButtonItem(
+                image: UIImage(named: "Union"),
+                style: .done,
+                target: self,
+                action: #selector(didTappedSearchButton)
+            )
+        ]
         
         let logoImageView = UIImageView().then {
-            $0.image = UIImage(systemName: "applelogo")
+            $0.image = UIImage(named: "Vector")
             $0.contentMode = .scaleAspectFill
         }
         
@@ -114,12 +146,12 @@ final class HomeViewController: BaseViewController {
                     heightDimension: .fractionalHeight(1)
                 )
             )
-            item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 1)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 7, bottom: 1, trailing: 7)
             
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
-                    heightDimension: .absolute(100)),
+                    heightDimension: .absolute(120)),
                 subitem: item,
                 count: 4
             )
@@ -165,10 +197,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch HomeCollectionType.allCases[section] {
-            case .Interest:
-                return InterestCollectionType.allCases.count
-            case .RecommendedMeeting:
-                return 1
+        case .Interest:
+            return InterestCollectionType.allCases.count
+        case .RecommendedMeeting:
+            return 1
         }
     }
     
@@ -176,20 +208,24 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let homeCollectionType = HomeCollectionType.allCases[indexPath.section]
         
         switch homeCollectionType {
-            case .Interest:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell ?? HomeCollectionViewCell()
-                cell.configureUI(with: InterestCollectionType.allCases[indexPath.row])
-                return cell
-            case .RecommendedMeeting:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier, for: indexPath) as? RecommendedMeetingCollectionViewCell ?? RecommendedMeetingCollectionViewCell()
-                cell.delegate = self
-                return cell
+        case .Interest:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell ?? HomeCollectionViewCell()
+            cell.configureUI(with: InterestCollectionType.allCases[indexPath.row])
+            return cell
+        case .RecommendedMeeting:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier, for: indexPath) as? RecommendedMeetingCollectionViewCell ?? RecommendedMeetingCollectionViewCell()
+            cell.delegate = self
+            return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecommendedMeetingHeaderView.identifier, for: indexPath) as? RecommendedMeetingHeaderView ?? RecommendedMeetingHeaderView()
         return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (collectionView.frame.width - 7 * 5) / 4, height: (collectionView.frame.width - 7 * 5) / 4)
     }
 }
 
