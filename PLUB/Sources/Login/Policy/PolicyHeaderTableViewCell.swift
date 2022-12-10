@@ -14,6 +14,8 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   static let identifier = "\(PolicyHeaderTableViewCell.self)"
   
+  var isTapped: Bool = false
+  
   private let disclosureIndicator: UIImageView = UIImageView().then {
     $0.image = UIImage(systemName: "chevron.down")
     $0.contentMode = .scaleAspectFit
