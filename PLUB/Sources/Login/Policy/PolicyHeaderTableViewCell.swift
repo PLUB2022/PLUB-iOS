@@ -14,7 +14,7 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   static let identifier = "\(PolicyHeaderTableViewCell.self)"
   
-  var isTapped: Bool = false
+  var isTapped: Bool = false { didSet { updateIndicators() } }
   
   private let disclosureIndicator: UIImageView = UIImageView().then {
     $0.image = UIImage(systemName: "chevron.down")
@@ -64,6 +64,14 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
     
     checkbox.snp.makeConstraints { make in
       make.size.equalTo(24)
+    }
+  }
+  
+  /// 화살표 인디케이터에 아래쪽, 위쪽 방향 애니메이션을 적용합니다.
+  private func updateIndicators() {
+    UIView.animate(withDuration: 0.3) {
+      let upsideDown = CGAffineTransform(rotationAngle: .pi * 0.9999)
+      self.disclosureIndicator.transform = self.isTapped ? upsideDown : .identity 
     }
   }
   
