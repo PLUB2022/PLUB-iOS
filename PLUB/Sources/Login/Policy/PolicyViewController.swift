@@ -14,17 +14,24 @@ import Then
 
 final class PolicyViewController: BaseViewController {
   
+  
+  private lazy var tableView: UITableView = UITableView().then {
+    $0.backgroundColor = .background
+    $0.register(PolicyHeaderTableViewCell.self, forCellReuseIdentifier: PolicyHeaderTableViewCell.identifier)
+    $0.register(PolicyTableViewCell.self, forCellReuseIdentifier: PolicyTableViewCell.identifier)
+    $0.separatorStyle = .none
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
+    view.addSubview(tableView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-  }
-  
-  override func setupStyles() {
-    super.setupStyles()
-    view.backgroundColor = .background
+    tableView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 }
 
