@@ -54,8 +54,8 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   private func setupConstraints() {
     stackView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
-      make.height.equalTo(48)
+      make.top.leading.equalToSuperview().inset(10)
+      make.bottom.trailing.equalToSuperview().inset(13)
     }
     
     disclosureIndicator.snp.makeConstraints { make in
