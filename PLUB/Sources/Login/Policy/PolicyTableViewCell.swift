@@ -12,6 +12,8 @@ import SnapKit
 
 final class PolicyTableViewCell: UITableViewCell {
   
+  static let identifier = "\(PolicyTableViewCell.self)"
+  
   private let webView: WKWebView = WKWebView()
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
