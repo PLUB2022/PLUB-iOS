@@ -14,12 +14,19 @@ import Then
 
 final class PolicyViewController: BaseViewController {
   
+  private let viewModel = PolicyViewModel()
   
   private lazy var tableView: UITableView = UITableView().then {
     $0.backgroundColor = .background
     $0.register(PolicyHeaderTableViewCell.self, forCellReuseIdentifier: PolicyHeaderTableViewCell.identifier)
     $0.register(PolicyTableViewCell.self, forCellReuseIdentifier: PolicyTableViewCell.identifier)
     $0.separatorStyle = .none
+    $0.delegate = self
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    viewModel.setTableView(tableView)
   }
   
   override func setupLayouts() {
@@ -35,6 +42,10 @@ final class PolicyViewController: BaseViewController {
   }
 }
 
+
+extension PolicyViewController: UITableViewDelegate {
+
+}
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI
