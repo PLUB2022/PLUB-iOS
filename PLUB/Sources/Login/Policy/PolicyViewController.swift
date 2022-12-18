@@ -44,7 +44,9 @@ final class PolicyViewController: BaseViewController {
 
 
 extension PolicyViewController: UITableViewDelegate {
-
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    viewModel.loadNextSnapshots(for: .init(rawValue: indexPath.section)!)
+  }
 }
 
 #if canImport(SwiftUI) && DEBUG
@@ -55,4 +57,3 @@ struct PolicyViewControllerPreview: PreviewProvider {
   }
 }
 #endif
-

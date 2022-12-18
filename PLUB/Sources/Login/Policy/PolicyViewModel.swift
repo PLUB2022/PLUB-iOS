@@ -30,6 +30,8 @@ final class PolicyViewModel {
 
 extension PolicyViewModel {
   
+  // MARK: DataSource
+  
   /// tableView를 세팅하며, `DiffableDataSource`를 초기화하여 해당 tableView에 데이터를 지닌 셀을 처리합니다.
   /// - Parameter tableView: 보여질 tableView
   func setTableView(_ tableView: UITableView) {
@@ -52,6 +54,26 @@ extension PolicyViewModel {
       
       return cell
     }
+  }
+  
+  // MARK: Snapshot
+  
+  func loadNextSnapshots(for section: Section) {
+    guard let dataSource = dataSource else { return }
+    var snapshot = dataSource.snapshot()
+    // selected 된 section의 셀 정보(identifier)를 가져옴
+    guard let identifier = snapshot.itemIdentifiers(inSection: section).last else { return }
+    
+    // body가 없어 expand 해야하는 경우
+    if identifier.type == .header {
+      snapshot.appendItems([Item(type: .body, url: URL(string: "https://velog.io/@whitehyun"))], toSection: section)
+    }
+    // body가 이미 존재하지만, 한번 더 탭되어 collapse 해야하는 경우
+    else {
+      snapshot.deleteItems([identifier])
+    }
+    
+    dataSource.apply(snapshot)
   }
   
   /// 초기 Snapshot을 설정합니다. DataSource가 초기화될 시 해당 메서드가 실행됩니다.
