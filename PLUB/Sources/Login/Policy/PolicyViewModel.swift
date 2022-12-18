@@ -9,6 +9,13 @@ import UIKit
 
 final class PolicyViewModel {
   
+  private let policies = [
+    "이용약관 및 개인정보취급방침 (필수)",
+    "위치 기반 서비스 이용 약관 (필수)",
+    "만 14세 이상 확인 (필수)",
+    "개인정보 수집 이용 동의 (필수)",
+    "마케팅 활용 동의 (선택)"
+  ]
 }
 
 // MARK: - Diffable Models & Types
