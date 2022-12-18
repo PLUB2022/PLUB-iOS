@@ -14,7 +14,7 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   static let identifier = "\(PolicyHeaderTableViewCell.self)"
   
-  /// IndicatorDisclosure의 애니메이션 flag
+  /// Disclosure Indicator의 애니메이션 flag
   private var indicatorFlag = false
   
   private let disclosureIndicator: UIImageView = UIImageView().then {
@@ -70,9 +70,7 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   /// 화살표 인디케이터에 아래쪽, 위쪽 방향 애니메이션을 적용합니다.
   private func updateIndicators() {
-    defer {
-      indicatorFlag.toggle() // 함수 종료시 flag 토글
-    }
+    indicatorFlag.toggle() // toggle flag
     UIView.animate(withDuration: 0.3) {
       let upsideDown = CGAffineTransform(rotationAngle: .pi * 0.9999)
       self.disclosureIndicator.transform = self.indicatorFlag ? upsideDown : .identity
