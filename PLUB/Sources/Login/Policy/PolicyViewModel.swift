@@ -16,6 +16,37 @@ final class PolicyViewModel {
     "개인정보 수집 이용 동의 (필수)",
     "마케팅 활용 동의 (선택)"
   ]
+  
+  private var dataSource: DataSource? = nil
+}
+
+// MARK: - Set Property Methods
+
+extension PolicyViewModel {
+  
+  /// tableView를 세팅하며, `DiffableDataSource`를 초기화하여 해당 tableView에 데이터를 지닌 셀을 처리합니다.
+  /// - Parameter tableView: 보여질 tableView
+  func setTableView(_ tableView: UITableView) {
+    self.dataSource = DataSource(tableView: tableView) { tableView, indexPath, model in
+      
+      // == header cell ==
+      let identifier: String
+      switch model.type {
+      case .header:
+        identifier = PolicyHeaderTableViewCell.identifier
+      case .body:
+        identifier = PolicyTableViewCell.identifier
+      }
+      
+      let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
+      
+      if let cellConfigurable = cell as? PolicyConfigurable {
+        cellConfigurable.configure(with: model)
+      }
+      
+      return cell
+    }
+  }
 }
 
 // MARK: - Diffable Models & Types
