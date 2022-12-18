@@ -42,4 +42,11 @@ final class PolicyTableViewCell: UITableViewCell {
     let request = URLRequest(url: url)
     webView.load(request)
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    
+    webView.stopLoading()
+    webView.loadHTMLString("", baseURL: nil)
+  }
 }
