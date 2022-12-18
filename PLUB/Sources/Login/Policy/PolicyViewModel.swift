@@ -22,8 +22,6 @@ final class PolicyViewModel {
       applyInitialSnapshots()
     }
   }
-  
-  private var snapshot = Snapshot()
 }
 
 // MARK: - Set Property Methods
