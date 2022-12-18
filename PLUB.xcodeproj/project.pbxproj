@@ -10,6 +10,7 @@
 		0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42D828E7343F00F62BF0 /* Constants.swift */; };
 		0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42DB28E734E800F62BF0 /* Device.swift */; };
 		0A81767F28F3105200C1E074 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81767E28F3105200C1E074 /* Preview.swift */; };
+		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F228EDE10F00C20061 /* LoginViewController.swift */; };
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
 		BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */; };
@@ -46,6 +47,7 @@
 		0A3E42D828E7343F00F62BF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A3E42DB28E734E800F62BF0 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		0A81767E28F3105200C1E074 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA42D1F228EDE10F00C20061 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */,
+				BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */,
 				BAE1AD982944C75F00CE36B9 /* PolicyTableViewCell.swift */,
 				BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */,
 				BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */,
@@ -339,6 +342,7 @@
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
+				BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */,
 				0A81767F28F3105200C1E074 /* Preview.swift in Sources */,
 				BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
