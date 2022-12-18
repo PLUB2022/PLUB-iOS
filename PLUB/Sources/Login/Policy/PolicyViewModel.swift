@@ -17,7 +17,13 @@ final class PolicyViewModel {
     "마케팅 활용 동의 (선택)"
   ]
   
-  private var dataSource: DataSource? = nil
+  private var dataSource: DataSource? = nil {
+    didSet {
+      applyInitialSnapshots()
+    }
+  }
+  
+  private var snapshot = Snapshot()
 }
 
 // MARK: - Set Property Methods
@@ -46,6 +52,17 @@ extension PolicyViewModel {
       
       return cell
     }
+  }
+  
+  /// 초기 Snapshot을 설정합니다. DataSource가 초기화될 시 해당 메서드가 실행됩니다.
+  /// 직접 이 메서드를 실행할 필요는 없습니다.
+  private func applyInitialSnapshots() {
+    var snapshot = Snapshot()
+    snapshot.appendSections(Section.allCases)
+    for (section, policy) in zip(Section.allCases, policies) {
+      snapshot.appendItems([Item(type: .header, policy: policy)], toSection: section)
+    }
+    dataSource?.apply(snapshot)
   }
 }
 
