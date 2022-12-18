@@ -14,7 +14,7 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   static let identifier = "\(PolicyHeaderTableViewCell.self)"
   
-  var isTapped: Bool = false { didSet { updateIndicators() } }
+  private var indicatorFlag = false
   
   private let disclosureIndicator: UIImageView = UIImageView().then {
     $0.image = UIImage(systemName: "chevron.down")
@@ -69,13 +69,23 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   /// 화살표 인디케이터에 아래쪽, 위쪽 방향 애니메이션을 적용합니다.
   private func updateIndicators() {
+    defer {
+      indicatorFlag.toggle() // 함수 종료시 flag 토글
+    }
     UIView.animate(withDuration: 0.3) {
       let upsideDown = CGAffineTransform(rotationAngle: .pi * 0.9999)
-      self.disclosureIndicator.transform = self.isTapped ? upsideDown : .identity 
+      self.disclosureIndicator.transform = self.indicatorFlag ? upsideDown : .identity
     }
   }
   
   func configure(with policy: String) {
     policyLabel.text = policy
+  }
+  
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(false, animated: animated)
+    if selected {
+      updateIndicators()
+    }
   }
 }
