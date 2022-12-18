@@ -14,6 +14,7 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   static let identifier = "\(PolicyHeaderTableViewCell.self)"
   
+  /// IndicatorDisclosure의 애니메이션 flag
   private var indicatorFlag = false
   
   private let disclosureIndicator: UIImageView = UIImageView().then {
