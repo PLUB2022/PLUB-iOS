@@ -33,7 +33,9 @@ final class PolicyTableViewCell: UITableViewCell {
   
   private func setupConstraints() {
     webView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+      make.leading.equalToSuperview().inset(26) // 24(size) + 2(spacing)
+      make.trailing.equalToSuperview().inset(39) // 13(trailing) + 24(size) + 2(spacing)
+      make.verticalEdges.equalToSuperview().inset(4)
       make.height.equalTo(208)
     }
   }
