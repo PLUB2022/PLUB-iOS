@@ -29,6 +29,10 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
     $0.textColor = .deepGray
   }
   
+  private let seperatorLineView: UIView = UIView().then {
+    $0.backgroundColor = .lightGray
+  }
+  
   private let checkbox: CheckBoxButton = CheckBoxButton(type: .full)
   
   private let stackView: UIStackView = UIStackView().then {
@@ -48,12 +52,19 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   private func setupLayouts() {
     contentView.addSubview(stackView)
+    contentView.addSubview(seperatorLineView)
     [disclosureIndicator, policyLabel, checkbox].forEach {
       stackView.addArrangedSubview($0)
     }
   }
   
   private func setupConstraints() {
+    
+    seperatorLineView.snp.makeConstraints { make in
+      make.bottom.horizontalEdges.equalToSuperview()
+      make.height.equalTo(1) // 높이를 1로 설정하여 테이블 구분선을 만듦
+    }
+    
     stackView.snp.makeConstraints { make in
       make.top.leading.equalToSuperview().inset(10)
       make.bottom.trailing.equalToSuperview().inset(13)
@@ -85,6 +96,7 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
     super.setSelected(false, animated: animated)
     if selected {
       updateIndicators()
+      seperatorLineView.isHidden.toggle()
     }
   }
 }
