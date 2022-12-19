@@ -44,6 +44,7 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     setupLayouts()
     setupConstraints()
+    backgroundColor = .background
   }
   
   required init?(coder: NSCoder) {
