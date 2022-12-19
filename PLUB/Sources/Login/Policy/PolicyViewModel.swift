@@ -34,8 +34,6 @@ extension PolicyViewModel {
   /// - Parameter tableView: 보여질 tableView
   func setTableView(_ tableView: UITableView) {
     self.dataSource = DataSource(tableView: tableView) { tableView, indexPath, model in
-      
-      // == header cell ==
       let identifier: String
       switch model.type {
       case .header:
