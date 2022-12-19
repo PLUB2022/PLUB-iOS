@@ -20,7 +20,7 @@ extension PolicyHeaderTableViewCell: PolicyConfigurable {
   }
 }
 
-extension PolicyTableViewCell: PolicyConfigurable {
+extension PolicyBodyTableViewCell: PolicyConfigurable {
   func configure(with model: PolicyViewModel.Item) {
     guard let url = model.url else { return }
     if model.type != .body { return }

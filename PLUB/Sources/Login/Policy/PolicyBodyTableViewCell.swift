@@ -1,5 +1,5 @@
 //
-//  PolicyTableViewCell.swift
+//  PolicyBodyTableViewCell.swift
 //  PLUB
 //
 //  Created by 홍승현 on 2022/12/10.
@@ -10,9 +10,9 @@ import UIKit
 
 import SnapKit
 
-final class PolicyTableViewCell: UITableViewCell {
+final class PolicyBodyTableViewCell: UITableViewCell {
   
-  static let identifier = "\(PolicyTableViewCell.self)"
+  static let identifier = "\(PolicyBodyTableViewCell.self)"
   
   private let webView: WKWebView = WKWebView()
   

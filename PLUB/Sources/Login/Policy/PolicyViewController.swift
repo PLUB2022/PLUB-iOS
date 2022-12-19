@@ -19,7 +19,7 @@ final class PolicyViewController: BaseViewController {
   private lazy var tableView: UITableView = UITableView().then {
     $0.backgroundColor = .background
     $0.register(PolicyHeaderTableViewCell.self, forCellReuseIdentifier: PolicyHeaderTableViewCell.identifier)
-    $0.register(PolicyTableViewCell.self, forCellReuseIdentifier: PolicyTableViewCell.identifier)
+    $0.register(PolicyBodyTableViewCell.self, forCellReuseIdentifier: PolicyBodyTableViewCell.identifier)
     $0.separatorStyle = .none
     $0.delegate = self
   }

@@ -41,7 +41,7 @@ extension PolicyViewModel {
       case .header:
         identifier = PolicyHeaderTableViewCell.identifier
       case .body:
-        identifier = PolicyTableViewCell.identifier
+        identifier = PolicyBodyTableViewCell.identifier
       }
       
       let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
