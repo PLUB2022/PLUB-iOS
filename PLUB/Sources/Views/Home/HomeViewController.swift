@@ -41,7 +41,7 @@ final class HomeViewController: BaseViewController {
         view.backgroundColor = .systemBackground
         self.navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
-                image: UIImage(named: "Vector 24"),
+                image: UIImage(named: "BookMark"),
                 style: .done,
                 target: self,
                 action: #selector(didTappedSearchButton)
@@ -132,10 +132,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch HomeCollectionType.allCases[section] {
-        case .Interest:
-            return InterestCollectionType.allCases.count
-        case .RecommendedMeeting:
-            return 1
+            case .Interest:
+                return InterestCollectionType.allCases.count
+            case .RecommendedMeeting:
+                return 1
         }
     }
     
@@ -164,7 +164,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = InterestListViewController()
+        let vc = InterestListViewController(viewModel: InterestListViewModel())
+        vc.title = InterestCollectionType.allCases[indexPath.row].title
         vc.navigationItem.largeTitleDisplayMode = .never
         self.navigationController?.pushViewController(vc, animated: true)
     }
