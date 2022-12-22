@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42D828E7343F00F62BF0 /* Constants.swift */; };
 		0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42DB28E734E800F62BF0 /* Device.swift */; };
+		0A81767F28F3105200C1E074 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81767E28F3105200C1E074 /* Preview.swift */; };
+		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B6D29535BAA000503F6 /* HomeViewModel.swift */; };
 		70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */; };
 		70197B722953698F000503F6 /* InterestListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B712953698F000503F6 /* InterestListViewController.swift */; };
@@ -27,6 +29,16 @@
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
 		BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */; };
 		BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */; };
+		BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */; };
+		BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777C28EECDC50036B825 /* Pretendard-Black.otf */; };
+		BA52778628EECDC50036B825 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777D28EECDC50036B825 /* Pretendard-Thin.otf */; };
+		BA52778728EECDC50036B825 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777E28EECDC50036B825 /* Pretendard-ExtraBold.otf */; };
+		BA52778828EECDC50036B825 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777F28EECDC50036B825 /* Pretendard-SemiBold.otf */; };
+		BA52778928EECDC50036B825 /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778028EECDC50036B825 /* Pretendard-ExtraLight.otf */; };
+		BA52778A28EECDC50036B825 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778128EECDC50036B825 /* Pretendard-Bold.otf */; };
+		BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778228EECDC50036B825 /* Pretendard-Regular.otf */; };
+		BA52778C28EECDC50036B825 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778328EECDC50036B825 /* Pretendard-Light.otf */; };
+		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
 		BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124D28E48A2F00BD832A /* AppDelegate.swift */; };
 		BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124F28E48A2F00BD832A /* SceneDelegate.swift */; };
 		BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88125128E48A2F00BD832A /* HomeViewController.swift */; };
@@ -38,11 +50,18 @@
 		BA88126A28E48A8D00BD832A /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126928E48A8D00BD832A /* Then */; };
 		BA88126D28E48AB700BD832A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126C28E48AB700BD832A /* SnapKit */; };
 		BA88127028E48AC800BD832A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126F28E48AC800BD832A /* Alamofire */; };
+		BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE16028292221ED00D595FF /* CheckBoxButton.swift */; };
+		BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */; };
+		BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */; };
+		BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */; };
+		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0A3E42D828E7343F00F62BF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A3E42DB28E734E800F62BF0 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		0A81767E28F3105200C1E074 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		70197B6D29535BAA000503F6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestViewModel.swift; sourceTree = "<group>"; };
 		70197B712953698F000503F6 /* InterestListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +79,16 @@
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
 		BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIButton.swift"; sourceTree = "<group>"; };
+		BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		BA52777C28EECDC50036B825 /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
+		BA52777D28EECDC50036B825 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
+		BA52777E28EECDC50036B825 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
+		BA52777F28EECDC50036B825 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		BA52778028EECDC50036B825 /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
+		BA52778128EECDC50036B825 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		BA52778228EECDC50036B825 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		BA52778328EECDC50036B825 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
+		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
 		BA88124A28E48A2F00BD832A /* PLUB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLUB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA88124D28E48A2F00BD832A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA88124F28E48A2F00BD832A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +98,11 @@
 		BA88125B28E48A3000BD832A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA88126128E48A5800BD832A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
+		BAE16028292221ED00D595FF /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
+		BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
+		BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyBodyTableViewCell.swift; sourceTree = "<group>"; };
+		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +129,7 @@
 				0A3E42D728E7341800F62BF0 /* Constants */,
 				0A3E42DA28E734C100F62BF0 /* CommonClass */,
 				BA46CC9C28EC9AEA004953B1 /* Extensions */,
+				BA52777A28EECD7F0036B825 /* Font */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -119,6 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				0A3E42DB28E734E800F62BF0 /* Device.swift */,
+				0A81767E28F3105200C1E074 /* Preview.swift */,
+				BAE16028292221ED00D595FF /* CheckBoxButton.swift */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -189,6 +226,7 @@
 		BA42D1EF28EDE05A00C20061 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				BAE1AD932944770000CE36B9 /* Policy */,
 				BA42D1F228EDE10F00C20061 /* LoginViewController.swift */,
 			);
 			path = Login;
@@ -207,8 +245,25 @@
 			children = (
 				BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */,
 				BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */,
+				BA52778F28EECEB40036B825 /* Ex+UIFont.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BA52777A28EECD7F0036B825 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				BA52777C28EECDC50036B825 /* Pretendard-Black.otf */,
+				BA52778128EECDC50036B825 /* Pretendard-Bold.otf */,
+				BA52777E28EECDC50036B825 /* Pretendard-ExtraBold.otf */,
+				BA52778028EECDC50036B825 /* Pretendard-ExtraLight.otf */,
+				BA52778328EECDC50036B825 /* Pretendard-Light.otf */,
+				BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */,
+				BA52778228EECDC50036B825 /* Pretendard-Regular.otf */,
+				BA52777F28EECDC50036B825 /* Pretendard-SemiBold.otf */,
+				BA52777D28EECDC50036B825 /* Pretendard-Thin.otf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 		BA88124128E48A2F00BD832A = {
@@ -240,6 +295,18 @@
 				BA88125B28E48A3000BD832A /* Info.plist */,
 			);
 			path = PLUB;
+			sourceTree = "<group>";
+		};
+		BAE1AD932944770000CE36B9 /* Policy */ = {
+			isa = PBXGroup;
+			children = (
+				BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */,
+				BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */,
+				BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */,
+				BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */,
+				BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */,
+			);
+			path = Policy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,7 +383,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA88125A28E48A3000BD832A /* LaunchScreen.storyboard in Resources */,
+				BA52778628EECDC50036B825 /* Pretendard-Thin.otf in Resources */,
+				BA52778928EECDC50036B825 /* Pretendard-ExtraLight.otf in Resources */,
+				BA52778828EECDC50036B825 /* Pretendard-SemiBold.otf in Resources */,
+				BA52778728EECDC50036B825 /* Pretendard-ExtraBold.otf in Resources */,
+				BA52778C28EECDC50036B825 /* Pretendard-Light.otf in Resources */,
 				BA88125728E48A3000BD832A /* Assets.xcassets in Resources */,
+				BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */,
+				BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */,
+				BA52778A28EECDC50036B825 /* Pretendard-Bold.otf in Resources */,
+				BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,9 +403,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
 				70197B722953698F000503F6 /* InterestListViewController.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
+				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
 				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
@@ -340,6 +418,8 @@
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
 				7085678A28EEB73F008047DC /* RecommendedMeetingHeaderView.swift in Sources */,
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
+				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
+				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
@@ -348,6 +428,10 @@
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
+				BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */,
+				0A81767F28F3105200C1E074 /* Preview.swift in Sources */,
+				BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */,
+				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 			);
