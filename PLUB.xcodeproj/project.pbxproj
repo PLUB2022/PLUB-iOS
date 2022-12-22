@@ -10,7 +10,6 @@
 		0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42D828E7343F00F62BF0 /* Constants.swift */; };
 		0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E42DB28E734E800F62BF0 /* Device.swift */; };
 		0A81767F28F3105200C1E074 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81767E28F3105200C1E074 /* Preview.swift */; };
-		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B6D29535BAA000503F6 /* HomeViewModel.swift */; };
 		70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */; };
 		70197B722953698F000503F6 /* InterestListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B712953698F000503F6 /* InterestListViewController.swift */; };
@@ -25,6 +24,7 @@
 		7095A585292B566C002A52E6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7095A584292B566C002A52E6 /* Kingfisher */; };
 		7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* IndicatorButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
+		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F228EDE10F00C20061 /* LoginViewController.swift */; };
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
 		BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */; };
@@ -61,7 +61,6 @@
 		0A3E42D828E7343F00F62BF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A3E42DB28E734E800F62BF0 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		0A81767E28F3105200C1E074 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
-		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		70197B6D29535BAA000503F6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestViewModel.swift; sourceTree = "<group>"; };
 		70197B712953698F000503F6 /* InterestListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +74,7 @@
 		708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestHeaderView.swift; sourceTree = "<group>"; };
 		7095A589292E58F9002A52E6 /* IndicatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA42D1F228EDE10F00C20061 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
@@ -163,9 +163,9 @@
 		0A3E42E228E7369600F62BF0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				BA42D1EE28EDE05000C20061 /* Home */,
-				BA42D1EF28EDE05A00C20061 /* Login */,
-				BA42D1F028EDE08000C20061 /* Meeting */,
+				BA36EED5295463AA00D30169 /* Models */,
+				BA36EED4295463A600D30169 /* Network */,
+				BA36EED32954637F00D30169 /* Views */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -207,6 +207,30 @@
 				7095A589292E58F9002A52E6 /* IndicatorButton.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		BA36EED32954637F00D30169 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BA42D1EE28EDE05000C20061 /* Home */,
+				BA42D1EF28EDE05A00C20061 /* Login */,
+				BA42D1F028EDE08000C20061 /* Meeting */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BA36EED4295463A600D30169 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		BA36EED5295463AA00D30169 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		BA42D1EE28EDE05000C20061 /* Home */ = {
