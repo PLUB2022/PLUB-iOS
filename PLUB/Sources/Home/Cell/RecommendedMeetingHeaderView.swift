@@ -45,7 +45,8 @@ class RecommendedMeetingHeaderView: UICollectionReusableView {
     private func configureUI() {
         _ = [titleLabel, descriptionLabel, settingButton].map{ addSubview($0) }
         titleLabel.snp.makeConstraints { make in
-            make.top.left.equalToSuperview()
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(7)
             make.bottom.equalTo(self.snp.centerY)
         }
         

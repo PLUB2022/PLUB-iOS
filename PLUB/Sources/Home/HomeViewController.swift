@@ -1,59 +1,7 @@
 import UIKit
 import Then
 import SnapKit
-
-enum InterestCollectionType: CaseIterable {
-    case Art
-    case SportFitness
-    case Investment
-    case LanguageStudy
-    case Culture
-    case Food
-    case Employment
-    case Computer
-    
-    var title: String {
-        switch self {
-        case .Art:
-            return "예술"
-        case .SportFitness:
-            return "스포츠/피트니스"
-        case .Investment:
-            return "재테크/투자"
-        case .LanguageStudy:
-            return "어학"
-        case .Culture:
-            return "문화"
-        case .Food:
-            return "음식"
-        case .Employment:
-            return "취업/창업"
-        case .Computer:
-            return "컴퓨터"
-        }
-    }
-    
-    var imageNamed: String {
-        switch self {
-        case .Art:
-            return "ic_outline-palette"
-        case .SportFitness:
-            return "ic_outline-sports-basketball"
-        case .Investment:
-            return "ri_money-dollar-circle-line"
-        case .LanguageStudy:
-            return "fluent_local-language-24-filled"
-        case .Culture:
-            return "ph_film-strip"
-        case .Food:
-            return "fluent_food-pizza-24-regular"
-        case .Employment:
-            return "gg_work-alt"
-        case .Computer:
-            return "mi_computer"
-        }
-    }
-}
+import RxSwift
 
 enum HomeCollectionType: CaseIterable {
     case Interest
@@ -62,23 +10,35 @@ enum HomeCollectionType: CaseIterable {
 
 final class HomeViewController: BaseViewController {
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-            guard let `self` = self else {
-                return nil
-            }
-            return type(of: self).createCompositionalSection(homeCollectionType: HomeCollectionType.allCases[sec])
+    private lazy var homeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
+        guard let `self` = self else {
+            return nil
         }
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        return collectionView
-    }()
+        return type(of: self).createCompositionalSection(homeCollectionType: HomeCollectionType.allCases[sec])
+    }).then {
+        $0.backgroundColor = .systemBackground
+        $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
+        $0.register(RecommendedMeetingCollectionViewCell.self, forCellWithReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier)
+        $0.register(RecommendedMeetingHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecommendedMeetingHeaderView.identifier)
+    }
     
-    // MARK: - Life Cycle
+    // MARK: - Configuration
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setCollectionView(collectionView)
+    override func setupLayouts() {
+        super.setupLayouts()
+        view.addSubview(homeCollectionView)
+    }
+    
+    override func setupConstraints() {
+        super.setupConstraints()
+        homeCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    override func setupStyles() {
+        super.setupStyles()
+        view.backgroundColor = .systemBackground
         self.navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
                 image: UIImage(named: "Vector 24"),
@@ -102,39 +62,14 @@ final class HomeViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoImageView)
     }
     
-    // MARK: - Configuration
-    
-    override func setupLayouts() {
-        super.setupLayouts()
-        view.addSubview(collectionView)
-    }
-    
-    override func setupConstraints() {
-        super.setupConstraints()
-        collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
-    override func setupStyles() {
-        super.setupStyles()
-        view.backgroundColor = .systemBackground
-    }
-    
     override func bind() {
         super.bind()
+        homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)
     }
     
     @objc private func didTappedSearchButton() {
         print("search")
-    }
-    
-    private func setCollectionView(_ collection: UICollectionView) {
-        collectionView.delegate = self
-        collection.dataSource = self
-        collection.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
-        collectionView.register(RecommendedMeetingCollectionViewCell.self, forCellWithReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier)
-        collectionView.register(RecommendedMeetingHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecommendedMeetingHeaderView.identifier)
     }
     
     private static func createCompositionalSection(homeCollectionType: HomeCollectionType) -> NSCollectionLayoutSection {
@@ -227,11 +162,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.frame.width - 7 * 5) / 4, height: (collectionView.frame.width - 7 * 5) / 4)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = InterestListViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension HomeViewController: RecommendedMeetingCollectionViewCellDelegate {
     func didTappedRegisterInterestView() {
-        let vc = RegisterInterestViewController()
+        let vc = RegisterInterestViewController(viewModel: RegisterInterestViewModel())
         vc.navigationItem.largeTitleDisplayMode = .never
         self.navigationController?.pushViewController(vc, animated: true)
     }
