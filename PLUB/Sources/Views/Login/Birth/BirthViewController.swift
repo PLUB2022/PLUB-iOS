@@ -16,9 +16,20 @@ final class BirthViewController: BaseViewController {
   
   // MARK: Sex Distinction
   
+  private let sexStackView: UIStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 8
+  }
+  
   private let sexLabel: UILabel = UILabel().then {
     $0.text = "성별"
     $0.font = .subtitle
+  }
+  
+  private let buttonStackView: UIStackView = UIStackView().then {
+    $0.spacing = 16
+    $0.alignment = .center
+    $0.distribution = .fillEqually
   }
   
   private let maleButton: UIButton = UIButton().then {
