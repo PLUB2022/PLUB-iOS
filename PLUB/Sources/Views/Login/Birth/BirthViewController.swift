@@ -54,17 +54,34 @@ final class BirthViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
+    
+    // views
+    view.addSubview(sexStackView)
+    
+    // Sex Distinction part
+    [sexLabel, buttonStackView].forEach {
+      sexStackView.addArrangedSubview($0)
+    }
+    
+    [maleButton, femaleButton].forEach {
+      buttonStackView.addArrangedSubview($0)
+    }
+    
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-  }
-  
-  override func setupStyles() {
-    super.setupStyles()
+    sexStackView.snp.makeConstraints { make in
+      make.horizontalEdges.top.equalToSuperview()
+    }
+    
+    [maleButton, femaleButton].forEach {
+      $0.snp.makeConstraints { make in
+        make.height.equalTo(40)
+      }
+    }
   }
 }
-
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI
@@ -74,4 +91,3 @@ struct BirthViewControllerPreview: PreviewProvider {
   }
 }
 #endif
-
