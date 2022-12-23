@@ -14,6 +14,12 @@ final class BirthViewController: BaseViewController {
   
   // MARK: - Property
   
+  /// 성별과 생년월일 전체를 감싸는 `StackView`
+  private let wholeStackView: UIStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 48
+  }
+  
   // MARK: Sex Distinction
   
   private let sexStackView: UIStackView = UIStackView().then {
@@ -68,7 +74,11 @@ final class BirthViewController: BaseViewController {
     super.setupLayouts()
     
     // views
-    view.addSubview(sexStackView)
+    view.addSubview(wholeStackView)
+    
+    [sexStackView, birthStackView].forEach {
+      wholeStackView.addArrangedSubview($0)
+    }
     
     // Sex Distinction part
     [sexLabel, buttonStackView].forEach {
@@ -79,11 +89,17 @@ final class BirthViewController: BaseViewController {
       buttonStackView.addArrangedSubview($0)
     }
     
+    // Birth part
+    // TODO: Calendar 추가해야해요!
+    [birthLabel].forEach {
+      birthStackView.addArrangedSubview($0)
+    }
+    
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    sexStackView.snp.makeConstraints { make in
+    wholeStackView.snp.makeConstraints { make in
       make.horizontalEdges.top.equalToSuperview()
     }
     
