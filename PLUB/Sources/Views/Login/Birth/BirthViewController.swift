@@ -50,6 +50,18 @@ final class BirthViewController: BaseViewController {
     $0.layer.cornerRadius = 8
   }
   
+  // MARK: Birth
+  
+  private let birthStackView: UIStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 8
+  }
+  
+  private let birthLabel: UILabel = UILabel().then {
+    $0.text = "생년월일"
+    $0.font = .subtitle
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
