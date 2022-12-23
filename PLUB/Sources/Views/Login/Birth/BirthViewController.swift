@@ -11,7 +11,34 @@ import SnapKit
 import Then
 
 final class BirthViewController: BaseViewController {
-    
+  
+  // MARK: - Property
+  
+  // MARK: Sex Distinction
+  
+  private let sexLabel: UILabel = UILabel().then {
+    $0.text = "성별"
+    $0.font = .subtitle
+  }
+  
+  private let maleButton: UIButton = UIButton().then {
+    $0.setTitle("남성", for: .normal)
+    $0.setTitleColor(.deepGray, for: .normal)
+    $0.titleLabel?.font = .body1
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.mediumGray.cgColor
+    $0.layer.cornerRadius = 8
+  }
+  
+  private let femaleButton: UIButton = UIButton().then {
+    $0.setTitle("여성", for: .normal)
+    $0.setTitleColor(.deepGray, for: .normal)
+    $0.titleLabel?.font = .body1
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.mediumGray.cgColor
+    $0.layer.cornerRadius = 8
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
