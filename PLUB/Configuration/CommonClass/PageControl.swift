@@ -14,6 +14,13 @@ final class PageControl: UIControl {
   
   // MARK: - Property
   
+  /// dots를 갖고있는 스택뷰
+  private let stackView: UIStackView = UIStackView().then {
+    $0.spacing = 8
+    $0.distribution = .equalSpacing
+    $0.alignment = .center
+  }
+  
   private var dots: [UIView] = []
   
   private var _currentPage: Int = 0
