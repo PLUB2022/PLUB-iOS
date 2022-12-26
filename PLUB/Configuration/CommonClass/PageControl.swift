@@ -16,6 +16,7 @@ final class PageControl: UIControl {
   
   private var dots: [UIView] = []
   
+  private var _currentPage: Int = 0
   
   /// 페이지 수, 해당 수 만큼 점으로 표시됩니다.
   ///
@@ -27,7 +28,16 @@ final class PageControl: UIControl {
   /// 이 프로퍼티는 현재 표시된 페이지를 지정하는 정수로, 값 0(기본값)은 첫 번째 페이지를 의미합니다.
   /// 해당 클래스인 `PageControl`은 현재 페이지를  Plub의 main색으로 표시합니다.
   /// 가능한 범위 밖의 값은 0 또는 `numberOfPages-1` 중 하나로 고정됩니다.
-  var currentPage: Int = 0
+  var currentPage: Int {
+    get {
+      return self._currentPage
+    }
+    set {
+      if newValue >= 0 && newValue < numberOfPages {
+        self._currentPage = newValue
+      }
+    }
+  }
   
   /// `page indicator`에 적용할 `tint color`
   ///
