@@ -63,9 +63,21 @@ final class PageControl: UIControl {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    configureUI()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  
+  // MARK: - Configuration
+  
+  private func configureUI() {
+    self.addSubview(stackView)
+    
+    stackView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
   }
 }
