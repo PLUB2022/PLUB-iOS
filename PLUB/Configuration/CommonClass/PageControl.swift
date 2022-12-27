@@ -21,14 +21,28 @@ final class PageControl: UIControl {
     $0.alignment = .center
   }
   
-  private var dots: [UIView] = []
+  /// caching UIViews
+  ///
+  /// numberOfPages가 변동되면 자동으로 그 수 만큼의 UIView 배열이 초기화됩니다.
+  private var dots: [UIView] = [] {
+    willSet {
+      configure(dots: newValue)
+    }
+    didSet {
+      clear(dots: oldValue)
+    }
+  }
   
   private var _currentPage: Int = 0
   
   /// 페이지 수, 해당 수 만큼 점으로 표시됩니다.
   ///
   /// 이 프로퍼티는 `PageControl`이 점으로 표시할 페이지 수입니다. 기본값은 0입니다.
-  var numberOfPages: Int = 0
+  var numberOfPages: Int = 0 {
+    didSet {
+      createDots()
+    }
+  }
   
   /// 현재 페이지, 해당 `인덱스` 값에 따라 점(dot)이 길고 파란(Plub의 메인 색)으로 표시됩니다.
   ///
@@ -70,7 +84,6 @@ final class PageControl: UIControl {
     fatalError("init(coder:) has not been implemented")
   }
   
-  
   // MARK: - Configuration
   
   private func configureUI() {
@@ -78,6 +91,47 @@ final class PageControl: UIControl {
     
     stackView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
+    }
+  }
+  
+  // MARK: - Dot Methods
+  
+  private func createDots() {
+    var dots = [UIView]()
+    for _ in 0..<numberOfPages {
+      let dot = UIView()
+      dots.append(dot)
+    }
+    self.dots = dots
+  }
+  
+  private func configure(dots: [UIView]) {
+    for (index, dot) in dots.enumerated() {
+      
+      // == dot view hirerchys ==
+      stackView.addArrangedSubview(dot)
+      
+      // == dot constraints ==
+      dot.snp.makeConstraints { make in
+        if index == _currentPage {
+          make.width.equalTo(40)
+        } else {
+          make.width.equalTo(10)
+        }
+        make.height.equalTo(8)
+      }
+      
+      // == dot appearence ==
+      dot.clipsToBounds = false
+      dot.layer.cornerRadius = 4
+      dot.backgroundColor = index == _currentPage ? currentPageIndicatorTintColor : pageIndicatorTintColor
+    }
+  }
+  
+  private func clear(dots: [UIView]) {
+    dots.forEach {
+      $0.snp.removeConstraints()  // Constraint 제거
+      $0.removeFromSuperview()    // 부모뷰로부터 제거
     }
   }
 }
