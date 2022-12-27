@@ -178,7 +178,7 @@ final class PageControl: UIControl {
   // MARK: - Animations
   
   private func startDotAnimations() {
-    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseOut) {
+    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 3, options: .curveEaseOut) {
       self.layoutIfNeeded()
     }
   }
