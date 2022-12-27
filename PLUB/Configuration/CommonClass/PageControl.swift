@@ -60,7 +60,15 @@ final class PageControl: UIControl {
       return self._currentPage
     }
     set {
-      if newValue >= 0 && newValue < numberOfPages {
+      if self._currentPage == newValue { return }
+      
+      if newValue >= numberOfPages {
+        self._currentPage = numberOfPages - 1
+      }
+      else if newValue < 0 {
+        self._currentPage = 0
+      }
+      else {
         self._currentPage = newValue
       }
     }
