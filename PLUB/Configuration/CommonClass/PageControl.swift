@@ -70,13 +70,21 @@ final class PageControl: UIControl {
   ///
   /// 기본 색상은 `mediumGray`입니다.
   /// page indicator dot은 화면에 표시되지 않은 모든 페이지에 사용됩니다.
-  var pageIndicatorTintColor: UIColor? = .mediumGray
+  var pageIndicatorTintColor: UIColor? = .mediumGray {
+    didSet {
+      updateDotsStyles()
+    }
+  }
   
   /// 현재 페이지에 적용할 `tint Color`
   ///
   /// 기본 색상은 `main`입니다.
   /// page indicator dot은 화면에 표시되는 페이지에 사용됩니다.
-  var currentPageIndicatorTintColor: UIColor? = .main
+  var currentPageIndicatorTintColor: UIColor? = .main {
+    didSet {
+      updateDotsStyles()
+    }
+  }
   
   
   // MARK: - Initialization
