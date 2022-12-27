@@ -33,7 +33,13 @@ final class PageControl: UIControl {
     }
   }
   
-  private var _currentPage: Int = 0
+  private var _currentPage: Int = 0 {
+    didSet {
+      updateDotsConstraints()
+      updateDotsStyles()
+      startDotAnimations()
+    }
+  }
   
   /// 페이지 수, 해당 수 만큼 점으로 표시됩니다.
   ///
@@ -132,6 +138,32 @@ final class PageControl: UIControl {
     dots.forEach {
       $0.snp.removeConstraints()  // Constraint 제거
       $0.removeFromSuperview()    // 부모뷰로부터 제거
+    }
+  }
+  
+  private func updateDotsConstraints() {
+    for (index, dot) in dots.enumerated() {
+      dot.snp.updateConstraints { make in
+        if index == _currentPage {
+          make.width.equalTo(40)
+        } else {
+          make.width.equalTo(10)
+        }
+      }
+    }
+  }
+  
+  private func updateDotsStyles() {
+    for (index, dot) in dots.enumerated() {
+      dot.backgroundColor = index == _currentPage ? currentPageIndicatorTintColor : pageIndicatorTintColor
+    }
+  }
+  
+  // MARK: - Animations
+  
+  private func startDotAnimations() {
+    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseOut) {
+      self.layoutIfNeeded()
     }
   }
 }
