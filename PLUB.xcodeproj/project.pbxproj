@@ -12,12 +12,13 @@
 		0A81767F28F3105200C1E074 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81767E28F3105200C1E074 /* Preview.swift */; };
 		70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B6D29535BAA000503F6 /* HomeViewModel.swift */; };
 		70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */; };
-		70197B722953698F000503F6 /* InterestListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B712953698F000503F6 /* InterestListViewController.swift */; };
-		70197B7429548904000503F6 /* InterestListNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7329548904000503F6 /* InterestListNavigationBar.swift */; };
-		70197B7929549B29000503F6 /* InterestListGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7829549B29000503F6 /* InterestListGridCollectionViewCell.swift */; };
-		70197B7B29549B6A000503F6 /* InterestListChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7A29549B6A000503F6 /* InterestListChartCollectionViewCell.swift */; };
-		70197B7D29549B96000503F6 /* InterestListFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7C29549B96000503F6 /* InterestListFilterHeaderView.swift */; };
-		70197B7F29549C56000503F6 /* InterestListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7E29549C56000503F6 /* InterestListViewModel.swift */; };
+		70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B712953698F000503F6 /* SelectedCategoryViewController.swift */; };
+		70197B7429548904000503F6 /* SelectedCategoryNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7329548904000503F6 /* SelectedCategoryNavigationBar.swift */; };
+		70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7829549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift */; };
+		70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7A29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift */; };
+		70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */; };
+		70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */; };
+		70197B812955A68C000503F6 /* SelectedCategoryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B802955A68C000503F6 /* SelectedCategoryInfoView.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
@@ -29,6 +30,7 @@
 		7095A585292B566C002A52E6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7095A584292B566C002A52E6 /* Kingfisher */; };
 		7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* IndicatorButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
+		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F228EDE10F00C20061 /* LoginViewController.swift */; };
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
@@ -68,12 +70,13 @@
 		0A81767E28F3105200C1E074 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		70197B6D29535BAA000503F6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestViewModel.swift; sourceTree = "<group>"; };
-		70197B712953698F000503F6 /* InterestListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListViewController.swift; sourceTree = "<group>"; };
-		70197B7329548904000503F6 /* InterestListNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListNavigationBar.swift; sourceTree = "<group>"; };
-		70197B7829549B29000503F6 /* InterestListGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListGridCollectionViewCell.swift; sourceTree = "<group>"; };
-		70197B7A29549B6A000503F6 /* InterestListChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListChartCollectionViewCell.swift; sourceTree = "<group>"; };
-		70197B7C29549B96000503F6 /* InterestListFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListFilterHeaderView.swift; sourceTree = "<group>"; };
-		70197B7E29549C56000503F6 /* InterestListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListViewModel.swift; sourceTree = "<group>"; };
+		70197B712953698F000503F6 /* SelectedCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewController.swift; sourceTree = "<group>"; };
+		70197B7329548904000503F6 /* SelectedCategoryNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNavigationBar.swift; sourceTree = "<group>"; };
+		70197B7829549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryGridCollectionViewCell.swift; sourceTree = "<group>"; };
+		70197B7A29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryChartCollectionViewCell.swift; sourceTree = "<group>"; };
+		70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryFilterHeaderView.swift; sourceTree = "<group>"; };
+		70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewModel.swift; sourceTree = "<group>"; };
+		70197B802955A68C000503F6 /* SelectedCategoryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryInfoView.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -84,6 +87,7 @@
 		708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestHeaderView.swift; sourceTree = "<group>"; };
 		7095A589292E58F9002A52E6 /* IndicatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA42D1F228EDE10F00C20061 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
@@ -185,7 +189,7 @@
 			children = (
 				70197B6D29535BAA000503F6 /* HomeViewModel.swift */,
 				70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */,
-				70197B7E29549C56000503F6 /* InterestListViewModel.swift */,
+				70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -214,9 +218,9 @@
 		70197B7729549B0E000503F6 /* InterestList */ = {
 			isa = PBXGroup;
 			children = (
-				70197B7829549B29000503F6 /* InterestListGridCollectionViewCell.swift */,
-				70197B7A29549B6A000503F6 /* InterestListChartCollectionViewCell.swift */,
-				70197B7C29549B96000503F6 /* InterestListFilterHeaderView.swift */,
+				70197B7829549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift */,
+				70197B7A29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift */,
+				70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */,
 			);
 			path = InterestList;
 			sourceTree = "<group>";
@@ -243,9 +247,18 @@
 			isa = PBXGroup;
 			children = (
 				7095A589292E58F9002A52E6 /* IndicatorButton.swift */,
-				70197B7329548904000503F6 /* InterestListNavigationBar.swift */,
+				70197B7329548904000503F6 /* SelectedCategoryNavigationBar.swift */,
+				70197B802955A68C000503F6 /* SelectedCategoryInfoView.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		70BD5F252959F706002CBA89 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				70BD5F262959F718002CBA89 /* UIView + extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		BA36EED32954637F00D30169 /* Views */ = {
@@ -275,13 +288,14 @@
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				70BD5F252959F706002CBA89 /* Extension */,
 				70197B6C29535BA2000503F6 /* ViewModel */,
 				704AC7932938E7EA008C3A88 /* Model */,
 				7095A588292E58EE002A52E6 /* Component */,
 				7085678428EE9A84008047DC /* Cell */,
 				BA88125128E48A2F00BD832A /* HomeViewController.swift */,
 				7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */,
-				70197B712953698F000503F6 /* InterestListViewController.swift */,
+				70197B712953698F000503F6 /* SelectedCategoryViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -466,20 +480,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70197B7F29549C56000503F6 /* InterestListViewModel.swift in Sources */,
+				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
-				70197B7B29549B6A000503F6 /* InterestListChartCollectionViewCell.swift in Sources */,
-				70197B722953698F000503F6 /* InterestListViewController.swift in Sources */,
+				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
+				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
+				70197B812955A68C000503F6 /* SelectedCategoryInfoView.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
-				70197B7D29549B96000503F6 /* InterestListFilterHeaderView.swift in Sources */,
+				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
 				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
-				70197B7429548904000503F6 /* InterestListNavigationBar.swift in Sources */,
-				70197B7929549B29000503F6 /* InterestListGridCollectionViewCell.swift in Sources */,
+				70197B7429548904000503F6 /* SelectedCategoryNavigationBar.swift in Sources */,
+				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
 				7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */,
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
@@ -501,6 +516,7 @@
 				BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
+				70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

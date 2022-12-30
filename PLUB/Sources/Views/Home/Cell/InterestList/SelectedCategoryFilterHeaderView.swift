@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol InterestListFilterHeaderViewDelegate: AnyObject {
+protocol SelectedCategoryFilterHeaderViewDelegate: AnyObject {
     func didTappedInterestListFilterButton()
     func didTappedInterestListChartButton()
     func didTappedInterestListGridButton()
 }
 
-class InterestListFilterHeaderView: UICollectionReusableView {
+class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     static let identifier = "InterestListFilterHeaderView"
     
-    public weak var delegate: InterestListFilterHeaderViewDelegate?
+    public weak var delegate: SelectedCategoryFilterHeaderViewDelegate?
     
     private let interestListFilterLabel = UILabel().then {
         $0.text = "전체"

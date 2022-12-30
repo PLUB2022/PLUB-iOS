@@ -13,6 +13,12 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "InterestTypeCollectionViewCell"
     
+    public var isTapped: Bool = false {
+        didSet {
+            isTapped ? (contentView.backgroundColor = .main) : (contentView.backgroundColor = .white)
+        }
+    }
+    
     private let interestTypeLabel = UILabel().then {
         $0.textColor = .gray
         $0.textAlignment = .center
@@ -27,9 +33,14 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        interestTypeLabel.text = nil
+    }
+    
     private func configureUI() {
         contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.gray.cgColor
+        contentView.layer.borderColor = UIColor.black.cgColor
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
         contentView.backgroundColor = .white

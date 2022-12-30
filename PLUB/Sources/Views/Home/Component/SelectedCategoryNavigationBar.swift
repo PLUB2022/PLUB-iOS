@@ -8,14 +8,14 @@
 import UIKit
 import RxCocoa
 
-protocol InterestListNavigationBarDelegate: AnyObject {
+protocol SelectedCategoryNavigationBarDelegate: AnyObject {
     func didTappedBackButton()
     func didTappedSearchButton()
 }
 
-final class InterestListNavigationBar: UIView {
+final class SelectedCategoryNavigationBar: UIView {
     
-    public weak var delegate: InterestListNavigationBarDelegate?
+    public weak var delegate: SelectedCategoryNavigationBarDelegate?
     
     private let backButton = UIButton().then {
         $0.setImage(UIImage(named: "Back"), for: .normal)

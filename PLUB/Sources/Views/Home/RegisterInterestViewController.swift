@@ -8,26 +8,29 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 class RegisterInterestViewController: BaseViewController {
     
     private let viewModel: RegisterInterestViewModelType
     
     private var registerInterestModels: [RegisterInterestModel] = []
-//    private var rgisterInterestModels: [RegisterInterestViewControllerModel] = [
-//        .init(interestCollectionType: .Art),
-//        .init(interestCollectionType: .SportFitness),
-//        .init(interestCollectionType: .Investment),
-//        .init(interestCollectionType: .LanguageStudy),
-//        .init(interestCollectionType: .Culture),
-//        .init(interestCollectionType: .Food),
-//        .init(interestCollectionType: .Employment),
-//        .init(interestCollectionType: .Computer),
-//    ]
     
-    private let registerTableView = UITableView(frame: .zero, style: .grouped).then {
-        $0.backgroundColor = .systemBackground
+    private lazy var registerTableView = UITableView(frame: .zero, style: .grouped).then {
+        $0.separatorStyle = .none
+        $0.backgroundColor = .secondarySystemBackground
         $0.sectionFooterHeight = .leastNonzeroMagnitude
+        $0.register(RegisterInterestTableViewCell.self, forCellReuseIdentifier: RegisterInterestTableViewCell.identifier)
+        $0.register(RegisterInterestHeaderView.self, forHeaderFooterViewReuseIdentifier: RegisterInterestHeaderView.identifier)
+        $0.register(RegisterInterestDetailTableViewCell.self, forCellReuseIdentifier: RegisterInterestDetailTableViewCell.identifier)
+    }
+    
+    private let floatingButton = UIButton().then {
+        $0.backgroundColor = .main
+        $0.setTitle("다음", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 10
     }
     
     init(viewModel: RegisterInterestViewModelType) {
@@ -42,7 +45,6 @@ class RegisterInterestViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
-        setTableView(registerTableView)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(hierarchicalColor: .black)),
             style: .done,
@@ -50,16 +52,20 @@ class RegisterInterestViewController: BaseViewController {
             action: #selector(didTappedLeftButton)
         )
         
-//        setTableHeaderView(registerTableView)
     }
     
     override func setupLayouts() {
-        view.addSubview(registerTableView)
+        _ = [registerTableView, floatingButton].map{ view.addSubview($0) }
     }
     
     override func setupConstraints() {
         registerTableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalToSuperview().inset(20)
+        }
+        
+        floatingButton.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview().inset(20)
+            make.height.equalTo(60)
         }
     }
     
@@ -68,29 +74,49 @@ class RegisterInterestViewController: BaseViewController {
     }
     
     override func bind() {
-        viewModel.createInterestSection()
-            .subscribe(onNext: { registerInterestModels in
+        viewModel.registerInterestFetched
+            .drive(onNext: { [weak self] registerInterestModels in
+                guard let `self` = self else { return }
                 self.registerInterestModels = registerInterestModels
+                self.registerTableView.reloadData()
             })
             .disposed(by: disposeBag)
+        
+        viewModel.isEnabledFloatingButton
+            .drive(onNext: { [weak self] isTapped in
+                guard let `self` = self else { return }
+                print("tapped = \(isTapped)")
+                self.floatingButton.isEnabled = isTapped
+                if isTapped {
+                    self.floatingButton.backgroundColor = .main
+                    self.floatingButton.setTitleColor(.white, for: .normal)
+                }
+                else {
+                    self.floatingButton.backgroundColor = .lightGray
+                    self.floatingButton.setTitleColor(.darkGray, for: .normal)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        floatingButton.rx.tap
+            .subscribe(onNext: { _ in
+                print("floatingButton tapped")
+            })
+            .disposed(by: disposeBag)
+        
+        
+        registerTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        registerTableView.rx.setDataSource(self).disposed(by: disposeBag)
     }
     
     @objc private func didTappedLeftButton() {
         self.navigationController?.popViewController(animated: true)
     }
-    
-    private func setTableView(_ tableView: UITableView) {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(RegisterInterestTableViewCell.self, forCellReuseIdentifier: RegisterInterestTableViewCell.identifier)
-        tableView.register(RegisterInterestHeaderView.self, forHeaderFooterViewReuseIdentifier: RegisterInterestHeaderView.identifier)
-        tableView.register(RegisterInterestDetailTableViewCell.self, forCellReuseIdentifier: RegisterInterestDetailTableViewCell.identifier)
-    }
 }
 
 extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return InterestCollectionType.allCases.count
+        return registerInterestModels.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -103,21 +129,18 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
-            let registerInterestDetailTableViewCellModel = RegisterInterstDetailTableViewCellModel( // 화면을 표시하기위한 Mock
-                interestDetailTypes: [
-                    .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-                ]
-            )
-            cell.configureUI(with: registerInterestDetailTableViewCellModel)
+            let registerInterestModel = registerInterestModels[indexPath.section]
+            cell.configureUI(with: registerInterestModel)
+            cell.delegate = self
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestTableViewCell.identifier, for: indexPath) as? RegisterInterestTableViewCell ?? RegisterInterestTableViewCell()
-            let registerInterstVCModel = registerInterestModels[indexPath.section]
+            let registerInterstModel = registerInterestModels[indexPath.section]
             let registerInterestTableViewCellModel = RegisterInterestTableViewCellModel(
-                imageName: registerInterstVCModel.interestCollectionType.imageNamed,
-                title: registerInterstVCModel.interestCollectionType.title,
+                imageName: registerInterstModel.interestCollectionSectionType.imageNamed,
+                title: registerInterstModel.interestCollectionSectionType.title,
                 description: "PLUB! 에게 관심사를 선택해주세요",
-                isExpanded: registerInterstVCModel.isExpanded
+                isExpanded: registerInterstModel.isExpanded
             )
             cell.configureUI(with: registerInterestTableViewCellModel)
             return cell
@@ -162,5 +185,17 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
             return 202
         }
         return 80
+    }
+}
+
+extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDelegate {
+    func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell) {
+        cell.isTapped.toggle()
+        if cell.isTapped {
+            viewModel.selectDetailCell.onNext(())
+        }
+        else {
+            viewModel.deselectDetailCell.onNext(())
+        }
     }
 }

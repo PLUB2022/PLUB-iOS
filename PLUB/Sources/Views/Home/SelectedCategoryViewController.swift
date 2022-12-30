@@ -9,16 +9,18 @@ import UIKit
 import SnapKit
 import Then
 
-enum InterestListType {
+enum SelectedCategoryType {
     case Chart
     case Grid
 }
 
-class InterestListViewController: BaseViewController {
+class SelectedCategoryViewController: BaseViewController {
     
-    private let viewModel: InterestListViewModelType
+    private let viewModel: SelectedCategoryViewModelType
     
-    private var interestListType: InterestListType = .Chart
+    private var selectedCategoryChartCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
+    
+    private var selectedCategoryType: SelectedCategoryType = .Chart
     
     private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
         $0.scrollDirection = .vertical
@@ -26,16 +28,16 @@ class InterestListViewController: BaseViewController {
     })).then {
         $0.backgroundColor = .systemBackground
     }.then {
-        $0.register(InterestListGridCollectionViewCell.self, forCellWithReuseIdentifier: InterestListGridCollectionViewCell.identifier)
-        $0.register(InterestListChartCollectionViewCell.self, forCellWithReuseIdentifier: InterestListChartCollectionViewCell.identifier)
-        $0.register(InterestListFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: InterestListFilterHeaderView.identifier)
+        $0.register(SelectedCategoryGridCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier)
+        $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
+        $0.register(SelectedCategoryFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier)
     }
     
-    private lazy var interestListNavigationBar = InterestListNavigationBar().then {
+    private lazy var interestListNavigationBar = SelectedCategoryNavigationBar().then {
         $0.configureUI(with: title ?? "")
     }
     
-    init(viewModel: InterestListViewModelType) {
+    init(viewModel: SelectedCategoryViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -68,33 +70,42 @@ class InterestListViewController: BaseViewController {
             make.left.right.bottom.equalToSuperview()
         }
     }
+    
+    override func bind() {
+        viewModel.createSelectedCategoryChartCollectionViewCellModels()
+            .subscribe(onNext: { [weak self] selectedCategoryChartCollectionViewCellModels in
+                guard let `self` = self else { return }
+                self.selectedCategoryChartCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
-extension InterestListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SelectedCategoryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return selectedCategoryChartCollectionViewCellModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch interestListType {
+        switch selectedCategoryType {
             case .Chart:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InterestListChartCollectionViewCell.identifier, for: indexPath) as? InterestListChartCollectionViewCell ?? InterestListChartCollectionViewCell()
-                cell.configureUI(with: "")
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
+                cell.configureUI(with: selectedCategoryChartCollectionViewCellModels[indexPath.row])
                 return cell
             case .Grid:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InterestListGridCollectionViewCell.identifier, for: indexPath) as? InterestListGridCollectionViewCell ?? InterestListGridCollectionViewCell()
-                cell.configureUI(with: "")
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
+            cell.configureUI(with: selectedCategoryChartCollectionViewCellModels[indexPath.row])
                 return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if collectionView == self.interestListCollectionView && kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InterestListFilterHeaderView.identifier, for: indexPath) as? InterestListFilterHeaderView ?? InterestListFilterHeaderView()
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier, for: indexPath) as? SelectedCategoryFilterHeaderView ?? SelectedCategoryFilterHeaderView()
             header.delegate = self
             return header
         }
@@ -106,11 +117,11 @@ extension InterestListViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch interestListType {
+        switch selectedCategoryType {
             case .Chart:
             return CGSize(width: collectionView.frame.width - 10 - 10, height: collectionView.frame.height / 4 - 10)
             case .Grid:
-            return CGSize(width: collectionView.frame.width / 2 - 10 - 10, height: collectionView.frame.height / 3 - 10)
+            return CGSize(width: collectionView.frame.width / 2 - 10 - 10, height: collectionView.frame.height / 2.5)
         }
     }
     
@@ -123,7 +134,7 @@ extension InterestListViewController: UICollectionViewDelegate, UICollectionView
     }
 }
 
-extension InterestListViewController: InterestListNavigationBarDelegate {
+extension SelectedCategoryViewController: SelectedCategoryNavigationBarDelegate {
     func didTappedBackButton() {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.popViewController(animated: true)
@@ -136,18 +147,18 @@ extension InterestListViewController: InterestListNavigationBarDelegate {
     
 }
 
-extension InterestListViewController: InterestListFilterHeaderViewDelegate {
+extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelegate {
     func didTappedInterestListFilterButton() {
         
     }
     
     func didTappedInterestListChartButton() {
-        self.interestListType = .Chart
+        self.selectedCategoryType = .Chart
         self.interestListCollectionView.reloadSections([0])
     }
     
     func didTappedInterestListGridButton() {
-        self.interestListType = .Grid
+        self.selectedCategoryType = .Grid
         self.interestListCollectionView.reloadSections([0])
     }
     

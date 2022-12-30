@@ -22,8 +22,18 @@ class RegisterInterestTableViewCell: UITableViewCell {
     
     var isExpanded: Bool = false {
         didSet {
-            isExpanded ? indicatorButton.setImage(UIImage(named: "Vector 2-1"), for: .normal) : indicatorButton.setImage(UIImage(named: "Vector 2"), for: .normal)
+            DispatchQueue.main.async {
+                self.containerView.setNeedsLayout()
+            }
         }
+    }
+    
+    private let containerView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.white.cgColor
+        $0.layer.masksToBounds = true
+//        $0.layer.cornerRadius = 20
     }
     
     private let interestImageView = UIImageView().then {
@@ -63,14 +73,39 @@ class RegisterInterestTableViewCell: UITableViewCell {
         indicatorButton.setImage(nil, for: .normal)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if isExpanded {
+            containerView.roundCorners(corners: [.topLeft, .topRight], radius: 20)
+            indicatorButton.setImage(UIImage(named: "Vector 2-1"), for: .normal)
+            containerView.snp.updateConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        } else {
+            containerView.roundCorners(corners: [.allCorners], radius: 20)
+            indicatorButton.setImage(UIImage(named: "Vector 2"), for: .normal)
+            containerView.snp.updateConstraints { make in
+                make.bottom.equalToSuperview().offset(-5)
+            }
+        }
+//        containerView.roundCorners(corners: [.allCorners], radius: 20)
+    }
+    
     private func configureUI() {
-        contentView.backgroundColor = .systemBackground
-        contentView.layer.masksToBounds = true
-        contentView.layer.cornerRadius = 10
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.gray.cgColor
+        contentView.backgroundColor = .secondarySystemBackground
+//        contentView.layer.cornerRadius = 15
+//        contentView.backgroundColor = .white
+//        contentView.layer.borderWidth = 1
+//        contentView.layer.borderColor = UIColor.black.cgColor
+//        contentView.layer.masksToBounds = true
         
-        _ = [interestImageView, titleLabel, descriptionLabel, indicatorButton].map{ contentView.addSubview($0) }
+        contentView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-5)
+        }
+        
+        _ = [interestImageView, titleLabel, descriptionLabel, indicatorButton].map{ containerView.addSubview($0) }
         interestImageView.snp.makeConstraints { make in
 //            make.centerY.equalToSuperview()
             make.top.left.equalToSuperview().offset(5)
@@ -101,9 +136,9 @@ class RegisterInterestTableViewCell: UITableViewCell {
     public func configureUI(with model: RegisterInterestTableViewCellModel) {
         interestImageView.image = UIImage(named: model.imageName)
         titleLabel.text = model.title
-//        descriptionLabel.text = "PLUB! 에게 관심사를 선택해주세요"
         descriptionLabel.text = model.description
         isExpanded = model.isExpanded
+        indicatorButton.setImage(UIImage(named: "Vector 2"), for: .normal)
     }
 }
 

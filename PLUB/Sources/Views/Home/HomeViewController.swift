@@ -3,18 +3,25 @@ import Then
 import SnapKit
 import RxSwift
 
-enum HomeCollectionType: CaseIterable {
+enum HomeType { // 사용자 관심사 선택 유무
+    case Selected
+    case NonSelected
+}
+
+enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
     case Interest
     case RecommendedMeeting
 }
 
 final class HomeViewController: BaseViewController {
     
+    private var homeType: HomeType = .NonSelected
+    
     private lazy var homeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
         guard let `self` = self else {
             return nil
         }
-        return type(of: self).createCompositionalSection(homeCollectionType: HomeCollectionType.allCases[sec])
+        return type(of: self).createCompositionalSection(homeCollectionType: HomeSectionType.allCases[sec])
     }).then {
         $0.backgroundColor = .systemBackground
         $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
@@ -72,7 +79,7 @@ final class HomeViewController: BaseViewController {
         print("search")
     }
     
-    private static func createCompositionalSection(homeCollectionType: HomeCollectionType) -> NSCollectionLayoutSection {
+    private static func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
         switch homeCollectionType {
         case .Interest:
             let item = NSCollectionLayoutItem(
@@ -127,44 +134,50 @@ final class HomeViewController: BaseViewController {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return HomeCollectionType.allCases.count
+        return HomeSectionType.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch HomeCollectionType.allCases[section] {
-            case .Interest:
-                return InterestCollectionType.allCases.count
-            case .RecommendedMeeting:
-                return 1
+        switch homeType {
+            case .NonSelected:
+                switch HomeSectionType.allCases[section] {
+                    case .Interest:
+                        return InterestCollectionType.allCases.count
+                    case .RecommendedMeeting:
+                        return 1
+                }
+            case .Selected:
+                return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let homeCollectionType = HomeCollectionType.allCases[indexPath.section]
+        let homeCollectionType = HomeSectionType.allCases[indexPath.section]
         
         switch homeCollectionType {
-        case .Interest:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell ?? HomeCollectionViewCell()
-            cell.configureUI(with: InterestCollectionType.allCases[indexPath.row])
-            return cell
-        case .RecommendedMeeting:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier, for: indexPath) as? RecommendedMeetingCollectionViewCell ?? RecommendedMeetingCollectionViewCell()
-            cell.delegate = self
-            return cell
+            case .Interest:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell ?? HomeCollectionViewCell()
+                cell.configureUI(with: InterestCollectionType.allCases[indexPath.row])
+                return cell
+            case .RecommendedMeeting:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier, for: indexPath) as? RecommendedMeetingCollectionViewCell ?? RecommendedMeetingCollectionViewCell()
+                cell.delegate = self
+                return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecommendedMeetingHeaderView.identifier, for: indexPath) as? RecommendedMeetingHeaderView ?? RecommendedMeetingHeaderView()
-        return header
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width - 7 * 5) / 4, height: (collectionView.frame.width - 7 * 5) / 4)
+        switch homeType {
+            case .Selected:
+                return UICollectionReusableView()
+            case .NonSelected:
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecommendedMeetingHeaderView.identifier, for: indexPath) as? RecommendedMeetingHeaderView ?? RecommendedMeetingHeaderView()
+                return header
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = InterestListViewController(viewModel: InterestListViewModel())
+        let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel())
         vc.title = InterestCollectionType.allCases[indexPath.row].title
         vc.navigationItem.largeTitleDisplayMode = .never
         self.navigationController?.pushViewController(vc, animated: true)

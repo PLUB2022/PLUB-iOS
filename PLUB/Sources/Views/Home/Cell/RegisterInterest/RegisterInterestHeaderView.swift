@@ -42,7 +42,7 @@ class RegisterInterestHeaderView: UITableViewHeaderFooterView {
         _ = [titleLabel, descriptionLabel].map{ addSubview($0) }
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.left.equalToSuperview().offset(15)
+            make.left.equalToSuperview()
 //            make.bottom.equalTo(contentView.snp.centerY)
         }
         
