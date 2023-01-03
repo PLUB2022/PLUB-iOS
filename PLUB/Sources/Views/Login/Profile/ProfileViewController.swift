@@ -12,6 +12,11 @@ import Then
 
 final class ProfileViewController: BaseViewController {
   
+  private let wholeStackView: UIStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 48
+  }
+  
   private let profileStackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
     $0.alignment = .center
@@ -25,6 +30,11 @@ final class ProfileViewController: BaseViewController {
   
   private let uploadImageButton: UIButton = UIButton().then {
     $0.setImage(UIImage(named: "btn_user_default_image"), for: .normal)
+  }
+  
+  private let nicknameStackView: UIStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 8
   }
   
   private let nicknameLabel: UILabel = UILabel().then {
