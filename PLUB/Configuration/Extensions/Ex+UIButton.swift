@@ -7,8 +7,11 @@
 
 import UIKit
 
-extension UIButton {
-  func customButton() {
-    layer.cornerRadius = 5
-  }
-}
+import Then
+
+// MARK: - Conform Then
+
+extension UIButton.Configuration: Then { }
+extension UIBackgroundConfiguration: Then { }
+extension AttributedString: Then { }
+extension AttributeContainer: Then { }
