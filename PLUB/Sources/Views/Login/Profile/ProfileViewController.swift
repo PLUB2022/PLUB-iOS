@@ -36,6 +36,16 @@ final class ProfileViewController: BaseViewController {
     textField.placeholder = "한글, 영문, 숫자 포함 8글자로 입력가능해요."
   }
   
+  private let alertStackView: UIStackView = UIStackView().then {
+    $0.spacing = 4
+  }
+  
+  private let alertImageView: UIImageView = UIImageView()
+  
+  private let alertLabel: UILabel = UILabel().then {
+    $0.text = "닉네임 변경은 한번만 가능해요"
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [profileStackView].forEach {
