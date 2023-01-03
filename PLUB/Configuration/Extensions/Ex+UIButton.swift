@@ -80,4 +80,35 @@ extension UIButton.Configuration {
     
     return style
   }
+  
+  // MARK: - ConfigurationUpdateHandler
+  
+  func list(label text: String) -> UIButton.ConfigurationUpdateHandler {
+    return { button in
+      switch button.state {
+      case .normal:
+        button.configuration = .listDeselected()
+      case .selected:
+        button.configuration = .listSelected()
+        break
+      default: break
+      }
+      button.configuration?.title = text
+      button.configuration?.font = .body1
+    }
+  }
+  
+  func plubButton(label text: String) -> UIButton.ConfigurationUpdateHandler {
+    return { button in
+      switch button.state {
+      case .normal:
+        button.configuration = .plubButtonEnabled()
+      case .disabled:
+        button.configuration = .plubButtonDisabled()
+      default: break
+      }
+      button.configuration?.title = text
+      button.configuration?.font = .button
+    }
+  }
 }
