@@ -32,6 +32,10 @@ final class ProfileViewController: BaseViewController {
     $0.font = .subtitle
   }
   
+  private let nicknameTextField: UITextField = UITextField().then { textField in
+    textField.placeholder = "한글, 영문, 숫자 포함 8글자로 입력가능해요."
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [profileStackView].forEach {
