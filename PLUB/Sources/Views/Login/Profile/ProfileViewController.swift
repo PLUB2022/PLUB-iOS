@@ -52,7 +52,10 @@ final class ProfileViewController: BaseViewController {
     $0.alignment = .center
   }
   
-  private let alertImageView: UIImageView = UIImageView()
+  private let alertImageView: UIImageView = UIImageView().then {
+    $0.image = UIImage(named: "bubble_warning")
+    $0.contentMode = .scaleAspectFit
+  }
   
   private let alertLabel: UILabel = UILabel().then {
     $0.text = "닉네임 변경은 한번만 가능해요"
@@ -98,6 +101,10 @@ final class ProfileViewController: BaseViewController {
     
     nicknameTextField.snp.makeConstraints { make in
       make.height.equalTo(46)
+    }
+    
+    alertImageView.snp.makeConstraints { make in
+      make.size.equalTo(18)
     }
   }
 }
