@@ -59,6 +59,7 @@ final class ProfileViewController: BaseViewController {
   
   private let alertLabel: UILabel = UILabel().then {
     $0.text = "닉네임 변경은 한번만 가능해요"
+    $0.textColor = .mediumGray
     $0.font = .caption
   }
   
