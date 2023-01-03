@@ -48,6 +48,8 @@ final class ProfileViewController: BaseViewController {
   
   private let alertStackView: UIStackView = UIStackView().then {
     $0.spacing = 4
+    $0.distribution = .fillProportionally
+    $0.alignment = .center
   }
   
   private let alertImageView: UIImageView = UIImageView()
