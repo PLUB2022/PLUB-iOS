@@ -28,4 +28,56 @@ extension UIButton.Configuration {
       self.attributedTitle?.font = newValue
     }
   }
+  
+  // MARK: Configuration Return Type
+  
+  private static func listDeselected() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 8
+      $0.strokeWidth = 1
+      $0.strokeColor = .mediumGray
+      $0.backgroundColor = .clear
+    }
+    style.baseForegroundColor = .deepGray
+    
+    return style
+  }
+  
+  private static func listSelected() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 8
+      $0.backgroundColor = .main
+    }
+    style.baseForegroundColor = .white
+    
+    return style
+  }
+  
+  private static func plubButtonEnabled() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 10
+      $0.backgroundColor = .main
+    }
+    style.baseForegroundColor = .white
+    
+    return style
+  }
+  
+  private static func plubButtonDisabled() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 10
+      $0.backgroundColor = .systemGray5
+    }
+    style.baseForegroundColor = .deepGray
+    
+    return style
+  }
 }
