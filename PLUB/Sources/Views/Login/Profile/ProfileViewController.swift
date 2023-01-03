@@ -17,6 +17,10 @@ final class ProfileViewController: BaseViewController {
     $0.font = .subtitle
   }
   
+  private let uploadImageButton: UIButton = UIButton().then {
+    $0.setImage(UIImage(named: "btn_user_default_image"), for: .normal)
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(profileLabel)
