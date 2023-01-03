@@ -43,6 +43,9 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let nicknameTextField: UITextField = UITextField().then { textField in
+    textField.layer.borderWidth = 1
+    textField.layer.borderColor = UIColor.mediumGray.cgColor
+    textField.layer.cornerRadius = 8
     textField.placeholder = "한글, 영문, 숫자 포함 8글자로 입력가능해요."
   }
   
