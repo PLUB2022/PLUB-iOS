@@ -59,18 +59,30 @@ final class ProfileViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [profileStackView].forEach {
-      view.addSubview($0)
+    
+    view.addSubview(wholeStackView)
+    
+    [profileStackView, nicknameStackView].forEach {
+      wholeStackView.addArrangedSubview($0)
     }
+    
     [profileLabel, uploadImageButton].forEach {
       profileStackView.addArrangedSubview($0)
+    }
+    
+    [nicknameLabel, nicknameTextField, alertStackView].forEach {
+      nicknameStackView.addArrangedSubview($0)
+    }
+    
+    [alertImageView, alertLabel].forEach {
+      alertStackView.addArrangedSubview($0)
     }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    profileStackView.snp.makeConstraints { make in
+    wholeStackView.snp.makeConstraints { make in
       make.top.horizontalEdges.equalToSuperview()
     }
     
@@ -80,6 +92,10 @@ final class ProfileViewController: BaseViewController {
     
     profileLabel.snp.makeConstraints { make in
       make.leading.equalToSuperview()
+    }
+    
+    nicknameTextField.snp.makeConstraints { make in
+      make.height.equalTo(46)
     }
   }
 }
