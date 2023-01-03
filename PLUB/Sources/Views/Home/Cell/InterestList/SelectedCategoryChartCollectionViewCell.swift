@@ -18,6 +18,10 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     static let identifier = "SelectedCategoryChartCollectionViewCell"
     
+//    public var model: SelectedCategoryCollectionViewCellModel? {
+//        didSet {
+//    }
+    
     private let titleLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 25, weight: .bold)
         $0.numberOfLines = 0
@@ -90,6 +94,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     }
     
     public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
+//        self.model = model
         titleLabel.text = model.title
         descriptionLabel.text = model.description
         seperatorView.backgroundColor = .white

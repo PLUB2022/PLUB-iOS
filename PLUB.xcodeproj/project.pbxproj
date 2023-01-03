@@ -31,6 +31,8 @@
 		7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* IndicatorButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
+		70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */; };
+		70BD5F2E296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2D296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F228EDE10F00C20061 /* LoginViewController.swift */; };
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
@@ -88,6 +90,8 @@
 		7095A589292E58F9002A52E6 /* IndicatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
+		70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryViewController.swift; sourceTree = "<group>"; };
+		70BD5F2D296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryNavigationBar.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA42D1F228EDE10F00C20061 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 				7095A589292E58F9002A52E6 /* IndicatorButton.swift */,
 				70197B7329548904000503F6 /* SelectedCategoryNavigationBar.swift */,
 				70197B802955A68C000503F6 /* SelectedCategoryInfoView.swift */,
+				70BD5F2D296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -296,6 +301,7 @@
 				BA88125128E48A2F00BD832A /* HomeViewController.swift */,
 				7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */,
 				70197B712953698F000503F6 /* SelectedCategoryViewController.swift */,
+				70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -487,7 +493,9 @@
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
+				70BD5F2E296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift in Sources */,
 				70197B812955A68C000503F6 /* SelectedCategoryInfoView.swift in Sources */,
+				70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,

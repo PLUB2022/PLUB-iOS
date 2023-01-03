@@ -15,7 +15,8 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
     
     public var isTapped: Bool = false {
         didSet {
-            isTapped ? (contentView.backgroundColor = .main) : (contentView.backgroundColor = .white)
+            contentView.backgroundColor = isTapped ? .main : .white
+            interestTypeLabel.textColor = isTapped ? .white : .gray
         }
     }
     

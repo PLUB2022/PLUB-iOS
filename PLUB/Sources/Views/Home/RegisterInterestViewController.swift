@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
+import RxCocoa
 
 class RegisterInterestViewController: BaseViewController {
     
@@ -31,6 +32,7 @@ class RegisterInterestViewController: BaseViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.layer.masksToBounds = true
         $0.layer.cornerRadius = 10
+        
     }
     
     init(viewModel: RegisterInterestViewModelType) {
@@ -83,18 +85,11 @@ class RegisterInterestViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         viewModel.isEnabledFloatingButton
-            .drive(onNext: { [weak self] isTapped in
+            .drive(onNext: { [weak self] isEnabled in
                 guard let `self` = self else { return }
-                print("tapped = \(isTapped)")
-                self.floatingButton.isEnabled = isTapped
-                if isTapped {
-                    self.floatingButton.backgroundColor = .main
-                    self.floatingButton.setTitleColor(.white, for: .normal)
-                }
-                else {
-                    self.floatingButton.backgroundColor = .lightGray
-                    self.floatingButton.setTitleColor(.darkGray, for: .normal)
-                }
+                self.floatingButton.isEnabled = isEnabled
+                self.floatingButton.backgroundColor = isEnabled ? .main : .lightGray
+                self.floatingButton.setTitleColor(isEnabled ? .white : .darkGray, for: .normal)
             })
             .disposed(by: disposeBag)
         
@@ -191,11 +186,6 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
 extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDelegate {
     func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell) {
         cell.isTapped.toggle()
-        if cell.isTapped {
-            viewModel.selectDetailCell.onNext(())
-        }
-        else {
-            viewModel.deselectDetailCell.onNext(())
-        }
+        cell.isTapped ? viewModel.selectDetailCell.onNext(()) : viewModel.deselectDetailCell.onNext(())
     }
 }

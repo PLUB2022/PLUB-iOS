@@ -23,7 +23,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
     var isExpanded: Bool = false {
         didSet {
             DispatchQueue.main.async {
-                self.containerView.setNeedsLayout()
+                self.containerView.layoutIfNeeded()
             }
         }
     }
@@ -75,30 +75,22 @@ class RegisterInterestTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        containerView.roundCorners(corners: isExpanded ? [.topLeft, .topRight] : [.allCorners], radius: 20)
+        indicatorButton.setImage(isExpanded ? UIImage(named: "Vector 2-1") : UIImage(named: "Vector 2"), for: .normal)
         if isExpanded {
-            containerView.roundCorners(corners: [.topLeft, .topRight], radius: 20)
-            indicatorButton.setImage(UIImage(named: "Vector 2-1"), for: .normal)
             containerView.snp.updateConstraints { make in
                 make.edges.equalToSuperview()
             }
-        } else {
-            containerView.roundCorners(corners: [.allCorners], radius: 20)
-            indicatorButton.setImage(UIImage(named: "Vector 2"), for: .normal)
+        }
+        else {
             containerView.snp.updateConstraints { make in
                 make.bottom.equalToSuperview().offset(-5)
             }
         }
-//        containerView.roundCorners(corners: [.allCorners], radius: 20)
     }
     
     private func configureUI() {
         contentView.backgroundColor = .secondarySystemBackground
-//        contentView.layer.cornerRadius = 15
-//        contentView.backgroundColor = .white
-//        contentView.layer.borderWidth = 1
-//        contentView.layer.borderColor = UIColor.black.cgColor
-//        contentView.layer.masksToBounds = true
-        
         contentView.addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
@@ -107,7 +99,6 @@ class RegisterInterestTableViewCell: UITableViewCell {
         
         _ = [interestImageView, titleLabel, descriptionLabel, indicatorButton].map{ containerView.addSubview($0) }
         interestImageView.snp.makeConstraints { make in
-//            make.centerY.equalToSuperview()
             make.top.left.equalToSuperview().offset(5)
             make.bottom.equalToSuperview().offset(-5)
             make.width.equalTo(80)
@@ -123,12 +114,10 @@ class RegisterInterestTableViewCell: UITableViewCell {
             make.left.equalTo(titleLabel.snp.left)
             make.top.equalTo(titleLabel.snp.bottom)
             make.bottom.equalTo(interestImageView.snp.bottom)
-//            make.height.equalTo(50)
         }
         
         indicatorButton.snp.makeConstraints { make in
             make.centerY.equalTo(interestImageView.snp.centerY)
-//            make.top.bottom.equalToSuperview()
             make.right.equalToSuperview().offset(-20)
         }
     }

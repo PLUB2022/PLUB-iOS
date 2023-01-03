@@ -23,7 +23,7 @@ class SelectedCategoryInfoView: UIView {
     
     private lazy var categoryInfoStackView = UIStackView(arrangedSubviews: [dateStackView, timeStackView, peopleStackView]).then {
         $0.alignment = .leading
-        $0.distribution = .fillEqually
+        $0.distribution = .equalSpacing        
     }
     
     private lazy var dateStackView = UIStackView(arrangedSubviews: [dateImageView, dateLabel])

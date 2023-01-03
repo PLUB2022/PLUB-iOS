@@ -18,7 +18,7 @@ class SelectedCategoryViewController: BaseViewController {
     
     private let viewModel: SelectedCategoryViewModelType
     
-    private var selectedCategoryChartCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
+    private var selectedCategoryCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
     
     private var selectedCategoryType: SelectedCategoryType = .Chart
     
@@ -75,7 +75,7 @@ class SelectedCategoryViewController: BaseViewController {
         viewModel.createSelectedCategoryChartCollectionViewCellModels()
             .subscribe(onNext: { [weak self] selectedCategoryChartCollectionViewCellModels in
                 guard let `self` = self else { return }
-                self.selectedCategoryChartCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
+                self.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
             })
             .disposed(by: disposeBag)
     }
@@ -87,18 +87,18 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedCategoryChartCollectionViewCellModels.count
+        return selectedCategoryCollectionViewCellModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch selectedCategoryType {
             case .Chart:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-                cell.configureUI(with: selectedCategoryChartCollectionViewCellModels[indexPath.row])
+                cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
                 return cell
             case .Grid:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
-            cell.configureUI(with: selectedCategoryChartCollectionViewCellModels[indexPath.row])
+            cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
                 return cell
         }
     }
@@ -131,6 +131,12 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = IntroduceCategoryViewController(model: selectedCategoryCollectionViewCellModels[indexPath.row])
+        vc.navigationItem.largeTitleDisplayMode = .never
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
