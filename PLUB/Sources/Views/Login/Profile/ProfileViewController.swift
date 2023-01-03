@@ -27,6 +27,11 @@ final class ProfileViewController: BaseViewController {
     $0.setImage(UIImage(named: "btn_user_default_image"), for: .normal)
   }
   
+  private let nicknameLabel: UILabel = UILabel().then {
+    $0.text = "닉네임"
+    $0.font = .subtitle
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [profileStackView].forEach {
