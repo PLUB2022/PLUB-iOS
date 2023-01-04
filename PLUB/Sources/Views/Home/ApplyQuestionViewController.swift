@@ -12,11 +12,37 @@ import RxSwift
 
 class ApplyQuestionViewController: BaseViewController {
   
+  private let viewModel: ApplyQuestionViewModelType
+  
+  private var models: [ApplyQuestionTableViewCellModel] = []
+  
   private lazy var questionTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.backgroundColor = .secondarySystemBackground
     $0.separatorStyle = .none
     $0.register(ApplyQuestionTableViewCell.self, forCellReuseIdentifier: ApplyQuestionTableViewCell.identifier)
     $0.register(ApplyQuestionTableHeaderView.self, forHeaderFooterViewReuseIdentifier: ApplyQuestionTableHeaderView.identifier)
+  }
+  
+  private let applyButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "지원하기")
+    // $0.isEnabled = false // 바꿔가면서 UI가 바뀌는 지 확인해보세요 :)
+  }
+  
+//  private let applyButton = UIButton().then {
+//    $0.setTitle("지원하기", for: .normal)
+//    $0.setTitleColor(.deepGray, for: .normal)
+//    $0.backgroundColor = .lightGray
+//    $0.layer.cornerRadius = 10
+//    $0.layer.masksToBounds = true
+//  }
+  
+  init(viewModel: ApplyQuestionViewModelType) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setupStyles() {
@@ -31,7 +57,7 @@ class ApplyQuestionViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(questionTableView)
+    _ = [questionTableView, applyButton].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -39,10 +65,22 @@ class ApplyQuestionViewController: BaseViewController {
     questionTableView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
     }
+    
+    applyButton.snp.makeConstraints { make in
+      make.left.right.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+      make.bottom.equalToSuperview()
+      make.height.equalTo(46)
+    }
   }
   
   override func bind() {
     super.bind()
+    viewModel.allQuestion.drive(onNext: { [weak self] questions in
+      guard let `self` = self else { return }
+      self.models = questions
+    })
+    .disposed(by: disposeBag)
+    
     questionTableView.rx.setDelegate(self).disposed(by: disposeBag)
     questionTableView.rx.setDataSource(self).disposed(by: disposeBag)
   }
@@ -58,12 +96,12 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 3
+    return models.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: ApplyQuestionTableViewCell.identifier, for: indexPath) as? ApplyQuestionTableViewCell ?? ApplyQuestionTableViewCell()
-    cell.configureUI(with: .init(question: "\(indexPath.row + 1). 질문", placeHolder: "소개하는 내용을 입력해주세요"))
+    cell.configureUI(with: models[indexPath.row])
     cell.delegate = self
     return cell
   }
@@ -100,6 +138,10 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
 }
 
 extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
+  func textViewDidChange(text: String, _ textView: UITextView) {
+    applyButton.isEnabled = text.isEmpty ? false : true
+  }
+  
   func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView) {
     let size = textView.bounds.size
     let newSize = questionTableView.sizeThatFits(CGSize(width: size.width,

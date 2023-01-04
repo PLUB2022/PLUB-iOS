@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 struct ApplyQuestionTableViewCellModel {
   let question: String
@@ -22,7 +24,13 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   
   static let identifier = "ApplyQuestionTableViewCell"
   
+  private var disposeBag = DisposeBag()
+  
   public weak var delegate: ApplyQuestionTableViewCellDelegate?
+  
+  private let containerView = UIView().then {
+    $0.backgroundColor = .clear
+  }
   
   private let questionLabel = UILabel().then {
     $0.font = .body1
@@ -30,7 +38,6 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   }
   
   private let questionTextView = UITextView().then {
-    $0.text = "잠시만요"
     $0.textColor = .deepGray
     $0.backgroundColor = .white
     $0.font = UIFont(name: "Pretendard-Regular", size: 14)
@@ -39,9 +46,57 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     $0.isScrollEnabled = false
   }
   
+  private let countLabel = UILabel().then {
+    $0.textColor = .mediumGray
+    $0.font = .systemFont(ofSize: 12)
+    $0.text = "0"
+    $0.sizeToFit()
+  }
+  
+  private let maxCountLabel = UILabel().then {
+    $0.textColor = .deepGray
+    $0.font = .systemFont(ofSize: 12)
+    $0.text = "/100"
+    $0.sizeToFit()
+  }
+  
+  var wroteTextCount: Driver<Int>
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    let textCount = BehaviorSubject<Int>(value: 0)
+    self.wroteTextCount = textCount.asDriver(onErrorJustReturn: 0)
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
+    
+    wroteTextCount.drive(onNext: { [weak self] count in
+      guard let `self` = self else { return }
+      self.countLabel.text = "\(count)"
+    })
+    .disposed(by: disposeBag)
+    
+    questionTextView.rx.didBeginEditing.withUnretained(self).subscribe(onNext: { owner, _ in
+      if owner.questionTextView.text == "소개하는 내용을 적어주세요" {
+        owner.questionTextView.text = nil
+        owner.questionTextView.textColor = .black
+      }
+    })
+    .disposed(by: disposeBag)
+    
+    questionTextView.rx.didEndEditing.withUnretained(self).subscribe(onNext: { owner, _ in
+      if owner.questionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        owner.questionTextView.textColor = .deepGray
+        owner.questionTextView.text = "소개하는 내용을 적어주세요"
+      }
+    })
+    .disposed(by: disposeBag)
+    
+    questionTextView.rx.text.orEmpty.withUnretained(self).subscribe(onNext: { owner, text in
+      guard text != "소개하는 내용을 적어주세요" else { return }
+      print("cccc = \(text)")
+      textCount.onNext(text.count)
+      owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
+    })
+    .disposed(by: disposeBag)
   }
   
   required init?(coder: NSCoder) {
@@ -50,8 +105,12 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   
   private func configureUI() {
     contentView.backgroundColor = .secondarySystemBackground
-    questionTextView.delegate = self
-    _ = [questionLabel, questionTextView].map { contentView.addSubview($0) }
+    contentView.addSubview(containerView)
+    _ = [questionLabel, questionTextView, countLabel, maxCountLabel].map { containerView.addSubview($0) }
+    
+    containerView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
     
     questionLabel.snp.makeConstraints { make in
       make.top.equalToSuperview()
@@ -62,8 +121,17 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     questionTextView.snp.makeConstraints { make in
       make.top.equalTo(questionLabel.snp.bottom)
       make.left.right.equalTo(questionLabel)
-      make.bottom.equalToSuperview()
-      //          make.height.equalTo(100)
+      make.bottom.equalTo(containerView).offset(-50)
+    }
+    
+    maxCountLabel.snp.makeConstraints { make in
+      make.right.equalTo(questionTextView)
+      make.top.equalTo(questionTextView.snp.bottom)
+    }
+    
+    countLabel.snp.makeConstraints { make in
+      make.centerY.equalTo(maxCountLabel)
+      make.right.equalTo(maxCountLabel.snp.left)
     }
   }
   
@@ -73,22 +141,3 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   }
 }
 
-extension ApplyQuestionTableViewCell: UITextViewDelegate {
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    if textView.text == "소개하는 내용을 입력해주세요" {
-      textView.text = nil
-      textView.textColor = .black
-    }
-  }
-  
-  func textViewDidEndEditing(_ textView: UITextView) {
-    if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-      textView.textColor = .deepGray
-      textView.text = "소개하는 내용을 입력해주세요"
-    }
-  }
-  
-  func textViewDidChange(_ textView: UITextView) {
-      delegate?.updateHeightOfRow(self, textView)
-  }
-}
