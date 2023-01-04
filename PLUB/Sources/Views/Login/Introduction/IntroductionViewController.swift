@@ -35,11 +35,22 @@ final class IntroductionViewController: BaseViewController {
     $0.delegate = self
   }
   
+  private let overlineLabel: UILabel = UILabel().then {
+    $0.font = .overLine
+
+    let writtenCharacters = NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.mediumGray])
+    let totalCharacters = NSAttributedString(string: "/150", attributes: [.foregroundColor: UIColor.deepGray])
+    $0.attributedText = NSMutableAttributedString(attributedString: writtenCharacters).then {
+      $0.append(totalCharacters)
+    }
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(stackView)
+    view.addSubview(overlineLabel)
     
     [introductionLabel, introductionTextView].forEach {
       stackView.addArrangedSubview($0)
@@ -54,6 +65,11 @@ final class IntroductionViewController: BaseViewController {
     
     introductionTextView.snp.makeConstraints { make in
       make.height.equalTo(46)
+    }
+    
+    overlineLabel.snp.makeConstraints { make in
+      make.top.equalTo(stackView.snp.bottom).offset(4)
+      make.trailing.equalToSuperview()
     }
   }
   
