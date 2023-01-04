@@ -46,6 +46,7 @@ final class HomeViewController: BaseViewController {
     override func setupStyles() {
         super.setupStyles()
         view.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
                 image: UIImage(named: "BookMark"),
