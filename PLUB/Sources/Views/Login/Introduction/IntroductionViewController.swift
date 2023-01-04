@@ -115,6 +115,15 @@ extension IntroductionViewController: UITextViewDelegate {
       textView.textColor = .black
     }
   }
+  
+  func textViewDidChange(_ textView: UITextView) {
+    // == overline label settings ==
+    let writtenCharacters = NSAttributedString(string: "\(introductionTextView.text.count)", attributes: [.foregroundColor: UIColor.black])
+    let totalCharacters = NSAttributedString(string: "/\(totalCharacterLimit)", attributes: [.foregroundColor: UIColor.deepGray])
+    overlineLabel.attributedText = NSMutableAttributedString(attributedString: writtenCharacters).then {
+      $0.append(totalCharacters)
+    }
+  }
 }
 
 
