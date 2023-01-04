@@ -123,6 +123,20 @@ final class ProfileViewController: BaseViewController {
       make.size.equalTo(18)
     }
   }
+  
+  override func bind() {
+    super.bind()
+    
+    nicknameTextField.rx.text
+      .withUnretained(self)
+      .subscribe(onNext: { owner, text in
+        owner.nicknameTextField.attributedText = NSAttributedString(
+          string: owner.nicknameTextField.text ?? "",
+          attributes: [.font: UIFont.body1!]
+        )
+      })
+      .disposed(by: disposeBag)
+  }
 }
 
 #if canImport(SwiftUI) && DEBUG
