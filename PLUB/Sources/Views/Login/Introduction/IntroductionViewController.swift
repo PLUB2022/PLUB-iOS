@@ -23,13 +23,21 @@ final class IntroductionViewController: BaseViewController {
     $0.font = .subtitle
   }
   
+  private let introductionTextView: UITextView = UITextView().then {
+    $0.text = "소개하는 내용을 입력해주세요"
+    $0.textColor = .deepGray
+    $0.font = .body2
+    $0.backgroundColor = .white
+    $0.textContainerInset = UIEdgeInsets(top: 14, left: 8, bottom: 14, right: 8)
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(stackView)
     
-    [introductionLabel].forEach {
+    [introductionLabel, introductionTextView].forEach {
       stackView.addArrangedSubview($0)
     }
   }
@@ -38,6 +46,10 @@ final class IntroductionViewController: BaseViewController {
     super.setupConstraints()
     stackView.snp.makeConstraints { make in
       make.top.horizontalEdges.equalToSuperview()
+    }
+    
+    introductionTextView.snp.makeConstraints { make in
+      make.height.equalTo(46)
     }
   }
   
