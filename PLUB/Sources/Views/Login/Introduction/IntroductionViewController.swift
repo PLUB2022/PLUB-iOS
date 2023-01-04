@@ -35,11 +35,11 @@ final class IntroductionViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private let overlineLabel: UILabel = UILabel().then {
+  private lazy var overlineLabel: UILabel = UILabel().then {
     $0.font = .overLine
 
     let writtenCharacters = NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.mediumGray])
-    let totalCharacters = NSAttributedString(string: "/150", attributes: [.foregroundColor: UIColor.deepGray])
+    let totalCharacters = NSAttributedString(string: "/\(totalCharacterLimit)", attributes: [.foregroundColor: UIColor.deepGray])
     $0.attributedText = NSMutableAttributedString(attributedString: writtenCharacters).then {
       $0.append(totalCharacters)
     }
@@ -89,6 +89,10 @@ final class IntroductionViewController: BaseViewController {
 extension IntroductionViewController {
   private var placeHolder: String {
     return "소개하는 내용을 입력해주세요"
+  }
+  
+  private var totalCharacterLimit: Int {
+    return 150
   }
 }
 
