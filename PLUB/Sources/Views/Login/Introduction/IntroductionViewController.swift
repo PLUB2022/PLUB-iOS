@@ -7,17 +7,29 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 final class IntroductionViewController: BaseViewController {
   
+  // MARK: - Property
+  
+  private let stackView: UIStackView = UIStackView().then {
+    $0.axis = .vertical
+  }
   
   // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
+    view.addSubview(stackView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    stackView.snp.makeConstraints { make in
+      make.top.horizontalEdges.equalToSuperview()
+    }
   }
   
   override func bind() {
