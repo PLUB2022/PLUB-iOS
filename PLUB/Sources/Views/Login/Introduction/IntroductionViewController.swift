@@ -118,6 +118,8 @@ extension IntroductionViewController: UITextViewDelegate {
   }
   
   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    // if the user presses the delete key, the length of the range is 1.
+    if range.length == 1 { return true }
     return textView.text.count < totalCharacterLimit ? true : false
   }
   
