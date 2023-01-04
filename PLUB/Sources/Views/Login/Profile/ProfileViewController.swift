@@ -12,10 +12,14 @@ import Then
 
 final class ProfileViewController: BaseViewController {
   
+  // MARK: - Property
+  
   private let wholeStackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 48
   }
+  
+  // MARK: Profile Part
   
   private let profileStackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
@@ -31,6 +35,8 @@ final class ProfileViewController: BaseViewController {
   private let uploadImageButton: UIButton = UIButton().then {
     $0.setImage(UIImage(named: "btn_user_default_image"), for: .normal)
   }
+  
+  // MARK: Nickname Part
   
   private let nicknameStackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
@@ -61,6 +67,8 @@ final class ProfileViewController: BaseViewController {
     )
   }
   
+  // MARK: Alert in Nickname
+  
   private let alertStackView: UIStackView = UIStackView().then {
     $0.spacing = 4
     $0.distribution = .fillProportionally
@@ -77,6 +85,8 @@ final class ProfileViewController: BaseViewController {
     $0.textColor = .mediumGray
     $0.font = .caption
   }
+  
+  // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
