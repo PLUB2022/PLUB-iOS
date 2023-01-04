@@ -32,6 +32,7 @@ final class IntroductionViewController: BaseViewController {
     $0.backgroundColor = .white
     $0.layer.cornerRadius = 8
     
+    $0.isScrollEnabled = false
     $0.delegate = self
   }
   
@@ -116,7 +117,20 @@ extension IntroductionViewController: UITextViewDelegate {
     }
   }
   
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    return textView.text.count < totalCharacterLimit ? true : false
+  }
+  
   func textViewDidChange(_ textView: UITextView) {
+    // == textView dynamic height settings ==
+    let size = CGSize(width: view.frame.width, height: .infinity)
+    let estimatedSize = textView.sizeThatFits(size)
+
+    // update height constraints
+    textView.snp.updateConstraints { make in
+      make.height.equalTo(estimatedSize.height)
+    }
+    
     // == overline label settings ==
     let writtenCharacters = NSAttributedString(string: "\(introductionTextView.text.count)", attributes: [.foregroundColor: UIColor.black])
     let totalCharacters = NSAttributedString(string: "/\(totalCharacterLimit)", attributes: [.foregroundColor: UIColor.deepGray])
@@ -135,4 +149,3 @@ struct IntroductionViewControllerPreview: PreviewProvider {
   }
 }
 #endif
-
