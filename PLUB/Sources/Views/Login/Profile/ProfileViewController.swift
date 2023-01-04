@@ -46,7 +46,14 @@ final class ProfileViewController: BaseViewController {
     textField.layer.borderWidth = 1
     textField.layer.borderColor = UIColor.mediumGray.cgColor
     textField.layer.cornerRadius = 8
-    textField.placeholder = "한글, 영문, 숫자 포함 8글자로 입력가능해요."
+    
+    textField.leftView = UIView()
+    textField.rightView = UIButton().then {
+      $0.setImage(UIImage(named: "btn_close_rectangle_default"), for: .normal)
+      $0.addAction(UIAction { _ in textField.text = "" }, for: .touchUpInside)
+    }
+    textField.leftViewMode = .always
+    textField.rightViewMode = .always
   }
   
   private let alertStackView: UIStackView = UIStackView().then {
