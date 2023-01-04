@@ -26,9 +26,12 @@ final class IntroductionViewController: BaseViewController {
   private lazy var introductionTextView: UITextView = UITextView().then {
     $0.text = placeHolder
     $0.textColor = .deepGray
-    $0.font = .body2
-    $0.backgroundColor = .white
     $0.textContainerInset = UIEdgeInsets(top: 14, left: 8, bottom: 14, right: 8)
+    $0.font = .body2
+    
+    $0.backgroundColor = .white
+    $0.layer.cornerRadius = 8
+    
     $0.delegate = self
   }
   
