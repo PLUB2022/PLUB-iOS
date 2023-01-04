@@ -60,6 +60,12 @@ final class IntroductionViewController: BaseViewController {
   override func bind() {
     super.bind()
   }
+  
+  // MARK: - First Responder
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    introductionTextView.resignFirstResponder()
+  }
 }
 
 // MARK: - Constants
