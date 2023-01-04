@@ -23,8 +23,8 @@ final class IntroductionViewController: BaseViewController {
     $0.font = .subtitle
   }
   
-  private let introductionTextView: UITextView = UITextView().then {
-    $0.text = "소개하는 내용을 입력해주세요"
+  private lazy var introductionTextView: UITextView = UITextView().then {
+    $0.text = placeHolder
     $0.textColor = .deepGray
     $0.font = .body2
     $0.backgroundColor = .white
@@ -55,6 +55,14 @@ final class IntroductionViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+  }
+}
+
+// MARK: - Constants
+
+extension IntroductionViewController {
+  private var placeHolder: String {
+    return "소개하는 내용을 입력해주세요"
   }
 }
 
