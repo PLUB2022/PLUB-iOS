@@ -16,6 +16,7 @@ final class IntroductionViewController: BaseViewController {
   
   private let stackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
+    $0.spacing = 8
   }
   
   private let introductionLabel: UILabel = UILabel().then {
