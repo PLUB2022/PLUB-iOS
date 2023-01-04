@@ -18,11 +18,20 @@ final class IntroductionViewController: BaseViewController {
     $0.axis = .vertical
   }
   
+  private let introductionLabel: UILabel = UILabel().then {
+    $0.text = "소개"
+    $0.font = .subtitle
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(stackView)
+    
+    [introductionLabel].forEach {
+      stackView.addArrangedSubview($0)
+    }
   }
   
   override func setupConstraints() {
