@@ -60,19 +60,9 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     $0.sizeToFit()
   }
   
-  var wroteTextCount: Driver<Int>
-  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-    let textCount = BehaviorSubject<Int>(value: 0)
-    self.wroteTextCount = textCount.asDriver(onErrorJustReturn: 0)
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
-    
-    wroteTextCount.drive(onNext: { [weak self] count in
-      guard let `self` = self else { return }
-      self.countLabel.text = "\(count)"
-    })
-    .disposed(by: disposeBag)
     
     questionTextView.rx.didBeginEditing.withUnretained(self).subscribe(onNext: { owner, _ in
       if owner.questionTextView.text == "소개하는 내용을 적어주세요" {
@@ -90,10 +80,10 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     })
     .disposed(by: disposeBag)
     
-    questionTextView.rx.text.orEmpty.withUnretained(self).subscribe(onNext: { owner, text in
+    questionTextView.rx.text.orEmpty.withUnretained(self)
+      .subscribe(onNext: { owner, text in
       guard text != "소개하는 내용을 적어주세요" else { return }
-      print("cccc = \(text)")
-      textCount.onNext(text.count)
+      owner.countLabel.text = "\(text.count)"
       owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
     })
     .disposed(by: disposeBag)
