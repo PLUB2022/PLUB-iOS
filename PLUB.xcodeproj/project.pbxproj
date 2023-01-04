@@ -41,6 +41,7 @@
 		BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778228EECDC50036B825 /* Pretendard-Regular.otf */; };
 		BA52778C28EECDC50036B825 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778328EECDC50036B825 /* Pretendard-Light.otf */; };
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
+		BA876BA1296514DA0029CF34 /* IDCheckTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA0296514DA0029CF34 /* IDCheckTextField.swift */; };
 		BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124D28E48A2F00BD832A /* AppDelegate.swift */; };
 		BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124F28E48A2F00BD832A /* SceneDelegate.swift */; };
 		BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88125128E48A2F00BD832A /* HomeViewController.swift */; };
@@ -94,6 +95,7 @@
 		BA52778228EECDC50036B825 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		BA52778328EECDC50036B825 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
+		BA876BA0296514DA0029CF34 /* IDCheckTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDCheckTextField.swift; sourceTree = "<group>"; };
 		BA88124A28E48A2F00BD832A /* PLUB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLUB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA88124D28E48A2F00BD832A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA88124F28E48A2F00BD832A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */,
+				BA876BA0296514DA0029CF34 /* IDCheckTextField.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 			files = (
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
 				70197B722953698F000503F6 /* InterestListViewController.swift in Sources */,
+				BA876BA1296514DA0029CF34 /* IDCheckTextField.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
