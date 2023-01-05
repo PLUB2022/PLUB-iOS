@@ -48,7 +48,7 @@ final class ProfileViewController: BaseViewController {
     $0.font = .subtitle
   }
   
-  private let nicknameTextField: IDCheckTextField = IDCheckTextField().then { textField in
+  private let nicknameTextField: PaddingTextField = PaddingTextField().then { textField in
     textField.layer.borderWidth = 1
     textField.layer.borderColor = UIColor.mediumGray.cgColor
     textField.layer.cornerRadius = 8

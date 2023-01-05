@@ -1,5 +1,5 @@
 //
-//  IDCheckTextField.swift
+//  PaddingTextField.swift
 //  PLUB
 //
 //  Created by 홍승현 on 2023/01/04.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class IDCheckTextField: UITextField {
+final class PaddingTextField: UITextField {
   
   override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
     var leftViewRect = super.leftViewRect(forBounds: bounds)
