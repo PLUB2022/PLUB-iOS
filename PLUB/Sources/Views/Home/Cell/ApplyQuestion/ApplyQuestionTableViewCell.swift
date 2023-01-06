@@ -17,7 +17,7 @@ struct ApplyQuestionTableViewCellModel {
 }
 
 protocol ApplyQuestionTableViewCellDelegate: AnyObject {
-    func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView)
+  func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView)
 }
 
 class ApplyQuestionTableViewCell: UITableViewCell {
@@ -82,11 +82,13 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     
     questionTextView.rx.text.orEmpty.withUnretained(self)
       .subscribe(onNext: { owner, text in
-      guard text != "소개하는 내용을 적어주세요" else { return }
-      owner.countLabel.text = "\(text.count)"
-      owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
-    })
-    .disposed(by: disposeBag)
+        guard text != "소개하는 내용을 적어주세요" else { return }
+        owner.countLabel.text = "\(text.count)"
+        owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
+      })
+      .disposed(by: disposeBag)
+    
+    questionTextView.rx.setDelegate(self).disposed(by: disposeBag)
   }
   
   required init?(coder: NSCoder) {
@@ -131,3 +133,14 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   }
 }
 
+extension ApplyQuestionTableViewCell: UITextViewDelegate {
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+    let numberOfChars = newText.count
+    
+    if(numberOfChars > 100){
+      return false
+    }
+    return true
+  }
+}
