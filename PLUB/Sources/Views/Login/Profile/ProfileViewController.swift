@@ -61,6 +61,9 @@ final class ProfileViewController: BaseViewController {
     textField.leftViewMode = .always
     textField.rightViewMode = .always
     
+    textField.leftViewPadding = 8
+    textField.rightViewPadding = 8
+    
     textField.attributedPlaceholder = NSAttributedString(
       string: "한글, 영문, 숫자 포함 8글자로 입력가능해요.",
       attributes: [.font: UIFont.body2!]
