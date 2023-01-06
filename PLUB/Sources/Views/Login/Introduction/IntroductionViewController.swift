@@ -37,14 +37,8 @@ final class IntroductionViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private lazy var overlineLabel: UILabel = UILabel().then {
+  private let overlineLabel: UILabel = UILabel().then {
     $0.font = .overLine
-
-    let writtenCharacters = NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.mediumGray])
-    let totalCharacters = NSAttributedString(string: "/\(totalCharacterLimit)", attributes: [.foregroundColor: UIColor.deepGray])
-    $0.attributedText = NSMutableAttributedString(attributedString: writtenCharacters).then {
-      $0.append(totalCharacters)
-    }
   }
   
   // MARK: - Configuration
@@ -72,6 +66,19 @@ final class IntroductionViewController: BaseViewController {
     overlineLabel.snp.makeConstraints { make in
       make.top.equalTo(stackView.snp.bottom).offset(4)
       make.trailing.equalToSuperview()
+    }
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
+  }
+  
+  private func updateWrittenCharactersLabel(count: Int, pointColor: UIColor) {
+    let writtenCharacters = NSAttributedString(string: "\(count)", attributes: [.foregroundColor: pointColor])
+    let totalCharacters = NSAttributedString(string: "/\(totalCharacterLimit)", attributes: [.foregroundColor: UIColor.deepGray])
+    overlineLabel.attributedText = NSMutableAttributedString(attributedString: writtenCharacters).then {
+      $0.append(totalCharacters)
     }
   }
   
@@ -131,11 +138,7 @@ extension IntroductionViewController: UITextViewDelegate {
     }
     
     // == overline label settings ==
-    let writtenCharacters = NSAttributedString(string: "\(introductionTextView.text.count)", attributes: [.foregroundColor: UIColor.black])
-    let totalCharacters = NSAttributedString(string: "/\(totalCharacterLimit)", attributes: [.foregroundColor: UIColor.deepGray])
-    overlineLabel.attributedText = NSMutableAttributedString(attributedString: writtenCharacters).then {
-      $0.append(totalCharacters)
-    }
+    updateWrittenCharactersLabel(count: introductionTextView.text.count, pointColor: .black)
   }
 }
 
