@@ -86,7 +86,7 @@ final class IntroductionViewController: BaseViewController {
     // == textView dynamic height settings ==
     let size = CGSize(width: view.frame.width, height: .infinity)
     let estimatedSize = textView.sizeThatFits(size)
-
+    
     // update height constraints
     textView.snp.updateConstraints { make in
       make.height.equalTo(estimatedSize.height)
@@ -122,6 +122,9 @@ extension IntroductionViewController: UITextViewDelegate {
       textView.text = placeHolder
       textView.textColor = .deepGray
     }
+    
+    // == textView dynamic height settings ==
+    updateTextViewHeightAutomatically(textView)
   }
   
   func textViewDidBeginEditing(_ textView: UITextView) {
