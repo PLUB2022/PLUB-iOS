@@ -48,6 +48,8 @@ class ApplyQuestionViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .secondarySystemBackground
+    let alert = HomeAlert.shared
+    alert.showAlert(on: self)
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(didTappedBackButton))
     
     let tap = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:)))
