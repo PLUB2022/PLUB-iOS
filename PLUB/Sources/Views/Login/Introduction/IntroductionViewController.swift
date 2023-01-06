@@ -139,7 +139,8 @@ extension IntroductionViewController: UITextViewDelegate {
     }
     
     // == overline label settings ==
-    updateWrittenCharactersLabel(count: introductionTextView.text.count, pointColor: .black)
+    let color: UIColor =  introductionTextView.text.count == 0 ? .mediumGray : .black
+    updateWrittenCharactersLabel(count: introductionTextView.text.count, pointColor: color)
   }
 }
 
