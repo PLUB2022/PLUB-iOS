@@ -82,6 +82,17 @@ final class IntroductionViewController: BaseViewController {
     }
   }
   
+  private func updateTextViewHeightAutomatically(_ textView: UITextView) {
+    // == textView dynamic height settings ==
+    let size = CGSize(width: view.frame.width, height: .infinity)
+    let estimatedSize = textView.sizeThatFits(size)
+
+    // update height constraints
+    textView.snp.updateConstraints { make in
+      make.height.equalTo(estimatedSize.height)
+    }
+  }
+  
   // MARK: - First Responder
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -130,13 +141,7 @@ extension IntroductionViewController: UITextViewDelegate {
   
   func textViewDidChange(_ textView: UITextView) {
     // == textView dynamic height settings ==
-    let size = CGSize(width: view.frame.width, height: .infinity)
-    let estimatedSize = textView.sizeThatFits(size)
-
-    // update height constraints
-    textView.snp.updateConstraints { make in
-      make.height.equalTo(estimatedSize.height)
-    }
+    updateTextViewHeightAutomatically(textView)
     
     // == overline label settings ==
     let color: UIColor =  introductionTextView.text.count == 0 ? .mediumGray : .black
