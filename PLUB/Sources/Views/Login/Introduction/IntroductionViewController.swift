@@ -99,7 +99,7 @@ extension IntroductionViewController {
 extension IntroductionViewController: UITextViewDelegate {
   func textViewDidEndEditing(_ textView: UITextView) {
     // text가 비어있으면서 글자색이 검정인 경우 -> 사용자가 입력 후 다 지운 경우
-    if textView.text.isEmpty && textView.textColor == .black {
+    if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && textView.textColor == .black {
       textView.text = placeHolder
       textView.textColor = .deepGray
     }
