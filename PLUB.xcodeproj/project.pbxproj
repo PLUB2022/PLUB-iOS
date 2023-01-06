@@ -161,10 +161,11 @@
 		0A3E42DA28E734C100F62BF0 /* CommonClass */ = {
 			isa = PBXGroup;
 			children = (
-				0A3E42DB28E734E800F62BF0 /* Device.swift */,
-				0A81767E28F3105200C1E074 /* Preview.swift */,
 				BAE16028292221ED00D595FF /* CheckBoxButton.swift */,
+				0A3E42DB28E734E800F62BF0 /* Device.swift */,
+				BA876BA0296514DA0029CF34 /* PaddingTextField.swift */,
 				BA4DADB2295747E700C7ABD7 /* PageControl.swift */,
+				0A81767E28F3105200C1E074 /* Preview.swift */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -222,7 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */,
-				BA876BA0296514DA0029CF34 /* PaddingTextField.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
