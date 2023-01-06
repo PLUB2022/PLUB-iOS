@@ -11,8 +11,17 @@ final class PaddingTextField: UITextField {
   
   // MARK: - Property
   
-  var leftViewPadding: CGFloat = 0
-  var rightViewPadding: CGFloat = 0
+  var leftViewPadding: CGFloat = 0 {
+    didSet {
+      self.leftViewRect(forBounds: bounds)
+    }
+  }
+  
+  var rightViewPadding: CGFloat = 0 {
+    didSet {
+      self.rightViewRect(forBounds: bounds)
+    }
+  }
   
   override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
     var leftViewRect = super.leftViewRect(forBounds: bounds)
