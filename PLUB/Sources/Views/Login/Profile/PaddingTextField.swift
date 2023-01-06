@@ -23,12 +23,14 @@ final class PaddingTextField: UITextField {
     }
   }
   
+  @discardableResult
   override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
     var leftViewRect = super.leftViewRect(forBounds: bounds)
     leftViewRect.origin.x += leftViewPadding
     return leftViewRect
   }
 
+  @discardableResult
   override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
     var rightViewRect = super.rightViewRect(forBounds: bounds)
     rightViewRect.origin.x -= rightViewPadding
