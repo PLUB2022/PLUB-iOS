@@ -9,15 +9,20 @@ import UIKit
 
 final class PaddingTextField: UITextField {
   
+  // MARK: - Property
+  
+  var leftViewPadding: CGFloat = 0
+  var rightViewPadding: CGFloat = 0
+  
   override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
     var leftViewRect = super.leftViewRect(forBounds: bounds)
-    leftViewRect.origin.x += 8
+    leftViewRect.origin.x += leftViewPadding
     return leftViewRect
   }
 
   override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
     var rightViewRect = super.rightViewRect(forBounds: bounds)
-    rightViewRect.origin.x -= 8
+    rightViewRect.origin.x -= rightViewPadding
     return rightViewRect
   }
 }
