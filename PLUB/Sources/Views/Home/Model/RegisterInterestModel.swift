@@ -8,11 +8,13 @@
 import Foundation
 
 struct RegisterInterestModel {
-    let interestCollectionType: InterestCollectionType
+    let interestCollectionSectionType: InterestCollectionType
+    let interestDetailTypes: [InterestCollectionType]
     var isExpanded: Bool
     
-    init(interestCollectionType: InterestCollectionType, isExpanded: Bool = false) {
-        self.interestCollectionType = interestCollectionType
+    init(interestCollectionType: InterestCollectionType, interestDetailTypes: [InterestCollectionType], isExpanded: Bool = false) {
+        self.interestCollectionSectionType = interestCollectionType
+        self.interestDetailTypes = interestDetailTypes
         self.isExpanded = isExpanded
     }
 }

@@ -8,6 +8,11 @@
 import UIKit
 import Then
 import SnapKit
+import RxCocoa
+
+protocol RegisterInterestDetailTableViewCellDelegate: AnyObject {
+    func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell)
+}
 
 struct RegisterInterstDetailTableViewCellModel {
     let interestDetailTypes: [InterestCollectionType]
@@ -17,7 +22,17 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
     
     static let identifier = "RegisterInterestDetailTableViewCell"
     
+    public weak var delegate: RegisterInterestDetailTableViewCellDelegate?
+    
     private var registerInterstDetailTableViewCellModel: [InterestCollectionType] = []
+    
+    private let containerView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.white.cgColor
+        $0.layer.masksToBounds = true
+//        $0.layer.cornerRadius = 20
+    }
     
     private let interestTypeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
         $0.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
@@ -37,17 +52,29 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        containerView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
+    }
+    
     private func configureUI() {
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .secondarySystemBackground
+//        contentView.addShadow(cornerRadius: 8)
+        contentView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+            make.left.top.right.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-5)
+        }
         
-        contentView.addSubview(interestTypeCollectionView)
+        containerView.addSubview(interestTypeCollectionView)
         interestTypeCollectionView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
             make.height.equalTo(202)
         }
     }
     
-    public func configureUI(with model: RegisterInterstDetailTableViewCellModel) {
+    public func configureUI(with model: RegisterInterestModel) {
         self.registerInterstDetailTableViewCellModel = model.interestDetailTypes
     }
     
@@ -86,6 +113,14 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? InterestTypeCollectionViewCell else {
+            return
+        }
+        delegate?.didTappedInterestTypeCollectionViewCell(cell: cell)
+//        cell.isTapped.toggle()
     }
 }
 
