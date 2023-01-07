@@ -25,16 +25,7 @@ class ApplyQuestionViewController: BaseViewController {
   
   private let applyButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "지원하기")
-    // $0.isEnabled = false // 바꿔가면서 UI가 바뀌는 지 확인해보세요 :)
   }
-  
-//  private let applyButton = UIButton().then {
-//    $0.setTitle("지원하기", for: .normal)
-//    $0.setTitleColor(.deepGray, for: .normal)
-//    $0.backgroundColor = .lightGray
-//    $0.layer.cornerRadius = 10
-//    $0.layer.masksToBounds = true
-//  }
   
   init(viewModel: ApplyQuestionViewModelType) {
     self.viewModel = viewModel
@@ -48,8 +39,6 @@ class ApplyQuestionViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .secondarySystemBackground
-    let alert = HomeAlert.shared
-    alert.showAlert(on: self)
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(didTappedBackButton))
     
     let tap = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:)))
@@ -64,22 +53,21 @@ class ApplyQuestionViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    questionTableView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+    questionTableView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
     
-    applyButton.snp.makeConstraints { make in
-      make.left.right.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
-      make.bottom.equalToSuperview()
-      make.height.equalTo(46)
+    applyButton.snp.makeConstraints {
+      $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+      $0.bottom.equalToSuperview()
+      $0.height.equalTo(46)
     }
   }
   
   override func bind() {
     super.bind()
-    viewModel.allQuestion.drive(onNext: { [weak self] questions in
-      guard let `self` = self else { return }
-      self.models = questions
+    viewModel.allQuestion.asObservable().withUnretained(self).subscribe(onNext: { owner, questions in
+      owner.models = questions
     })
     .disposed(by: disposeBag)
     
@@ -157,5 +145,9 @@ extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
         questionTableView.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
       }
     }
+  }
+  
+  func textChangedIn(_ text: String) {
+    viewModel.isFillInQuestion.onNext(!text.isEmpty)
   }
 }

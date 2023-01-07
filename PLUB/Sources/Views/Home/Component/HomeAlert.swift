@@ -72,52 +72,48 @@ class HomeAlert {
     $0.font = .caption
   }
   
-//  private var myTargetView: UIView?
-  
   private init() {
     backButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
   }
   
   public func showAlert(on viewController: UIViewController) {
     guard let targetView = viewController.view else { return }
-//    myTargetView = targetView
     
     _ = [backgroundView, alertView].map { targetView.addSubview($0) }
     _ = [backButton, stackView].map { alertView.addSubview($0) }
     
     backgroundView.alpha = Constants.backgroundAlphaTo
-    backgroundView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+    backgroundView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
     
-    alertView.snp.makeConstraints { make in
-      make.center.equalToSuperview()
-      make.width.equalTo(296)
-      make.height.equalTo(448)
+    alertView.snp.makeConstraints {
+      $0.center.equalToSuperview()
+      $0.width.equalTo(296)
+      $0.height.equalTo(448)
     }
     
-    backButton.snp.makeConstraints { make in
-      make.width.height.equalTo(32)
-      make.top.right.equalToSuperview().inset(10)
+    backButton.snp.makeConstraints {
+      $0.width.height.equalTo(32)
+      $0.top.right.equalToSuperview().inset(10)
     }
     
-    stackView.snp.makeConstraints { make in
-      make.top.equalTo(backButton.snp.bottom)
-      make.left.right.bottom.equalToSuperview().inset(20)
+    stackView.snp.makeConstraints {
+      $0.top.equalTo(backButton.snp.bottom)
+      $0.left.right.bottom.equalToSuperview().inset(20)
     }
     
-    applyImageView.snp.makeConstraints { make in
-      make.width.height.equalTo(224)
+    applyImageView.snp.makeConstraints {
+      $0.width.height.equalTo(224)
     }
 
-    subLabel.snp.makeConstraints { make in
-      make.top.equalTo(mainLabel.snp.bottom)
-      make.height.equalTo(36)
+    subLabel.snp.makeConstraints {
+      $0.top.equalTo(mainLabel.snp.bottom)
+      $0.height.equalTo(36)
     }
   }
   
   @objc private func dismissAlert() {
-    print("tapped")
     UIView.animate(withDuration: 0.25) {
       self.backgroundView.alpha = 0
     } completion: { done in

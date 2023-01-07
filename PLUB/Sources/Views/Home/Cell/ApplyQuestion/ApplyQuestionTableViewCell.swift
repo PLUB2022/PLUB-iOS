@@ -18,6 +18,7 @@ struct ApplyQuestionTableViewCellModel {
 
 protocol ApplyQuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView)
+  func textChangedIn(_ text: String)
 }
 
 class ApplyQuestionTableViewCell: UITableViewCell {
@@ -56,7 +57,7 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   private let maxCountLabel = UILabel().then {
     $0.textColor = .deepGray
     $0.font = .systemFont(ofSize: 12)
-    $0.text = "/100"
+    $0.text = "/300"
     $0.sizeToFit()
   }
   
@@ -64,7 +65,9 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
     
-    questionTextView.rx.didBeginEditing.withUnretained(self).subscribe(onNext: { owner, _ in
+    questionTextView.rx.didBeginEditing
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
       if owner.questionTextView.text == "소개하는 내용을 적어주세요" {
         owner.questionTextView.text = nil
         owner.questionTextView.textColor = .black
@@ -72,7 +75,9 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     })
     .disposed(by: disposeBag)
     
-    questionTextView.rx.didEndEditing.withUnretained(self).subscribe(onNext: { owner, _ in
+    questionTextView.rx.didEndEditing
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
       if owner.questionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
         owner.questionTextView.textColor = .deepGray
         owner.questionTextView.text = "소개하는 내용을 적어주세요"
@@ -80,11 +85,15 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     })
     .disposed(by: disposeBag)
     
-    questionTextView.rx.text.orEmpty.withUnretained(self)
+    questionTextView.rx.text.orEmpty
+//      .take(while: { $0 != "소개하는 내용을 적어주세요" })
+      .do(onNext: { print("text = \($0)") })
+      .withUnretained(self)
       .subscribe(onNext: { owner, text in
         guard text != "소개하는 내용을 적어주세요" else { return }
         owner.countLabel.text = "\(text.count)"
         owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
+        owner.delegate?.textChangedIn(text)
       })
       .disposed(by: disposeBag)
     
@@ -138,7 +147,7 @@ extension ApplyQuestionTableViewCell: UITextViewDelegate {
     let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
     let numberOfChars = newText.count
     
-    if(numberOfChars > 100){
+    if(numberOfChars > 300){
       return false
     }
     return true
