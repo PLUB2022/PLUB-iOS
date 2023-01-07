@@ -38,15 +38,15 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
   
   private func configureUI() {
     _ = [mainLabel, subLabel].map { contentView.addSubview($0) }
-    mainLabel.snp.makeConstraints { make in
-      make.top.equalToSuperview()
-      make.left.right.equalToSuperview().inset(20)
-      make.height.equalTo(24)
+    mainLabel.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.left.right.equalToSuperview().inset(20)
+      $0.height.equalTo(24)
     }
     
-    subLabel.snp.makeConstraints { make in
-      make.top.equalTo(mainLabel.snp.bottom)
-      make.left.right.equalTo(mainLabel)
+    subLabel.snp.makeConstraints {
+      $0.top.equalTo(mainLabel.snp.bottom)
+      $0.left.right.equalTo(mainLabel)
     }
   }
   
