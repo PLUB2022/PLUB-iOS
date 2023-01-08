@@ -46,8 +46,6 @@ final class InputTextView: UIView {
     $0.textAlignment = .right
   }
   
-  var placeHolder: String
-  
   init(
     title: String,
     placeHolder: String,
@@ -56,7 +54,6 @@ final class InputTextView: UIView {
       questionOption: false
       )
   ) {
-    self.placeHolder = placeHolder
     super.init(frame: .zero)
     
     titleLabel.text = title
