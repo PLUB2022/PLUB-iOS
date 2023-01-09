@@ -12,7 +12,7 @@ import Then
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
   let title: String
   let description: String
-  let selectedCategoryInfoViewModel: SelectedCategoryInfoViewModel
+  let selectedCategoryInfoViewModel: CategoryInfoListViewModel
 }
 
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
@@ -36,7 +36,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   private let seperatorView = UIView()
   
-  private let selectedCategoryInfoView = SelectedCategoryInfoView(selectedCategoryInfoViewType: .horizontal)
+  private let selectedCategoryInfoView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
   
   override init(frame: CGRect) {
     super.init(frame: frame)

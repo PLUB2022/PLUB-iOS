@@ -29,7 +29,7 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   private let seperatorView = UIView()
   
-  private let selectedCategoryInfoView = SelectedCategoryInfoView(selectedCategoryInfoViewType: .vertical)
+  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .vertical)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -51,21 +51,21 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     titleLabel.text = nil
     descriptionLabel.text = nil
     seperatorView.backgroundColor = nil
-    selectedCategoryInfoView.backgroundColor = nil
+    categoryInfoListView.backgroundColor = nil
   }
   
   private func configureUI() {
     contentView.backgroundColor = .black
-    _ = [titleLabel, descriptionLabel, seperatorView, selectedCategoryInfoView].map{ contentView.addSubview($0) }
-    selectedCategoryInfoView.snp.makeConstraints {
+    _ = [titleLabel, descriptionLabel, seperatorView, categoryInfoListView].map{ contentView.addSubview($0) }
+    categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
       $0.right.bottom.equalToSuperview().offset(-10)
       $0.height.equalTo(100)
     }
     
     seperatorView.snp.makeConstraints {
-      $0.left.right.equalTo(selectedCategoryInfoView)
-      $0.bottom.equalTo(selectedCategoryInfoView.snp.top).offset(-10)
+      $0.left.right.equalTo(categoryInfoListView)
+      $0.bottom.equalTo(categoryInfoListView.snp.top).offset(-10)
     }
     
     descriptionLabel.snp.makeConstraints {
@@ -83,6 +83,6 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
     seperatorView.backgroundColor = .white
-    selectedCategoryInfoView.configureUI(with: model.selectedCategoryInfoViewModel)
+    categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
   }
 }

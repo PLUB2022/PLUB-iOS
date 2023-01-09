@@ -45,7 +45,7 @@ final class IntroduceCategoryViewController: BaseViewController {
     $0.text = "화수금 오후 1시"
   }
   
-  private let selectedCategoryInfoView = SelectedCategoryInfoView(selectedCategoryInfoViewType: .horizontal)
+  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
   
   private let meetingRecommendedLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 32)
@@ -92,7 +92,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    _ = [introduceTitleLabel, introduceTypeStackView, meetingTitleLabel, meetingDateLabel, selectedCategoryInfoView, meetingRecommendedLabel, meetingImageView, meetingIntroduceLabel, meetingDescriptionLabel].map { scrollView.addSubview($0) }
+    _ = [introduceTitleLabel, introduceTypeStackView, meetingTitleLabel, meetingDateLabel, categoryInfoListView, meetingRecommendedLabel, meetingImageView, meetingIntroduceLabel, meetingDescriptionLabel].map { scrollView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -123,14 +123,14 @@ final class IntroduceCategoryViewController: BaseViewController {
       $0.bottom.equalTo(meetingTitleLabel)
     }
     
-    selectedCategoryInfoView.snp.makeConstraints {
+    categoryInfoListView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.top.equalTo(meetingDateLabel.snp.bottom).offset(20)
     }
     
     meetingRecommendedLabel.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalTo(selectedCategoryInfoView).offset(20)
+      $0.top.equalTo(categoryInfoListView).offset(20)
     }
     
     meetingImageView.snp.makeConstraints {
@@ -154,8 +154,8 @@ final class IntroduceCategoryViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .systemBackground
-    selectedCategoryInfoView.configureUI(with: .init(date: "화, 수, 금", time: "오후 1시", peopleCount: 10))
-    selectedCategoryInfoView.backgroundColor = .black
+    categoryInfoListView.configureUI(with: .init(date: "화, 수, 금", time: "오후 1시", peopleCount: 10))
+    categoryInfoListView.backgroundColor = .black
     self.navigationController?.navigationBar.isHidden = false
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(didTappedBackButton))
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Component 1"), style: .plain, target: self, action: #selector(didTappedComponentButton))

@@ -7,19 +7,25 @@
 
 import UIKit
 
-struct SelectedCategoryInfoViewModel {
+struct CategoryInfoListViewModel {
   let date: String
   let time: String
   let peopleCount: Int
 }
 
-enum SelectedCategoryInfoViewType {
+enum CategoryInfoListViewType {
   case vertical
   case horizontal
 }
 
-class SelectedCategoryInfoView: UIView {
-  private let selectedCategoryInfoViewType: SelectedCategoryInfoViewType
+enum CategoryType {
+  case date
+  case time
+  case people
+}
+
+class CategoryInfoListView: UIView {
+  private let categoryInfoListViewType: CategoryInfoListViewType
   
   private lazy var categoryInfoStackView = UIStackView(arrangedSubviews: [dateStackView, timeStackView, peopleStackView]).then {
     $0.alignment = .leading
@@ -65,8 +71,8 @@ class SelectedCategoryInfoView: UIView {
     $0.sizeToFit()
   }
   
-  init(selectedCategoryInfoViewType: SelectedCategoryInfoViewType) {
-    self.selectedCategoryInfoViewType = selectedCategoryInfoViewType
+  init(categoryInfoListViewType: CategoryInfoListViewType) {
+    self.categoryInfoListViewType = categoryInfoListViewType
     super.init(frame: .zero)
     configureUI()
   }
@@ -87,7 +93,7 @@ class SelectedCategoryInfoView: UIView {
       $0.edges.equalToSuperview()
     }
     
-    switch selectedCategoryInfoViewType {
+    switch categoryInfoListViewType {
     case .vertical:
       categoryInfoStackView.axis = .vertical
     case .horizontal:
@@ -95,7 +101,7 @@ class SelectedCategoryInfoView: UIView {
     }
   }
   
-  public func configureUI(with model: SelectedCategoryInfoViewModel) {
+  public func configureUI(with model: CategoryInfoListViewModel) {
     dateLabel.text = model.date
     timeLabel.text = model.time
     peopleLabel.text = "참여인원 \(String(model.peopleCount))명"
