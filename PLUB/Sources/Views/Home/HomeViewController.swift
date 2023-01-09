@@ -68,17 +68,62 @@ final class HomeViewController: BaseViewController {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoImageView)
     }
+<<<<<<< HEAD
     
     override func bind() {
         super.bind()
         homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)
     }
+=======
+    return type(of: self).createCompositionalSection(homeCollectionType: HomeSectionType.allCases[sec])
+  }).then {
+    $0.backgroundColor = .background
+    $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
+    $0.register(RecommendedMeetingCollectionViewCell.self, forCellWithReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier)
+    $0.register(RecommendedMeetingHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecommendedMeetingHeaderView.identifier)
+    $0.register(HomeMainCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeMainCollectionHeaderView.identifier)
+  }
+  
+  // MARK: - Configuration
+  override func setupLayouts() {
+    super.setupLayouts()
+    view.addSubview(homeCollectionView)
+  }
+  
+  override func setupConstraints() {
+    super.setupConstraints()
+    homeCollectionView.snp.makeConstraints {
+      $0.edges.equalToSuperview().inset(16)
+    }
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    view.backgroundColor = .background
+    self.navigationController?.navigationBar.tintColor = .black
+    self.navigationController?.navigationBar.backgroundColor = .background
+    self.navigationItem.rightBarButtonItems = [
+      UIBarButtonItem(
+        image: UIImage(named: "BookMark"),
+        style: .done,
+        target: self,
+        action: #selector(didTappedSearchButton)
+      ),
+      UIBarButtonItem(
+        image: UIImage(named: "Union"),
+        style: .done,
+        target: self,
+        action: #selector(didTappedSearchButton)
+      )
+    ]
+>>>>>>> af543e5 ([REFACTOR] 홈 화면 앱 디자인에 맞춰 리팩토링)
     
     @objc private func didTappedSearchButton() { // dkdkdk
         print("search")
     }
     
+<<<<<<< HEAD
     private static func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
         switch homeCollectionType {
         case .Interest:
@@ -129,6 +174,78 @@ final class HomeViewController: BaseViewController {
             section.boundarySupplementaryItems = [header]
             return section
         }
+=======
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoImageView)
+  }
+  
+  override func bind() {
+    super.bind()
+    homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+    homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)
+  }
+  
+  @objc private func didTappedSearchButton() {
+    print("search")
+  }
+  
+  private static func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
+    switch homeCollectionType {
+    case .interest:
+      let item = NSCollectionLayoutItem(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .fractionalHeight(1)
+        )
+      )
+      
+      let group = NSCollectionLayoutGroup.horizontal(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(85)),
+        subitem: item,
+        count: 4
+      )
+      
+      let header = NSCollectionLayoutBoundarySupplementaryItem(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(120)
+        ),
+        elementKind: UICollectionView.elementKindSectionHeader,
+        alignment: .top
+      )
+      let section = NSCollectionLayoutSection(group: group)
+      section.orthogonalScrollingBehavior = .none
+      section.boundarySupplementaryItems = [header]
+      return section
+      
+    case .recommendedMeeting:
+      let item = NSCollectionLayoutItem(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(176)
+        )
+      )
+      let group = NSCollectionLayoutGroup.horizontal(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(150)
+        ),
+        subitem: item,
+        count: 1
+      )
+      let header = NSCollectionLayoutBoundarySupplementaryItem(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(120)
+        ),
+        elementKind: UICollectionView.elementKindSectionHeader,
+        alignment: .top
+      )
+      let section = NSCollectionLayoutSection(group: group)
+      section.boundarySupplementaryItems = [header]
+      return section
+>>>>>>> af543e5 ([REFACTOR] 홈 화면 앱 디자인에 맞춰 리팩토링)
     }
 }
 
@@ -165,6 +282,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return cell
         }
     }
+<<<<<<< HEAD
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch homeType {
@@ -182,6 +300,32 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         vc.navigationItem.largeTitleDisplayMode = .never
         self.navigationController?.pushViewController(vc, animated: true)
     }
+=======
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    if indexPath.section == 0 {
+      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeMainCollectionHeaderView.identifier, for: indexPath) as? HomeMainCollectionHeaderView ?? HomeMainCollectionHeaderView()
+      return header
+    }
+    else {
+      switch homeType {
+      case .selected:
+        return UICollectionReusableView()
+      case .nonSelected:
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecommendedMeetingHeaderView.identifier, for: indexPath) as? RecommendedMeetingHeaderView ?? RecommendedMeetingHeaderView()
+        return header
+      }
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel())
+    vc.title = InterestCollectionType.allCases[indexPath.row].title
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
+>>>>>>> af543e5 ([REFACTOR] 홈 화면 앱 디자인에 맞춰 리팩토링)
 }
 
 extension HomeViewController: RecommendedMeetingCollectionViewCellDelegate {
