@@ -16,16 +16,13 @@ class HomeCollectionViewCell: UICollectionViewCell {
   
   private let imageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.gray.cgColor
   }
   
   private let interestLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 12, weight: .bold)
+    $0.font = .caption
     $0.textColor = .black
     $0.textAlignment = .center
+    $0.sizeToFit()
   }
   
   override init(frame: CGRect) {
@@ -44,16 +41,17 @@ class HomeCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    contentView.backgroundColor = .background
     contentView.layer.masksToBounds = true
     _ = [imageView, interestLabel].map{ contentView.addSubview($0) }
     imageView.snp.makeConstraints {
       $0.top.left.right.equalToSuperview()
-      $0.height.equalTo(contentView.frame.width)
+      $0.height.equalTo(64)
     }
     
     interestLabel.snp.makeConstraints {
       $0.top.equalTo(imageView.snp.bottom)
-      $0.left.right.bottom.equalToSuperview()
+      $0.left.right.equalToSuperview()
     }
   }
   

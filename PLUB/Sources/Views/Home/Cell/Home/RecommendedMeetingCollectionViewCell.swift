@@ -21,7 +21,7 @@ class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
   private let registerInterestView = RegisterInterestView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 20
-    $0.backgroundColor = .secondarySystemBackground
+    $0.backgroundColor = .lightGray
     $0.isUserInteractionEnabled = true
   }
   
@@ -29,8 +29,8 @@ class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
     
     private let label = UILabel().then {
       $0.text = "관심사 등록 하기"
-      $0.textColor = .gray
-      $0.font = .systemFont(ofSize: 25, weight: .bold)
+      $0.textColor = .deepGray
+      $0.font = .h5
     }
     
     private let imageView = UIImageView().then {
@@ -38,11 +38,12 @@ class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
       let image = UIImage(systemName: "plus.circle", withConfiguration: config)
       $0.image = image
       $0.contentMode = .scaleAspectFill
-      $0.tintColor = .gray
+      $0.tintColor = .deepGray
     }
     
     override init(frame: CGRect) {
       super.init(frame: frame)
+      backgroundColor = .lightGray
       _ = [label, imageView].map{ addSubview($0) }
       label.snp.makeConstraints {
         $0.bottom.equalTo(self.snp.centerY).offset(-10)
@@ -72,6 +73,7 @@ class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     contentView.layer.masksToBounds = true
     contentView.layer.cornerRadius = 10
+    contentView.backgroundColor = .lightGray
     contentView.addSubview(registerInterestView)
     registerInterestView.snp.makeConstraints {
       $0.edges.equalToSuperview()

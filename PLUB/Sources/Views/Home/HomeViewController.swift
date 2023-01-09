@@ -23,10 +23,11 @@ final class HomeViewController: BaseViewController {
     }
     return type(of: self).createCompositionalSection(homeCollectionType: HomeSectionType.allCases[sec])
   }).then {
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .background
     $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
     $0.register(RecommendedMeetingCollectionViewCell.self, forCellWithReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier)
     $0.register(RecommendedMeetingHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecommendedMeetingHeaderView.identifier)
+    $0.register(HomeMainCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeMainCollectionHeaderView.identifier)
   }
   
   // MARK: - Configuration
@@ -38,14 +39,15 @@ final class HomeViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     homeCollectionView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.edges.equalToSuperview().inset(16)
     }
   }
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .systemBackground
+    view.backgroundColor = .background
     self.navigationController?.navigationBar.tintColor = .black
+    self.navigationController?.navigationBar.backgroundColor = .background
     self.navigationItem.rightBarButtonItems = [
       UIBarButtonItem(
         image: UIImage(named: "BookMark"),
@@ -88,25 +90,33 @@ final class HomeViewController: BaseViewController {
           heightDimension: .fractionalHeight(1)
         )
       )
-      item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 7, bottom: 1, trailing: 7)
       
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(120)),
+          heightDimension: .absolute(85)),
         subitem: item,
         count: 4
       )
-      group.interItemSpacing = NSCollectionLayoutSpacing.fixed(1)
+      
+      let header = NSCollectionLayoutBoundarySupplementaryItem(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(120)
+        ),
+        elementKind: UICollectionView.elementKindSectionHeader,
+        alignment: .top
+      )
       let section = NSCollectionLayoutSection(group: group)
       section.orthogonalScrollingBehavior = .none
+      section.boundarySupplementaryItems = [header]
       return section
       
     case .recommendedMeeting:
       let item = NSCollectionLayoutItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1)
+          heightDimension: .absolute(176)
         )
       )
       let group = NSCollectionLayoutGroup.horizontal(
@@ -120,7 +130,7 @@ final class HomeViewController: BaseViewController {
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(90)
+          heightDimension: .absolute(120)
         ),
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
@@ -167,12 +177,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    switch homeType {
-    case .selected:
-      return UICollectionReusableView()
-    case .nonSelected:
-      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecommendedMeetingHeaderView.identifier, for: indexPath) as? RecommendedMeetingHeaderView ?? RecommendedMeetingHeaderView()
+    if indexPath.section == 0 {
+      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeMainCollectionHeaderView.identifier, for: indexPath) as? HomeMainCollectionHeaderView ?? HomeMainCollectionHeaderView()
       return header
+    }
+    else {
+      switch homeType {
+      case .selected:
+        return UICollectionReusableView()
+      case .nonSelected:
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecommendedMeetingHeaderView.identifier, for: indexPath) as? RecommendedMeetingHeaderView ?? RecommendedMeetingHeaderView()
+        return header
+      }
     }
   }
   

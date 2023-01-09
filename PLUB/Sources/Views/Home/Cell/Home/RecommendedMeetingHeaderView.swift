@@ -14,15 +14,17 @@ class RecommendedMeetingHeaderView: UICollectionReusableView {
   static let identifier = "RecommendedMeetingHeaderView"
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 30, weight: .bold)
-    $0.text = "추천 모임"
+    $0.font = .h4
+    $0.text = "플럽이 추천하는 모임!"
     $0.textColor = .black
+    $0.sizeToFit()
   }
   
   private let descriptionLabel = UILabel().then {
     $0.text = "관심사 등록한 내용을 기반으로 모임을 추천해드려요!"
-    $0.textColor = .gray
-    $0.font = .systemFont(ofSize: 15, weight: .thin)
+    $0.textColor = .deepGray
+    $0.font = .caption
+    $0.sizeToFit()
   }
   
   private let settingButton = UIButton().then {
@@ -43,21 +45,21 @@ class RecommendedMeetingHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    backgroundColor = .background
     _ = [titleLabel, descriptionLabel, settingButton].map{ addSubview($0) }
+    descriptionLabel.snp.makeConstraints {
+      $0.left.bottom.equalToSuperview()
+      $0.top.equalTo(snp.centerY)
+    }
+    
     titleLabel.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.left.equalToSuperview().offset(7)
-      $0.bottom.equalTo(self.snp.centerY)
+      $0.left.equalToSuperview()
+      $0.bottom.equalTo(snp.centerY)
     }
     
     settingButton.snp.makeConstraints {
-      $0.top.bottom.equalTo(titleLabel)
-      $0.left.equalTo(titleLabel.snp.right)
-    }
-    
-    descriptionLabel.snp.makeConstraints {
-      $0.left.equalTo(titleLabel.snp.left)
-      $0.top.equalTo(titleLabel.snp.bottom)
+      $0.centerY.equalTo(titleLabel)
+      $0.right.equalToSuperview()
     }
   }
   
