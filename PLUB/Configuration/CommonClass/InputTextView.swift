@@ -54,21 +54,18 @@ final class InputTextView: UIView {
   init(
     title: String,
     placeHolder: String,
-    option: InputTextOption = InputTextOption(
-      textCount: false,
-      questionOption: false
-    ),
-    totalCharacterLimit: Int? = nil
+    options: InputViewOptions = [],
+    totalCharacterLimit: Int? = 150
   ) {
     self.placeHolder = placeHolder
-    self.totalCharacterLimit = totalCharacterLimit
+    self.totalCharacterLimit = options.contains(.questionMark) ? totalCharacterLimit : nil
     
     super.init(frame: .zero)
     
     titleLabel.text = title
     textView.text = placeHolder
-    setupLayouts(option: option)
-    setupConstraints(option: option)
+    setupLayouts(options: options)
+    setupConstraints(options: options)
     setupStyles()
     bind()
   }
@@ -77,13 +74,13 @@ final class InputTextView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func setupLayouts(option: InputTextOption) {
+  private func setupLayouts(options: InputViewOptions) {
     addSubview(stackView)
     
     let stackViewSubviews = [
       titleView,
       textView,
-      option.textCount ? countTextLabel : nil
+      options.contains(.textCount) ? countTextLabel : nil
     ].compactMap { $0 }
     
     stackViewSubviews.forEach {
@@ -92,7 +89,7 @@ final class InputTextView: UIView {
     
     let titleStackViewSubviews = [
       titleLabel,
-      option.questionOption ? questionButton : nil
+      options.contains(.questionMark) ? questionButton : nil
     ].compactMap { $0 }
     
     titleStackViewSubviews.forEach {
@@ -100,7 +97,7 @@ final class InputTextView: UIView {
     }
   }
   
-  private func setupConstraints(option: InputTextOption) {
+  private func setupConstraints(options: InputViewOptions) {
     stackView.snp.makeConstraints{
       $0.top.bottom.equalToSuperview()
       $0.leading.trailing.equalToSuperview().inset(16)
@@ -115,7 +112,7 @@ final class InputTextView: UIView {
       $0.leading.equalToSuperview()
     }
     
-    if option.questionOption {
+    if options.contains(.questionMark) {
       questionButton.snp.makeConstraints {
         $0.size.equalTo(12)
         $0.centerY.equalTo(titleLabel.snp.centerY)
@@ -127,7 +124,7 @@ final class InputTextView: UIView {
       $0.height.equalTo(46)
     }
     
-    if option.textCount {
+    if options.contains(.textCount) {
       countTextLabel.snp.makeConstraints {
         $0.height.equalTo(12)
       }
@@ -171,17 +168,17 @@ final class InputTextView: UIView {
         guard let self = self else { return }
         self.updateTextViewHeightAutomatically()
         
-        guard $0 != self.placeHolder,
+        guard $0 != self.placeHolder, // placeHolder
                 let text = $0 else { return }
         
         let color: UIColor = self.textView.text.count == 0 ? .mediumGray : .black
         self.updateWrittenCharactersLabel(count: self.textView.text.count, pointColor: color)
         
-        guard let maxTextCount = self.totalCharacterLimit else { return }
+        guard let maxTextCount = self.totalCharacterLimit else { return } // 글자수 무제한
         
         guard text.count > maxTextCount else { return }
         let index = text.index(text.startIndex, offsetBy: maxTextCount)
-        self.textView.text = String(text[..<index])
+        self.textView.text = String(text[..<index]) // 글자수 제한
       }
     ).disposed(by: disposeBag)
   }
@@ -222,7 +219,9 @@ extension InputTextView {
   }
 }
 
-struct InputTextOption {
-  let textCount: Bool // 글자수 세기
-  let questionOption: Bool // 물음표 버튼
+struct InputViewOptions: OptionSet {
+  let rawValue: UInt
+  
+  static let textCount = InputViewOptions(rawValue: 1 << 0) // 글자수 세기
+  static let questionMark = InputViewOptions(rawValue: 1 << 1) // 물음표 버튼
 }
