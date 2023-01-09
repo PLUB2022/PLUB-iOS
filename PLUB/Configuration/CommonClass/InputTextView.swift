@@ -30,9 +30,9 @@ final class InputTextView: UIView {
   let textView = UITextView().then {
     $0.textColor = .deepGray
     $0.textContainerInset = UIEdgeInsets(
-      top: 14,
+      top: 11,
       left: 8,
-      bottom: 14,
+      bottom: 11,
       right: 8
     )
     $0.font = .body2
