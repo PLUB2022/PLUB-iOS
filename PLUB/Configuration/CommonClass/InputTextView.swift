@@ -7,10 +7,15 @@
 
 import SnapKit
 import UIKit
+import RxSwift
 
 final class InputTextView: UIView {
   
   // MARK: - Property
+  private let disposeBag = DisposeBag()
+  
+  private let placeHolder: String
+  private let totalCharacterLimit: Int?
   
   private let stackView = UIStackView().then {
     $0.axis = .vertical
@@ -27,7 +32,7 @@ final class InputTextView: UIView {
     $0.setImage(UIImage(named: "questionButton"), for: .normal)
   }
   
-  let textView = UITextView().then {
+  private let textView = UITextView().then {
     $0.textColor = .deepGray
     $0.textContainerInset = UIEdgeInsets(
       top: 11,
@@ -41,7 +46,7 @@ final class InputTextView: UIView {
     $0.isScrollEnabled = false
   }
   
-  let countTextLabel = UILabel().then {
+  private let countTextLabel = UILabel().then {
     $0.font = .overLine
     $0.textAlignment = .right
   }
@@ -52,14 +57,20 @@ final class InputTextView: UIView {
     option: InputTextOption = InputTextOption(
       textCount: false,
       questionOption: false
-      )
+    ),
+    totalCharacterLimit: Int? = nil
   ) {
+    self.placeHolder = placeHolder
+    self.totalCharacterLimit = totalCharacterLimit
+    
     super.init(frame: .zero)
     
     titleLabel.text = title
     textView.text = placeHolder
     setupLayouts(option: option)
     setupConstraints(option: option)
+    setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -121,6 +132,92 @@ final class InputTextView: UIView {
         $0.height.equalTo(12)
       }
       stackView.setCustomSpacing(4, after: textView)
+    }
+  }
+  
+  private func setupStyles() {
+    updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
+  }
+  
+  private func bind(){
+    textView.rx.didBeginEditing
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        if(self.textView.text == self.placeHolder &&
+           self.textView.textColor == .deepGray){
+          self.textView.text = ""
+          self.textView.textColor = .black
+        }
+      }
+    ).disposed(by: disposeBag)
+    
+    textView.rx.didEndEditing
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        if self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+            self.textView.textColor == .black {
+          self.updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
+          self.textView.text = self.placeHolder
+          self.textView.textColor = .deepGray
+        }
+        
+        self.updateTextViewHeightAutomatically()
+      }
+    ).disposed(by: disposeBag)
+  
+    textView.rx.text
+      .asDriver()
+      .drive (onNext: { [weak self] in
+        guard let self = self else { return }
+        self.updateTextViewHeightAutomatically()
+        
+        guard $0 != self.placeHolder,
+                let text = $0 else { return }
+        
+        let color: UIColor = self.textView.text.count == 0 ? .mediumGray : .black
+        self.updateWrittenCharactersLabel(count: self.textView.text.count, pointColor: color)
+        
+        guard let maxTextCount = self.totalCharacterLimit else { return }
+        
+        guard text.count > maxTextCount else { return }
+        let index = text.index(text.startIndex, offsetBy: maxTextCount)
+        self.textView.text = String(text[..<index])
+      }
+    ).disposed(by: disposeBag)
+  }
+}
+
+// MARK: - Function
+
+extension InputTextView {
+  private func updateTextViewHeightAutomatically() {
+    let size = CGSize(
+      width: textView.frame.width,
+      height: .infinity
+    )
+    let estimatedSize = textView.sizeThatFits(size)
+    
+    textView.snp.updateConstraints {
+      $0.height.equalTo(estimatedSize.height)
+    }
+  }
+  
+  private func updateWrittenCharactersLabel(
+    count: Int,
+    pointColor: UIColor
+  ) {
+    let writtenCharacters = NSAttributedString(
+      string: "\(count)",
+      attributes: [.foregroundColor: pointColor]
+    )
+    
+    let totalCharacters = NSAttributedString(
+      string: "/\(totalCharacterLimit ?? 0)",
+      attributes: [.foregroundColor: UIColor.deepGray]
+    )
+    
+    countTextLabel.attributedText = NSMutableAttributedString(attributedString: writtenCharacters).then {
+      $0.append(totalCharacters)
     }
   }
 }
