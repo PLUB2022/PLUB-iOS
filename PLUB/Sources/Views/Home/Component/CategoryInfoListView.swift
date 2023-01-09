@@ -27,49 +27,13 @@ enum CategoryType {
 class CategoryInfoListView: UIView {
   private let categoryInfoListViewType: CategoryInfoListViewType
   
-  private lazy var categoryInfoStackView = UIStackView(arrangedSubviews: [dateStackView, timeStackView, peopleStackView]).then {
-    $0.alignment = .leading
-    $0.distribution = .equalSpacing
-  }
-  
-  private lazy var dateStackView = UIStackView(arrangedSubviews: [dateImageView, dateLabel])
-  
-  private lazy var timeStackView = UIStackView(arrangedSubviews: [timeImageView, timeLabel])
-  
-  private lazy var peopleStackView = UIStackView(arrangedSubviews: [peopleImageView, peopleLabel])
-  
-  private let dateImageView = UIImageView().then {
-    $0.image = UIImage(named: "Calendar")
-    $0.contentMode = .scaleAspectFit
-  }
-  
-  private let dateLabel = UILabel().then {
-    $0.textColor = .white
-    $0.font = .systemFont(ofSize: 13, weight: .regular)
+  private lazy var categoryInfoListStackView = UIStackView(arrangedSubviews: [dateInfoView, timeInfoView, peopleInfoView]).then {
     $0.sizeToFit()
   }
   
-  private let timeImageView = UIImageView().then {
-    $0.image = UIImage(named: "Time")
-    $0.contentMode = .scaleAspectFit
-  }
-  
-  private let timeLabel = UILabel().then {
-    $0.textColor = .white
-    $0.font = .systemFont(ofSize: 13, weight: .regular)
-    $0.sizeToFit()
-  }
-  
-  private let peopleImageView = UIImageView().then {
-    $0.image = UIImage(named: "People")
-    $0.contentMode = .scaleAspectFit
-  }
-  
-  private let peopleLabel = UILabel().then {
-    $0.textColor = .white
-    $0.font = .systemFont(ofSize: 13, weight: .regular)
-    $0.sizeToFit()
-  }
+  private let dateInfoView = CategoryInfoView(categoryType: .date)
+  private let timeInfoView = CategoryInfoView(categoryType: .time)
+  private let peopleInfoView = CategoryInfoView(categoryType: .people)
   
   init(categoryInfoListViewType: CategoryInfoListViewType) {
     self.categoryInfoListViewType = categoryInfoListViewType
@@ -82,28 +46,87 @@ class CategoryInfoListView: UIView {
   }
   
   private func configureUI() {
-    _ = [dateStackView, timeStackView, peopleStackView].map{
-      $0.spacing = 1
-      $0.distribution = .fillProportionally
-      $0.axis = .horizontal
-    }
-    
-    addSubview(categoryInfoStackView)
-    categoryInfoStackView.snp.makeConstraints {
+    addSubview(categoryInfoListStackView)
+    categoryInfoListStackView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
     
     switch categoryInfoListViewType {
     case .vertical:
-      categoryInfoStackView.axis = .vertical
+      categoryInfoListStackView.axis = .vertical
+      categoryInfoListStackView.alignment = .top
+      categoryInfoListStackView.spacing = 8
     case .horizontal:
-      categoryInfoStackView.axis = .horizontal
+      categoryInfoListStackView.axis = .horizontal
+      categoryInfoListStackView.spacing = 8
+      categoryInfoListStackView.alignment = .leading
     }
   }
   
   public func configureUI(with model: CategoryInfoListViewModel) {
-    dateLabel.text = model.date
-    timeLabel.text = model.time
-    peopleLabel.text = "참여인원 \(String(model.peopleCount))명"
+    dateInfoView.configureUI(with: model.date)
+    timeInfoView.configureUI(with: model.time)
+    peopleInfoView.configureUI(with: "\(model.peopleCount)")
+  }
+}
+
+class CategoryInfoView: UIView {
+  
+  private let categoryType: CategoryType
+  
+  private lazy var stackView = UIStackView(arrangedSubviews: [infoImageView, infoLabel]).then {
+    $0.spacing = 1
+    $0.distribution = .equalSpacing
+    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 5, bottom: .zero, right: 5)
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.axis = .horizontal
+  }
+  
+  private let infoImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
+  }
+  
+  private let infoLabel = UILabel().then {
+    $0.textColor = .white
+    $0.font = .overLine
+    $0.sizeToFit()
+  }
+  
+  init(categoryType: CategoryType) {
+    self.categoryType = categoryType
+    super.init(frame: .zero)
+    configureUI()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func configureUI() {
+    backgroundColor = .black
+    layer.masksToBounds = true
+    layer.cornerRadius = 4
+    switch categoryType {
+    case .date:
+      infoImageView.image = UIImage(named: "Calendar")
+    case .time:
+      infoImageView.image = UIImage(named: "Time")
+    case .people:
+      infoImageView.image = UIImage(named: "People")
+    }
+    addSubview(stackView)
+    stackView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+      $0.height.equalTo(18)
+    }
+  }
+  
+  public func configureUI(with model: String) {
+    switch categoryType {
+    case .people:
+      infoLabel.text = "참여인원 \(model)명"
+    default:
+      infoLabel.text = model
+    }
   }
 }

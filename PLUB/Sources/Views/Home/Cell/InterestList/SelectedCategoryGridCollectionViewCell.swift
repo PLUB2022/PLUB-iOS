@@ -40,12 +40,6 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    contentView.layer.cornerRadius = 10
-    contentView.layer.masksToBounds = true
-  }
-  
   override func prepareForReuse() {
     super.prepareForReuse()
     titleLabel.text = nil
@@ -55,12 +49,14 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .black
+    contentView.backgroundColor = .orange
+    contentView.layer.cornerRadius = 10
+    contentView.layer.masksToBounds = true
     _ = [titleLabel, descriptionLabel, seperatorView, categoryInfoListView].map{ contentView.addSubview($0) }
     categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
-      $0.right.bottom.equalToSuperview().offset(-10)
-      $0.height.equalTo(100)
+      $0.bottom.equalToSuperview().offset(-10)
+//      $0.height.equalTo(100)
     }
     
     seperatorView.snp.makeConstraints {
