@@ -66,6 +66,7 @@
 		BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */; };
 		BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */; };
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
+		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
 		C3AB7439296B1E36003DD5E2 /* CreateMeetingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB7438296B1E36003DD5E2 /* CreateMeetingListViewController.swift */; };
 		C3AB743D296B2181003DD5E2 /* SelectPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */; };
 		C3AB743F296B21C1003DD5E2 /* SelectTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */; };
@@ -129,6 +130,7 @@
 		BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyBodyTableViewCell.swift; sourceTree = "<group>"; };
 		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
+		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
 		C3AB7438296B1E36003DD5E2 /* CreateMeetingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingListViewController.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPeopleNumberViewController.swift; sourceTree = "<group>"; };
 		C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTimeViewController.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 			children = (
 				C3AB743B296B1EF4003DD5E2 /* List */,
 				C3AB7438296B1E36003DD5E2 /* CreateMeetingListViewController.swift */,
+				C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */,
 			);
 			path = CreateMeeting;
 			sourceTree = "<group>";
@@ -534,6 +537,7 @@
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
+				C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
 				70BD5F2E296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift in Sources */,
 				70197B812955A68C000503F6 /* SelectedCategoryInfoView.swift in Sources */,
