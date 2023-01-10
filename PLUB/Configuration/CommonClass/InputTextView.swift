@@ -139,47 +139,46 @@ final class InputTextView: UIView {
   
   private func bind() {
     textView.rx.didBeginEditing
-      .subscribe(onNext: { [weak self] in
-        guard let self = self else { return }
-        if self.textView.text == self.placeHolder &&
-           self.textView.textColor == .deepGray {
-          self.textView.text = ""
-          self.textView.textColor = .black
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        if owner.textView.text == owner.placeHolder &&
+           owner.textView.textColor == .deepGray {
+          owner.textView.text = ""
+          owner.textView.textColor = .black
         }
       })
       .disposed(by: disposeBag)
     
     textView.rx.didEndEditing
-      .subscribe(onNext: { [weak self] in
-        guard let self = self else { return }
-        if self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-          self.textView.textColor == .black {
-          self.updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
-          self.textView.text = self.placeHolder
-          self.textView.textColor = .deepGray
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        if owner.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+           owner.textView.textColor == .black {
+          owner.updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
+          owner.textView.text = owner.placeHolder
+          owner.textView.textColor = .deepGray
         }
         
-        self.updateTextViewHeightAutomatically()
+        owner.updateTextViewHeightAutomatically()
       })
       .disposed(by: disposeBag)
   
     textView.rx.text
-      .asDriver()
-      .drive(onNext: { [weak self] in
-        guard let self = self else { return }
-        self.updateTextViewHeightAutomatically()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, text in
+        owner.updateTextViewHeightAutomatically()
         
-        guard $0 != self.placeHolder, // placeHolder
-              let text = $0 else { return }
+        guard text != owner.placeHolder, // placeHolder
+              let text = text else { return }
         
-        let color: UIColor = self.textView.text.count == 0 ? .mediumGray : .black
-        self.updateWrittenCharactersLabel(count: self.textView.text.count, pointColor: color)
+        let color: UIColor = owner.textView.text.count == 0 ? .mediumGray : .black
+        owner.updateWrittenCharactersLabel(count: owner.textView.text.count, pointColor: color)
         
-        guard let maxTextCount = self.totalCharacterLimit else { return } // 글자수 무제한
+        guard let maxTextCount = owner.totalCharacterLimit else { return } // 글자수 무제한
         
         guard text.count > maxTextCount else { return }
         let index = text.index(text.startIndex, offsetBy: maxTextCount)
-        self.textView.text = String(text[..<index]) // 글자수 제한
+        owner.textView.text = String(text[..<index]) // 글자수 제한
       })
       .disposed(by: disposeBag)
   }
