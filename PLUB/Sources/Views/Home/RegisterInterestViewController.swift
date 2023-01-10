@@ -184,9 +184,3 @@ extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDel
   }
 }
 
-extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDelegate {
-    func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell) {
-        cell.isTapped.toggle()
-        cell.isTapped ? viewModel.selectDetailCell.onNext(()) : viewModel.deselectDetailCell.onNext(())
-    }
-}
