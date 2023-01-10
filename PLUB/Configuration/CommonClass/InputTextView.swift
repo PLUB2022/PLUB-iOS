@@ -5,9 +5,10 @@
 //  Created by 김수빈 on 2023/01/08.
 //
 
-import SnapKit
 import UIKit
 import RxSwift
+
+import SnapKit
 
 final class InputTextView: UIView {
   
@@ -136,12 +137,12 @@ final class InputTextView: UIView {
     updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
   }
   
-  private func bind(){
+  private func bind() {
     textView.rx.didBeginEditing
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        if(self.textView.text == self.placeHolder &&
-           self.textView.textColor == .deepGray){
+        if self.textView.text == self.placeHolder &&
+           self.textView.textColor == .deepGray {
           self.textView.text = ""
           self.textView.textColor = .black
         }
@@ -152,8 +153,8 @@ final class InputTextView: UIView {
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         if self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-            self.textView.textColor == .black {
-          self.updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
+          self.textView.textColor == .black {
+          updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
           self.textView.text = self.placeHolder
           self.textView.textColor = .deepGray
         }
@@ -164,12 +165,12 @@ final class InputTextView: UIView {
   
     textView.rx.text
       .asDriver()
-      .drive (onNext: { [weak self] in
+      .drive(onNext: { [weak self] in
         guard let self = self else { return }
         self.updateTextViewHeightAutomatically()
         
         guard $0 != self.placeHolder, // placeHolder
-                let text = $0 else { return }
+              let text = $0 else { return }
         
         let color: UIColor = self.textView.text.count == 0 ? .mediumGray : .black
         self.updateWrittenCharactersLabel(count: self.textView.text.count, pointColor: color)

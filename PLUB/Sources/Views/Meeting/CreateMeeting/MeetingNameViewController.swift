@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import RxSwift
+
 import SnapKit
-import Then
 
 final class MeetingNameViewController: BaseViewController {
   // MARK: - Property
