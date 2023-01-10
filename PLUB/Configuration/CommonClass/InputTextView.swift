@@ -146,22 +146,22 @@ final class InputTextView: UIView {
           self.textView.text = ""
           self.textView.textColor = .black
         }
-      }
-    ).disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
     
     textView.rx.didEndEditing
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         if self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
           self.textView.textColor == .black {
-          updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
+          self.updateWrittenCharactersLabel(count: 0, pointColor: .mediumGray)
           self.textView.text = self.placeHolder
           self.textView.textColor = .deepGray
         }
         
         self.updateTextViewHeightAutomatically()
-      }
-    ).disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
   
     textView.rx.text
       .asDriver()
@@ -180,8 +180,8 @@ final class InputTextView: UIView {
         guard text.count > maxTextCount else { return }
         let index = text.index(text.startIndex, offsetBy: maxTextCount)
         self.textView.text = String(text[..<index]) // 글자수 제한
-      }
-    ).disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
   }
 }
 
