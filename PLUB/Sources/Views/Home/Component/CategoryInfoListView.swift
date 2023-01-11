@@ -108,11 +108,11 @@ class CategoryInfoView: UIView {
     layer.cornerRadius = 4
     switch categoryType {
     case .date:
-      infoImageView.image = UIImage(named: "Calendar")
+      infoImageView.image = UIImage(named: "calendar")
     case .time:
-      infoImageView.image = UIImage(named: "Time")
+      infoImageView.image = UIImage(named: "time")
     case .people:
-      infoImageView.image = UIImage(named: "People")
+      infoImageView.image = UIImage(named: "people")
     }
     addSubview(stackView)
     stackView.snp.makeConstraints {

@@ -17,7 +17,7 @@ final class SelectedCategoryNavigationBar: UIView {
   public weak var delegate: SelectedCategoryNavigationBarDelegate?
   
   private let backButton = UIButton().then {
-    $0.setImage(UIImage(named: "Back"), for: .normal)
+    $0.setImage(UIImage(named: "back"), for: .normal)
   }
   
   private let titleLabel = UILabel().then {
@@ -27,7 +27,7 @@ final class SelectedCategoryNavigationBar: UIView {
   }
   
   private let searchButton = UIButton().then {
-    $0.setImage(UIImage(named: "Union"), for: .normal)
+    $0.setImage(UIImage(named: "search"), for: .normal)
   }
   
   override init(frame: CGRect) {

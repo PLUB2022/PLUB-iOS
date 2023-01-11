@@ -53,7 +53,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
   }
   
   private let indicatorButton = UIButton().then {
-    $0.setImage(UIImage(named: "Vector 2"), for: .normal)
+    $0.setImage(UIImage(named: "bottomIndicator"), for: .normal)
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -76,7 +76,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
   override func layoutSubviews() {
     super.layoutSubviews()
     containerView.roundCorners(corners: isExpanded ? [.topLeft, .topRight] : [.allCorners], radius: 20)
-    indicatorButton.setImage(isExpanded ? UIImage(named: "Vector 2-1") : UIImage(named: "Vector 2"), for: .normal)
+    indicatorButton.setImage(isExpanded ? UIImage(named: "topIndicator") : UIImage(named: "bottomIndicator"), for: .normal)
     if isExpanded {
       containerView.snp.updateConstraints {
         $0.edges.equalToSuperview()
@@ -97,7 +97,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
       $0.bottom.equalToSuperview().offset(-5)
     }
     
-    _ = [interestImageView, titleLabel, descriptionLabel, indicatorButton].map{ containerView.addSubview($0) }
+    [interestImageView, titleLabel, descriptionLabel, indicatorButton].forEach { containerView.addSubview($0) }
     interestImageView.snp.makeConstraints {
       $0.top.left.equalToSuperview().offset(5)
       $0.bottom.equalToSuperview().offset(-5)
@@ -127,7 +127,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
     isExpanded = model.isExpanded
-    indicatorButton.setImage(UIImage(named: "Vector 2"), for: .normal)
+    indicatorButton.setImage(UIImage(named: "bottomIndicator"), for: .normal)
   }
 }
 

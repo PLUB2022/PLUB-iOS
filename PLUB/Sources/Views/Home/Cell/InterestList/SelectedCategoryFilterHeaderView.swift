@@ -24,15 +24,15 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   }
   
   private let interestListFilterButton = UIButton().then {
-    $0.setImage(UIImage(named: "Filter"), for: .normal)
+    $0.setImage(UIImage(named: "filter"), for: .normal)
   }
   
   private let interestListChartButton = UIButton().then {
-    $0.setImage(UIImage(named: "Chart"), for: .normal)
+    $0.setImage(UIImage(named: "chart"), for: .normal)
   }
   
   private let interesetListGridButton = UIButton().then {
-    $0.setImage(UIImage(named: "Grid"), for: .normal)
+    $0.setImage(UIImage(named: "grid"), for: .normal)
   }
   
   override init(frame: CGRect) {

@@ -51,13 +51,13 @@ final class HomeViewController: BaseViewController {
     self.navigationController?.navigationBar.backgroundColor = .background
     self.navigationItem.rightBarButtonItems = [
       UIBarButtonItem(
-        image: UIImage(named: "BookMark"),
+        image: UIImage(named: "bookMark"),
         style: .done,
         target: self,
         action: #selector(didTappedSearchButton)
       ),
       UIBarButtonItem(
-        image: UIImage(named: "Union"),
+        image: UIImage(named: "search"),
         style: .done,
         target: self,
         action: #selector(didTappedSearchButton)
@@ -65,7 +65,7 @@ final class HomeViewController: BaseViewController {
     ]
     
     let logoImageView = UIImageView().then {
-      $0.image = UIImage(named: "Vector")
+      $0.image = UIImage(named: "plubIcon522x147")
       $0.contentMode = .scaleAspectFill
     }
     

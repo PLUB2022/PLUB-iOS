@@ -17,11 +17,11 @@ final class IntroduceCategoryNavigationBar: UIView {
   public weak var delegate: IntroduceCategoryNavigationBarDelegate?
   
   private let backButton = UIButton().then {
-    $0.setImage(UIImage(named: "Back"), for: .normal)
+    $0.setImage(UIImage(named: "back"), for: .normal)
   }
   
   private let componentButton = UIButton().then {
-    $0.setImage(UIImage(named: "Component 1"), for: .normal)
+    $0.setImage(UIImage(named: "checkBookmark"), for: .normal)
   }
   
   override init(frame: CGRect) {
