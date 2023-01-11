@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxSwift
+
 final class CreateMeetingViewController: BaseViewController {
   
   init(totalPage: Int) {
@@ -78,10 +80,8 @@ final class CreateMeetingViewController: BaseViewController {
     ]
   }
   
-  private var nextButton = UIButton().then {
-    $0.setTitle("Next", for: .normal)
-    $0.setTitleColor(.black, for: .normal)
-    $0.backgroundColor = .blue
+  private var nextButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
   
   let screenWidth = UIScreen.main.bounds.size.width
@@ -125,29 +125,30 @@ final class CreateMeetingViewController: BaseViewController {
     }
     
     nextButton.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-      $0.height.width.equalTo(50)
-      $0.centerX.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(26)
+      $0.height.width.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
     }
   }
   
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .systemBackground
-    nextButton.addTarget(self, action: #selector(didTappedNextButton), for: .touchUpInside)
     pushChildView(totalPage: totalPage)
   }
   
   override func bind() {
     super.bind()
+    nextButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        guard owner.totalPage + 1 < owner.viewControllers.count else { return }
+        owner.totalPage += 1
+        owner.currentPage = owner.totalPage
+      })
+      .disposed(by: disposeBag)
   }
-  
-  @objc private func didTappedNextButton() {
-    guard totalPage + 1 < viewControllers.count else { return }
-    totalPage += 1
-    currentPage = totalPage
-  }
-  
+
   private func pushChildView(totalPage: Int) {
     contentStackView.addArrangedSubview(containerViews[totalPage])
     containerViews[totalPage].addSubview(viewControllers[totalPage].view)
@@ -157,13 +158,13 @@ final class CreateMeetingViewController: BaseViewController {
     }
     
     viewControllers[totalPage].view.snp.makeConstraints {
-      $0.leading.trailing.top.bottom.equalToSuperview().inset(10)
+      $0.leading.trailing.top.bottom.equalToSuperview()
     }
     
     scrollToPage(page: totalPage)
   }
   
-  //TODO: 수빈 - 이전 뷰의 값이 다 채워지지 않을 경우, 다음 뷰 pop 로직 추가하기
+  //TODO: 수빈 - 이전 VC 값 수정 시, nextButton disable 될 때 다음 VC pop 로직 추가하기
   private func popChildView(totalPage: Int) {
     
   }
