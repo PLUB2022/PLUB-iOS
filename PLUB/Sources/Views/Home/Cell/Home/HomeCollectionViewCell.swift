@@ -37,12 +37,17 @@ class HomeCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+        interestLabel.text = nil
+    }
+    
     private func configureUI() {
         contentView.layer.masksToBounds = true
         _ = [imageView, interestLabel].map{ contentView.addSubview($0) }
         imageView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
-            print("width = \(contentView.frame.width)")
             make.height.equalTo(contentView.frame.width)
         }
         
@@ -54,7 +59,6 @@ class HomeCollectionViewCell: UICollectionViewCell {
     
     public func configureUI(with model: InterestCollectionType) {
         interestLabel.text = model.title
-        
         imageView.image = UIImage(named: model.imageNamed)
     }
 }
