@@ -12,7 +12,13 @@
 		0A81767F28F3105200C1E074 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A81767E28F3105200C1E074 /* Preview.swift */; };
 		70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B6D29535BAA000503F6 /* HomeViewModel.swift */; };
 		70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */; };
-		70197B722953698F000503F6 /* InterestListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B712953698F000503F6 /* InterestListViewController.swift */; };
+		70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B712953698F000503F6 /* SelectedCategoryViewController.swift */; };
+		70197B7429548904000503F6 /* SelectedCategoryNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7329548904000503F6 /* SelectedCategoryNavigationBar.swift */; };
+		70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7829549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift */; };
+		70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7A29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift */; };
+		70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */; };
+		70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */; };
+		70197B812955A68C000503F6 /* SelectedCategoryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B802955A68C000503F6 /* SelectedCategoryInfoView.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
@@ -24,6 +30,14 @@
 		7095A585292B566C002A52E6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7095A584292B566C002A52E6 /* Kingfisher */; };
 		7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* IndicatorButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
+		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
+		70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */; };
+		70BD5F2E296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2D296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift */; };
+		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
+		70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */; };
+		70BD5F35296491C8002CBA89 /* ApplyQuestionTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F34296491C8002CBA89 /* ApplyQuestionTableHeaderView.swift */; };
+		70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */; };
+		70BD5F3929684EAC002CBA89 /* HomeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3829684EAC002CBA89 /* HomeAlert.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA1BEDC3296454AB00C6BD41 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */; };
 		BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F228EDE10F00C20061 /* LoginViewController.swift */; };
@@ -67,7 +81,13 @@
 		0A81767E28F3105200C1E074 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		70197B6D29535BAA000503F6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestViewModel.swift; sourceTree = "<group>"; };
-		70197B712953698F000503F6 /* InterestListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestListViewController.swift; sourceTree = "<group>"; };
+		70197B712953698F000503F6 /* SelectedCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewController.swift; sourceTree = "<group>"; };
+		70197B7329548904000503F6 /* SelectedCategoryNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNavigationBar.swift; sourceTree = "<group>"; };
+		70197B7829549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryGridCollectionViewCell.swift; sourceTree = "<group>"; };
+		70197B7A29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryChartCollectionViewCell.swift; sourceTree = "<group>"; };
+		70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryFilterHeaderView.swift; sourceTree = "<group>"; };
+		70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewModel.swift; sourceTree = "<group>"; };
+		70197B802955A68C000503F6 /* SelectedCategoryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryInfoView.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -78,6 +98,14 @@
 		708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestHeaderView.swift; sourceTree = "<group>"; };
 		7095A589292E58F9002A52E6 /* IndicatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
+		70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryViewController.swift; sourceTree = "<group>"; };
+		70BD5F2D296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryNavigationBar.swift; sourceTree = "<group>"; };
+		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
+		70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionTableViewCell.swift; sourceTree = "<group>"; };
+		70BD5F34296491C8002CBA89 /* ApplyQuestionTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionTableHeaderView.swift; sourceTree = "<group>"; };
+		70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewModel.swift; sourceTree = "<group>"; };
+		70BD5F3829684EAC002CBA89 /* HomeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAlert.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BA42D1F228EDE10F00C20061 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -185,8 +213,41 @@
 			children = (
 				70197B6D29535BAA000503F6 /* HomeViewModel.swift */,
 				70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */,
+				70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */,
+				70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		70197B7529549A8A000503F6 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				7085678928EEB73F008047DC /* RecommendedMeetingHeaderView.swift */,
+				7085678728EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift */,
+				7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		70197B7629549AB0000503F6 /* RegisterInterest */ = {
+			isa = PBXGroup;
+			children = (
+				7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */,
+				7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */,
+				7085678D28EFC4FB008047DC /* RegisterInterestTableViewCell.swift */,
+				708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */,
+			);
+			path = RegisterInterest;
+			sourceTree = "<group>";
+		};
+		70197B7729549B0E000503F6 /* InterestList */ = {
+			isa = PBXGroup;
+			children = (
+				70197B7829549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift */,
+				70197B7A29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift */,
+				70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */,
+			);
+			path = InterestList;
 			sourceTree = "<group>";
 		};
 		704AC7932938E7EA008C3A88 /* Model */ = {
@@ -200,13 +261,10 @@
 		7085678428EE9A84008047DC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */,
-				7085678728EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift */,
-				7085678928EEB73F008047DC /* RecommendedMeetingHeaderView.swift */,
-				7085678D28EFC4FB008047DC /* RegisterInterestTableViewCell.swift */,
-				708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */,
-				7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */,
-				7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */,
+				70BD5F3129648DA5002CBA89 /* ApplyQuestion */,
+				70197B7729549B0E000503F6 /* InterestList */,
+				70197B7629549AB0000503F6 /* RegisterInterest */,
+				70197B7529549A8A000503F6 /* Home */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -215,6 +273,10 @@
 			isa = PBXGroup;
 			children = (
 				7095A589292E58F9002A52E6 /* IndicatorButton.swift */,
+				70197B7329548904000503F6 /* SelectedCategoryNavigationBar.swift */,
+				70197B802955A68C000503F6 /* SelectedCategoryInfoView.swift */,
+				70BD5F2D296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift */,
+				70BD5F3829684EAC002CBA89 /* HomeAlert.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -225,6 +287,23 @@
 				BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		70BD5F252959F706002CBA89 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				70BD5F262959F718002CBA89 /* UIView + extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		70BD5F3129648DA5002CBA89 /* ApplyQuestion */ = {
+			isa = PBXGroup;
+			children = (
+				70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */,
+				70BD5F34296491C8002CBA89 /* ApplyQuestionTableHeaderView.swift */,
+			);
+			path = ApplyQuestion;
 			sourceTree = "<group>";
 		};
 		BA36EED32954637F00D30169 /* Views */ = {
@@ -254,13 +333,16 @@
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				70BD5F252959F706002CBA89 /* Extension */,
 				70197B6C29535BA2000503F6 /* ViewModel */,
 				704AC7932938E7EA008C3A88 /* Model */,
 				7095A588292E58EE002A52E6 /* Component */,
 				7085678428EE9A84008047DC /* Cell */,
 				BA88125128E48A2F00BD832A /* HomeViewController.swift */,
 				7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */,
-				70197B712953698F000503F6 /* InterestListViewController.swift */,
+				70197B712953698F000503F6 /* SelectedCategoryViewController.swift */,
+				70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */,
+				70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -455,16 +537,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70BD5F35296491C8002CBA89 /* ApplyQuestionTableHeaderView.swift in Sources */,
+				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
 				70197B722953698F000503F6 /* InterestListViewController.swift in Sources */,
 				BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */,
+				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
+				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
+				70BD5F2E296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift in Sources */,
+				70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */,
+				70197B812955A68C000503F6 /* SelectedCategoryInfoView.swift in Sources */,
+				70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
+				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
 				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
+				70197B7429548904000503F6 /* SelectedCategoryNavigationBar.swift in Sources */,
+				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
+				70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */,
 				7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */,
 				BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */,
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
@@ -472,6 +566,7 @@
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
 				7085678A28EEB73F008047DC /* RecommendedMeetingHeaderView.swift in Sources */,
+				70BD5F3929684EAC002CBA89 /* HomeAlert.swift in Sources */,
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
 				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
@@ -479,6 +574,7 @@
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
+				70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */,
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BA1BEDC3296454AB00C6BD41 /* ProfileViewController.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
@@ -489,6 +585,7 @@
 				BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
+				70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
