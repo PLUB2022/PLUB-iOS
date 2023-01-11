@@ -12,7 +12,9 @@ import Then
 
 final class PageControl: UIControl {
   
-  // MARK: - Property
+  // MARK: - Properties
+  
+  // MARK: Private Properties
   
   /// dots를 갖고있는 스택뷰
   private let stackView: UIStackView = UIStackView().then {
@@ -40,6 +42,8 @@ final class PageControl: UIControl {
       startDotAnimations()
     }
   }
+  
+  // MARK: Public Properties
   
   /// 페이지 수, 해당 수 만큼 점으로 표시됩니다.
   ///
@@ -93,7 +97,6 @@ final class PageControl: UIControl {
       updateDotsStyles()
     }
   }
-  
   
   // MARK: - Initialization
   
