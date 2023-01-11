@@ -7,9 +7,9 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
-import RxSwift
 
 class ApplyQuestionViewController: BaseViewController {
   

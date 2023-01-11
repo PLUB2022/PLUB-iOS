@@ -7,9 +7,9 @@
 
 import UIKit
 
-import Then
-import SnapKit
 import Kingfisher
+import SnapKit
+import Then
 
 class HomeCollectionViewCell: UICollectionViewCell {
   

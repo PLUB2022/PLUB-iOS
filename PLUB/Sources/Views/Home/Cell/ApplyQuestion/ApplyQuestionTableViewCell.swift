@@ -7,10 +7,10 @@
 
 import UIKit
 
-import SnapKit
-import Then
 import RxSwift
 import RxCocoa
+import SnapKit
+import Then
 
 struct ApplyQuestionTableViewCellModel {
   let question: String

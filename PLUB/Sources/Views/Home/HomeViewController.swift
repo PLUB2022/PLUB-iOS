@@ -1,8 +1,8 @@
 import UIKit
 
-import Then
-import SnapKit
 import RxSwift
+import SnapKit
+import Then
 
 enum HomeType { // 사용자 관심사 선택 유무
   case selected

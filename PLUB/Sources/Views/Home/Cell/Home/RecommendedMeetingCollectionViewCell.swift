@@ -7,8 +7,8 @@
 
 import UIKit
 
-import Then
 import SnapKit
+import Then
 
 protocol RecommendedMeetingCollectionViewCellDelegate: AnyObject {
   func didTappedRegisterInterestView()
