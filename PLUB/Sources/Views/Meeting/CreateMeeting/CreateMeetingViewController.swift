@@ -124,7 +124,7 @@ final class CreateMeetingViewController: BaseViewController {
   }
   
   @objc private func didTappedNextButton() {
-    guard totalPage + 1 <= viewControllers.count else { return }
+    guard totalPage < viewControllers.count else { return }
     totalPage += 1
   }
   
