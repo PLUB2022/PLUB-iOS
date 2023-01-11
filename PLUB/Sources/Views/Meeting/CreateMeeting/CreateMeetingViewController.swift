@@ -18,6 +18,12 @@ final class CreateMeetingViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  var currentPage = Int() {
+    didSet {
+      pageControl.currentPage = currentPage
+    }
+  }
+  
   var totalPage = Int() {
     didSet {
       scrollView.contentSize.width = screenWidth * CGFloat(totalPage)
@@ -29,12 +35,18 @@ final class CreateMeetingViewController: BaseViewController {
     }
   }
   
+  private lazy var pageControl = PageControl().then {
+    $0.numberOfPages = viewControllers.count
+    $0.currentPage = 0
+  }
+  
   private lazy var scrollView = UIScrollView().then {
     $0.bounces = false
     $0.contentInsetAdjustmentBehavior = .never
     $0.isPagingEnabled = true
     $0.contentSize.width = screenWidth
     $0.showsHorizontalScrollIndicator = false
+    $0.delegate = self
   }
   
   private let contentStackView = UIStackView().then {
@@ -87,6 +99,7 @@ final class CreateMeetingViewController: BaseViewController {
     addChild(selectPeopleNumberViewController)
     addChild(selectTimeViewController)
     
+    view.addSubview(pageControl)
     view.addSubview(scrollView)
     view.addSubview(nextButton)
     
@@ -95,9 +108,15 @@ final class CreateMeetingViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
+    pageControl.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(36)
+      $0.leading.equalToSuperview().inset(16)
+      $0.height.equalTo(8)
+    }
+    
     scrollView.snp.makeConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.bottom.equalToSuperview()
+      $0.top.equalTo(pageControl.snp.bottom).offset(16)
+      $0.leading.trailing.bottom.equalToSuperview()
     }
     
     contentStackView.snp.makeConstraints {
@@ -124,8 +143,9 @@ final class CreateMeetingViewController: BaseViewController {
   }
   
   @objc private func didTappedNextButton() {
-    guard totalPage < viewControllers.count else { return }
+    guard totalPage + 1 < viewControllers.count else { return }
     totalPage += 1
+    currentPage = totalPage
   }
   
   private func pushChildView(totalPage: Int) {
@@ -143,6 +163,7 @@ final class CreateMeetingViewController: BaseViewController {
     scrollToPage(page: totalPage)
   }
   
+  //TODO: 수빈 - 이전 뷰의 값이 다 채워지지 않을 경우, 다음 뷰 pop 로직 추가하기
   private func popChildView(totalPage: Int) {
     
   }
@@ -153,3 +174,10 @@ final class CreateMeetingViewController: BaseViewController {
   }
 }
 
+extension CreateMeetingViewController: UIScrollViewDelegate {
+  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    let width = scrollView.frame.width
+    let page = Int(round(scrollView.contentOffset.x/width))
+    currentPage = page
+  }
+}
