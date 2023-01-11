@@ -8,23 +8,23 @@
 import UIKit
 
 class IndicatorButton: UIButton {
-    
-    override var isSelected: Bool {
-        didSet {
-            isSelected ? setImage(UIImage(named: "Vector 2-1"), for: .normal) : setImage(UIImage(named: "Vector 2"), for: .normal)
-        }
+  
+  override var isSelected: Bool {
+    didSet {
+      isSelected ? setImage(UIImage(named: "Vector 2-1"), for: .normal) : setImage(UIImage(named: "Vector 2"), for: .normal)
     }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureUI() {
-        setImage(UIImage(named: "Vector 2"), for: .normal)
-    }
+  }
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    configureUI()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func configureUI() {
+    setImage(UIImage(named: "Vector 2"), for: .normal)
+  }
 }
