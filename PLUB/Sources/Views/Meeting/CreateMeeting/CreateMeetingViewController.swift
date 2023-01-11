@@ -97,8 +97,9 @@ final class CreateMeetingViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    addChild(selectPeopleNumberViewController)
-    addChild(selectTimeViewController)
+    viewControllers.forEach {
+      addChild($0)
+    }
     
     view.addSubview(pageControl)
     view.addSubview(scrollView)
