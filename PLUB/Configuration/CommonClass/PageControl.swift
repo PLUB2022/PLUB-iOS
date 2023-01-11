@@ -98,6 +98,18 @@ final class PageControl: UIControl {
     }
   }
   
+  /// 현재 페이지에 적용할 `indicator의 가로 길이`
+  ///
+  /// 기본값은 `40`입니다.
+  /// page indicator dot은 화면에 표시되는 페이지에 사용됩니다.
+  var currentPageIndicatorWidth: Int = 40
+  
+  /// `page indicator`에 적용할 `indicator의 가로 길이`
+  ///
+  /// 기본값은 `10`입니다.
+  /// page indicator dot은 화면에 표시되지 않은 모든 페이지에 사용됩니다.
+  var pageIndicatorWidth: Int = 10
+  
   // MARK: - Initialization
   
   override init(frame: CGRect) {
