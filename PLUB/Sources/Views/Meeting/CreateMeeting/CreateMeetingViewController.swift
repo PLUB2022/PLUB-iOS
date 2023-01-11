@@ -9,8 +9,8 @@ import UIKit
 
 final class CreateMeetingViewController: BaseViewController {
   
-  init(currentPage: Int, totalPage: Int) {
-    self.currentPage = currentPage
+  init(totalPage: Int) {
+    self.totalPage = totalPage
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -18,15 +18,14 @@ final class CreateMeetingViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  var currentPage = Int() {
-    didSet {
-      
-    }
-  }
-  
   var totalPage = Int() {
     didSet {
-//      scrollView.contentSize.width = screenWidth * CGFloat(totalPage)
+      scrollView.contentSize.width = screenWidth * CGFloat(totalPage)
+      if oldValue < totalPage {
+        pushChildView(totalPage: totalPage)
+      }else {
+        popChildView(totalPage: totalPage)
+      }
     }
   }
   
@@ -92,10 +91,6 @@ final class CreateMeetingViewController: BaseViewController {
     view.addSubview(nextButton)
     
     scrollView.addSubview(contentStackView)
-    contentStackView.addArrangedSubview(containerViews[0])
-    
-    
-    containerViews[0].addSubview(viewControllers[0].view)
   }
   
   override func setupConstraints() {
@@ -110,14 +105,6 @@ final class CreateMeetingViewController: BaseViewController {
       $0.height.equalTo(scrollView.snp.height)
     }
     
-    containerViews[0].snp.makeConstraints {
-      $0.width.equalTo(screenWidth)
-    }
-    
-    viewControllers[0].view.snp.makeConstraints {
-      $0.leading.trailing.top.bottom.equalToSuperview().inset(10)
-    }
-    
     nextButton.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
       $0.height.width.equalTo(50)
@@ -129,6 +116,7 @@ final class CreateMeetingViewController: BaseViewController {
     super.setupStyles()
     view.backgroundColor = .systemBackground
     nextButton.addTarget(self, action: #selector(didTappedNextButton), for: .touchUpInside)
+    pushChildView(totalPage: totalPage)
   }
   
   override func bind() {
@@ -138,7 +126,9 @@ final class CreateMeetingViewController: BaseViewController {
   @objc private func didTappedNextButton() {
     guard totalPage + 1 <= viewControllers.count else { return }
     totalPage += 1
-    scrollView.contentSize.width = screenWidth * CGFloat(totalPage)
+  }
+  
+  private func pushChildView(totalPage: Int) {
     contentStackView.addArrangedSubview(containerViews[totalPage])
     containerViews[totalPage].addSubview(viewControllers[totalPage].view)
     
@@ -149,6 +139,17 @@ final class CreateMeetingViewController: BaseViewController {
     viewControllers[totalPage].view.snp.makeConstraints {
       $0.leading.trailing.top.bottom.equalToSuperview().inset(10)
     }
+    
+    scrollToPage(page: totalPage)
+  }
+  
+  private func popChildView(totalPage: Int) {
+    
+  }
+  
+  private func scrollToPage(page: Int) {
+    let offset: CGPoint = CGPoint(x: screenWidth * CGFloat(page), y: 0)
+    scrollView.setContentOffset(offset, animated: true)
   }
 }
 
