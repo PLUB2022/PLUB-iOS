@@ -6,59 +6,52 @@
 //
 
 import UIKit
-import Then
-import SnapKit
+
 import Kingfisher
+import SnapKit
+import Then
 
 class HomeCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "HomeCollectionViewCell"
-    
-    private let imageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-        $0.layer.masksToBounds = true
-        $0.layer.cornerRadius = 10
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.gray.cgColor
+  
+  static let identifier = "HomeCollectionViewCell"
+  
+  private let imageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
+  }
+  
+  private let interestLabel = UILabel().then {
+    $0.font = .caption
+    $0.textColor = .black
+    $0.textAlignment = .center
+    $0.sizeToFit()
+  }
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    configureUI()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    imageView.image = nil
+    interestLabel.text = nil
+  }
+  
+  private func configureUI() {
+    contentView.backgroundColor = .background
+    contentView.layer.masksToBounds = true
+    [imageView, interestLabel].forEach { contentView.addSubview($0) }
+    imageView.snp.makeConstraints {
+      $0.top.left.right.equalToSuperview()
+      $0.height.equalTo(64)
     }
     
-    private let interestLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 12, weight: .bold)
-        $0.textColor = .black
-        $0.textAlignment = .center
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = nil
-        interestLabel.text = nil
-    }
-    
-    private func configureUI() {
-        contentView.layer.masksToBounds = true
-        _ = [imageView, interestLabel].map{ contentView.addSubview($0) }
-        imageView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
-            make.height.equalTo(contentView.frame.width)
-        }
-        
-        interestLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom)
-            make.left.right.bottom.equalToSuperview()
-        }
-    }
-    
-    public func configureUI(with model: InterestCollectionType) {
-        interestLabel.text = model.title
-        imageView.image = UIImage(named: model.imageNamed)
+    interestLabel.snp.makeConstraints {
+      $0.top.equalTo(imageView.snp.bottom)
+      $0.left.right.equalToSuperview()
     }
 }

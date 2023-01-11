@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RxCocoa
 
 protocol SelectedCategoryNavigationBarDelegate: AnyObject {
   func didTappedBackButton()
@@ -18,17 +17,18 @@ final class SelectedCategoryNavigationBar: UIView {
   public weak var delegate: SelectedCategoryNavigationBarDelegate?
   
   private let backButton = UIButton().then {
-    $0.setImage(UIImage(named: "Back"), for: .normal)
+    $0.setImage(UIImage(named: "back"), for: .normal)
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 30, weight: .bold)
+    $0.font = .h4
+    $0.textColor = .black
     $0.textAlignment = .left
     $0.numberOfLines = 0
   }
   
   private let searchButton = UIButton().then {
-    $0.setImage(UIImage(named: "Union"), for: .normal)
+    $0.setImage(UIImage(named: "search"), for: .normal)
   }
   
   override init(frame: CGRect) {
@@ -45,7 +45,7 @@ final class SelectedCategoryNavigationBar: UIView {
     backButton.addTarget(self, action: #selector(didTappedBackButton), for: .touchUpInside)
     searchButton.addTarget(self, action: #selector(didTappedSearchButton), for: .touchUpInside)
     
-    _ = [backButton, titleLabel, searchButton].map{ addSubview($0) }
+    [backButton, titleLabel, searchButton].forEach { addSubview($0) }
     backButton.snp.makeConstraints {
       $0.left.centerY.equalToSuperview()
     }

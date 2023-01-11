@@ -6,20 +6,21 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
   let title: String
   let description: String
-  let selectedCategoryInfoViewModel: SelectedCategoryInfoViewModel
+  let selectedCategoryInfoViewModel: CategoryInfoListViewModel
 }
 
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   static let identifier = "SelectedCategoryChartCollectionViewCell"
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 25, weight: .bold)
+    $0.font = .h5
     $0.numberOfLines = 0
     $0.lineBreakMode = .byTruncatingTail
     $0.textColor = .white
@@ -27,7 +28,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   private let descriptionLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 15, weight: .regular)
+    $0.font = .overLine
     $0.numberOfLines = 1
     $0.lineBreakMode = .byTruncatingTail
     $0.textColor = .white
@@ -36,7 +37,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   private let seperatorView = UIView()
   
-  private let selectedCategoryInfoView = SelectedCategoryInfoView(selectedCategoryInfoViewType: .horizontal)
+  private let selectedCategoryInfoView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -45,12 +46,6 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    contentView.layer.cornerRadius = 10
-    contentView.layer.masksToBounds = true
   }
   
   override func prepareForReuse() {
@@ -62,8 +57,10 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .black
-    _ = [titleLabel, descriptionLabel, seperatorView, selectedCategoryInfoView].map{ contentView.addSubview($0) }
+    contentView.backgroundColor = .orange
+    contentView.layer.cornerRadius = 10
+    contentView.layer.masksToBounds = true
+    [titleLabel, descriptionLabel, seperatorView, selectedCategoryInfoView].forEach { contentView.addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.left.equalToSuperview().offset(20)
       $0.right.equalToSuperview().offset(-20)
@@ -71,7 +68,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     
     selectedCategoryInfoView.snp.makeConstraints {
       $0.bottom.equalToSuperview().offset(-20)
-      $0.left.right.equalTo(titleLabel)
+      $0.left.equalTo(titleLabel)
       $0.height.equalTo(20)
     }
     

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -21,7 +22,8 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
   
   private let subLabel = UILabel().then {
     $0.numberOfLines = 0
-    $0.font = .init(name: "Pretendard-Regular", size: 14)
+    $0.font = .body2
+    $0.textColor = .deepGray
     $0.textAlignment = .left
     $0.sizeToFit()
     //        $0.isHidden = true
@@ -37,16 +39,16 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
   }
   
   private func configureUI() {
-    _ = [mainLabel, subLabel].map { contentView.addSubview($0) }
-    mainLabel.snp.makeConstraints { make in
-      make.top.equalToSuperview()
-      make.left.right.equalToSuperview().inset(20)
-      make.height.equalTo(24)
+    [mainLabel, subLabel].forEach { contentView.addSubview($0) }
+    mainLabel.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.left.right.equalToSuperview().inset(20)
+      $0.height.equalTo(24)
     }
     
-    subLabel.snp.makeConstraints { make in
-      make.top.equalTo(mainLabel.snp.bottom)
-      make.left.right.equalTo(mainLabel)
+    subLabel.snp.makeConstraints {
+      $0.top.equalTo(mainLabel.snp.bottom)
+      $0.left.right.equalTo(mainLabel)
     }
   }
   

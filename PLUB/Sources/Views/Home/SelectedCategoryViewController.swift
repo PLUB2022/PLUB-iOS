@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -56,7 +57,7 @@ class SelectedCategoryViewController: BaseViewController {
   }
   
   override func setupLayouts() {
-    _ = [interestListNavigationBar, interestListCollectionView].map{ view.addSubview($0) }
+    [interestListNavigationBar, interestListCollectionView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -73,9 +74,9 @@ class SelectedCategoryViewController: BaseViewController {
   
   override func bind() {
     viewModel.createSelectedCategoryChartCollectionViewCellModels()
-      .subscribe(onNext: { [weak self] selectedCategoryChartCollectionViewCellModels in
-        guard let `self` = self else { return }
-        self.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
+      .withUnretained(self)
+      .subscribe(onNext: { owner, selectedCategoryChartCollectionViewCellModels in
+        owner.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
       })
       .disposed(by: disposeBag)
   }

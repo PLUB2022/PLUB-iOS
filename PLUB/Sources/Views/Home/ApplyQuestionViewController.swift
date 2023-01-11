@@ -6,9 +6,10 @@
 //
 
 import UIKit
+
+import RxSwift
 import SnapKit
 import Then
-import RxSwift
 
 class ApplyQuestionViewController: BaseViewController {
   
@@ -39,7 +40,7 @@ class ApplyQuestionViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .secondarySystemBackground
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(didTappedBackButton))
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
     
     let tap = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:)))
     view.isUserInteractionEnabled = true
@@ -48,7 +49,7 @@ class ApplyQuestionViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [questionTableView, applyButton].map { view.addSubview($0) }
+    [questionTableView, applyButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -66,7 +67,9 @@ class ApplyQuestionViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.allQuestion.asObservable().withUnretained(self).subscribe(onNext: { owner, questions in
+    viewModel.allQuestion.asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, questions in
       owner.models = questions
     })
     .disposed(by: disposeBag)

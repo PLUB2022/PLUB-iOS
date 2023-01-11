@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RxCocoa
 
 protocol IntroduceCategoryNavigationBarDelegate: AnyObject {
   func didTappedBackButton()
@@ -18,11 +17,11 @@ final class IntroduceCategoryNavigationBar: UIView {
   public weak var delegate: IntroduceCategoryNavigationBarDelegate?
   
   private let backButton = UIButton().then {
-    $0.setImage(UIImage(named: "Back"), for: .normal)
+    $0.setImage(UIImage(named: "back"), for: .normal)
   }
   
   private let componentButton = UIButton().then {
-    $0.setImage(UIImage(named: "Component 1"), for: .normal)
+    $0.setImage(UIImage(named: "checkBookmark"), for: .normal)
   }
   
   override init(frame: CGRect) {
@@ -39,7 +38,7 @@ final class IntroduceCategoryNavigationBar: UIView {
     backButton.addTarget(self, action: #selector(didTappedBackButton), for: .touchUpInside)
     componentButton.addTarget(self, action: #selector(didTappedComponentButton), for: .touchUpInside)
     
-    _ = [backButton, componentButton].map{ addSubview($0) }
+    [backButton, componentButton].forEach { addSubview($0) }
     backButton.snp.makeConstraints {
       $0.left.centerY.equalToSuperview()
     }

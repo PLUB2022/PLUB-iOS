@@ -6,9 +6,9 @@
 //
 
 import UIKit
-import Then
+
 import SnapKit
-import RxCocoa
+import Then
 
 protocol RegisterInterestDetailTableViewCellDelegate: AnyObject {
     func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell)

@@ -20,19 +20,20 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   
   private let interestListFilterLabel = UILabel().then {
     $0.text = "전체"
-    $0.font = .systemFont(ofSize: 20, weight: .bold)
+    $0.font = .body1
+    $0.textColor = .black
   }
   
   private let interestListFilterButton = UIButton().then {
-    $0.setImage(UIImage(named: "Filter"), for: .normal)
+    $0.setImage(UIImage(named: "filter"), for: .normal)
   }
   
   private let interestListChartButton = UIButton().then {
-    $0.setImage(UIImage(named: "Chart"), for: .normal)
+    $0.setImage(UIImage(named: "chart"), for: .normal)
   }
   
   private let interesetListGridButton = UIButton().then {
-    $0.setImage(UIImage(named: "Grid"), for: .normal)
+    $0.setImage(UIImage(named: "grid"), for: .normal)
   }
   
   override init(frame: CGRect) {
@@ -49,7 +50,7 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
     interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
     
-    _ = [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton].map{ addSubview($0) }
+    [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton].forEach { addSubview($0) }
     interestListFilterLabel.snp.makeConstraints {
       $0.centerY.left.equalToSuperview()
     }

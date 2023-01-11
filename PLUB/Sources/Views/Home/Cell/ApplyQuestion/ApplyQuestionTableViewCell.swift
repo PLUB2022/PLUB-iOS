@@ -6,10 +6,11 @@
 //
 
 import UIKit
-import SnapKit
-import Then
+
 import RxSwift
 import RxCocoa
+import SnapKit
+import Then
 
 struct ApplyQuestionTableViewCellModel {
   let question: String
@@ -49,14 +50,14 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   
   private let countLabel = UILabel().then {
     $0.textColor = .mediumGray
-    $0.font = .systemFont(ofSize: 12)
+    $0.font = .overLine
     $0.text = "0"
     $0.sizeToFit()
   }
   
   private let maxCountLabel = UILabel().then {
     $0.textColor = .deepGray
-    $0.font = .systemFont(ofSize: 12)
+    $0.font = .overLine
     $0.text = "/300"
     $0.sizeToFit()
   }
@@ -86,11 +87,10 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     .disposed(by: disposeBag)
     
     questionTextView.rx.text.orEmpty
-//      .take(while: { $0 != "소개하는 내용을 적어주세요" })
+      .filter { $0 != "소개하는 내용을 적어주세요" }
       .do(onNext: { print("text = \($0)") })
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
-        guard text != "소개하는 내용을 적어주세요" else { return }
         owner.countLabel.text = "\(text.count)"
         owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
         owner.delegate?.textChangedIn(text)
@@ -107,32 +107,32 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   private func configureUI() {
     contentView.backgroundColor = .secondarySystemBackground
     contentView.addSubview(containerView)
-    _ = [questionLabel, questionTextView, countLabel, maxCountLabel].map { containerView.addSubview($0) }
+    [questionLabel, questionTextView, countLabel, maxCountLabel].forEach { containerView.addSubview($0) }
     
-    containerView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+    containerView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
     
-    questionLabel.snp.makeConstraints { make in
-      make.top.equalToSuperview()
-      make.left.right.equalToSuperview().inset(20)
-      make.height.equalTo(19)
+    questionLabel.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.left.right.equalToSuperview().inset(20)
+      $0.height.equalTo(19)
     }
     
-    questionTextView.snp.makeConstraints { make in
-      make.top.equalTo(questionLabel.snp.bottom)
-      make.left.right.equalTo(questionLabel)
-      make.bottom.equalTo(containerView).offset(-50)
+    questionTextView.snp.makeConstraints {
+      $0.top.equalTo(questionLabel.snp.bottom)
+      $0.left.right.equalTo(questionLabel)
+      $0.bottom.equalTo(containerView).offset(-50)
     }
     
-    maxCountLabel.snp.makeConstraints { make in
-      make.right.equalTo(questionTextView)
-      make.top.equalTo(questionTextView.snp.bottom)
+    maxCountLabel.snp.makeConstraints {
+      $0.right.equalTo(questionTextView)
+      $0.top.equalTo(questionTextView.snp.bottom)
     }
     
-    countLabel.snp.makeConstraints { make in
-      make.centerY.equalTo(maxCountLabel)
-      make.right.equalTo(maxCountLabel.snp.left)
+    countLabel.snp.makeConstraints {
+      $0.centerY.equalTo(maxCountLabel)
+      $0.right.equalTo(maxCountLabel.snp.left)
     }
   }
   
