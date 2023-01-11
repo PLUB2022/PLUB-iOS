@@ -11,7 +11,8 @@ import RxSwift
 
 final class CreateMeetingViewController: BaseViewController {
   
-  init(totalPage: Int) {
+  init(currentPage: Int, totalPage: Int) {
+    self.currentPage = currentPage
     self.totalPage = totalPage
     super.init(nibName: nil, bundle: nil)
   }
@@ -20,13 +21,13 @@ final class CreateMeetingViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  var currentPage = Int() {
+  private var currentPage = Int() {
     didSet {
       pageControl.currentPage = currentPage
     }
   }
   
-  var totalPage = Int() {
+  private var totalPage = Int() {
     didSet {
       scrollView.contentSize.width = screenWidth * CGFloat(totalPage)
       if oldValue < totalPage {
