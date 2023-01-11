@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import RxSwift
 
+import RxSwift
 import SnapKit
 
 final class InputTextView: UIView {
