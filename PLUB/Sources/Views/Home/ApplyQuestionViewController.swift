@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 import RxSwift
@@ -48,7 +49,7 @@ class ApplyQuestionViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [questionTableView, applyButton].map { view.addSubview($0) }
+    [questionTableView, applyButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -66,7 +67,9 @@ class ApplyQuestionViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.allQuestion.asObservable().withUnretained(self).subscribe(onNext: { owner, questions in
+    viewModel.allQuestion.asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, questions in
       owner.models = questions
     })
     .disposed(by: disposeBag)

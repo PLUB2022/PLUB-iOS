@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RxCocoa
 
 protocol IntroduceCategoryNavigationBarDelegate: AnyObject {
   func didTappedBackButton()
@@ -39,7 +38,7 @@ final class IntroduceCategoryNavigationBar: UIView {
     backButton.addTarget(self, action: #selector(didTappedBackButton), for: .touchUpInside)
     componentButton.addTarget(self, action: #selector(didTappedComponentButton), for: .touchUpInside)
     
-    _ = [backButton, componentButton].map{ addSubview($0) }
+    [backButton, componentButton].forEach { addSubview($0) }
     backButton.snp.makeConstraints {
       $0.left.centerY.equalToSuperview()
     }

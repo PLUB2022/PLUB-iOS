@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -46,7 +47,7 @@ class RecommendedMeetingHeaderView: UICollectionReusableView {
   
   private func configureUI() {
     backgroundColor = .background
-    _ = [titleLabel, descriptionLabel, settingButton].map{ addSubview($0) }
+    [titleLabel, descriptionLabel, settingButton].forEach { addSubview($0) }
     descriptionLabel.snp.makeConstraints {
       $0.left.bottom.equalToSuperview()
       $0.top.equalTo(snp.centerY)

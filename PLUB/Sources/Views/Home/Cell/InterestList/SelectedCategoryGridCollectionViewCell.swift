@@ -52,7 +52,7 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
-    _ = [titleLabel, descriptionLabel, seperatorView, categoryInfoListView].map{ contentView.addSubview($0) }
+    [titleLabel, descriptionLabel, seperatorView, categoryInfoListView].forEach { contentView.addSubview($0) }
     categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
       $0.bottom.equalToSuperview().offset(-10)

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import Then
 import SnapKit
 
@@ -92,7 +93,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    _ = [introduceTitleLabel, introduceTypeStackView, meetingTitleLabel, meetingDateLabel, categoryInfoListView, meetingRecommendedLabel, meetingImageView, meetingIntroduceLabel, meetingDescriptionLabel].map { scrollView.addSubview($0) }
+    [introduceTitleLabel, introduceTypeStackView, meetingTitleLabel, meetingDateLabel, categoryInfoListView, meetingRecommendedLabel, meetingImageView, meetingIntroduceLabel, meetingDescriptionLabel].forEach { scrollView.addSubview($0) }
   }
   
   override func setupConstraints() {

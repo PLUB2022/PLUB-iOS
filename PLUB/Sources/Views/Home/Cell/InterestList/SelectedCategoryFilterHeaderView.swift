@@ -49,7 +49,7 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
     interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
     
-    _ = [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton].map{ addSubview($0) }
+    [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton].forEach { addSubview($0) }
     interestListFilterLabel.snp.makeConstraints {
       $0.centerY.left.equalToSuperview()
     }

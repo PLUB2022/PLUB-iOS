@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 import RxSwift
@@ -106,7 +107,7 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   private func configureUI() {
     contentView.backgroundColor = .secondarySystemBackground
     contentView.addSubview(containerView)
-    _ = [questionLabel, questionTextView, countLabel, maxCountLabel].map { containerView.addSubview($0) }
+    [questionLabel, questionTextView, countLabel, maxCountLabel].forEach { containerView.addSubview($0) }
     
     containerView.snp.makeConstraints {
       $0.edges.equalToSuperview()

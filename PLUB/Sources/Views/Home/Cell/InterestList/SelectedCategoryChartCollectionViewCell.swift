@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -59,7 +60,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
-    _ = [titleLabel, descriptionLabel, seperatorView, selectedCategoryInfoView].map{ contentView.addSubview($0) }
+    [titleLabel, descriptionLabel, seperatorView, selectedCategoryInfoView].forEach { contentView.addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.left.equalToSuperview().offset(20)
       $0.right.equalToSuperview().offset(-20)

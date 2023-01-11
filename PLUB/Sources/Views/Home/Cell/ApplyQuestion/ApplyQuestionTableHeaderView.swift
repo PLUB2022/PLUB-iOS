@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -37,7 +38,7 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
   }
   
   private func configureUI() {
-    _ = [mainLabel, subLabel].map { contentView.addSubview($0) }
+    [mainLabel, subLabel].forEach { contentView.addSubview($0) }
     mainLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.left.right.equalToSuperview().inset(20)

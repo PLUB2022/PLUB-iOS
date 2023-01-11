@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import Then
 import SnapKit
 import Kingfisher
@@ -43,7 +44,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     contentView.backgroundColor = .background
     contentView.layer.masksToBounds = true
-    _ = [imageView, interestLabel].map{ contentView.addSubview($0) }
+    [imageView, interestLabel].forEach { contentView.addSubview($0) }
     imageView.snp.makeConstraints {
       $0.top.left.right.equalToSuperview()
       $0.height.equalTo(64)

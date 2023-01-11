@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -39,7 +40,7 @@ class RegisterInterestHeaderView: UITableViewHeaderFooterView {
   }
   
   private func configureUI() {
-    _ = [titleLabel, descriptionLabel].map{ addSubview($0) }
+    [titleLabel, descriptionLabel].forEach { addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.left.equalToSuperview()

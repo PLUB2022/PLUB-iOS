@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -56,7 +57,7 @@ class SelectedCategoryViewController: BaseViewController {
   }
   
   override func setupLayouts() {
-    _ = [interestListNavigationBar, interestListCollectionView].map{ view.addSubview($0) }
+    [interestListNavigationBar, interestListCollectionView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
