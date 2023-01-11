@@ -45,7 +45,7 @@ class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
       super.init(frame: frame)
       backgroundColor = .lightGray
-      _ = [label, imageView].map{ addSubview($0) }
+      [label, imageView].forEach { addSubview($0) }
       label.snp.makeConstraints {
         $0.bottom.equalTo(self.snp.centerY).offset(-10)
         $0.centerX.equalToSuperview()

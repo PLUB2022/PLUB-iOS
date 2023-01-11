@@ -22,7 +22,8 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
   
   private let subLabel = UILabel().then {
     $0.numberOfLines = 0
-    $0.font = .init(name: "Pretendard-Regular", size: 14)
+    $0.font = .body2
+    $0.textColor = .deepGray
     $0.textAlignment = .left
     $0.sizeToFit()
     //        $0.isHidden = true

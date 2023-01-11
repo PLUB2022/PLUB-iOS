@@ -22,7 +22,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   
   private let introduceTitleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .systemFont(ofSize: 24, weight: .bold)
+    $0.font = .h3
     $0.text = "책 읽고 얘기해요!"
     $0.backgroundColor = .orange
   }
@@ -36,7 +36,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   
   private let meetingTitleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .systemFont(ofSize: 18)
     $0.text = "요란한 한줄"
   }
   

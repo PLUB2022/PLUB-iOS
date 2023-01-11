@@ -20,7 +20,8 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   
   private let interestListFilterLabel = UILabel().then {
     $0.text = "전체"
-    $0.font = .systemFont(ofSize: 20, weight: .bold)
+    $0.font = .body1
+    $0.textColor = .black
   }
   
   private let interestListFilterButton = UIButton().then {

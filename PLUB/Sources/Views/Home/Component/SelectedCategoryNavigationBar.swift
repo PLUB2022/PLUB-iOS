@@ -21,7 +21,8 @@ final class SelectedCategoryNavigationBar: UIView {
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 30, weight: .bold)
+    $0.font = .h4
+    $0.textColor = .black
     $0.textAlignment = .left
     $0.numberOfLines = 0
   }

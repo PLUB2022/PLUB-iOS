@@ -74,9 +74,9 @@ class SelectedCategoryViewController: BaseViewController {
   
   override func bind() {
     viewModel.createSelectedCategoryChartCollectionViewCellModels()
-      .subscribe(onNext: { [weak self] selectedCategoryChartCollectionViewCellModels in
-        guard let `self` = self else { return }
-        self.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
+      .withUnretained(self)
+      .subscribe(onNext: { owner, selectedCategoryChartCollectionViewCellModels in
+        owner.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
       })
       .disposed(by: disposeBag)
   }

@@ -17,12 +17,14 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
   public var isTapped: Bool = false {
     didSet {
       contentView.backgroundColor = isTapped ? .main : .white
-      interestTypeLabel.textColor = isTapped ? .white : .gray
+      interestTypeLabel.textColor = isTapped ? .white : .deepGray
+      contentView.layer.borderColor = isTapped ? UIColor.main.cgColor : UIColor.deepGray.cgColor
     }
   }
   
   private let interestTypeLabel = UILabel().then {
-    $0.textColor = .gray
+    $0.textColor = .deepGray
+    $0.font = .systemFont(ofSize: 10)
     $0.textAlignment = .center
   }
   
@@ -42,7 +44,7 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     contentView.layer.borderWidth = 1
-    contentView.layer.borderColor = UIColor.black.cgColor
+    contentView.layer.borderColor = UIColor.deepGray.cgColor
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
     contentView.backgroundColor = .white

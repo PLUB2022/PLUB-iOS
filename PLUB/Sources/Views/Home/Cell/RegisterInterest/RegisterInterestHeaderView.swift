@@ -20,14 +20,14 @@ class RegisterInterestHeaderView: UITableViewHeaderFooterView {
   static let identifier = "RegisterInterestHeaderView"
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 25, weight: .bold)
-    $0.textColor = .label
+    $0.font = .h4
+    $0.textColor = .black
   }
   
   private let descriptionLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 15, weight: .regular)
-    $0.textColor = .secondaryLabel
-    $0.numberOfLines = 2
+    $0.font = .body2
+    $0.textColor = .black
+    $0.numberOfLines = 0
   }
   
   override init(reuseIdentifier: String?) {

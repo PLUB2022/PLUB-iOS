@@ -43,13 +43,13 @@ class RegisterInterestTableViewCell: UITableViewCell {
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 18, weight: .bold)
+    $0.font = .systemFont(ofSize: 14, weight: .bold)
     $0.textColor = .black
   }
   
   private let descriptionLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 13, weight: .regular)
-    $0.textColor = .gray
+    $0.font = .systemFont(ofSize: 10, weight: .regular)
+    $0.textColor = .deepGray
   }
   
   private let indicatorButton = UIButton().then {

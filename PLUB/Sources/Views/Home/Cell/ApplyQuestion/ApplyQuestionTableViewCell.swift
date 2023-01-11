@@ -50,14 +50,14 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   
   private let countLabel = UILabel().then {
     $0.textColor = .mediumGray
-    $0.font = .systemFont(ofSize: 12)
+    $0.font = .overLine
     $0.text = "0"
     $0.sizeToFit()
   }
   
   private let maxCountLabel = UILabel().then {
     $0.textColor = .deepGray
-    $0.font = .systemFont(ofSize: 12)
+    $0.font = .overLine
     $0.text = "/300"
     $0.sizeToFit()
   }

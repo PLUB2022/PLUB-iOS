@@ -20,7 +20,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   static let identifier = "SelectedCategoryChartCollectionViewCell"
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 25, weight: .bold)
+    $0.font = .h5
     $0.numberOfLines = 0
     $0.lineBreakMode = .byTruncatingTail
     $0.textColor = .white
@@ -28,7 +28,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   private let descriptionLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 15, weight: .regular)
+    $0.font = .overLine
     $0.numberOfLines = 1
     $0.lineBreakMode = .byTruncatingTail
     $0.textColor = .white
