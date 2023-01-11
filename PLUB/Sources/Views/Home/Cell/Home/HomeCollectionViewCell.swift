@@ -54,10 +54,4 @@ class HomeCollectionViewCell: UICollectionViewCell {
       $0.top.equalTo(imageView.snp.bottom)
       $0.left.right.equalToSuperview()
     }
-  }
-  
-  public func configureUI(with model: InterestCollectionType) {
-    interestLabel.text = model.title
-    imageView.image = UIImage(named: model.imageNamed)
-  }
 }

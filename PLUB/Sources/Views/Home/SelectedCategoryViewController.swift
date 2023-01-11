@@ -166,6 +166,4 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
     self.selectedCategoryType = .grid
     self.interestListCollectionView.reloadSections([0])
   }
-  
-  
 }
