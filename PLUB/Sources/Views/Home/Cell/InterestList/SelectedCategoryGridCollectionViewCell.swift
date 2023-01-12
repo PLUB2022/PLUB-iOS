@@ -13,10 +13,10 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   private let titleLabel = UILabel().then {
     $0.font = .h5
-    $0.numberOfLines = 1
-    $0.lineBreakMode = .byTruncatingTail
+    $0.numberOfLines = 0
     $0.textColor = .white
     $0.textAlignment = .left
+    $0.sizeToFit()
   }
   
   private let descriptionLabel = UILabel().then {
@@ -26,8 +26,6 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     $0.textColor = .white
     $0.textAlignment = .left
   }
-  
-  private let seperatorView = UIView()
   
   private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .vertical)
   
@@ -44,7 +42,6 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     super.prepareForReuse()
     titleLabel.text = nil
     descriptionLabel.text = nil
-    seperatorView.backgroundColor = nil
     categoryInfoListView.backgroundColor = nil
   }
   
@@ -52,24 +49,19 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
-    [titleLabel, descriptionLabel, seperatorView, categoryInfoListView].forEach { contentView.addSubview($0) }
+    [titleLabel, descriptionLabel, categoryInfoListView].forEach { contentView.addSubview($0) }
     categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
       $0.bottom.equalToSuperview().offset(-10)
     }
     
-    seperatorView.snp.makeConstraints {
-      $0.left.right.equalTo(categoryInfoListView)
+    descriptionLabel.snp.makeConstraints {
+      $0.left.right.equalToSuperview().inset(10)
       $0.bottom.equalTo(categoryInfoListView.snp.top).offset(-10)
     }
     
-    descriptionLabel.snp.makeConstraints {
-      $0.left.right.equalTo(seperatorView)
-      $0.bottom.equalTo(seperatorView.snp.top).offset(-10)
-    }
-    
     titleLabel.snp.makeConstraints {
-      $0.left.right.equalTo(seperatorView)
+      $0.left.right.equalTo(descriptionLabel)
       $0.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
     }
   }
@@ -77,7 +69,6 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
-    seperatorView.backgroundColor = .white
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
   }
 }
