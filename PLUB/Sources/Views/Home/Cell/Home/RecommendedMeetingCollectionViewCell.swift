@@ -11,10 +11,11 @@ import SnapKit
 import Then
 
 protocol RecommendedMeetingCollectionViewCellDelegate: AnyObject {
-  func didTappedRegisterInterestView()
+    func didTappedRegisterInterestView()
 }
 
 class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
+
   static let identifier = "RecommendedMeetingCollectionViewCell"
   
   weak var delegate: RecommendedMeetingCollectionViewCellDelegate?
@@ -58,7 +59,7 @@ class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented")
     }
   }
   
@@ -80,11 +81,7 @@ class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
       $0.edges.equalToSuperview()
     }
     
-    let gesture = UITapGestureRecognizer(target: self, action: #selector(didTappedRegisterButton))
-    registerInterestView.addGestureRecognizer(gesture)
-  }
-  
-  @objc private func didTappedRegisterButton() {
-    delegate?.didTappedRegisterInterestView()
-  }
+    @objc private func didTappedRegisterButton() {
+        delegate?.didTappedRegisterInterestView()
+    }
 }

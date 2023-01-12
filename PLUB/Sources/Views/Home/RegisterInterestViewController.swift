@@ -184,3 +184,4 @@ extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDel
     cell.isTapped ? viewModel.selectDetailCell.onNext(()) : viewModel.deselectDetailCell.onNext(())
   }
 }
+
