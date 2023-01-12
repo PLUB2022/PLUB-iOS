@@ -27,15 +27,13 @@ class SelectedCategoryViewController: BaseViewController {
     $0.scrollDirection = .vertical
     $0.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
   })).then {
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .background
   }.then {
     $0.register(SelectedCategoryGridCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier)
     $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
     $0.register(SelectedCategoryFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier)
-  }
-  
-  private lazy var interestListNavigationBar = SelectedCategoryNavigationBar().then {
-    $0.configureUI(with: title ?? "")
+    $0.delegate = self
+    $0.dataSource = self
   }
   
   init(viewModel: SelectedCategoryViewModelType) {
@@ -48,26 +46,39 @@ class SelectedCategoryViewController: BaseViewController {
   }
   
   override func setupStyles() {
-    view.backgroundColor = .systemBackground
-    self.navigationController?.navigationBar.isHidden = true
+    view.backgroundColor = .background
     
-    interestListNavigationBar.delegate = self
-    interestListCollectionView.delegate = self
-    interestListCollectionView.dataSource = self
+    self.navigationItem.title = nil
+    self.navigationItem.leftBarButtonItems = [
+      UIBarButtonItem(
+        image: UIImage(named: "back"),
+        style: .done,
+        target: self,
+        action: #selector(didTappedBackButton)
+      ),
+      UIBarButtonItem(
+        title: title,
+        style: .done,
+        target: nil,
+        action: nil
+      )
+    ]
+    
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "search"),
+      style: .done,
+      target: self,
+      action: nil
+    )
   }
   
   override func setupLayouts() {
-    [interestListNavigationBar, interestListCollectionView].forEach { view.addSubview($0) }
+    view.addSubview(interestListCollectionView)
   }
   
   override func setupConstraints() {
-    interestListNavigationBar.snp.makeConstraints {
-      $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
-      $0.height.equalTo(70)
-    }
-    
     interestListCollectionView.snp.makeConstraints {
-      $0.top.equalTo(interestListNavigationBar.snp.bottom)
+      $0.top.equalToSuperview()
       $0.left.right.bottom.equalToSuperview()
     }
   }
@@ -79,6 +90,10 @@ class SelectedCategoryViewController: BaseViewController {
         owner.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
       })
       .disposed(by: disposeBag)
+  }
+  
+  @objc private func didTappedBackButton() {
+    self.navigationController?.popViewController(animated: true)
   }
 }
 
@@ -138,17 +153,6 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
     let vc = IntroduceCategoryViewController(model: selectedCategoryCollectionViewCellModels[indexPath.row])
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
-  }
-}
-
-extension SelectedCategoryViewController: SelectedCategoryNavigationBarDelegate {
-  func didTappedBackButton() {
-    self.navigationController?.navigationBar.isHidden = false
-    self.navigationController?.popViewController(animated: true)
-  }
-  
-  func didTappedSearchButton() {
-
   }
 }
 

@@ -154,12 +154,22 @@ final class IntroduceCategoryViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .systemBackground
+    view.backgroundColor = .background
     categoryInfoListView.configureUI(with: .init(date: "화, 수, 금", time: "오후 1시", peopleCount: 10))
     categoryInfoListView.backgroundColor = .black
-    self.navigationController?.navigationBar.isHidden = false
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "checkBookmark"), style: .plain, target: self, action: #selector(didTappedComponentButton))
+    
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "checkBookmark"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedComponentButton)
+    )
   }
   
   @objc private func didTappedBackButton() {

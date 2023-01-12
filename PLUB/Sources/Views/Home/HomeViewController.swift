@@ -70,6 +70,7 @@ final class HomeViewController: BaseViewController {
     }
     
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoImageView)
+    
   }
   
   override func bind() {
