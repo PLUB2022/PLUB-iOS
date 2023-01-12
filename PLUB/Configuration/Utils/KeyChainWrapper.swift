@@ -11,6 +11,13 @@ import Security
 @propertyWrapper
 struct KeyChainWrapper<T: Codable> {
   
+  private let key: String
+  private let service: String = Bundle.main.bundleIdentifier!
+  
+  init(key: String) {
+    self.key = key
+  }
+  
   var wrappedValue: T? {
     get {
       
