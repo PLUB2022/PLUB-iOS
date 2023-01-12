@@ -39,4 +39,16 @@ extension KeyChainWrapper {
     query[kSecAttrAccount] = key
     return query
   }
+  
+  private func get() -> Data? {
+    var query = defaultQuery
+    query[kSecReturnData] = true
+    query[kSecMatchLimit] = kSecMatchLimitOne
+    
+    var dataTypeRef: CFTypeRef?
+    guard SecItemCopyMatching(query as CFDictionary, &dataTypeRef) == errSecSuccess else {
+      return nil
+    }
+    return dataTypeRef as? Data
+  }
 }
