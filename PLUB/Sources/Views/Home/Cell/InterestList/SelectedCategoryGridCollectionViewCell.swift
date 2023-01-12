@@ -56,7 +56,6 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
       $0.bottom.equalToSuperview().offset(-10)
-//      $0.height.equalTo(100)
     }
     
     seperatorView.snp.makeConstraints {

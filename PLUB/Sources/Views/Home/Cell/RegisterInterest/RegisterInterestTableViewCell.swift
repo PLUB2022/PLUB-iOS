@@ -43,7 +43,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 14, weight: .bold)
+    $0.font = .subtitle
     $0.textColor = .black
   }
   
