@@ -27,7 +27,7 @@ final class CreateMeetingViewController: BaseViewController {
   
   private var lastPageIndex = 0 {
     didSet {
-      scrollView.contentSize.width = screenWidth * CGFloat(lastPageIndex)
+      scrollView.contentSize.width = Device.width * CGFloat(lastPageIndex)
       if oldValue < lastPageIndex {
         pushChildView(index: lastPageIndex)
       } else {
@@ -45,7 +45,7 @@ final class CreateMeetingViewController: BaseViewController {
     $0.bounces = false
     $0.contentInsetAdjustmentBehavior = .never
     $0.isPagingEnabled = true
-    $0.contentSize.width = screenWidth
+    $0.contentSize.width = Device.width
     $0.showsHorizontalScrollIndicator = false
     $0.delegate = self
   }
@@ -82,8 +82,6 @@ final class CreateMeetingViewController: BaseViewController {
   private var nextButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
-  
-  let screenWidth = UIScreen.main.bounds.size.width
   
   // MARK: - Life Cycle
   
@@ -153,7 +151,7 @@ final class CreateMeetingViewController: BaseViewController {
     containerViews[index].addSubview(viewControllers[index].view)
     
     containerViews[index].snp.makeConstraints {
-      $0.width.equalTo(screenWidth)
+      $0.width.equalTo(Device.width)
     }
     
     viewControllers[index].view.snp.makeConstraints {
@@ -169,7 +167,7 @@ final class CreateMeetingViewController: BaseViewController {
   }
   
   private func scrollToPage(index: Int) {
-    let offset: CGPoint = CGPoint(x: screenWidth * CGFloat(index), y: 0)
+    let offset: CGPoint = CGPoint(x: Device.width * CGFloat(index), y: 0)
     scrollView.setContentOffset(offset, animated: true)
   }
 }
