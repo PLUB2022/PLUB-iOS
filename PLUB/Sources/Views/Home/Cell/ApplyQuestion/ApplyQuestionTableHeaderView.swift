@@ -26,7 +26,6 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
     $0.textColor = .deepGray
     $0.textAlignment = .left
     $0.sizeToFit()
-    //        $0.isHidden = true
   }
   
   override init(reuseIdentifier: String?) {

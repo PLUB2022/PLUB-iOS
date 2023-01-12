@@ -54,7 +54,7 @@ class HomeAlert {
   
   private let subLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = UIFont(name: "Pretendard-Regular", size: 14)
+    $0.font = .body2
     $0.numberOfLines = 0
     $0.sizeToFit()
     $0.text = """

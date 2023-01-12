@@ -62,5 +62,10 @@ class RecommendedMeetingHeaderView: UICollectionReusableView {
       $0.centerY.equalTo(titleLabel)
       $0.right.equalToSuperview()
     }
+  }
+  
+  public func configureUI(with model: String) {
+    titleLabel.text = model
+  }
 }
 

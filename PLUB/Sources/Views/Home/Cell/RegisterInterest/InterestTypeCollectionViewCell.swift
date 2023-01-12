@@ -1,3 +1,4 @@
+
 //
 //  InterestTypeCollectionViewCell.swift
 //  PLUB
@@ -53,4 +54,9 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
     interestTypeLabel.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
+  }
+  
+  public func configureUI(with model: InterestCollectionType) {
+    interestTypeLabel.text = model.title
+  }
 }

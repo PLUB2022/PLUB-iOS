@@ -42,7 +42,7 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   private let questionTextView = UITextView().then {
     $0.textColor = .deepGray
     $0.backgroundColor = .white
-    $0.font = UIFont(name: "Pretendard-Regular", size: 14)
+    $0.font = .body2
     $0.layer.cornerRadius = 8
     $0.layer.masksToBounds = true
     $0.isScrollEnabled = false
