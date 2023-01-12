@@ -161,9 +161,10 @@ final class CreateMeetingViewController: BaseViewController {
     scrollToPage(index: index)
   }
   
-  //TODO: 수빈 - 이전 VC 값 수정 시, nextButton disable 될 때 다음 VC pop 로직 추가하기
   private func popChildView(index: Int) {
+    scrollToPage(index: index)
     
+    contentStackView.removeArrangedSubview(containerViews[index + 1])
   }
   
   private func scrollToPage(index: Int) {
