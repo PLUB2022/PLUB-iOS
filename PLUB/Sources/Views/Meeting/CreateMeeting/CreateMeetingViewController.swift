@@ -25,13 +25,13 @@ final class CreateMeetingViewController: BaseViewController {
     }
   }
   
-  private var totalPage = 0 {
+  private var lastPageIndex = 0 {
     didSet {
-      scrollView.contentSize.width = screenWidth * CGFloat(totalPage)
-      if oldValue < totalPage {
-        pushChildView(totalPage: totalPage)
-      }else {
-        popChildView(totalPage: totalPage)
+      scrollView.contentSize.width = screenWidth * CGFloat(lastPageIndex)
+      if oldValue < lastPageIndex {
+        pushChildView(index: lastPageIndex)
+      } else {
+        popChildView(index: lastPageIndex)
       }
     }
   }
@@ -133,7 +133,7 @@ final class CreateMeetingViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .systemBackground
-    pushChildView(totalPage: totalPage)
+    pushChildView(index: lastPageIndex)
   }
   
   override func bind() {
@@ -141,35 +141,35 @@ final class CreateMeetingViewController: BaseViewController {
     nextButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        guard owner.totalPage + 1 < owner.viewControllers.count else { return }
-        owner.totalPage += 1
-        owner.currentPage = owner.totalPage
+        guard owner.lastPageIndex + 1 < owner.viewControllers.count else { return }
+        owner.lastPageIndex += 1
+        owner.currentPage = owner.lastPageIndex
       })
       .disposed(by: disposeBag)
   }
 
-  private func pushChildView(totalPage: Int) {
-    contentStackView.addArrangedSubview(containerViews[totalPage])
-    containerViews[totalPage].addSubview(viewControllers[totalPage].view)
+  private func pushChildView(index: Int) {
+    contentStackView.addArrangedSubview(containerViews[index])
+    containerViews[index].addSubview(viewControllers[index].view)
     
-    containerViews[totalPage].snp.makeConstraints {
+    containerViews[index].snp.makeConstraints {
       $0.width.equalTo(screenWidth)
     }
     
-    viewControllers[totalPage].view.snp.makeConstraints {
+    viewControllers[index].view.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
     
-    scrollToPage(page: totalPage)
+    scrollToPage(index: index)
   }
   
   //TODO: 수빈 - 이전 VC 값 수정 시, nextButton disable 될 때 다음 VC pop 로직 추가하기
-  private func popChildView(totalPage: Int) {
+  private func popChildView(index: Int) {
     
   }
   
-  private func scrollToPage(page: Int) {
-    let offset: CGPoint = CGPoint(x: screenWidth * CGFloat(page), y: 0)
+  private func scrollToPage(index: Int) {
+    let offset: CGPoint = CGPoint(x: screenWidth * CGFloat(index), y: 0)
     scrollView.setContentOffset(offset, animated: true)
   }
 }
