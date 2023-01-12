@@ -35,8 +35,4 @@ final class SelectPeopleNumberViewController: BaseViewController {
   override func bind() {
     super.bind()
   }
-  
-  func setupSuperView(superView: UIViewController) {
-      self.superView = superView
-  }
 }
