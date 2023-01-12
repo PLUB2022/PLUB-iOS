@@ -51,4 +51,16 @@ extension KeyChainWrapper {
     }
     return dataTypeRef as? Data
   }
+  
+  private func set(value: Data) {
+    removeValue()
+    var query = defaultQuery
+    query[kSecValueData] = value
+    SecItemAdd(query as CFDictionary, nil)
+  }
+  
+  private func removeValue() {
+    let query = defaultQuery
+    SecItemDelete(query as CFDictionary)
+  }
 }
