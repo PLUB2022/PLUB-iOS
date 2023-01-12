@@ -35,6 +35,10 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     $0.textAlignment = .left
   }
   
+  private let bookmarkButton = UIButton().then {
+    $0.setImage(UIImage(named: "whiteBookmark"), for: .normal)
+  }
+  
   private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
   
   override init(frame: CGRect) {
@@ -51,13 +55,14 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     titleLabel.text = nil
     descriptionLabel.text = nil
     categoryInfoListView.backgroundColor = nil
+    bookmarkButton.setImage(nil, for: .normal)
   }
   
   private func configureUI() {
     contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
-    [titleLabel, descriptionLabel, categoryInfoListView].forEach { contentView.addSubview($0) }
+    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
     
     categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
@@ -73,11 +78,17 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       $0.left.right.equalTo(descriptionLabel)
       $0.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
     }
+    
+    bookmarkButton.snp.makeConstraints { make in
+      make.top.right.equalToSuperview().inset(16)
+      make.width.height.equalTo(32)
+    }
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
+    bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }
 }
