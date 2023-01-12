@@ -1,3 +1,4 @@
+
 //
 //  RegisterInterestTableViewCell.swift
 //  PLUB
@@ -11,22 +12,21 @@ import SnapKit
 import Then
 
 struct RegisterInterestTableViewCellModel {
-    let imageName: String
-    let title: String
-    let description: String
-    let isExpanded: Bool
+  let imageName: String
+  let title: String
+  let description: String
+  let isExpanded: Bool
 }
 
 class RegisterInterestTableViewCell: UITableViewCell {
-    
-    static let identifier = "RegisterInterestTableViewCell"
-    
-    var isExpanded: Bool = false {
-        didSet {
-            DispatchQueue.main.async {
-                self.containerView.layoutIfNeeded()
-            }
-        }
+  
+  static let identifier = "RegisterInterestTableViewCell"
+  
+  var isExpanded: Bool = false {
+    didSet {
+      DispatchQueue.main.async {
+        self.containerView.layoutIfNeeded()
+      }
     }
   }
   
@@ -44,7 +44,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .subtitle
+    $0.font = .systemFont(ofSize: 14, weight: .bold)
     $0.textColor = .black
   }
   
@@ -83,34 +83,19 @@ class RegisterInterestTableViewCell: UITableViewCell {
         $0.edges.equalToSuperview()
       }
     }
-    
-    private let interestImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-        $0.layer.masksToBounds = true
-        $0.layer.cornerRadius = 10
+    else {
+      containerView.snp.updateConstraints {
+        $0.bottom.equalToSuperview().offset(-5)
+      }
     }
-    
-    private let titleLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 18, weight: .bold)
-        $0.textColor = .black
-    }
-    
-    private let descriptionLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 13, weight: .regular)
-        $0.textColor = .gray
-    }
-    
-    private let indicatorButton = UIButton().then {
-        $0.setImage(UIImage(named: "Vector 2"), for: .normal)
-    }
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func configureUI() {
+    contentView.backgroundColor = .secondarySystemBackground
+    contentView.addSubview(containerView)
+    containerView.snp.makeConstraints {
+      $0.top.left.right.equalToSuperview()
+      $0.bottom.equalToSuperview().offset(-5)
     }
     
     [interestImageView, titleLabel, descriptionLabel, indicatorButton].forEach { containerView.addSubview($0) }
@@ -120,61 +105,21 @@ class RegisterInterestTableViewCell: UITableViewCell {
       $0.width.equalTo(80)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        containerView.roundCorners(corners: isExpanded ? [.topLeft, .topRight] : [.allCorners], radius: 20)
-        indicatorButton.setImage(isExpanded ? UIImage(named: "Vector 2-1") : UIImage(named: "Vector 2"), for: .normal)
-        if isExpanded {
-            containerView.snp.updateConstraints { make in
-                make.edges.equalToSuperview()
-            }
-        }
-        else {
-            containerView.snp.updateConstraints { make in
-                make.bottom.equalToSuperview().offset(-5)
-            }
-        }
+    titleLabel.snp.makeConstraints {
+      $0.top.equalTo(interestImageView.snp.top)
+      $0.bottom.equalTo(interestImageView.snp.centerY)
+      $0.left.equalTo(interestImageView.snp.right).offset(10)
     }
     
-    private func configureUI() {
-        contentView.backgroundColor = .secondarySystemBackground
-        contentView.addSubview(containerView)
-        containerView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-5)
-        }
-        
-        _ = [interestImageView, titleLabel, descriptionLabel, indicatorButton].map{ containerView.addSubview($0) }
-        interestImageView.snp.makeConstraints { make in
-            make.top.left.equalToSuperview().offset(5)
-            make.bottom.equalToSuperview().offset(-5)
-            make.width.equalTo(80)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(interestImageView.snp.top)
-            make.bottom.equalTo(interestImageView.snp.centerY)
-            make.left.equalTo(interestImageView.snp.right).offset(10)
-        }
-        
-        descriptionLabel.snp.makeConstraints { make in
-            make.left.equalTo(titleLabel.snp.left)
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.bottom.equalTo(interestImageView.snp.bottom)
-        }
-        
-        indicatorButton.snp.makeConstraints { make in
-            make.centerY.equalTo(interestImageView.snp.centerY)
-            make.right.equalToSuperview().offset(-20)
-        }
+    descriptionLabel.snp.makeConstraints {
+      $0.left.equalTo(titleLabel.snp.left)
+      $0.top.equalTo(titleLabel.snp.bottom)
+      $0.bottom.equalTo(interestImageView.snp.bottom)
     }
     
-    public func configureUI(with model: RegisterInterestTableViewCellModel) {
-        interestImageView.image = UIImage(named: model.imageName)
-        titleLabel.text = model.title
-        descriptionLabel.text = model.description
-        isExpanded = model.isExpanded
-        indicatorButton.setImage(UIImage(named: "Vector 2"), for: .normal)
+    indicatorButton.snp.makeConstraints {
+      $0.centerY.equalTo(interestImageView.snp.centerY)
+      $0.right.equalToSuperview().offset(-20)
     }
   }
   
@@ -184,5 +129,6 @@ class RegisterInterestTableViewCell: UITableViewCell {
     descriptionLabel.text = model.description
     isExpanded = model.isExpanded
     indicatorButton.setImage(UIImage(named: "bottomIndicator"), for: .normal)
-  }}
+  }
+}
 
