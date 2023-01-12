@@ -8,9 +8,9 @@
 import UIKit
 
 struct CategoryInfoListViewModel {
-  let date: String
-  let time: String
+  let location: String
   let peopleCount: Int
+  let when: String
 }
 
 enum CategoryInfoListViewType {
@@ -19,21 +19,21 @@ enum CategoryInfoListViewType {
 }
 
 enum CategoryType {
-  case date
-  case time
+  case location
   case people
+  case when
 }
 
 class CategoryInfoListView: UIView {
   private let categoryInfoListViewType: CategoryInfoListViewType
   
-  private lazy var categoryInfoListStackView = UIStackView(arrangedSubviews: [dateInfoView, timeInfoView, peopleInfoView]).then {
+  private lazy var categoryInfoListStackView = UIStackView(arrangedSubviews: [locationInfoView, peopleInfoView, whenInfoView]).then {
     $0.sizeToFit()
   }
   
-  private let dateInfoView = CategoryInfoView(categoryType: .date)
-  private let timeInfoView = CategoryInfoView(categoryType: .time)
+  private let locationInfoView = CategoryInfoView(categoryType: .location)
   private let peopleInfoView = CategoryInfoView(categoryType: .people)
+  private let whenInfoView = CategoryInfoView(categoryType: .when)
   
   init(categoryInfoListViewType: CategoryInfoListViewType) {
     self.categoryInfoListViewType = categoryInfoListViewType
@@ -64,9 +64,9 @@ class CategoryInfoListView: UIView {
   }
   
   public func configureUI(with model: CategoryInfoListViewModel) {
-    dateInfoView.configureUI(with: model.date)
-    timeInfoView.configureUI(with: model.time)
+    locationInfoView.configureUI(with: model.location)
     peopleInfoView.configureUI(with: "\(model.peopleCount)")
+    whenInfoView.configureUI(with: model.when)
   }
 }
 
@@ -77,8 +77,6 @@ class CategoryInfoView: UIView {
   private lazy var stackView = UIStackView(arrangedSubviews: [infoImageView, infoLabel]).then {
     $0.spacing = 1
     $0.distribution = .equalSpacing
-    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 5, bottom: .zero, right: 5)
-    $0.isLayoutMarginsRelativeArrangement = true
     $0.axis = .horizontal
   }
   
@@ -103,14 +101,13 @@ class CategoryInfoView: UIView {
   }
   
   private func configureUI() {
-    backgroundColor = .black
     layer.masksToBounds = true
     layer.cornerRadius = 4
     switch categoryType {
-    case .date:
-      infoImageView.image = UIImage(named: "calendar")
-    case .time:
-      infoImageView.image = UIImage(named: "time")
+    case .location:
+      infoImageView.image = UIImage(named: "location")
+    case .when:
+      infoImageView.image = UIImage(named: "when")
     case .people:
       infoImageView.image = UIImage(named: "people")
     }

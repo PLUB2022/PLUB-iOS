@@ -155,7 +155,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .background
-    categoryInfoListView.configureUI(with: .init(date: "화, 수, 금", time: "오후 1시", peopleCount: 10))
+    categoryInfoListView.configureUI(with: .init(location: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분"))
     categoryInfoListView.backgroundColor = .black
     
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
