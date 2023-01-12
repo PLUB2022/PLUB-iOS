@@ -113,7 +113,6 @@ final class CreateMeetingViewController: BaseViewController {
     pageControl.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(36)
       $0.leading.equalToSuperview().inset(16)
-      $0.height.equalTo(8)
     }
     
     scrollView.snp.makeConstraints {
@@ -160,7 +159,7 @@ final class CreateMeetingViewController: BaseViewController {
     }
     
     viewControllers[totalPage].view.snp.makeConstraints {
-      $0.leading.trailing.top.bottom.equalToSuperview()
+      $0.edges.equalToSuperview()
     }
     
     scrollToPage(page: totalPage)
@@ -180,7 +179,7 @@ final class CreateMeetingViewController: BaseViewController {
 extension CreateMeetingViewController: UIScrollViewDelegate {
   func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
     let width = scrollView.frame.width
-    let page = Int(round(scrollView.contentOffset.x/width))
+    let page = Int(round(scrollView.contentOffset.x / width))
     currentPage = page
   }
 }
