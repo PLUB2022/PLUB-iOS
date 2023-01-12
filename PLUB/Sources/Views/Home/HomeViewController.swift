@@ -51,7 +51,7 @@ final class HomeViewController: BaseViewController {
     self.navigationController?.navigationBar.backgroundColor = .background
     self.navigationItem.rightBarButtonItems = [
       UIBarButtonItem(
-        image: UIImage(named: "bookMark"),
+        image: UIImage(named: "blackBookmark"),
         style: .done,
         target: self,
         action: #selector(didTappedSearchButton)
