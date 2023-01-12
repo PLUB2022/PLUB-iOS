@@ -173,7 +173,6 @@ final class IntroduceCategoryViewController: BaseViewController {
   }
   
   @objc private func didTappedBackButton() {
-    self.navigationController?.navigationBar.isHidden = true
     self.navigationController?.popViewController(animated: true)
   }
   

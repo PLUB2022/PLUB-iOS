@@ -25,7 +25,7 @@ class SelectedCategoryViewController: BaseViewController {
   
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
     $0.scrollDirection = .vertical
-    $0.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+//    $0.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
   })).then {
     $0.backgroundColor = .background
   }.then {
@@ -35,7 +35,7 @@ class SelectedCategoryViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
   }
-  
+ 
   init(viewModel: SelectedCategoryViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -50,18 +50,8 @@ class SelectedCategoryViewController: BaseViewController {
     
     self.navigationItem.title = nil
     self.navigationItem.leftBarButtonItems = [
-      UIBarButtonItem(
-        image: UIImage(named: "back"),
-        style: .done,
-        target: self,
-        action: #selector(didTappedBackButton)
-      ),
-      UIBarButtonItem(
-        title: title,
-        style: .done,
-        target: nil,
-        action: nil
-      )
+      UIBarButtonItem(image: UIImage(named: "back"), style: .done, target: self, action: #selector(didTappedBackButton)),
+      UIBarButtonItem(title: title, style: .done, target: nil, action: nil)
     ]
     
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -78,8 +68,7 @@ class SelectedCategoryViewController: BaseViewController {
   
   override func setupConstraints() {
     interestListCollectionView.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.left.right.bottom.equalToSuperview()
+      $0.edges.equalToSuperview().inset(10)
     }
   }
   
@@ -135,9 +124,9 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     switch selectedCategoryType {
     case .chart:
-      return CGSize(width: collectionView.frame.width - 10 - 10, height: collectionView.frame.height / 4 - 10)
+      return CGSize(width: collectionView.frame.width - 10, height: collectionView.frame.height / 4 - 10)
     case .grid:
-      return CGSize(width: collectionView.frame.width / 2 - 10 - 10, height: collectionView.frame.height / 2.5)
+      return CGSize(width: collectionView.frame.width / 2 - 10, height: collectionView.frame.height / 2.5)
     }
   }
   
@@ -171,3 +160,4 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
     self.interestListCollectionView.reloadSections([0])
   }
 }
+
