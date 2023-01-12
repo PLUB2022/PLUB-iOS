@@ -27,3 +27,16 @@ struct KeyChainWrapper<T: Codable> {
     }
   }
 }
+
+// MARK: - Helper Properties & Functions
+
+extension KeyChainWrapper {
+  
+  private var defaultQuery: [CFString: Any] {
+    var query = [CFString: Any]()
+    query[kSecClass] = kSecClassGenericPassword
+    query[kSecAttrService] = service
+    query[kSecAttrAccount] = key
+    return query
+  }
+}
