@@ -9,7 +9,7 @@ import Foundation
 import Security
 
 @propertyWrapper
-struct KeyChainWrapper<T: Codable> {
+struct KeyChainWrapper<SecretData: Codable> {
   
   private let key: String
   private let service: String = Bundle.main.bundleIdentifier!
@@ -18,12 +18,21 @@ struct KeyChainWrapper<T: Codable> {
     self.key = key
   }
   
-  var wrappedValue: T? {
+  var wrappedValue: SecretData? {
     get {
-      
+      guard let data = get() else { return nil }
+      return try? JSONDecoder().decode(SecretData.self, from: data)
     }
     set {
-      
+      guard let value = newValue else {
+        // nil값이 들어왔으므로 단순 제거만 시행
+        removeValue()
+        return
+      }
+      guard let data = try? JSONEncoder().encode(value) else {
+        fatalError("Failed to encode value")
+      }
+      set(value: data)
     }
   }
 }
