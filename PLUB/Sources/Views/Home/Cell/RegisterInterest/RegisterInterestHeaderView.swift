@@ -11,8 +11,8 @@ import SnapKit
 import Then
 
 struct RegisterInterestHeaderViewModel {
-    let title: String
-    let description: String
+  let title: String
+  let description: String
 }
 
 class RegisterInterestHeaderView: UITableViewHeaderFooterView {
@@ -46,8 +46,15 @@ class RegisterInterestHeaderView: UITableViewHeaderFooterView {
       $0.left.equalToSuperview()
     }
     
-    public func configureUI(with model: RegisterInterestHeaderViewModel) {
-        titleLabel.text = model.title
-        descriptionLabel.text = model.description
+    descriptionLabel.snp.makeConstraints {
+      $0.left.equalTo(titleLabel.snp.left)
+      $0.top.equalTo(titleLabel.snp.bottom)
+      $0.height.equalTo(self.snp.height).dividedBy(2)
     }
+  }
+  
+  public func configureUI(with model: RegisterInterestHeaderViewModel) {
+    titleLabel.text = model.title
+    descriptionLabel.text = model.description
+  }
 }
