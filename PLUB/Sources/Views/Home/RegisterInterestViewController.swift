@@ -61,9 +61,9 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupStyles() {
-    view.backgroundColor = .secondarySystemBackground
+    view.backgroundColor = .background
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(hierarchicalColor: .black)),
+      image: UIImage(named: "back"),
       style: .done,
       target: self,
       action: #selector(didTappedLeftButton)

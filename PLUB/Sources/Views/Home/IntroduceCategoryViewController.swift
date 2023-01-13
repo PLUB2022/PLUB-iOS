@@ -154,16 +154,25 @@ final class IntroduceCategoryViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .systemBackground
-    categoryInfoListView.configureUI(with: .init(date: "화, 수, 금", time: "오후 1시", peopleCount: 10))
+    view.backgroundColor = .background
+    categoryInfoListView.configureUI(with: .init(location: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분"))
     categoryInfoListView.backgroundColor = .black
-    self.navigationController?.navigationBar.isHidden = false
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "checkBookmark"), style: .plain, target: self, action: #selector(didTappedComponentButton))
+    
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "checkBookmark"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedComponentButton)
+    )
   }
   
   @objc private func didTappedBackButton() {
-    self.navigationController?.navigationBar.isHidden = true
     self.navigationController?.popViewController(animated: true)
   }
   

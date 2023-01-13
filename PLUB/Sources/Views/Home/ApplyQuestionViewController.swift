@@ -39,8 +39,13 @@ class ApplyQuestionViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .secondarySystemBackground
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
+    view.backgroundColor = .background
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
     
     let tap = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:)))
     view.isUserInteractionEnabled = true
