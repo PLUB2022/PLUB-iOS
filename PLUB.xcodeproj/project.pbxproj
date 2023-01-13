@@ -58,6 +58,7 @@
 		BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA771651296FBF4400762362 /* KeyChainWrapper.swift */; };
 		BA780E09297133220032C178 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E08297133220032C178 /* Config.swift */; };
 		BA780E0D297133F80032C178 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E0C297133F80032C178 /* Router.swift */; };
+		BA780E0F297138F10032C178 /* HeaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E0E297138F10032C178 /* HeaderType.swift */; };
 		BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA0296514DA0029CF34 /* PaddingTextField.swift */; };
 		BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA3296529100029CF34 /* IntroductionViewController.swift */; };
 		BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124D28E48A2F00BD832A /* AppDelegate.swift */; };
@@ -133,6 +134,7 @@
 		BA771651296FBF4400762362 /* KeyChainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainWrapper.swift; sourceTree = "<group>"; };
 		BA780E08297133220032C178 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		BA780E0C297133F80032C178 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		BA780E0E297138F10032C178 /* HeaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderType.swift; sourceTree = "<group>"; };
 		BA876BA0296514DA0029CF34 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 		BA876BA3296529100029CF34 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		BA88124A28E48A2F00BD832A /* PLUB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLUB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -434,6 +436,7 @@
 			isa = PBXGroup;
 			children = (
 				BA780E0C297133F80032C178 /* Router.swift */,
+				BA780E0E297138F10032C178 /* HeaderType.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
+				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
 				70BD5F2E296472CF002CBA89 /* IntroduceCategoryNavigationBar.swift in Sources */,
