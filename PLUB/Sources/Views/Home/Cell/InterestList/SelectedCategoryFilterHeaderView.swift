@@ -8,76 +8,77 @@
 import UIKit
 
 protocol SelectedCategoryFilterHeaderViewDelegate: AnyObject {
-    func didTappedInterestListFilterButton()
-    func didTappedInterestListChartButton()
-    func didTappedInterestListGridButton()
+  func didTappedInterestListFilterButton()
+  func didTappedInterestListChartButton()
+  func didTappedInterestListGridButton()
 }
 
 class SelectedCategoryFilterHeaderView: UICollectionReusableView {
-    static let identifier = "InterestListFilterHeaderView"
+  static let identifier = "InterestListFilterHeaderView"
+  
+  public weak var delegate: SelectedCategoryFilterHeaderViewDelegate?
+  
+  private let interestListFilterLabel = UILabel().then {
+    $0.text = "전체"
+    $0.font = .body1
+    $0.textColor = .black
+  }
+  
+  private let interestListFilterButton = UIButton().then {
+    $0.setImage(UIImage(named: "filter"), for: .normal)
+  }
+  
+  private let interestListChartButton = UIButton().then {
+    $0.setImage(UIImage(named: "chart"), for: .normal)
+  }
+  
+  private let interesetListGridButton = UIButton().then {
+    $0.setImage(UIImage(named: "grid"), for: .normal)
+  }
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    configureUI()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func configureUI() {
+    interestListFilterButton.addTarget(self, action: #selector(didTappedInterestListFilterButton), for: .touchUpInside)
+    interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
+    interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
     
-    public weak var delegate: SelectedCategoryFilterHeaderViewDelegate?
-    
-    private let interestListFilterLabel = UILabel().then {
-        $0.text = "전체"
-        $0.font = .systemFont(ofSize: 20, weight: .bold)
+    [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton].forEach { addSubview($0) }
+    interestListFilterLabel.snp.makeConstraints {
+      $0.centerY.left.equalToSuperview()
     }
     
-    private let interestListFilterButton = UIButton().then {
-        $0.setImage(UIImage(named: "Filter"), for: .normal)
+    interestListFilterButton.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      $0.left.equalTo(interestListFilterLabel.snp.right)
     }
     
-    private let interestListChartButton = UIButton().then {
-        $0.setImage(UIImage(named: "Chart"), for: .normal)
+    interesetListGridButton.snp.makeConstraints {
+      $0.centerY.right.equalToSuperview()
     }
     
-    private let interesetListGridButton = UIButton().then {
-        $0.setImage(UIImage(named: "Grid"), for: .normal)
+    interestListChartButton.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      $0.right.equalTo(interesetListGridButton.snp.left)
     }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureUI() {
-        interestListFilterButton.addTarget(self, action: #selector(didTappedInterestListFilterButton), for: .touchUpInside)
-        interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
-        interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
-        
-        _ = [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton].map{ addSubview($0) }
-        interestListFilterLabel.snp.makeConstraints { make in
-            make.centerY.left.equalToSuperview()
-        }
-        
-        interestListFilterButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalTo(interestListFilterLabel.snp.right)
-        }
-        
-        interesetListGridButton.snp.makeConstraints { make in
-            make.centerY.right.equalToSuperview()
-        }
-        
-        interestListChartButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.right.equalTo(interesetListGridButton.snp.left)
-        }
-    }
-    
-    @objc private func didTappedInterestListFilterButton() {
-        delegate?.didTappedInterestListFilterButton()
-    }
-    
-    @objc private func didTappedInterestListChartButton() {
-        delegate?.didTappedInterestListChartButton()
-    }
-    
-    @objc private func didTappedInterestListGridButton() {
-        delegate?.didTappedInterestListGridButton()
-    }
+  }
+  
+  @objc private func didTappedInterestListFilterButton() {
+    delegate?.didTappedInterestListFilterButton()
+  }
+  
+  @objc private func didTappedInterestListChartButton() {
+    delegate?.didTappedInterestListChartButton()
+  }
+  
+  @objc private func didTappedInterestListGridButton() {
+    delegate?.didTappedInterestListGridButton()
+  }
 }
