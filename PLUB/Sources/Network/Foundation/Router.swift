@@ -47,4 +47,29 @@ extension Router {
   var headers: HTTPHeaders {
     return .default
   }
+  
+  func asURLRequest() throws -> URLRequest {
+    let url = try baseURL.asURL()
+    
+    var request = try URLRequest(url: url.appendingPathComponent(path), method: method)
+    
+    // check headers
+    request.headers = headers
+    
+    // check parameters
+    guard let parameters = parameters else { return request }
+    
+    //FIXME: 승현 - parameter 작업 수정 필요
+    // method 값에 의존적임, 원하지 않는 작업이 될 수도 있다.
+    switch method {
+    case .post: // body
+      request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
+    default: // query
+      var components = URLComponents(string: url.appendingPathComponent(path).absoluteString)
+      components?.queryItems = parameters.map { URLQueryItem(name: $0, value: "\($1)") }
+      request.url = components?.url
+    }
+    
+    return request
+  }
 }
