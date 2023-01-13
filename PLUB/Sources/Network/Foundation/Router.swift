@@ -25,11 +25,11 @@ protocol Router: URLRequestConvertible {
   /// 요청시 넣을 파라미터입니다.
   ///
   /// body값이거나 query값을 설정할 때 이용합니다.
-  var parameters: Parameters? { get }
+  var parameters: ParameterType { get }
   
   
   /// 헤더 값을 설정할 때 사용됩니다.
-  var headers: HTTPHeaders { get }
+  var headers: HeaderType { get }
 }
 
 // MARK: - Default Value Settings
@@ -40,11 +40,11 @@ extension Router {
     return URLConstants.baseURL
   }
   
-  var parameters: Parameters? {
-    return nil
+  var parameters: ParameterType {
+    return .plain
   }
   
-  var headers: HTTPHeaders {
+  var headers: HeaderType {
     return .default
   }
   
@@ -53,20 +53,31 @@ extension Router {
     
     var request = try URLRequest(url: url.appendingPathComponent(path), method: method)
     
-    // check headers
-    request.headers = headers
+    // headers값 동봉
+    request.headers = headers.toHTTPHeader
     
-    // check parameters
-    guard let parameters = parameters else { return request }
+    // parameters 값 동봉
     
-    //FIXME: 승현 - parameter 작업 수정 필요
-    // method 값에 의존적임, 원하지 않는 작업이 될 수도 있다.
-    switch method {
-    case .post: // body
-      request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
-    default: // query
+    switch parameters {
+    case .plain:
+      break
+      
+    case .body(let data):
+      guard let data = try? JSONEncoder().encode(data),
+            let jsonData = try? JSONSerialization.jsonObject(with: data),
+            let dictionaryData = jsonData as? [String: Any] else {
+        break
+      }
+      request.httpBody = try? JSONSerialization.data(withJSONObject: dictionaryData)
+      
+    case .query(let data):
+      guard let data = try? JSONEncoder().encode(data),
+            let jsonData = try? JSONSerialization.jsonObject(with: data),
+            let dictionaryData = jsonData as? [String: Any] else {
+        break
+      }
       var components = URLComponents(string: url.appendingPathComponent(path).absoluteString)
-      components?.queryItems = parameters.map { URLQueryItem(name: $0, value: "\($1)") }
+      components?.queryItems = dictionaryData.map { URLQueryItem(name: $0, value: "\($1)") }
       request.url = components?.url
     }
     
