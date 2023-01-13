@@ -61,6 +61,7 @@
 		BA780E0F297138F10032C178 /* HeaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E0E297138F10032C178 /* HeaderType.swift */; };
 		BA780E1129713BF30032C178 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E1029713BF30032C178 /* ParameterType.swift */; };
 		BA780E1329713F370032C178 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E1229713F370032C178 /* BaseService.swift */; };
+		BA780E1529714AAB0032C178 /* GeneralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E1429714AAB0032C178 /* GeneralResponse.swift */; };
 		BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA0296514DA0029CF34 /* PaddingTextField.swift */; };
 		BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA3296529100029CF34 /* IntroductionViewController.swift */; };
 		BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124D28E48A2F00BD832A /* AppDelegate.swift */; };
@@ -139,6 +140,7 @@
 		BA780E0E297138F10032C178 /* HeaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderType.swift; sourceTree = "<group>"; };
 		BA780E1029713BF30032C178 /* ParameterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterType.swift; sourceTree = "<group>"; };
 		BA780E1229713F370032C178 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		BA780E1429714AAB0032C178 /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
 		BA876BA0296514DA0029CF34 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 		BA876BA3296529100029CF34 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		BA88124A28E48A2F00BD832A /* PLUB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLUB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -353,6 +355,7 @@
 		BA36EED5295463AA00D30169 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				BA780E1429714AAB0032C178 /* GeneralResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -679,6 +682,7 @@
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
 				BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */,
+				BA780E1529714AAB0032C178 /* GeneralResponse.swift in Sources */,
 				C3AD265D296ACC0600C57370 /* MeetingNameViewController.swift in Sources */,
 				0A81767F28F3105200C1E074 /* Preview.swift in Sources */,
 				C3AD265F296AD3C100C57370 /* InputTextView.swift in Sources */,
