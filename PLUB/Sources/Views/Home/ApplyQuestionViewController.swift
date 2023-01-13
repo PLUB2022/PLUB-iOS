@@ -99,7 +99,7 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: ApplyQuestionTableViewCell.identifier, for: indexPath) as? ApplyQuestionTableViewCell ?? ApplyQuestionTableViewCell()
-    cell.configureUI(with: models[indexPath.row])
+    cell.configureUI(with: models[indexPath.row], indexPath: indexPath)
     cell.delegate = self
     return cell
   }
@@ -131,11 +131,17 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
     return .leastNonzeroMagnitude
   }
-  
-  
 }
 
 extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
+  func whichTextChangedIn(_ text: String, _ indexPath: IndexPath?) {
+    guard let indexPath = indexPath else {
+      return
+    }
+    viewModel.isFillInQuestion.onNext(!text.isEmpty)
+    viewModel.whichPosition.onNext(indexPath)
+  }
+  
   func textViewDidChange(text: String, _ textView: UITextView) {
     applyButton.isEnabled = text.isEmpty ? false : true
   }
@@ -153,9 +159,5 @@ extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
         questionTableView.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
       }
     }
-  }
-  
-  func textChangedIn(_ text: String) {
-    viewModel.isFillInQuestion.onNext(!text.isEmpty)
   }
 }

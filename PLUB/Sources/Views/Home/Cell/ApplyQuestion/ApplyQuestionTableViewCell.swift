@@ -13,20 +13,30 @@ import SnapKit
 import Then
 
 struct ApplyQuestionTableViewCellModel {
+  let id: Int
   let question: String
-  let placeHolder: String
+}
+
+struct QuestionStatus {
+  let isFilled: Bool
+  let position: IndexPath
 }
 
 protocol ApplyQuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView)
-  func textChangedIn(_ text: String)
+  func whichTextChangedIn(_ text: String, _ indexPath: IndexPath?)
 }
 
 class ApplyQuestionTableViewCell: UITableViewCell {
   
+  struct Constants {
+    static let placeHolder = "소개하는 내용을 적어주세요"
+  }
+  
   static let identifier = "ApplyQuestionTableViewCell"
   
   private var disposeBag = DisposeBag()
+  private var currentIndexPath: IndexPath?
   
   public weak var delegate: ApplyQuestionTableViewCellDelegate?
   
@@ -69,7 +79,7 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     questionTextView.rx.didBeginEditing
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-      if owner.questionTextView.text == "소개하는 내용을 적어주세요" {
+        if owner.questionTextView.text == Constants.placeHolder {
         owner.questionTextView.text = nil
         owner.questionTextView.textColor = .black
       }
@@ -81,19 +91,21 @@ class ApplyQuestionTableViewCell: UITableViewCell {
       .subscribe(onNext: { owner, _ in
       if owner.questionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
         owner.questionTextView.textColor = .deepGray
-        owner.questionTextView.text = "소개하는 내용을 적어주세요"
+        owner.questionTextView.text = Constants.placeHolder
       }
     })
     .disposed(by: disposeBag)
     
     questionTextView.rx.text.orEmpty
-      .filter { $0 != "소개하는 내용을 적어주세요" }
+      .filter { $0 != Constants.placeHolder }
+      .distinctUntilChanged()
+      .skip(1)
       .do(onNext: { print("text = \($0)") })
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
         owner.countLabel.text = "\(text.count)"
         owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
-        owner.delegate?.textChangedIn(text)
+        owner.delegate?.whichTextChangedIn(text, owner.currentIndexPath)
       })
       .disposed(by: disposeBag)
     
@@ -136,9 +148,10 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     }
   }
   
-  public func configureUI(with model: ApplyQuestionTableViewCellModel) {
+  public func configureUI(with model: ApplyQuestionTableViewCellModel, indexPath: IndexPath) {
     questionLabel.text = model.question
-    questionTextView.text = model.placeHolder
+    questionTextView.text = Constants.placeHolder
+    currentIndexPath = indexPath
   }
 }
 
