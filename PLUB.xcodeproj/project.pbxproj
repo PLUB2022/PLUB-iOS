@@ -60,6 +60,7 @@
 		BA780E0D297133F80032C178 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E0C297133F80032C178 /* Router.swift */; };
 		BA780E0F297138F10032C178 /* HeaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E0E297138F10032C178 /* HeaderType.swift */; };
 		BA780E1129713BF30032C178 /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E1029713BF30032C178 /* ParameterType.swift */; };
+		BA780E1329713F370032C178 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E1229713F370032C178 /* BaseService.swift */; };
 		BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA0296514DA0029CF34 /* PaddingTextField.swift */; };
 		BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA3296529100029CF34 /* IntroductionViewController.swift */; };
 		BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124D28E48A2F00BD832A /* AppDelegate.swift */; };
@@ -137,6 +138,7 @@
 		BA780E0C297133F80032C178 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		BA780E0E297138F10032C178 /* HeaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderType.swift; sourceTree = "<group>"; };
 		BA780E1029713BF30032C178 /* ParameterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterType.swift; sourceTree = "<group>"; };
+		BA780E1229713F370032C178 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		BA876BA0296514DA0029CF34 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 		BA876BA3296529100029CF34 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		BA88124A28E48A2F00BD832A /* PLUB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLUB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -437,9 +439,10 @@
 		BA780E0429712DE70032C178 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				BA780E0C297133F80032C178 /* Router.swift */,
 				BA780E0E297138F10032C178 /* HeaderType.swift */,
 				BA780E1029713BF30032C178 /* ParameterType.swift */,
+				BA780E0C297133F80032C178 /* Router.swift */,
+				BA780E1229713F370032C178 /* BaseService.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,
+				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
 				70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 			);
