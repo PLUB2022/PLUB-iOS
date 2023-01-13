@@ -50,6 +50,13 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     bookmarkButton.setImage(nil, for: .normal)
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    categoryInfoListView.snp.makeConstraints {
+      $0.width.lessThanOrEqualTo(self.frame.width - 20)
+    }
+  }
+  
   private func configureUI() {
     contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
@@ -70,9 +77,9 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       $0.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
     }
     
-    bookmarkButton.snp.makeConstraints { make in
-      make.top.right.equalToSuperview().inset(16)
-      make.width.height.equalTo(32)
+    bookmarkButton.snp.makeConstraints {
+      $0.top.right.equalToSuperview().inset(16)
+      $0.width.height.equalTo(32)
     }
   }
   

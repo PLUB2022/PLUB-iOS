@@ -55,7 +55,7 @@ class CategoryInfoListView: UIView {
     case .vertical:
       categoryInfoListStackView.axis = .vertical
       categoryInfoListStackView.alignment = .top
-      categoryInfoListStackView.spacing = 8
+      categoryInfoListStackView.spacing = 4
     case .horizontal:
       categoryInfoListStackView.axis = .horizontal
       categoryInfoListStackView.spacing = 8
@@ -75,18 +75,21 @@ class CategoryInfoView: UIView {
   private let categoryType: CategoryType
   
   private lazy var stackView = UIStackView(arrangedSubviews: [infoImageView, infoLabel]).then {
-    $0.spacing = 1
+    $0.spacing = 4
     $0.distribution = .equalSpacing
     $0.axis = .horizontal
   }
   
   private let infoImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
+    $0.sizeToFit()
   }
   
   private let infoLabel = UILabel().then {
     $0.textColor = .white
     $0.font = .overLine
+    $0.numberOfLines = 1
+    $0.lineBreakMode = .byTruncatingTail
     $0.sizeToFit()
   }
   
@@ -106,6 +109,8 @@ class CategoryInfoView: UIView {
     switch categoryType {
     case .location:
       infoImageView.image = UIImage(named: "location")
+      infoImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+      infoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     case .when:
       infoImageView.image = UIImage(named: "when")
     case .people:
