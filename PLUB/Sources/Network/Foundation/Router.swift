@@ -31,3 +31,20 @@ protocol Router: URLRequestConvertible {
   /// 헤더 값을 설정할 때 사용됩니다.
   var headers: HTTPHeaders { get }
 }
+
+// MARK: - Default Value Settings
+
+extension Router {
+  
+  var baseURL: String {
+    return URLConstants.baseURL
+  }
+  
+  var parameters: Parameters? {
+    return nil
+  }
+  
+  var headers: HTTPHeaders {
+    return .default
+  }
+}
