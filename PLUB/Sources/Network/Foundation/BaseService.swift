@@ -8,7 +8,13 @@
 import Foundation
 
 import Alamofire
+import Then
+
+extension Session: Then { }
 
 class BaseService {
-  
+  let manager = Session(configuration: .af.default.then {
+    $0.timeoutIntervalForRequest = NetworkEnvironment.requestTimeout
+    $0.timeoutIntervalForResource = NetworkEnvironment.resourceTimeout
+  })
 }
