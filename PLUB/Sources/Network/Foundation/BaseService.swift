@@ -25,6 +25,9 @@ class BaseService {
   ///   - data: 응답값으로 받아온 `Data`
   ///   - type: Data 내부를 구성하는 타입
   /// - Returns: GeneralResponse 또는 Plub Error
+  ///
+  /// 해당 메서드는 검증을 위해 사용됩니다.
+  /// 요청값을 전달하고 응답받은 값을 처리하고 싶은 경우 `requestObject(_:type:completion:)`을 사용해주세요.
   func evaluateStatus<T: Codable>(
     by statusCode: Int,
     _ data: Data,
@@ -42,6 +45,30 @@ class BaseService {
       return .failure(.serverError)
     default:
       return .failure(.networkError)
+    }
+  }
+  
+  /// PLUB 서버에 필요한 값을 동봉하여 요청합니다.
+  /// - Parameters:
+  ///   - target: Router를 채택한 인스턴스(instance)
+  ///   - type: 응답 값에 들어오는 `data`를 파싱할 모델
+  ///   - completion: 요청에 따른 응답값을 처리하는 콜백 함수
+  func requestObject<T: Codable>(
+    _ target: Router,
+    type: T.Type,
+    completion: @escaping (Result<GeneralResponse<T>, PLUBError>) -> Void
+  ) {
+    manager.request(target).responseData { response in
+      switch response.result {
+      case .success(let data):
+        guard let statusCode = response.response?.statusCode else {
+          fatalError("statusCode가 없는 응답값????")
+        }
+        let result = self.evaluateStatus(by: statusCode, data, type: type)
+        completion(result)
+      case .failure(let error):
+        print(error)
+      }
     }
   }
 }
