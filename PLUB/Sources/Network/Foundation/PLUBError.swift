@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PLUBError: Error {
+enum PLUBError<T>: Error {
   
   /// 경로 에러, path가 잘못된 경우
   case pathError
@@ -15,7 +15,7 @@ enum PLUBError: Error {
   /// 요청 값에 문제가 발생한 경우 발생되는 에러입니다.
   ///
   /// 400~499 대의 응답코드가 이 에러에 속합니다.
-  case requestError
+  case requestError(T)
   
   /// 서버에 문제가 생겼을 때 발생됩니다.
   ///
