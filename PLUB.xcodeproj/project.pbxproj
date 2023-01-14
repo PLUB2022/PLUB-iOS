@@ -377,7 +377,6 @@
 		BA42D1F028EDE08000C20061 /* Meeting */ = {
 			isa = PBXGroup;
 			children = (
-				C3AD265B296ACB3900C57370 /* CreateMeeting */,
 				BA42D1F428EDE11900C20061 /* MeetingViewController.swift */,
 				C3AB743A296B1EC3003DD5E2 /* CreateMeeting */,
 			);
@@ -489,7 +488,6 @@
 			children = (
 				C3AB743B296B1EF4003DD5E2 /* List */,
 				C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */,
-				C3AD265C296ACC0600C57370 /* MeetingNameViewController.swift */,
 			);
 			path = CreateMeeting;
 			sourceTree = "<group>";
@@ -497,6 +495,7 @@
 		C3AB743B296B1EF4003DD5E2 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				C3AD265C296ACC0600C57370 /* MeetingNameViewController.swift */,
 				C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */,
 				C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */,
 				C3AB7440296B21E6003DD5E2 /* SelectQuestionViewController.swift */,
