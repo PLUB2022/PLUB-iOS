@@ -108,7 +108,7 @@ class BaseService {
   ///
   /// 요청을 보내되 제대로 요청이 처리되었는지만을 확인하고 싶은 경우가 있습니다.
   /// 그럴 때 해당 메서드를 사용하시면 됩니다.
-  /// 예를 들어, `회원 탈퇴`나 `로그 아웃`과 같은 경우가 이에 속합니다.
+  /// 예를 들어, `회원탈퇴`나 `로그아웃`과 같은 경우가 이에 속합니다.
   func sendRequestWithoutPayload(_ router: Router, completion: @escaping (Result<Any, PLUBError<Void>>) -> Void) {
     session.request(router).responseData { response in
       completion(self.evaluateStatusWithoutPayload(by: response.response?.statusCode))
