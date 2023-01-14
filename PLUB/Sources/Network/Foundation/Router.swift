@@ -62,22 +62,12 @@ extension Router {
     case .plain:
       break
       
-    case .body(let data):
-      guard let data = try? JSONEncoder().encode(data),
-            let jsonData = try? JSONSerialization.jsonObject(with: data),
-            let dictionaryData = jsonData as? [String: Any] else {
-        break
-      }
-      request.httpBody = try? JSONSerialization.data(withJSONObject: dictionaryData)
+    case .body(let body):
+      request.httpBody = try JSONSerialization.data(withJSONObject: body)
       
-    case .query(let data):
-      guard let data = try? JSONEncoder().encode(data),
-            let jsonData = try? JSONSerialization.jsonObject(with: data),
-            let dictionaryData = jsonData as? [String: Any] else {
-        break
-      }
+    case .query(let query):
       var components = URLComponents(string: url.appendingPathComponent(path).absoluteString)
-      components?.queryItems = dictionaryData.map { URLQueryItem(name: $0, value: "\($1)") }
+      components?.queryItems = query.map { URLQueryItem(name: $0, value: "\($1)") }
       request.url = components?.url
     }
     

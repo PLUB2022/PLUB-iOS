@@ -17,10 +17,10 @@ enum ParameterType {
   /// query를 설정합니다.
   ///
   /// query문으로 요청값을 전달하고 싶을 때 사용됩니다.
-  case query(Encodable)
+  case query([String: Any])
   
   /// body값을 설정합니다.
   ///
   /// `post`요청과 같이 body-field에 무언가를 담아 보내야하는 경우 사용됩니다.
-  case body(Encodable)
+  case body([String: Any])
 }
