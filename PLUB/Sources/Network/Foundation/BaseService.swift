@@ -17,6 +17,33 @@ class BaseService {
     $0.timeoutIntervalForRequest = NetworkEnvironment.requestTimeout
     $0.timeoutIntervalForResource = NetworkEnvironment.resourceTimeout
   })
+  
+  
+  /// Network Response에 대해 값을 검증하고 그 결과값을 리턴합니다.
+  /// - Parameters:
+  ///   - statusCode: http 상태 코드
+  ///   - data: 응답값으로 받아온 `Data`
+  ///   - type: Data 내부를 구성하는 타입
+  /// - Returns: GeneralResponse 또는 Plub Error
+  func evaluateStatus<T: Codable>(
+    by statusCode: Int,
+    _ data: Data,
+    type: T.Type
+  ) -> Result<GeneralResponse<T>, PLUBError> {
+    guard let decodedData = try? JSONDecoder().decode(GeneralResponse<T>.self, from: data) else {
+      return .failure(.pathError)
+    }
+    switch statusCode {
+    case 200..<300:
+      return .success(decodedData)
+    case 400..<500:
+      return .failure(.requestError)
+    case 500:
+      return .failure(.serverError)
+    default:
+      return .failure(.networkError)
+    }
+  }
 }
 
 // MARK: - Network Enum Cases
