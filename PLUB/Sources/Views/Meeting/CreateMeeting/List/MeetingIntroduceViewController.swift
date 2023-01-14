@@ -11,7 +11,9 @@ import RxSwift
 import SnapKit
 
 final class MeetingIntroduceViewController: BaseViewController {
+  
   // MARK: - Property
+  
   private let scrollView = UIScrollView().then {
     $0.bounces = false
     $0.contentInsetAdjustmentBehavior = .never
@@ -20,7 +22,7 @@ final class MeetingIntroduceViewController: BaseViewController {
   
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
-    $0.spacing = 43
+    $0.spacing = 48
   }
   
   private let titleView = CreateMeetingTitleView(
@@ -38,17 +40,19 @@ final class MeetingIntroduceViewController: BaseViewController {
     title: "모임 소개글",
     placeHolder: "우리동네 사진모임"
   )
-  
+
   private let photoStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 8
   }
-  
+
   private let photoTitleLabel = UILabel().then {
     $0.font = .subtitle
     $0.textColor = .black
     $0.text = "모임 소개 사진 (선택)"
   }
+
+  private let photoSelectView = PhotoSelectView()
   
   // MARK: - Life Cycle
   
@@ -62,10 +66,14 @@ final class MeetingIntroduceViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(contentStackView)
-    contentStackView.addArrangedSubview(titleView)
-    contentStackView.addArrangedSubview(goalView)
-    contentStackView.addArrangedSubview(introduceView)
-    contentStackView.addArrangedSubview(photoStackView)
+    
+    [titleView, goalView, introduceView, photoStackView].forEach {
+      contentStackView.addArrangedSubview($0)
+    }
+    
+    [photoTitleLabel, photoSelectView].forEach {
+      photoStackView.addArrangedSubview($0)
+    }
   }
   
   override func setupConstraints() {
@@ -80,7 +88,17 @@ final class MeetingIntroduceViewController: BaseViewController {
       $0.width.equalTo(scrollView.snp.width)
     }
     
-    contentStackView.setCustomSpacing(48, after: titleView)
+    contentStackView.setCustomSpacing(56, after: introduceView)
+    
+    photoTitleLabel.snp.makeConstraints {
+      $0.height.equalTo(19)
+      $0.leading.trailing.equalToSuperview().inset(24)
+    }
+
+    photoSelectView.snp.makeConstraints {
+      $0.height.equalTo(100)
+      $0.leading.trailing.equalToSuperview().inset(24)
+    }
   }
   
   override func setupStyles() {
