@@ -11,7 +11,9 @@ import RxSwift
 import SnapKit
 
 final class MeetingNameViewController: BaseViewController {
+  
   // MARK: - Property
+  
   private let scrollView = UIScrollView().then {
     $0.bounces = false
     $0.contentInsetAdjustmentBehavior = .never
@@ -20,18 +22,25 @@ final class MeetingNameViewController: BaseViewController {
   
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
-    $0.spacing = 38
+    $0.spacing = 48
   }
   
+  private let titleView = CreateMeetingTitleView(
+    title: "이 모임을 뭐라고 부를까요?",
+    description: "소개 타이틀, 모임 이름을 적어주세요."
+  )
+    
   private let introduceTitleView = InputTextView(
     title: "소개 타이틀",
-    placeHolder: "날 좋은날 같이 사진 찍으러 갈 사람~",
+    placeHolder: "소개하는 내용을 입력해주세요",
     options: [.textCount, .questionMark]
   )
   
   private let nameTitleView = InputTextView(
     title: "모임 이름",
-    placeHolder: "우리동네 사진모임"
+    placeHolder: "우리동네 사진모임",
+    options: [.textCount, .questionMark],
+    totalCharacterLimit: 60
   )
   
   // MARK: - Life Cycle
@@ -47,8 +56,9 @@ final class MeetingNameViewController: BaseViewController {
     view.addSubview(scrollView)
     scrollView.addSubview(contentStackView)
     
-    contentStackView.addArrangedSubview(introduceTitleView)
-    contentStackView.addArrangedSubview(nameTitleView)
+    [titleView, introduceTitleView, nameTitleView].forEach {
+      contentStackView.addArrangedSubview($0)
+    }
   }
   
   override func setupConstraints() {
@@ -62,23 +72,15 @@ final class MeetingNameViewController: BaseViewController {
       $0.edges.equalToSuperview()
       $0.width.equalTo(scrollView.snp.width)
     }
+    
+    contentStackView.setCustomSpacing(43, after: introduceTitleView)
   }
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .background
   }
   
   override func bind() {
     super.bind()
   }
 }
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-struct MeetingNameViewControllerPreview: PreviewProvider {
-  static var previews: some View {
-    MeetingNameViewController().toPreview()
-  }
-}
-#endif
