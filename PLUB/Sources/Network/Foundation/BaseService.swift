@@ -64,7 +64,7 @@ class BaseService {
   ///   - type: 응답 값에 들어오는 `data`를 파싱할 모델
   ///   - decodingMode: 원하고자 하는 응답값의 데이터
   ///   - completion: 요청에 따른 응답값을 처리하는 콜백 함수
-  func requestObject<T: Codable>(
+  func sendRequest<T: Codable>(
     _ target: Router,
     type: T.Type,
     decodingMode: DecodingMode,
