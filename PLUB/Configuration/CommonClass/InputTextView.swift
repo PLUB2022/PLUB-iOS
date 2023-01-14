@@ -27,6 +27,7 @@ final class InputTextView: UIView {
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
+    $0.textColor = .black
   }
   
   private let questionButton = UIButton().then {
@@ -56,10 +57,10 @@ final class InputTextView: UIView {
     title: String,
     placeHolder: String,
     options: InputViewOptions = [],
-    totalCharacterLimit: Int? = 150
+    totalCharacterLimit: Int? = 300
   ) {
     self.placeHolder = placeHolder
-    self.totalCharacterLimit = options.contains(.questionMark) ? totalCharacterLimit : nil
+    self.totalCharacterLimit = options.contains(.textCount) ? totalCharacterLimit : nil
     
     super.init(frame: .zero)
     
@@ -101,7 +102,7 @@ final class InputTextView: UIView {
   private func setupConstraints(options: InputViewOptions) {
     stackView.snp.makeConstraints{
       $0.top.bottom.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.leading.trailing.equalToSuperview().inset(24)
     }
     
     titleView.snp.makeConstraints {
