@@ -54,6 +54,15 @@ final class MeetingIntroduceViewController: BaseViewController {
 
   private let photoSelectView = PhotoSelectView()
   
+  private let tapGesture = UITapGestureRecognizer(
+    target: MeetingIntroduceViewController.self,
+      action: nil
+  ).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
   // MARK: - Life Cycle
   
   override func viewDidLoad() {
@@ -107,6 +116,15 @@ final class MeetingIntroduceViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(onNext: { [weak self] _ in
+          self?.view.endEditing(true)
+      })
+      .disposed(by: disposeBag)
+    
+    scrollView.addGestureRecognizer(tapGesture)
   }
   
   override func willMove(toParent parent: UIViewController?) {

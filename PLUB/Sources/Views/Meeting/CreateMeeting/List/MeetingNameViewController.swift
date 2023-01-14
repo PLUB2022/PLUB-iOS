@@ -43,6 +43,15 @@ final class MeetingNameViewController: BaseViewController {
     totalCharacterLimit: 60
   )
   
+  private let tapGesture = UITapGestureRecognizer(
+    target: MeetingNameViewController.self,
+      action: nil
+  ).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
   // MARK: - Life Cycle
   
   override func viewDidLoad() {
@@ -82,5 +91,14 @@ final class MeetingNameViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(onNext: { [weak self] _ in
+          self?.view.endEditing(true)
+      })
+      .disposed(by: disposeBag)
+    
+    scrollView.addGestureRecognizer(tapGesture)
   }
 }
