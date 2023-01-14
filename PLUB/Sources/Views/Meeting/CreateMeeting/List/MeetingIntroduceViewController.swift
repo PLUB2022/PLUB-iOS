@@ -108,4 +108,18 @@ final class MeetingIntroduceViewController: BaseViewController {
   override func bind() {
     super.bind()
   }
+  
+  override func willMove(toParent parent: UIViewController?) {
+    // TODO: 수빈 - 부모 <-> 자식 관계 설정
+    if let `parent` = parent as UIViewController? {
+      print(parent)
+    }
+  }
+  
+  override func didMove(toParent parent: UIViewController?) {
+    // TODO: 수빈 - 부모 <-> 자식 관계 설정
+    if let `parent` = parent as UIViewController? {
+      print(parent)
+    }
+  }
 }

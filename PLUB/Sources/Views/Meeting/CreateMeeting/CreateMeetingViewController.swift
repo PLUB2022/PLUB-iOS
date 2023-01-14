@@ -67,8 +67,8 @@ final class CreateMeetingViewController: BaseViewController {
     ]
   }
   
-  private let selectPeopleNumberViewController = SelectPeopleNumberViewController()
-  private let selectTimeViewController = SelectTimeViewController()
+  private let selectPeopleNumberViewController = MeetingNameViewController()
+  private let selectTimeViewController = MeetingIntroduceViewController()
   private let selectQuestionViewController = SelectQuestionViewController()
   
   private var viewControllers: [UIViewController] {
@@ -93,13 +93,10 @@ final class CreateMeetingViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    viewControllers.forEach {
-      addChild($0)
+
+    [pageControl, scrollView, nextButton].forEach {
+      view.addSubview($0)
     }
-    
-    view.addSubview(pageControl)
-    view.addSubview(scrollView)
-    view.addSubview(nextButton)
     
     scrollView.addSubview(contentStackView)
   }
@@ -112,7 +109,7 @@ final class CreateMeetingViewController: BaseViewController {
     }
     
     scrollView.snp.makeConstraints {
-      $0.top.equalTo(pageControl.snp.bottom).offset(16)
+      $0.top.equalTo(pageControl.snp.bottom).offset(24)
       $0.leading.trailing.bottom.equalToSuperview()
     }
     
@@ -130,7 +127,6 @@ final class CreateMeetingViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .systemBackground
     pushChildView(index: lastPageIndex)
   }
   
@@ -148,8 +144,9 @@ final class CreateMeetingViewController: BaseViewController {
 
   private func pushChildView(index: Int) {
     contentStackView.addArrangedSubview(containerViews[index])
+    addChild(viewControllers[index])
     containerViews[index].addSubview(viewControllers[index].view)
-    
+  
     containerViews[index].snp.makeConstraints {
       $0.width.equalTo(Device.width)
     }
@@ -158,11 +155,17 @@ final class CreateMeetingViewController: BaseViewController {
       $0.edges.equalToSuperview()
     }
     
+    viewControllers[index].didMove(toParent: self)
+    
     scrollToPage(index: index)
   }
   
   private func popChildView(index: Int) {
     scrollToPage(index: index)
+    
+    viewControllers[index + 1].willMove(toParent: nil)
+    viewControllers[index + 1].removeFromParent()
+    viewControllers[index + 1].view.removeFromSuperview()
     
     contentStackView.removeArrangedSubview(containerViews[index + 1])
   }
