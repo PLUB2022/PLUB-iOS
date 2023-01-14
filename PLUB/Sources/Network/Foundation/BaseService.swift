@@ -13,11 +13,12 @@ import Then
 extension Session: Then { }
 
 class BaseService {
-  let manager = Session(configuration: .af.default.then {
+  
+  /// Alamofire의 Session instance입니다. 요청할 때 사용됩니다.
+  let session = Session(configuration: .af.default.then {
     $0.timeoutIntervalForRequest = NetworkEnvironment.requestTimeout
     $0.timeoutIntervalForResource = NetworkEnvironment.resourceTimeout
   })
-  
   
   /// Network Response에 대해 값을 검증하고 그 결과값을 리턴합니다.
   /// - Parameters:
@@ -69,7 +70,7 @@ class BaseService {
     decodingMode: DecodingMode,
     completion: @escaping (Result<Any, PLUBError>) -> Void
   ) {
-    manager.request(target).responseData { response in
+    session.request(target).responseData { response in
       switch response.result {
       case .success(let data):
         guard let statusCode = response.response?.statusCode else {
