@@ -73,6 +73,8 @@
 		BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */; };
 		BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */; };
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
+		C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */; };
+		C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
 		C3AB743D296B2181003DD5E2 /* SelectPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */; };
 		C3AB743F296B21C1003DD5E2 /* SelectTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */; };
@@ -146,6 +148,8 @@
 		BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyBodyTableViewCell.swift; sourceTree = "<group>"; };
 		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
+		C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingTitleView.swift; sourceTree = "<group>"; };
+		C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewController.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPeopleNumberViewController.swift; sourceTree = "<group>"; };
 		C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTimeViewController.swift; sourceTree = "<group>"; };
@@ -483,11 +487,20 @@
 			path = Policy;
 			sourceTree = "<group>";
 		};
+		C36CE39D29730B8C00E3A68C /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		C3AB743A296B1EC3003DD5E2 /* CreateMeeting */ = {
 			isa = PBXGroup;
 			children = (
-				C3AB743B296B1EF4003DD5E2 /* List */,
 				C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */,
+				C36CE39D29730B8C00E3A68C /* Component */,
+				C3AB743B296B1EF4003DD5E2 /* List */,
 			);
 			path = CreateMeeting;
 			sourceTree = "<group>";
@@ -496,6 +509,7 @@
 			isa = PBXGroup;
 			children = (
 				C3AD265C296ACC0600C57370 /* MeetingNameViewController.swift */,
+				C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */,
 				C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */,
 				C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */,
 				C3AB7440296B21E6003DD5E2 /* SelectQuestionViewController.swift */,
@@ -603,6 +617,7 @@
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */,
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
+				C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
@@ -649,6 +664,7 @@
 				C3AD265F296AD3C100C57370 /* InputTextView.swift in Sources */,
 				BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */,
 				C3AB743D296B2181003DD5E2 /* SelectPeopleNumberViewController.swift in Sources */,
+				C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
 				70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */,
