@@ -24,6 +24,7 @@ class BaseService {
   ///   - statusCode: http 상태 코드
   ///   - data: 응답값으로 받아온 `Data`
   ///   - type: Data 내부를 구성하는 타입
+  ///   - decodingMode: 원하고자 하는 응답값의 데이터
   /// - Returns: GeneralResponse 또는 Plub Error
   ///
   /// 해당 메서드는 검증을 위해 사용됩니다.
@@ -31,14 +32,22 @@ class BaseService {
   func evaluateStatus<T: Codable>(
     by statusCode: Int,
     _ data: Data,
-    type: T.Type
-  ) -> Result<GeneralResponse<T>, PLUBError> {
+    type: T.Type,
+    decodingMode: DecodingMode
+  ) -> Result<Any, PLUBError> {
     guard let decodedData = try? JSONDecoder().decode(GeneralResponse<T>.self, from: data) else {
       return .failure(.pathError)
     }
     switch statusCode {
     case 200..<300:
-      return .success(decodedData)
+      switch decodingMode {
+      case .data:
+        return .success(decodedData.data ?? "None-Data")
+      case .message:
+        return .success(decodedData.message ?? "None-Data")
+      case .general:
+        return .success(decodedData)
+      }
     case 400..<500:
       return .failure(.requestError)
     case 500:
@@ -52,11 +61,13 @@ class BaseService {
   /// - Parameters:
   ///   - target: Router를 채택한 인스턴스(instance)
   ///   - type: 응답 값에 들어오는 `data`를 파싱할 모델
+  ///   - decodingMode: 원하고자 하는 응답값의 데이터
   ///   - completion: 요청에 따른 응답값을 처리하는 콜백 함수
   func requestObject<T: Codable>(
     _ target: Router,
     type: T.Type,
-    completion: @escaping (Result<GeneralResponse<T>, PLUBError>) -> Void
+    decodingMode: DecodingMode,
+    completion: @escaping (Result<Any, PLUBError>) -> Void
   ) {
     manager.request(target).responseData { response in
       switch response.result {
@@ -64,7 +75,7 @@ class BaseService {
         guard let statusCode = response.response?.statusCode else {
           fatalError("statusCode가 없는 응답값????")
         }
-        let result = self.evaluateStatus(by: statusCode, data, type: type)
+        let result = self.evaluateStatus(by: statusCode, data, type: type, decodingMode: decodingMode)
         completion(result)
       case .failure(let error):
         print(error)
@@ -76,6 +87,18 @@ class BaseService {
 // MARK: - Network Enum Cases
 
 extension BaseService {
+  
+  enum DecodingMode {
+    
+    /// 응답으로 받은 값을 전부 전달합니다.
+    case general
+    
+    /// 응답에서 `data`가 key인 값을 추출하여 전달합니다.
+    case data
+    
+    /// 응답에서 `message`가 key인 값을 추출하여 전달합니다.
+    case message
+  }
   
   enum PLUBError: Error {
     
