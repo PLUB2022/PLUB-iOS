@@ -10,9 +10,16 @@ import UIKit
 import RxSwift
 import SnapKit
 
+protocol CreateMeetingChildViewControllerDelegate : AnyObject {
+    func checkValidation(index:Int, state : Bool)
+}
+
 final class MeetingNameViewController: BaseViewController {
   
   // MARK: - Property
+  private var viewModel: MeetingNameViewModel
+  weak var delegate: CreateMeetingChildViewControllerDelegate?
+  private var childIndex: Int
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -52,13 +59,22 @@ final class MeetingNameViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  // MARK: - Life Cycle
+  init(
+    viewModel: MeetingNameViewModel,
+    childIndex: Int
+  ) {
+    self.viewModel = viewModel
+    self.childIndex = childIndex
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
   }
-  
-  // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
@@ -92,6 +108,22 @@ final class MeetingNameViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    let input = MeetingNameViewModel.Input(
+      introduceTitleText: introduceTitleView.textView.rx.text.orEmpty.asObservable(),
+      nameTitleText: nameTitleView.textView.rx.text.orEmpty.asObservable()
+    )
+            
+    let output = viewModel.transform(input: input)
+    
+    output.isBtnEnabled
+      .distinctUntilChanged()
+      .drive(
+          onNext: { [weak self] in
+            self?.delegate?.checkValidation(index: self?.childIndex ?? 0, state: $0)
+          }
+      )
+      .disposed(by: disposeBag)
+
     tapGesture.rx.event
       .asDriver()
       .drive(onNext: { [weak self] _ in
