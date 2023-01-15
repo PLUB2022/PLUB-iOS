@@ -9,10 +9,10 @@ import RxSwift
 import RxCocoa
 
 protocol MeetingIntroduceViewModelType {
-    associatedtype Input
-    associatedtype Output
+  associatedtype Input
+  associatedtype Output
 
-    func transform(input: Input) -> Output
+  func transform(input: Input) -> Output
 }
 
 final class MeetingIntroduceViewModel: MeetingIntroduceViewModelType {

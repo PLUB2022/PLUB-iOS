@@ -11,7 +11,7 @@ import RxSwift
 import SnapKit
 
 protocol CreateMeetingChildViewControllerDelegate : AnyObject {
-    func checkValidation(index:Int, state : Bool)
+  func checkValidation(index:Int, state : Bool)
 }
 
 final class MeetingNameViewController: BaseViewController {
