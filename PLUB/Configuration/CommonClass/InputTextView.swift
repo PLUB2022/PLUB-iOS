@@ -34,7 +34,7 @@ final class InputTextView: UIView {
     $0.setImage(UIImage(named: "questionButton"), for: .normal)
   }
   
-  private let textView = UITextView().then {
+  let textView = UITextView().then {
     $0.textColor = .deepGray
     $0.textContainerInset = UIEdgeInsets(
       top: 11,
