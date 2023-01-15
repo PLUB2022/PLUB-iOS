@@ -117,6 +117,7 @@ final class CreateMeetingViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    setupNavigationBar()
     pushChildView(index: lastPageIndex)
   }
   
@@ -131,7 +132,27 @@ final class CreateMeetingViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
   }
-
+  
+  private func setupNavigationBar() {
+    navigationController?.navigationBar.tintColor = .black
+    navigationController?.navigationBar.backgroundColor = .background
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "backButton"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+  }
+  
+  @objc private func didTappedBackButton() {
+    if currentPage == 0 {
+      navigationController?.popViewController(animated: true)
+    } else {
+      scrollToPage(index: currentPage - 1)
+      currentPage -= 1
+    }
+  }
+  
   private func pushChildView(index: Int) {
     let containerView = UIView()
     contentStackView.addArrangedSubview(containerView)
