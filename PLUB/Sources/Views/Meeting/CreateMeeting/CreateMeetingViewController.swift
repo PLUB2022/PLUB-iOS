@@ -22,6 +22,7 @@ final class CreateMeetingViewController: BaseViewController {
   private var currentPage = 0 {
     didSet {
       pageControl.currentPage = currentPage
+      view.endEditing(true)
     }
   }
   
@@ -77,6 +78,16 @@ final class CreateMeetingViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
   }
   
   // MARK: - Configuration
@@ -144,7 +155,8 @@ final class CreateMeetingViewController: BaseViewController {
     )
   }
   
-  @objc private func didTappedBackButton() {
+  @objc
+  private func didTappedBackButton() {
     if currentPage == 0 {
       navigationController?.popViewController(animated: true)
     } else {
@@ -177,6 +189,42 @@ final class CreateMeetingViewController: BaseViewController {
     scrollView.setContentOffset(offset, animated: true)
   }
 }
+
+// MARK: - Keyboard
+
+extension CreateMeetingViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                             name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+      let keyboardHeight: CGFloat = keyboardSize.height
+      nextButton.snp.updateConstraints {
+        $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
+      }
+      view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    nextButton.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+    }
+    view.layoutIfNeeded()
+  }
+}
+
+// MARK: - UIScrollViewDelegate
 
 extension CreateMeetingViewController: UIScrollViewDelegate {
   func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
