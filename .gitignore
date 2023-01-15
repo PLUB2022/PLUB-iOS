@@ -139,3 +139,8 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/xcode,macos,cocoapods,swift
+
+
+### Custom gitignore ###
+
+PLUB/Sources/Network/Environment/Config.swift
