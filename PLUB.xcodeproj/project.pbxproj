@@ -79,6 +79,7 @@
 		BA88126A28E48A8D00BD832A /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126928E48A8D00BD832A /* Then */; };
 		BA88126D28E48AB700BD832A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126C28E48AB700BD832A /* SnapKit */; };
 		BA88127028E48AC800BD832A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126F28E48AC800BD832A /* Alamofire */; };
+		BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */; };
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE16028292221ED00D595FF /* CheckBoxButton.swift */; };
 		BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */; };
@@ -160,6 +161,7 @@
 		BA88125928E48A3000BD832A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA88125B28E48A3000BD832A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA88126128E48A5800BD832A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		BAC923DE29546BF500385841 /* BirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
 		BAE16028292221ED00D595FF /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
@@ -369,6 +371,8 @@
 		BA36EED5295463AA00D30169 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				BA8E2B3D297461C8009DDF32 /* Request */,
+				BA8E2B3E297461D5009DDF32 /* Response */,
 				BA780E1429714AAB0032C178 /* GeneralResponse.swift */,
 			);
 			path = Models;
@@ -528,6 +532,21 @@
 			path = PLUB;
 			sourceTree = "<group>";
 		};
+		BA8E2B3D297461C8009DDF32 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		BA8E2B3E297461D5009DDF32 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
 		BAC923DD29546BF000385841 /* Birth */ = {
 			isa = PBXGroup;
 			children = (
@@ -674,6 +693,7 @@
 				BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */,
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
+				BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
