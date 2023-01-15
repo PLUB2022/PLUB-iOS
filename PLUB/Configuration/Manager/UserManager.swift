@@ -31,6 +31,10 @@ final class UserManager {
   @UserDefaultsWrapper<Bool>(key: "socialType")
   private(set) var isAppleLogin
   
+  var hasAccessToken: Bool { return accessToken != nil }
+  var hasRefreshToken: Bool { return refreshToken != nil }
+  var isAppleLoginned: Bool { isAppleLogin! }
+  
   // MARK: - Initialization
   
   private init() { }
