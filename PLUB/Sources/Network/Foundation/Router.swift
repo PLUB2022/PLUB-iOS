@@ -62,10 +62,12 @@ extension Router {
     case .plain:
       break
       
-    case .body(let body):
+    case .body(let data):
+      let body = data.toDictionary
       request.httpBody = try JSONSerialization.data(withJSONObject: body)
       
-    case .query(let query):
+    case .query(let data):
+      let query = data.toDictionary
       var components = URLComponents(string: url.appendingPathComponent(path).absoluteString)
       components?.queryItems = query.map { URLQueryItem(name: $0, value: "\($1)") }
       request.url = components?.url
