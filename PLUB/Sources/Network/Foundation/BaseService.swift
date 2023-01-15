@@ -33,8 +33,7 @@ class BaseService {
   func evaluateStatus<T: Codable>(
     by statusCode: Int,
     _ data: Data,
-    type: T.Type,
-    decodingMode: DecodingMode
+    type: T.Type
   ) -> Result<Any, PLUBError> {
     guard let decodedData = try? JSONDecoder().decode(GeneralResponse<T>.self, from: data) else {
       return .failure(.pathError)
@@ -67,7 +66,6 @@ class BaseService {
   func sendRequest<T: Codable>(
     _ router: Router,
     type: T.Type,
-    decodingMode: DecodingMode,
     completion: @escaping (Result<Any, PLUBError>) -> Void
   ) {
     session.request(router).responseData { response in
@@ -89,15 +87,4 @@ class BaseService {
 
 extension BaseService {
   
-  enum DecodingMode {
-    
-    /// 응답으로 받은 값을 전부 전달합니다.
-    case general
-    
-    /// 응답에서 `data`가 key인 값을 추출하여 전달합니다.
-    case data
-    
-    /// 응답에서 `message`가 key인 값을 추출하여 전달합니다.
-    case message
-  }
 }
