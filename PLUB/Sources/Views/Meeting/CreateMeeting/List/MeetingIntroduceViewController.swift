@@ -13,6 +13,9 @@ import SnapKit
 final class MeetingIntroduceViewController: BaseViewController {
   
   // MARK: - Property
+  private var viewModel: MeetingIntroduceViewModel
+  weak var delegate: CreateMeetingChildViewControllerDelegate?
+  private var childIndex: Int
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -63,7 +66,18 @@ final class MeetingIntroduceViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  // MARK: - Life Cycle
+  init(
+    viewModel: MeetingIntroduceViewModel,
+    childIndex: Int
+  ) {
+    self.viewModel = viewModel
+    self.childIndex = childIndex
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -117,27 +131,32 @@ final class MeetingIntroduceViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    let input = MeetingIntroduceViewModel.Input(
+      goalText: goalView.textView.rx.text.orEmpty.asObservable(),
+      introduceText: introduceView.textView.rx.text.orEmpty.asObservable()
+    )
+            
+    let output = viewModel.transform(input: input)
+    
+    output.isBtnEnabled
+      .distinctUntilChanged()
+      .drive(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.delegate?.checkValidation(
+          index: self.childIndex,
+          state: $0
+        )
+      })
+      .disposed(by: disposeBag)
+    
     tapGesture.rx.event
       .asDriver()
       .drive(onNext: { [weak self] _ in
-          self?.view.endEditing(true)
+        guard let self = self else { return }
+        self.view.endEditing(true)
       })
       .disposed(by: disposeBag)
     
     scrollView.addGestureRecognizer(tapGesture)
-  }
-  
-  override func willMove(toParent parent: UIViewController?) {
-    // TODO: 수빈 - 부모 <-> 자식 관계 설정
-    if let `parent` = parent as UIViewController? {
-      print(parent)
-    }
-  }
-  
-  override func didMove(toParent parent: UIViewController?) {
-    // TODO: 수빈 - 부모 <-> 자식 관계 설정
-    if let `parent` = parent as UIViewController? {
-      print(parent)
-    }
   }
 }
