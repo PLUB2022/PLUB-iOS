@@ -8,6 +8,8 @@
 import Foundation
 
 import Alamofire
+import RxCocoa
+import RxSwift
 import Then
 
 extension Session: Then { }
@@ -19,11 +21,10 @@ class BaseService {
   ///   - statusCode: http 상태 코드
   ///   - data: 응답값으로 받아온 `Data`
   ///   - type: Data 내부를 구성하는 타입
-  ///   - decodingMode: 원하고자 하는 응답값의 데이터
   /// - Returns: GeneralResponse 또는 Plub Error
   ///
   /// 해당 메서드는 검증을 위해 사용됩니다.
-  /// 요청값을 전달하고 응답받은 값을 처리하고 싶은 경우 `requestObject(_:type:completion:)`을 사용해주세요.
+  /// 요청값을 전달하고 응답받은 값을 처리하고 싶은 경우 `requestObject(_:type:)`을 사용해주세요.
   func evaluateStatus<T: Codable>(
     by statusCode: Int,
     _ data: Data,
@@ -34,7 +35,7 @@ class BaseService {
     }
     switch statusCode {
     case 200..<300:
-        return .success(decodedData)
+      return .success(decodedData)
     case 400..<500:
       return .failure(.requestError(decodedData.statusCode!))
     case 500:
@@ -48,32 +49,31 @@ class BaseService {
   /// - Parameters:
   ///   - target: Router를 채택한 인스턴스(instance)
   ///   - type: 응답 값에 들어오는 `data`를 파싱할 모델
-  ///   - decodingMode: 원하고자 하는 응답값의 데이터
-  ///   - completion: 요청에 따른 응답값을 처리하는 콜백 함수
   func sendRequest<T: Codable>(
     _ router: Router,
-    type: T.Type = EmptyModel.self,
-    completion: @escaping (Result<GeneralResponse<T>, PLUBError>) -> Void
-  ) {
-    AF.request(router).responseData { response in
-      switch response.result {
-      case .success(let data):
-        guard let statusCode = response.response?.statusCode else {
-          fatalError("statusCode가 없는 응답값????")
+    type: T.Type = EmptyModel.self
+  ) -> Observable<Result<GeneralResponse<T>, PLUBError>> {
+    Single.create { observer in
+      AF.request(router).responseData { response in
+        switch response.result {
+        case .success(let data):
+          guard let statusCode = response.response?.statusCode else {
+            fatalError("statusCode가 없는 응답값????")
+          }
+          // PLUBError와 Success(GeneralResponse<T>)가 같이 들어가 있음
+          observer(.success(self.evaluateStatus(by: statusCode, data, type: type)))
+        case .failure(let error):
+          observer(.failure(error)) // Alamofire Error
         }
-        let result = self.evaluateStatus(by: statusCode, data, type: type)
-        completion(result)
-      case .failure(let error):
-        print(error)
       }
+      return Disposables.create()
     }
+    .asObservable()
   }
 }
 
-// MARK: - Network Enum Cases
+// MARK: - Empty Model
 
 extension BaseService {
-  struct EmptyModel: Codable {
-    
-  }
+  struct EmptyModel: Codable { }
 }
