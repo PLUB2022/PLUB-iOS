@@ -28,7 +28,7 @@ class BaseService {
     by statusCode: Int,
     _ data: Data,
     type: T.Type
-  ) -> Result<Any, PLUBError> {
+  ) -> Result<GeneralResponse<T>, PLUBError> {
     guard let decodedData = try? JSONDecoder().decode(GeneralResponse<T>.self, from: data) else {
       return .failure(.pathError)
     }
@@ -53,7 +53,7 @@ class BaseService {
   func sendRequest<T: Codable>(
     _ router: Router,
     type: T.Type = EmptyModel.self,
-    completion: @escaping (Result<Any, PLUBError>) -> Void
+    completion: @escaping (Result<GeneralResponse<T>, PLUBError>) -> Void
   ) {
     AF.request(router).responseData { response in
       switch response.result {
