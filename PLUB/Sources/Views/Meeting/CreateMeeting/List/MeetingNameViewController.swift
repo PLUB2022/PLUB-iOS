@@ -117,17 +117,20 @@ final class MeetingNameViewController: BaseViewController {
     
     output.isBtnEnabled
       .distinctUntilChanged()
-      .drive(
-          onNext: { [weak self] in
-            self?.delegate?.checkValidation(index: self?.childIndex ?? 0, state: $0)
-          }
-      )
+      .drive(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.delegate?.checkValidation(
+          index: self.childIndex,
+          state: $0
+        )
+      })
       .disposed(by: disposeBag)
 
     tapGesture.rx.event
       .asDriver()
       .drive(onNext: { [weak self] _ in
-          self?.view.endEditing(true)
+        guard let self = self else { return }
+        self.view.endEditing(true)
       })
       .disposed(by: disposeBag)
     
