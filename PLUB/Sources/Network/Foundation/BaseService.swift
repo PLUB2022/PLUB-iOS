@@ -35,7 +35,7 @@ class BaseService {
     _ data: Data,
     type: T.Type,
     decodingMode: DecodingMode
-  ) -> Result<Any, PLUBError<GeneralResponse<T>>> {
+  ) -> Result<Any, PLUBError> {
     guard let decodedData = try? JSONDecoder().decode(GeneralResponse<T>.self, from: data) else {
       return .failure(.pathError)
     }
@@ -50,7 +50,7 @@ class BaseService {
         return .success(decodedData)
       }
     case 400..<500:
-      return .failure(.requestError(decodedData))
+      return .failure(.requestError(decodedData.statusCode!))
     case 500:
       return .failure(.serverError)
     default:
@@ -61,13 +61,13 @@ class BaseService {
   /// 응답값만을 검증할 때 사용됩니다.
   /// - Parameter statusCode: HTTP 상태코드
   /// - Returns: success or failure
-  func evaluateStatusWithoutPayload(by statusCode: Int?) -> Result<Any, PLUBError<Void>> {
+  func evaluateStatusWithoutPayload(by statusCode: Int?) -> Result<Any, PLUBError> {
     guard let statusCode = statusCode else { return .failure(.pathError) }
     switch statusCode {
     case 200..<300:
       return .success(())
     case 400..<500:
-      return .failure(.requestError(()))
+      return .failure(.requestError((0)))
     case 500:
       return .failure(.serverError)
     default:
@@ -85,7 +85,7 @@ class BaseService {
     _ target: Router,
     type: T.Type,
     decodingMode: DecodingMode,
-    completion: @escaping (Result<Any, PLUBError<GeneralResponse<T>>>) -> Void
+    completion: @escaping (Result<Any, PLUBError>) -> Void
   ) {
     session.request(target).responseData { response in
       switch response.result {
@@ -109,7 +109,7 @@ class BaseService {
   /// 요청을 보내되 제대로 요청이 처리되었는지만을 확인하고 싶은 경우가 있습니다.
   /// 그럴 때 해당 메서드를 사용하시면 됩니다.
   /// 예를 들어, `회원탈퇴`나 `로그아웃`과 같은 경우가 이에 속합니다.
-  func sendRequestWithoutPayload(_ router: Router, completion: @escaping (Result<Any, PLUBError<Void>>) -> Void) {
+  func sendRequestWithoutPayload(_ router: Router, completion: @escaping (Result<Any, PLUBError>) -> Void) {
     session.request(router).responseData { response in
       completion(self.evaluateStatusWithoutPayload(by: response.response?.statusCode))
     }
