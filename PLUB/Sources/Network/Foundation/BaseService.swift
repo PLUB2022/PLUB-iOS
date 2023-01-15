@@ -65,7 +65,7 @@ class BaseService {
   ///   - completion: 요청에 따른 응답값을 처리하는 콜백 함수
   func sendRequest<T: Codable>(
     _ router: Router,
-    type: T.Type,
+    type: T.Type = EmptyModel.self,
     completion: @escaping (Result<Any, PLUBError>) -> Void
   ) {
     session.request(router).responseData { response in
@@ -86,5 +86,7 @@ class BaseService {
 // MARK: - Network Enum Cases
 
 extension BaseService {
-  
+  struct EmptyModel: Codable {
+    
+  }
 }
