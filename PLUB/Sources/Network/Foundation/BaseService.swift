@@ -40,14 +40,7 @@ class BaseService {
     }
     switch statusCode {
     case 200..<300:
-      switch decodingMode {
-      case .data:
-        return .success(decodedData.data ?? "None-Data")
-      case .message:
-        return .success(decodedData.message ?? "None-Data")
-      case .general:
         return .success(decodedData)
-      }
     case 400..<500:
       return .failure(.requestError(decodedData.statusCode!))
     case 500:
@@ -74,7 +67,7 @@ class BaseService {
         guard let statusCode = response.response?.statusCode else {
           fatalError("statusCode가 없는 응답값????")
         }
-        let result = self.evaluateStatus(by: statusCode, data, type: type, decodingMode: decodingMode)
+        let result = self.evaluateStatus(by: statusCode, data, type: type)
         completion(result)
       case .failure(let error):
         print(error)
