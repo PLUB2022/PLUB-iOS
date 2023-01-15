@@ -73,7 +73,10 @@ final class CreateMeetingViewController: BaseViewController {
     viewModel: MeetingNameViewModel(),
     childIndex: 0
   )
-  private let meetingIntroduceViewController = MeetingIntroduceViewController()
+  private let meetingIntroduceViewController = MeetingIntroduceViewController(
+    viewModel: MeetingIntroduceViewModel(),
+    childIndex: 1
+  )
   private let selectQuestionViewController = SelectQuestionViewController()
   
   private var viewControllers: [CreateMeetingType] = [.name, .introduction, .question]
@@ -212,6 +215,7 @@ final class CreateMeetingViewController: BaseViewController {
       meetingNameViewController.delegate = self
       return meetingNameViewController
     case .introduction:
+      meetingIntroduceViewController.delegate = self
       return meetingIntroduceViewController
     case .age:
       return selectQuestionViewController
