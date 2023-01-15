@@ -9,6 +9,27 @@ import UIKit
 
 import RxSwift
 
+enum CreateMeetingType {
+  case category // 카테고리
+  case name // 모임 이름
+  case introduction // 모임 소개
+  case age // 성별, 나이
+  case date // 요일
+  case peopleCount // 인원
+  case question // 질문 여부
+  
+  var vc: UIViewController {
+    switch self {
+    case .name:
+      return MeetingNameViewController()
+    case .introduction:
+      return MeetingIntroduceViewController()
+    default:
+      return SelectQuestionViewController()
+    }
+  }
+}
+
 final class CreateMeetingViewController: BaseViewController {
   
   init() {
@@ -55,15 +76,11 @@ final class CreateMeetingViewController: BaseViewController {
     $0.spacing = 0
   }
   
-  private let meetingNameViewController = MeetingNameViewController()
-  private let meetingIntroduceViewController = MeetingIntroduceViewController()
-  private let selectQuestionViewController = SelectQuestionViewController()
-  
-  private var viewControllers: [UIViewController] {
+  private var viewControllers: [CreateMeetingType] {
     [
-      meetingNameViewController,
-      meetingIntroduceViewController,
-      selectQuestionViewController
+      .name,
+      .introduction,
+      .question
     ]
   }
   
@@ -134,12 +151,12 @@ final class CreateMeetingViewController: BaseViewController {
     nextButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        if owner.lastPageIndex + 1 < owner.viewControllers.count {
-          owner.lastPageIndex += 1
-          owner.currentPage = owner.lastPageIndex
-        } else if owner.currentPage < owner.lastPageIndex {
+        if owner.currentPage < owner.lastPageIndex {
           owner.scrollToPage(index: owner.currentPage + 1)
           owner.currentPage += 1
+        } else if owner.lastPageIndex + 1 < owner.viewControllers.count {
+          owner.lastPageIndex += 1
+          owner.currentPage = owner.lastPageIndex
         }
       })
       .disposed(by: disposeBag)
@@ -169,18 +186,20 @@ final class CreateMeetingViewController: BaseViewController {
   private func pushChildView(index: Int) {
     let containerView = UIView()
     contentStackView.addArrangedSubview(containerView)
-    addChild(viewControllers[index])
-    containerView.addSubview(viewControllers[index].view)
+    
+    let childViewController = viewControllers[index].vc
+    addChild(childViewController)
+    containerView.addSubview(childViewController.view)
   
     containerView.snp.makeConstraints {
       $0.width.equalTo(Device.width)
     }
     
-    viewControllers[index].view.snp.makeConstraints {
+    childViewController.view.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
     
-    viewControllers[index].didMove(toParent: self)
+    childViewController.didMove(toParent: self)
     
     scrollToPage(index: index)
   }
