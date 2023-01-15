@@ -83,6 +83,7 @@
 		C3AD265D296ACC0600C57370 /* MeetingNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AD265C296ACC0600C57370 /* MeetingNameViewController.swift */; };
 		C3AD265F296AD3C100C57370 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AD265E296AD3C100C57370 /* InputTextView.swift */; };
 		C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */; };
+		C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +161,7 @@
 		C3AD265C296ACC0600C57370 /* MeetingNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingNameViewController.swift; sourceTree = "<group>"; };
 		C3AD265E296AD3C100C57370 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingNameViewModel.swift; sourceTree = "<group>"; };
+		C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -503,10 +505,10 @@
 		C3AB743A296B1EC3003DD5E2 /* CreateMeeting */ = {
 			isa = PBXGroup;
 			children = (
-				C3E98EAB29744DAF00E36C45 /* ViewModel */,
 				C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */,
-				C36CE39D29730B8C00E3A68C /* Component */,
+				C3E98EAB29744DAF00E36C45 /* ViewModel */,
 				C3AB743B296B1EF4003DD5E2 /* List */,
+				C36CE39D29730B8C00E3A68C /* Component */,
 			);
 			path = CreateMeeting;
 			sourceTree = "<group>";
@@ -527,6 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */,
+				C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */,
 				70BD5F35296491C8002CBA89 /* ApplyQuestionTableHeaderView.swift in Sources */,
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
