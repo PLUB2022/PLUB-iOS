@@ -36,3 +36,11 @@ final class UserManager {
   private init() { }
 }
 
+extension UserManager {
+  
+  func updatePLUBToken(accessToken: String, refreshToken: String) {
+    self.accessToken = accessToken
+    self.refreshToken = refreshToken
+  }
+}
+
