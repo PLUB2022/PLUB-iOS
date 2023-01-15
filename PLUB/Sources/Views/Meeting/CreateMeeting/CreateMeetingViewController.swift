@@ -17,17 +17,6 @@ enum CreateMeetingType {
   case date // 요일
   case peopleCount // 인원
   case question // 질문 여부
-  
-  var vc: UIViewController {
-    switch self {
-    case .name:
-      return MeetingNameViewController()
-    case .introduction:
-      return MeetingIntroduceViewController()
-    default:
-      return SelectQuestionViewController()
-    }
-  }
 }
 
 final class CreateMeetingViewController: BaseViewController {
@@ -76,17 +65,21 @@ final class CreateMeetingViewController: BaseViewController {
     $0.spacing = 0
   }
   
-  private var viewControllers: [CreateMeetingType] {
-    [
-      .name,
-      .introduction,
-      .question
-    ]
-  }
-  
   private var nextButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
+  
+  private let meetingNameViewController = MeetingNameViewController(
+    viewModel: MeetingNameViewModel(),
+    childIndex: 0
+  )
+  private let meetingIntroduceViewController = MeetingIntroduceViewController()
+  private let selectQuestionViewController = SelectQuestionViewController()
+  
+  private var viewControllers: [CreateMeetingType] = [.name, .introduction, .question]
+  
+  //TODO: 수빈 - viewModel로 빼기
+  private var isNextButtonEnable = [Bool]()
   
   // MARK: - Life Cycle
   
@@ -184,22 +177,24 @@ final class CreateMeetingViewController: BaseViewController {
   }
   
   private func pushChildView(index: Int) {
+    isNextButtonEnable.append(false)
+    nextButton.isEnabled = false
+    
     let containerView = UIView()
     contentStackView.addArrangedSubview(containerView)
     
-    let childViewController = viewControllers[index].vc
-    addChild(childViewController)
-    containerView.addSubview(childViewController.view)
+    addChild(selectChildViewController(index: index))
+    containerView.addSubview(selectChildViewController(index: index).view)
   
     containerView.snp.makeConstraints {
       $0.width.equalTo(Device.width)
     }
     
-    childViewController.view.snp.makeConstraints {
+    selectChildViewController(index: index).view.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
     
-    childViewController.didMove(toParent: self)
+    selectChildViewController(index: index).didMove(toParent: self)
     
     scrollToPage(index: index)
   }
@@ -207,6 +202,35 @@ final class CreateMeetingViewController: BaseViewController {
   private func scrollToPage(index: Int) {
     let offset: CGPoint = CGPoint(x: Device.width * CGFloat(index), y: 0)
     scrollView.setContentOffset(offset, animated: true)
+  }
+  
+  private func selectChildViewController(index: Int) -> UIViewController {
+    switch viewControllers[index] {
+    case .category:
+      return selectQuestionViewController
+    case .name:
+      meetingNameViewController.delegate = self
+      return meetingNameViewController
+    case .introduction:
+      return meetingIntroduceViewController
+    case .age:
+      return selectQuestionViewController
+    case .date:
+      return selectQuestionViewController
+    case .peopleCount:
+      return selectQuestionViewController
+    default:
+      return selectQuestionViewController
+    }
+  }
+}
+
+// MARK: - Keyboard
+
+extension CreateMeetingViewController: CreateMeetingChildViewControllerDelegate {
+  func checkValidation(index:Int, state: Bool) {
+    isNextButtonEnable[index] = state
+    nextButton.isEnabled = isNextButtonEnable.contains(false) ? false : true
   }
 }
 
