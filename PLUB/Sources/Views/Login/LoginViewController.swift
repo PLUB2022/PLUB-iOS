@@ -1,6 +1,9 @@
 import AuthenticationServices
 import UIKit
 
+import KakaoSDKAuth
+import KakaoSDKCommon
+import KakaoSDKUser
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -116,8 +119,46 @@ final class LoginViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    // Kakao Login
+    kakaoLoginButton.rx.tap
+      .withUnretained(self)
+      .subscribe { owner, _ in
+        owner.kakaoLogin()
+      }
+      .disposed(by: disposeBag)
   }
 }
+
+
+// MARK: - Login Logics
+
+extension LoginViewController {
+  
+  
+  
+  private func kakaoLogin() {
+    
+    let loginClosure: (OAuthToken?, Error?) -> Void = { oauthToken, error in
+      if let error = error {
+        // TODO: 승현 - 카카오톡 로그인 실패 Alert 띄우기
+        print(error)
+        return
+      }
+      // accessToken 추출
+      guard let accessToken = oauthToken?.accessToken else { return }
+      
+    }
+    
+    if UserApi.isKakaoTalkLoginAvailable() {
+      // 카카오톡 로그인 api 호출 결과를 클로저로 전달
+      UserApi.shared.loginWithKakaoTalk(completion: loginClosure)
+    } else { // 웹으로 로그인 호출
+      UserApi.shared.loginWithKakaoAccount(completion: loginClosure)
+    }
+  }
+}
+
 
 extension LoginViewController {
   
