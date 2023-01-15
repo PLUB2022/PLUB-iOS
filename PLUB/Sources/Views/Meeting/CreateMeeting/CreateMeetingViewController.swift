@@ -30,8 +30,6 @@ final class CreateMeetingViewController: BaseViewController {
       scrollView.contentSize.width = Device.width * CGFloat(lastPageIndex)
       if oldValue < lastPageIndex {
         pushChildView(index: lastPageIndex)
-      } else {
-        popChildView(index: lastPageIndex)
       }
     }
   }
@@ -58,14 +56,6 @@ final class CreateMeetingViewController: BaseViewController {
   private let selectPeopleNumberView = UIView()
   private let selectTimeView = UIView()
   private let selectQuestionView = UIView()
-  
-  private var containerViews: [UIView] {
-    [
-      selectPeopleNumberView,
-      selectTimeView,
-      selectQuestionView
-    ]
-  }
   
   private let selectPeopleNumberViewController = MeetingNameViewController()
   private let selectTimeViewController = MeetingIntroduceViewController()
@@ -104,7 +94,7 @@ final class CreateMeetingViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     pageControl.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(36)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
       $0.leading.equalToSuperview().inset(16)
     }
     
@@ -143,11 +133,12 @@ final class CreateMeetingViewController: BaseViewController {
   }
 
   private func pushChildView(index: Int) {
-    contentStackView.addArrangedSubview(containerViews[index])
+    let containerView = UIView()
+    contentStackView.addArrangedSubview(containerView)
     addChild(viewControllers[index])
-    containerViews[index].addSubview(viewControllers[index].view)
+    containerView.addSubview(viewControllers[index].view)
   
-    containerViews[index].snp.makeConstraints {
+    containerView.snp.makeConstraints {
       $0.width.equalTo(Device.width)
     }
     
@@ -158,16 +149,6 @@ final class CreateMeetingViewController: BaseViewController {
     viewControllers[index].didMove(toParent: self)
     
     scrollToPage(index: index)
-  }
-  
-  private func popChildView(index: Int) {
-    scrollToPage(index: index)
-    
-    viewControllers[index + 1].willMove(toParent: nil)
-    viewControllers[index + 1].removeFromParent()
-    viewControllers[index + 1].view.removeFromSuperview()
-    
-    contentStackView.removeArrangedSubview(containerViews[index + 1])
   }
   
   private func scrollToPage(index: Int) {
