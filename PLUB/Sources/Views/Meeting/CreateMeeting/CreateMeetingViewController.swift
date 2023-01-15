@@ -229,7 +229,7 @@ final class CreateMeetingViewController: BaseViewController {
   }
 }
 
-// MARK: - Keyboard
+// MARK: - CreateMeetingChildViewControllerDelegate
 
 extension CreateMeetingViewController: CreateMeetingChildViewControllerDelegate {
   func checkValidation(index:Int, state: Bool) {
