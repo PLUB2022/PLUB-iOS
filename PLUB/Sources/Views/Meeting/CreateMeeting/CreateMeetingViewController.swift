@@ -21,13 +21,14 @@ final class CreateMeetingViewController: BaseViewController {
   
   private var currentPage = 0 {
     didSet {
-      pageControl.currentPage = currentPage
       view.endEditing(true)
+      pageControl.currentPage = currentPage
     }
   }
   
   private var lastPageIndex = 0 {
     didSet {
+      view.endEditing(true)
       scrollView.contentSize.width = Device.width * CGFloat(lastPageIndex)
       if oldValue < lastPageIndex {
         pushChildView(index: lastPageIndex)
@@ -54,18 +55,14 @@ final class CreateMeetingViewController: BaseViewController {
     $0.spacing = 0
   }
   
-  private let selectPeopleNumberView = UIView()
-  private let selectTimeView = UIView()
-  private let selectQuestionView = UIView()
-  
-  private let selectPeopleNumberViewController = MeetingNameViewController()
-  private let selectTimeViewController = MeetingIntroduceViewController()
+  private let meetingNameViewController = MeetingNameViewController()
+  private let meetingIntroduceViewController = MeetingIntroduceViewController()
   private let selectQuestionViewController = SelectQuestionViewController()
   
   private var viewControllers: [UIViewController] {
     [
-      selectPeopleNumberViewController,
-      selectTimeViewController,
+      meetingNameViewController,
+      meetingIntroduceViewController,
       selectQuestionViewController
     ]
   }
@@ -140,7 +137,7 @@ final class CreateMeetingViewController: BaseViewController {
         if owner.lastPageIndex + 1 < owner.viewControllers.count {
           owner.lastPageIndex += 1
           owner.currentPage = owner.lastPageIndex
-        } else if owner.currentPage < owner.lastPageIndex{
+        } else if owner.currentPage < owner.lastPageIndex {
           owner.scrollToPage(index: owner.currentPage + 1)
           owner.currentPage += 1
         }
