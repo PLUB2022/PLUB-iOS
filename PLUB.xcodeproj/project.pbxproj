@@ -80,6 +80,7 @@
 		BA88126D28E48AB700BD832A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126C28E48AB700BD832A /* SnapKit */; };
 		BA88127028E48AC800BD832A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126F28E48AC800BD832A /* Alamofire */; };
 		BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */; };
+		BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4329746737009DDF32 /* AuthRouter.swift */; };
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE16028292221ED00D595FF /* CheckBoxButton.swift */; };
 		BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */; };
@@ -162,6 +163,7 @@
 		BA88125B28E48A3000BD832A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA88126128E48A5800BD832A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
+		BA8E2B4329746737009DDF32 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		BAC923DE29546BF500385841 /* BirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
 		BAE16028292221ED00D595FF /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 		BA780E0A297133870032C178 /* Routers */ = {
 			isa = PBXGroup;
 			children = (
+				BA8E2B4329746737009DDF32 /* AuthRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -707,6 +710,7 @@
 				BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
 				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
+				BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */,
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
 				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
 				70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */,
