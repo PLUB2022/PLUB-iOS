@@ -137,9 +137,13 @@ final class CreateMeetingViewController: BaseViewController {
     nextButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        guard owner.lastPageIndex + 1 < owner.viewControllers.count else { return }
-        owner.lastPageIndex += 1
-        owner.currentPage = owner.lastPageIndex
+        if owner.lastPageIndex + 1 < owner.viewControllers.count {
+          owner.lastPageIndex += 1
+          owner.currentPage = owner.lastPageIndex
+        } else if owner.currentPage < owner.lastPageIndex{
+          owner.scrollToPage(index: owner.currentPage + 1)
+          owner.currentPage += 1
+        }
       })
       .disposed(by: disposeBag)
   }
