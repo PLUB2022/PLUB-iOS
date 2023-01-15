@@ -82,12 +82,12 @@ class BaseService {
   ///   - decodingMode: 원하고자 하는 응답값의 데이터
   ///   - completion: 요청에 따른 응답값을 처리하는 콜백 함수
   func sendRequest<T: Codable>(
-    _ target: Router,
+    _ router: Router,
     type: T.Type,
     decodingMode: DecodingMode,
     completion: @escaping (Result<Any, PLUBError>) -> Void
   ) {
-    session.request(target).responseData { response in
+    session.request(router).responseData { response in
       switch response.result {
       case .success(let data):
         guard let statusCode = response.response?.statusCode else {
