@@ -79,6 +79,13 @@ class ApplyQuestionViewController: BaseViewController {
     })
     .disposed(by: disposeBag)
     
+    viewModel.isActivated
+      .drive(onNext: { [weak self] isActive in
+        guard let `self` = self else { return }
+        self.applyButton.isEnabled = isActive
+      })
+      .disposed(by: disposeBag)
+    
     questionTableView.rx.setDelegate(self).disposed(by: disposeBag)
     questionTableView.rx.setDataSource(self).disposed(by: disposeBag)
   }
@@ -99,7 +106,7 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: ApplyQuestionTableViewCell.identifier, for: indexPath) as? ApplyQuestionTableViewCell ?? ApplyQuestionTableViewCell()
-    cell.configureUI(with: models[indexPath.row], indexPath: indexPath)
+    cell.configureUI(with: models[indexPath.row])
     cell.delegate = self
     return cell
   }
@@ -134,12 +141,15 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
 }
 
 extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
-  func whichTextChangedIn(_ text: String, _ indexPath: IndexPath?) {
-    guard let indexPath = indexPath else {
-      return
-    }
-    viewModel.isFillInQuestion.onNext(!text.isEmpty)
-    viewModel.whichPosition.onNext(indexPath)
+//  func whichTextChangedIn(_ text: String, _ id: Int?) {
+//    guard let id = id else {
+//      return
+//    }
+//    viewModel.isFillInQuestion.onNext(!text.isEmpty)
+//    viewModel.whichQuestion.onNext(id)
+//  }
+  func whichQuestionChangedIn(_ status: QuestionStatus) {
+    viewModel.whichQuestion.onNext(status)
   }
   
   func textViewDidChange(text: String, _ textView: UITextView) {

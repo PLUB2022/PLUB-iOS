@@ -17,14 +17,9 @@ struct ApplyQuestionTableViewCellModel {
   let question: String
 }
 
-struct QuestionStatus {
-  let isFilled: Bool
-  let position: IndexPath
-}
-
 protocol ApplyQuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView)
-  func whichTextChangedIn(_ text: String, _ indexPath: IndexPath?)
+  func whichQuestionChangedIn(_ status: QuestionStatus)
 }
 
 class ApplyQuestionTableViewCell: UITableViewCell {
@@ -36,7 +31,7 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   static let identifier = "ApplyQuestionTableViewCell"
   
   private var disposeBag = DisposeBag()
-  private var currentIndexPath: IndexPath?
+  private var id: Int?
   
   public weak var delegate: ApplyQuestionTableViewCellDelegate?
   
@@ -105,7 +100,7 @@ class ApplyQuestionTableViewCell: UITableViewCell {
       .subscribe(onNext: { owner, text in
         owner.countLabel.text = "\(text.count)"
         owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
-        owner.delegate?.whichTextChangedIn(text, owner.currentIndexPath)
+        owner.delegate?.whichQuestionChangedIn(QuestionStatus(id: owner.id ?? 0, isFilled: !text.isEmpty))
       })
       .disposed(by: disposeBag)
     
@@ -148,10 +143,10 @@ class ApplyQuestionTableViewCell: UITableViewCell {
     }
   }
   
-  public func configureUI(with model: ApplyQuestionTableViewCellModel, indexPath: IndexPath) {
+  public func configureUI(with model: ApplyQuestionTableViewCellModel) {
     questionLabel.text = model.question
     questionTextView.text = Constants.placeHolder
-    currentIndexPath = indexPath
+    self.id = model.id
   }
 }
 
