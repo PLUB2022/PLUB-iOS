@@ -93,6 +93,9 @@
 		C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */; };
 		C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */; };
 		C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */; };
+		C36D337B2975A43200943B11 /* PhotoBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337A2975A43100943B11 /* PhotoBottomSheet.swift */; };
+		C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337C2975ADD800943B11 /* Ex+CALayer.swift */; };
+		C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
 		C3AB743D296B2181003DD5E2 /* SelectPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */; };
 		C3AB743F296B21C1003DD5E2 /* SelectTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */; };
@@ -184,6 +187,9 @@
 		C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingTitleView.swift; sourceTree = "<group>"; };
 		C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewController.swift; sourceTree = "<group>"; };
 		C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectView.swift; sourceTree = "<group>"; };
+		C36D337A2975A43100943B11 /* PhotoBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheet.swift; sourceTree = "<group>"; };
+		C36D337C2975ADD800943B11 /* Ex+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+CALayer.swift"; sourceTree = "<group>"; };
+		C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetListView.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPeopleNumberViewController.swift; sourceTree = "<group>"; };
 		C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTimeViewController.swift; sourceTree = "<group>"; };
@@ -440,6 +446,7 @@
 				BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */,
 				BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */,
 				BA52778F28EECEB40036B825 /* Ex+UIFont.swift */,
+				C36D337C2975ADD800943B11 /* Ex+CALayer.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -591,8 +598,10 @@
 		C36CE39D29730B8C00E3A68C /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				C36D337A2975A43100943B11 /* PhotoBottomSheet.swift */,
 				C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */,
 				C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */,
+				C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -729,6 +738,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */,
 				C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */,
 				70BD5F35296491C8002CBA89 /* ApplyQuestionTableHeaderView.swift in Sources */,
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
@@ -761,6 +771,7 @@
 				BA780E0D297133F80032C178 /* Router.swift in Sources */,
 				BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */,
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
+				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
@@ -790,6 +801,7 @@
 				C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
 				BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */,
+				C36D337B2975A43200943B11 /* PhotoBottomSheet.swift in Sources */,
 				BA780E1529714AAB0032C178 /* GeneralResponse.swift in Sources */,
 				C3AD265D296ACC0600C57370 /* MeetingNameViewController.swift in Sources */,
 				0A81767F28F3105200C1E074 /* Preview.swift in Sources */,
