@@ -95,6 +95,7 @@ class ApplyQuestionViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isActivated
+      .do(onNext: {print("isActive = \($0)")})
       .drive(rx.isActive)
       .disposed(by: disposeBag)
     
