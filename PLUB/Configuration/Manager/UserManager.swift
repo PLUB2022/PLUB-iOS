@@ -7,6 +7,8 @@
 
 import Foundation
 
+import RxSwift
+
 final class UserManager {
   
   // MARK: - Properties
@@ -65,6 +67,24 @@ extension UserManager {
     refreshToken = nil
     signToken = nil
     loginnedType = nil
+  }
+  
+  /// 가지고 있는 refreshtoken을 가지고 새로운 accesstoken과 refreshtoken을 발급받습니다.
+  func reissuanceAccessToken() -> Observable<Bool> {
+    return AuthService.shared.reissuanceAccessToken()
+      .map { result in
+        switch result {
+        case .success(let tokenModel):
+          guard let accessToken = tokenModel.data?.accessToken,
+                let refreshToken = tokenModel.data?.refreshToken else {
+            return false // 토큰이 존재하지 않음
+          }
+          self.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
+          return true // 토큰 갱신 성공
+        default:
+          return false // 에러
+        }
+      }
   }
 }
 
