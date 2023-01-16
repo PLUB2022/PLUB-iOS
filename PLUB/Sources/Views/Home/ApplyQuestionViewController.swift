@@ -17,11 +17,19 @@ class ApplyQuestionViewController: BaseViewController {
   
   private var models: [ApplyQuestionTableViewCellModel] = []
   
+  private var isActive: Bool = false {
+    didSet {
+      self.applyButton.isEnabled = isActive
+      self.questionHeaderView.isActive = isActive
+    }
+  }
+  
+  private let questionHeaderView = ApplyQuestionHeaderView()
+  
   private lazy var questionTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.backgroundColor = .secondarySystemBackground
     $0.separatorStyle = .none
     $0.register(ApplyQuestionTableViewCell.self, forCellReuseIdentifier: ApplyQuestionTableViewCell.identifier)
-    $0.register(ApplyQuestionTableHeaderView.self, forHeaderFooterViewReuseIdentifier: ApplyQuestionTableHeaderView.identifier)
   }
   
   private let applyButton = UIButton(configuration: .plain()).then {
@@ -54,13 +62,20 @@ class ApplyQuestionViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [questionTableView, applyButton].forEach { view.addSubview($0) }
+    [questionHeaderView, questionTableView, applyButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    questionHeaderView.snp.makeConstraints {
+      $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+      $0.height.equalTo(120)
+    }
+    
     questionTableView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.top.equalTo(questionHeaderView.snp.bottom)
+      $0.left.right.bottom.equalToSuperview()
     }
     
     applyButton.snp.makeConstraints {
@@ -75,15 +90,12 @@ class ApplyQuestionViewController: BaseViewController {
     viewModel.allQuestion.asObservable()
       .withUnretained(self)
       .subscribe(onNext: { owner, questions in
-      owner.models = questions
-    })
-    .disposed(by: disposeBag)
+        owner.models = questions
+      })
+      .disposed(by: disposeBag)
     
     viewModel.isActivated
-      .drive(onNext: { [weak self] isActive in
-        guard let `self` = self else { return }
-        self.applyButton.isEnabled = isActive
-      })
+      .drive(rx.isActive)
       .disposed(by: disposeBag)
     
     questionTableView.rx.setDelegate(self).disposed(by: disposeBag)
@@ -111,19 +123,7 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
     return cell
   }
   
-  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    if section == 0 {
-      let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ApplyQuestionTableHeaderView.identifier) as? ApplyQuestionTableHeaderView ?? ApplyQuestionTableHeaderView()
-      header.configureUI(with: "")
-      return header
-    }
-    return nil
-  }
-  
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    if section == 0 {
-      return 120
-    }
     return .leastNonzeroMagnitude
   }
   
@@ -141,13 +141,6 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
 }
 
 extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
-//  func whichTextChangedIn(_ text: String, _ id: Int?) {
-//    guard let id = id else {
-//      return
-//    }
-//    viewModel.isFillInQuestion.onNext(!text.isEmpty)
-//    viewModel.whichQuestion.onNext(id)
-//  }
   func whichQuestionChangedIn(_ status: QuestionStatus) {
     viewModel.whichQuestion.onNext(status)
   }
