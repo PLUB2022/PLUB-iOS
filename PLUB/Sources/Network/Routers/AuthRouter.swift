@@ -9,13 +9,14 @@ import Alamofire
 
 enum AuthRouter {
   case socialLogin(SignInRequest)
+  case signUpPLUB(SignUpRequest)
 }
 
 extension AuthRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .socialLogin:
+    case .socialLogin, .signUpPLUB:
       return .post
     }
   }
@@ -24,6 +25,8 @@ extension AuthRouter: Router {
     switch self {
     case .socialLogin:
       return "/auth/login"
+    case .signUpPLUB:
+      return "/auth/signup"
     }
   }
   
@@ -31,12 +34,14 @@ extension AuthRouter: Router {
     switch self {
     case let .socialLogin(model):
       return .body(model)
+    case let .signUpPLUB(model):
+      return .body(model)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .socialLogin:
+    case .socialLogin, .signUpPLUB:
       return .default
     }
   }
