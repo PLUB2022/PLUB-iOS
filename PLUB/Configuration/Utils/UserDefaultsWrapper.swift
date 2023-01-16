@@ -8,7 +8,7 @@
 import Foundation
 
 @propertyWrapper
-struct UserDefaultsWrapper<T> {
+struct UserDefaultsWrapper<T: Codable> {
     
   private let key: String
   
@@ -18,11 +18,19 @@ struct UserDefaultsWrapper<T> {
   
   var wrappedValue: T? {
     get {
-      return UserDefaults.standard.object(forKey: self.key) as? T
+      guard let data = UserDefaults.standard.object(forKey: self.key) as? Data,
+            let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
+        return nil
+      }
+      return decodedData
     }
     set {
-      if newValue == nil { UserDefaults.standard.removeObject(forKey: key) }
-      else { UserDefaults.standard.setValue(newValue, forKey: key) }
+      guard let data = try? JSONEncoder().encode(newValue)
+      else {
+        UserDefaults.standard.removeObject(forKey: key)
+        return
+      }
+      UserDefaults.standard.setValue(data, forKey: key)
     }
   }
 }
