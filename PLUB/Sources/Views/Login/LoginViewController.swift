@@ -160,7 +160,6 @@ final class LoginViewController: BaseViewController {
 extension LoginViewController {
   
   private func kakaoLogin() {
-    
     let loginClosure: (OAuthToken?, Error?) -> Void = { [weak self] oauthToken, error in
       if let error = error {
         // TODO: 승현 - 카카오톡 로그인 실패 Alert 띄우기
@@ -206,10 +205,11 @@ extension LoginViewController {
         case .success(let model):
           guard let accessToken  = model.data?.accessToken,
                 let refreshToken = model.data?.refreshToken else {
-            fatalError("성공인데 토큰이 왜 없음?")
+            fatalError("성공이면서 디코딩도 완료된 상태이면 토큰이 없을 수가 없음")
           }
           // accessToken, refreshToken 업데이트
           UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
+          
         case .requestError(let model):
           guard let signToken = model.data?.signToken else {
             // TODO: 승현 - PLUB 로그인 실패 Alert 띄우기
@@ -227,6 +227,7 @@ extension LoginViewController {
   }
 }
 
+// MARK: - Assets Constants
 
 extension LoginViewController {
   
