@@ -40,7 +40,7 @@ extension AuthService {
     placePolicy: Bool,
     usePolicy: Bool,
     agePolicy: Bool
-  ) -> Observable<NetworkResult<GeneralResponse<SignInResponse>>> {
+  ) -> Observable<NetworkResult<GeneralResponse<TokenResponse>>> {
     return sendRequest(
       AuthRouter.signUpPLUB(SignUpRequest(
         signToken: UserManager.shared.signToken!,
@@ -56,11 +56,11 @@ extension AuthService {
         usePolicy: usePolicy,
         agePolicy: agePolicy
       )),
-      type: SignInResponse.self
+      type: TokenResponse.self
     )
   }
   
-  func reissuanceAccessToken() -> Observable<NetworkResult<GeneralResponse<SignInResponse>>> {
-    return sendRequest(AuthRouter.reissuanceAccessToken, type: SignInResponse.self)
+  func reissuanceAccessToken() -> Observable<NetworkResult<GeneralResponse<TokenResponse>>> {
+    return sendRequest(AuthRouter.reissuanceAccessToken, type: TokenResponse.self)
   }
 }
