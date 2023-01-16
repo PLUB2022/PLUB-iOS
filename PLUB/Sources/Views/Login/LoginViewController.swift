@@ -39,7 +39,7 @@ final class LoginViewController: BaseViewController {
     
     // generalAttributes(기본 스타일) 적용
     mutableString.append(NSAttributedString(string: generalText, attributes: generalAttributes))
-      
+    
     // 각 문자열의 range에 맞게 linkAttributes 적용
     mutableString.setAttributes(
       linkAttributes,
@@ -49,7 +49,7 @@ final class LoginViewController: BaseViewController {
       linkAttributes,
       range: (generalText as NSString).range(of: "개인정보 처리방침")
     )
-
+    
     $0.attributedText = mutableString
     $0.textAlignment = .center
     $0.numberOfLines = 0
@@ -127,6 +127,13 @@ final class LoginViewController: BaseViewController {
         owner.kakaoLogin()
       }
       .disposed(by: disposeBag)
+    
+    googleLoginButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.googleLogin()
+      })
+      .disposed(by: disposeBag)
   }
 }
 
@@ -154,6 +161,10 @@ extension LoginViewController {
     } else { // 웹으로 로그인 호출
       UserApi.shared.loginWithKakaoAccount(completion: loginClosure)
     }
+  }
+  
+  private func googleLogin() {
+    
   }
   
   private func requestPLUBTokens(socialType: SignInType, token: String? = nil, authorizationCode: String? = nil) {
