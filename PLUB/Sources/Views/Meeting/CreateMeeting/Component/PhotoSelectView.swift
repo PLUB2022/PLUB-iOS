@@ -28,7 +28,7 @@ final class PhotoSelectView: UIView {
   
   private let selectedImage = UIImageView()
   
-  private let selectButton = UIButton().then {
+  let selectButton = UIButton().then {
     $0.backgroundColor = .clear
   }
 
