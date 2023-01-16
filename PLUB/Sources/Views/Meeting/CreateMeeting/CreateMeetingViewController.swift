@@ -9,6 +9,16 @@ import UIKit
 
 import RxSwift
 
+enum CreateMeetingType {
+  case category // 카테고리
+  case name // 모임 이름
+  case introduction // 모임 소개
+  case age // 성별, 나이
+  case date // 요일
+  case peopleCount // 인원
+  case question // 질문 여부
+}
+
 final class CreateMeetingViewController: BaseViewController {
   
   init() {
@@ -21,17 +31,17 @@ final class CreateMeetingViewController: BaseViewController {
   
   private var currentPage = 0 {
     didSet {
+      view.endEditing(true)
       pageControl.currentPage = currentPage
     }
   }
   
   private var lastPageIndex = 0 {
     didSet {
+      view.endEditing(true)
       scrollView.contentSize.width = Device.width * CGFloat(lastPageIndex)
       if oldValue < lastPageIndex {
         pushChildView(index: lastPageIndex)
-      } else {
-        popChildView(index: lastPageIndex)
       }
     }
   }
@@ -55,33 +65,24 @@ final class CreateMeetingViewController: BaseViewController {
     $0.spacing = 0
   }
   
-  private let selectPeopleNumberView = UIView()
-  private let selectTimeView = UIView()
-  private let selectQuestionView = UIView()
-  
-  private var containerViews: [UIView] {
-    [
-      selectPeopleNumberView,
-      selectTimeView,
-      selectQuestionView
-    ]
-  }
-  
-  private let selectPeopleNumberViewController = SelectPeopleNumberViewController()
-  private let selectTimeViewController = SelectTimeViewController()
-  private let selectQuestionViewController = SelectQuestionViewController()
-  
-  private var viewControllers: [UIViewController] {
-    [
-      selectPeopleNumberViewController,
-      selectTimeViewController,
-      selectQuestionViewController
-    ]
-  }
-  
   private var nextButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
+  
+  private let meetingNameViewController = MeetingNameViewController(
+    viewModel: MeetingNameViewModel(),
+    childIndex: 0
+  )
+  private let meetingIntroduceViewController = MeetingIntroduceViewController(
+    viewModel: MeetingIntroduceViewModel(),
+    childIndex: 1
+  )
+  private let selectQuestionViewController = SelectQuestionViewController()
+  
+  private var viewControllers: [CreateMeetingType] = [.name, .introduction, .question]
+  
+  //TODO: 수빈 - viewModel로 빼기
+  private var isNextButtonEnable = [Bool]()
   
   // MARK: - Life Cycle
   
@@ -89,17 +90,24 @@ final class CreateMeetingViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
-    viewControllers.forEach {
-      addChild($0)
+
+    [pageControl, scrollView, nextButton].forEach {
+      view.addSubview($0)
     }
-    
-    view.addSubview(pageControl)
-    view.addSubview(scrollView)
-    view.addSubview(nextButton)
     
     scrollView.addSubview(contentStackView)
   }
@@ -107,12 +115,12 @@ final class CreateMeetingViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     pageControl.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(36)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
       $0.leading.equalToSuperview().inset(16)
     }
     
     scrollView.snp.makeConstraints {
-      $0.top.equalTo(pageControl.snp.bottom).offset(16)
+      $0.top.equalTo(pageControl.snp.bottom).offset(24)
       $0.leading.trailing.bottom.equalToSuperview()
     }
     
@@ -130,7 +138,7 @@ final class CreateMeetingViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .systemBackground
+    setupNavigationBar()
     pushChildView(index: lastPageIndex)
   }
   
@@ -139,39 +147,132 @@ final class CreateMeetingViewController: BaseViewController {
     nextButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        guard owner.lastPageIndex + 1 < owner.viewControllers.count else { return }
-        owner.lastPageIndex += 1
-        owner.currentPage = owner.lastPageIndex
+        if owner.currentPage < owner.lastPageIndex {
+          owner.scrollToPage(index: owner.currentPage + 1)
+          owner.currentPage += 1
+        } else if owner.lastPageIndex + 1 < owner.viewControllers.count {
+          owner.lastPageIndex += 1
+          owner.currentPage = owner.lastPageIndex
+        }
       })
       .disposed(by: disposeBag)
   }
-
+  
+  private func setupNavigationBar() {
+    navigationController?.navigationBar.tintColor = .black
+    navigationController?.navigationBar.backgroundColor = .background
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "backButton"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+  }
+  
+  @objc
+  private func didTappedBackButton() {
+    if currentPage == 0 {
+      navigationController?.popViewController(animated: true)
+    } else {
+      scrollToPage(index: currentPage - 1)
+      currentPage -= 1
+    }
+  }
+  
   private func pushChildView(index: Int) {
-    contentStackView.addArrangedSubview(containerViews[index])
-    containerViews[index].addSubview(viewControllers[index].view)
+    isNextButtonEnable.append(false)
+    nextButton.isEnabled = false
     
-    containerViews[index].snp.makeConstraints {
+    let containerView = UIView()
+    contentStackView.addArrangedSubview(containerView)
+    
+    addChild(selectChildViewController(index: index))
+    containerView.addSubview(selectChildViewController(index: index).view)
+  
+    containerView.snp.makeConstraints {
       $0.width.equalTo(Device.width)
     }
     
-    viewControllers[index].view.snp.makeConstraints {
+    selectChildViewController(index: index).view.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
     
-    scrollToPage(index: index)
-  }
-  
-  private func popChildView(index: Int) {
-    scrollToPage(index: index)
+    selectChildViewController(index: index).didMove(toParent: self)
     
-    contentStackView.removeArrangedSubview(containerViews[index + 1])
+    scrollToPage(index: index)
   }
   
   private func scrollToPage(index: Int) {
     let offset: CGPoint = CGPoint(x: Device.width * CGFloat(index), y: 0)
     scrollView.setContentOffset(offset, animated: true)
   }
+  
+  private func selectChildViewController(index: Int) -> UIViewController {
+    switch viewControllers[index] {
+    case .category:
+      return selectQuestionViewController
+    case .name:
+      meetingNameViewController.delegate = self
+      return meetingNameViewController
+    case .introduction:
+      meetingIntroduceViewController.delegate = self
+      return meetingIntroduceViewController
+    case .age:
+      return selectQuestionViewController
+    case .date:
+      return selectQuestionViewController
+    case .peopleCount:
+      return selectQuestionViewController
+    default:
+      return selectQuestionViewController
+    }
+  }
 }
+
+// MARK: - CreateMeetingChildViewControllerDelegate
+
+extension CreateMeetingViewController: CreateMeetingChildViewControllerDelegate {
+  func checkValidation(index:Int, state: Bool) {
+    isNextButtonEnable[index] = state
+    nextButton.isEnabled = isNextButtonEnable.contains(false) ? false : true
+  }
+}
+
+// MARK: - Keyboard
+
+extension CreateMeetingViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                             name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+      let keyboardHeight: CGFloat = keyboardSize.height
+      nextButton.snp.updateConstraints {
+        $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
+      }
+      view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    nextButton.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+    }
+    view.layoutIfNeeded()
+  }
+}
+
+// MARK: - UIScrollViewDelegate
 
 extension CreateMeetingViewController: UIScrollViewDelegate {
   func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
