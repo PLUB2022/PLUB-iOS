@@ -7,16 +7,33 @@
 
 import UIKit
 
+import GoogleSignIn
+import KakaoSDKAuth
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
   var window: UIWindow?
   
-  
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-    guard let windowScene = (scene as? UIWindowScene) else { return }
+    guard let windowScene = scene as? UIWindowScene else { return }
     window = UIWindow(windowScene: windowScene)
-    window?.rootViewController = UINavigationController(rootViewController: ApplyQuestionViewController(viewModel: ApplyQuestionViewModel()))
-    window?.rootViewController = UINavigationController(rootViewController: CreateMeetingViewController())
+    window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
     window?.makeKeyAndVisible()
+  }
+  
+  func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    if let url = URLContexts.first?.url {
+      if AuthApi.isKakaoTalkLoginUrl(url) {
+        _ = AuthController.handleOpenUrl(url: url)
+      }
+    }
+    
+    if let url = URLContexts.first?.url {
+      let handled = GIDSignIn.sharedInstance.handle(url)
+      
+      // Handle other custom URL types.
+      // If not handled by this app, prints `false`.
+      print(handled)
+    }
   }
 }

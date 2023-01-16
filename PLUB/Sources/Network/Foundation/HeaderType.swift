@@ -18,14 +18,14 @@ extension HeaderType {
   var toHTTPHeader: HTTPHeaders {
     switch self {
     case .default:
-      return .default
-    //TODO: 승현 - 아직 테스트 코드입니다. UserManager 구현 후 코드가 대체될 예정입니다.
+      var defaultHeaders = HTTPHeaders.default
+      defaultHeaders.add(.contentType("application/json"))
+      return defaultHeaders
     case .withToken:
-      @KeyChainWrapper(key: "accessToken")
-      var token: String?
-      
-      // 토큰이 존재하지 않는 경우
-      guard let token = token else { return .default }
+      // 토큰이 존재하지 않는 경우 default 리턴
+      guard let token = UserManager.shared.accessToken else {
+        return HeaderType.default.toHTTPHeader
+      }
       
       // default 헤더 값에 `Authorization token` 및 `Content-Type` 추가
       var defaultHeaders = HTTPHeaders.default

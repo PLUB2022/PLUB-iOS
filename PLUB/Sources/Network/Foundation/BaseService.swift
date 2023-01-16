@@ -29,19 +29,19 @@ class BaseService {
     by statusCode: Int,
     _ data: Data,
     type: T.Type
-  ) -> Result<GeneralResponse<T>, PLUBError> {
+  ) -> NetworkResult<GeneralResponse<T>> {
     guard let decodedData = try? JSONDecoder().decode(GeneralResponse<T>.self, from: data) else {
-      return .failure(.pathError)
+      return .pathError
     }
     switch statusCode {
     case 200..<300:
       return .success(decodedData)
     case 400..<500:
-      return .failure(.requestError(decodedData.statusCode!))
+      return .requestError(decodedData)
     case 500:
-      return .failure(.serverError)
+      return .serverError
     default:
-      return .failure(.networkError)
+      return .networkError
     }
   }
   
@@ -52,7 +52,7 @@ class BaseService {
   func sendRequest<T: Codable>(
     _ router: Router,
     type: T.Type = EmptyModel.self
-  ) -> Observable<Result<GeneralResponse<T>, PLUBError>> {
+  ) -> Observable<NetworkResult<GeneralResponse<T>>> {
     Single.create { observer in
       AF.request(router).responseData { response in
         switch response.result {
