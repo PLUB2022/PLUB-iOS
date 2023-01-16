@@ -8,7 +8,7 @@
 import Alamofire
 
 enum AuthRouter {
-  case socialLogin(type: SignInType, token: String?, authorizationCode: String?)
+  case socialLogin(SignInRequest)
 }
 
 extension AuthRouter: Router {
@@ -29,8 +29,8 @@ extension AuthRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case let .socialLogin(socialType, accessToken, authorizationCode):
-      return .body(SignInRequest(accessToken: accessToken, authorizationCode: authorizationCode, socialType: socialType))
+    case let .socialLogin(model):
+      return .body(model)
     }
   }
   

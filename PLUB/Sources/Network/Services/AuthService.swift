@@ -23,7 +23,7 @@ extension AuthService {
     authorizationCode: String?
   ) -> Observable<NetworkResult<GeneralResponse<SignInResponse>>> {
     return sendRequest(
-      AuthRouter.socialLogin(type: socialType, token: token, authorizationCode: authorizationCode),
+      AuthRouter.socialLogin(SignInRequest(accessToken: token, authorizationCode: authorizationCode, socialType: socialType)),
       type: SignInResponse.self
     )
   }
