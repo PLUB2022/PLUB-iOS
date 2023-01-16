@@ -18,7 +18,9 @@ extension HeaderType {
   var toHTTPHeader: HTTPHeaders {
     switch self {
     case .default:
-      return .default
+      var defaultHeaders = HTTPHeaders.default
+      defaultHeaders.add(.contentType("application/json"))
+      return defaultHeaders
     //TODO: 승현 - 아직 테스트 코드입니다. UserManager 구현 후 코드가 대체될 예정입니다.
     case .withToken:
       @KeyChainWrapper(key: "accessToken")
