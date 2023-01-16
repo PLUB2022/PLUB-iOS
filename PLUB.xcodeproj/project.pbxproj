@@ -59,6 +59,7 @@
 		BA52778C28EECDC50036B825 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778328EECDC50036B825 /* Pretendard-Light.otf */; };
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
 		BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5DEB2F2974D8E200650788 /* NetworkResult.swift */; };
+		BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA5DEB3229751E5F00650788 /* GoogleSignIn */; };
 		BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA771651296FBF4400762362 /* KeyChainWrapper.swift */; };
 		BA780E09297133220032C178 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E08297133220032C178 /* Config.swift */; };
 		BA780E0D297133F80032C178 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E0C297133F80032C178 /* Router.swift */; };
@@ -193,6 +194,7 @@
 				7095A585292B566C002A52E6 /* Kingfisher in Frameworks */,
 				BA88127028E48AC800BD832A /* Alamofire in Frameworks */,
 				BA88126728E48A7A00BD832A /* RxSwift in Frameworks */,
+				BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */,
 				BA88126D28E48AB700BD832A /* SnapKit in Frameworks */,
 				BA88126A28E48A8D00BD832A /* Then in Frameworks */,
 				BA88126528E48A7A00BD832A /* RxCocoa in Frameworks */,
@@ -622,6 +624,7 @@
 				BA117A4D297444EE00B37E03 /* KakaoSDKAuth */,
 				BA117A4F297444EE00B37E03 /* KakaoSDKCommon */,
 				BA117A51297444EE00B37E03 /* KakaoSDKUser */,
+				BA5DEB3229751E5F00650788 /* GoogleSignIn */,
 			);
 			productName = PLUB;
 			productReference = BA88124A28E48A2F00BD832A /* PLUB.app */;
@@ -658,6 +661,7 @@
 				BA88126E28E48AC800BD832A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				7095A583292B566C002A52E6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				BA117A4C297444EE00B37E03 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				BA5DEB3129751E5F00650788 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = BA88124B28E48A2F00BD832A /* Products */;
 			projectDirPath = "";
@@ -1002,6 +1006,14 @@
 				kind = branch;
 			};
 		};
+		BA5DEB3129751E5F00650788 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		BA88126328E48A7A00BD832A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -1056,6 +1068,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA117A4C297444EE00B37E03 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		BA5DEB3229751E5F00650788 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA5DEB3129751E5F00650788 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 		BA88126428E48A7A00BD832A /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
