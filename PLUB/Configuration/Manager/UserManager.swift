@@ -26,12 +26,11 @@ final class UserManager {
   
   // MARK: - Social Login Type
   
-  @UserDefaultsWrapper<Bool>(key: "socialType")
-  private(set) var isAppleLogin
+  @UserDefaultsWrapper<SignInType>(key: "loginType")
+  private(set) var loginnedType
   
   var hasAccessToken: Bool { return accessToken != nil }
   var hasRefreshToken: Bool { return refreshToken != nil }
-  var isAppleLoginned: Bool { isAppleLogin! }
   
   // MARK: - Initialization
   
@@ -57,7 +56,7 @@ extension UserManager {
   /// 소셜로그인 타입을 세팅합니다.
   /// - Parameter socialType: 소셜로그인 타입(애플, 구글, 카카오)
   func set(socialType: SignInType) {
-    isAppleLogin = socialType == .apple ? true : false
+    loginnedType = socialType
   }
 }
 
