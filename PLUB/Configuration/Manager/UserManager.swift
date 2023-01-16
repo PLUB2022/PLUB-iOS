@@ -58,5 +58,13 @@ extension UserManager {
   func set(socialType: SignInType) {
     loginnedType = socialType
   }
+  
+  /// 유저의 정보를 전부 초기화합니다.
+  func clearUserInformations() {
+    accessToken = nil
+    refreshToken = nil
+    signToken = nil
+    loginnedType = nil
+  }
 }
 
