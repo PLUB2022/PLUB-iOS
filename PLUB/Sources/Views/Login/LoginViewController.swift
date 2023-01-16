@@ -135,8 +135,6 @@ final class LoginViewController: BaseViewController {
 
 extension LoginViewController {
   
-  
-  
   private func kakaoLogin() {
     
     let loginClosure: (OAuthToken?, Error?) -> Void = { oauthToken, error in
@@ -147,7 +145,7 @@ extension LoginViewController {
       }
       // accessToken 추출
       guard let accessToken = oauthToken?.accessToken else { return }
-      
+      self.requestPLUBTokens(socialType: .kakao, token: accessToken)
     }
     
     if UserApi.isKakaoTalkLoginAvailable() {
@@ -156,6 +154,28 @@ extension LoginViewController {
     } else { // 웹으로 로그인 호출
       UserApi.shared.loginWithKakaoAccount(completion: loginClosure)
     }
+  }
+  
+  private func requestPLUBTokens(socialType: SignInType, token: String? = nil, authorizationCode: String? = nil) {
+    AuthService.shared.requestAuth(socialType: socialType, token: token, authorizationCode: authorizationCode)
+      .subscribe(onNext: { result in
+        switch result {
+        case .success(let model):
+          // TODO: 승현 - UserManager의 accessToken, refreshToken 업데이트
+          guard let accessToken = model.data?.accessToken,
+                let refreshToken = model.data?.refreshToken else { return }
+        case .requestError(let model):
+          // TODO: 승현 - UserManager의 Signin token 업데이트
+          guard let signToken = model.data?.signToken else {
+            // TODO: 승현 - PLUB 로그인 실패 Alert 띄우기
+            return
+          }
+        case .networkError, .serverError, .pathError:
+          // TODO: 승현 - PLUB 에러 Alert 띄우기
+          break
+        }
+      })
+      .disposed(by: disposeBag)
   }
 }
 
