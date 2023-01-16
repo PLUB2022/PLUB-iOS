@@ -69,7 +69,7 @@ extension UserManager {
     loginnedType = nil
   }
   
-  /// 가지고 있는 refreshtoken을 가지고 새로운 accesstoken과 refreshtoken을 발급받습니다.
+  /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
   func reissuanceAccessToken() -> Observable<Bool> {
     return AuthService.shared.reissuanceAccessToken()
       .map { result in
