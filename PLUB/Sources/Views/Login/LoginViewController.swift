@@ -1,6 +1,7 @@
 import AuthenticationServices
 import UIKit
 
+import GoogleSignIn
 import KakaoSDKAuth
 import KakaoSDKCommon
 import KakaoSDKUser
@@ -164,7 +165,11 @@ extension LoginViewController {
   }
   
   private func googleLogin() {
-    
+    GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] result, error in
+      guard error == nil else { return }
+      guard let result = result else { return }
+      self?.requestPLUBTokens(socialType: .google, authorizationCode: result.serverAuthCode)
+    }
   }
   
   private func requestPLUBTokens(socialType: SignInType, token: String? = nil, authorizationCode: String? = nil) {
