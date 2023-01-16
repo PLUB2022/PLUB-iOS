@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SignUpRequest: Encodable {
+struct SignUpRequest: Codable {
   let signToken: String
   let categoryList: [String]
   let profileImage: String
