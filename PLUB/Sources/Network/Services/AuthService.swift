@@ -21,7 +21,7 @@ extension AuthService {
     socialType: SignInType,
     token: String?,
     authorizationCode: String?
-  ) -> Observable<Result<GeneralResponse<SignInResponse>, PLUBError>> {
+  ) -> Observable<NetworkResult<GeneralResponse<SignInResponse>>> {
     return sendRequest(
       AuthRouter.socialLogin(type: socialType, token: token, authorizationCode: authorizationCode),
       type: SignInResponse.self
