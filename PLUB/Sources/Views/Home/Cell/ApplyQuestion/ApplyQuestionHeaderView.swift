@@ -10,14 +10,19 @@ import UIKit
 import SnapKit
 import Then
 
-class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
+class ApplyQuestionHeaderView: UIView {
   
-  static let identifier = "ApplyQuestionTableHeaderView"
+  var isActive: Bool = false {
+    didSet {
+      subLabel.isHidden = !isActive
+    }
+  }
   
   private let mainLabel = UILabel().then {
     $0.font = .h4
     $0.textColor = .black
     $0.textAlignment = .left
+    $0.text = "함께 하기 위한 질문"
   }
   
   private let subLabel = UILabel().then {
@@ -26,10 +31,11 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
     $0.textColor = .deepGray
     $0.textAlignment = .left
     $0.sizeToFit()
+    $0.text = "우리와 함께 하는 것에 대한 질문입니다. 상세하게 적어줄 수록 당신의 취미 레벨을 선정하기 쉬워집니다. "
   }
   
-  override init(reuseIdentifier: String?) {
-    super.init(reuseIdentifier: reuseIdentifier)
+  override init(frame: CGRect) {
+    super.init(frame: frame)
     configureUI()
   }
   
@@ -38,7 +44,7 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
   }
   
   private func configureUI() {
-    [mainLabel, subLabel].forEach { contentView.addSubview($0) }
+    [mainLabel, subLabel].forEach { addSubview($0) }
     mainLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.left.right.equalToSuperview().inset(20)
@@ -49,10 +55,5 @@ class ApplyQuestionTableHeaderView: UITableViewHeaderFooterView {
       $0.top.equalTo(mainLabel.snp.bottom)
       $0.left.right.equalTo(mainLabel)
     }
-  }
-  
-  public func configureUI(with model: String) {
-    mainLabel.text = "함께 하기 위한 질문"
-    subLabel.text = "우리와 함께 하는 것에 대한 질문입니다. 상세하게 적어줄 수록 당신의 취미 레벨을 선정하기 쉬워집니다. "
   }
 }
