@@ -48,5 +48,9 @@ extension UserManager {
   func set(signToken: String) {
     self.signToken = signToken
   }
+  
+  func set(socialType: SignInType) {
+    isAppleLogin = socialType == .apple ? true : false
+  }
 }
 

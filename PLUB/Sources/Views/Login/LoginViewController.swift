@@ -172,9 +172,9 @@ extension LoginViewController {
             // TODO: 승현 - PLUB 로그인 실패 Alert 띄우기
             return
           }
-          // Signin token 업데이트
+          // Signin token 업데이트 및 소셜로그인 타입 업데이트
           UserManager.shared.set(signToken: signToken)
-          
+          UserManager.shared.set(socialType: socialType)
         case .networkError, .serverError, .pathError:
           // TODO: 승현 - PLUB 에러 Alert 띄우기
           break
