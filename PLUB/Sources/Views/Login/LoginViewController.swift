@@ -1,3 +1,10 @@
+//
+//  LoginViewController.swift
+//  PLUB
+//
+//  Created by 홍승현 on 2022/09/28.
+//
+
 import AuthenticationServices
 import UIKit
 
@@ -129,10 +136,19 @@ final class LoginViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    // Google Login
     googleLoginButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         owner.googleLogin()
+      })
+      .disposed(by: disposeBag)
+    
+    // Apple Login
+    appleLoginButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.appleLogin()
       })
       .disposed(by: disposeBag)
   }
@@ -170,6 +186,17 @@ extension LoginViewController {
       guard let result = result else { return }
       self?.requestPLUBTokens(socialType: .google, authorizationCode: result.serverAuthCode)
     }
+  }
+  
+  private func appleLogin() {
+    let provider = ASAuthorizationAppleIDProvider()
+    let request = provider.createRequest()
+    request.requestedScopes = [.fullName, .email]
+    
+    let controller = ASAuthorizationController(authorizationRequests: [request])
+    controller.delegate = self
+    controller.presentationContextProvider = self
+    controller.performRequests()
   }
   
   private func requestPLUBTokens(socialType: SignInType, token: String? = nil, authorizationCode: String? = nil) {
@@ -211,6 +238,36 @@ extension LoginViewController {
   }
 }
 
+// MARK: - ASAuthorizationControllerDelegate
+
+extension LoginViewController: ASAuthorizationControllerDelegate {
+  
+  func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    switch authorization.credential {
+    case let credentials as ASAuthorizationAppleIDCredential:
+      let authorizationCode = String(decoding: credentials.authorizationCode!, as: UTF8.self)
+      let identityToken = String(decoding: credentials.identityToken!, as: UTF8.self)
+      
+      self.requestPLUBTokens(socialType: .apple, token: identityToken, authorizationCode: authorizationCode)
+      
+    default:
+      break
+    }
+  }
+  
+  func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+    // TODO: 승현 - 애플 로그인 에러 Alert 띄우기
+    print("Failed!: \(error)")
+  }
+}
+
+// MARK: - ASAuthorizationControllerPresentationContextProviding
+
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+  func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+    return view.window!
+  }
+}
 
 #if canImport(SwiftUI) && DEBUG
 import SwiftUI
