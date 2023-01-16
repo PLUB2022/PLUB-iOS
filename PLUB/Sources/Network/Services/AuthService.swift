@@ -59,4 +59,8 @@ extension AuthService {
       type: SignInResponse.self
     )
   }
+  
+  func reissuanceAccessToken() -> Observable<NetworkResult<GeneralResponse<SignInResponse>>> {
+    return sendRequest(AuthRouter.reissuanceAccessToken, type: SignInResponse.self)
+  }
 }

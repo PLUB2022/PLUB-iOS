@@ -90,6 +90,7 @@
 		BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */; };
 		BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */; };
 		BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */; };
+		BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */; };
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
 		C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */; };
 		C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */; };
@@ -182,6 +183,7 @@
 		BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyBodyTableViewCell.swift; sourceTree = "<group>"; };
+		BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceRequest.swift; sourceTree = "<group>"; };
 		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
 		C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingTitleView.swift; sourceTree = "<group>"; };
 		C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewController.swift; sourceTree = "<group>"; };
@@ -559,6 +561,7 @@
 			children = (
 				BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */,
 				BAC8930829755B87000D44E2 /* SignUpRequest.swift */,
+				BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -789,6 +792,7 @@
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
+				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
 				C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */,
