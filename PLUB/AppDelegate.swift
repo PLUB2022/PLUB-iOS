@@ -7,6 +7,7 @@
 
 import UIKit
 
+import GoogleSignIn
 import KakaoSDKCommon
 
 @main
@@ -15,6 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
     KakaoSDK.initSDK(appKey: KeyConstants.kakaoNativeAppKey)
+    
+    GIDSignIn.sharedInstance.configuration = GIDConfiguration(
+      clientID: KeyConstants.googleID,
+      serverClientID: KeyConstants.googleServerClientID
+    )
     
     return true
   }
