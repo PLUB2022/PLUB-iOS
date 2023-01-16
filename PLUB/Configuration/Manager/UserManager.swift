@@ -13,12 +13,10 @@ final class UserManager {
   
   static let shared = UserManager()
   
-  // MARK: - Social Login Token
-  
-  @KeyChainWrapper<String>(key: "socialAccessToken")
-  private(set) var socialAccessToken
-  
   // MARK: - PLUB Token
+  
+  @KeyChainWrapper<String>(key: "signToken")
+  private(set) var signToken
   
   @KeyChainWrapper<String>(key: "accessToken")
   private(set) var accessToken
@@ -45,6 +43,10 @@ extension UserManager {
   func updatePLUBToken(accessToken: String, refreshToken: String) {
     self.accessToken = accessToken
     self.refreshToken = refreshToken
+  }
+  
+  func set(signToken: String) {
+    self.signToken = signToken
   }
 }
 

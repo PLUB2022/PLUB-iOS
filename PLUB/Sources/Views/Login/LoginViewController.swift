@@ -137,7 +137,7 @@ extension LoginViewController {
   
   private func kakaoLogin() {
     
-    let loginClosure: (OAuthToken?, Error?) -> Void = { oauthToken, error in
+    let loginClosure: (OAuthToken?, Error?) -> Void = { [weak self] oauthToken, error in
       if let error = error {
         // TODO: 승현 - 카카오톡 로그인 실패 Alert 띄우기
         print(error)
@@ -145,7 +145,7 @@ extension LoginViewController {
       }
       // accessToken 추출
       guard let accessToken = oauthToken?.accessToken else { return }
-      self.requestPLUBTokens(socialType: .kakao, token: accessToken)
+      self?.requestPLUBTokens(socialType: .kakao, token: accessToken)
     }
     
     if UserApi.isKakaoTalkLoginAvailable() {
@@ -161,15 +161,20 @@ extension LoginViewController {
       .subscribe(onNext: { result in
         switch result {
         case .success(let model):
-          // TODO: 승현 - UserManager의 accessToken, refreshToken 업데이트
-          guard let accessToken = model.data?.accessToken,
-                let refreshToken = model.data?.refreshToken else { return }
+          guard let accessToken  = model.data?.accessToken,
+                let refreshToken = model.data?.refreshToken else {
+            fatalError("성공인데 토큰이 왜 없음?")
+          }
+          // accessToken, refreshToken 업데이트
+          UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
         case .requestError(let model):
-          // TODO: 승현 - UserManager의 Signin token 업데이트
           guard let signToken = model.data?.signToken else {
             // TODO: 승현 - PLUB 로그인 실패 Alert 띄우기
             return
           }
+          // Signin token 업데이트
+          UserManager.shared.set(signToken: signToken)
+          
         case .networkError, .serverError, .pathError:
           // TODO: 승현 - PLUB 에러 Alert 띄우기
           break
