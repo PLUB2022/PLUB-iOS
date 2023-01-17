@@ -149,6 +149,16 @@ final class MeetingIntroduceViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
+    photoSelectView.selectButton.rx.tap
+     .asDriver()
+      .drive(onNext: {[weak self] in
+        guard let self = self else { return }
+        let vc = PhotoBottomSheetViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        self.parent?.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
+    
     tapGesture.rx.event
       .asDriver()
       .drive(onNext: { [weak self] _ in
