@@ -264,6 +264,7 @@
 				BA4DADB2295747E700C7ABD7 /* PageControl.swift */,
 				0A81767E28F3105200C1E074 /* Preview.swift */,
 				C3AD265E296AD3C100C57370 /* InputTextView.swift */,
+				C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -606,7 +607,6 @@
 				C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */,
 				C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */,
 				C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */,
-				C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */,
 				C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */,
 			);
 			path = Component;
