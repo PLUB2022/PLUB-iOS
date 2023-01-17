@@ -39,6 +39,10 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
     $0.delegate = self
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [lineView, contentStackView].forEach {
@@ -94,10 +98,6 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
         self.present(self.photoPicker, animated: true)
       })
       .disposed(by: disposeBag)
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
   }
 }
 
