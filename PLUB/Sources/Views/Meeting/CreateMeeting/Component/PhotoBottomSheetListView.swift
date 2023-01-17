@@ -17,7 +17,7 @@ final class PhotoBottomSheetListView: UIView {
     $0.textColor = .black
   }
   
-  private let button = UIButton()
+  let button = UIButton()
 
   init(
     text: String,
