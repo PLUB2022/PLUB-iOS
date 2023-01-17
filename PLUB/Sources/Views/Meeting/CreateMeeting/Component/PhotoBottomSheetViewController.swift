@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol PhotoBottomSheetDelegate: AnyObject {
+  func selectImage(image: UIImage)
+}
+
 final class PhotoBottomSheetViewController: BottomSheetViewController {
+  weak var delegate: PhotoBottomSheetDelegate?
+  
   private let lineView = UIView().then {
     $0.backgroundColor = .mediumGray
     $0.layer.cornerRadius = 2
@@ -28,6 +34,10 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
     text: "앨범에서 사진 업로드",
     image: "selectPhotoBlack"
   )
+  
+  private lazy var photoPicker = UIImagePickerController().then {
+    $0.delegate = self
+  }
   
   override func setupLayouts() {
     super.setupLayouts()
@@ -67,9 +77,46 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
   
   override func bind() {
     super.bind()
+    cameraView.button.rx.tap
+      .withUnretained(self)
+      .asDriver(onErrorDriveWith: .empty())
+      .drive(onNext: { _ in
+        self.photoPicker.sourceType = .camera
+        self.present(self.photoPicker, animated: true)
+      })
+      .disposed(by: disposeBag)
+    
+    albumView.button.rx.tap
+      .withUnretained(self)
+      .asDriver(onErrorDriveWith: .empty())
+      .drive(onNext: { _ in
+        self.photoPicker.sourceType = .photoLibrary
+        self.present(self.photoPicker, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+  }
+}
+
+extension PhotoBottomSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+  ) {
+    guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+    
+    picker.dismiss(animated: false, completion: {
+      self.delegate?.selectImage(image: selectedImage)
+      self.dismiss(animated: false)
+    })
+  }
+  
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    picker.dismiss(animated: false, completion: {
+      self.dismiss(animated: false)
+    })
   }
 }
