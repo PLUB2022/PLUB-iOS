@@ -61,22 +61,22 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   private func setupConstraints() {
     
-    seperatorLineView.snp.makeConstraints { make in
-      make.bottom.horizontalEdges.equalToSuperview()
-      make.height.equalTo(1) // 높이를 1로 설정하여 테이블 구분선을 만듦
+    seperatorLineView.snp.makeConstraints {
+      $0.bottom.horizontalEdges.equalToSuperview()
+      $0.height.equalTo(1) // 높이를 1로 설정하여 테이블 구분선을 만듦
     }
     
-    stackView.snp.makeConstraints { make in
-      make.top.leading.equalToSuperview().inset(10)
-      make.bottom.trailing.equalToSuperview().inset(13)
+    stackView.snp.makeConstraints {
+      $0.top.leading.equalToSuperview().inset(10)
+      $0.bottom.trailing.equalToSuperview().inset(13)
     }
     
-    disclosureIndicator.snp.makeConstraints { make in
-      make.size.equalTo(24)
+    disclosureIndicator.snp.makeConstraints {
+      $0.size.equalTo(24)
     }
     
-    checkbox.snp.makeConstraints { make in
-      make.size.equalTo(24)
+    checkbox.snp.makeConstraints {
+      $0.size.equalTo(24)
     }
   }
   

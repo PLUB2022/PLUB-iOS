@@ -86,36 +86,36 @@ final class LoginViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     [logoImageView, loginStackView, termsLabel].forEach {
-      self.view.addSubview($0)
+      view.addSubview($0)
     }
     
     [kakaoLoginButton, googleLoginButton, appleLoginButton].forEach {
-      self.loginStackView.addArrangedSubview($0)
+      loginStackView.addArrangedSubview($0)
     }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    self.logoImageView.snp.makeConstraints { make in
-      make.horizontalEdges.equalToSuperview().inset(106)
-      make.centerY.equalToSuperview().offset(-150)
+    logoImageView.snp.makeConstraints {
+      $0.horizontalEdges.equalToSuperview().inset(106)
+      $0.centerY.equalToSuperview().offset(-150)
     }
     
-    self.loginStackView.snp.makeConstraints { make in
-      make.leading.trailing.equalToSuperview().inset(40)
-      make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(164)
+    loginStackView.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(40)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(164)
     }
     
-    self.termsLabel.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(60)
+    termsLabel.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(60)
     }
     
     // == Button's constraints ==
     [kakaoLoginButton, googleLoginButton, appleLoginButton].forEach {
-      $0.snp.makeConstraints { make in
-        make.height.equalTo(44)
+      $0.snp.makeConstraints {
+        $0.height.equalTo(44)
       }
     }
   }

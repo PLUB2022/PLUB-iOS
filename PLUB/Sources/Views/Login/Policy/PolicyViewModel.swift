@@ -33,7 +33,7 @@ extension PolicyViewModel {
   /// tableView를 세팅하며, `DiffableDataSource`를 초기화하여 해당 tableView에 데이터를 지닌 셀을 처리합니다.
   /// - Parameter tableView: 보여질 tableView
   func setTableView(_ tableView: UITableView) {
-    self.dataSource = DataSource(tableView: tableView) { tableView, indexPath, model in
+    dataSource = DataSource(tableView: tableView) { tableView, indexPath, model in
       let identifier: String
       switch model.type {
       case .header:
