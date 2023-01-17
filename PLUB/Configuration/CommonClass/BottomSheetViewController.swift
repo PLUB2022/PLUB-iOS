@@ -19,9 +19,7 @@ class BottomSheetViewController: BaseViewController {
   private let tapGesture = UITapGestureRecognizer(
       target: BottomSheetViewController.self,
       action: nil
-  ).then {
-      $0.cancelsTouchesInView = false
-  }
+  )
   
   init() {
     super.init(nibName: nil, bundle: nil)
