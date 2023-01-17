@@ -55,17 +55,17 @@ final class IntroductionViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    stackView.snp.makeConstraints { make in
-      make.top.horizontalEdges.equalToSuperview()
+    stackView.snp.makeConstraints {
+      $0.top.horizontalEdges.equalToSuperview()
     }
     
-    introductionTextView.snp.makeConstraints { make in
-      make.height.equalTo(46)
+    introductionTextView.snp.makeConstraints {
+      $0.height.equalTo(46)
     }
     
-    overlineLabel.snp.makeConstraints { make in
-      make.top.equalTo(stackView.snp.bottom).offset(4)
-      make.trailing.equalToSuperview()
+    overlineLabel.snp.makeConstraints {
+      $0.top.equalTo(stackView.snp.bottom).offset(4)
+      $0.trailing.equalToSuperview()
     }
   }
   
@@ -88,8 +88,8 @@ final class IntroductionViewController: BaseViewController {
     let estimatedSize = textView.sizeThatFits(size)
     
     // update height constraints
-    textView.snp.updateConstraints { make in
-      make.height.equalTo(estimatedSize.height)
+    textView.snp.updateConstraints {
+      $0.height.equalTo(estimatedSize.height)
     }
   }
   

@@ -99,13 +99,13 @@ final class BirthViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    wholeStackView.snp.makeConstraints { make in
-      make.horizontalEdges.top.equalToSuperview()
+    wholeStackView.snp.makeConstraints {
+      $0.horizontalEdges.top.equalToSuperview()
     }
     
     [maleButton, femaleButton].forEach {
-      $0.snp.makeConstraints { make in
-        make.height.equalTo(40)
+      $0.snp.makeConstraints {
+        $0.height.equalTo(40)
       }
     }
   }

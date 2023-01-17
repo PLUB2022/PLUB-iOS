@@ -116,24 +116,24 @@ final class ProfileViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
-    wholeStackView.snp.makeConstraints { make in
-      make.top.horizontalEdges.equalToSuperview()
+    wholeStackView.snp.makeConstraints {
+      $0.top.horizontalEdges.equalToSuperview()
     }
     
-    uploadImageButton.snp.makeConstraints { make in
-      make.size.equalTo(120)
+    uploadImageButton.snp.makeConstraints {
+      $0.size.equalTo(120)
     }
     
-    profileLabel.snp.makeConstraints { make in
-      make.leading.equalToSuperview()
+    profileLabel.snp.makeConstraints {
+      $0.leading.equalToSuperview()
     }
     
-    nicknameTextField.snp.makeConstraints { make in
-      make.height.equalTo(46)
+    nicknameTextField.snp.makeConstraints {
+      $0.height.equalTo(46)
     }
     
-    alertImageView.snp.makeConstraints { make in
-      make.size.equalTo(18)
+    alertImageView.snp.makeConstraints {
+      $0.size.equalTo(18)
     }
   }
   
