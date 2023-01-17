@@ -12,6 +12,7 @@ protocol DateBottomSheetDelegate: AnyObject {
 }
 
 final class DateBottomSheetViewController: BottomSheetViewController {
+  
   weak var delegate: DateBottomSheetDelegate?
   
   private let lineView = UIView().then {
@@ -27,11 +28,22 @@ final class DateBottomSheetViewController: BottomSheetViewController {
   
   private let datePicker = UIDatePicker().then {
     $0.preferredDatePickerStyle = .wheels
-    $0.datePickerMode = .time
+    $0.locale = Locale(identifier: "ko-KR")
   }
   
-  private var nextButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "생일 입력 완료")
+  private var nextButton = UIButton(configuration: .plain())
+  
+  init(
+    type: UIDatePicker.Mode,
+    buttonTitle: String
+  ) {
+    datePicker.datePickerMode = type
+    nextButton.configurationUpdateHandler = nextButton.configuration?.plubButton(label: buttonTitle)
+    super.init()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewWillAppear(_ animated: Bool) {
