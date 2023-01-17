@@ -8,7 +8,9 @@
 import UIKit
 
 final class PhotoBottomSheetListView: UIView {
-  private let imageView = UIImageView()
+  private let imageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
+  }
   
   private let label = UILabel().then {
     $0.font = .button
@@ -50,7 +52,7 @@ final class PhotoBottomSheetListView: UIView {
     
     label.snp.makeConstraints {
       $0.centerY.equalTo(imageView.snp.centerY)
-      $0.leading.equalTo(imageView.snp.trailing).offset(8)
+      $0.leading.equalTo(imageView.snp.trailing).offset(8.67)
     }
     
     button.snp.makeConstraints {

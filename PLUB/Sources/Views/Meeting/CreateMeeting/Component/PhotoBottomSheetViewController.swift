@@ -5,13 +5,12 @@
 //  Created by 김수빈 on 2023/01/17.
 //
 
-import Foundation
 import UIKit
 
 final class PhotoBottomSheetViewController: BottomSheetViewController {
   private let lineView = UIView().then {
     $0.backgroundColor = .mediumGray
-    $0.layer.cornerRadius = 6
+    $0.layer.cornerRadius = 2
   }
   
   private let contentStackView = UIStackView().then {
@@ -46,8 +45,8 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
     
     lineView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(8)
-      $0.height.equalTo(4)
-      $0.width.equalTo(48)
+      $0.height.equalTo(4.33)
+      $0.width.equalTo(52)
       $0.centerX.equalToSuperview()
     }
     
