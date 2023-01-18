@@ -24,21 +24,40 @@ enum CategoryType {
   case when
 }
 
+struct CategoryOption: OptionSet {
+  let rawValue: UInt
+  
+  static let location = CategoryOption(rawValue: 1 << 0) // 카테고리 위치
+  static let people = CategoryOption(rawValue: 1 << 1) // 카테고리 인원
+  static let when = CategoryOption(rawValue: 1 << 2) // 카테고리 시간
+  static let all = CategoryOption([.location, .people, .when])
+}
+
 class CategoryInfoListView: UIView {
   private let categoryInfoListViewType: CategoryInfoListViewType
   
-  private lazy var categoryInfoListStackView = UIStackView(arrangedSubviews: [locationInfoView, peopleInfoView, whenInfoView]).then {
+  private let categoryInfoListStackView = UIStackView().then {
     $0.sizeToFit()
   }
   
-  private let locationInfoView = CategoryInfoView(categoryType: .location)
-  private let peopleInfoView = CategoryInfoView(categoryType: .people)
-  private let whenInfoView = CategoryInfoView(categoryType: .when)
+  private lazy var locationInfoView = CategoryInfoView(categoryType: .location)
+  private lazy var peopleInfoView = CategoryInfoView(categoryType: .people)
+  private lazy var whenInfoView = CategoryInfoView(categoryType: .when)
   
-  init(categoryInfoListViewType: CategoryInfoListViewType) {
+  init(categoryInfoListViewType: CategoryInfoListViewType, options: CategoryOption = []) {
     self.categoryInfoListViewType = categoryInfoListViewType
     super.init(frame: .zero)
     configureUI()
+    
+    if options.contains(.location) {
+      categoryInfoListStackView.addArrangedSubview(locationInfoView)
+    }
+    if options.contains(.people) {
+      categoryInfoListStackView.addArrangedSubview(peopleInfoView)
+    }
+    if options.contains(.when) {
+      categoryInfoListStackView.addArrangedSubview(whenInfoView)
+    }
   }
   
   required init?(coder: NSCoder) {

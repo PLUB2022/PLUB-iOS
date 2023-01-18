@@ -39,7 +39,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     $0.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }
   
-  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
+  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal, options: .all)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
