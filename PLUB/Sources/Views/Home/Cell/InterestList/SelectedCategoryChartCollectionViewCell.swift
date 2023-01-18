@@ -6,37 +6,40 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
   let title: String
   let description: String
-  let selectedCategoryInfoViewModel: SelectedCategoryInfoViewModel
+  let selectedCategoryInfoViewModel: CategoryInfoListViewModel
 }
 
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   static let identifier = "SelectedCategoryChartCollectionViewCell"
   
   private let titleLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 25, weight: .bold)
+    $0.font = .subtitle
     $0.numberOfLines = 0
-    $0.lineBreakMode = .byTruncatingTail
     $0.textColor = .white
     $0.textAlignment = .left
+    $0.sizeToFit()
   }
   
   private let descriptionLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 15, weight: .regular)
+    $0.font = .caption
     $0.numberOfLines = 1
     $0.lineBreakMode = .byTruncatingTail
     $0.textColor = .white
     $0.textAlignment = .left
   }
   
-  private let seperatorView = UIView()
+  private let bookmarkButton = UIButton().then {
+    $0.setImage(UIImage(named: "whiteBookmark"), for: .normal)
+  }
   
-  private let selectedCategoryInfoView = SelectedCategoryInfoView(selectedCategoryInfoViewType: .horizontal)
+  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -47,52 +50,52 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    contentView.layer.cornerRadius = 10
-    contentView.layer.masksToBounds = true
-  }
-  
   override func prepareForReuse() {
     super.prepareForReuse()
     titleLabel.text = nil
     descriptionLabel.text = nil
-    seperatorView.backgroundColor = nil
-    selectedCategoryInfoView.backgroundColor = nil
+    categoryInfoListView.backgroundColor = nil
+    bookmarkButton.setImage(nil, for: .normal)
+  }
+  
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    categoryInfoListView.snp.makeConstraints {
+      $0.width.lessThanOrEqualTo(self.frame.width - 20)
+    }
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .black
-    _ = [titleLabel, descriptionLabel, seperatorView, selectedCategoryInfoView].map{ contentView.addSubview($0) }
-    titleLabel.snp.makeConstraints {
-      $0.top.left.equalToSuperview().offset(20)
-      $0.right.equalToSuperview().offset(-20)
-    }
+    contentView.backgroundColor = .orange
+    contentView.layer.cornerRadius = 10
+    contentView.layer.masksToBounds = true
+    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
     
-    selectedCategoryInfoView.snp.makeConstraints {
-      $0.bottom.equalToSuperview().offset(-20)
-      $0.left.right.equalTo(titleLabel)
-      $0.height.equalTo(20)
-    }
-    
-    seperatorView.snp.makeConstraints {
-      $0.left.equalTo(selectedCategoryInfoView.snp.left)
-      $0.bottom.equalTo(selectedCategoryInfoView.snp.top).offset(-10)
-      $0.width.equalTo(200)
-      $0.height.equalTo(1)
+    categoryInfoListView.snp.makeConstraints {
+      $0.left.equalToSuperview().offset(10)
+      $0.bottom.equalToSuperview().offset(-10)
     }
     
     descriptionLabel.snp.makeConstraints {
-      $0.left.equalTo(seperatorView.snp.left)
-      $0.right.equalTo(titleLabel.snp.right)
-      $0.bottom.equalTo(seperatorView.snp.top).offset(-10)
+      $0.left.right.equalToSuperview().inset(10)
+      $0.bottom.equalTo(categoryInfoListView.snp.top).offset(-10)
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.left.right.equalTo(descriptionLabel)
+      $0.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
+    }
+    
+    bookmarkButton.snp.makeConstraints {
+      $0.top.right.equalToSuperview().inset(16)
+      $0.width.height.equalTo(32)
     }
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
-    seperatorView.backgroundColor = .white
-    selectedCategoryInfoView.configureUI(with: model.selectedCategoryInfoViewModel)
+    categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
+    bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }
 }

@@ -11,7 +11,7 @@ class IndicatorButton: UIButton {
   
   override var isSelected: Bool {
     didSet {
-      isSelected ? setImage(UIImage(named: "Vector 2-1"), for: .normal) : setImage(UIImage(named: "Vector 2"), for: .normal)
+      isSelected ? setImage(UIImage(named: "topIndicator"), for: .normal) : setImage(UIImage(named: "bottomIndicator"), for: .normal)
     }
   }
   
@@ -25,6 +25,6 @@ class IndicatorButton: UIButton {
   }
   
   private func configureUI() {
-    setImage(UIImage(named: "Vector 2"), for: .normal)
+    setImage(UIImage(named: "bottomIndicator"), for: .normal)
   }
 }

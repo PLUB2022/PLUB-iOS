@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import Then
+
 import SnapKit
+import Then
 
 final class IntroduceCategoryViewController: BaseViewController {
   
@@ -21,7 +22,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   
   private let introduceTitleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .systemFont(ofSize: 24, weight: .bold)
+    $0.font = .h3
     $0.text = "책 읽고 얘기해요!"
     $0.backgroundColor = .orange
   }
@@ -35,7 +36,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   
   private let meetingTitleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .systemFont(ofSize: 18)
     $0.text = "요란한 한줄"
   }
   
@@ -45,7 +46,7 @@ final class IntroduceCategoryViewController: BaseViewController {
     $0.text = "화수금 오후 1시"
   }
   
-  private let selectedCategoryInfoView = SelectedCategoryInfoView(selectedCategoryInfoViewType: .horizontal)
+  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
   
   private let meetingRecommendedLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 32)
@@ -92,7 +93,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    _ = [introduceTitleLabel, introduceTypeStackView, meetingTitleLabel, meetingDateLabel, selectedCategoryInfoView, meetingRecommendedLabel, meetingImageView, meetingIntroduceLabel, meetingDescriptionLabel].map { scrollView.addSubview($0) }
+    [introduceTitleLabel, introduceTypeStackView, meetingTitleLabel, meetingDateLabel, categoryInfoListView, meetingRecommendedLabel, meetingImageView, meetingIntroduceLabel, meetingDescriptionLabel].forEach { scrollView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -123,14 +124,14 @@ final class IntroduceCategoryViewController: BaseViewController {
       $0.bottom.equalTo(meetingTitleLabel)
     }
     
-    selectedCategoryInfoView.snp.makeConstraints {
+    categoryInfoListView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.top.equalTo(meetingDateLabel.snp.bottom).offset(20)
     }
     
     meetingRecommendedLabel.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalTo(selectedCategoryInfoView).offset(20)
+      $0.top.equalTo(categoryInfoListView).offset(20)
     }
     
     meetingImageView.snp.makeConstraints {
@@ -153,16 +154,25 @@ final class IntroduceCategoryViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .systemBackground
-    selectedCategoryInfoView.configureUI(with: .init(date: "화, 수, 금", time: "오후 1시", peopleCount: 10))
-    selectedCategoryInfoView.backgroundColor = .black
-    self.navigationController?.navigationBar.isHidden = false
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(didTappedBackButton))
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Component 1"), style: .plain, target: self, action: #selector(didTappedComponentButton))
+    view.backgroundColor = .background
+    categoryInfoListView.configureUI(with: .init(location: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분"))
+    categoryInfoListView.backgroundColor = .black
+    
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "checkBookmark"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedComponentButton)
+    )
   }
   
   @objc private func didTappedBackButton() {
-    self.navigationController?.navigationBar.isHidden = true
     self.navigationController?.popViewController(animated: true)
   }
   

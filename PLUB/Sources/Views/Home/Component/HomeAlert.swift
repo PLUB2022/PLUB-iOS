@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import Then
+
 import SnapKit
+import Then
 
 class HomeAlert {
   struct Constants {
@@ -35,12 +36,12 @@ class HomeAlert {
   }
   
   private let applyImageView = UIImageView().then {
-    $0.image = UIImage(named: "ApplyComp")
+    $0.image = UIImage(named: "apply")
     $0.contentMode = .scaleAspectFit
   }
   
   private lazy var backButton = UIButton().then {
-    $0.setImage(UIImage(named: "Vector"), for: .normal)
+    $0.setImage(UIImage(named: "closeButton"), for: .normal)
   }
   
   private let mainLabel = UILabel().then {
@@ -53,7 +54,7 @@ class HomeAlert {
   
   private let subLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = UIFont(name: "Pretendard-Regular", size: 14)
+    $0.font = .body2
     $0.numberOfLines = 0
     $0.sizeToFit()
     $0.text = """
@@ -79,8 +80,8 @@ class HomeAlert {
   public func showAlert(on viewController: UIViewController) {
     guard let targetView = viewController.view else { return }
     
-    _ = [backgroundView, alertView].map { targetView.addSubview($0) }
-    _ = [backButton, stackView].map { alertView.addSubview($0) }
+    [backgroundView, alertView].forEach { targetView.addSubview($0) }
+    [backButton, stackView].forEach { alertView.addSubview($0) }
     
     backgroundView.alpha = Constants.backgroundAlphaTo
     backgroundView.snp.makeConstraints {

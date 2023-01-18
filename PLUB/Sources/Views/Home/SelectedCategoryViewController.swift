@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -24,19 +25,17 @@ class SelectedCategoryViewController: BaseViewController {
   
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
     $0.scrollDirection = .vertical
-    $0.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+//    $0.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
   })).then {
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .background
   }.then {
     $0.register(SelectedCategoryGridCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier)
     $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
     $0.register(SelectedCategoryFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier)
+    $0.delegate = self
+    $0.dataSource = self
   }
-  
-  private lazy var interestListNavigationBar = SelectedCategoryNavigationBar().then {
-    $0.configureUI(with: title ?? "")
-  }
-  
+ 
   init(viewModel: SelectedCategoryViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -47,37 +46,43 @@ class SelectedCategoryViewController: BaseViewController {
   }
   
   override func setupStyles() {
-    view.backgroundColor = .systemBackground
-    self.navigationController?.navigationBar.isHidden = true
+    view.backgroundColor = .background
     
-    interestListNavigationBar.delegate = self
-    interestListCollectionView.delegate = self
-    interestListCollectionView.dataSource = self
+    self.navigationItem.title = nil
+    self.navigationItem.leftBarButtonItems = [
+      UIBarButtonItem(image: UIImage(named: "back"), style: .done, target: self, action: #selector(didTappedBackButton)),
+      UIBarButtonItem(title: title, style: .done, target: nil, action: nil)
+    ]
+    
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "search"),
+      style: .done,
+      target: self,
+      action: nil
+    )
   }
   
   override func setupLayouts() {
-    _ = [interestListNavigationBar, interestListCollectionView].map{ view.addSubview($0) }
+    view.addSubview(interestListCollectionView)
   }
   
   override func setupConstraints() {
-    interestListNavigationBar.snp.makeConstraints {
-      $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
-      $0.height.equalTo(70)
-    }
-    
     interestListCollectionView.snp.makeConstraints {
-      $0.top.equalTo(interestListNavigationBar.snp.bottom)
-      $0.left.right.bottom.equalToSuperview()
+      $0.edges.equalToSuperview().inset(10)
     }
   }
   
   override func bind() {
     viewModel.createSelectedCategoryChartCollectionViewCellModels()
-      .subscribe(onNext: { [weak self] selectedCategoryChartCollectionViewCellModels in
-        guard let `self` = self else { return }
-        self.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
+      .withUnretained(self)
+      .subscribe(onNext: { owner, selectedCategoryChartCollectionViewCellModels in
+        owner.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
       })
       .disposed(by: disposeBag)
+  }
+  
+  @objc private func didTappedBackButton() {
+    self.navigationController?.popViewController(animated: true)
   }
 }
 
@@ -119,9 +124,9 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     switch selectedCategoryType {
     case .chart:
-      return CGSize(width: collectionView.frame.width - 10 - 10, height: collectionView.frame.height / 4 - 10)
+      return CGSize(width: collectionView.frame.width - 10, height: collectionView.frame.height / 4 - 10)
     case .grid:
-      return CGSize(width: collectionView.frame.width / 2 - 10 - 10, height: collectionView.frame.height / 2.5)
+      return CGSize(width: collectionView.frame.width / 2 - 10, height: collectionView.frame.height / 2.5)
     }
   }
   
@@ -140,17 +145,6 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
 }
 
-extension SelectedCategoryViewController: SelectedCategoryNavigationBarDelegate {
-  func didTappedBackButton() {
-    self.navigationController?.navigationBar.isHidden = false
-    self.navigationController?.popViewController(animated: true)
-  }
-  
-  func didTappedSearchButton() {
-
-  }
-}
-
 extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelegate {
   func didTappedInterestListFilterButton() {
     
@@ -166,3 +160,4 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
     self.interestListCollectionView.reloadSections([0])
   }
 }
+

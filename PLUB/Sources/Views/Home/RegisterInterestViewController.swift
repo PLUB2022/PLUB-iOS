@@ -6,10 +6,11 @@
 //
 
 import UIKit
-import SnapKit
-import Then
+
 import RxSwift
 import RxCocoa
+import SnapKit
+import Then
 
 class RegisterInterestViewController: BaseViewController {
   
@@ -45,7 +46,7 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupLayouts() {
-    _ = [registerTableView, floatingButton].map{ view.addSubview($0) }
+    [registerTableView, floatingButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -60,9 +61,9 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupStyles() {
-    view.backgroundColor = .secondarySystemBackground
+    view.backgroundColor = .background
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(hierarchicalColor: .black)),
+      image: UIImage(named: "back"),
       style: .done,
       target: self,
       action: #selector(didTappedLeftButton)
@@ -70,20 +71,20 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func bind() {
-    viewModel.registerInterestFetched
-      .drive(onNext: { [weak self] registerInterestModels in
-        guard let `self` = self else { return }
-        self.registerInterestModels = registerInterestModels
-        self.registerTableView.reloadData()
+    viewModel.registerInterestFetched.asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, registerInterestModels in
+        owner.registerInterestModels = registerInterestModels
+        owner.registerTableView.reloadData()
       })
       .disposed(by: disposeBag)
     
-    viewModel.isEnabledFloatingButton
-      .drive(onNext: { [weak self] isEnabled in
-        guard let `self` = self else { return }
-        self.floatingButton.isEnabled = isEnabled
-        self.floatingButton.backgroundColor = isEnabled ? .main : .lightGray
-        self.floatingButton.setTitleColor(isEnabled ? .white : .darkGray, for: .normal)
+    viewModel.isEnabledFloatingButton.asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, isEnabled in
+        owner.floatingButton.isEnabled = isEnabled
+        owner.floatingButton.backgroundColor = isEnabled ? .main : .lightGray
+        owner.floatingButton.setTitleColor(isEnabled ? .white : .darkGray, for: .normal)
       })
       .disposed(by: disposeBag)
     

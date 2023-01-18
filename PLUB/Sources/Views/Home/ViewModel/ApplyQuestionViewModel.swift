@@ -8,50 +8,78 @@
 import RxSwift
 import RxCocoa
 
-// TODO: 이건준 - combineLatest이용하여 지원질문화면 Active에 따른 isActive 데이터처리해줘야함
-
+// 모든 질문에 관련된 상태값을 저장해서 이걸 확인하고 같지않으면 내보내는 방식으로 해야할듯
 protocol ApplyQuestionViewModelType {
   // Input
-  var isFillInQuestion: AnyObserver<Bool> { get }
+  var whichQuestion: AnyObserver<QuestionStatus> { get }
   
   // Output
   var allQuestion: Driver<[ApplyQuestionTableViewCellModel]> { get }
-//  var isActive: Driver<Bool> { get }
+  var isActivated: Driver<Bool> { get }
 }
 
 class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   private var disposeBag = DisposeBag()
   // Input
-  var isFillInQuestion: AnyObserver<Bool>
+  var whichQuestion: AnyObserver<QuestionStatus>
   
   // Output
   var allQuestion: Driver<[ApplyQuestionTableViewCellModel]>
-//  var isActive: Driver<Bool>
+  var isActivated: Driver<Bool>
   
   init() {
     let questions = BehaviorSubject<[ApplyQuestionTableViewCellModel]>(value: [])
-    let writingCount = BehaviorSubject<Int>(value: 0)
-    let isFillingInQuestion = BehaviorSubject<Bool>(value: false)
+    let currentQuestion = PublishSubject<QuestionStatus>()
+    let isActivating = BehaviorSubject<Bool>(value: false)
+    let entireQuestionStatus = PublishSubject<[QuestionStatus]>()
     
     self.allQuestion = questions.asDriver(onErrorJustReturn: [])
-    self.isFillInQuestion = isFillingInQuestion.asObserver()
-    let entireQuestionCount = questions.map { $0.count }
+    self.whichQuestion = currentQuestion.asObserver()
+    self.isActivated = isActivating.asDriver(onErrorJustReturn: false)
     
-    isFillingInQuestion
-      .distinctUntilChanged()
-      .filter { $0 == true }
-      .withLatestFrom(writingCount.asObservable())
-      .subscribe(onNext: { count in
-          writingCount.onNext(count + 1)
-          print("plus = \(count + 1)")
+    // 받아온 질문들을 초기화된 각각의 textView에 대한 상태값을 저장
+    questions.map { questionModels in
+      questionModels.map { questionModel -> QuestionStatus in
+        return QuestionStatus(id: questionModel.id, isFilled: false)
+      }
+    }
+    .bind(to: entireQuestionStatus)
+    .disposed(by: disposeBag)
+    
+    currentQuestion.distinctUntilChanged().withLatestFrom(entireQuestionStatus) { ($0, $1) }
+      .subscribe(onNext: { (currentStatus, entireStatus) in
+        let entireStatus = entireStatus.map { status -> QuestionStatus in
+          if status.id == currentStatus.id {
+            return QuestionStatus(id: currentStatus.id, isFilled: currentStatus.isFilled)
+          } else {
+            return QuestionStatus(id: status.id, isFilled: status.isFilled)
+          }
         }
-      )
+        entireQuestionStatus.onNext(entireStatus)
+      })
       .disposed(by: disposeBag)
-
+    
+    entireQuestionStatus
+          .distinctUntilChanged()
+          .subscribe(onNext: { current in
+            let isAllChecked = current.filter{ $0.isFilled == false }.count == 0
+            isActivating.onNext(isAllChecked)
+          })
+          .disposed(by: disposeBag)
+    
     questions.onNext([
-      .init(question: "1. 지원 동기가 궁금해요!", placeHolder: "소개하는 내용을 적어주세요"),
-      .init(question: "2. 당신의 실력은 어느정도?!", placeHolder: "소개하는 내용을 적어주세요"),
-      .init(question: "3. 간단한 자기소개! ", placeHolder: "소개하는 내용을 적어주세요")
+      .init(id: 1,question: "1. 지원 동기가 궁금해요!"),
+      .init(id: 2,question: "2. 당신의 실력은 어느정도?!"),
+      .init(id: 3,question: "3. 간단한 자기소개! ")
     ])
+  }
+}
+
+struct QuestionStatus: Equatable {
+  let id: Int
+  let isFilled: Bool
+  
+  static func == (lhs: QuestionStatus, rhs: QuestionStatus) -> Bool {
+    return lhs.id == rhs.id && lhs.isFilled == rhs.isFilled
   }
 }

@@ -134,8 +134,8 @@ final class PageControl: UIControl {
   private func configureUI() {
     self.addSubview(stackView)
     
-    stackView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+    stackView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
   }
   
@@ -157,13 +157,13 @@ final class PageControl: UIControl {
       stackView.addArrangedSubview(dot)
       
       // == dot constraints ==
-      dot.snp.makeConstraints { make in
+      dot.snp.makeConstraints {
         if index == _currentPage {
-          make.width.equalTo(currentPageIndicatorWidth)
+          $0.width.equalTo(currentPageIndicatorWidth)
         } else {
-          make.width.equalTo(pageIndicatorWidth)
+          $0.width.equalTo(pageIndicatorWidth)
         }
-        make.height.equalTo(8)
+        $0.height.equalTo(8)
       }
       
       // == dot appearence ==
@@ -182,11 +182,11 @@ final class PageControl: UIControl {
   
   private func updateDotsConstraints() {
     for (index, dot) in dots.enumerated() {
-      dot.snp.updateConstraints { make in
+      dot.snp.updateConstraints {
         if index == _currentPage {
-          make.width.equalTo(currentPageIndicatorWidth)
+          $0.width.equalTo(currentPageIndicatorWidth)
         } else {
-          make.width.equalTo(pageIndicatorWidth)
+          $0.width.equalTo(pageIndicatorWidth)
         }
       }
     }

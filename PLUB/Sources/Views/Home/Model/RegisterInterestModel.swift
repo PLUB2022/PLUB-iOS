@@ -53,21 +53,21 @@ enum InterestCollectionType: CaseIterable {
   var imageNamed: String {
     switch self {
     case .Art:
-      return "ic_outline-palette"
+      return "art"
     case .SportFitness:
-      return "ic_outline-sports-basketball"
+      return "sport"
     case .Investment:
-      return "ri_money-dollar-circle-line"
+      return "money"
     case .LanguageStudy:
-      return "fluent_local-language-24-filled"
+      return "language"
     case .Culture:
-      return "ph_film-strip"
+      return "movie"
     case .Food:
-      return "fluent_food-pizza-24-regular"
+      return "food"
     case .Employment:
-      return "gg_work-alt"
+      return "work"
     case .Computer:
-      return "mi_computer"
+      return "computer"
     }
   }
 }

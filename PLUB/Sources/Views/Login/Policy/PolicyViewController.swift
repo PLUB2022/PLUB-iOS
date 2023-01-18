@@ -36,8 +36,8 @@ final class PolicyViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    tableView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+    tableView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
   }
 }

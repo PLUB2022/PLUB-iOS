@@ -39,16 +39,16 @@ final class PolicyBodyTableViewCell: UITableViewCell {
   }
   
   private func setupConstraints() {
-    webView.snp.makeConstraints { make in
-      make.leading.equalToSuperview().inset(26) // 24(size) + 2(spacing)
-      make.trailing.equalToSuperview().inset(39) // 13(trailing) + 24(size) + 2(spacing)
-      make.verticalEdges.equalToSuperview().inset(4)
-      make.height.equalTo(208)
+    webView.snp.makeConstraints {
+      $0.leading.equalToSuperview().inset(26) // 24(size) + 2(spacing)
+      $0.trailing.equalToSuperview().inset(39) // 13(trailing) + 24(size) + 2(spacing)
+      $0.verticalEdges.equalToSuperview().inset(4)
+      $0.height.equalTo(208)
     }
     
-    seperatorLineView.snp.makeConstraints { make in
-      make.bottom.horizontalEdges.equalToSuperview()
-      make.height.equalTo(1) // 높이를 1로 설정하여 테이블 구분선을 만듦
+    seperatorLineView.snp.makeConstraints {
+      $0.bottom.horizontalEdges.equalToSuperview()
+      $0.height.equalTo(1) // 높이를 1로 설정하여 테이블 구분선을 만듦
     }
   }
   
