@@ -1,0 +1,46 @@
+//
+//  IntroduceTagCollectionViewCell.swift
+//  PLUB
+//
+//  Created by 이건준 on 2023/01/17.
+//
+
+import UIKit
+
+import SnapKit
+import Then
+
+class IntroduceTagCollectionViewCell: UICollectionViewCell {
+  
+  static let identifier = "IntroduceTagCollectionViewCell"
+  
+  private let tagLabel = UILabel().then {
+    $0.backgroundColor = .tagTextColor
+    $0.font = .caption
+  }
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    configreUI()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func configreUI() {
+    contentView.backgroundColor = .tagBackgroundColor
+    contentView.layer.masksToBounds = true
+    contentView.layer.cornerRadius = 4
+    
+    contentView.addSubview(tagLabel)
+    
+    tagLabel.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
+  }
+  
+  func configureUI(with model: String) {
+    tagLabel.text = model
+  }
+}
