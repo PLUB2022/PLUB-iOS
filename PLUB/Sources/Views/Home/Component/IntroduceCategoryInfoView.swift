@@ -20,7 +20,7 @@ class IntroduceCategoryInfoView: UIView {
     $0.sizeToFit()
   }
   
-  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal, options: [.location, .when]).then {
+  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal, options: [.people, .when]).then {
     $0.backgroundColor = .red
   }
   
