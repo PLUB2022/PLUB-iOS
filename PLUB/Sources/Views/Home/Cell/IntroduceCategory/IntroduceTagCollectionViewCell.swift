@@ -15,8 +15,10 @@ class IntroduceTagCollectionViewCell: UICollectionViewCell {
   static let identifier = "IntroduceTagCollectionViewCell"
   
   private let tagLabel = UILabel().then {
-    $0.backgroundColor = .tagTextColor
     $0.font = .caption
+    $0.textColor = .tagTextColor
+    $0.textAlignment = .center
+    $0.sizeToFit()
   }
   
   override init(frame: CGRect) {
@@ -36,7 +38,7 @@ class IntroduceTagCollectionViewCell: UICollectionViewCell {
     contentView.addSubview(tagLabel)
     
     tagLabel.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.center.equalToSuperview()
     }
   }
   
