@@ -26,9 +26,9 @@ final class PhotoSelectView: UIView {
     $0.contentMode = .scaleAspectFit
   }
   
-  private let selectedImage = UIImageView()
+  let selectedImage = UIImageView()
   
-  private let selectButton = UIButton().then {
+  let selectButton = UIButton().then {
     $0.backgroundColor = .clear
   }
 

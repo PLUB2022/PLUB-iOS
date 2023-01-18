@@ -149,6 +149,17 @@ final class MeetingIntroduceViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
+    photoSelectView.selectButton.rx.tap
+     .asDriver()
+      .drive(onNext: {[weak self] in
+        guard let self = self else { return }
+        let vc = PhotoBottomSheetViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.delegate = self
+        self.parent?.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
+    
     tapGesture.rx.event
       .asDriver()
       .drive(onNext: { [weak self] _ in
@@ -158,5 +169,15 @@ final class MeetingIntroduceViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     scrollView.addGestureRecognizer(tapGesture)
+  }
+}
+
+extension MeetingIntroduceViewController: PhotoBottomSheetDelegate {
+  func selectImage(image: UIImage) {
+    photoSelectView.selectedImage.image = image
+    let width = photoSelectView.frame.width
+    photoSelectView.snp.updateConstraints {
+      $0.height.equalTo(width * image.size.height / image.size.width)
+    }
   }
 }

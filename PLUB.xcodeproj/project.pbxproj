@@ -102,15 +102,20 @@
 		BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */; };
 		BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE5D3362975B20000268D44 /* TokenResponse.swift */; };
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
+		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
+		C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */; };
 		C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */; };
 		C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */; };
 		C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */; };
+		C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337C2975ADD800943B11 /* Ex+CALayer.swift */; };
+		C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
 		C3AB743D296B2181003DD5E2 /* SelectPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */; };
 		C3AB743F296B21C1003DD5E2 /* SelectTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */; };
 		C3AB7441296B21E6003DD5E2 /* SelectQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB7440296B21E6003DD5E2 /* SelectQuestionViewController.swift */; };
 		C3AD265D296ACC0600C57370 /* MeetingNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AD265C296ACC0600C57370 /* MeetingNameViewController.swift */; };
 		C3AD265F296AD3C100C57370 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AD265E296AD3C100C57370 /* InputTextView.swift */; };
+		C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */; };
 		C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */; };
 		C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -204,15 +209,20 @@
 		BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceRequest.swift; sourceTree = "<group>"; };
 		BAE5D3362975B20000268D44 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
 		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
+		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
+		C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingTitleView.swift; sourceTree = "<group>"; };
 		C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewController.swift; sourceTree = "<group>"; };
 		C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectView.swift; sourceTree = "<group>"; };
+		C36D337C2975ADD800943B11 /* Ex+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+CALayer.swift"; sourceTree = "<group>"; };
+		C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetListView.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPeopleNumberViewController.swift; sourceTree = "<group>"; };
 		C3AB743E296B21C1003DD5E2 /* SelectTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTimeViewController.swift; sourceTree = "<group>"; };
 		C3AB7440296B21E6003DD5E2 /* SelectQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectQuestionViewController.swift; sourceTree = "<group>"; };
 		C3AD265C296ACC0600C57370 /* MeetingNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingNameViewController.swift; sourceTree = "<group>"; };
 		C3AD265E296AD3C100C57370 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
+		C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingNameViewModel.swift; sourceTree = "<group>"; };
 		C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -277,6 +287,7 @@
 				BA4DADB2295747E700C7ABD7 /* PageControl.swift */,
 				0A81767E28F3105200C1E074 /* Preview.swift */,
 				C3AD265E296AD3C100C57370 /* InputTextView.swift */,
+				C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -479,6 +490,7 @@
 				BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */,
 				BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */,
 				BA52778F28EECEB40036B825 /* Ex+UIFont.swift */,
+				C36D337C2975ADD800943B11 /* Ex+CALayer.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -635,6 +647,9 @@
 			children = (
 				C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */,
 				C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */,
+				C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */,
+				C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */,
+				C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -771,6 +786,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */,
 				70BD5F35296491C8002CBA89 /* ApplyQuestionHeaderView.swift in Sources */,
 				C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */,
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
@@ -791,6 +807,7 @@
 				BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
 				70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */,
+				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,
 				70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
@@ -799,6 +816,8 @@
 				BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
 				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
+				C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */,
+				C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */,
 				BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */,
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
 				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
@@ -807,6 +826,7 @@
 				BA780E0D297133F80032C178 /* Router.swift in Sources */,
 				BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */,
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
+				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
