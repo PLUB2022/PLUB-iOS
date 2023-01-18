@@ -19,6 +19,8 @@ class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   
+  private let introduceCategoryModels: [IntroduceCategoryModel] = []
+  
   private var selectedCategoryCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
   
   private var selectedCategoryType: SelectedCategoryType = .chart

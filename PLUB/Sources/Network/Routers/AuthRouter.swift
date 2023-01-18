@@ -8,14 +8,16 @@
 import Alamofire
 
 enum AuthRouter {
-  case socialLogin(type: SignInType, token: String?, authorizationCode: String?)
+  case socialLogin(SignInRequest)
+  case signUpPLUB(SignUpRequest)
+  case reissuanceAccessToken
 }
 
 extension AuthRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .socialLogin:
+    case .socialLogin, .signUpPLUB, .reissuanceAccessToken:
       return .post
     }
   }
@@ -24,19 +26,27 @@ extension AuthRouter: Router {
     switch self {
     case .socialLogin:
       return "/auth/login"
+    case .signUpPLUB:
+      return "/auth/signup"
+    case .reissuanceAccessToken:
+      return "/auth/reissue"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case let .socialLogin(socialType, accessToken, authorizationCode):
-      return .body(SignInRequest(accessToken: accessToken, authorizationCode: authorizationCode, socialType: socialType))
+    case let .socialLogin(model):
+      return .body(model)
+    case let .signUpPLUB(model):
+      return .body(model)
+    case .reissuanceAccessToken:
+      return .body(ReissuanceRequest(refreshToken: UserManager.shared.refreshToken ?? ""))
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .socialLogin:
+    case .socialLogin, .signUpPLUB, .reissuanceAccessToken:
       return .default
     }
   }

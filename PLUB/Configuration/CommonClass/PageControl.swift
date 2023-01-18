@@ -12,7 +12,9 @@ import Then
 
 final class PageControl: UIControl {
   
-  // MARK: - Property
+  // MARK: - Properties
+  
+  // MARK: Private Properties
   
   /// dots를 갖고있는 스택뷰
   private let stackView: UIStackView = UIStackView().then {
@@ -40,6 +42,8 @@ final class PageControl: UIControl {
       startDotAnimations()
     }
   }
+  
+  // MARK: Public Properties
   
   /// 페이지 수, 해당 수 만큼 점으로 표시됩니다.
   ///
@@ -94,6 +98,25 @@ final class PageControl: UIControl {
     }
   }
   
+  /// 현재 페이지에 적용할 `indicator의 가로 길이`
+  ///
+  /// 기본값은 `40`입니다.
+  /// page indicator dot은 화면에 표시되는 페이지에 사용됩니다.
+  var currentPageIndicatorWidth: Int = 40 {
+    didSet {
+      updateDotsConstraints()
+    }
+  }
+  
+  /// `page indicator`에 적용할 `indicator의 가로 길이`
+  ///
+  /// 기본값은 `10`입니다.
+  /// page indicator dot은 화면에 표시되지 않은 모든 페이지에 사용됩니다.
+  var pageIndicatorWidth: Int = 10 {
+    didSet {
+      updateDotsConstraints()
+    }
+  }
   
   // MARK: - Initialization
   
@@ -111,8 +134,8 @@ final class PageControl: UIControl {
   private func configureUI() {
     self.addSubview(stackView)
     
-    stackView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+    stackView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
   }
   
@@ -134,13 +157,13 @@ final class PageControl: UIControl {
       stackView.addArrangedSubview(dot)
       
       // == dot constraints ==
-      dot.snp.makeConstraints { make in
+      dot.snp.makeConstraints {
         if index == _currentPage {
-          make.width.equalTo(40)
+          $0.width.equalTo(currentPageIndicatorWidth)
         } else {
-          make.width.equalTo(10)
+          $0.width.equalTo(pageIndicatorWidth)
         }
-        make.height.equalTo(8)
+        $0.height.equalTo(8)
       }
       
       // == dot appearence ==
@@ -159,11 +182,11 @@ final class PageControl: UIControl {
   
   private func updateDotsConstraints() {
     for (index, dot) in dots.enumerated() {
-      dot.snp.updateConstraints { make in
+      dot.snp.updateConstraints {
         if index == _currentPage {
-          make.width.equalTo(40)
+          $0.width.equalTo(currentPageIndicatorWidth)
         } else {
-          make.width.equalTo(10)
+          $0.width.equalTo(pageIndicatorWidth)
         }
       }
     }

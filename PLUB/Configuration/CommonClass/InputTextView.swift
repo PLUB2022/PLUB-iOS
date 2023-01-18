@@ -185,6 +185,15 @@ final class InputTextView: UIView {
   }
 }
 
+// MARK: - First Responder
+
+extension InputTextView {
+  @discardableResult
+  override func resignFirstResponder() -> Bool {
+    return textView.resignFirstResponder()
+  }
+}
+
 // MARK: - Function
 
 extension InputTextView {
