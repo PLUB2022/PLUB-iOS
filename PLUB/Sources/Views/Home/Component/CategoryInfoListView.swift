@@ -108,7 +108,7 @@ class CategoryInfoView: UIView {
     layer.cornerRadius = 4
     switch categoryType {
     case .location:
-      infoImageView.image = UIImage(named: "location")
+      infoImageView.image = UIImage(named: "whiteLocation")
       infoImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
       infoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     case .when:
@@ -123,11 +123,17 @@ class CategoryInfoView: UIView {
     }
   }
   
-  public func configureUI(with model: String) {
+  public func configureUI(with model: String, textColor: UIColor = .white) {
     switch categoryType {
     case .people:
       infoLabel.text = "참여인원 \(model)명"
-    default:
+    case .location:
+      if textColor == .main {
+        infoLabel.textColor = textColor
+        infoImageView.image = UIImage(named: "mainLocation")
+      }
+      infoLabel.text = model
+    case .when:
       infoLabel.text = model
     }
   }

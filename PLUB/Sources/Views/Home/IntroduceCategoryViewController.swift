@@ -20,18 +20,15 @@ final class IntroduceCategoryViewController: BaseViewController {
     $0.alwaysBounceVertical = true
   }
   
-  private let introduceTitleLabel = UILabel().then {
-    $0.textColor = .black
-    $0.font = .h3
-    $0.text = "책 읽고 얘기해요!"
-    $0.backgroundColor = .orange
-  }
-  
-  private let introduceTypeStackView = UIStackView().then {
-    $0.axis = .horizontal
+  private lazy var introduceTypeStackView = UIStackView(arrangedSubviews: [
+    meetingTitleLabel, introduceTitleLabel, locationInfoView, meetingRecommendedLabel, meetingImageView, meetingIntroduceLabel, meetingDescriptionLabel
+  ]).then {
+    $0.axis = .vertical
     $0.spacing = 8
     $0.alignment = .leading
     $0.distribution = .fillEqually
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 20, bottom: .zero, right: 20)
   }
   
   private let meetingTitleLabel = UILabel().then {
@@ -40,13 +37,13 @@ final class IntroduceCategoryViewController: BaseViewController {
     $0.text = "요란한 한줄"
   }
   
-  private let meetingDateLabel = UILabel().then {
-    $0.textColor = .deepGray
-    $0.font = .systemFont(ofSize: 12)
-    $0.text = "화수금 오후 1시"
+  private let introduceTitleLabel = UILabel().then {
+    $0.textColor = .black
+    $0.font = .h3
+    $0.text = "책 읽고 얘기해요!"
   }
   
-  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
+  private let locationInfoView = CategoryInfoView(categoryType: .location)
   
   private let meetingRecommendedLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 32)
@@ -55,11 +52,13 @@ final class IntroduceCategoryViewController: BaseViewController {
     $0.sizeToFit()
   }
   
+  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .horizontal)
+  
   private let meetingImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
-    $0.image = UIImage(named: "Rectangle 415")
+    $0.image = UIImage(named: "selectImage")
   }
   
   private let meetingIntroduceLabel = UILabel().then {
@@ -93,7 +92,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    [introduceTitleLabel, introduceTypeStackView, meetingTitleLabel, meetingDateLabel, categoryInfoListView, meetingRecommendedLabel, meetingImageView, meetingIntroduceLabel, meetingDescriptionLabel].forEach { scrollView.addSubview($0) }
+    scrollView.addSubview(introduceTypeStackView)
   }
   
   override func setupConstraints() {
@@ -103,60 +102,56 @@ final class IntroduceCategoryViewController: BaseViewController {
       $0.edges.width.equalToSuperview() // 타이틀에 대한 너비까지 잡아줌으로써 Vertical Enabled한 UI를 구성
     }
     
-    introduceTitleLabel.snp.makeConstraints {
-      $0.top.centerX.equalToSuperview()
-      $0.right.equalToSuperview().offset(-20)
-      $0.left.equalToSuperview().offset(20)
+    introduceTypeStackView.snp.makeConstraints { make in
+      make.edges.width.equalToSuperview()
     }
     
-    introduceTypeStackView.snp.makeConstraints {
-      $0.top.equalTo(introduceTitleLabel.snp.bottom)
-      $0.left.right.equalTo(introduceTitleLabel)
+    meetingRecommendedLabel.snp.makeConstraints { make in
+      make.centerX.equalToSuperview()
     }
-    
-    meetingTitleLabel.snp.makeConstraints {
-      $0.top.equalTo(introduceTypeStackView.snp.bottom)
-      $0.left.equalTo(introduceTypeStackView)
-    }
-    
-    meetingDateLabel.snp.makeConstraints {
-      $0.left.equalTo(meetingTitleLabel.snp.right)
-      $0.bottom.equalTo(meetingTitleLabel)
-    }
-    
-    categoryInfoListView.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.top.equalTo(meetingDateLabel.snp.bottom).offset(20)
-    }
-    
-    meetingRecommendedLabel.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.top.equalTo(categoryInfoListView).offset(20)
-    }
-    
-    meetingImageView.snp.makeConstraints {
-      $0.left.right.equalTo(introduceTitleLabel)
-      $0.top.equalTo(meetingRecommendedLabel.snp.bottom).offset(10)
-      $0.height.equalTo(246)
-    }
-    
-    meetingIntroduceLabel.snp.makeConstraints {
-      $0.left.right.equalTo(introduceTitleLabel)
-      $0.top.equalTo(meetingImageView.snp.bottom).offset(10)
-      $0.height.equalTo(21)
-    }
-    
-    meetingDescriptionLabel.snp.makeConstraints {
-      $0.left.right.equalTo(introduceTitleLabel)
-      $0.top.equalTo(meetingIntroduceLabel.snp.bottom).offset(10)
-    }
+//    meetingTitleLabel.snp.makeConstraints {
+////      $0.top.centerX.equalToSuperview()
+//      $0.left.right.equalToSuperview().inset(20)
+//    }
+//
+//    introduceTitleLabel.snp.makeConstraints {
+//      $0.top.equalTo(meetingTitleLabel.snp.bottom)
+//      $0.left.equalTo(meetingTitleLabel)
+//    }
+//
+//    categoryInfoListView.snp.makeConstraints {
+//      $0.centerX.equalToSuperview()
+//      $0.top.equalTo(introduceTitleLabel.snp.bottom).offset(20)
+//    }
+//
+//    meetingRecommendedLabel.snp.makeConstraints {
+//      $0.centerX.equalToSuperview()
+//      $0.top.equalTo(categoryInfoListView).offset(20)
+//    }
+//
+//    meetingImageView.snp.makeConstraints {
+//      $0.left.right.equalTo(introduceTitleLabel)
+//      $0.top.equalTo(meetingRecommendedLabel.snp.bottom).offset(10)
+//      $0.height.equalTo(246)
+//    }
+//
+//    meetingIntroduceLabel.snp.makeConstraints {
+//      $0.left.right.equalTo(introduceTitleLabel)
+//      $0.top.equalTo(meetingImageView.snp.bottom).offset(10)
+//      $0.height.equalTo(21)
+//    }
+//
+//    meetingDescriptionLabel.snp.makeConstraints {
+//      $0.left.right.equalTo(introduceTitleLabel)
+//      $0.top.equalTo(meetingIntroduceLabel.snp.bottom).offset(10)
+//    }
   }
   
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .background
     categoryInfoListView.configureUI(with: .init(location: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분"))
-    categoryInfoListView.backgroundColor = .black
+    locationInfoView.configureUI(with: "서울 서초구", textColor: .main)
     
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "back"),
