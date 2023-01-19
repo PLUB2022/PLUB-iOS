@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DateBottomSheetDelegate: AnyObject {
-  func selectDate(date: String)
+  func selectDate(date: Date)
 }
 
 final class DateBottomSheetViewController: BottomSheetViewController {
@@ -91,13 +91,9 @@ final class DateBottomSheetViewController: BottomSheetViewController {
     nextButton.rx.tap
       .withUnretained(self)
       .asDriver(onErrorDriveWith: .empty())
-      .drive(onNext: { _ in
-        let formatter = DateFormatter()
-        formatter.timeStyle = .none
-        formatter.dateFormat = "HH:mm"
-        let date = formatter.string(from: self.datePicker.date)
-        self.delegate?.selectDate(date: date)
-        self.dismiss(animated: false)
+      .drive(onNext: { owner, _ in
+        owner.delegate?.selectDate(date: owner.datePicker.date)
+        owner.dismiss(animated: false)
       })
       .disposed(by: disposeBag)
   }
