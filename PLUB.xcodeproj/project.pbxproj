@@ -77,6 +77,8 @@
 		BA780E1329713F370032C178 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E1229713F370032C178 /* BaseService.swift */; };
 		BA780E1529714AAB0032C178 /* GeneralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E1429714AAB0032C178 /* GeneralResponse.swift */; };
 		BA784FAC2979188F00E8B06F /* CalendarControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA784FAB2979188F00E8B06F /* CalendarControl.swift */; };
+		BA784FA82978EB9100E8B06F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA784FA72978EB9100E8B06F /* SignUpViewController.swift */; };
+		BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */; };
 		BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA0296514DA0029CF34 /* PaddingTextField.swift */; };
 		BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA3296529100029CF34 /* IntroductionViewController.swift */; };
 		BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124D28E48A2F00BD832A /* AppDelegate.swift */; };
@@ -187,6 +189,8 @@
 		BA780E1229713F370032C178 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		BA780E1429714AAB0032C178 /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
 		BA784FAB2979188F00E8B06F /* CalendarControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarControl.swift; sourceTree = "<group>"; };
+		BA784FA72978EB9100E8B06F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		BA876BA0296514DA0029CF34 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 		BA876BA3296529100029CF34 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		BA88124A28E48A2F00BD832A /* PLUB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLUB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -473,6 +477,8 @@
 				BA1BEDC12964548300C6BD41 /* Profile */,
 				BA876BA2296528E60029CF34 /* Introduction */,
 				BA42D1F228EDE10F00C20061 /* LoginViewController.swift */,
+				BA784FA72978EB9100E8B06F /* SignUpViewController.swift */,
+				BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -795,6 +801,7 @@
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
 				BA117A3D297440D900B37E03 /* UserManager.swift in Sources */,
+				BA784FA82978EB9100E8B06F /* SignUpViewController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */,
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
@@ -858,6 +865,7 @@
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
+				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,

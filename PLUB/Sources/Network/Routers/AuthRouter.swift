@@ -11,6 +11,7 @@ enum AuthRouter {
   case socialLogin(SignInRequest)
   case signUpPLUB(SignUpRequest)
   case reissuanceAccessToken
+  case logout
 }
 
 extension AuthRouter: Router {
@@ -19,6 +20,8 @@ extension AuthRouter: Router {
     switch self {
     case .socialLogin, .signUpPLUB, .reissuanceAccessToken:
       return .post
+    case .logout:
+      return .get
     }
   }
   
@@ -30,6 +33,8 @@ extension AuthRouter: Router {
       return "/auth/signup"
     case .reissuanceAccessToken:
       return "/auth/reissue"
+    case .logout:
+      return "/auth/logout"
     }
   }
   
@@ -41,6 +46,8 @@ extension AuthRouter: Router {
       return .body(model)
     case .reissuanceAccessToken:
       return .body(ReissuanceRequest(refreshToken: UserManager.shared.refreshToken ?? ""))
+    case .logout:
+      return .plain
     }
   }
   
@@ -48,6 +55,8 @@ extension AuthRouter: Router {
     switch self {
     case .socialLogin, .signUpPLUB, .reissuanceAccessToken:
       return .default
+    case .logout:
+      return .withRefreshToken
     }
   }
 }
