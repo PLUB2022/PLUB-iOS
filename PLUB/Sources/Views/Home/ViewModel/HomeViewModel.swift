@@ -16,7 +16,6 @@ protocol HomeViewModelType {
 }
 
 class HomeViewModel: HomeViewModelType {
-  private let service: HomeService
   var disposeBag = DisposeBag()
   
   // Input
@@ -24,13 +23,11 @@ class HomeViewModel: HomeViewModelType {
   // Output
   let fetchedMainCategoryList: Driver<[MainCategory]>
   
-  init(service: HomeService) {
-    self.service = service
-    
+  init() {
     let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
     self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
-    let inquireMainCategoryList = service.inquireMainCategoryList().share()
+    let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
     let successFetching = inquireMainCategoryList.map { result -> [MainCategory]? in
       guard case .success(let mainCategoryListResponse) = result else { return nil }
       return mainCategoryListResponse.data?.categories

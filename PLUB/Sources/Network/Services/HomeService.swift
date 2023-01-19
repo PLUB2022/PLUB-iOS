@@ -7,13 +7,13 @@
 
 import RxSwift
 
-class HomeService: BaseService {
-  static let shared = HomeService()
+class CategoryService: BaseService {
+  static let shared = CategoryService()
   
   private override init() { }
 }
 
-extension HomeService {
+extension CategoryService {
   func inquireMainCategoryList() -> Observable<NetworkResult<GeneralResponse<MainCategoryListResponse>>> {
     return sendRequest(CategoryRouter.inquireMainCategoryList, type: MainCategoryListResponse.self)
   }

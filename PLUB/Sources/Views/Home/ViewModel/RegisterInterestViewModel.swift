@@ -64,6 +64,8 @@ class RegisterInterestViewModel: RegisterInterestViewModelType {
     self.selectDetailCell = selectingDetailCell.asObserver()
     self.deselectDetailCell = deselectingDetailCell.asObserver()
     
+//    let fetchingAllCategoryList 
+    
     selectingDetailCell.withLatestFrom(selectingDetailCellCount)
       .map{ $0 + 1 }
       .subscribe(onNext: selectingDetailCellCount.onNext(_:))
