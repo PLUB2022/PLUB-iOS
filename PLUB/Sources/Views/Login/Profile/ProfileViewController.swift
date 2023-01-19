@@ -36,6 +36,13 @@ final class ProfileViewController: BaseViewController {
     $0.setImage(UIImage(named: "userDefaultImage"), for: .normal)
   }
   
+  private let pencilImageView = UIImageView(image: UIImage(named: "pencilCircle")).then {
+    $0.layer.borderColor = UIColor.background.cgColor
+    $0.layer.borderWidth = 2
+    $0.layer.cornerRadius = 16
+    $0.contentMode = .scaleAspectFit
+  }
+  
   // MARK: Nickname Part
   
   private let nicknameStackView: UIStackView = UIStackView().then {
@@ -105,6 +112,8 @@ final class ProfileViewController: BaseViewController {
       profileStackView.addArrangedSubview($0)
     }
     
+    uploadImageButton.addSubview(pencilImageView)
+    
     [nicknameLabel, nicknameTextField, alertStackView].forEach {
       nicknameStackView.addArrangedSubview($0)
     }
@@ -123,6 +132,11 @@ final class ProfileViewController: BaseViewController {
     
     uploadImageButton.snp.makeConstraints {
       $0.size.equalTo(120)
+    }
+    
+    pencilImageView.snp.makeConstraints {
+      $0.size.equalTo(32)
+      $0.trailing.bottom.equalToSuperview()
     }
     
     profileLabel.snp.makeConstraints {
