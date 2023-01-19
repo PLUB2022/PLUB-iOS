@@ -123,6 +123,23 @@ final class BirthViewController: BaseViewController {
         owner.femaleButton.isSelected.toggle()
       })
       .disposed(by: disposeBag)
+    
+    birthSettingControl.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        let vc = DateBottomSheetViewController(type: .date, buttonTitle: "생일 입력 완료")
+        vc.modalPresentationStyle = .overFullScreen
+        vc.delegate = owner
+        owner.parent?.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
+  }
+}
+
+extension BirthViewController: DateBottomSheetDelegate {
+  func selectDate(date: Date) {
+    birthSettingControl.date = date
+    birthSettingControl.isSelected = true
   }
 }
 
