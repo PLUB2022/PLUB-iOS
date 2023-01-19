@@ -12,9 +12,11 @@ import RxSwift
 
 final class CalendarControl: UIControl {
   
-  var title = "날짜를 선택해주세요." {
+  var date = Date() {
     didSet {
-      label.text = title 
+      label.text = DateFormatter().then {
+        $0.dateFormat = "yyyy년 MM월 dd일"
+      }.string(from: date)
     }
   }
   
@@ -27,8 +29,8 @@ final class CalendarControl: UIControl {
     }
   }
   
-  private lazy var label = UILabel().then {
-    $0.text = title
+  private let label = UILabel().then {
+    $0.text = "날짜를 선택해주세요."
     $0.font = .subtitle
   }
   
