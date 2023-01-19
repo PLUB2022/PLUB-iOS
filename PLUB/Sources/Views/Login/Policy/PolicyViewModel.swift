@@ -80,9 +80,9 @@ extension PolicyViewModel {
   }
   
   func applyAllAgreement() {
-    // 전체 동의 버튼 클릭되었으므로 모든 체크박스 true 처리
+    let alreadyCheckedAll = checkedList.map(\.isChecked).filter({$0}).count == checkedList.count
     checkedList.forEach {
-      $0.isChecked = true
+      $0.isChecked = alreadyCheckedAll ? false : true
     }
   }
 }
