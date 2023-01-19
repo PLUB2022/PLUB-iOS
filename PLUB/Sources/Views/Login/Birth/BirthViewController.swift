@@ -60,6 +60,8 @@ final class BirthViewController: BaseViewController {
     $0.font = .subtitle
   }
   
+  private let birthSettingControl = CalendarControl()
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
@@ -82,8 +84,7 @@ final class BirthViewController: BaseViewController {
     }
     
     // Birth part
-    // TODO: Calendar 추가해야해요!
-    [birthLabel].forEach {
+    [birthLabel, birthSettingControl].forEach {
       birthStackView.addArrangedSubview($0)
     }
   }
@@ -91,13 +92,18 @@ final class BirthViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     wholeStackView.snp.makeConstraints {
-      $0.horizontalEdges.top.equalToSuperview()
+      $0.horizontalEdges.equalToSuperview().inset(24)
+      $0.top.equalToSuperview()
     }
     
     [maleButton, femaleButton].forEach {
       $0.snp.makeConstraints {
         $0.height.equalTo(46)
       }
+    }
+    
+    birthSettingControl.snp.makeConstraints {
+      $0.height.equalTo(48)
     }
   }
   
