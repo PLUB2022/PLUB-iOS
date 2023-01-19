@@ -74,7 +74,7 @@ extension UIButton.Configuration {
     
     style.background = style.background.with {
       $0.cornerRadius = 10
-      $0.backgroundColor = .systemGray5
+      $0.backgroundColor = .lightGray
     }
     style.baseForegroundColor = .deepGray
     

@@ -42,7 +42,7 @@ class IntroduceCategoryTitleView: UIView {
   private func configureUI() {
     [meetingTitleLabel, introduceTitleLabel, locationInfoView].forEach { addSubview($0) }
     
-    locationInfoView.configureUI(with: "서울 서초구", textColor: .main)
+    locationInfoView.configureUI(with: "서울 서초구", categoryListType: .onlyLocation)
     
     meetingTitleLabel.snp.makeConstraints {
       $0.top.left.right.equalToSuperview()

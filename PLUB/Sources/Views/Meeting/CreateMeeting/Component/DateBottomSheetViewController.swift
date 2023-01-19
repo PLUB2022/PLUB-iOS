@@ -91,9 +91,9 @@ final class DateBottomSheetViewController: BottomSheetViewController {
     nextButton.rx.tap
       .withUnretained(self)
       .asDriver(onErrorDriveWith: .empty())
-      .drive(onNext: { _ in
-        self.delegate?.selectDate(date: self.datePicker.date)
-        self.dismiss(animated: false)
+      .drive(onNext: { owner, _ in
+        owner.delegate?.selectDate(date: owner.datePicker.date)
+        owner.dismiss(animated: false)
       })
       .disposed(by: disposeBag)
   }

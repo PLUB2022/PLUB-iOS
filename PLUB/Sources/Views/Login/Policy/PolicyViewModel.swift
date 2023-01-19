@@ -54,8 +54,9 @@ extension PolicyViewModel {
   
   // MARK: Snapshot
   
-  func loadNextSnapshots(for section: Section) {
-    guard let dataSource = dataSource else { return }
+  func loadNextSnapshots(for indexPath: IndexPath) {
+    guard let dataSource = dataSource,
+          let section = Section(rawValue: indexPath.section) else { return }
     var snapshot = dataSource.snapshot()
     // selected 된 section의 셀 정보(identifier)를 가져옴
     guard let identifier = snapshot.itemIdentifiers(inSection: section).last else { return }
@@ -65,7 +66,7 @@ extension PolicyViewModel {
       snapshot.appendItems([Item(type: .body, url: URL(string: "https://velog.io/@whitehyun"))], toSection: section)
     }
     // body가 이미 존재하지만, 한번 더 탭되어 collapse 해야하는 경우
-    else {
+    else if indexPath.row == 0 {
       snapshot.deleteItems([identifier])
     }
     

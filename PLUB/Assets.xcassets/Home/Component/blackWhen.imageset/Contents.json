@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "btn_close_rectangle_activated.png",
+      "filename" : "akar-icons_schedule.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "btn_close_rectangle_activated@2x.png",
+      "filename" : "akar-icons_schedule@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "btn_close_rectangle_activated@3x.png",
+      "filename" : "akar-icons_schedule@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

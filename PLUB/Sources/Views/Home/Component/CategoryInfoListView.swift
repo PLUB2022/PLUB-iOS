@@ -13,7 +13,7 @@ struct CategoryInfoListViewModel {
   let when: String
 }
 
-enum CategoryInfoListViewType {
+enum CategoryAlignment {
   case vertical
   case horizontal
 }
@@ -24,19 +24,27 @@ enum CategoryType {
   case when
 }
 
+enum CategoryListType {
+  case noLocation
+  case onlyLocation
+  case all
+}
+
 class CategoryInfoListView: UIView {
-  private let categoryInfoListViewType: CategoryInfoListViewType
+  private let categoryAlignment: CategoryAlignment
+  private let categoryListType: CategoryListType
   
-  private lazy var categoryInfoListStackView = UIStackView(arrangedSubviews: [locationInfoView, peopleInfoView, whenInfoView]).then {
+  private let categoryInfoListStackView = UIStackView().then {
     $0.sizeToFit()
   }
   
-  private let locationInfoView = CategoryInfoView(categoryType: .location)
-  private let peopleInfoView = CategoryInfoView(categoryType: .people)
-  private let whenInfoView = CategoryInfoView(categoryType: .when)
+  private lazy var locationInfoView = CategoryInfoView(categoryType: .location)
+  private lazy var peopleInfoView = CategoryInfoView(categoryType: .people)
+  private lazy var whenInfoView = CategoryInfoView(categoryType: .when)
   
-  init(categoryInfoListViewType: CategoryInfoListViewType) {
-    self.categoryInfoListViewType = categoryInfoListViewType
+  init(categoryAlignment: CategoryAlignment, categoryListType: CategoryListType) {
+    self.categoryAlignment = categoryAlignment
+    self.categoryListType = categoryListType
     super.init(frame: .zero)
     configureUI()
   }
@@ -51,7 +59,7 @@ class CategoryInfoListView: UIView {
       $0.edges.equalToSuperview()
     }
     
-    switch categoryInfoListViewType {
+    switch categoryAlignment {
     case .vertical:
       categoryInfoListStackView.axis = .vertical
       categoryInfoListStackView.alignment = .top
@@ -61,12 +69,24 @@ class CategoryInfoListView: UIView {
       categoryInfoListStackView.spacing = 8
       categoryInfoListStackView.alignment = .leading
     }
+    
+    switch categoryListType {
+    case .noLocation:
+      categoryInfoListStackView.addArrangedSubview(peopleInfoView)
+      categoryInfoListStackView.addArrangedSubview(whenInfoView)
+    case .onlyLocation:
+      categoryInfoListStackView.addArrangedSubview(locationInfoView)
+    case .all:
+      categoryInfoListStackView.addArrangedSubview(locationInfoView)
+      categoryInfoListStackView.addArrangedSubview(peopleInfoView)
+      categoryInfoListStackView.addArrangedSubview(whenInfoView)
+    }
   }
   
   public func configureUI(with model: CategoryInfoListViewModel) {
-    locationInfoView.configureUI(with: model.location)
-    peopleInfoView.configureUI(with: "\(model.peopleCount)")
-    whenInfoView.configureUI(with: model.when)
+    locationInfoView.configureUI(with: model.location, categoryListType: categoryListType)
+    peopleInfoView.configureUI(with: "\(model.peopleCount)", categoryListType: categoryListType)
+    whenInfoView.configureUI(with: model.when, categoryListType: categoryListType)
   }
 }
 
@@ -112,9 +132,9 @@ class CategoryInfoView: UIView {
       infoImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
       infoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     case .when:
-      infoImageView.image = UIImage(named: "when")
+      infoImageView.image = UIImage(named: "whiteWhen")
     case .people:
-      infoImageView.image = UIImage(named: "people")
+      infoImageView.image = UIImage(named: "whitePeople")
     }
     addSubview(stackView)
     stackView.snp.makeConstraints {
@@ -123,18 +143,29 @@ class CategoryInfoView: UIView {
     }
   }
   
-  public func configureUI(with model: String, textColor: UIColor = .white) {
+  public func configureUI(with model: String, categoryListType: CategoryListType) {
     switch categoryType {
-    case .people:
-      infoLabel.text = "참여인원 \(model)명"
     case .location:
-      if textColor == .main {
-        infoLabel.textColor = textColor
-        infoImageView.image = UIImage(named: "mainLocation")
-      }
       infoLabel.text = model
+    case .people:
+      infoLabel.text = "모집 인원 \(model)명"
     case .when:
       infoLabel.text = model
+    }
+    
+    switch categoryListType {
+    case .noLocation:
+      infoLabel.textColor = .black
+      if categoryType == .people {
+        infoImageView.image = UIImage(named: "blackPeople")
+      } else if categoryType == .when {
+        infoImageView.image = UIImage(named: "blackWhen")
+      }
+    case .onlyLocation:
+      infoLabel.textColor = .main
+      infoImageView.image = UIImage(named: "mainLocation")
+    case .all:
+      infoLabel.textColor = .white
     }
   }
 }

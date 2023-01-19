@@ -33,7 +33,14 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let uploadImageButton: UIButton = UIButton().then {
-    $0.setImage(UIImage(named: "btn_user_default_image"), for: .normal)
+    $0.setImage(UIImage(named: "userDefaultImage"), for: .normal)
+  }
+  
+  private let pencilImageView = UIImageView(image: UIImage(named: "pencilCircle")).then {
+    $0.layer.borderColor = UIColor.background.cgColor
+    $0.layer.borderWidth = 2
+    $0.layer.cornerRadius = 16
+    $0.contentMode = .scaleAspectFit
   }
   
   // MARK: Nickname Part
@@ -55,8 +62,9 @@ final class ProfileViewController: BaseViewController {
     
     textField.leftView = UIView()
     textField.rightView = UIButton().then {
-      $0.setImage(UIImage(named: "btn_close_rectangle_default"), for: .normal)
+      $0.setImage(UIImage(named: "xMark")?.withRenderingMode(.alwaysTemplate), for: .normal)
       $0.addAction(UIAction { _ in textField.text = "" }, for: .touchUpInside)
+      $0.tintColor = .mediumGray
     }
     textField.leftViewMode = .always
     textField.rightViewMode = .always
@@ -79,7 +87,7 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let alertImageView: UIImageView = UIImageView().then {
-    $0.image = UIImage(named: "bubble_warning")
+    $0.image = UIImage(named: "bubbleWarning")
     $0.contentMode = .scaleAspectFit
   }
   
@@ -104,6 +112,8 @@ final class ProfileViewController: BaseViewController {
       profileStackView.addArrangedSubview($0)
     }
     
+    uploadImageButton.addSubview(pencilImageView)
+    
     [nicknameLabel, nicknameTextField, alertStackView].forEach {
       nicknameStackView.addArrangedSubview($0)
     }
@@ -122,6 +132,11 @@ final class ProfileViewController: BaseViewController {
     
     uploadImageButton.snp.makeConstraints {
       $0.size.equalTo(120)
+    }
+    
+    pencilImageView.snp.makeConstraints {
+      $0.size.equalTo(32)
+      $0.trailing.bottom.equalToSuperview()
     }
     
     profileLabel.snp.makeConstraints {

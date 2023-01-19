@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "btn_user_image.png",
+      "filename" : "pencilCircle.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "btn_user_image@2x.png",
+      "filename" : "pencilCircle@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "btn_user_image@3x.png",
+      "filename" : "pencilCircle@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

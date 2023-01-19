@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 
@@ -38,22 +40,12 @@ final class BirthViewController: BaseViewController {
     $0.distribution = .fillEqually
   }
   
-  private let maleButton: UIButton = UIButton().then {
-    $0.setTitle("남성", for: .normal)
-    $0.setTitleColor(.deepGray, for: .normal)
-    $0.titleLabel?.font = .body1
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.mediumGray.cgColor
-    $0.layer.cornerRadius = 8
+  private let maleButton: UIButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.list(label: "남성")
   }
   
-  private let femaleButton: UIButton = UIButton().then {
-    $0.setTitle("여성", for: .normal)
-    $0.setTitleColor(.deepGray, for: .normal)
-    $0.titleLabel?.font = .body1
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.mediumGray.cgColor
-    $0.layer.cornerRadius = 8
+  private let femaleButton: UIButton =  UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.list(label: "여성")
   }
   
   // MARK: Birth
@@ -67,6 +59,8 @@ final class BirthViewController: BaseViewController {
     $0.text = "생년월일"
     $0.font = .subtitle
   }
+  
+  private let birthSettingControl = CalendarControl()
   
   // MARK: - Configuration
   
@@ -90,24 +84,62 @@ final class BirthViewController: BaseViewController {
     }
     
     // Birth part
-    // TODO: Calendar 추가해야해요!
-    [birthLabel].forEach {
+    [birthLabel, birthSettingControl].forEach {
       birthStackView.addArrangedSubview($0)
     }
-    
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     wholeStackView.snp.makeConstraints {
-      $0.horizontalEdges.top.equalToSuperview()
+      $0.horizontalEdges.equalToSuperview().inset(24)
+      $0.top.equalToSuperview()
     }
     
     [maleButton, femaleButton].forEach {
       $0.snp.makeConstraints {
-        $0.height.equalTo(40)
+        $0.height.equalTo(46)
       }
     }
+    
+    birthSettingControl.snp.makeConstraints {
+      $0.height.equalTo(48)
+    }
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    maleButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.maleButton.isSelected.toggle()
+      })
+      .disposed(by: disposeBag)
+    
+    femaleButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.femaleButton.isSelected.toggle()
+      })
+      .disposed(by: disposeBag)
+    
+    birthSettingControl.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        let vc = DateBottomSheetViewController(type: .date, buttonTitle: "생일 입력 완료")
+        vc.modalPresentationStyle = .overFullScreen
+        vc.delegate = owner
+        owner.parent?.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
+  }
+}
+
+extension BirthViewController: DateBottomSheetDelegate {
+  func selectDate(date: Date) {
+    birthSettingControl.date = date
+    birthSettingControl.isSelected = true
   }
 }
 

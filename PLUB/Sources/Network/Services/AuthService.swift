@@ -63,4 +63,8 @@ extension AuthService {
   func reissuanceAccessToken() -> Observable<NetworkResult<GeneralResponse<TokenResponse>>> {
     return sendRequest(AuthRouter.reissuanceAccessToken, type: TokenResponse.self)
   }
+  
+  func logout() -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+    return sendRequest(AuthRouter.logout)
+  }
 }

@@ -45,7 +45,8 @@ final class PolicyViewController: BaseViewController {
 
 extension PolicyViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    viewModel.loadNextSnapshots(for: .init(rawValue: indexPath.section)!)
+    tableView.deselectRow(at: indexPath, animated: true)
+    viewModel.loadNextSnapshots(for: indexPath)
   }
 }
 
