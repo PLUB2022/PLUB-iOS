@@ -39,9 +39,10 @@ final class MeetingDateViewController: BaseViewController {
   }
   
   private let dateLayout = UICollectionViewFlowLayout().then {
-    $0.minimumLineSpacing = 16
+    $0.minimumLineSpacing = 8
+    $0.minimumInteritemSpacing = 16
     $0.itemSize = CGSize(
-      width: (Device.width - (50)) / 5,
+      width: (Device.width - 50 - 16 * 3) / 4,
       height: 32
     )
   }
@@ -56,6 +57,34 @@ final class MeetingDateViewController: BaseViewController {
     )
     $0.isScrollEnabled = false
     $0.backgroundColor = .clear
+  }
+  
+  private let timeTitlelabel = UILabel().then {
+    $0.text = "생년월일"
+    $0.font = .subtitle
+    $0.textColor = .black
+  }
+  
+  private let timeControl = TimeControl()
+
+  private let locationTitlelabel = UILabel().then {
+    $0.text = "생년월일"
+    $0.font = .subtitle
+    $0.textColor = .black
+  }
+  
+  private let locationStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.spacing = 16
+    $0.distribution = .fillEqually
+  }
+  
+  private let onlineButton: UIButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.list(label: "온라인")
+  }
+  
+  private let offlineButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.list(label: "오프라인")
   }
   
   init() {
@@ -75,12 +104,12 @@ final class MeetingDateViewController: BaseViewController {
     view.addSubview(scrollView)
     scrollView.addSubview(contentStackView)
     
-    [titleView, dateStackView].forEach {
+    [titleView, dateTitlelabel, dateCollectionView, timeTitlelabel, timeControl, locationTitlelabel, locationStackView].forEach {
       contentStackView.addArrangedSubview($0)
     }
     
-    [dateTitlelabel, dateCollectionView].forEach {
-      dateStackView.addArrangedSubview($0)
+    [onlineButton, offlineButton].forEach {
+      locationStackView.addArrangedSubview($0)
     }
   }
   
@@ -88,7 +117,7 @@ final class MeetingDateViewController: BaseViewController {
     super.setupConstraints()
     scrollView.snp.makeConstraints {
         $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.bottom.equalToSuperview()
+        $0.leading.trailing.bottom.equalToSuperview().inset(24)
     }
     
     contentStackView.snp.makeConstraints {
@@ -96,14 +125,26 @@ final class MeetingDateViewController: BaseViewController {
       $0.width.equalTo(scrollView.snp.width)
     }
     
-    dateTitlelabel.snp.makeConstraints {
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.height.equalTo(19)
+    dateCollectionView.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(72)
     }
     
-    dateCollectionView.snp.makeConstraints {
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.height.equalTo(340)
+    [dateTitlelabel, timeTitlelabel, locationTitlelabel].forEach{
+      $0.snp.makeConstraints {
+        $0.height.equalTo(19)
+      }
+      contentStackView.setCustomSpacing(8, after: $0)
+    }
+    
+    [timeControl, onlineButton, offlineButton].forEach{
+      $0.snp.makeConstraints {
+        $0.height.equalTo(46)
+      }
+    }
+    
+    [dateCollectionView, timeControl].forEach{
+      contentStackView.setCustomSpacing(40, after: $0)
     }
   }
   
@@ -126,5 +167,38 @@ final class MeetingDateViewController: BaseViewController {
         return cell
       }
       .disposed(by: disposeBag)
+    
+    onlineButton.rx.tap
+       .withUnretained(self)
+       .subscribe(onNext: { owner, _ in
+         owner.onlineButton.isSelected = true
+         owner.offlineButton.isSelected = false
+       })
+       .disposed(by: disposeBag)
+    
+    offlineButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+         owner.onlineButton.isSelected = false
+         owner.offlineButton.isSelected = true
+       })
+       .disposed(by: disposeBag)
+    
+    timeControl.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        let vc = DateBottomSheetViewController(type: .time, buttonTitle: "생일 입력 완료")
+        vc.modalPresentationStyle = .overFullScreen
+        vc.delegate = owner
+        owner.parent?.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
+  }
+}
+
+extension MeetingDateViewController: DateBottomSheetDelegate {
+  func selectDate(date: Date) {
+    timeControl.date = date
+    timeControl.isSelected = true
   }
 }
