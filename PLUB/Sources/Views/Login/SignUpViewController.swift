@@ -28,6 +28,7 @@ final class SignUpViewController: BaseViewController {
   private var lastPageIndex = 0 {
     didSet {
       view.endEditing(true)
+      
       contentStackView.addArrangedSubview(viewControllers[lastPageIndex].view)
       viewControllers[lastPageIndex].view.snp.makeConstraints {
         $0.width.equalTo(view.snp.width)
@@ -137,5 +138,65 @@ final class SignUpViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    setupNavigationBar()
+  }
+  
+  override func bind() {
+    super.bind()
+    nextButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        if owner.currentPage < owner.lastPageIndex {
+          owner.currentPage += 1
+        } else if owner.lastPageIndex + 1 < owner.viewControllers.count {
+          owner.lastPageIndex += 1
+          owner.currentPage = owner.lastPageIndex
+        }
+        owner.scrollToPage(index: owner.currentPage)
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  // MARK: - Custom Methods
+  
+  /// 네비게이션바 세팅 메서드
+  private func setupNavigationBar() {
+    navigationController?.navigationBar.tintColor = .black
+    navigationController?.navigationBar.backgroundColor = .background
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "backButton"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+  }
+  
+  /// 네비게이션 바의 back 버튼 클릭 시 처리
+  @objc
+  private func didTappedBackButton() {
+    if currentPage == 0 {
+      navigationController?.popViewController(animated: true)
+    } else {
+      currentPage -= 1
+      scrollToPage(index: currentPage)
+    }
+  }
+  
+  /// index에 맞는 페이지로 스크롤
+  private func scrollToPage(index: Int) {
+    let offset: CGPoint = CGPoint(x: view.frame.width * CGFloat(index), y: 0)
+    scrollView.setContentOffset(offset, animated: true)
+  }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension SignUpViewController: UIScrollViewDelegate {
+  
+  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    // 스와이프로 페이지 이동했을 때 보이는 페이지 index를 세팅
+    let width = scrollView.frame.width
+    let page = Int(round(scrollView.contentOffset.x / width))
+    currentPage = page
   }
 }
