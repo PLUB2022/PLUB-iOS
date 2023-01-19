@@ -66,6 +66,17 @@ final class SignUpViewController: BaseViewController {
     $0.numberOfLines = 0
   }
   
+  private lazy var scrollView = UIScrollView().then {
+    $0.bounces = false
+    $0.isPagingEnabled = true
+    $0.showsHorizontalScrollIndicator = false
+    $0.delegate = self
+  }
+  
+  private let contentStackView = UIStackView().then {
+    $0.backgroundColor = .background
+  }
+  
   private var nextButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
@@ -75,13 +86,21 @@ final class SignUpViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     
-    [stackView, nextButton].forEach {
+    viewControllers.forEach { addChild($0) }
+    
+    [stackView, scrollView, nextButton].forEach {
       view.addSubview($0)
     }
+    
+    scrollView.addSubview(contentStackView)
+    
+    
+    contentStackView.addArrangedSubview(viewControllers.first!.view)
     
     [pageControl, titleLabel, subtitleLabel].forEach {
       stackView.addArrangedSubview($0)
     }
+    viewControllers.forEach { $0.didMove(toParent: self) }
   }
   
   override func setupConstraints() {
@@ -92,6 +111,21 @@ final class SignUpViewController: BaseViewController {
       $0.horizontalEdges.equalToSuperview().inset(24)
     }
     
+    scrollView.snp.makeConstraints {
+      $0.top.equalTo(stackView.snp.bottom).offset(48)
+      $0.horizontalEdges.bottom.equalToSuperview()
+    }
+    
+    contentStackView.snp.makeConstraints {
+      $0.edges.equalTo(scrollView.contentLayoutGuide)
+      $0.height.equalTo(scrollView.snp.height)
+      $0.width.greaterThanOrEqualToSuperview().priority(.low)
+    }
+    
+    viewControllers.first!.view.snp.makeConstraints {
+      $0.width.equalTo(view.snp.width)
+    }
+    
     nextButton.snp.makeConstraints {
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
       $0.horizontalEdges.equalToSuperview().inset(24)
@@ -100,7 +134,6 @@ final class SignUpViewController: BaseViewController {
     
     stackView.setCustomSpacing(24, after: pageControl)
   }
-  
   
   override func setupStyles() {
     super.setupStyles()
