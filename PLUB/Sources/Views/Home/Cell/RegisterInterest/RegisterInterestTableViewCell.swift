@@ -11,13 +11,6 @@ import UIKit
 import SnapKit
 import Then
 
-struct RegisterInterestTableViewCellModel {
-  let imageName: String
-  let title: String
-  let description: String
-  let isExpanded: Bool
-}
-
 class RegisterInterestTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestTableViewCell"
@@ -71,7 +64,6 @@ class RegisterInterestTableViewCell: UITableViewCell {
     interestImageView.image = nil
     titleLabel.text = nil
     descriptionLabel.text = nil
-    indicatorButton.setImage(nil, for: .normal)
   }
   
   override func layoutSubviews() {
@@ -123,12 +115,12 @@ class RegisterInterestTableViewCell: UITableViewCell {
     }
   }
   
-  public func configureUI(with model: RegisterInterestTableViewCellModel) {
-    interestImageView.image = UIImage(named: model.imageName)
-    titleLabel.text = model.title
-    descriptionLabel.text = model.description
-    isExpanded = model.isExpanded
-    indicatorButton.setImage(UIImage(named: "bottomIndicator"), for: .normal)
+  public func configureUI(with model: RegisterInterestModel) {
+//    guard let url = URL(string: model.category.mainCategory.icon) else { return }
+//    interestImageView.kf.setImage(with: url)
+//    titleLabel.text = model.category.mainCategory.name
+//    descriptionLabel.text = ""
+//    isExpanded = model.isExpanded
   }
 }
 

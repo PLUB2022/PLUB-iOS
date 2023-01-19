@@ -71,13 +71,11 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func bind() {
-    viewModel.registerInterestFetched.asObservable()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, registerInterestModels in
-        owner.registerInterestModels = registerInterestModels
-        owner.registerTableView.reloadData()
-      })
-      .disposed(by: disposeBag)
+//    viewModel.fetchedRegisterInterest
+//      .drive(onNext: { model in
+//        self.registerInterestModels = model
+//      })
+//      .disposed(by: disposeBag)
     
     viewModel.isEnabledFloatingButton.asObservable()
       .withUnretained(self)
@@ -117,22 +115,14 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if indexPath.row == 1 {
-      let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
-      let registerInterestModel = registerInterestModels[indexPath.section]
-      cell.configureUI(with: registerInterestModel)
-      cell.delegate = self
+    if indexPath.row == 0 {
+      let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestTableViewCell.identifier, for: indexPath) as? RegisterInterestTableViewCell ?? RegisterInterestTableViewCell()
+//      cell.configureUI(with: registerInterestModels[indexPath.section])
       return cell
     } else {
-      let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestTableViewCell.identifier, for: indexPath) as? RegisterInterestTableViewCell ?? RegisterInterestTableViewCell()
-      let registerInterstModel = registerInterestModels[indexPath.section]
-      let registerInterestTableViewCellModel = RegisterInterestTableViewCellModel(
-        imageName: registerInterstModel.interestCollectionSectionType.imageNamed,
-        title: registerInterstModel.interestCollectionSectionType.title,
-        description: "PLUB! 에게 관심사를 선택해주세요",
-        isExpanded: registerInterstModel.isExpanded
-      )
-      cell.configureUI(with: registerInterestTableViewCellModel)
+      let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
+//      cell.configureUI(with: registerInterestModels[indexPath.section])
+      cell.delegate = self
       return cell
     }
   }

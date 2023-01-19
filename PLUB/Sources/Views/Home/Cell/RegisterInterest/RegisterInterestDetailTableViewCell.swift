@@ -14,17 +14,13 @@ protocol RegisterInterestDetailTableViewCellDelegate: AnyObject {
   func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell)
 }
 
-struct RegisterInterstDetailTableViewCellModel {
-  let interestDetailTypes: [InterestCollectionType]
-}
-
 class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestDetailTableViewCell"
   
   public weak var delegate: RegisterInterestDetailTableViewCellDelegate?
   
-  private var registerInterstDetailTableViewCellModel: [InterestCollectionType] = []
+  private var subCategories: [SubCategory] = []
   
   private let containerView = UIView().then {
     $0.backgroundColor = .white
@@ -74,7 +70,7 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   }
   
   public func configureUI(with model: RegisterInterestModel) {
-    self.registerInterstDetailTableViewCellModel = model.interestDetailTypes
+//    self.subCategories = model.category.subCategories
   }
 }
 
@@ -84,12 +80,12 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return registerInterstDetailTableViewCellModel.count
+    return subCategories.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InterestTypeCollectionViewCell.identifier, for: indexPath) as? InterestTypeCollectionViewCell ?? InterestTypeCollectionViewCell()
-    cell.configureUI(with: registerInterstDetailTableViewCellModel[indexPath.row])
+//    cell.configureUI(with: subCategories[indexPath.row])
     return cell
   }
   

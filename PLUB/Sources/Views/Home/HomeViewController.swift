@@ -215,7 +215,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel())
-    vc.title = InterestCollectionType.allCases[indexPath.row].title
+    vc.title = mainCategoryList[indexPath.row].name
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
