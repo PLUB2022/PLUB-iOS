@@ -31,7 +31,7 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     $0.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }
   
-  private let categoryInfoListView = CategoryInfoListView(categoryInfoListViewType: .vertical)
+  private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .vertical, categoryListType: .all)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
