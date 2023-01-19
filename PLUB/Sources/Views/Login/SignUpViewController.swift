@@ -241,10 +241,12 @@ extension SignUpViewController {
 
 extension SignUpViewController: UIScrollViewDelegate {
   
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+  func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
     // 스와이프로 페이지 이동했을 때 보이는 페이지 index를 세팅
-    let width = scrollView.frame.width
-    let page = Int(round(scrollView.contentOffset.x / width))
-    currentPage = page
+    if velocity.x > 0 { // move right
+      currentPage = lastPageIndex == currentPage ? lastPageIndex : currentPage + 1
+    } else if velocity.x < 0 { // move left
+      currentPage = currentPage == 0 ? 0 : currentPage - 1
+    }
   }
 }
