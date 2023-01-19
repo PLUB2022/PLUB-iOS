@@ -55,16 +55,18 @@ final class SignUpViewController: BaseViewController {
     $0.numberOfPages = viewControllers.count
   }
   
-  private let titleLabel = UILabel().then {
+  private lazy var titleLabel = UILabel().then {
     $0.textColor = .black
     $0.numberOfLines = 0
+    $0.text = viewModel.titles[currentPage]
     $0.font = .h4
   }
   
-  private let subtitleLabel = UILabel().then {
-    $0.font = .body2
+  private lazy var subtitleLabel = UILabel().then {
     $0.textColor = .black
     $0.numberOfLines = 0
+    $0.text = viewModel.subtitles[currentPage]
+    $0.font = .body2
   }
   
   private lazy var scrollView = UIScrollView().then {
