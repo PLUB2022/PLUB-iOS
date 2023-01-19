@@ -7,7 +7,12 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
+
 final class PolicyViewModel {
+  
+  private let disposeBag = DisposeBag()
   
   private let policies = [
     "이용약관 및 개인정보취급방침 (필수)",
@@ -31,6 +36,8 @@ final class PolicyViewModel {
       applyInitialSnapshots()
     }
   }
+  
+  private let buttonCheckedRelay = BehaviorRelay<[Bool]>(value: [])
 }
 
 // MARK: - Set Property Methods
