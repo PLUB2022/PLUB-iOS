@@ -17,6 +17,15 @@ final class PolicyViewModel {
     "마케팅 활용 동의 (선택)"
   ]
   
+  private var checkedList = [CheckBoxButton]() {
+    didSet {
+      // tableView cell의 버튼들이 전부 들어가져있다면
+      if checkedList.count == policies.count {
+        // 바인딩 처리
+      }
+    }
+  }
+  
   private var dataSource: DataSource? = nil {
     didSet {
       applyInitialSnapshots()
@@ -46,6 +55,10 @@ extension PolicyViewModel {
       
       if let cellConfigurable = cell as? PolicyConfigurable {
         cellConfigurable.configure(with: model)
+      }
+      
+      if let headerCell = cell as? PolicyHeaderTableViewCell {
+        self.checkedList.append(headerCell.checkbox)
       }
       
       return cell

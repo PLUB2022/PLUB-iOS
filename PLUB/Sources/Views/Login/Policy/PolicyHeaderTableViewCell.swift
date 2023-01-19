@@ -33,13 +33,13 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
     $0.backgroundColor = .lightGray
   }
   
-  private let checkbox: CheckBoxButton = CheckBoxButton(type: .full)
+  let checkbox: CheckBoxButton = CheckBoxButton(type: .full)
   
   private let stackView: UIStackView = UIStackView().then {
     $0.spacing = 2
     $0.alignment = .center
   }
-
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     setupLayouts()
