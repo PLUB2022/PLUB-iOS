@@ -132,9 +132,9 @@ class CategoryInfoView: UIView {
       infoImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
       infoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     case .when:
-      infoImageView.image = UIImage(named: "when")
+      infoImageView.image = UIImage(named: "whiteWhen")
     case .people:
-      infoImageView.image = UIImage(named: "people")
+      infoImageView.image = UIImage(named: "whitePeople")
     }
     addSubview(stackView)
     stackView.snp.makeConstraints {
