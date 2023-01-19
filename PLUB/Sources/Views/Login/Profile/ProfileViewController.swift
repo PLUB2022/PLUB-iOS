@@ -33,7 +33,7 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let uploadImageButton: UIButton = UIButton().then {
-    $0.setImage(UIImage(named: "btn_user_default_image"), for: .normal)
+    $0.setImage(UIImage(named: "userDefaultImage"), for: .normal)
   }
   
   // MARK: Nickname Part
@@ -55,8 +55,9 @@ final class ProfileViewController: BaseViewController {
     
     textField.leftView = UIView()
     textField.rightView = UIButton().then {
-      $0.setImage(UIImage(named: "btn_close_rectangle_default"), for: .normal)
+      $0.setImage(UIImage(named: "xMark")?.withRenderingMode(.alwaysTemplate), for: .normal)
       $0.addAction(UIAction { _ in textField.text = "" }, for: .touchUpInside)
+      $0.tintColor = .mediumGray
     }
     textField.leftViewMode = .always
     textField.rightViewMode = .always
@@ -79,7 +80,7 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let alertImageView: UIImageView = UIImageView().then {
-    $0.image = UIImage(named: "bubble_warning")
+    $0.image = UIImage(named: "bubbleWarning")
     $0.contentMode = .scaleAspectFit
   }
   
