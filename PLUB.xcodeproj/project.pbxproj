@@ -109,7 +109,6 @@
 		C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */; };
 		C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337C2975ADD800943B11 /* Ex+CALayer.swift */; };
 		C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */; };
-		C371CDAD297847B3008950DD /* WeekDateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C371CDAC297847B3008950DD /* WeekDateSelectView.swift */; };
 		C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
 		C3AB743D296B2181003DD5E2 /* SelectPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */; };
@@ -218,7 +217,6 @@
 		C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectView.swift; sourceTree = "<group>"; };
 		C36D337C2975ADD800943B11 /* Ex+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+CALayer.swift"; sourceTree = "<group>"; };
 		C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetListView.swift; sourceTree = "<group>"; };
-		C371CDAC297847B3008950DD /* WeekDateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateSelectView.swift; sourceTree = "<group>"; };
 		C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPeopleNumberViewController.swift; sourceTree = "<group>"; };
@@ -662,7 +660,6 @@
 		C371CDB029784C32008950DD /* Date */ = {
 			isa = PBXGroup;
 			children = (
-				C371CDAC297847B3008950DD /* WeekDateSelectView.swift */,
 				C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */,
 			);
 			path = Date;
@@ -848,7 +845,6 @@
 				BA340E2529782356002BAF2C /* ProfileViewController.swift in Sources */,
 				C3AB743F296B21C1003DD5E2 /* SelectTimeViewController.swift in Sources */,
 				7085678A28EEB73F008047DC /* RecommendedMeetingHeaderView.swift in Sources */,
-				C371CDAD297847B3008950DD /* WeekDateSelectView.swift in Sources */,
 				C3AB7441296B21E6003DD5E2 /* SelectQuestionViewController.swift in Sources */,
 				BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */,
 				C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */,
