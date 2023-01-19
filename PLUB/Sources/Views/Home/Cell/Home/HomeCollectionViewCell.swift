@@ -56,9 +56,11 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  public func configureUI(with model: InterestCollectionType) {
-    interestLabel.text = model.title
-    imageView.image = UIImage(named: model.imageNamed)
+  public func configureUI(with model: MainCategory) {
+    print("model = \(model)")
+    guard let url = URL(string: model.icon) else { return }
+    interestLabel.text = model.name
+    imageView.kf.setImage(with: url)
   }
 }
 

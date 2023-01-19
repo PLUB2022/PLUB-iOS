@@ -16,7 +16,23 @@ enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
 
 final class HomeViewController: BaseViewController {
   
+  private let viewModel: HomeViewModelType
+  private var mainCategoryList: [MainCategory] = [] {
+    didSet {
+      self.homeCollectionView.reloadSections(.init(integer: 0))
+    }
+  }
+  
   private var homeType: HomeType = .nonSelected
+  
+  init(viewModel: HomeViewModelType) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   private lazy var homeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
     guard let `self` = self else {
@@ -75,6 +91,13 @@ final class HomeViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    viewModel.fetchedMainCategoryList
+      .drive(onNext: { category in
+        print("category = \(category)")
+        self.mainCategoryList = category
+      })
+      .disposed(by: disposeBag)
+    
     homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
     homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)
   }
@@ -150,16 +173,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    switch homeType {
-    case .nonSelected:
-      switch HomeSectionType.allCases[section] {
-      case .interest:
-        return InterestCollectionType.allCases.count
-      case .recommendedMeeting:
-        return 1
-      }
-    case .selected:
-      return 0
+    switch HomeSectionType.allCases[section] {
+    case .interest:
+      return mainCategoryList.count
+    case .recommendedMeeting:
+      return 1
     }
   }
   
@@ -169,7 +187,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     switch homeCollectionType {
     case .interest:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell ?? HomeCollectionViewCell()
-      cell.configureUI(with: InterestCollectionType.allCases[indexPath.row])
+      print("fdsf = \(mainCategoryList[indexPath.row])")
+      cell.configureUI(with: mainCategoryList[indexPath.row])
       return cell
     case .recommendedMeeting:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier, for: indexPath) as? RecommendedMeetingCollectionViewCell ?? RecommendedMeetingCollectionViewCell()
