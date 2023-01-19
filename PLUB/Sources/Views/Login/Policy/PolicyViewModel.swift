@@ -27,6 +27,7 @@ final class PolicyViewModel {
       // tableView cell의 버튼들이 전부 들어가져있다면
       if checkedList.count == policies.count {
         // 바인딩 처리
+        bind()
       }
     }
   }
@@ -38,6 +39,52 @@ final class PolicyViewModel {
   }
   
   private let buttonCheckedRelay = BehaviorRelay<[Bool]>(value: [])
+}
+
+// MARK: - Rx Progress
+
+extension PolicyViewModel {
+  struct Input {
+    // 전체 동의 탭되었을 때
+    let allAgreementButtonTapped: Observable<Void>
+  }
+  
+  struct Output {
+    // 현재 버튼 체크되어있는 상태
+    let checkedButtonListState: Driver<[Bool]>
+  }
+  
+  func transform(input: Input) -> Output {
+    
+    input.allAgreementButtonTapped
+      .subscribe(onNext: { [weak self] in
+        self?.applyAllAgreement()
+      })
+      .disposed(by: disposeBag)
+    
+    return Output(
+      checkedButtonListState: buttonCheckedRelay.asDriver()
+    )
+  }
+  
+  func bind() {
+    let drivers = checkedList.map { $0.rx.isChecked.asDriver() }
+    Driver<Bool>.combineLatest(drivers)
+      .drive(onNext: { [weak self] _ in
+        guard let self = self else { return }
+        // 전체 동의 버튼 클릭 시의 isChecked 값이 combineLatest의 값과 연동되어있지 않아서
+        // self.checkedList의 isChecked를 accept하도록 구현
+        self.buttonCheckedRelay.accept(self.checkedList.map { $0.isChecked })
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  func applyAllAgreement() {
+    // 전체 동의 버튼 클릭되었으므로 모든 체크박스 true 처리
+    checkedList.forEach {
+      $0.isChecked = true
+    }
+  }
 }
 
 // MARK: - Set Property Methods

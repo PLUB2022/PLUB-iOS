@@ -83,6 +83,27 @@ final class PolicyViewController: BaseViewController {
       $0.horizontalEdges.bottom.equalToSuperview()
     }
   }
+  
+  override func bind() {
+    super.bind()
+    
+    let output = viewModel.transform(input: .init(allAgreementButtonTapped: agreementCheckboxButton.rx.tap.asObservable()))
+    
+    output.checkedButtonListState
+      .do { print($0) }
+      .map { $0.reduce(true, { $0 && $1 }) }
+      .drive(onNext: { [weak self] in
+        self?.agreementCheckboxButton.isChecked = $0
+      })
+      .disposed(by: disposeBag)
+    
+    output.checkedButtonListState
+      .map { $0.dropLast(1).reduce(true, { $0 && $1 }) }
+      .drive(onNext: { flag in
+        // delegate 처리
+      })
+      .disposed(by: disposeBag)
+  }
 }
 
 
