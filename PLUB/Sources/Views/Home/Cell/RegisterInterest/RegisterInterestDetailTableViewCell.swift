@@ -64,8 +64,8 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
     
     containerView.addSubview(interestTypeCollectionView)
     interestTypeCollectionView.snp.makeConstraints {
-      $0.top.left.right.equalToSuperview()
-      $0.height.equalTo(202)
+      $0.edges.equalToSuperview()
+//      $0.height.equalTo(202)
     }
   }
   
@@ -90,10 +90,7 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    if collectionView == self.interestTypeCollectionView {
-      return CGSize(width: (collectionView.frame.width / 4) - 8 - 8, height: (collectionView.frame.height / 4) - 8 - 8)
-    }
-    return .zero
+      return CGSize(width: (collectionView.frame.width / 4) - 8 - 8, height: (collectionView.frame.height / 3) - 8 - 8)
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
