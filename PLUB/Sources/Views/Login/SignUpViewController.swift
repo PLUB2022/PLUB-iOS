@@ -84,6 +84,18 @@ final class SignUpViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
   
+  // MARK: - Life Cycle
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
@@ -188,6 +200,40 @@ final class SignUpViewController: BaseViewController {
   private func scrollToPage(index: Int) {
     let offset: CGPoint = CGPoint(x: view.frame.width * CGFloat(index), y: 0)
     scrollView.setContentOffset(offset, animated: true)
+  }
+}
+
+// MARK: - Keyboard
+
+extension SignUpViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                             name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+      let keyboardHeight: CGFloat = keyboardSize.height
+      nextButton.snp.updateConstraints {
+        $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(keyboardHeight + 4)
+      }
+      view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    nextButton.snp.updateConstraints {
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
+    }
+    view.layoutIfNeeded()
   }
 }
 
