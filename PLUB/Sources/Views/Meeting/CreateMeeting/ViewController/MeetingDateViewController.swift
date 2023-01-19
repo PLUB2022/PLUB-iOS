@@ -1,5 +1,5 @@
 //
-//  SelectTimeViewController.swift
+//  MeetingDateViewController.swift
 //  PLUB
 //
 //  Created by 김수빈 on 2023/01/09.
@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-final class SelectTimeViewController: BaseViewController {
+final class MeetingDateViewController: BaseViewController {
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false

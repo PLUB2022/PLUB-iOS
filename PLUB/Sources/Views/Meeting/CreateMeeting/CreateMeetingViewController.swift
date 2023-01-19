@@ -13,8 +13,7 @@ enum CreateMeetingType {
   case category // 카테고리
   case name // 모임 이름
   case introduction // 모임 소개
-  case age // 성별, 나이
-  case date // 요일
+  case date // 날짜
   case peopleCount // 인원
   case question // 질문 여부
 }
@@ -77,9 +76,9 @@ final class CreateMeetingViewController: BaseViewController {
     viewModel: MeetingIntroduceViewModel(),
     childIndex: 1
   )
-  private let selectQuestionViewController = SelectQuestionViewController()
+  private let meetingDateViewController = MeetingDateViewController()
   
-  private var viewControllers: [CreateMeetingType] = [.name, .introduction, .question]
+  private var viewControllers: [CreateMeetingType] = [.name, .introduction, .date]
   
   //TODO: 수빈 - viewModel로 빼기
   private var isNextButtonEnable = [Bool]()
@@ -210,21 +209,19 @@ final class CreateMeetingViewController: BaseViewController {
   private func selectChildViewController(index: Int) -> UIViewController {
     switch viewControllers[index] {
     case .category:
-      return selectQuestionViewController
+      return meetingDateViewController
     case .name:
       meetingNameViewController.delegate = self
       return meetingNameViewController
     case .introduction:
       meetingIntroduceViewController.delegate = self
       return meetingIntroduceViewController
-    case .age:
-      return selectQuestionViewController
     case .date:
-      return selectQuestionViewController
+      return meetingDateViewController
     case .peopleCount:
-      return selectQuestionViewController
+      return meetingDateViewController
     default:
-      return selectQuestionViewController
+      return meetingDateViewController
     }
   }
 }
