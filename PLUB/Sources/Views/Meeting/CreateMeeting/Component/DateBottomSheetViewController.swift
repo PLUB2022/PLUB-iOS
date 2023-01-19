@@ -39,7 +39,7 @@ final class DateBottomSheetViewController: BottomSheetViewController {
   ) {
     datePicker.datePickerMode = type
     nextButton.configurationUpdateHandler = nextButton.configuration?.plubButton(label: buttonTitle)
-    super.init()
+    super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
