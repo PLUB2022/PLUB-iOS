@@ -12,7 +12,11 @@ import RxSwift
 
 final class CalendarControl: UIControl {
   
-  var title = "날짜를 선택해주세요."
+  var title = "날짜를 선택해주세요." {
+    didSet {
+      label.text = title 
+    }
+  }
   
   override var isSelected: Bool {
     didSet {
