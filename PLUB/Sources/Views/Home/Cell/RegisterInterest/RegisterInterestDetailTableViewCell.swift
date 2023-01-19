@@ -91,7 +91,7 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     if collectionView == self.interestTypeCollectionView {
-      return CGSize(width: (collectionView.frame.width / 4) - 8 - 16, height: (collectionView.frame.height / 3) - 8 - 16)
+      return CGSize(width: (collectionView.frame.width / 4) - 8 - 8, height: (collectionView.frame.height / 4) - 8 - 8)
     }
     return .zero
   }
