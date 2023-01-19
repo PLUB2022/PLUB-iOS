@@ -10,14 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-struct RegisterInterestHeaderViewModel {
-  let title: String
-  let description: String
-}
-
-class RegisterInterestHeaderView: UITableViewHeaderFooterView {
-  
-  static let identifier = "RegisterInterestHeaderView"
+class RegisterInterestHeaderView: UIView {
   
   private let titleLabel = UILabel().then {
     $0.font = .h4
@@ -30,8 +23,8 @@ class RegisterInterestHeaderView: UITableViewHeaderFooterView {
     $0.numberOfLines = 0
   }
   
-  override init(reuseIdentifier: String?) {
-    super.init(reuseIdentifier: reuseIdentifier)
+  override init(frame: CGRect) {
+    super.init(frame: frame)
     configureUI()
   }
   
@@ -48,13 +41,11 @@ class RegisterInterestHeaderView: UITableViewHeaderFooterView {
     
     descriptionLabel.snp.makeConstraints {
       $0.left.equalTo(titleLabel.snp.left)
-      $0.top.equalTo(titleLabel.snp.bottom)
+      $0.top.equalTo(titleLabel.snp.bottom).offset(4)
       $0.height.equalTo(self.snp.height).dividedBy(2)
     }
-  }
-  
-  public func configureUI(with model: RegisterInterestHeaderViewModel) {
-    titleLabel.text = model.title
-    descriptionLabel.text = model.description
+    
+    titleLabel.text = "취미모임 관심사 등록"
+    descriptionLabel.text = "PLUB 에게 당신의 관심사를 알려주세요.\n관심사 위주로 모임을 추천해 드려요!"
   }
 }

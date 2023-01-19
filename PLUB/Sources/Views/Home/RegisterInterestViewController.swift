@@ -22,12 +22,14 @@ class RegisterInterestViewController: BaseViewController {
     }
   }
   
+  private let registerInterestHeaderView = RegisterInterestHeaderView()
+  
   private lazy var registerTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.separatorStyle = .none
     $0.backgroundColor = .secondarySystemBackground
+    $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.sectionFooterHeight = .leastNonzeroMagnitude
     $0.register(RegisterInterestTableViewCell.self, forCellReuseIdentifier: RegisterInterestTableViewCell.identifier)
-    $0.register(RegisterInterestHeaderView.self, forHeaderFooterViewReuseIdentifier: RegisterInterestHeaderView.identifier)
     $0.register(RegisterInterestDetailTableViewCell.self, forCellReuseIdentifier: RegisterInterestDetailTableViewCell.identifier)
   }
   
@@ -50,12 +52,18 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupLayouts() {
-    [registerTableView, floatingButton].forEach { view.addSubview($0) }
+    [registerInterestHeaderView, registerTableView, floatingButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
+    registerInterestHeaderView.snp.makeConstraints { make in
+      make.top.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
+      make.height.equalTo(100)
+    }
+    
     registerTableView.snp.makeConstraints {
-      $0.edges.equalToSuperview().inset(20)
+      $0.top.equalTo(registerInterestHeaderView.snp.bottom).offset(20)
+      $0.left.right.bottom.equalToSuperview().inset(20)
     }
     
     floatingButton.snp.makeConstraints { 
@@ -127,26 +135,6 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
       cell.delegate = self
       return cell
     }
-  }
-  
-  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    if section == 0 {
-      let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: RegisterInterestHeaderView.identifier) as? RegisterInterestHeaderView ?? RegisterInterestHeaderView()
-      let registerInterestHeaderViewModel = RegisterInterestHeaderViewModel(
-        title: "취미모임 관심사 등록",
-        description: "PLUB 에게 당신의 관심사를 알려주세요.\n관심사 위주로 모임을 추천해 드려요!"
-      )
-      header.configureUI(with: registerInterestHeaderViewModel)
-      return header
-    }
-    return UIView(frame: .zero)
-  }
-  
-  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    if section != 0 {
-      return .leastNonzeroMagnitude
-    }
-    return 150
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

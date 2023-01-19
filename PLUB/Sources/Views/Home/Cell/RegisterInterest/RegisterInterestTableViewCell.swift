@@ -80,8 +80,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
     contentView.backgroundColor = .background
     contentView.addSubview(containerView)
     containerView.snp.makeConstraints {
-      $0.top.left.right.equalToSuperview()
-      $0.bottom.equalToSuperview().offset(-5)
+      $0.edges.equalToSuperview()
     }
     
     [interestImageView, titleLabel, indicatorButton].forEach { containerView.addSubview($0) }
