@@ -7,6 +7,9 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
+
 final class CalendarControl: UIControl {
   
   var title = "날짜를 선택해주세요."
@@ -68,5 +71,13 @@ final class CalendarControl: UIControl {
       label.textColor = .deepGray
       layer.borderColor = UIColor.deepGray.cgColor
     }
+  }
+}
+
+extension Reactive where Base: CalendarControl {
+  
+  /// Reactive wrapper for `TouchUpInside` control event.
+  var tap: ControlEvent<Void> {
+    controlEvent(.touchUpInside)
   }
 }
