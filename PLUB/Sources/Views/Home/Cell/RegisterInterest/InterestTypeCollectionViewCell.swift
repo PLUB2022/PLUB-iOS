@@ -57,6 +57,6 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: SubCategory) {
-//    interestTypeLabel.text = model.name
+    interestTypeLabel.text = model.name
   }
 }

@@ -16,7 +16,11 @@ class RegisterInterestViewController: BaseViewController {
   
   private let viewModel: RegisterInterestViewModelType
   
-  private var registerInterestModels: [RegisterInterestModel] = []
+  private var registerInterestModels: [RegisterInterestModel] = [] {
+    didSet {
+      registerTableView.reloadData()
+    }
+  }
   
   private lazy var registerTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.separatorStyle = .none
@@ -71,11 +75,9 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func bind() {
-//    viewModel.fetchedRegisterInterest
-//      .drive(onNext: { model in
-//        self.registerInterestModels = model
-//      })
-//      .disposed(by: disposeBag)
+    viewModel.fetchedRegisterInterest
+      .drive(rx.registerInterestModels)
+      .disposed(by: disposeBag)
     
     viewModel.isEnabledFloatingButton.asObservable()
       .withUnretained(self)
@@ -117,11 +119,11 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if indexPath.row == 0 {
       let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestTableViewCell.identifier, for: indexPath) as? RegisterInterestTableViewCell ?? RegisterInterestTableViewCell()
-//      cell.configureUI(with: registerInterestModels[indexPath.section])
+      cell.configureUI(with: registerInterestModels[indexPath.section])
       return cell
     } else {
       let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
-//      cell.configureUI(with: registerInterestModels[indexPath.section])
+      cell.configureUI(with: registerInterestModels[indexPath.section])
       cell.delegate = self
       return cell
     }

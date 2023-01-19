@@ -22,7 +22,9 @@ struct AllCategoryListResponse: Codable {
 }
 
 struct Category: Codable {
-  let mainCategory: MainCategory
+  let id: Int
+  let name: String
+  let icon: String
   let subCategories: [SubCategory]
 }
 

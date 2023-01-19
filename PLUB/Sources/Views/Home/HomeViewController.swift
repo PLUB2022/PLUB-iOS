@@ -92,10 +92,7 @@ final class HomeViewController: BaseViewController {
   override func bind() {
     super.bind()
     viewModel.fetchedMainCategoryList
-      .drive(onNext: { category in
-        print("category = \(category)")
-        self.mainCategoryList = category
-      })
+      .drive(rx.mainCategoryList)
       .disposed(by: disposeBag)
     
     homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)

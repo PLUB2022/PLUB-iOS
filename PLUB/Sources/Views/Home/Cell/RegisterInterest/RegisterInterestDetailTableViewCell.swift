@@ -70,7 +70,7 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   }
   
   public func configureUI(with model: RegisterInterestModel) {
-//    self.subCategories = model.category.subCategories
+    self.subCategories = model.category.subCategories
   }
 }
 
@@ -85,7 +85,7 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InterestTypeCollectionViewCell.identifier, for: indexPath) as? InterestTypeCollectionViewCell ?? InterestTypeCollectionViewCell()
-//    cell.configureUI(with: subCategories[indexPath.row])
+    cell.configureUI(with: subCategories[indexPath.row])
     return cell
   }
   
