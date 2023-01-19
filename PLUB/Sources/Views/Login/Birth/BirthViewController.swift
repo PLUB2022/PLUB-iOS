@@ -107,7 +107,6 @@ final class BirthViewController: BaseViewController {
     maleButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        print("malebutton")
         owner.maleButton.isSelected.toggle()
       })
       .disposed(by: disposeBag)
@@ -115,7 +114,6 @@ final class BirthViewController: BaseViewController {
     femaleButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        print("femalebutton")
         owner.femaleButton.isSelected.toggle()
       })
       .disposed(by: disposeBag)
