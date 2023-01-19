@@ -89,8 +89,8 @@ final class MeetingNameViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     scrollView.snp.makeConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.bottom.equalToSuperview()
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.bottom.equalToSuperview().inset(24)
     }
     
     contentStackView.snp.makeConstraints {
