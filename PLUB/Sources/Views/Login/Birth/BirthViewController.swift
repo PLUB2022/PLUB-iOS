@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 
@@ -38,22 +40,12 @@ final class BirthViewController: BaseViewController {
     $0.distribution = .fillEqually
   }
   
-  private let maleButton: UIButton = UIButton().then {
-    $0.setTitle("남성", for: .normal)
-    $0.setTitleColor(.deepGray, for: .normal)
-    $0.titleLabel?.font = .body1
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.mediumGray.cgColor
-    $0.layer.cornerRadius = 8
+  private let maleButton: UIButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.list(label: "남성")
   }
   
-  private let femaleButton: UIButton = UIButton().then {
-    $0.setTitle("여성", for: .normal)
-    $0.setTitleColor(.deepGray, for: .normal)
-    $0.titleLabel?.font = .body1
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.mediumGray.cgColor
-    $0.layer.cornerRadius = 8
+  private let femaleButton: UIButton =  UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.list(label: "여성")
   }
   
   // MARK: Birth
@@ -94,7 +86,6 @@ final class BirthViewController: BaseViewController {
     [birthLabel].forEach {
       birthStackView.addArrangedSubview($0)
     }
-    
   }
   
   override func setupConstraints() {
@@ -105,9 +96,29 @@ final class BirthViewController: BaseViewController {
     
     [maleButton, femaleButton].forEach {
       $0.snp.makeConstraints {
-        $0.height.equalTo(40)
+        $0.height.equalTo(46)
       }
     }
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    maleButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        print("malebutton")
+        owner.maleButton.isSelected.toggle()
+      })
+      .disposed(by: disposeBag)
+    
+    femaleButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        print("femalebutton")
+        owner.femaleButton.isSelected.toggle()
+      })
+      .disposed(by: disposeBag)
   }
 }
 
