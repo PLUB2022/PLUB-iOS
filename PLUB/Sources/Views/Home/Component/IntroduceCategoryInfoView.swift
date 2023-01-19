@@ -20,9 +20,7 @@ class IntroduceCategoryInfoView: UIView {
     $0.sizeToFit()
   }
   
-  private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .horizontal, categoryListType: .noLocation).then {
-    $0.backgroundColor = .red
-  }
+  private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .horizontal, categoryListType: .noLocation)
   
   private let meetingImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit

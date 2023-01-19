@@ -156,6 +156,11 @@ class CategoryInfoView: UIView {
     switch categoryListType {
     case .noLocation:
       infoLabel.textColor = .black
+      if categoryType == .people {
+        infoImageView.image = UIImage(named: "blackPeople")
+      } else if categoryType == .when {
+        infoImageView.image = UIImage(named: "blackWhen")
+      }
     case .onlyLocation:
       infoLabel.textColor = .main
       infoImageView.image = UIImage(named: "mainLocation")
