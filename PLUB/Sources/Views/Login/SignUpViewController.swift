@@ -11,6 +11,37 @@ import SnapKit
 import Then
 
 final class SignUpViewController: BaseViewController {
+  
+  // MARK: - Properties
+  
+  private let viewModel = SignUpViewModel()
+  
+  private var currentPage = 0 {
+    didSet {
+      view.endEditing(true)
+      pageControl.currentPage = currentPage
+      titleLabel.text = viewModel.titles[currentPage]
+      subtitleLabel.text = viewModel.subtitles[currentPage]
+    }
+  }
+  
+  private var lastPageIndex = 0 {
+    didSet {
+      view.endEditing(true)
+      contentStackView.addArrangedSubview(viewControllers[lastPageIndex].view)
+      viewControllers[lastPageIndex].view.snp.makeConstraints {
+        $0.width.equalTo(view.snp.width)
+      }
+    }
+  }
+  
+  private var viewControllers = [
+    PolicyViewController(),
+    BirthViewController(),
+    ProfileViewController(),
+    IntroductionViewController()
+  ]
+  
   // MARK: UI Properties
   
   private let stackView = UIStackView().then {
@@ -20,7 +51,7 @@ final class SignUpViewController: BaseViewController {
   }
   
   private lazy var pageControl = PageControl().then {
-    $0.numberOfPages = 4
+    $0.numberOfPages = viewControllers.count
   }
   
   private let titleLabel = UILabel().then {
@@ -38,6 +69,8 @@ final class SignUpViewController: BaseViewController {
   private var nextButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
+  
+  // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
