@@ -42,6 +42,8 @@
 		70F1DFD8297959A900F9BC83 /* MainCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD7297959A900F9BC83 /* MainCategoryListResponse.swift */; };
 		70F1DFDA29795AB900F9BC83 /* AllCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD929795AB900F9BC83 /* AllCategoryListResponse.swift */; };
 		70F1DFDC29795C9000F9BC83 /* SubCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */; };
+		70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */; };
+		70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
@@ -163,6 +165,8 @@
 		70F1DFD7297959A900F9BC83 /* MainCategoryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCategoryListResponse.swift; sourceTree = "<group>"; };
 		70F1DFD929795AB900F9BC83 /* AllCategoryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoryListResponse.swift; sourceTree = "<group>"; };
 		70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategoryListResponse.swift; sourceTree = "<group>"; };
+		70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRouter.swift; sourceTree = "<group>"; };
+		70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingService.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -574,6 +578,7 @@
 			children = (
 				BA8E2B4329746737009DDF32 /* AuthRouter.swift */,
 				70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */,
+				70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -583,6 +588,7 @@
 			children = (
 				BA8E2B45297467A2009DDF32 /* AuthService.swift */,
 				70F1DFD32979508000F9BC83 /* CategoryService.swift */,
+				70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -871,6 +877,7 @@
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
 				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
 				BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */,
+				70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				70F1DFD8297959A900F9BC83 /* MainCategoryListResponse.swift in Sources */,
@@ -887,6 +894,7 @@
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
+				70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */,
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
 				C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
