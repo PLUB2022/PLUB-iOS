@@ -102,7 +102,7 @@ final class InputTextView: UIView {
   private func setupConstraints(options: InputViewOptions) {
     stackView.snp.makeConstraints{
       $0.top.bottom.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview()
     }
     
     titleView.snp.makeConstraints {

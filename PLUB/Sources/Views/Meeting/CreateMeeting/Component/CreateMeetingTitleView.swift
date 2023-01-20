@@ -54,7 +54,7 @@ final class CreateMeetingTitleView: UIView {
   private func setupConstraints() {
     stackView.snp.makeConstraints{
       $0.top.bottom.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview()
     }
   }
 }

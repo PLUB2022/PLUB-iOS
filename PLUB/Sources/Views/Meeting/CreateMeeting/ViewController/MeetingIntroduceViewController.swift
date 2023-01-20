@@ -103,7 +103,7 @@ final class MeetingIntroduceViewController: BaseViewController {
     super.setupConstraints()
     scrollView.snp.makeConstraints {
         $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.bottom.equalToSuperview()
+        $0.leading.trailing.bottom.equalToSuperview().inset(24)
     }
     
     contentStackView.snp.makeConstraints {
@@ -115,12 +115,12 @@ final class MeetingIntroduceViewController: BaseViewController {
     
     photoTitleLabel.snp.makeConstraints {
       $0.height.equalTo(19)
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview()
     }
 
     photoSelectView.snp.makeConstraints {
       $0.height.equalTo(100)
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview()
     }
   }
   
