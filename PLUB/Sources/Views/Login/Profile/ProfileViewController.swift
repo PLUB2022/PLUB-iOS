@@ -55,7 +55,7 @@ final class ProfileViewController: BaseViewController {
     $0.font = .subtitle
   }
   
-  private let nicknameTextField: PaddingTextField = PaddingTextField().then { textField in
+  private lazy var nicknameTextField: PaddingTextField = PaddingTextField().then { textField in
     textField.layer.borderWidth = 1
     textField.layer.borderColor = UIColor.mediumGray.cgColor
     textField.layer.cornerRadius = 8
@@ -76,6 +76,8 @@ final class ProfileViewController: BaseViewController {
       string: "한글, 영문, 숫자 포함 8글자로 입력가능해요.",
       attributes: [.font: UIFont.body2!]
     )
+    
+    textField.delegate = self
   }
   
   // MARK: Alert in Nickname
@@ -164,6 +166,13 @@ final class ProfileViewController: BaseViewController {
         )
       })
       .disposed(by: disposeBag)
+  }
+}
+
+extension ProfileViewController: UITextFieldDelegate {
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    return range.location < 15
   }
 }
 
