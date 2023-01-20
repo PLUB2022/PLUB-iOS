@@ -20,7 +20,11 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   public weak var delegate: RegisterInterestDetailTableViewCellDelegate?
   
-  private var subCategories: [SubCategory] = []
+  private var subCategories: [SubCategory] = [] {
+    didSet {
+      interestTypeCollectionView.reloadData()
+    }
+  }
   
   private let containerView = UIView().then {
     $0.backgroundColor = .white
@@ -65,7 +69,6 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
     containerView.addSubview(interestTypeCollectionView)
     interestTypeCollectionView.snp.makeConstraints {
       $0.edges.equalToSuperview()
-//      $0.height.equalTo(202)
     }
   }
   
@@ -90,7 +93,7 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      return CGSize(width: (collectionView.frame.width / 4) - 8 - 8, height: (collectionView.frame.height / 3) - 8 - 8)
+      return CGSize(width: (collectionView.frame.width / 4) - 8 - 8, height: 32)
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

@@ -29,6 +29,7 @@ class RegisterInterestViewController: BaseViewController {
     $0.backgroundColor = .secondarySystemBackground
     $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.sectionFooterHeight = .leastNonzeroMagnitude
+    $0.showsVerticalScrollIndicator = false
     $0.register(RegisterInterestTableViewCell.self, forCellReuseIdentifier: RegisterInterestTableViewCell.identifier)
     $0.register(RegisterInterestDetailTableViewCell.self, forCellReuseIdentifier: RegisterInterestDetailTableViewCell.identifier)
   }
@@ -151,10 +152,10 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.row == 1 {
-      return 202
+    if indexPath.row == 0 {
+      return 80
     }
-    return 80
+    return 202
   }
 }
 
