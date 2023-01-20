@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 
@@ -158,10 +160,12 @@ final class ProfileViewController: BaseViewController {
     super.bind()
     
     nicknameTextField.rx.text
+      .orEmpty
+      .distinctUntilChanged()
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
         owner.nicknameTextField.attributedText = NSAttributedString(
-          string: owner.nicknameTextField.text ?? "",
+          string: text,
           attributes: [.font: UIFont.body1!]
         )
       })
