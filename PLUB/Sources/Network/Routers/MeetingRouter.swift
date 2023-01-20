@@ -9,12 +9,13 @@ import Alamofire
 
 enum MeetingRouter {
   case inquireCategoryMeeting(Int, MeetingQuery)
+  case inquireRecommendationMeeting
 }
 
 extension MeetingRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .inquireCategoryMeeting:
+    case .inquireCategoryMeeting, .inquireRecommendationMeeting:
       return .get
     }
   }
@@ -23,6 +24,8 @@ extension MeetingRouter: Router {
     switch self {
     case .inquireCategoryMeeting(let categoryId, _):
       return "/plubbings/categories/\(categoryId)"
+    case .inquireRecommendationMeeting:
+      return "/plubbings/recommendation"
     }
   }
   
@@ -30,12 +33,14 @@ extension MeetingRouter: Router {
     switch self {
     case .inquireCategoryMeeting(_, let query):
       return .query(query)
+    case .inquireRecommendationMeeting:
+      return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireCategoryMeeting:
+    case .inquireCategoryMeeting, .inquireRecommendationMeeting:
       return .withAccessToken
     }
   }

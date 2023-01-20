@@ -17,4 +17,8 @@ extension MeetingService {
   func inquireCategoryMeeting(categoryId: Int, query: MeetingQuery) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>>  {
     return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryId, query), type: CategoryMeetingResponse.self)
   }
+  
+  func inquireRecommendationMeeting() -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>> {
+    return sendRequest(MeetingRouter.inquireRecommendationMeeting, type: CategoryMeetingResponse.self)
+  }
 }
