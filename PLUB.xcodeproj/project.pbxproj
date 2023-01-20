@@ -117,6 +117,13 @@
 		C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
 		C38A5B93297ACF5B00485355 /* LocationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B92297ACF5B00485355 /* LocationControl.swift */; };
+		C38A5B95297AD5B000485355 /* KakaoLocationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B94297AD5B000485355 /* KakaoLocationRouter.swift */; };
+		C38A5B97297AD5C300485355 /* KakaoLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B96297AD5C300485355 /* KakaoLocationService.swift */; };
+		C38A5B99297ADE8500485355 /* KakaoLocationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B98297ADE8500485355 /* KakaoLocationResponse.swift */; };
+		C38A5B9B297AE05100485355 /* KakaoLocationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B9A297AE05100485355 /* KakaoLocationRequest.swift */; };
+		C38A5B9D297AFDCD00485355 /* LocationBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B9C297AFDCD00485355 /* LocationBottomSheetViewController.swift */; };
+		C38A5B9F297B022A00485355 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B9E297B022A00485355 /* SearchView.swift */; };
+		C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA0297B0C4100485355 /* NoLocationView.swift */; };
 		C3AB743D296B2181003DD5E2 /* SelectPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */; };
 		C3AB743F296B21C1003DD5E2 /* MeetingDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743E296B21C1003DD5E2 /* MeetingDateViewController.swift */; };
 		C3AB7441296B21E6003DD5E2 /* SelectQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB7440296B21E6003DD5E2 /* SelectQuestionViewController.swift */; };
@@ -231,6 +238,13 @@
 		C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
 		C38A5B92297ACF5B00485355 /* LocationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationControl.swift; sourceTree = "<group>"; };
+		C38A5B94297AD5B000485355 /* KakaoLocationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocationRouter.swift; sourceTree = "<group>"; };
+		C38A5B96297AD5C300485355 /* KakaoLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocationService.swift; sourceTree = "<group>"; };
+		C38A5B98297ADE8500485355 /* KakaoLocationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocationResponse.swift; sourceTree = "<group>"; };
+		C38A5B9A297AE05100485355 /* KakaoLocationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocationRequest.swift; sourceTree = "<group>"; };
+		C38A5B9C297AFDCD00485355 /* LocationBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationBottomSheetViewController.swift; sourceTree = "<group>"; };
+		C38A5B9E297B022A00485355 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		C38A5BA0297B0C4100485355 /* NoLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoLocationView.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* SelectPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPeopleNumberViewController.swift; sourceTree = "<group>"; };
 		C3AB743E296B21C1003DD5E2 /* MeetingDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDateViewController.swift; sourceTree = "<group>"; };
 		C3AB7440296B21E6003DD5E2 /* SelectQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectQuestionViewController.swift; sourceTree = "<group>"; };
@@ -568,6 +582,7 @@
 			isa = PBXGroup;
 			children = (
 				BA8E2B4329746737009DDF32 /* AuthRouter.swift */,
+				C38A5B94297AD5B000485355 /* KakaoLocationRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -576,6 +591,7 @@
 			isa = PBXGroup;
 			children = (
 				BA8E2B45297467A2009DDF32 /* AuthService.swift */,
+				C38A5B96297AD5C300485355 /* KakaoLocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -625,6 +641,7 @@
 				BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */,
 				BAC8930829755B87000D44E2 /* SignUpRequest.swift */,
 				BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */,
+				C38A5B9A297AE05100485355 /* KakaoLocationRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -634,6 +651,7 @@
 			children = (
 				BA8E2B4729746881009DDF32 /* SignInResponse.swift */,
 				BAE5D3362975B20000268D44 /* TokenResponse.swift */,
+				C38A5B98297ADE8500485355 /* KakaoLocationResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -677,6 +695,9 @@
 				C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */,
 				C34F71C229799B1C003DB376 /* TimeControl.swift */,
 				C38A5B92297ACF5B00485355 /* LocationControl.swift */,
+				C38A5B9C297AFDCD00485355 /* LocationBottomSheetViewController.swift */,
+				C38A5B9E297B022A00485355 /* SearchView.swift */,
+				C38A5BA0297B0C4100485355 /* NoLocationView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -821,7 +842,9 @@
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
 				BA117A3D297440D900B37E03 /* UserManager.swift in Sources */,
+				C38A5B97297AD5C300485355 /* KakaoLocationService.swift in Sources */,
 				BA784FA82978EB9100E8B06F /* SignUpViewController.swift in Sources */,
+				C38A5B9B297AE05100485355 /* KakaoLocationRequest.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */,
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
@@ -833,6 +856,7 @@
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */,
+				C38A5B9F297B022A00485355 /* SearchView.swift in Sources */,
 				C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */,
 				BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
@@ -848,6 +872,7 @@
 				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
 				C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */,
 				C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */,
+				C38A5B9D297AFDCD00485355 /* LocationBottomSheetViewController.swift in Sources */,
 				BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */,
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
 				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
@@ -859,6 +884,7 @@
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
 				C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */,
 				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
+				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
@@ -898,8 +924,10 @@
 				C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
 				BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */,
+				C38A5B95297AD5B000485355 /* KakaoLocationRouter.swift in Sources */,
 				BA780E1529714AAB0032C178 /* GeneralResponse.swift in Sources */,
 				C3AD265D296ACC0600C57370 /* MeetingNameViewController.swift in Sources */,
+				C38A5B99297ADE8500485355 /* KakaoLocationResponse.swift in Sources */,
 				0A81767F28F3105200C1E074 /* Preview.swift in Sources */,
 				C3AD265F296AD3C100C57370 /* InputTextView.swift in Sources */,
 				BA340E1829782280002BAF2C /* ParticipantListCollectionViewCell.swift in Sources */,

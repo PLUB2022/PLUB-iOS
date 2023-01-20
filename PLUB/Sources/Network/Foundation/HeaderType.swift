@@ -13,7 +13,7 @@ enum HeaderType {
   case `default`
   case withAccessToken
   case withRefreshToken
-  case withKakaoMapKey
+  case withKakaoLocationKey
 }
 
 extension HeaderType {
@@ -46,10 +46,10 @@ extension HeaderType {
       defaultHeaders.add(.authorization(bearerToken: token))
       defaultHeaders.add(.contentType("application/json"))
       return defaultHeaders
-    case .withKakaoMapKey:
-      // default 헤더 값에 `Authorization kakaoMapKey 추가`
+    case .withKakaoLocationKey:
+      // default 헤더 값에 `Authorization kakaoLocationKey 추가`
       var defaultHeaders = HTTPHeaders.default
-      defaultHeaders.add(.authorization(KeyConstants.kakaoMapKey))
+      defaultHeaders.add(.authorization(KeyConstants.kakaoLocationKey))
       return defaultHeaders
     }
   }
