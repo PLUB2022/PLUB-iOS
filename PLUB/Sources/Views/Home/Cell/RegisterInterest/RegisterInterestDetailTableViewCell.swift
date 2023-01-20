@@ -35,6 +35,7 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   private lazy var interestTypeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
     $0.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    
   })).then {
     $0.backgroundColor = .systemBackground
     $0.showsVerticalScrollIndicator = false
@@ -47,6 +48,7 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
+//    interestTypeCollectionView.backgroundColor = .blue
   }
   
   required init?(coder: NSCoder) {
@@ -59,10 +61,10 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .secondarySystemBackground
+    contentView.backgroundColor = .background
     contentView.addSubview(containerView)
     containerView.snp.makeConstraints {
-      $0.left.top.right.equalToSuperview()
+      $0.edges.equalToSuperview()
       $0.bottom.equalToSuperview().offset(-5)
     }
     

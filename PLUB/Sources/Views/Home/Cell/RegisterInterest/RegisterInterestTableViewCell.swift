@@ -86,8 +86,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
     [interestImageView, titleLabel, indicatorButton].forEach { containerView.addSubview($0) }
     interestImageView.snp.makeConstraints {
       $0.top.left.equalToSuperview().offset(5)
-      $0.bottom.equalToSuperview().offset(-5)
-      $0.width.equalTo(80)
+      $0.width.height.equalTo(70)
     }
     
     titleLabel.snp.makeConstraints {

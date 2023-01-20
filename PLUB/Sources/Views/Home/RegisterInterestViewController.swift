@@ -46,6 +46,7 @@ class RegisterInterestViewController: BaseViewController {
   init(viewModel: RegisterInterestViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    registerTableView.rowHeight = UITableView.automaticDimension
   }
   
   required init?(coder: NSCoder) {
