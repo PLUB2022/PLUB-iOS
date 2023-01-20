@@ -62,7 +62,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    containerView.roundCorners(corners: isExpanded ? [.topLeft, .topRight] : [.allCorners], radius: 20)
+    containerView.roundCorners(corners: isExpanded ? [.topLeft, .topRight] : [.allCorners], radius: 10)
     indicatorButton.setImage(isExpanded ? UIImage(named: "topIndicator") : UIImage(named: "bottomIndicator"), for: .normal)
     if isExpanded {
       containerView.snp.updateConstraints {
@@ -71,7 +71,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
     }
     else {
       containerView.snp.updateConstraints {
-        $0.bottom.equalToSuperview().offset(-5)
+        $0.bottom.equalToSuperview().offset(-8)
       }
     }
   }
@@ -85,18 +85,19 @@ class RegisterInterestTableViewCell: UITableViewCell {
     
     [interestImageView, titleLabel, indicatorButton].forEach { containerView.addSubview($0) }
     interestImageView.snp.makeConstraints {
-      $0.top.left.equalToSuperview().offset(5)
-      $0.width.height.equalTo(70)
+      $0.left.equalToSuperview().offset(13)
+      $0.top.equalToSuperview().offset(16)
+      $0.width.height.height.equalTo(48)
     }
     
     titleLabel.snp.makeConstraints {
       $0.centerY.equalTo(interestImageView)
-      $0.left.equalTo(interestImageView.snp.right).offset(10)
+      $0.left.equalTo(interestImageView.snp.right).offset(16)
     }
     
     indicatorButton.snp.makeConstraints {
       $0.centerY.equalTo(interestImageView.snp.centerY)
-      $0.right.equalToSuperview().offset(-20)
+      $0.right.equalToSuperview().offset(-13)
     }
   }
   

@@ -156,7 +156,9 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
     if indexPath.row == 0 {
       return 80
     }
-    return 202
+    
+    let valuable = ceil(CGFloat(registerInterestModels[indexPath.section].category.subCategories.count / 4))
+    return (valuable + 1) * 32 + 16 + 16 + valuable * 8
   }
 }
 

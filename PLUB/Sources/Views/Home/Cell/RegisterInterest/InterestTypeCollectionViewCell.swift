@@ -46,7 +46,7 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     contentView.layer.borderWidth = 1
     contentView.layer.borderColor = UIColor.deepGray.cgColor
-    contentView.layer.cornerRadius = 10
+    contentView.layer.cornerRadius = 8
     contentView.layer.masksToBounds = true
     contentView.backgroundColor = .white
     

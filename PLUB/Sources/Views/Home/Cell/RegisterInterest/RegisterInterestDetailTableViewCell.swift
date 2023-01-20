@@ -34,12 +34,13 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   }
   
   private lazy var interestTypeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
-    $0.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    $0.sectionInset = UIEdgeInsets(top: 5, left: 13, bottom: 16, right: 13)
     
   })).then {
     $0.backgroundColor = .systemBackground
     $0.showsVerticalScrollIndicator = false
     $0.showsHorizontalScrollIndicator = false
+    $0.isScrollEnabled = false
     $0.delegate = self
     $0.dataSource = self
     $0.register(InterestTypeCollectionViewCell.self, forCellWithReuseIdentifier: InterestTypeCollectionViewCell.identifier)
@@ -57,7 +58,7 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    containerView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
+    containerView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
   }
   
   private func configureUI() {
@@ -65,7 +66,7 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
     contentView.addSubview(containerView)
     containerView.snp.makeConstraints {
       $0.edges.equalToSuperview()
-      $0.bottom.equalToSuperview().offset(-5)
+      $0.bottom.equalToSuperview().offset(-8)
     }
     
     containerView.addSubview(interestTypeCollectionView)
