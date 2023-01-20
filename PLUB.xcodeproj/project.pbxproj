@@ -44,6 +44,7 @@
 		70F1DFDC29795C9000F9BC83 /* SubCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */; };
 		70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */; };
 		70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */; };
+		70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
@@ -167,6 +168,7 @@
 		70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategoryListResponse.swift; sourceTree = "<group>"; };
 		70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRouter.swift; sourceTree = "<group>"; };
 		70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingService.swift; sourceTree = "<group>"; };
+		70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingResponse.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -368,10 +370,9 @@
 		704AC7932938E7EA008C3A88 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				70F1DFE2297A917D00F9BC83 /* Meeting */,
+				70F1DFE1297A917100F9BC83 /* Category */,
 				704AC7942938E800008C3A88 /* RegisterInterestModel.swift */,
-				70F1DFD7297959A900F9BC83 /* MainCategoryListResponse.swift */,
-				70F1DFD929795AB900F9BC83 /* AllCategoryListResponse.swift */,
-				70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -418,6 +419,24 @@
 				70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */,
 			);
 			path = ApplyQuestion;
+			sourceTree = "<group>";
+		};
+		70F1DFE1297A917100F9BC83 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				70F1DFD7297959A900F9BC83 /* MainCategoryListResponse.swift */,
+				70F1DFD929795AB900F9BC83 /* AllCategoryListResponse.swift */,
+				70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		70F1DFE2297A917D00F9BC83 /* Meeting */ = {
+			isa = PBXGroup;
+			children = (
+				70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */,
+			);
+			path = Meeting;
 			sourceTree = "<group>";
 		};
 		BA1BEDC12964548300C6BD41 /* Profile */ = {
@@ -834,6 +853,7 @@
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
+				70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */,
 				BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */,
 				C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */,
 				BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */,
