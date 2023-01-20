@@ -14,55 +14,44 @@ protocol RegisterInterestViewModelType {
   var deselectDetailCell: AnyObserver<Void> { get }
   
   // Output
-  var registerInterestFetched: Driver<[RegisterInterestModel]> { get }
+  var fetchedRegisterInterest: Driver<[RegisterInterestModel]> { get }
   var isEnabledFloatingButton: Driver<Bool> { get }
 }
 
 class RegisterInterestViewModel: RegisterInterestViewModelType {
-  private var disposeBag = DisposeBag()
-  private var registerInterestModels: [RegisterInterestModel] = [
-    .init(interestCollectionType: .Art, interestDetailTypes: [
-      .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-    ]),
-    .init(interestCollectionType: .SportFitness, interestDetailTypes: [
-      .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-    ]),
-    .init(interestCollectionType: .Investment, interestDetailTypes: [
-      .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-    ]),
-    .init(interestCollectionType: .LanguageStudy, interestDetailTypes: [
-      .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-    ]),
-    .init(interestCollectionType: .Culture, interestDetailTypes: [
-      .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-    ]),
-    .init(interestCollectionType: .Food, interestDetailTypes: [
-      .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-    ]),
-    .init(interestCollectionType: .Employment, interestDetailTypes: [
-      .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-    ]),
-    .init(interestCollectionType: .Computer, interestDetailTypes: [
-      .Art, .Computer, .Culture, .Employment, .Food, .Investment, .SportFitness, .LanguageStudy, .Employment, .SportFitness
-    ]),
-  ]
-  
+  var disposeBag = DisposeBag()
+
   // Input
   var selectDetailCell: AnyObserver<Void>
   var deselectDetailCell: AnyObserver<Void>
   
   // Output
-  var registerInterestFetched: Driver<[RegisterInterestModel]>
+  var fetchedRegisterInterest: Driver<[RegisterInterestModel]>
   var isEnabledFloatingButton: Driver<Bool> // 하나의 셀이라도 눌렸는지에 대한 값 방출
   
   init() {
-    let registerInterestFetching = BehaviorSubject<[RegisterInterestModel]>(value: registerInterestModels)
+    let fetchingRegisterInterest = BehaviorSubject<[RegisterInterestModel]>(value: [])
     let selectingDetailCellCount = BehaviorSubject<Int>(value: 0)
     let selectingDetailCell = PublishSubject<Void>()
     let deselectingDetailCell = PublishSubject<Void>()
-    self.registerInterestFetched = registerInterestFetching.asDriver(onErrorJustReturn: [])
+    self.fetchedRegisterInterest = fetchingRegisterInterest.asDriver(onErrorDriveWith: .empty())
     self.selectDetailCell = selectingDetailCell.asObserver()
     self.deselectDetailCell = deselectingDetailCell.asObserver()
+    
+    let inquireAllCategoryList = CategoryService.shared.inquireAll().share()
+    let successFetching = inquireAllCategoryList.map { result -> [Category]? in
+      guard case .success(let allCategoryResponse) = result else { return nil }
+      return allCategoryResponse.data?.categories
+    }
+    
+    successFetching.subscribe(onNext: { categories in
+      guard let categories = categories else { return }
+      let models = categories.map { category in
+        return RegisterInterestModel(category: category)
+      }
+      fetchingRegisterInterest.onNext(models)
+    })
+    .disposed(by: disposeBag)
     
     selectingDetailCell.withLatestFrom(selectingDetailCellCount)
       .map{ $0 + 1 }

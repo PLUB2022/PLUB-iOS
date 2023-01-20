@@ -14,17 +14,17 @@ protocol RegisterInterestDetailTableViewCellDelegate: AnyObject {
   func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell)
 }
 
-struct RegisterInterstDetailTableViewCellModel {
-  let interestDetailTypes: [InterestCollectionType]
-}
-
 class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestDetailTableViewCell"
   
   public weak var delegate: RegisterInterestDetailTableViewCellDelegate?
   
-  private var registerInterstDetailTableViewCellModel: [InterestCollectionType] = []
+  private var subCategories: [SubCategory] = [] {
+    didSet {
+      interestTypeCollectionView.reloadData()
+    }
+  }
   
   private let containerView = UIView().then {
     $0.backgroundColor = .white
@@ -34,11 +34,13 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   }
   
   private lazy var interestTypeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
-    $0.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    $0.sectionInset = UIEdgeInsets(top: 5, left: 13, bottom: 16, right: 13)
+    
   })).then {
     $0.backgroundColor = .systemBackground
     $0.showsVerticalScrollIndicator = false
     $0.showsHorizontalScrollIndicator = false
+    $0.isScrollEnabled = false
     $0.delegate = self
     $0.dataSource = self
     $0.register(InterestTypeCollectionViewCell.self, forCellWithReuseIdentifier: InterestTypeCollectionViewCell.identifier)
@@ -47,6 +49,7 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
+//    interestTypeCollectionView.backgroundColor = .blue
   }
   
   required init?(coder: NSCoder) {
@@ -55,26 +58,25 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    containerView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
+    containerView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .secondarySystemBackground
+    contentView.backgroundColor = .background
     contentView.addSubview(containerView)
     containerView.snp.makeConstraints {
-      $0.left.top.right.equalToSuperview()
-      $0.bottom.equalToSuperview().offset(-5)
+      $0.edges.equalToSuperview()
+      $0.bottom.equalToSuperview().offset(-8)
     }
     
     containerView.addSubview(interestTypeCollectionView)
     interestTypeCollectionView.snp.makeConstraints {
-      $0.top.left.right.equalToSuperview()
-      $0.height.equalTo(202)
+      $0.edges.equalToSuperview()
     }
   }
   
   public func configureUI(with model: RegisterInterestModel) {
-    self.registerInterstDetailTableViewCellModel = model.interestDetailTypes
+    self.subCategories = model.category.subCategories
   }
 }
 
@@ -84,20 +86,17 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return registerInterstDetailTableViewCellModel.count
+    return subCategories.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InterestTypeCollectionViewCell.identifier, for: indexPath) as? InterestTypeCollectionViewCell ?? InterestTypeCollectionViewCell()
-    cell.configureUI(with: registerInterstDetailTableViewCellModel[indexPath.row])
+    cell.configureUI(with: subCategories[indexPath.row])
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    if collectionView == self.interestTypeCollectionView {
-      return CGSize(width: (collectionView.frame.width / 4) - 8 - 16, height: (collectionView.frame.height / 3) - 8 - 16)
-    }
-    return .zero
+      return CGSize(width: (collectionView.frame.width / 4) - 8 - 8, height: 32)
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
