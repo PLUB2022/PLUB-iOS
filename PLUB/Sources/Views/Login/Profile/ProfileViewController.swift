@@ -16,6 +16,8 @@ final class ProfileViewController: BaseViewController {
   
   // MARK: - Property
   
+  private let viewModel = ProfileViewModel()
+  
   private let wholeStackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 48
