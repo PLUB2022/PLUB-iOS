@@ -76,6 +76,9 @@ final class ProfileViewController: BaseViewController {
     textField.leftViewPadding = 8
     textField.rightViewPadding = 8
     
+    textField.textColor = .black
+    textField.font = .body1
+    
     textField.attributedPlaceholder = NSAttributedString(
       string: "한글, 영문, 숫자 포함 8글자로 입력가능해요.",
       attributes: [.font: UIFont.body2!]
@@ -160,18 +163,6 @@ final class ProfileViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
-    nicknameTextField.rx.text
-      .orEmpty
-      .distinctUntilChanged()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, text in
-        owner.nicknameTextField.attributedText = NSAttributedString(
-          string: text,
-          attributes: [.font: UIFont.body1!]
-        )
-      })
-      .disposed(by: disposeBag)
   }
 }
 
