@@ -39,6 +39,7 @@ extension UIColor {
   static let mediumGray: UIColor          = .init(hex: 0xC4C4C4)
   static let lightGray: UIColor           = .init(hex: 0xE4E4E4)
   static let black: UIColor               = .init(hex: 0x363636)
+  static let error: UIColor               = .init(hex: 0xF75B2B)
   static let tagBackgroundColor: UIColor  = .init(hex: 0xE1E1FA)
   static let tagTextColor: UIColor        = .init(hex: 0x5F5FF9)
 }
