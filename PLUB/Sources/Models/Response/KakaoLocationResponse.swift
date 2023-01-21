@@ -32,6 +32,6 @@ struct KakaoLocationMeta: Codable {
   
   enum CodingKeys: String, CodingKey {
     case isEnd = "is_end"
-    case totalCount = "total_count"
+    case totalCount = "pageable_count"
   }
 }
