@@ -119,8 +119,9 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
     
     viewModel.totalCount
-      .subscribe { [weak self] count in
-        self?.searchCountLabel.text = "검색결과 \(count.element ?? 0)개"
+      .withUnretained(self)
+      .subscribe { owner, count in
+        self.searchCountLabel.text = "검색결과 \(count)개"
       }
       .disposed(by: disposeBag)
     
@@ -132,7 +133,6 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
         ) as? LocationTableViewCell,
           let item = item
         else { return UITableViewCell() }
-
         cell.setupData(
           with: LocationTableViewCellModel(
             title: item.placeName ?? "",
@@ -167,9 +167,8 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
     
     nextButton.rx.tap
-      .withUnretained(self)
       .asDriver(onErrorDriveWith: .empty())
-      .drive(onNext: { owner in
+      .drive(onNext: { _ in
         guard let data = self.viewModel.selectedLocation.value,
               let placeName = data.placeName else { return}
         self.delegate?.selectLocation(placeName: placeName)
