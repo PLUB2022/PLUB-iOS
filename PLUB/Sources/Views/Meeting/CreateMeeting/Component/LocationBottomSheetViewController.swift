@@ -115,13 +115,17 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
     
     viewModel.isEmptyList
-      .bind(to: tableView.rx.isHidden)
+      .withUnretained(self)
+      .subscribe { owner, state in
+        owner.tableView.isHidden = state
+        owner.searchCountLabel.isHidden = state
+      }
       .disposed(by: disposeBag)
     
     viewModel.totalCount
       .withUnretained(self)
       .subscribe { owner, count in
-        self.searchCountLabel.text = "검색결과 \(count)개"
+        self.setSearchAttributeText(count: count)
       }
       .disposed(by: disposeBag)
     
@@ -175,5 +179,21 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
         self.dismiss(animated: false)
       })
       .disposed(by: disposeBag)
+  }
+  
+  private func setSearchAttributeText(count: Int) {
+    let blackCharacters = NSAttributedString(
+      string: "검색결과 ",
+      attributes: [.foregroundColor: UIColor.black]
+    )
+    
+    let purpleCharacters = NSAttributedString(
+      string: "\(count)개",
+      attributes: [.foregroundColor: UIColor.main]
+    )
+    
+    searchCountLabel.attributedText = NSMutableAttributedString(attributedString: blackCharacters).then {
+      $0.append(purpleCharacters)
+    }
   }
 }
