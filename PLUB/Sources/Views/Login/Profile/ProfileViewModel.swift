@@ -62,12 +62,28 @@ extension ProfileViewModel {
       return
     }
     
-    // TODO: 승헌 - 닉네임 중복 검사 처리
-    
-    
-    
-    // Success!
-    isAvailableRelay.accept(true)
-    alertMessageRelay.accept("사용가능한 닉네임이에요.")
+    // 닉네임 중복 검사
+    AccountService.shared.validateNickname(text)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success:
+          owner.isAvailableRelay.accept(true)
+          owner.alertMessageRelay.accept("사용가능한 닉네임이에요.")
+        case let .requestError(model):
+          // 중복인 닉네임일 때
+          if model.statusCode == 2060 {
+            owner.isAvailableRelay.accept(false)
+            owner.alertMessageRelay.accept("이미 사용중인 닉네임이에요.")
+          } else {
+            owner.isAvailableRelay.accept(false)
+            owner.alertMessageRelay.accept("잘못된 값을 입력했어요.")
+          }
+        // TODO: 승헌 - path error, server error, network error에 따른 alert 처리
+        default:
+          break
+        }
+      })
+      .disposed(by: disposeBag)
   }
 }
