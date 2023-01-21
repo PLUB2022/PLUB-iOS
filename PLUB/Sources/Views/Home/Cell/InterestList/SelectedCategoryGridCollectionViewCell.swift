@@ -8,7 +8,6 @@
 import UIKit
 
 import RxSwift
-import RxCocoa
 
 class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
@@ -38,6 +37,7 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -83,12 +83,20 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       $0.top.right.equalToSuperview().inset(16)
       $0.width.height.equalTo(32)
     }
+  }
+  
+  private func bind() {
+    bookmarkButton.buttonTapObservable
+      .subscribe(onNext: {
+        
+      })
+      .disposed(by: disposeBag)
     
-//    bookmarkButton.rx.tap
-//      .withLatestFrom(bookmarkButton.rx.isSelected)
-//      .map { $0.toggle() }
-//      .bind(to: bookmarkButton.rx.isSelected)
-//      .disposed(by: disposeBag)
+    bookmarkButton.buttonUnTapObservable
+      .subscribe(onNext: {
+        
+      })
+      .disposed(by: disposeBag)
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
