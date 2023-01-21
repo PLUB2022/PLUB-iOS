@@ -7,9 +7,12 @@
 
 import UIKit
 
+import RxSwift
+
 class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "SelectedCategoryGridCollectionViewCell"
+  private var disposeBag = DisposeBag()
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
@@ -27,15 +30,14 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     $0.textAlignment = .left
   }
   
-  private let bookmarkButton = UIButton().then {
-    $0.setImage(UIImage(named: "whiteBookmark"), for: .normal)
-  }
+  private let bookmarkButton = ToggleButton(type: .bookmark)
   
   private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .vertical, categoryListType: .all)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -83,10 +85,23 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     }
   }
   
+  private func bind() {
+    bookmarkButton.buttonTapObservable
+      .subscribe(onNext: {
+        
+      })
+      .disposed(by: disposeBag)
+    
+    bookmarkButton.buttonUnTapObservable
+      .subscribe(onNext: {
+        
+      })
+      .disposed(by: disposeBag)
+  }
+  
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
-    bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }
 }

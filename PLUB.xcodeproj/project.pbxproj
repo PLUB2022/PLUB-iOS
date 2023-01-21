@@ -27,7 +27,7 @@
 		7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678D28EFC4FB008047DC /* RegisterInterestTableViewCell.swift */; };
 		708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */; };
 		7095A585292B566C002A52E6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7095A584292B566C002A52E6 /* Kingfisher */; };
-		7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* IndicatorButton.swift */; };
+		7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* ToggleButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
 		70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */; };
@@ -157,7 +157,7 @@
 		7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestViewController.swift; sourceTree = "<group>"; };
 		7085678D28EFC4FB008047DC /* RegisterInterestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestTableViewCell.swift; sourceTree = "<group>"; };
 		708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestHeaderView.swift; sourceTree = "<group>"; };
-		7095A589292E58F9002A52E6 /* IndicatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorButton.swift; sourceTree = "<group>"; };
+		7095A589292E58F9002A52E6 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryViewController.swift; sourceTree = "<group>"; };
@@ -404,7 +404,7 @@
 		7095A588292E58EE002A52E6 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				7095A589292E58F9002A52E6 /* IndicatorButton.swift */,
+				7095A589292E58F9002A52E6 /* ToggleButton.swift */,
 				70197B802955A68C000503F6 /* CategoryInfoListView.swift */,
 				70BD5F3829684EAC002CBA89 /* HomeAlert.swift */,
 				BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */,
@@ -900,7 +900,7 @@
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
 				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
 				70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */,
-				7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */,
+				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
 				BA780E0D297133F80032C178 /* Router.swift in Sources */,
 				BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */,
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,

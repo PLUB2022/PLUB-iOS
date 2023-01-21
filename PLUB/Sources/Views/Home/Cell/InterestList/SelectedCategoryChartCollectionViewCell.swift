@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -18,6 +19,7 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
 
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   static let identifier = "SelectedCategoryChartCollectionViewCell"
+  private var disposeBag = DisposeBag()
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
@@ -35,15 +37,14 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     $0.textAlignment = .left
   }
   
-  private let bookmarkButton = UIButton().then {
-    $0.setImage(UIImage(named: "whiteBookmark"), for: .normal)
-  }
+  private let bookmarkButton = ToggleButton(type: .bookmark)
   
   private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .horizontal, categoryListType: .all)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -90,6 +91,20 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       $0.top.right.equalToSuperview().inset(16)
       $0.width.height.equalTo(32)
     }
+  }
+  
+  private func bind() {
+    bookmarkButton.buttonTapObservable
+      .subscribe(onNext: {
+        
+      })
+      .disposed(by: disposeBag)
+    
+    bookmarkButton.buttonUnTapObservable
+      .subscribe(onNext: {
+        
+      })
+      .disposed(by: disposeBag)
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {

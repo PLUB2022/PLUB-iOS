@@ -8,12 +8,20 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
+
+protocol RegisterInterestTableViewCellDelegate: AnyObject {
+  func didTappedIndicatorButton(cell: RegisterInterestTableViewCell)
+}
 
 class RegisterInterestTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestTableViewCell"
+  private var disposeBag = DisposeBag()
+  weak var delegate: RegisterInterestTableViewCellDelegate?
   
   var isExpanded: Bool = false {
     didSet {
@@ -41,13 +49,12 @@ class RegisterInterestTableViewCell: UITableViewCell {
     $0.textColor = .black
   }
   
-  private let indicatorButton = UIButton().then {
-    $0.setImage(UIImage(named: "bottomIndicator"), for: .normal)
-  }
+  private let indicatorButton = ToggleButton(type: .indicator)
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -99,6 +106,15 @@ class RegisterInterestTableViewCell: UITableViewCell {
       $0.centerY.equalTo(interestImageView.snp.centerY)
       $0.right.equalToSuperview().offset(-13)
     }
+  }
+  
+  private func bind() {
+    indicatorButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.didTappedIndicatorButton(cell: self)
+      })
+      .disposed(by: disposeBag)
   }
   
   public func configureUI(with model: RegisterInterestModel) {
