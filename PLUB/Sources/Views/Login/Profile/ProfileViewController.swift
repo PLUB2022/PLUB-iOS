@@ -101,6 +101,7 @@ final class ProfileViewController: BaseViewController {
     super.setupLayouts()
     
     view.addSubview(wholeStackView)
+    view.addSubview(pencilImageView)
     
     [profileStackView, nicknameStackView].forEach {
       wholeStackView.addArrangedSubview($0)
@@ -109,8 +110,6 @@ final class ProfileViewController: BaseViewController {
     [profileLabel, uploadImageButton].forEach {
       profileStackView.addArrangedSubview($0)
     }
-    
-    uploadImageButton.addSubview(pencilImageView)
     
     [nicknameLabel, nicknameTextField, alertStackView].forEach {
       nicknameStackView.addArrangedSubview($0)
@@ -134,7 +133,7 @@ final class ProfileViewController: BaseViewController {
     
     pencilImageView.snp.makeConstraints {
       $0.size.equalTo(32)
-      $0.trailing.bottom.equalToSuperview()
+      $0.trailing.bottom.equalTo(uploadImageButton)
     }
     
     profileLabel.snp.makeConstraints {
