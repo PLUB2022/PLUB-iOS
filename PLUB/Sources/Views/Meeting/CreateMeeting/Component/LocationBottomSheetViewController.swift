@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LocationBottomSheetDelegate: AnyObject {
-  func selectImage(image: UIImage)
+  func selectLocation(placeName: String)
 }
 
 final class LocationBottomSheetViewController: BottomSheetViewController {
@@ -38,13 +38,18 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     $0.rowHeight = 75
   }
   
+  private var nextButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
+    $0.isEnabled = false
+  }
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [titleLabel, searchView, searchCountLabel, noneView, tableView].forEach {
+    [titleLabel, searchView, searchCountLabel, noneView, tableView, nextButton].forEach {
       contentView.addSubview($0)
     }
   }
@@ -85,6 +90,12 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       $0.top.equalTo(searchCountLabel.snp.bottom).offset(8)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
+    }
+    
+    nextButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+      $0.height.width.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
     }
   }
   
@@ -144,10 +155,25 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
     
     tableView.rx.modelSelected(KakaoLocationDocuments.self)
-      .asDriver()
-      .drive(onNext: { [weak self] in
+      .bind(to: viewModel.selectedLocation)
+      .disposed(by: disposeBag)
+    
+    viewModel.nextButtonEnabled
+      .distinctUntilChanged()
+      .subscribe{ [weak self] state in
         guard let self = self else { return }
-        print($0)
+        self.nextButton.isEnabled = state
+      }
+      .disposed(by: disposeBag)
+    
+    nextButton.rx.tap
+      .withUnretained(self)
+      .asDriver(onErrorDriveWith: .empty())
+      .drive(onNext: { owner in
+        guard let data = self.viewModel.selectedLocation.value,
+              let placeName = data.placeName else { return}
+        self.delegate?.selectLocation(placeName: placeName)
+        self.dismiss(animated: false)
       })
       .disposed(by: disposeBag)
   }
