@@ -80,7 +80,7 @@ final class ProfileViewController: BaseViewController {
     textField.font = .body1
     
     textField.attributedPlaceholder = NSAttributedString(
-      string: "한글, 영문, 숫자 포함 8글자로 입력가능해요.",
+      string: Constants.placeholder,
       attributes: [.font: UIFont.body2!]
     )
     
@@ -101,7 +101,7 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let alertLabel: UILabel = UILabel().then {
-    $0.text = "닉네임 변경은 한번만 가능해요"
+    $0.text = Constants.initialAlertMessage
     $0.textColor = .mediumGray
     $0.font = .caption
   }
@@ -171,6 +171,15 @@ extension ProfileViewController: UITextFieldDelegate {
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     return range.location < 15
   }
+}
+
+extension ProfileViewController {
+  
+  enum Constants {
+    static let placeholder = "한글, 영문, 숫자 포함 8글자로 입력가능해요."
+    static let initialAlertMessage = "닉네임 변경은 한번만 가능해요"
+  }
+  
 }
 
 #if canImport(SwiftUI) && DEBUG
