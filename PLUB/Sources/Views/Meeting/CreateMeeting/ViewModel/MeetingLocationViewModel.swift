@@ -65,8 +65,9 @@ final class MeetingLocationViewModel {
         self.totalCount.onNext(result.meta.totalCount)
         self.handleLocationData(data: documents)
         self.isEndPage = result.meta.isEnd
-        self.isLoading = false
       }
+      
+      self.isLoading = false
     })
     .disposed(by: disposeBag)
   }
