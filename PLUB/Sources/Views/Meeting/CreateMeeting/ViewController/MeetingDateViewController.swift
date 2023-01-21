@@ -223,7 +223,7 @@ extension MeetingDateViewController: DateBottomSheetDelegate {
 
 extension MeetingDateViewController: LocationBottomSheetDelegate {
   func selectLocation(placeName: String) {
-    locationControl.label.text = placeName
+    locationControl.setLocationLabelText(text: placeName)
     locationControl.isSelected = true
   }
 }

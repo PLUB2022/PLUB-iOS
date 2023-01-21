@@ -21,7 +21,7 @@ final class LocationControl: UIControl {
     }
   }
 
-  let label = UILabel().then {
+  private let label = UILabel().then {
     $0.text = "장소를 검색해주세요"
     $0.font = .subtitle
   }
@@ -70,6 +70,10 @@ final class LocationControl: UIControl {
       label.textColor = .deepGray
       layer.borderColor = UIColor.deepGray.cgColor
     }
+  }
+  
+  func setLocationLabelText(text: String){
+    label.text = text
   }
 }
 
