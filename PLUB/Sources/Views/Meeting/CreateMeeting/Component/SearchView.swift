@@ -14,7 +14,7 @@ final class SearchView: UIView {
     $0.image = UIImage(named: "searchGray")
   }
   
-  private let textField = UITextField().then {
+  let textField = UITextField().then {
     $0.placeholder = "장소를 검색해주세요"
     $0.textColor = .deepGray
     $0.font = .body3
