@@ -11,5 +11,8 @@ import RxCocoa
 import RxSwift
 
 final class ProfileViewModel {
+  private let disposeBag = DisposeBag()
   
+  private let isAvailableRelay = PublishRelay<Bool>()
+  private let alertMessageRelay = PublishRelay<String>()
 }
