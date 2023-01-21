@@ -37,6 +37,8 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let uploadImageButton: UIButton = UIButton().then {
+    $0.layer.cornerRadius = 60
+    $0.clipsToBounds = true
     $0.setImage(UIImage(named: "userDefaultImage"), for: .normal)
   }
   
@@ -157,6 +159,16 @@ final class ProfileViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    uploadImageButton.rx.tap
+      .asDriver()
+      .drive(with: self, onNext: { owner, _ in
+        let photoVC = PhotoBottomSheetViewController()
+        photoVC.modalPresentationStyle = .overFullScreen
+        photoVC.delegate = owner
+        owner.parent?.present(photoVC, animated: false)
+      })
+      .disposed(by: disposeBag)
+    
     
     // textField의 clean button 구현
     (nicknameTextField.rightView as? UIButton)?.rx.tap
@@ -242,6 +254,12 @@ final class ProfileViewController: BaseViewController {
       nicknameTextField.layer.borderColor = UIColor.error.cgColor
       alertImageView.image = UIImage(named: "bubbleWarning")?.withRenderingMode(.alwaysTemplate)
     }
+  }
+}
+
+extension ProfileViewController: PhotoBottomSheetDelegate {
+  func selectImage(image: UIImage) {
+    uploadImageButton.setImage(image, for: .normal)
   }
 }
 
