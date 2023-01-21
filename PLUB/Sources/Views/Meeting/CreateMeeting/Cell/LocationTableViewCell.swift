@@ -54,6 +54,11 @@ final class LocationTableViewCell: UITableViewCell {
     titleLabel.text = nil
     subTitleLabel.text = nil
   }
+  
+  override func setSelected(_ selected: Bool, animated: Bool) {
+    super.setSelected(selected, animated: animated)
+    setupSelected(selected)
+  }
 }
 
 private extension LocationTableViewCell {
@@ -89,6 +94,11 @@ private extension LocationTableViewCell {
     selectionStyle = .none
     accessoryType = .none
     backgroundColor = .background
+  }
+  
+  func setupSelected(_ selected: Bool) {
+    contextView.layer.borderColor = selected ? UIColor.main.cgColor : UIColor.clear.cgColor
+    contextView.layer.borderWidth = selected ? 2 : 0
   }
 }
 
