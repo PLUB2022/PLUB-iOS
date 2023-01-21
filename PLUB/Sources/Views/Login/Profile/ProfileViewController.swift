@@ -169,6 +169,29 @@ final class ProfileViewController: BaseViewController {
         owner.configureInitialUI()
       })
       .disposed(by: disposeBag)
+    
+    let output = viewModel.transform(
+      input: .init(
+        text: nicknameTextField.rx.text
+          .orEmpty
+          .distinctUntilChanged()
+          .skip(1)
+          .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+          .filter { $0 != "" }
+          .asObservable()
+      )
+    )
+    
+    output.isAvailable
+      .drive(onNext: { [weak self] flag in
+        self?.updateNicknameValidationUI(isValid: flag)
+      })
+      .disposed(by: disposeBag)
+    
+    output.alertMessage
+      .drive(alertLabel.rx.text)
+      .disposed(by: disposeBag)
+    
   }
   
   /// 최초 상태의 UI를 설정합니다. (textField, label, bubble image 등)
@@ -187,6 +210,24 @@ final class ProfileViewController: BaseViewController {
     alertLabel.textColor = .mediumGray
     
     alertImageView.image = UIImage(named: "bubbleWarning")
+  }
+  
+  
+  /// 닉네임 검증 여부에 따라 색을 지정해줍니다.
+  private func updateNicknameValidationUI(isValid: Bool) {
+    if isValid {
+      alertLabel.textColor = .main
+      nicknameTextField.rightView?.tintColor = .main
+      nicknameTextField.layer.borderColor = UIColor.main.cgColor
+      alertImageView.image = UIImage(named: "bubbleCheck")
+    } else {
+      alertLabel.textColor = .error
+      alertImageView.tintColor = .error
+      nicknameTextField.textColor = .error
+      nicknameTextField.rightView?.tintColor = .error
+      nicknameTextField.layer.borderColor = UIColor.error.cgColor
+      alertImageView.image = UIImage(named: "bubbleWarning")?.withRenderingMode(.alwaysTemplate)
+    }
   }
 }
 
