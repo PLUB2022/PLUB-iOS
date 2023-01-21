@@ -15,3 +15,9 @@ final class AccountService: BaseService {
   
   private override init() { }
 }
+
+extension AccountService {
+  func validateNickname(_ nickname: String) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+    return sendRequest(AccountRouter.validateNickname(nickname))
+  }
+}
