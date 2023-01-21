@@ -17,10 +17,10 @@ class KakaoLocationService {
 
 extension KakaoLocationService {
   func searchPlace(
-    quary: KakaoLocationRequest
+    query: KakaoLocationRequest
   ) -> Observable<KakaoLocationResponse> {
     return sendRequest(
-      KakaoLocationRouter.searchPlace(quary)
+      KakaoLocationRouter.searchPlace(query)
     )
   }
   

@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 final class MeetingLocationViewModel {
-  private lazy var disposeBag = DisposeBag()
+  private var disposeBag = DisposeBag()
   
   // Paging
   var pageCount = 1
@@ -50,7 +50,7 @@ final class MeetingLocationViewModel {
     isLoading = true
     
     KakaoLocationService.shared.searchPlace(
-      quary: KakaoLocationRequest(
+      query: KakaoLocationRequest(
         query: searchText.value,
         page: "\(page)"
       )
