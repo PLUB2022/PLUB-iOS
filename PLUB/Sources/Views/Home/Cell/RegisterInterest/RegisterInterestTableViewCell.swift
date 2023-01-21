@@ -8,13 +8,20 @@
 
 import UIKit
 
+import RxSwift
 import RxCocoa
 import SnapKit
 import Then
 
+protocol RegisterInterestTableViewCellDelegate: AnyObject {
+  func didTappedIndicatorButton(cell: RegisterInterestTableViewCell)
+}
+
 class RegisterInterestTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestTableViewCell"
+  private var disposeBag = DisposeBag()
+  weak var delegate: RegisterInterestTableViewCellDelegate?
   
   var isExpanded: Bool = false {
     didSet {
@@ -47,6 +54,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -62,8 +70,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
   override func layoutSubviews() {
     super.layoutSubviews()
     containerView.roundCorners(corners: isExpanded ? [.topLeft, .topRight] : [.allCorners], radius: 10)
-    indicatorButton.rx.isSelected.onNext(isExpanded)
-//    indicatorButton.setImage(isExpanded ? UIImage(named: "topIndicator") : UIImage(named: "bottomIndicator"), for: .normal)
+    indicatorButton.setImage(isExpanded ? UIImage(named: "topIndicator") : UIImage(named: "bottomIndicator"), for: .normal)
     if isExpanded {
       containerView.snp.updateConstraints {
         $0.edges.equalToSuperview()
@@ -99,6 +106,15 @@ class RegisterInterestTableViewCell: UITableViewCell {
       $0.centerY.equalTo(interestImageView.snp.centerY)
       $0.right.equalToSuperview().offset(-13)
     }
+  }
+  
+  private func bind() {
+    indicatorButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.didTappedIndicatorButton(cell: self)
+      })
+      .disposed(by: disposeBag)
   }
   
   public func configureUI(with model: RegisterInterestModel) {

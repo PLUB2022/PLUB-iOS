@@ -130,6 +130,7 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
     if indexPath.row == 0 {
       let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestTableViewCell.identifier, for: indexPath) as? RegisterInterestTableViewCell ?? RegisterInterestTableViewCell()
       cell.configureUI(with: registerInterestModels[indexPath.section])
+      cell.delegate = self
       return cell
     } else {
       let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
@@ -169,3 +170,10 @@ extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDel
   }
 }
 
+extension RegisterInterestViewController: RegisterInterestTableViewCellDelegate {
+  func didTappedIndicatorButton(cell: RegisterInterestTableViewCell) {
+    guard let indexPath = registerTableView.indexPath(for: cell) else { return }
+    registerInterestModels[indexPath.section].isExpanded.toggle()
+    registerTableView.reloadSections([indexPath.section], with: .none)
+  }
+}

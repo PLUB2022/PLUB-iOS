@@ -103,6 +103,5 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
-//    bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }
 }
