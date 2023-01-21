@@ -87,6 +87,14 @@ final class MeetingDateViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.list(label: "오프라인")
   }
   
+  private let locationLabel = UILabel().then {
+    $0.text = "모이는 장소를 알려주세요!"
+    $0.font = .body2
+    $0.textColor = .deepGray
+  }
+  
+  private let locationControl = LocationControl()
+  
   init() {
     super.init(nibName: nil, bundle: nil)
   }
@@ -104,7 +112,7 @@ final class MeetingDateViewController: BaseViewController {
     view.addSubview(scrollView)
     scrollView.addSubview(contentStackView)
     
-    [titleView, dateTitlelabel, dateCollectionView, timeTitlelabel, timeControl, locationTitlelabel, locationStackView].forEach {
+    [titleView, dateTitlelabel, dateCollectionView, timeTitlelabel, timeControl, locationTitlelabel, locationStackView, locationLabel, locationControl].forEach {
       contentStackView.addArrangedSubview($0)
     }
     
@@ -130,20 +138,20 @@ final class MeetingDateViewController: BaseViewController {
       $0.height.equalTo(72)
     }
     
-    [dateTitlelabel, timeTitlelabel, locationTitlelabel].forEach{
+    [dateTitlelabel, timeTitlelabel, locationTitlelabel, locationLabel].forEach{
       $0.snp.makeConstraints {
         $0.height.equalTo(19)
       }
       contentStackView.setCustomSpacing(8, after: $0)
     }
     
-    [timeControl, onlineButton, offlineButton].forEach{
+    [timeControl, onlineButton, offlineButton, locationControl].forEach{
       $0.snp.makeConstraints {
         $0.height.equalTo(46)
       }
     }
     
-    [dateCollectionView, timeControl].forEach{
+    [dateCollectionView, timeControl, locationStackView].forEach{
       contentStackView.setCustomSpacing(40, after: $0)
     }
   }
@@ -193,6 +201,16 @@ final class MeetingDateViewController: BaseViewController {
         owner.parent?.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
+    
+    locationControl.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        let vc = LocationBottomSheetViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.delegate = owner
+        owner.parent?.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
   }
 }
 
@@ -200,5 +218,12 @@ extension MeetingDateViewController: DateBottomSheetDelegate {
   func selectDate(date: Date) {
     timeControl.date = date
     timeControl.isSelected = true
+  }
+}
+
+extension MeetingDateViewController: LocationBottomSheetDelegate {
+  func selectLocation(placeName: String) {
+    locationControl.setLocationLabelText(text: placeName)
+    locationControl.isSelected = true
   }
 }
