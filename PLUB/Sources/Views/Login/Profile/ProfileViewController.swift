@@ -158,6 +158,8 @@ final class ProfileViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    
+    // textField의 clean button 구현
     (nicknameTextField.rightView as? UIButton)?.rx.tap
       .asDriver()
       .drive(with: self, onNext: { owner, _ in
@@ -166,6 +168,7 @@ final class ProfileViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
+    // 텍스트가 비어있으면 UI 회색 처리
     nicknameTextField.rx.text
       .orEmpty
       .skip(1)
@@ -177,6 +180,9 @@ final class ProfileViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
+    // ===  ViewModel Binding  ===
+    
+    // 빨리 입력하면 api가 여러번 호출되므로, 0.5초동안 입력 없을 시 데이터 emit
     let output = viewModel.transform(
       input: .init(
         text: nicknameTextField.rx.text
@@ -189,12 +195,14 @@ final class ProfileViewController: BaseViewController {
       )
     )
     
+    // 닉네임 사용가능여부
     output.isAvailable
       .drive(onNext: { [weak self] flag in
         self?.updateNicknameValidationUI(isValid: flag)
       })
       .disposed(by: disposeBag)
     
+    // 메시지 처리
     output.alertMessage
       .drive(alertLabel.rx.text)
       .disposed(by: disposeBag)
