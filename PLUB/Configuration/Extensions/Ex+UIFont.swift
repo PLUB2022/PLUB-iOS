@@ -41,5 +41,6 @@ extension UIFont {
   static let button2 = UIFont(name: Pretendard.regular.rawValue, size: 14)
   static let caption = UIFont(name: Pretendard.regular.rawValue, size: 12)
   static let caption2 = UIFont(name: Pretendard.bold.rawValue, size: 12)
+  static let caption3 = UIFont(name: Pretendard.medium.rawValue, size: 12)
   static let overLine = UIFont(name: Pretendard.regular.rawValue, size: 10)
 }
