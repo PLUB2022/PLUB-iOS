@@ -7,9 +7,13 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "SelectedCategoryGridCollectionViewCell"
+  private var disposeBag = DisposeBag()
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
@@ -27,9 +31,7 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     $0.textAlignment = .left
   }
   
-  private let bookmarkButton = UIButton().then {
-    $0.setImage(UIImage(named: "whiteBookmark"), for: .normal)
-  }
+  private let bookmarkButton = ToggleButton(type: .bookmark)
   
   private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .vertical, categoryListType: .all)
   
@@ -81,12 +83,18 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       $0.top.right.equalToSuperview().inset(16)
       $0.width.height.equalTo(32)
     }
+    
+//    bookmarkButton.rx.tap
+//      .withLatestFrom(bookmarkButton.rx.isSelected)
+//      .map { $0.toggle() }
+//      .bind(to: bookmarkButton.rx.isSelected)
+//      .disposed(by: disposeBag)
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
-    bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
+//    bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }
 }

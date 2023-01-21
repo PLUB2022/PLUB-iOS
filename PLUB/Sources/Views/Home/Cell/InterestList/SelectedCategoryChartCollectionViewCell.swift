@@ -35,9 +35,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     $0.textAlignment = .left
   }
   
-  private let bookmarkButton = UIButton().then {
-    $0.setImage(UIImage(named: "whiteBookmark"), for: .normal)
-  }
+  private let bookmarkButton = ToggleButton(type: .bookmark)
   
   private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .horizontal, categoryListType: .all)
   
