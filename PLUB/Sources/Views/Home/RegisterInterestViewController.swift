@@ -16,14 +16,21 @@ class RegisterInterestViewController: BaseViewController {
   
   private let viewModel: RegisterInterestViewModelType
   
-  private var registerInterestModels: [RegisterInterestModel] = []
+  private var registerInterestModels: [RegisterInterestModel] = [] {
+    didSet {
+      registerTableView.reloadData()
+    }
+  }
+  
+  private let registerInterestHeaderView = RegisterInterestHeaderView()
   
   private lazy var registerTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.separatorStyle = .none
     $0.backgroundColor = .secondarySystemBackground
+    $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.sectionFooterHeight = .leastNonzeroMagnitude
+    $0.showsVerticalScrollIndicator = false
     $0.register(RegisterInterestTableViewCell.self, forCellReuseIdentifier: RegisterInterestTableViewCell.identifier)
-    $0.register(RegisterInterestHeaderView.self, forHeaderFooterViewReuseIdentifier: RegisterInterestHeaderView.identifier)
     $0.register(RegisterInterestDetailTableViewCell.self, forCellReuseIdentifier: RegisterInterestDetailTableViewCell.identifier)
   }
   
@@ -39,6 +46,7 @@ class RegisterInterestViewController: BaseViewController {
   init(viewModel: RegisterInterestViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    registerTableView.rowHeight = UITableView.automaticDimension
   }
   
   required init?(coder: NSCoder) {
@@ -46,12 +54,18 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupLayouts() {
-    [registerTableView, floatingButton].forEach { view.addSubview($0) }
+    [registerInterestHeaderView, registerTableView, floatingButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
+    registerInterestHeaderView.snp.makeConstraints { make in
+      make.top.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
+      make.height.equalTo(100)
+    }
+    
     registerTableView.snp.makeConstraints {
-      $0.edges.equalToSuperview().inset(20)
+      $0.top.equalTo(registerInterestHeaderView.snp.bottom).offset(20)
+      $0.left.right.bottom.equalToSuperview().inset(20)
     }
     
     floatingButton.snp.makeConstraints { 
@@ -71,12 +85,8 @@ class RegisterInterestViewController: BaseViewController {
   }
   
   override func bind() {
-    viewModel.registerInterestFetched.asObservable()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, registerInterestModels in
-        owner.registerInterestModels = registerInterestModels
-        owner.registerTableView.reloadData()
-      })
+    viewModel.fetchedRegisterInterest
+      .drive(rx.registerInterestModels)
       .disposed(by: disposeBag)
     
     viewModel.isEnabledFloatingButton.asObservable()
@@ -117,44 +127,17 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if indexPath.row == 1 {
-      let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
-      let registerInterestModel = registerInterestModels[indexPath.section]
-      cell.configureUI(with: registerInterestModel)
+    if indexPath.row == 0 {
+      let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestTableViewCell.identifier, for: indexPath) as? RegisterInterestTableViewCell ?? RegisterInterestTableViewCell()
+      cell.configureUI(with: registerInterestModels[indexPath.section])
       cell.delegate = self
       return cell
     } else {
-      let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestTableViewCell.identifier, for: indexPath) as? RegisterInterestTableViewCell ?? RegisterInterestTableViewCell()
-      let registerInterstModel = registerInterestModels[indexPath.section]
-      let registerInterestTableViewCellModel = RegisterInterestTableViewCellModel(
-        imageName: registerInterstModel.interestCollectionSectionType.imageNamed,
-        title: registerInterstModel.interestCollectionSectionType.title,
-        description: "PLUB! 에게 관심사를 선택해주세요",
-        isExpanded: registerInterstModel.isExpanded
-      )
-      cell.configureUI(with: registerInterestTableViewCellModel)
+      let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
+      cell.configureUI(with: registerInterestModels[indexPath.section])
+      cell.delegate = self
       return cell
     }
-  }
-  
-  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    if section == 0 {
-      let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: RegisterInterestHeaderView.identifier) as? RegisterInterestHeaderView ?? RegisterInterestHeaderView()
-      let registerInterestHeaderViewModel = RegisterInterestHeaderViewModel(
-        title: "취미모임 관심사 등록",
-        description: "PLUB 에게 당신의 관심사를 알려주세요.\n관심사 위주로 모임을 추천해 드려요!"
-      )
-      header.configureUI(with: registerInterestHeaderViewModel)
-      return header
-    }
-    return UIView(frame: .zero)
-  }
-  
-  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    if section != 0 {
-      return .leastNonzeroMagnitude
-    }
-    return 150
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -171,10 +154,12 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.row == 1 {
-      return 202
+    if indexPath.row == 0 {
+      return 80
     }
-    return 80
+    
+    let valuable = ceil(CGFloat(registerInterestModels[indexPath.section].category.subCategories.count / 4))
+    return (valuable + 1) * 32 + 16 + 16 + valuable * 8
   }
 }
 
@@ -185,3 +170,10 @@ extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDel
   }
 }
 
+extension RegisterInterestViewController: RegisterInterestTableViewCellDelegate {
+  func didTappedIndicatorButton(cell: RegisterInterestTableViewCell) {
+    guard let indexPath = registerTableView.indexPath(for: cell) else { return }
+    registerInterestModels[indexPath.section].isExpanded.toggle()
+    registerTableView.reloadSections([indexPath.section], with: .none)
+  }
+}

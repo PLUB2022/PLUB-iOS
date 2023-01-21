@@ -7,12 +7,16 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 
 final class ProfileViewController: BaseViewController {
   
   // MARK: - Property
+  
+  private let viewModel = ProfileViewModel()
   
   private let wholeStackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
@@ -33,6 +37,8 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let uploadImageButton: UIButton = UIButton().then {
+    $0.layer.cornerRadius = 60
+    $0.clipsToBounds = true
     $0.setImage(UIImage(named: "userDefaultImage"), for: .normal)
   }
   
@@ -55,27 +61,24 @@ final class ProfileViewController: BaseViewController {
     $0.font = .subtitle
   }
   
-  private let nicknameTextField: PaddingTextField = PaddingTextField().then { textField in
-    textField.layer.borderWidth = 1
-    textField.layer.borderColor = UIColor.mediumGray.cgColor
-    textField.layer.cornerRadius = 8
+  private lazy var nicknameTextField = PaddingTextField().then {
+    $0.layer.borderWidth = 1
+    $0.layer.cornerRadius = 8
     
-    textField.leftView = UIView()
-    textField.rightView = UIButton().then {
+    $0.leftView = UIView()
+    $0.rightView = UIButton().then {
       $0.setImage(UIImage(named: "xMark")?.withRenderingMode(.alwaysTemplate), for: .normal)
-      $0.addAction(UIAction { _ in textField.text = "" }, for: .touchUpInside)
-      $0.tintColor = .mediumGray
     }
-    textField.leftViewMode = .always
-    textField.rightViewMode = .always
+    $0.leftViewMode = .always
+    $0.rightViewMode = .always
     
-    textField.leftViewPadding = 8
-    textField.rightViewPadding = 8
+    $0.leftViewPadding = 8
+    $0.rightViewPadding = 8
     
-    textField.attributedPlaceholder = NSAttributedString(
-      string: "한글, 영문, 숫자 포함 8글자로 입력가능해요.",
-      attributes: [.font: UIFont.body2!]
-    )
+    $0.textColor = .black
+    $0.font = .body1
+    
+    $0.delegate = self
   }
   
   // MARK: Alert in Nickname
@@ -87,13 +90,10 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let alertImageView: UIImageView = UIImageView().then {
-    $0.image = UIImage(named: "bubbleWarning")
     $0.contentMode = .scaleAspectFit
   }
   
   private let alertLabel: UILabel = UILabel().then {
-    $0.text = "닉네임 변경은 한번만 가능해요"
-    $0.textColor = .mediumGray
     $0.font = .caption
   }
   
@@ -103,6 +103,7 @@ final class ProfileViewController: BaseViewController {
     super.setupLayouts()
     
     view.addSubview(wholeStackView)
+    view.addSubview(pencilImageView)
     
     [profileStackView, nicknameStackView].forEach {
       wholeStackView.addArrangedSubview($0)
@@ -111,8 +112,6 @@ final class ProfileViewController: BaseViewController {
     [profileLabel, uploadImageButton].forEach {
       profileStackView.addArrangedSubview($0)
     }
-    
-    uploadImageButton.addSubview(pencilImageView)
     
     [nicknameLabel, nicknameTextField, alertStackView].forEach {
       nicknameStackView.addArrangedSubview($0)
@@ -136,7 +135,7 @@ final class ProfileViewController: BaseViewController {
     
     pencilImageView.snp.makeConstraints {
       $0.size.equalTo(32)
-      $0.trailing.bottom.equalToSuperview()
+      $0.trailing.bottom.equalTo(uploadImageButton)
     }
     
     profileLabel.snp.makeConstraints {
@@ -152,19 +151,133 @@ final class ProfileViewController: BaseViewController {
     }
   }
   
+  override func setupStyles() {
+    super.setupStyles()
+    configureInitialUI()
+  }
+  
   override func bind() {
     super.bind()
     
-    nicknameTextField.rx.text
-      .withUnretained(self)
-      .subscribe(onNext: { owner, text in
-        owner.nicknameTextField.attributedText = NSAttributedString(
-          string: owner.nicknameTextField.text ?? "",
-          attributes: [.font: UIFont.body1!]
-        )
+    uploadImageButton.rx.tap
+      .asDriver()
+      .drive(with: self, onNext: { owner, _ in
+        let photoVC = PhotoBottomSheetViewController()
+        photoVC.modalPresentationStyle = .overFullScreen
+        photoVC.delegate = owner
+        owner.parent?.present(photoVC, animated: false)
       })
       .disposed(by: disposeBag)
+    
+    
+    // textField의 clean button 구현
+    (nicknameTextField.rightView as? UIButton)?.rx.tap
+      .asDriver()
+      .drive(with: self, onNext: { owner, _ in
+        owner.nicknameTextField.text = ""
+        owner.configureInitialUI()
+      })
+      .disposed(by: disposeBag)
+    
+    // 텍스트가 비어있으면 UI 회색 처리
+    nicknameTextField.rx.text
+      .orEmpty
+      .skip(1)
+      .distinctUntilChanged()
+      .filter { $0 == "" }
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.configureInitialUI()
+      })
+      .disposed(by: disposeBag)
+    
+    // ===  ViewModel Binding  ===
+    
+    // 빨리 입력하면 api가 여러번 호출되므로, 0.5초동안 입력 없을 시 데이터 emit
+    let output = viewModel.transform(
+      input: .init(
+        text: nicknameTextField.rx.text
+          .orEmpty
+          .distinctUntilChanged()
+          .skip(1)
+          .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+          .filter { $0 != "" }
+          .asObservable()
+      )
+    )
+    
+    // 닉네임 사용가능여부
+    output.isAvailable
+      .drive(onNext: { [weak self] flag in
+        self?.updateNicknameValidationUI(isValid: flag)
+      })
+      .disposed(by: disposeBag)
+    
+    // 메시지 처리
+    output.alertMessage
+      .drive(alertLabel.rx.text)
+      .disposed(by: disposeBag)
+    
   }
+  
+  /// 최초 상태의 UI를 설정합니다. (textField, label, bubble image 등)
+  private func configureInitialUI() {
+    
+    // placeholder 폰트 설정
+    nicknameTextField.attributedPlaceholder = NSAttributedString(
+      string: Constants.placeholder,
+      attributes: [.font: UIFont.body2!]
+    )
+    
+    nicknameTextField.layer.borderColor = UIColor.mediumGray.cgColor
+    nicknameTextField.rightView?.tintColor = .mediumGray
+    
+    alertLabel.text = Constants.initialAlertMessage
+    alertLabel.textColor = .mediumGray
+    
+    alertImageView.image = UIImage(named: "bubbleWarning")
+  }
+  
+  
+  /// 닉네임 검증 여부에 따라 색을 지정해줍니다.
+  private func updateNicknameValidationUI(isValid: Bool) {
+    if isValid {
+      alertLabel.textColor = .main
+      nicknameTextField.rightView?.tintColor = .main
+      nicknameTextField.layer.borderColor = UIColor.main.cgColor
+      alertImageView.image = UIImage(named: "bubbleCheck")
+    } else {
+      alertLabel.textColor = .error
+      alertImageView.tintColor = .error
+      nicknameTextField.textColor = .error
+      nicknameTextField.rightView?.tintColor = .error
+      nicknameTextField.layer.borderColor = UIColor.error.cgColor
+      alertImageView.image = UIImage(named: "bubbleWarning")?.withRenderingMode(.alwaysTemplate)
+    }
+  }
+}
+
+extension ProfileViewController: PhotoBottomSheetDelegate {
+  func selectImage(image: UIImage) {
+    uploadImageButton.setImage(image, for: .normal)
+  }
+}
+
+extension ProfileViewController: UITextFieldDelegate {
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    textField.textColor = .black
+    return range.location < 15
+  }
+}
+
+extension ProfileViewController {
+  
+  enum Constants {
+    static let placeholder = "한글, 영문, 숫자 포함 8글자로 입력가능해요."
+    static let initialAlertMessage = "닉네임 변경은 한번만 가능해요"
+  }
+  
 }
 
 #if canImport(SwiftUI) && DEBUG
@@ -175,4 +288,3 @@ struct ProfileViewControllerPreview: PreviewProvider {
   }
 }
 #endif
-
