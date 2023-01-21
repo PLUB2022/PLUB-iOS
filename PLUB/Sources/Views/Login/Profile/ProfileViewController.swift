@@ -169,6 +169,7 @@ final class ProfileViewController: BaseViewController {
 extension ProfileViewController: UITextFieldDelegate {
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    textField.textColor = .black
     return range.location < 15
   }
 }
@@ -190,4 +191,3 @@ struct ProfileViewControllerPreview: PreviewProvider {
   }
 }
 #endif
-
