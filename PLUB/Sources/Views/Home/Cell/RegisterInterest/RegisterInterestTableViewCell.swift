@@ -8,6 +8,7 @@
 
 import UIKit
 
+import RxCocoa
 import SnapKit
 import Then
 
@@ -41,9 +42,7 @@ class RegisterInterestTableViewCell: UITableViewCell {
     $0.textColor = .black
   }
   
-  private let indicatorButton = UIButton().then {
-    $0.setImage(UIImage(named: "bottomIndicator"), for: .normal)
-  }
+  private let indicatorButton = ToggleButton(type: .indicator)
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -63,7 +62,8 @@ class RegisterInterestTableViewCell: UITableViewCell {
   override func layoutSubviews() {
     super.layoutSubviews()
     containerView.roundCorners(corners: isExpanded ? [.topLeft, .topRight] : [.allCorners], radius: 10)
-    indicatorButton.setImage(isExpanded ? UIImage(named: "topIndicator") : UIImage(named: "bottomIndicator"), for: .normal)
+    indicatorButton.rx.isSelected.onNext(isExpanded)
+//    indicatorButton.setImage(isExpanded ? UIImage(named: "topIndicator") : UIImage(named: "bottomIndicator"), for: .normal)
     if isExpanded {
       containerView.snp.updateConstraints {
         $0.edges.equalToSuperview()
