@@ -10,34 +10,36 @@ import UIKit
 import SnapKit
 
 final class NoLocationView: UIView {
-  private let contentView = UIStackView().then {
-    $0.axis = .vertical
-    $0.spacing = 32
-  }
-  
   private let noLocationImage = UIImageView().then {
-    $0.image = UIImage(named: "noLocationData")
+    $0.image = UIImage(named: "noSearchData")
     $0.contentMode = .scaleAspectFit
   }
   
   private let titleLabel = UILabel().then {
-    $0.text = "장소 또는 지역을 검색해주세요."
     $0.textColor = .black
     $0.font = .subtitle
+    $0.numberOfLines = 0
     $0.textAlignment = .center
   }
   
   private let subtitleLabel = UILabel().then {
-    $0.text = "예) 마포구, 강남역, 광화문 광장 등"
+    $0.text = """
+    · 단어의 철자가 정확한지 확인해 보세요.
+    · 검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로
+      다시 검색해 보세요.
+    """
     $0.textColor = .deepGray
-    $0.font = .caption
-    $0.textAlignment = .center
+    $0.font = .caption3
+    $0.numberOfLines = 0
+    $0.textAlignment = .left
+    $0.addLineSpacing($0)
   }
   
   init() {
     super.init(frame: .zero)
     setupLayouts()
     setupConstraints()
+    setupStyles()
   }
   
   required init(coder: NSCoder) {
@@ -45,30 +47,48 @@ final class NoLocationView: UIView {
   }
   
   private func setupLayouts() {
-    addSubview(contentView)
-    
     [noLocationImage, titleLabel, subtitleLabel].forEach {
-      contentView.addArrangedSubview($0)
+      addSubview($0)
     }
   }
   
   private func setupConstraints() {
-    contentView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-    }
-    
     noLocationImage.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.centerX.equalToSuperview()
+      $0.width.equalTo(166)
       $0.height.equalTo(100)
     }
     
     titleLabel.snp.makeConstraints {
-      $0.height.equalTo(19)
+      $0.top.equalTo(noLocationImage.snp.bottom).offset(32)
+      $0.leading.trailing.equalToSuperview().inset(73)
     }
     
     subtitleLabel.snp.makeConstraints {
-      $0.height.equalTo(16)
+      $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+      $0.leading.trailing.equalToSuperview().inset(60)
+      $0.bottom.equalToSuperview()
     }
+  }
+  
+  private func setupStyles() {
+    backgroundColor = .background
+  }
+  
+  func setTitleAttributeText(searchText: String) {
+    let purpleCharacters = NSAttributedString(
+      string: "'\(searchText)'",
+      attributes: [.foregroundColor: UIColor.main]
+    )
     
-    contentView.setCustomSpacing(8, after: titleLabel)
+    let blackCharacters = NSAttributedString(
+      string: "에 대한 검색결과가 없어요.",
+      attributes: [.foregroundColor: UIColor.black]
+    )
+    
+    titleLabel.attributedText = NSMutableAttributedString(attributedString: purpleCharacters).then {
+      $0.append(blackCharacters)
+    }
   }
 }

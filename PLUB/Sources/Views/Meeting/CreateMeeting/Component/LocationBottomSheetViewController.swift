@@ -28,7 +28,11 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     $0.font = .body2
   }
 
-  private let noneView = NoLocationView()
+  private let firstView = LocationBaseView()
+  
+  private let noneView = NoLocationView().then {
+    $0.isHidden = true
+  }
   
   private let tableView = UITableView().then {
     $0.register(LocationTableViewCell.self, forCellReuseIdentifier: LocationTableViewCell.identifier)
@@ -36,6 +40,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
     $0.rowHeight = 75
+    $0.isHidden = true
   }
   
   private var nextButton = UIButton(configuration: .plain()).then {
@@ -49,7 +54,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [titleLabel, searchView, searchCountLabel, noneView, tableView, nextButton].forEach {
+    [titleLabel, searchView, searchCountLabel, firstView, noneView, tableView, nextButton].forEach {
       contentView.addSubview($0)
     }
   }
@@ -79,11 +84,16 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       $0.height.equalTo(21)
     }
     
+    firstView.snp.makeConstraints {
+      $0.top.equalTo(searchView.snp.bottom).offset(64)
+      $0.centerX.equalToSuperview()
+      $0.leading.trailing.equalToSuperview()
+    }
+    
     noneView.snp.makeConstraints {
       $0.top.equalTo(searchView.snp.bottom).offset(64)
       $0.centerX.equalToSuperview()
       $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(175)
     }
     
     tableView.snp.makeConstraints {
@@ -116,6 +126,11 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     viewModel.isEmptyList
       .withUnretained(self)
       .subscribe { owner, state in
+        owner.noneView.isHidden = !state
+        if state {
+          let searchText = owner.searchView.textField.text ?? ""
+          owner.noneView.setTitleAttributeText(searchText: searchText)
+        }
         owner.tableView.isHidden = state
         owner.searchCountLabel.isHidden = state
       }
