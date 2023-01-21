@@ -12,15 +12,6 @@ import RxSwift
 
 final class LocationControl: UIControl {
 
-  var date = Date() {
-    didSet {
-      label.text = DateFormatter().then {
-        $0.dateFormat = "a hh시 mm분"
-        $0.locale = Locale(identifier: "ko_KR")
-      }.string(from: date)
-    }
-  }
-
   override var isSelected: Bool {
     didSet {
       if isSelected {
@@ -30,7 +21,7 @@ final class LocationControl: UIControl {
     }
   }
 
-  private let label = UILabel().then {
+  let label = UILabel().then {
     $0.text = "장소를 검색해주세요"
     $0.font = .subtitle
   }
