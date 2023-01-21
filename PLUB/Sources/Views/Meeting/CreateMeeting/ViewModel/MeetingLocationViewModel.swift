@@ -12,8 +12,8 @@ final class MeetingLocationViewModel {
   private var disposeBag = DisposeBag()
   
   // Paging
-  var pageCount = 1
-  var isEndPage = false
+  private var pageCount = 1
+  private var isEndPage = false
   private var isLoading = false
   
   // Input
@@ -66,7 +66,6 @@ final class MeetingLocationViewModel {
         self.handleLocationData(data: documents)
         self.isEndPage = result.meta.isEnd
       }
-      
       self.isLoading = false
     })
     .disposed(by: disposeBag)
@@ -82,5 +81,11 @@ final class MeetingLocationViewModel {
       locationList.accept(oldData + data)
     }
     pageCount += 1
+  }
+  
+  func refreshPagingData() {
+    pageCount = 1
+    isEndPage = false
+    isLoading = false
   }
 }

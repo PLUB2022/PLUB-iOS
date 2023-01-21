@@ -108,8 +108,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     
     searchView.textField.rx
       .controlEvent([.editingDidEndOnExit]).subscribe { _ in
-        self.viewModel.pageCount = 1
-        self.viewModel.isEndPage = false
+        self.viewModel.refreshPagingData()
         self.viewModel.fetchLocationList(page: 1)
       }
       .disposed(by: disposeBag)
@@ -123,10 +122,10 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
     
     viewModel.totalCount
-      .withUnretained(self)
-      .subscribe { owner, count in
-        self.setSearchAttributeText(count: count)
-      }
+      .map({ count -> NSMutableAttributedString in
+        return self.setSearchAttributeText(count: count)
+      })
+      .bind(to: searchCountLabel.rx.attributedText)
       .disposed(by: disposeBag)
     
     viewModel.locationList
@@ -181,7 +180,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
   }
   
-  private func setSearchAttributeText(count: Int) {
+  private func setSearchAttributeText(count: Int) -> NSMutableAttributedString {
     let blackCharacters = NSAttributedString(
       string: "검색결과 ",
       attributes: [.foregroundColor: UIColor.black]
@@ -192,7 +191,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       attributes: [.foregroundColor: UIColor.main]
     )
     
-    searchCountLabel.attributedText = NSMutableAttributedString(attributedString: blackCharacters).then {
+    return NSMutableAttributedString(attributedString: blackCharacters).then {
       $0.append(purpleCharacters)
     }
   }
