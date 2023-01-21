@@ -61,14 +61,12 @@ final class ProfileViewController: BaseViewController {
   
   private lazy var nicknameTextField: PaddingTextField = PaddingTextField().then { textField in
     textField.layer.borderWidth = 1
-    textField.layer.borderColor = UIColor.mediumGray.cgColor
     textField.layer.cornerRadius = 8
     
     textField.leftView = UIView()
     textField.rightView = UIButton().then {
       $0.setImage(UIImage(named: "xMark")?.withRenderingMode(.alwaysTemplate), for: .normal)
       $0.addAction(UIAction { _ in textField.text = "" }, for: .touchUpInside)
-      $0.tintColor = .mediumGray
     }
     textField.leftViewMode = .always
     textField.rightViewMode = .always
@@ -78,11 +76,6 @@ final class ProfileViewController: BaseViewController {
     
     textField.textColor = .black
     textField.font = .body1
-    
-    textField.attributedPlaceholder = NSAttributedString(
-      string: Constants.placeholder,
-      attributes: [.font: UIFont.body2!]
-    )
     
     textField.delegate = self
   }
@@ -96,13 +89,10 @@ final class ProfileViewController: BaseViewController {
   }
   
   private let alertImageView: UIImageView = UIImageView().then {
-    $0.image = UIImage(named: "bubbleWarning")
     $0.contentMode = .scaleAspectFit
   }
   
   private let alertLabel: UILabel = UILabel().then {
-    $0.text = Constants.initialAlertMessage
-    $0.textColor = .mediumGray
     $0.font = .caption
   }
   
@@ -161,8 +151,42 @@ final class ProfileViewController: BaseViewController {
     }
   }
   
+  override func setupStyles() {
+    super.setupStyles()
+    configureInitialUI()
+  }
+  
   override func bind() {
     super.bind()
+    
+    nicknameTextField.rx.text
+      .orEmpty
+      .skip(1)
+      .distinctUntilChanged()
+      .filter { $0 == "" }
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.configureInitialUI()
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  /// 최초 상태의 UI를 설정합니다. (textField, label, bubble image 등)
+  private func configureInitialUI() {
+    
+    // placeholder 폰트 설정
+    nicknameTextField.attributedPlaceholder = NSAttributedString(
+      string: Constants.placeholder,
+      attributes: [.font: UIFont.body2!]
+    )
+    
+    nicknameTextField.layer.borderColor = UIColor.mediumGray.cgColor
+    nicknameTextField.rightView?.tintColor = .mediumGray
+    
+    alertLabel.text = Constants.initialAlertMessage
+    alertLabel.textColor = .mediumGray
+    
+    alertImageView.image = UIImage(named: "bubbleWarning")
   }
 }
 
