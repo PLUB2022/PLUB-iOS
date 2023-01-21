@@ -59,25 +59,24 @@ final class ProfileViewController: BaseViewController {
     $0.font = .subtitle
   }
   
-  private lazy var nicknameTextField: PaddingTextField = PaddingTextField().then { textField in
-    textField.layer.borderWidth = 1
-    textField.layer.cornerRadius = 8
+  private lazy var nicknameTextField = PaddingTextField().then {
+    $0.layer.borderWidth = 1
+    $0.layer.cornerRadius = 8
     
-    textField.leftView = UIView()
-    textField.rightView = UIButton().then {
+    $0.leftView = UIView()
+    $0.rightView = UIButton().then {
       $0.setImage(UIImage(named: "xMark")?.withRenderingMode(.alwaysTemplate), for: .normal)
-      $0.addAction(UIAction { _ in textField.text = "" }, for: .touchUpInside)
     }
-    textField.leftViewMode = .always
-    textField.rightViewMode = .always
+    $0.leftViewMode = .always
+    $0.rightViewMode = .always
     
-    textField.leftViewPadding = 8
-    textField.rightViewPadding = 8
+    $0.leftViewPadding = 8
+    $0.rightViewPadding = 8
     
-    textField.textColor = .black
-    textField.font = .body1
+    $0.textColor = .black
+    $0.font = .body1
     
-    textField.delegate = self
+    $0.delegate = self
   }
   
   // MARK: Alert in Nickname
@@ -158,6 +157,14 @@ final class ProfileViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    (nicknameTextField.rightView as? UIButton)?.rx.tap
+      .asDriver()
+      .drive(with: self, onNext: { owner, _ in
+        owner.nicknameTextField.text = ""
+        owner.configureInitialUI()
+      })
+      .disposed(by: disposeBag)
     
     nicknameTextField.rx.text
       .orEmpty
