@@ -117,9 +117,26 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
     
     searchView.textField.rx
-      .controlEvent([.editingDidEndOnExit]).subscribe { _ in
+      .controlEvent([.editingDidEndOnExit])
+      .subscribe { _ in
         self.viewModel.refreshPagingData()
         self.viewModel.fetchLocationList(page: 1)
+      }
+      .disposed(by: disposeBag)
+    
+    searchView.textField.rx
+      .controlEvent([.editingDidBegin])
+      .subscribe { _ in
+        self.searchView.setupStyles(state: true)
+      }
+      .disposed(by: disposeBag)
+    
+    searchView.textField.rx
+      .controlEvent([.editingDidEnd])
+      .subscribe { _ in
+        if (self.searchView.textField.text ?? "").isEmpty {
+          self.searchView.setupStyles(state: false)
+        }
       }
       .disposed(by: disposeBag)
     

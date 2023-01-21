@@ -12,11 +12,18 @@ import SnapKit
 final class SearchView: UIView {
   private let searchImage = UIImageView().then {
     $0.image = UIImage(named: "searchGray")
+    $0.contentMode = .scaleAspectFit
   }
   
   let textField = UITextField().then {
-    $0.placeholder = "장소를 검색해주세요"
-    $0.textColor = .deepGray
+    $0.attributedPlaceholder = NSAttributedString(
+      string: "장소를 검색해주세요",
+      attributes: [
+        .foregroundColor : UIColor.deepGray,
+        .font : UIFont.body3!
+      ]
+    )
+    $0.textColor = .black
     $0.font = .body3
   }
   
@@ -54,5 +61,15 @@ final class SearchView: UIView {
   private func setupStyles() {
     layer.cornerRadius = 8
     backgroundColor = .lightGray
+  }
+  
+  func setupStyles(state: Bool) {
+    if state {
+      backgroundColor = .white
+      searchImage.image = UIImage(named: "searchBlack")
+    } else {
+      backgroundColor = .lightGray
+      searchImage.image = UIImage(named: "searchGray")
+    }
   }
 }
