@@ -6,38 +6,32 @@
 //
 
 struct KakaoLocationResponse: Codable {
-    var documents: [KakaoLocationDocuments]
-    var meta: KakaoLocationMeta
+  var documents: [KakaoLocationDocuments]
+  var meta: KakaoLocationMeta
 }
 
 struct KakaoLocationDocuments: Codable {
-    var address_name: String?
-    var category_group_code: String?
-    var category_group_name: String?
-    var category_name: String?
-    var distance: String?
-    var id: String?
-    var phone: String?
-    var place_name: String?
-    var place_url: String?
-    var road_address_name: String?
-    var x: String?
-    var y: String?
+  var addressName: String?
+  var placeName: String?
+  var roadAddress: String?
+  var placePositionX: String?
+  var placePositionY: String?
+  
+  enum CodingKeys: String, CodingKey {
+    case addressName = "address_name"
+    case placeName = "place_name"
+    case roadAddress = "road_address_name"
+    case placePositionX = "x"
+    case placePositionY = "y"
+  }
 }
 
 struct KakaoLocationMeta: Codable {
-    var is_end: Bool?
-    var pageable_count: Int?
-    var same_name: KakaoLocationSameName
-    var total_count: Int?
-}
-
-struct KakaoLocationSameName: Codable {
-    var keyword: String?
-    var region: [KakaoLocationRegion]
-    var selected_region: String?
-}
-
-struct KakaoLocationRegion: Codable {
-    
+  var isEnd: Bool
+  var totalCount: Int
+  
+  enum CodingKeys: String, CodingKey {
+    case isEnd = "is_end"
+    case totalCount = "total_count"
+  }
 }
