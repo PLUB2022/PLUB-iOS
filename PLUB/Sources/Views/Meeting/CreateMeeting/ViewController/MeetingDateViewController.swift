@@ -207,7 +207,7 @@ final class MeetingDateViewController: BaseViewController {
       .subscribe(onNext: { owner, _ in
         let vc = LocationBottomSheetViewController()
         vc.modalPresentationStyle = .overFullScreen
-//        vc.delegate = owner
+        vc.delegate = owner
         owner.parent?.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
@@ -219,16 +219,11 @@ extension MeetingDateViewController: DateBottomSheetDelegate {
     timeControl.date = date
     timeControl.isSelected = true
   }
-  
-  func kakao(){
-    KakaoLocationService.shared.searchPlace(
-      quary: KakaoLocationRequest(
-        query: "동탄 호수공원",
-        page: "1"
-      )
-    )
-    .subscribe(onNext: { result in
-        
-    })
+}
+
+extension MeetingDateViewController: LocationBottomSheetDelegate {
+  func selectLocation(placeName: String) {
+    locationControl.label.text = placeName
+    locationControl.isSelected = true
   }
 }
