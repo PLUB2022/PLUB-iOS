@@ -13,6 +13,7 @@ protocol LocationBottomSheetDelegate: AnyObject {
 
 final class LocationBottomSheetViewController: BottomSheetViewController {
   weak var delegate: LocationBottomSheetDelegate?
+  private let viewModel =  MeetingLocationViewModel()
   
   private let titleLabel = UILabel().then {
     $0.text = "장소 검색"
@@ -23,7 +24,6 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
   private let searchView = SearchView()
   
   private let searchCountLabel = UILabel().then {
-    $0.text = "검색결과 20개"
     $0.textColor = .black
     $0.font = .body2
   }
@@ -31,8 +31,11 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
   private let noneView = NoLocationView()
   
   private let tableView = UITableView().then {
-    $0.backgroundColor = .clear
-    $0.isHidden = true
+    $0.register(LocationTableViewCell.self, forCellReuseIdentifier: LocationTableViewCell.identifier)
+    $0.separatorStyle = .none
+    $0.showsVerticalScrollIndicator = false
+    $0.backgroundColor = .background
+    $0.rowHeight = 75
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -80,13 +83,72 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     
     tableView.snp.makeConstraints {
       $0.top.equalTo(searchCountLabel.snp.bottom).offset(8)
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
   }
   
   override func bind() {
     super.bind()
+    searchView.textField.rx.text.orEmpty
+      .distinctUntilChanged()
+      .bind(to: viewModel.searchText)
+      .disposed(by: disposeBag)
+    
+    searchView.textField.rx
+      .controlEvent([.editingDidEndOnExit]).subscribe { _ in
+        self.viewModel.pageCount = 1
+        self.viewModel.isEndPage = false
+        self.viewModel.fetchLocationList(page: 1)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isEmptyList
+      .bind(to: tableView.rx.isHidden)
+      .disposed(by: disposeBag)
+    
+    viewModel.totalCount
+      .subscribe { [weak self] count in
+        self?.searchCountLabel.text = "검색결과 \(count.element ?? 0)개"
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.locationList
+      .bind(to: tableView.rx.items) { tableView, row, item -> UITableViewCell in
+        guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: "LocationTableViewCell",
+          for: IndexPath(row: row, section: 0)
+        ) as? LocationTableViewCell,
+          let item = item
+        else { return UITableViewCell() }
 
+        cell.setupData(
+          with: LocationTableViewCellModel(
+            title: item.placeName ?? "",
+            subTitle: item.addressName ?? ""
+          )
+        )
+        return cell
+      }
+      .disposed(by: disposeBag)
+    
+    tableView.rx.didScroll
+      .subscribe { [weak self] _ in
+        guard let self = self else { return }
+        let offsetY = self.tableView.contentOffset.y
+        let contentHeight = self.tableView.contentSize.height
+        if offsetY > (contentHeight - self.tableView.frame.size.height) {
+            self.viewModel.fetchMoreData.onNext(())
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    tableView.rx.modelSelected(KakaoLocationDocuments.self)
+      .asDriver()
+      .drive(onNext: { [weak self] in
+        guard let self = self else { return }
+        print($0)
+      })
+      .disposed(by: disposeBag)
   }
 }
