@@ -68,17 +68,38 @@ final class CreateMeetingViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
   
-  private let meetingNameViewController = MeetingNameViewController(
+  private lazy var meetingNameViewController = MeetingNameViewController(
     viewModel: MeetingNameViewModel(),
     childIndex: 0
-  )
-  private let meetingIntroduceViewController = MeetingIntroduceViewController(
+  ).then {
+    $0.delegate = self
+  }
+  
+  private lazy var meetingIntroduceViewController = MeetingIntroduceViewController(
     viewModel: MeetingIntroduceViewModel(),
     childIndex: 1
-  )
-  private let meetingDateViewController = MeetingDateViewController()
+  ).then {
+    $0.delegate = self
+  }
   
-  private var viewControllers: [CreateMeetingType] = [.name, .introduction, .date]
+  private lazy var meetingDateViewController = MeetingDateViewController(
+    childIndex: 2
+  ).then {
+    $0.delegate = self
+  }
+  
+  private lazy var meetinQuestionViewController = MeetingQuestionViewController(
+    childIndex: 3
+  ).then {
+    $0.delegate = self
+  }
+  
+  private lazy var viewControllers: [UIViewController] = [
+    meetingNameViewController,
+    meetingIntroduceViewController,
+    meetingDateViewController,
+    meetinQuestionViewController
+  ]
   
   //TODO: 수빈 - viewModel로 빼기
   private var isNextButtonEnable = [Bool]()
@@ -185,18 +206,18 @@ final class CreateMeetingViewController: BaseViewController {
     let containerView = UIView()
     contentStackView.addArrangedSubview(containerView)
     
-    addChild(selectChildViewController(index: index))
-    containerView.addSubview(selectChildViewController(index: index).view)
+    addChild(viewControllers[index])
+    containerView.addSubview(viewControllers[index].view)
   
     containerView.snp.makeConstraints {
       $0.width.equalTo(Device.width)
     }
     
-    selectChildViewController(index: index).view.snp.makeConstraints {
+    viewControllers[index].view.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
     
-    selectChildViewController(index: index).didMove(toParent: self)
+    viewControllers[index].didMove(toParent: self)
     
     scrollToPage(index: index)
   }
@@ -204,25 +225,6 @@ final class CreateMeetingViewController: BaseViewController {
   private func scrollToPage(index: Int) {
     let offset: CGPoint = CGPoint(x: Device.width * CGFloat(index), y: 0)
     scrollView.setContentOffset(offset, animated: true)
-  }
-  
-  private func selectChildViewController(index: Int) -> UIViewController {
-    switch viewControllers[index] {
-    case .category:
-      return meetingDateViewController
-    case .name:
-      meetingNameViewController.delegate = self
-      return meetingNameViewController
-    case .introduction:
-      meetingIntroduceViewController.delegate = self
-      return meetingIntroduceViewController
-    case .date:
-      return meetingDateViewController
-    case .peopleCount:
-      return meetingDateViewController
-    default:
-      return meetingDateViewController
-    }
   }
 }
 
