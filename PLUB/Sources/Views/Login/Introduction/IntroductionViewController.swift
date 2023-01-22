@@ -14,6 +14,8 @@ final class IntroductionViewController: BaseViewController {
   
   // MARK: - Property
   
+  weak var delegate: SignUpChildViewControllerDelegate?
+  
   let inputTextView = InputTextView(
     title: "소개",
     placeHolder: "소개하는 내용을 입력해주세요",

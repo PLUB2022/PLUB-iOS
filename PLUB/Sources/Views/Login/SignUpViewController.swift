@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol SignUpChildViewControllerDelegate: BaseViewController {
+  func checkValidation(index: Int, state: Bool)
+}
+
 final class SignUpViewController: BaseViewController {
   
   // MARK: - Properties
@@ -36,11 +40,11 @@ final class SignUpViewController: BaseViewController {
     }
   }
   
-  private var viewControllers = [
-    PolicyViewController(),
-    BirthViewController(),
-    ProfileViewController(),
-    IntroductionViewController()
+  private lazy var viewControllers = [
+    PolicyViewController().then { $0.delegate = self },
+    BirthViewController().then { $0.delegate = self },
+    ProfileViewController().then { $0.delegate = self },
+    IntroductionViewController().then { $0.delegate = self }
   ]
   
   // MARK: UI Properties
@@ -248,5 +252,13 @@ extension SignUpViewController: UIScrollViewDelegate {
     } else if velocity.x < 0 { // move left
       currentPage = currentPage == 0 ? 0 : currentPage - 1
     }
+  }
+}
+
+// MARK: - SignUpChildViewControllerDelegate
+
+extension SignUpViewController: SignUpChildViewControllerDelegate {
+  func checkValidation(index: Int, state: Bool) {
+    
   }
 }

@@ -16,6 +16,8 @@ final class BirthViewController: BaseViewController {
   
   // MARK: - Property
   
+  weak var delegate: SignUpChildViewControllerDelegate?
+  
   /// 성별과 생년월일 전체를 감싸는 `StackView`
   private let wholeStackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
