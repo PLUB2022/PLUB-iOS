@@ -83,7 +83,7 @@ final class MeetingQuestionViewController: BaseViewController {
 //      $0.width.equalTo(scrollView.snp.width)
 //    }
     tableView.snp.makeConstraints {
-      $0.top.equalTo(contentStackView.snp.bottom)
+      $0.top.equalTo(contentStackView.snp.bottom).offset(48)
       $0.leading.trailing.bottom.equalToSuperview()
     }
     

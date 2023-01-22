@@ -43,7 +43,9 @@ private extension QuestionTableViewCell {
   
   func setupConstraints() {
     textView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(16)
+      $0.leading.trailing.equalToSuperview().inset(24)
     }
   }
   
