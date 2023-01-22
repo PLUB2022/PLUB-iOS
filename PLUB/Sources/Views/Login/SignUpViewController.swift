@@ -37,6 +37,7 @@ final class SignUpViewController: BaseViewController {
       viewControllers[lastPageIndex].view.snp.makeConstraints {
         $0.width.equalTo(view.snp.width)
       }
+      viewModel.validationState.onNext(ValidationState(index: lastPageIndex, state: false))
     }
   }
   
