@@ -220,8 +220,9 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
       }, completion: nil)
   }
   
-  func removeQuestion() {
-    
+  func removeQuestion(index: Int) {
+    viewModel.questionList.remove(at: index)
+    self.tableView.deleteRows(at: [IndexPath(row: index, section: MeetingQuestionSectionType.questionSection.index)], with: .automatic)
   }
   
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView) {

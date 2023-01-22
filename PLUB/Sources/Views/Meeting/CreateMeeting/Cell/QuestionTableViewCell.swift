@@ -15,7 +15,7 @@ import RxCocoa
 protocol QuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView)
   func addQuestion()
-  func removeQuestion()
+  func removeQuestion(index: Int)
 }
 
 final class QuestionTableViewCell: UITableViewCell {
@@ -29,6 +29,10 @@ final class QuestionTableViewCell: UITableViewCell {
     title: "질문",
     placeHolder: "질문을 입력해주세요"
   )
+  
+  private let trashButton = UIButton().then {
+    $0.setImage(UIImage(named: "trashGray"), for: .normal)
+  }
     
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -50,7 +54,9 @@ final class QuestionTableViewCell: UITableViewCell {
 
 private extension QuestionTableViewCell {
   func setupLayouts() {
-    contentView.addSubview(inputTextView)
+    [inputTextView, trashButton].forEach {
+      contentView.addSubview($0)
+    }
   }
   
   func setupConstraints() {
@@ -58,6 +64,12 @@ private extension QuestionTableViewCell {
       $0.top.equalToSuperview()
       $0.bottom.equalToSuperview().inset(16)
       $0.leading.trailing.equalToSuperview().inset(24)
+    }
+    
+    trashButton.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.trailing.equalToSuperview().inset(16)
+      $0.size.equalTo(32)
     }
   }
   
@@ -74,6 +86,13 @@ private extension QuestionTableViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
         owner.delegate?.updateHeightOfRow(owner, owner.inputTextView.textView)
+      })
+      .disposed(by: disposeBag)
+    
+    trashButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.removeQuestion(index: owner.indexPathRow)
       })
       .disposed(by: disposeBag)
   }
