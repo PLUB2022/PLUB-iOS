@@ -25,7 +25,7 @@ struct Category: Codable {
   let id: Int
   let name: String
   let icon: String
-  let subCategories: [SubCategory]
+  var subCategories: [SubCategory]
 }
 
 struct SubCategory: Codable {
@@ -33,4 +33,19 @@ struct SubCategory: Codable {
   let name: String
   let categoryName: String
   let parentId: String
+  var isSelected: Bool
+  
+  enum CodingKeys: String, CodingKey {
+    case id, name, categoryName, parentId, isSelected
+  }
+  
+  init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    
+    self.id = try values.decodeIfPresent(Int.self, forKey: .id) ?? 0
+    self.name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
+    self.categoryName = try values.decodeIfPresent(String.self, forKey: .categoryName) ?? ""
+    self.parentId = try values.decodeIfPresent(String.self, forKey: .parentId) ?? ""
+    self.isSelected = try values.decodeIfPresent(Bool.self, forKey: .isSelected) ?? false
+  }
 }

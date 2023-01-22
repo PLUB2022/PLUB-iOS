@@ -11,17 +11,20 @@ import SnapKit
 import Then
 
 protocol RegisterInterestDetailTableViewCellDelegate: AnyObject {
-  func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell)
+  func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell, mainIndexPath: IndexPath, subIndexPath: IndexPath)
 }
 
 class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestDetailTableViewCell"
   
-  public weak var delegate: RegisterInterestDetailTableViewCellDelegate?
+  weak var delegate: RegisterInterestDetailTableViewCellDelegate?
+  
+  private var indexPath: IndexPath?
   
   private var subCategories: [SubCategory] = [] {
     didSet {
+      print("category = \(subCategories)")
       interestTypeCollectionView.reloadData()
     }
   }
@@ -49,7 +52,6 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
-//    interestTypeCollectionView.backgroundColor = .blue
   }
   
   required init?(coder: NSCoder) {
@@ -75,8 +77,9 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
     }
   }
   
-  public func configureUI(with model: RegisterInterestModel) {
+  public func configureUI(with model: RegisterInterestModel, indexPath: IndexPath) {
     self.subCategories = model.category.subCategories
+    self.indexPath = indexPath
   }
 }
 
@@ -108,10 +111,12 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    guard let cell = collectionView.cellForItem(at: indexPath) as? InterestTypeCollectionViewCell else {
+    guard let cell = collectionView.cellForItem(at: indexPath) as? InterestTypeCollectionViewCell,
+    let mainIndexPath = self.indexPath else {
       return
     }
-    delegate?.didTappedInterestTypeCollectionViewCell(cell: cell)
+    subCategories[indexPath.row].isSelected.toggle()
+    delegate?.didTappedInterestTypeCollectionViewCell(cell: cell, mainIndexPath: mainIndexPath, subIndexPath: indexPath)
   }
 }
 
