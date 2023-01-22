@@ -47,6 +47,7 @@
 		70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */; };
 		70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */; };
 		70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */; };
+		70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
@@ -191,6 +192,7 @@
 		70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingResponse.swift; sourceTree = "<group>"; };
 		70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentRouter.swift; sourceTree = "<group>"; };
 		70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentService.swift; sourceTree = "<group>"; };
+		70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentResponse.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 		704AC7932938E7EA008C3A88 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				70F1DFEB297D99A400F9BC83 /* Recruitment */,
 				70F1DFE2297A917D00F9BC83 /* Meeting */,
 				70F1DFE1297A917100F9BC83 /* Category */,
 				704AC7942938E800008C3A88 /* RegisterInterestModel.swift */,
@@ -477,6 +480,14 @@
 				70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */,
 			);
 			path = Meeting;
+			sourceTree = "<group>";
+		};
+		70F1DFEB297D99A400F9BC83 /* Recruitment */ = {
+			isa = PBXGroup;
+			children = (
+				70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */,
+			);
+			path = Recruitment;
 			sourceTree = "<group>";
 		};
 		BA1BEDC12964548300C6BD41 /* Profile */ = {
@@ -933,6 +944,7 @@
 				70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */,
 				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,
+				70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */,
 				70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
