@@ -8,7 +8,7 @@
 import Alamofire
 
 enum MeetingRouter {
-  case inquireCategoryMeeting(Int, MeetingQuery)
+  case inquireCategoryMeeting(Int, Int)
   case inquireRecommendationMeeting
 }
 
@@ -31,8 +31,8 @@ extension MeetingRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case .inquireCategoryMeeting(_, let query):
-      return .query(query)
+    case .inquireCategoryMeeting(_, let page):
+      return .query(["page": page])
     case .inquireRecommendationMeeting:
       return .plain
     }
