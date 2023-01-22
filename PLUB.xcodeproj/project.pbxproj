@@ -88,6 +88,7 @@
 		BA784FA82978EB9100E8B06F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA784FA72978EB9100E8B06F /* SignUpViewController.swift */; };
 		BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */; };
 		BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA784FAD297937D600E8B06F /* CalendarControl.swift */; };
+		BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7AD73D297D6720000E7D5D /* BirthViewModel.swift */; };
 		BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA0296514DA0029CF34 /* PaddingTextField.swift */; };
 		BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA3296529100029CF34 /* IntroductionViewController.swift */; };
 		BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124D28E48A2F00BD832A /* AppDelegate.swift */; };
@@ -226,6 +227,7 @@
 		BA784FA72978EB9100E8B06F /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		BA784FAD297937D600E8B06F /* CalendarControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarControl.swift; sourceTree = "<group>"; };
+		BA7AD73D297D6720000E7D5D /* BirthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewModel.swift; sourceTree = "<group>"; };
 		BA876BA0296514DA0029CF34 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 		BA876BA3296529100029CF34 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		BA88124A28E48A2F00BD832A /* PLUB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLUB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -718,6 +720,7 @@
 			isa = PBXGroup;
 			children = (
 				BAC923DE29546BF500385841 /* BirthViewController.swift */,
+				BA7AD73D297D6720000E7D5D /* BirthViewModel.swift */,
 				BA784FAD297937D600E8B06F /* CalendarControl.swift */,
 			);
 			path = Birth;
@@ -941,7 +944,7 @@
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
 				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
 				70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */,
-				7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */,
+				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
 				C38A5B93297ACF5B00485355 /* LocationControl.swift in Sources */,
 				C38A5BA3297B17EF00485355 /* MeetingLocationViewModel.swift in Sources */,
 				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
@@ -967,6 +970,7 @@
 				BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */,
 				BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
+				BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */,
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,

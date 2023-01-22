@@ -18,6 +18,8 @@ final class BirthViewController: BaseViewController {
   
   weak var delegate: SignUpChildViewControllerDelegate?
   
+  private let viewModel = BirthViewModel()
+  
   /// 성별과 생년월일 전체를 감싸는 `StackView`
   private let wholeStackView: UIStackView = UIStackView().then {
     $0.axis = .vertical
@@ -114,15 +116,19 @@ final class BirthViewController: BaseViewController {
     
     maleButton.rx.tap
       .withUnretained(self)
+      .do { $0.0.viewModel.sexButtonTapped.onNext(()) }
       .subscribe(onNext: { owner, _ in
-        owner.maleButton.isSelected.toggle()
+        owner.maleButton.isSelected = true
+        owner.femaleButton.isSelected = false
       })
       .disposed(by: disposeBag)
     
     femaleButton.rx.tap
       .withUnretained(self)
+      .do { $0.0.viewModel.sexButtonTapped.onNext(()) }
       .subscribe(onNext: { owner, _ in
-        owner.femaleButton.isSelected.toggle()
+        owner.femaleButton.isSelected = true
+        owner.maleButton.isSelected = false
       })
       .disposed(by: disposeBag)
     
@@ -135,6 +141,12 @@ final class BirthViewController: BaseViewController {
         owner.parent?.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
+    
+    viewModel.isButtonEnabled
+      .drive(with: self, onNext: { owner, flag in
+        owner.delegate?.checkValidation(index: 1, state: flag)
+      })
+      .disposed(by: disposeBag)
   }
 }
 
@@ -142,6 +154,7 @@ extension BirthViewController: DateBottomSheetDelegate {
   func selectDate(date: Date) {
     birthSettingControl.date = date
     birthSettingControl.isSelected = true
+    viewModel.calendarDidSet.onNext(())
   }
 }
 
