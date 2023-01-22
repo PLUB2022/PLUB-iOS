@@ -9,15 +9,6 @@ import UIKit
 
 import RxSwift
 
-enum CreateMeetingType {
-  case category // 카테고리
-  case name // 모임 이름
-  case introduction // 모임 소개
-  case date // 날짜
-  case peopleCount // 인원
-  case question // 질문 여부
-}
-
 final class CreateMeetingViewController: BaseViewController {
   
   init() {
@@ -88,8 +79,15 @@ final class CreateMeetingViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private lazy var meetinQuestionViewController = MeetingQuestionViewController(
+  private lazy var meetingPeopleNumberViewController = MeetingPeopleNumberViewController(
+    viewModel: MeetingPeopleNumberViewModel(),
     childIndex: 3
+  ).then {
+    $0.delegate = self
+  }
+  
+  private lazy var meetinQuestionViewController = MeetingQuestionViewController(
+    childIndex: 4
   ).then {
     $0.delegate = self
   }
@@ -98,6 +96,7 @@ final class CreateMeetingViewController: BaseViewController {
     meetingNameViewController,
     meetingIntroduceViewController,
     meetingDateViewController,
+    meetingPeopleNumberViewController,
     meetinQuestionViewController
   ]
   
