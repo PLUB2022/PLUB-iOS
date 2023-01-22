@@ -14,6 +14,8 @@ import RxCocoa
 
 protocol QuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView)
+  func addQuestion()
+  func removeQuestion()
 }
 
 final class QuestionTableViewCell: UITableViewCell {

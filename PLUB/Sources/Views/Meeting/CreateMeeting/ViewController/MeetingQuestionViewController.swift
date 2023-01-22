@@ -9,26 +9,27 @@ import UIKit
 
 import RxSwift
 
-//enum MeetingQuestionTableViewSection: Int {
+enum MeetingQuestionSectionType: Int, CaseIterable{
 //  case titleSection = 0
 //  case buttonSection = 1
-//  case questionSection = 2
-//
-//  var index: Int {
-//    return self.rawValue
-//  }
-//
-//  var height: CGFloat {
-//    switch self {
+  case questionSection = 0
+  case addQuestionSection = 1
+
+  var index: Int {
+    return self.rawValue
+  }
+
+  var height: CGFloat {
+    switch self {
 //    case .titleSection:
 //      return 70
 //    case .buttonSection:
 //      return 142
-//    case .questionSection:
-//      return UITableView.automaticDimension
-//    }
-//  }
-//}
+    case .questionSection, .addQuestionSection:
+      return UITableView.automaticDimension
+    }
+  }
+}
 
 final class MeetingQuestionViewController: BaseViewController {
   
@@ -61,12 +62,13 @@ final class MeetingQuestionViewController: BaseViewController {
   }
   
   private lazy var tableView = UITableView().then {
-    $0.register(QuestionTableViewCell.self, forCellReuseIdentifier: QuestionTableViewCell.identifier)
     $0.separatorStyle = .none
     $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
     $0.delegate = self
     $0.dataSource = self
+    $0.register(QuestionTableViewCell.self, forCellReuseIdentifier: QuestionTableViewCell.identifier)
+    $0.register(AddQuestionTableViewCell.self, forCellReuseIdentifier: AddQuestionTableViewCell.identifier)
   }
   
   init(
@@ -159,17 +161,30 @@ extension MeetingQuestionViewController: UITableViewDelegate {
 
 extension MeetingQuestionViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-      return 1
+    return MeetingQuestionSectionType.allCases.count
   }
     
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(
-        withIdentifier: QuestionTableViewCell.identifier,
-        for: indexPath
-    ) as? QuestionTableViewCell else { return UITableViewCell() }
-    cell.indexPathRow = indexPath.row
-    cell.delegate = self
-    return cell
+    switch indexPath.section {
+    case MeetingQuestionSectionType.questionSection.index:
+      guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: QuestionTableViewCell.identifier,
+          for: indexPath
+      ) as? QuestionTableViewCell else { return UITableViewCell() }
+      cell.indexPathRow = indexPath.row
+      cell.delegate = self
+      return cell
+    case MeetingQuestionSectionType.addQuestionSection.index:
+      guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: AddQuestionTableViewCell.identifier,
+          for: indexPath
+      ) as? AddQuestionTableViewCell else { return UITableViewCell() }
+//      cell.indexPathRow = indexPath.row
+      cell.delegate = self
+      return cell
+    default:
+      return UITableViewCell()
+    }
   }
     
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -181,7 +196,14 @@ extension MeetingQuestionViewController: UITableViewDataSource {
   }
     
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return viewModel.questionList.count
+    switch section {
+    case MeetingQuestionSectionType.questionSection.index:
+      return viewModel.questionList.count
+    case MeetingQuestionSectionType.addQuestionSection.index:
+      return 1
+    default:
+      return 0
+    }
   }
     
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -190,6 +212,17 @@ extension MeetingQuestionViewController: UITableViewDataSource {
 }
 
 extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
+  func addQuestion() {
+    viewModel.questionList.append("")
+    tableView.performBatchUpdates(
+      {
+        tableView.insertRows(at: [IndexPath(row: viewModel.questionList.count - 1, section: MeetingQuestionSectionType.questionSection.index)], with: .automatic)
+      }, completion: nil)
+  }
+  
+  func removeQuestion() {
+    
+  }
   
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView) {
     let size = textView.bounds.size

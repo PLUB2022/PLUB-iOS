@@ -11,5 +11,5 @@ import RxRelay
 final class MeetingQuestionViewModel {
   private let disposeBag = DisposeBag()
   
-  let questionList : [String] = [""]
+  var questionList : [String] = [""]
 }
