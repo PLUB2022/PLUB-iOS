@@ -173,6 +173,10 @@ final class SignUpViewController: BaseViewController {
         owner.scrollToPage(index: owner.currentPage)
       })
       .disposed(by: disposeBag)
+    
+    viewModel.isButtonEnabled
+      .drive(nextButton.rx.isEnabled)
+      .disposed(by: disposeBag)
   }
   
   // MARK: - Custom Methods
@@ -259,6 +263,6 @@ extension SignUpViewController: UIScrollViewDelegate {
 
 extension SignUpViewController: SignUpChildViewControllerDelegate {
   func checkValidation(index: Int, state: Bool) {
-    
+    viewModel.validationState.onNext(ValidationState(index: index, state: state))
   }
 }
