@@ -58,7 +58,6 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: SubCategory) {
-    print("야야야 = \(model)")
     interestTypeLabel.text = model.name
     isTapped = model.isSelected
   }

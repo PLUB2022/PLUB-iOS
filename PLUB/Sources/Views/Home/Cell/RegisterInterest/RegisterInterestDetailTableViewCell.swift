@@ -24,7 +24,6 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   private var subCategories: [SubCategory] = [] {
     didSet {
-      print("category = \(subCategories)")
       interestTypeCollectionView.reloadData()
     }
   }
