@@ -45,6 +45,7 @@
 		70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */; };
 		70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */; };
 		70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */; };
+		70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
@@ -187,6 +188,7 @@
 		70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRouter.swift; sourceTree = "<group>"; };
 		70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingService.swift; sourceTree = "<group>"; };
 		70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingResponse.swift; sourceTree = "<group>"; };
+		70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentRouter.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -638,6 +640,7 @@
 				C38A5B94297AD5B000485355 /* KakaoLocationRouter.swift */,
 				70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */,
 				70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */,
+				70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -941,7 +944,7 @@
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
 				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
 				70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */,
-				7095A58A292E58F9002A52E6 /* IndicatorButton.swift in Sources */,
+				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
 				C38A5B93297ACF5B00485355 /* LocationControl.swift in Sources */,
 				C38A5BA3297B17EF00485355 /* MeetingLocationViewModel.swift in Sources */,
 				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
@@ -988,6 +991,7 @@
 				BAE2B364297C1D720000D5B9 /* AccountService.swift in Sources */,
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
+				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
 				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
