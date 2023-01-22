@@ -9,7 +9,30 @@ import UIKit
 
 import RxSwift
 
+//enum MeetingQuestionTableViewSection: Int {
+//  case titleSection = 0
+//  case buttonSection = 1
+//  case questionSection = 2
+//
+//  var index: Int {
+//    return self.rawValue
+//  }
+//
+//  var height: CGFloat {
+//    switch self {
+//    case .titleSection:
+//      return 70
+//    case .buttonSection:
+//      return 142
+//    case .questionSection:
+//      return UITableView.automaticDimension
+//    }
+//  }
+//}
+
 final class MeetingQuestionViewController: BaseViewController {
+  
+  private var viewModel: MeetingQuestionViewModel
   weak var delegate: CreateMeetingChildViewControllerDelegate?
   private var childIndex: Int
   
@@ -37,18 +60,20 @@ final class MeetingQuestionViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.list(label: "질문 없이 모집하기")
   }
   
-  private let tableView = UITableView().then {
+  private lazy var tableView = UITableView().then {
     $0.register(QuestionTableViewCell.self, forCellReuseIdentifier: QuestionTableViewCell.identifier)
     $0.separatorStyle = .none
     $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
-    $0.rowHeight = UITableView.automaticDimension
+    $0.delegate = self
+    $0.dataSource = self
   }
-
   
   init(
+    viewModel: MeetingQuestionViewModel,
     childIndex: Int
   ) {
+    self.viewModel = viewModel
     self.childIndex = childIndex
     super.init(nibName: nil, bundle: nil)
   }
@@ -78,10 +103,6 @@ final class MeetingQuestionViewController: BaseViewController {
         $0.leading.trailing.equalToSuperview().inset(24)
     }
     
-//    contentStackView.snp.makeConstraints {
-//      $0.edges.equalToSuperview()
-//      $0.width.equalTo(scrollView.snp.width)
-//    }
     tableView.snp.makeConstraints {
       $0.top.equalTo(contentStackView.snp.bottom).offset(48)
       $0.leading.trailing.bottom.equalToSuperview()
@@ -123,23 +144,62 @@ final class MeetingQuestionViewController: BaseViewController {
         )
        })
        .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - UITableViewDelegate
+
+extension MeetingQuestionViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UITableView.automaticDimension
+  }
+}
+
+// MARK: - UITableViewDataSource
+
+extension MeetingQuestionViewController: UITableViewDataSource {
+  func numberOfSections(in tableView: UITableView) -> Int {
+      return 1
+  }
     
-    Observable.of(["질문1", "질문2"])
-      .bind(to: tableView.rx.items) { tableView, row, item -> UITableViewCell in
-        guard let cell = tableView.dequeueReusableCell(
-          withIdentifier: "QuestionTableViewCell",
-          for: IndexPath(row: row, section: 0)
-        ) as? QuestionTableViewCell
-        else { return UITableViewCell() }
-//        cell.setupData(
-//          with: LocationTableViewCellModel(
-//            title: item.placeName ?? "",
-//            subTitle: item.addressName ?? ""
-//          )
-//        )
-        print(item)
-        return cell
-      }
-      .disposed(by: disposeBag)
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cell = tableView.dequeueReusableCell(
+        withIdentifier: QuestionTableViewCell.identifier,
+        for: indexPath
+    ) as? QuestionTableViewCell else { return UITableViewCell() }
+    cell.indexPathRow = indexPath.row
+    cell.delegate = self
+    return cell
+  }
+    
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 0
+  }
+    
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    return UIView()
+  }
+    
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return viewModel.questionList.count
+  }
+    
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+  }
+}
+
+extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
+  
+  func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView) {
+    let size = textView.bounds.size
+    let newSize = tableView.sizeThatFits(CGSize(width: size.width,
+                                                        height: .infinity))
+    if size.height != newSize.height {
+      UIView.setAnimationsEnabled(false)
+      tableView.beginUpdates()
+      tableView.endUpdates()
+      UIView.setAnimationsEnabled(true)
+    }
   }
 }

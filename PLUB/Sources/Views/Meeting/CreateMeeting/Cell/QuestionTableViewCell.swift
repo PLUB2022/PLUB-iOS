@@ -9,12 +9,21 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
+
+protocol QuestionTableViewCellDelegate: AnyObject {
+  func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView)
+}
 
 final class QuestionTableViewCell: UITableViewCell {
-    
-  static let identifier = "QuestionTableViewCell"
+  private let disposeBag = DisposeBag()
   
-  private let textView = InputTextView(
+  weak var delegate: QuestionTableViewCellDelegate?
+  static let identifier = "QuestionTableViewCell"
+  var indexPathRow = 0
+  
+  private let inputTextView = InputTextView(
     title: "질문",
     placeHolder: "질문을 입력해주세요"
   )
@@ -24,6 +33,7 @@ final class QuestionTableViewCell: UITableViewCell {
     setupLayouts()
     setupConstraints()
     setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -32,17 +42,17 @@ final class QuestionTableViewCell: UITableViewCell {
     
   override func prepareForReuse() {
     super.prepareForReuse()
-    textView.textView.text = nil
+    inputTextView.textView.text = nil
   }
 }
 
 private extension QuestionTableViewCell {
   func setupLayouts() {
-    contentView.addSubview(textView)
+    contentView.addSubview(inputTextView)
   }
   
   func setupConstraints() {
-    textView.snp.makeConstraints {
+    inputTextView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.bottom.equalToSuperview().inset(16)
       $0.leading.trailing.equalToSuperview().inset(24)
@@ -53,5 +63,16 @@ private extension QuestionTableViewCell {
     selectionStyle = .none
     accessoryType = .none
     backgroundColor = .background
+  }
+  
+  func bind() {
+    inputTextView.textView.rx.text.orEmpty
+      .distinctUntilChanged()
+      .skip(1)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, text in
+        owner.delegate?.updateHeightOfRow(owner, owner.inputTextView.textView)
+      })
+      .disposed(by: disposeBag)
   }
 }
