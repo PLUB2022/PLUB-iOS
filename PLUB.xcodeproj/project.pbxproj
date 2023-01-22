@@ -49,6 +49,7 @@
 		70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */; };
 		70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */; };
 		70F1DFEF297D9E1C00F9BC83 /* IntroduceCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEE297D9E1C00F9BC83 /* IntroduceCategoryViewModel.swift */; };
+		70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
@@ -195,6 +196,7 @@
 		70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentService.swift; sourceTree = "<group>"; };
 		70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70F1DFEE297D9E1C00F9BC83 /* IntroduceCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryViewModel.swift; sourceTree = "<group>"; };
+		70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentModel.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 			isa = PBXGroup;
 			children = (
 				70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */,
+				70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */,
 			);
 			path = Recruitment;
 			sourceTree = "<group>";
@@ -998,6 +1001,7 @@
 				C34F71C329799B1C003DB376 /* TimeControl.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
+				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,
 				70F1DFD8297959A900F9BC83 /* MainCategoryListResponse.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
