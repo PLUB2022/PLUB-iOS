@@ -7,15 +7,11 @@
 
 import UIKit
 
+import RxSwift
+
 final class MeetingQuestionViewController: BaseViewController {
   weak var delegate: CreateMeetingChildViewControllerDelegate?
   private var childIndex: Int
-  
-  private let scrollView = UIScrollView().then {
-    $0.bounces = false
-    $0.contentInsetAdjustmentBehavior = .never
-    $0.showsVerticalScrollIndicator = false
-  }
   
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
@@ -41,6 +37,15 @@ final class MeetingQuestionViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.list(label: "질문 없이 모집하기")
   }
   
+  private let tableView = UITableView().then {
+    $0.register(QuestionTableViewCell.self, forCellReuseIdentifier: QuestionTableViewCell.identifier)
+    $0.separatorStyle = .none
+    $0.showsVerticalScrollIndicator = false
+    $0.backgroundColor = .background
+    $0.rowHeight = UITableView.automaticDimension
+  }
+
+  
   init(
     childIndex: Int
   ) {
@@ -53,8 +58,9 @@ final class MeetingQuestionViewController: BaseViewController {
   }
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
-    scrollView.addSubview(contentStackView)
+    [contentStackView, tableView].forEach {
+      view.addSubview($0)
+    }
     
     [titleView, questionStackView].forEach {
       contentStackView.addArrangedSubview($0)
@@ -67,16 +73,19 @@ final class MeetingQuestionViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    scrollView.snp.makeConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.bottom.equalToSuperview().inset(24)
-    }
-    
     contentStackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-      $0.width.equalTo(scrollView.snp.width)
+        $0.top.equalTo(view.safeAreaLayoutGuide)
+        $0.leading.trailing.equalToSuperview().inset(24)
     }
     
+//    contentStackView.snp.makeConstraints {
+//      $0.edges.equalToSuperview()
+//      $0.width.equalTo(scrollView.snp.width)
+//    }
+    tableView.snp.makeConstraints {
+      $0.top.equalTo(contentStackView.snp.bottom)
+      $0.leading.trailing.bottom.equalToSuperview()
+    }
     
     [questionButton, noquestionButton].forEach{
       $0.snp.makeConstraints {
@@ -91,5 +100,46 @@ final class MeetingQuestionViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    questionButton.rx.tap
+       .withUnretained(self)
+       .subscribe(onNext: { owner, _ in
+         owner.questionButton.isSelected = true
+         owner.noquestionButton.isSelected = false
+         self.delegate?.checkValidation(
+           index: self.childIndex,
+           state: true
+         )
+       })
+       .disposed(by: disposeBag)
+    
+    noquestionButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+         owner.questionButton.isSelected = false
+         owner.noquestionButton.isSelected = true
+        self.delegate?.checkValidation(
+          index: self.childIndex,
+          state: true
+        )
+       })
+       .disposed(by: disposeBag)
+    
+    Observable.of(["질문1", "질문2"])
+      .bind(to: tableView.rx.items) { tableView, row, item -> UITableViewCell in
+        guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: "QuestionTableViewCell",
+          for: IndexPath(row: row, section: 0)
+        ) as? QuestionTableViewCell
+        else { return UITableViewCell() }
+//        cell.setupData(
+//          with: LocationTableViewCellModel(
+//            title: item.placeName ?? "",
+//            subTitle: item.addressName ?? ""
+//          )
+//        )
+        print(item)
+        return cell
+      }
+      .disposed(by: disposeBag)
   }
 }
