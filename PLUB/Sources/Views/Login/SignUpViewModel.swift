@@ -22,13 +22,13 @@ protocol SignUpViewModelType: SignUpViewModel {
   var validationState: AnyObserver<ValidationState> { get }
   
   // Output
-  var isButtonEnabled: Driver<Bool> { get } // 버튼 활성화 제어
+  var isButtonEnabled: Driver<Bool> { get }
 }
 
 final class SignUpViewModel: SignUpViewModelType {
   
   // Input
-  let validationState: AnyObserver<ValidationState>
+  let validationState: AnyObserver<ValidationState> // 자식들에게서 상태값을 받음
   
   // Output
   let isButtonEnabled: Driver<Bool> // 버튼 활성화 제어
