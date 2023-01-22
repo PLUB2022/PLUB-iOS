@@ -13,7 +13,7 @@ protocol IntroduceCategoryViewModelType {
   var selectPlubbingId: AnyObserver<String> { get }
   
   // Output
-  var fetchDetailRecruitment: AnyObserver<DetailRecruitmentModel> { get }
+  var fetchDetailRecruitment: Driver<DetailRecruitmentModel> { get }
 }
 
 class IntroduceCategoryViewModel: IntroduceCategoryViewModelType {
@@ -24,14 +24,14 @@ class IntroduceCategoryViewModel: IntroduceCategoryViewModelType {
   let selectPlubbingId: AnyObserver<String>
   
   // Output
-  let fetchDetailRecruitment: AnyObserver<DetailRecruitmentModel>
+  let fetchDetailRecruitment: Driver<DetailRecruitmentModel>
   
   init() {
     let selectingPlubbingId = PublishSubject<String>()
     let fetchingDetailRecruitment = PublishSubject<DetailRecruitmentModel>()
     
     self.selectPlubbingId = selectingPlubbingId.asObserver()
-    self.fetchDetailRecruitment = fetchingDetailRecruitment.asObserver()
+    self.fetchDetailRecruitment = fetchingDetailRecruitment.asDriver(onErrorDriveWith: .empty())
     
     let fetchingDetail = selectingPlubbingId
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingId:))
