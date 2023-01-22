@@ -87,6 +87,7 @@ final class CreateMeetingViewController: BaseViewController {
   }
   
   private lazy var meetinQuestionViewController = MeetingQuestionViewController(
+    viewModel: MeetingQuestionViewModel(),
     childIndex: 4
   ).then {
     $0.delegate = self
