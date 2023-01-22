@@ -8,7 +8,7 @@
 import Foundation
 
 struct RegisterInterestModel {
-  let category: Category
+  var category: Category
   var isExpanded: Bool
   
   init(category: Category) {
