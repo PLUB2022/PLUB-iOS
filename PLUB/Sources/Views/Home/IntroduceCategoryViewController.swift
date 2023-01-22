@@ -10,32 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-struct IntroduceCategoryModel {
-  let title: String
-  let introduce: String
-  let categories: [String]
-  let name: String
-  let goal: String
-  let mainImage: String?
-  let days: [String]
-  let time: String
-  let address: String
-  let roadAddress: String
-  let placeName: String
-  let placePositionX: Double
-  let placePositionY: Double
-  let isBookmarked: Bool
-  let isApplied: Bool
-  let curAccountNum: Int
-  let remainAccountNum: Int
-  let joinedAccounts: [AccountInfo]
-}
-
-struct AccountInfo {
-  let accountId: Int
-  let profileImage: String?
-}
-
 final class IntroduceCategoryViewController: BaseViewController {
   
   private let model: SelectedCategoryCollectionViewCellModel
