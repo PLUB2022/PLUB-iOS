@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxCocoa
 import RxSwift
 import SnapKit
 
@@ -225,4 +226,12 @@ struct InputViewOptions: OptionSet {
   
   static let textCount = InputViewOptions(rawValue: 1 << 0) // 글자수 세기
   static let questionMark = InputViewOptions(rawValue: 1 << 1) // 물음표 버튼
+}
+
+// MARK: - RxSwift Custom Property
+
+extension Reactive where Base: InputTextView {
+  var text: ControlProperty<String?> {
+    return base.textView.rx.text
+  }
 }
