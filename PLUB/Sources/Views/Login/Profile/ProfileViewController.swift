@@ -209,6 +209,7 @@ final class ProfileViewController: BaseViewController {
     viewModel.isAvailableNickname
       .drive(with: self, onNext: { owner, flag in
         owner.updateNicknameValidationUI(isValid: flag)
+        owner.delegate?.checkValidation(index: 2, state: flag)
       })
       .disposed(by: disposeBag)
     
@@ -264,6 +265,7 @@ extension ProfileViewController: PhotoBottomSheetDelegate {
 extension ProfileViewController: UITextFieldDelegate {
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    delegate?.checkValidation(index: 2, state: false)
     textField.textColor = .black
     return range.location < 15
   }
