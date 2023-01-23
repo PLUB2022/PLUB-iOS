@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 
 enum MeetingQuestionSectionType: Int, CaseIterable{
+//TODO: 수빈 - title, button 뷰 tableViewCell에 넣기
 //  case titleSection = 0
 //  case buttonSection = 1
   case questionSection = 0
@@ -21,6 +22,7 @@ enum MeetingQuestionSectionType: Int, CaseIterable{
 
   var height: CGFloat {
     switch self {
+//TODO: 수빈 - title, button 뷰 tableViewCell에 넣기
 //    case .titleSection:
 //      return 70
 //    case .buttonSection:
@@ -186,7 +188,6 @@ extension MeetingQuestionViewController: UITableViewDataSource {
           withIdentifier: AddQuestionTableViewCell.identifier,
           for: indexPath
       ) as? AddQuestionTableViewCell else { return UITableViewCell() }
-//      cell.indexPathRow = indexPath.row
       cell.delegate = self
       return cell
     default:
@@ -243,7 +244,6 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
   func removeQuestion(index: Int) {
     viewModel.questionList.remove(at: index)
     viewModel.removeQuestion(index: index)
-//    self.tableView.deleteRows(at: [IndexPath(row: index, section: MeetingQuestionSectionType.questionSection.index)], with: .automatic)
     self.tableView.reloadData()
   }
   
