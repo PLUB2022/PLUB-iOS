@@ -196,30 +196,27 @@ final class ProfileViewController: BaseViewController {
     // ===  ViewModel Binding  ===
     
     // 빨리 입력하면 api가 여러번 호출되므로, 0.5초동안 입력 없을 시 데이터 emit
-    let output = viewModel.transform(
-      input: .init(
-        text: nicknameTextField.rx.text
-          .orEmpty
-          .distinctUntilChanged()
-          .skip(1)
-          .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
-          .filter { $0 != "" }
-          .asObservable()
-      )
-    )
+    nicknameTextField.rx.text
+      .orEmpty
+      .distinctUntilChanged()
+      .skip(1)
+      .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+      .filter { $0 != "" }
+      .bind(to: viewModel.nicknameText)
+      .disposed(by: disposeBag)
     
-    // 닉네임 사용가능여부
-    output.isAvailable
-      .drive(onNext: { [weak self] flag in
-        self?.updateNicknameValidationUI(isValid: flag)
+    // 닉네임 사용가능여부를 판단하고 UI 업데이트
+    viewModel.isAvailableNickname
+      .drive(with: self, onNext: { owner, flag in
+        owner.updateNicknameValidationUI(isValid: flag)
+        owner.delegate?.checkValidation(index: 2, state: flag)
       })
       .disposed(by: disposeBag)
     
     // 메시지 처리
-    output.alertMessage
+    viewModel.alertMessage
       .drive(alertLabel.rx.text)
       .disposed(by: disposeBag)
-    
   }
   
   /// 최초 상태의 UI를 설정합니다. (textField, label, bubble image 등)
@@ -268,6 +265,7 @@ extension ProfileViewController: PhotoBottomSheetDelegate {
 extension ProfileViewController: UITextFieldDelegate {
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    delegate?.checkValidation(index: 2, state: false)
     textField.textColor = .black
     return range.location < 15
   }
