@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -16,6 +17,8 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   /// Disclosure Indicator의 애니메이션 flag
   private var indicatorFlag = false
+  
+  var disposeBag = DisposeBag()
   
   private let disclosureIndicator: UIImageView = UIImageView().then {
     $0.image = UIImage(systemName: "chevron.down")
@@ -87,6 +90,12 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
       let upsideDown = CGAffineTransform(rotationAngle: .pi * 0.9999)
       self.disclosureIndicator.transform = self.indicatorFlag ? upsideDown : .identity
     }
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    // 재사용 시 기존의 disposeBag에 있는 Disposables를 Dispose 시킴
+    disposeBag = DisposeBag()
   }
   
   func configure(with policy: String) {

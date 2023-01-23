@@ -10,7 +10,24 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class PolicyViewModel {
+protocol PolicyViewModelType: PolicyViewModel {
+  // Input
+  var allAgreementButtonTapped: AnyObserver<Void> { get }
+  
+  // Output
+  var checkedButtonListState: Driver<[Bool]> { get }
+}
+
+final class PolicyViewModel: PolicyViewModelType {
+  
+  // Input
+  let allAgreementButtonTapped: AnyObserver<Void> // 전체 동의 탭되었을 때
+  
+  // Output
+  let checkedButtonListState: Driver<[Bool]> // 현재 버튼 체크되어있는 상태
+  
+  private let allAgreementSubject = PublishSubject<Void>()
+  private let buttonCheckedRelay = BehaviorRelay<[Bool]>(value: [Bool](repeating: false, count: 5))
   
   private let disposeBag = DisposeBag()
   
@@ -22,68 +39,35 @@ final class PolicyViewModel {
     "마케팅 활용 동의 (선택)"
   ]
   
-  private var checkedList = [CheckBoxButton]() {
-    didSet {
-      // tableView cell의 버튼들이 전부 들어가져있다면
-      if checkedList.count == policies.count {
-        // 바인딩 처리
-        bind()
-      }
-    }
-  }
-  
   private var dataSource: DataSource? = nil {
     didSet {
       applyInitialSnapshots()
     }
   }
   
-  private let buttonCheckedRelay = BehaviorRelay<[Bool]>(value: [])
+  init() {
+    allAgreementButtonTapped = allAgreementSubject.asObserver()
+    checkedButtonListState = buttonCheckedRelay.asDriver()
+    bind()
+  }
 }
 
 // MARK: - Rx Progress
 
 extension PolicyViewModel {
-  struct Input {
-    // 전체 동의 탭되었을 때
-    let allAgreementButtonTapped: Observable<Void>
-  }
-  
-  struct Output {
-    // 현재 버튼 체크되어있는 상태
-    let checkedButtonListState: Driver<[Bool]>
-  }
-  
-  func transform(input: Input) -> Output {
-    
-    input.allAgreementButtonTapped
-      .subscribe(onNext: { [weak self] in
-        self?.applyAllAgreement()
-      })
-      .disposed(by: disposeBag)
-    
-    return Output(
-      checkedButtonListState: buttonCheckedRelay.asDriver()
-    )
-  }
   
   func bind() {
-    let drivers = checkedList.map { $0.rx.isChecked.asDriver() }
-    Driver<Bool>.combineLatest(drivers)
-      .drive(with: self, onNext: { owner, _ in
-        // 전체 동의 버튼 클릭 시의 isChecked 값이 combineLatest의 값과 연동되어있지 않아서
-        // self.checkedList의 isChecked를 accept하도록 구현
-        owner.buttonCheckedRelay.accept(owner.checkedList.map { $0.isChecked })
+    allAgreementSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.applyAllAgreement()
       })
       .disposed(by: disposeBag)
   }
   
-  func applyAllAgreement() {
-    let alreadyCheckedAll = checkedList.map(\.isChecked).filter({$0}).count == checkedList.count
-    checkedList.forEach {
-      $0.isChecked = alreadyCheckedAll ? false : true
-    }
-    buttonCheckedRelay.accept(checkedList.map { $0.isChecked })
+  private func applyAllAgreement() {
+    let alreadyCheckedAll = buttonCheckedRelay.value.firstIndex(of: false) == nil
+    buttonCheckedRelay.accept([Bool](repeating: !alreadyCheckedAll, count: 5))
   }
 }
 
@@ -112,7 +96,22 @@ extension PolicyViewModel {
       }
       
       if let headerCell = cell as? PolicyHeaderTableViewCell {
-        self.checkedList.append(headerCell.checkbox)
+        
+        // 셀의 체크박스가 탭되면, viewModel의 check list 업데이트
+        headerCell.checkbox.rx.tap
+          .withUnretained(self)
+          .subscribe(onNext: { owner, _ in
+            var transformedValue = owner.buttonCheckedRelay.value
+            transformedValue[indexPath.section] = headerCell.checkbox.isChecked
+            owner.buttonCheckedRelay.accept(transformedValue)
+          })
+          .disposed(by: headerCell.disposeBag) // disposeBag을 cell에게 위임 -> cell 재사용될 시 dispose
+        
+        // check list가 바뀌면 버튼 ui도 바뀌도록 바인딩 처리 진행
+        self.buttonCheckedRelay
+          .map { $0[indexPath.section] }
+          .bind(to: headerCell.checkbox.rx.isChecked)
+          .disposed(by: headerCell.disposeBag) // disposeBag을 cell에게 위임 -> cell 재사용 시 dispose
       }
       
       return cell
