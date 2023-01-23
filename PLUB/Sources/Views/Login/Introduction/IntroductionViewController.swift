@@ -41,6 +41,23 @@ final class IntroductionViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    // 사용자가 소개글 입력시
+    inputTextView.rx.text
+      .orEmpty
+      .filter { $0 != Constants.placeholder } // placeholder 필터링
+      .distinctUntilChanged()
+      .skip(1) // 처음 구독시 빈 값이 들어옴
+      .bind(to: viewModel.introductionText)
+      .disposed(by: disposeBag)
+    
+    // 버튼 활성화 여부
+    viewModel.isButtonEnabled
+      .drive(with: self, onNext: { owner, flag in
+        // delegate에 전달
+        owner.delegate?.checkValidation(index: 3, state: flag)
+      })
+      .disposed(by: disposeBag)
   }
 }
 
