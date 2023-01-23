@@ -26,15 +26,18 @@ class ParticipantListView: UIView {
     $0.sizeToFit()
   }
   
-  private lazy var participantListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
-    $0.minimumInteritemSpacing = 3
-    $0.scrollDirection = .horizontal
-  })).then {
-    $0.backgroundColor = .background
-    $0.isScrollEnabled = false
-    $0.delegate = self
-    $0.dataSource = self
-    $0.register(ParticipantListCollectionViewCell.self, forCellWithReuseIdentifier: ParticipantListCollectionViewCell.identifier)
+  private lazy var participantListStackView = UIStackView(arrangedSubviews: [
+    profileImageView, moreButton
+  ]).then {
+    $0.spacing = 8.05
+    $0.axis = .horizontal
+    $0.alignment = .leading
+//    $0.distribution = .
+  }
+  
+  private let profileImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
+    $0.image = UIImage(systemName: "person.fill")
   }
   
   private let moreButton = UIButton().then {
@@ -42,6 +45,17 @@ class ParticipantListView: UIView {
     $0.tintColor = .deepGray
     $0.layer.masksToBounds = true
   }
+  
+//  private lazy var participantListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
+//    $0.minimumInteritemSpacing = 3
+//    $0.scrollDirection = .horizontal
+//  })).then {
+//    $0.backgroundColor = .background
+//    $0.isScrollEnabled = false
+//    $0.delegate = self
+//    $0.dataSource = self
+//    $0.register(ParticipantListCollectionViewCell.self, forCellWithReuseIdentifier: ParticipantListCollectionViewCell.identifier)
+//  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -59,25 +73,25 @@ class ParticipantListView: UIView {
   }
   
   private func configureUI() {
-    [participantTitleLabel, participantListCollectionView, moreButton].forEach { addSubview($0) }
+    [participantTitleLabel, participantListStackView].forEach { addSubview($0) }
     
     participantTitleLabel.snp.makeConstraints {
       $0.top.left.equalToSuperview()
     }
     
-    participantListCollectionView.snp.makeConstraints {
-      $0.top.equalTo(participantTitleLabel.snp.bottom)
-      $0.left.equalToSuperview()
-      $0.bottom.equalToSuperview()
+    participantListStackView.snp.makeConstraints {
+      $0.top.equalTo(participantTitleLabel.snp.bottom).offset(7)
+      $0.left.right.bottom.equalToSuperview()
     }
     
-    moreButton.snp.makeConstraints {
-      $0.left.equalTo(participantListCollectionView.snp.right).offset(3)
-      $0.centerY.equalTo(participantListCollectionView)
-      $0.right.bottom.equalToSuperview()
-      $0.width.height.equalTo(34)
+    profileImageView.snp.makeConstraints { make in
+      make.width.height.equalTo(34)
     }
     
+    moreButton.snp.makeConstraints { make in
+      make.width.height.equalTo(34)
+    }
+
     moreButton.addTarget(self, action: #selector(didTappedMoreButton), for: .touchUpInside)
   }
   
@@ -86,24 +100,3 @@ class ParticipantListView: UIView {
   }
 }
 
-extension ParticipantListView: UICollectionViewDelegate, UICollectionViewDataSource {
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ParticipantListCollectionViewCell.identifier, for: indexPath) as? ParticipantListCollectionViewCell ?? ParticipantListCollectionViewCell()
-    cell.configureUI(with: "")
-    return cell
-  }
-}
-
-extension ParticipantListView: UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 34, height: 34)
-  }
-}

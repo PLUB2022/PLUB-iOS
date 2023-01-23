@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class IntroduceCategoryViewController: BaseViewController {
+final class DetailRecruitmentViewController: BaseViewController {
   
   private let model: SelectedCategoryCollectionViewCellModel
   let mod = [
@@ -110,10 +110,12 @@ final class IntroduceCategoryViewController: BaseViewController {
     }
     
     participantListView.snp.makeConstraints { make in
-      make.left.right.equalToSuperview().inset(16)
-      make.height.greaterThanOrEqualTo(64)
+//      make.left.right.equalToSuperview().inset(16)
+      make.left.equalToSuperview().offset(17.5)
+      make.right.lessThanOrEqualToSuperview().offset(-14.14)
+      make.height.equalTo(64)
     }
-    
+    participantListView.backgroundColor = .red
     bottomStackView.snp.makeConstraints { make in
       make.right.equalToSuperview().offset(-16.5)
       make.height.equalTo(46)
@@ -147,7 +149,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   }
 }
 
-extension IntroduceCategoryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }

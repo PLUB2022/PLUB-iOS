@@ -30,7 +30,7 @@
 		7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* ToggleButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
-		70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */; };
+		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
 		70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */; };
 		70BD5F35296491C8002CBA89 /* ApplyQuestionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */; };
@@ -177,7 +177,7 @@
 		7095A589292E58F9002A52E6 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
-		70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryViewController.swift; sourceTree = "<group>"; };
+		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
 		70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionHeaderView.swift; sourceTree = "<group>"; };
@@ -557,7 +557,7 @@
 				BA88125128E48A2F00BD832A /* HomeViewController.swift */,
 				7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */,
 				70197B712953698F000503F6 /* SelectedCategoryViewController.swift */,
-				70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */,
+				70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */,
 				70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */,
 			);
 			path = Home;
@@ -952,7 +952,7 @@
 				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,
 				70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */,
-				70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */,
+				70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,

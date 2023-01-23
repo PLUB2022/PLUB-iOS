@@ -141,7 +141,7 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = IntroduceCategoryViewController(model: selectedCategoryCollectionViewCellModels[indexPath.row])
+    let vc = DetailRecruitmentViewController(model: selectedCategoryCollectionViewCellModels[indexPath.row])
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }

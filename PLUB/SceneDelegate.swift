@@ -17,8 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     guard let windowScene = scene as? UIWindowScene else { return }
     window = UIWindow(windowScene: windowScene)
-    window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-    window?.rootViewController = UINavigationController(rootViewController: HomeViewController(viewModel: HomeViewModel()))
+//    window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+//    window?.rootViewController = UINavigationController(rootViewController: HomeViewController(viewModel: HomeViewModel()))
+    window?.rootViewController = DetailRecruitmentViewController(model: .init(title: "", description: "", selectedCategoryInfoViewModel: .init(location: "", peopleCount: 0, when: "")))
     window?.makeKeyAndVisible()
   }
   
