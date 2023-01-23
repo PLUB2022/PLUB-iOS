@@ -19,6 +19,8 @@ class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   
+  private let categoryId: String
+  
 //  private let introduceCategoryModels: [IntroduceCategoryModel] = []
   
   private var selectedCategoryCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
@@ -38,8 +40,9 @@ class SelectedCategoryViewController: BaseViewController {
     $0.dataSource = self
   }
  
-  init(viewModel: SelectedCategoryViewModelType) {
+  init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryId: String) {
     self.viewModel = viewModel
+    self.categoryId = categoryId // 카테고리별 모임 조회 API에 사용될 categoryId
     super.init(nibName: nil, bundle: nil)
   }
   
