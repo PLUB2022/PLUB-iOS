@@ -39,10 +39,8 @@ final class IntroductionViewController: BaseViewController {
     }
   }
   
-  // MARK: - First Responder
-  
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    inputTextView.resignFirstResponder()
+  override func bind() {
+    super.bind()
   }
 }
 
