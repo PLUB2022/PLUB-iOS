@@ -88,10 +88,11 @@ final class PolicyViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    agreementCheckboxButton.rx.tap
+      .bind(to: viewModel.allAgreementButtonTapped)
+      .disposed(by: disposeBag)
     
-    let output = viewModel.transform(input: .init(allAgreementButtonTapped: agreementCheckboxButton.rx.tap.asObservable()))
-    
-    output.checkedButtonListState
+    viewModel.checkedButtonListState
       .do { print($0) }
       .map { $0.reduce(true, { $0 && $1 }) }
       .drive(onNext: { [weak self] in
@@ -99,7 +100,7 @@ final class PolicyViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
-    output.checkedButtonListState
+    viewModel.checkedButtonListState
       .map { $0.dropLast(1).reduce(true, { $0 && $1 }) }
       .drive(with: self, onNext: { owner, flag in
         // delegate 처리

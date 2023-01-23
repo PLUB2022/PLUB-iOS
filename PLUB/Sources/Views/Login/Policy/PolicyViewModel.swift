@@ -10,7 +10,24 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class PolicyViewModel {
+protocol PolicyViewModelType: PolicyViewModel {
+  // Input
+  var allAgreementButtonTapped: AnyObserver<Void> { get }
+  
+  // Output
+  var checkedButtonListState: Driver<[Bool]> { get }
+}
+
+final class PolicyViewModel: PolicyViewModelType {
+  
+  // Input
+  let allAgreementButtonTapped: AnyObserver<Void> // 전체 동의 탭되었을 때
+  
+  // Output
+  let checkedButtonListState: Driver<[Bool]> // 현재 버튼 체크되어있는 상태
+  
+  private let allAgreementSubject = PublishSubject<Void>()
+  private let buttonCheckedRelay = BehaviorRelay<[Bool]>(value: [])
   
   private let disposeBag = DisposeBag()
   
@@ -27,7 +44,7 @@ final class PolicyViewModel {
       // tableView cell의 버튼들이 전부 들어가져있다면
       if checkedList.count == policies.count {
         // 바인딩 처리
-        bind()
+        bindCheckbox()
       }
     }
   }
@@ -38,36 +55,27 @@ final class PolicyViewModel {
     }
   }
   
-  private let buttonCheckedRelay = BehaviorRelay<[Bool]>(value: [])
+  init() {
+    allAgreementButtonTapped = allAgreementSubject.asObserver()
+    checkedButtonListState = buttonCheckedRelay.asDriver()
+    bind()
+  }
 }
 
 // MARK: - Rx Progress
 
 extension PolicyViewModel {
-  struct Input {
-    // 전체 동의 탭되었을 때
-    let allAgreementButtonTapped: Observable<Void>
-  }
-  
-  struct Output {
-    // 현재 버튼 체크되어있는 상태
-    let checkedButtonListState: Driver<[Bool]>
-  }
-  
-  func transform(input: Input) -> Output {
-    
-    input.allAgreementButtonTapped
-      .subscribe(onNext: { [weak self] in
-        self?.applyAllAgreement()
-      })
-      .disposed(by: disposeBag)
-    
-    return Output(
-      checkedButtonListState: buttonCheckedRelay.asDriver()
-    )
-  }
   
   func bind() {
+    allAgreementSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.applyAllAgreement()
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  func bindCheckbox() {
     let drivers = checkedList.map { $0.rx.isChecked.asDriver() }
     Driver<Bool>.combineLatest(drivers)
       .drive(with: self, onNext: { owner, _ in
