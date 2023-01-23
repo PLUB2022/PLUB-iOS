@@ -74,9 +74,9 @@ private extension QuestionTableViewCell {
     }
     
     removeButton.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.trailing.equalToSuperview().inset(16)
-      $0.size.equalTo(32)
+      $0.top.equalToSuperview().inset(2.5)
+      $0.trailing.equalToSuperview().inset(24)
+      $0.size.equalTo(14)
     }
   }
   

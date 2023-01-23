@@ -49,7 +49,6 @@ final class AddQuestionControl: UIControl {
     
     label.snp.makeConstraints {
       $0.leading.equalTo(imageView.snp.trailing).offset(4)
-      $0.trailing.equalToSuperview().inset(18)
       $0.centerY.equalTo(imageView.snp.centerY)
     }
   }
