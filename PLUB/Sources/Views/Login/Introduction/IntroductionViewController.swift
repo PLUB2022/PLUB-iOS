@@ -19,8 +19,8 @@ final class IntroductionViewController: BaseViewController {
   weak var delegate: SignUpChildViewControllerDelegate?
   
   private let inputTextView = InputTextView(
-    title: "소개",
-    placeHolder: "소개하는 내용을 입력해주세요",
+    title: Constants.title,
+    placeHolder: Constants.placeholder,
     options: .textCount,
     totalCharacterLimit: 150
   )
@@ -41,6 +41,19 @@ final class IntroductionViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+  }
+}
+
+// MARK: - Constants
+
+extension IntroductionViewController {
+  enum Constants {
+    
+    /// textView 위에 존재할 titleLabel
+    static let title = "소개"
+    
+    /// textView의 placeholder
+    static let placeholder = "소개하는 내용을 입력해주세요"
   }
 }
 
