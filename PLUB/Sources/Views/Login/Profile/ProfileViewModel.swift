@@ -10,42 +10,46 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-final class ProfileViewModel {
-  private let disposeBag = DisposeBag()
+protocol ProfileViewModelType: ProfileViewModel {
+  // input
+  var nicknameText: AnyObserver<String> { get }
+  
+  // output
+  var isAvailableNickname: Driver<Bool> { get }
+  var alertMessage: Driver<String> { get }
+}
+
+final class ProfileViewModel: ProfileViewModelType {
+  // input
+  let nicknameText: AnyObserver<String> // 닉네임 텍스트
+  
+  // output
+  let isAvailableNickname: Driver<Bool> // 닉네임 사용 가능 여부
+  let alertMessage: Driver<String>      // 닉네임 관련 알림 문구
   
   private let isAvailableRelay = PublishRelay<Bool>()
   private let alertMessageRelay = PublishRelay<String>()
-}
-
-// MARK: - Rx Progress
-
-extension ProfileViewModel {
-  struct Input {
-    // 텍스트필드의 텍스트
-    let text: Observable<String>
+  private let nicknameSubject = PublishSubject<String>()
+  
+  private let disposeBag = DisposeBag()
+  
+  init() {
+    nicknameText = nicknameSubject.asObserver()
+    isAvailableNickname = isAvailableRelay.asDriver(onErrorDriveWith: .empty())
+    alertMessage = alertMessageRelay.asDriver(onErrorDriveWith: .empty())
+    bind()
   }
   
-  struct Output {
-    // 현재 버튼 체크되어있는 상태
-    let isAvailable: Driver<Bool>
-    let alertMessage: Driver<String>
-  }
-  
-  func transform(input: Input) -> Output {
-    
-    input.text
+  private func bind() {
+    nicknameSubject
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
         owner.validate(text: text)
       })
       .disposed(by: disposeBag)
-    
-    return Output(
-      isAvailable: isAvailableRelay.asDriver(onErrorJustReturn: false),
-      alertMessage: alertMessageRelay.asDriver(onErrorJustReturn: ""))
   }
   
-  func validate(text: String) {
+  private func validate(text: String) {
     let characterRegex = "[^a-zA-Z가-힣0-9]" // 한글, 영어, 숫자를 제외한 문자를 찾는 정규표현식 (특수문자 찾기용)
     
     // text에 공백이 존재하는 경우
