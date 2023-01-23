@@ -111,6 +111,11 @@ final class MeetingDateViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    // TODO: 수빈 - nextButton enable 로직 구현
+    delegate?.checkValidation(
+      index: childIndex,
+      state: true
+    )
   }
   
   override func setupLayouts() {
