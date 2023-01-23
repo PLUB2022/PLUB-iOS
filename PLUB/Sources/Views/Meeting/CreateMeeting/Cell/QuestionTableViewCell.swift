@@ -19,6 +19,10 @@ protocol QuestionTableViewCellDelegate: AnyObject {
 }
 
 final class QuestionTableViewCell: UITableViewCell {
+  struct Constants {
+    static let placeHolder = "질문을 입력해주세요"
+  }
+  
   private let disposeBag = DisposeBag()
   
   weak var delegate: QuestionTableViewCellDelegate?
@@ -27,11 +31,12 @@ final class QuestionTableViewCell: UITableViewCell {
   
   private let inputTextView = InputTextView(
     title: "질문",
-    placeHolder: "질문을 입력해주세요"
+    placeHolder: Constants.placeHolder
   )
   
-  private let trashButton = UIButton().then {
+  private let removeButton = UIButton().then {
     $0.setImage(UIImage(named: "trashGray"), for: .normal)
+    $0.isHidden = true
   }
     
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -54,7 +59,7 @@ final class QuestionTableViewCell: UITableViewCell {
 
 private extension QuestionTableViewCell {
   func setupLayouts() {
-    [inputTextView, trashButton].forEach {
+    [inputTextView, removeButton].forEach {
       contentView.addSubview($0)
     }
   }
@@ -66,7 +71,7 @@ private extension QuestionTableViewCell {
       $0.leading.trailing.equalToSuperview().inset(24)
     }
     
-    trashButton.snp.makeConstraints {
+    removeButton.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.trailing.equalToSuperview().inset(16)
       $0.size.equalTo(32)
@@ -77,19 +82,20 @@ private extension QuestionTableViewCell {
     selectionStyle = .none
     accessoryType = .none
     backgroundColor = .background
+    removeButton.isHidden = true
   }
   
   func bind() {
     inputTextView.textView.rx.text.orEmpty
       .distinctUntilChanged()
-      .skip(1)
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
         owner.delegate?.updateHeightOfRow(owner, owner.inputTextView.textView)
+        owner.removeButton.isHidden = (text.isEmpty || text == Constants.placeHolder)
       })
       .disposed(by: disposeBag)
     
-    trashButton.rx.tap
+    removeButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         owner.delegate?.removeQuestion(index: owner.indexPathRow)
