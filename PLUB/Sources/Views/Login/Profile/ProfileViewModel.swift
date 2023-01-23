@@ -51,6 +51,13 @@ final class ProfileViewModel: ProfileViewModelType {
   
   private func validate(text: String) {
     let characterRegex = "[^a-zA-Z가-힣0-9]" // 한글, 영어, 숫자를 제외한 문자를 찾는 정규표현식 (특수문자 찾기용)
+    print(text)
+    // 2~8자가 아닌 경우
+    if text.count < 2 || text.count > 8 {
+      isAvailableRelay.accept(false)
+      alertMessageRelay.accept("2자에서 8자 사이로 입력해주세요.")
+      return
+    }
     
     // text에 공백이 존재하는 경우
     if text.range(of: " ") != nil {
