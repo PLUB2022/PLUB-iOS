@@ -70,11 +70,10 @@ extension PolicyViewModel {
   func bind() {
     let drivers = checkedList.map { $0.rx.isChecked.asDriver() }
     Driver<Bool>.combineLatest(drivers)
-      .drive(onNext: { [weak self] _ in
-        guard let self = self else { return }
+      .drive(with: self, onNext: { owner, _ in
         // 전체 동의 버튼 클릭 시의 isChecked 값이 combineLatest의 값과 연동되어있지 않아서
         // self.checkedList의 isChecked를 accept하도록 구현
-        self.buttonCheckedRelay.accept(self.checkedList.map { $0.isChecked })
+        owner.buttonCheckedRelay.accept(owner.checkedList.map { $0.isChecked })
       })
       .disposed(by: disposeBag)
   }
@@ -84,6 +83,7 @@ extension PolicyViewModel {
     checkedList.forEach {
       $0.isChecked = alreadyCheckedAll ? false : true
     }
+    buttonCheckedRelay.accept(checkedList.map { $0.isChecked })
   }
 }
 

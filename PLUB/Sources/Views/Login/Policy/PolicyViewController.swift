@@ -16,6 +16,8 @@ final class PolicyViewController: BaseViewController {
   
   private let viewModel = PolicyViewModel()
   
+  weak var delegate: SignUpChildViewControllerDelegate?
+  
   private let agreementControl = UIControl().then {
     $0.backgroundColor = .white
     $0.layer.cornerRadius = 8
@@ -99,8 +101,9 @@ final class PolicyViewController: BaseViewController {
     
     output.checkedButtonListState
       .map { $0.dropLast(1).reduce(true, { $0 && $1 }) }
-      .drive(onNext: { flag in
+      .drive(with: self, onNext: { owner, flag in
         // delegate 처리
+        owner.delegate?.checkValidation(index: 0, state: flag)
       })
       .disposed(by: disposeBag)
   }

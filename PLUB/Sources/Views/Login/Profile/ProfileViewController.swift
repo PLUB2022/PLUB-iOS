@@ -16,6 +16,8 @@ final class ProfileViewController: BaseViewController {
   
   // MARK: - Property
   
+  weak var delegate: SignUpChildViewControllerDelegate?
+  
   private let viewModel = ProfileViewModel()
   
   private let wholeStackView: UIStackView = UIStackView().then {
