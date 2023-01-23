@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct CategoryInfoListViewModel {
+struct CategoryInfoListModel {
   let location: String
   let peopleCount: Int
   let when: String
@@ -83,7 +83,7 @@ class CategoryInfoListView: UIView {
     }
   }
   
-  public func configureUI(with model: CategoryInfoListViewModel) {
+  public func configureUI(with model: CategoryInfoListModel) {
     locationInfoView.configureUI(with: model.location, categoryListType: categoryListType)
     peopleInfoView.configureUI(with: "\(model.peopleCount)", categoryListType: categoryListType)
     whenInfoView.configureUI(with: model.when, categoryListType: categoryListType)

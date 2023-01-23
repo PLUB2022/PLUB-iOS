@@ -14,7 +14,7 @@ import Then
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
   let title: String
   let description: String
-  let selectedCategoryInfoViewModel: CategoryInfoListViewModel
+  let selectedCategoryInfoModel: CategoryInfoListModel
 }
 
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
@@ -110,7 +110,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
-    categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
+    categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
     bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }
 }

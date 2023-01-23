@@ -35,6 +35,7 @@ class IntroduceCategoryViewModel: IntroduceCategoryViewModelType {
     
     let fetchingDetail = selectingPlubbingId
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingId:))
+      .share()
     
     let successFetchingDetail = fetchingDetail.map { result -> DetailRecruitmentResponse? in
       guard case .success(let detailRecruitmentResponse) = result else { return nil }

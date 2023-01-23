@@ -7,6 +7,7 @@
 
 import RxSwift
 
+// TODO: -이건준 추천모임조회 응답모델 코드 수정
 class MeetingService: BaseService {
   static let shared = MeetingService()
   

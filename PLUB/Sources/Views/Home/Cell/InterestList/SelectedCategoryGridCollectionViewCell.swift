@@ -102,6 +102,6 @@ class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     titleLabel.text = model.title
     descriptionLabel.text = model.description
-    categoryInfoListView.configureUI(with: model.selectedCategoryInfoViewModel)
+    categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
   }
 }
