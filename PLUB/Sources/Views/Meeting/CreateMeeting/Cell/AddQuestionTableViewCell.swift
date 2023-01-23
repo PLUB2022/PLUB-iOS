@@ -18,7 +18,7 @@ final class AddQuestionTableViewCell: UITableViewCell {
   weak var delegate: QuestionTableViewCellDelegate?
   static let identifier = "AddQuestionTableViewCell"
     
-  private let addQuestionControl = AddQuestionControl()
+  let addQuestionControl = AddQuestionControl()
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)

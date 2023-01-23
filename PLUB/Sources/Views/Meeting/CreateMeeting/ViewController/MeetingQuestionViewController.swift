@@ -145,6 +145,11 @@ final class MeetingQuestionViewController: BaseViewController {
           index: self.childIndex,
           state: state
         )
+        let addQuestionIndex = IndexPath(row: 0, section: MeetingQuestionSectionType.addQuestionSection.index)
+        guard let currentCell = self.tableView.cellForRow(at: addQuestionIndex) as? AddQuestionTableViewCell else {
+            return
+        }
+        currentCell.addQuestionControl.isHidden = !(state && self.viewModel.questionList.count < 5)
       })
       .disposed(by: disposeBag)
   }
