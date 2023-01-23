@@ -21,15 +21,12 @@ class SelectedCategoryViewController: BaseViewController {
   
   private let categoryId: String
   
-//  private let introduceCategoryModels: [IntroduceCategoryModel] = []
-  
   private var selectedCategoryCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
   
   private var selectedCategoryType: SelectedCategoryType = .chart
   
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
     $0.scrollDirection = .vertical
-//    $0.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
   })).then {
     $0.backgroundColor = .background
   }.then {
@@ -144,7 +141,7 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = DetailRecruitmentViewController(model: selectedCategoryCollectionViewCellModels[indexPath.row])
+    let vc = DetailRecruitmentViewController(plubbingId: selectedCategoryCollectionViewCellModels[indexPath.row].plubbingId)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }

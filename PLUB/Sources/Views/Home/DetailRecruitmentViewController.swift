@@ -10,9 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
+// TODO: -이건준 plubbingId를 통해 받아온 DetailRecruitmentModel을 이용
 final class DetailRecruitmentViewController: BaseViewController {
   
-  private let model: SelectedCategoryCollectionViewCellModel
+  private let viewModel: DetailRecruitmentViewModelType
+  private let plubbingId: Int
+  private var model: SelectedCategoryCollectionViewCellModel?
   let mod = [
     "이건준",
     "이건준ㅇㄹ",
@@ -78,8 +81,9 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   private let participantListView = ParticipantListView()
   
-  init(model: SelectedCategoryCollectionViewCellModel) {
-    self.model = model
+  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingId: Int) {
+    self.viewModel = viewModel
+    self.plubbingId = plubbingId
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -110,7 +114,6 @@ final class DetailRecruitmentViewController: BaseViewController {
     }
     
     participantListView.snp.makeConstraints { make in
-//      make.left.right.equalToSuperview().inset(16)
       make.left.equalToSuperview().offset(17.5)
       make.right.lessThanOrEqualToSuperview().offset(-14.14)
       make.height.equalTo(64)
@@ -138,6 +141,13 @@ final class DetailRecruitmentViewController: BaseViewController {
       target: self,
       action: #selector(didTappedComponentButton)
     )
+  }
+  
+  override func bind() {
+    super.bind()
+    viewModel.selectPlubbingId.onNext(plubbingId)
+//    viewModel.fetchDetailRecruitment
+//      .drive(rx.)
   }
   
   @objc private func didTappedBackButton() {
