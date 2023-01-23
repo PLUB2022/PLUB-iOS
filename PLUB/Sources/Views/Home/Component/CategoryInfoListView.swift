@@ -8,9 +8,10 @@
 import UIKit
 
 struct CategoryInfoListModel {
-  let location: String
+  let placeName: String
   let peopleCount: Int
   let when: String
+//  let days: [String]
 }
 
 enum CategoryAlignment {
@@ -84,7 +85,7 @@ class CategoryInfoListView: UIView {
   }
   
   public func configureUI(with model: CategoryInfoListModel) {
-    locationInfoView.configureUI(with: model.location, categoryListType: categoryListType)
+    locationInfoView.configureUI(with: model.placeName, categoryListType: categoryListType)
     peopleInfoView.configureUI(with: "\(model.peopleCount)", categoryListType: categoryListType)
     whenInfoView.configureUI(with: model.when, categoryListType: categoryListType)
   }

@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window = UIWindow(windowScene: windowScene)
 //    window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
 //    window?.rootViewController = UINavigationController(rootViewController: HomeViewController(viewModel: HomeViewModel()))
-    window?.rootViewController = DetailRecruitmentViewController(model: .init(title: "", description: "", selectedCategoryInfoModel: .init(location: "", peopleCount: 0, when: "")))
+    window?.rootViewController = DetailRecruitmentViewController(model: .init(plubbingId: 1, name: "", title: "", mainImage: "", introduce: "", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "", peopleCount: 0, when: "")))
     window?.makeKeyAndVisible()
   }
   

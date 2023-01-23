@@ -12,8 +12,12 @@ import SnapKit
 import Then
 
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
+  let plubbingId: Int
+  let name: String
   let title: String
-  let description: String
+  let mainImage: String?
+  let introduce: String
+  let isBookmarked: Bool
   let selectedCategoryInfoModel: CategoryInfoListModel
 }
 
@@ -109,7 +113,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     titleLabel.text = model.title
-    descriptionLabel.text = model.description
+    descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
     bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
   }

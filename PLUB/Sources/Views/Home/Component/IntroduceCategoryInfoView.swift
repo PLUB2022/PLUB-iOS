@@ -40,7 +40,7 @@ class IntroduceCategoryInfoView: UIView {
   
   private func configureUI() {
     [meetingRecommendedLabel, categoryInfoListView, meetingImageView].forEach { addSubview($0) }
-    categoryInfoListView.configureUI(with: .init(location: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분"))
+    categoryInfoListView.configureUI(with: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분"))
     meetingRecommendedLabel.snp.makeConstraints {
       $0.left.top.right.equalToSuperview()
     }
