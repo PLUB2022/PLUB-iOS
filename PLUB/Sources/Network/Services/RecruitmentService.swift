@@ -17,4 +17,8 @@ extension RecruitmentService {
   func inquireDetailRecruitment(plubbingId: String) -> Observable<NetworkResult<GeneralResponse<DetailRecruitmentResponse>>> {
     return sendRequest(RecruitmentRouter.inquireDetailRecruitment(plubbingId), type: DetailRecruitmentResponse.self)
   }
+  
+  func inquireRecruitmentQuestion(plubbingId: String) {
+    return sendRequest(RecruitmentRouter.inquireRecruitmentQuestion(plubbingId))
+  }
 }

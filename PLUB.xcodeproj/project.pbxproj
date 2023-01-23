@@ -50,6 +50,7 @@
 		70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */; };
 		70F1DFEF297D9E1C00F9BC83 /* IntroduceCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEE297D9E1C00F9BC83 /* IntroduceCategoryViewModel.swift */; };
 		70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */; };
+		70F1DFF3297EB89600F9BC83 /* RecruitmentQuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
@@ -197,6 +198,7 @@
 		70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70F1DFEE297D9E1C00F9BC83 /* IntroduceCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryViewModel.swift; sourceTree = "<group>"; };
 		70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentModel.swift; sourceTree = "<group>"; };
+		70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentQuestionResponse.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 			children = (
 				70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */,
 				70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */,
+				70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */,
 			);
 			path = Recruitment;
 			sourceTree = "<group>";
@@ -980,6 +983,7 @@
 				C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
+				70F1DFF3297EB89600F9BC83 /* RecruitmentQuestionResponse.swift in Sources */,
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
 				BA340E2529782356002BAF2C /* ProfileViewController.swift in Sources */,
 				C3AB743F296B21C1003DD5E2 /* MeetingDateViewController.swift in Sources */,
