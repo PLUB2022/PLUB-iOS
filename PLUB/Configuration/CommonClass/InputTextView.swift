@@ -235,3 +235,9 @@ struct InputViewOptions: OptionSet {
   static let textCount = InputViewOptions(rawValue: 1 << 0) // 글자수 세기
   static let questionMark = InputViewOptions(rawValue: 1 << 1) // 물음표 버튼
 }
+
+extension InputTextView {
+  func setTitleText(text: String){
+    titleLabel.text = text
+  }
+}

@@ -54,7 +54,8 @@ final class QuestionTableViewCell: UITableViewCell {
     
   override func prepareForReuse() {
     super.prepareForReuse()
-    inputTextView.textView.text = nil
+    inputTextView.textView.text = Constants.placeHolder
+    inputTextView.textView.textColor = .deepGray
   }
 }
 
@@ -111,5 +112,15 @@ private extension QuestionTableViewCell {
         owner.delegate?.removeQuestion(index: owner.indexPathRow)
       })
       .disposed(by: disposeBag)
+  }
+}
+
+extension QuestionTableViewCell {
+  func setCellData(text: String) {
+    inputTextView.setTitleText(text: "질문 \(indexPathRow + 1)")
+    
+    if text.isEmpty { return }
+    inputTextView.textView.text = text
+    inputTextView.textView.textColor = .black
   }
 }

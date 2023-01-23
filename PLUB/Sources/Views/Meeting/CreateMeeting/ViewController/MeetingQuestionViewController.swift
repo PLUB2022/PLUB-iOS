@@ -178,6 +178,7 @@ extension MeetingQuestionViewController: UITableViewDataSource {
           for: indexPath
       ) as? QuestionTableViewCell else { return UITableViewCell() }
       cell.indexPathRow = indexPath.row
+      cell.setCellData(text: viewModel.questionList[indexPath.row])
       cell.delegate = self
       return cell
     case MeetingQuestionSectionType.addQuestionSection.index:
@@ -225,7 +226,8 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
   func addQuestion() {
     viewModel.questionList.append("")
     viewModel.addQuestion()
-    let newIndex = IndexPath(row: viewModel.questionList.count - 1, section: MeetingQuestionSectionType.questionSection.index)
+    let indexPathRow = viewModel.questionList.count - 1
+    let newIndex = IndexPath(row: indexPathRow, section: MeetingQuestionSectionType.questionSection.index)
     tableView.performBatchUpdates(
       {
         tableView.insertRows(at: [newIndex], with: .automatic)
@@ -234,13 +236,15 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
     guard let currentCell = tableView.cellForRow(at: newIndex) as? QuestionTableViewCell else {
         return
     }
+
     currentCell.inputTextView.textView.becomeFirstResponder()
   }
   
   func removeQuestion(index: Int) {
     viewModel.questionList.remove(at: index)
     viewModel.removeQuestion(index: index)
-    self.tableView.deleteRows(at: [IndexPath(row: index, section: MeetingQuestionSectionType.questionSection.index)], with: .automatic)
+//    self.tableView.deleteRows(at: [IndexPath(row: index, section: MeetingQuestionSectionType.questionSection.index)], with: .automatic)
+    self.tableView.reloadData()
   }
   
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView) {

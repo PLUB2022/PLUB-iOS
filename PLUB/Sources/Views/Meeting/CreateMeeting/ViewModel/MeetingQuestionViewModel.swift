@@ -16,11 +16,11 @@ struct MeetingQuestionCellModel {
 final class MeetingQuestionViewModel {
   private let disposeBag = DisposeBag()
   
-  // Data
-  var questionList: [String]
-  
   // Input
+  var questionList: [String]
   let questionListBehaviorRelay: BehaviorRelay<[MeetingQuestionCellModel]>
+  
+  // Output
   let allQuestionFilled = PublishRelay<Bool>()
   
   init() {
@@ -45,6 +45,8 @@ final class MeetingQuestionViewModel {
     var oldData = questionListBehaviorRelay.value
     oldData.remove(at: index)
     questionListBehaviorRelay.accept(oldData)
+    
+    questionList = oldData.map {$0.question}
   }
   
   func addQuestion() {
