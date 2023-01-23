@@ -16,6 +16,7 @@ protocol QuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView)
   func addQuestion()
   func removeQuestion(index: Int)
+  func updateQuestion(index: Int, data: MeetingQuestionCellModel)
 }
 
 final class QuestionTableViewCell: UITableViewCell {
@@ -29,7 +30,7 @@ final class QuestionTableViewCell: UITableViewCell {
   static let identifier = "QuestionTableViewCell"
   var indexPathRow = 0
   
-  private let inputTextView = InputTextView(
+  let inputTextView = InputTextView(
     title: "질문",
     placeHolder: Constants.placeHolder
   )
@@ -91,7 +92,16 @@ private extension QuestionTableViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
         owner.delegate?.updateHeightOfRow(owner, owner.inputTextView.textView)
-        owner.removeButton.isHidden = (text.isEmpty || text == Constants.placeHolder)
+        let textUnfilled = text.isEmpty ||
+        text == Constants.placeHolder
+        owner.removeButton.isHidden = textUnfilled
+        owner.delegate?.updateQuestion(
+          index: owner.indexPathRow,
+          data: MeetingQuestionCellModel(
+            question: text,
+            isFilled: !textUnfilled
+          )
+        )
       })
       .disposed(by: disposeBag)
     

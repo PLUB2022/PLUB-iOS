@@ -8,8 +8,48 @@
 import RxSwift
 import RxRelay
 
+struct MeetingQuestionCellModel {
+  let question: String
+  let isFilled: Bool
+}
+
 final class MeetingQuestionViewModel {
   private let disposeBag = DisposeBag()
   
-  var questionList : [String] = [""]
+  // Data
+  var questionList: [String]
+  
+  // Input
+  let questionListBehaviorRelay: BehaviorRelay<[MeetingQuestionCellModel]>
+  let allQuestionFilled = PublishRelay<Bool>()
+  
+  init() {
+    questionList = [""]
+    questionListBehaviorRelay = .init(value: [MeetingQuestionCellModel(question: "", isFilled: false)])
+    
+    questionListBehaviorRelay
+      .map { $0.map { $0.isFilled } }
+      .map { !$0.contains(false) }
+      .distinctUntilChanged()
+      .bind(to: allQuestionFilled)
+      .disposed(by: disposeBag)
+  }
+  
+  func updateQuestion(index: Int, data: MeetingQuestionCellModel) {
+    var oldData = questionListBehaviorRelay.value
+    oldData[index] = data
+    questionListBehaviorRelay.accept(oldData)
+  }
+  
+  func removeQuestion(index: Int) {
+    var oldData = questionListBehaviorRelay.value
+    oldData.remove(at: index)
+    questionListBehaviorRelay.accept(oldData)
+  }
+  
+  func addQuestion() {
+    var oldData = questionListBehaviorRelay.value
+    oldData.append(MeetingQuestionCellModel(question: "", isFilled: false))
+    questionListBehaviorRelay.accept(oldData)
+  }
 }

@@ -128,10 +128,6 @@ final class MeetingQuestionViewController: BaseViewController {
        .subscribe(onNext: { owner, _ in
          owner.questionButton.isSelected = true
          owner.noquestionButton.isSelected = false
-         self.delegate?.checkValidation(
-           index: self.childIndex,
-           state: true
-         )
        })
        .disposed(by: disposeBag)
     
@@ -140,12 +136,17 @@ final class MeetingQuestionViewController: BaseViewController {
       .subscribe(onNext: { owner, _ in
          owner.questionButton.isSelected = false
          owner.noquestionButton.isSelected = true
-        self.delegate?.checkValidation(
-          index: self.childIndex,
-          state: true
-        )
        })
        .disposed(by: disposeBag)
+    
+    viewModel.allQuestionFilled
+      .subscribe(onNext: { state in
+        self.delegate?.checkValidation(
+          index: self.childIndex,
+          state: state
+        )
+      })
+      .disposed(by: disposeBag)
   }
 }
 
@@ -212,16 +213,28 @@ extension MeetingQuestionViewController: UITableViewDataSource {
 }
 
 extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
+  func updateQuestion(index: Int, data: MeetingQuestionCellModel) {
+    viewModel.updateQuestion(index: index, data: data)
+  }
+  
   func addQuestion() {
     viewModel.questionList.append("")
+    viewModel.addQuestion()
+    let newIndex = IndexPath(row: viewModel.questionList.count - 1, section: MeetingQuestionSectionType.questionSection.index)
     tableView.performBatchUpdates(
       {
-        tableView.insertRows(at: [IndexPath(row: viewModel.questionList.count - 1, section: MeetingQuestionSectionType.questionSection.index)], with: .automatic)
+        tableView.insertRows(at: [newIndex], with: .automatic)
       }, completion: nil)
+    
+    guard let currentCell = tableView.cellForRow(at: newIndex) as? QuestionTableViewCell else {
+        return
+    }
+    currentCell.inputTextView.textView.becomeFirstResponder()
   }
   
   func removeQuestion(index: Int) {
     viewModel.questionList.remove(at: index)
+    viewModel.removeQuestion(index: index)
     self.tableView.deleteRows(at: [IndexPath(row: index, section: MeetingQuestionSectionType.questionSection.index)], with: .automatic)
   }
   
