@@ -37,7 +37,6 @@ final class IntroductionViewModel: IntroductionViewModelType {
     
     isButtonEnabled = textSubject
       .map { $0.isEmpty == false } // 값이 존재해야 버튼 활성화
-      .debug()
       .asDriver(onErrorDriveWith: .empty())
   }
 }
