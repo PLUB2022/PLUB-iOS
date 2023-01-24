@@ -145,7 +145,7 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.selectPlubbingId.onNext(plubbingId)
+    viewModel.selectPlubbingID.onNext(plubbingId)
 //    viewModel.fetchDetailRecruitment
 //      .drive(rx.)
   }

@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol DetailRecruitmentViewModelType {
   // Input
-  var selectPlubbingId: AnyObserver<Int> { get }
+  var selectPlubbingID: AnyObserver<Int> { get }
   
   // Output
   var fetchDetailRecruitment: Driver<DetailRecruitmentModel> { get }
@@ -21,19 +21,19 @@ class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   private var disposeBag = DisposeBag()
   
   // Input
-  let selectPlubbingId: AnyObserver<Int>
+  let selectPlubbingID: AnyObserver<Int>
   
   // Output
   let fetchDetailRecruitment: Driver<DetailRecruitmentModel>
   
   init() {
-    let selectingPlubbingId = PublishSubject<Int>()
+    let selectingPlubbingID = PublishSubject<Int>()
     let fetchingDetailRecruitment = PublishSubject<DetailRecruitmentModel>()
     
-    self.selectPlubbingId = selectingPlubbingId.asObserver()
+    self.selectPlubbingID = selectingPlubbingID.asObserver()
     self.fetchDetailRecruitment = fetchingDetailRecruitment.asDriver(onErrorDriveWith: .empty())
     
-    let fetchingDetail = selectingPlubbingId
+    let fetchingDetail = selectingPlubbingID
       .map { "\($0)" }
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingId:))
       .share()
