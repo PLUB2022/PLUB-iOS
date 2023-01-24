@@ -20,7 +20,7 @@ final class InterestViewModel {
   let isButtonEnabled: Driver<Bool>               // 버튼 활성화 여부
   
   /// fetch한 카테고리 데이터
-  private let fetchedCategoriesSubject = BehaviorSubject<[RegisterInterestModel]>(value: [])
+  private let fetchedCategoriesRelay = BehaviorRelay<[RegisterInterestModel]>(value: [])
   
   /// 선택된 카테고리의 `Subject`
   private let selectSubject = PublishSubject<Int>()
@@ -34,7 +34,7 @@ final class InterestViewModel {
   private let disposeBag = DisposeBag()
   
   init() {
-    fetchData = fetchedCategoriesSubject.asDriver(onErrorDriveWith: .empty())
+    fetchData = fetchedCategoriesRelay.asDriver()
     selectSubCategory = selectSubject.asObserver()
     deselectSubCategory = deselectSubject.asObserver()
     // emit array of categories when selected categories
@@ -55,7 +55,7 @@ final class InterestViewModel {
         return allCategoryResponse.data?.categories
       }
       .map { return $0.map { RegisterInterestModel(category: $0) } }
-      .bind(to: fetchedCategoriesSubject)
+      .bind(to: fetchedCategoriesRelay)
       .disposed(by: disposeBag)
     
     // insert subcategory's id in `selectedSubCategoriesRelay`
