@@ -16,6 +16,8 @@ final class InterestViewController: BaseViewController {
   
   private let viewModel = InterestViewModel()
   
+  weak var delegate: SignUpChildViewControllerDelegate?
+  
   private var registerInterestModels: [RegisterInterestModel] = [] {
     didSet {
       tableView.reloadData()
@@ -51,6 +53,16 @@ final class InterestViewController: BaseViewController {
     
     viewModel.fetchData
       .drive(rx.registerInterestModels)
+      .disposed(by: disposeBag)
+    
+    Driver.combineLatest(viewModel.isButtonEnabled, viewModel.selectedSubCategories)
+      .drive(with: self, onNext: { owner, tuple in
+        let flag = tuple.0
+        let categories = tuple.1
+        
+        // TODO: 승현 - delegate에게 카테고리 정보 전달
+        owner.delegate?.checkValidation(index: 4, state: flag)
+      })
       .disposed(by: disposeBag)
   }
 }
