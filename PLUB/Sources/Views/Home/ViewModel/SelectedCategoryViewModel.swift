@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol SelectedCategoryViewModelType {
   // Input
-  var selectCategoryId: AnyObserver<String> { get }
+  var selectCategoryID: AnyObserver<String> { get }
   
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
@@ -23,18 +23,18 @@ class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   private var disposeBag = DisposeBag()
   
   // Input
-  let selectCategoryId: AnyObserver<String>
+  let selectCategoryID: AnyObserver<String>
   
   // Output
   let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
   
   init() {
-    let selectingCategoryId = PublishSubject<String>()
+    let selectingCategoryID = PublishSubject<String>()
     let updatingCellData = BehaviorSubject<[SelectedCategoryCollectionViewCellModel]>(value: [])
-    self.selectCategoryId = selectingCategoryId.asObserver()
+    self.selectCategoryID = selectingCategoryID.asObserver()
     self.updatedCellData = updatingCellData.asDriver(onErrorDriveWith: .empty())
     
-    let fetchingSelectedCategory = selectingCategoryId.flatMapLatest { categoryId in
+    let fetchingSelectedCategory = selectingCategoryID.flatMapLatest { categoryId in
       return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId)
     }
     .share()
