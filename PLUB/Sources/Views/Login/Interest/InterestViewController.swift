@@ -48,6 +48,10 @@ final class InterestViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    viewModel.fetchData
+      .drive(rx.registerInterestModels)
+      .disposed(by: disposeBag)
   }
 }
 
@@ -121,6 +125,9 @@ extension InterestViewController: RegisterInterestTableViewCellDelegate {
 extension InterestViewController: RegisterInterestDetailTableViewCellDelegate {
   func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell, mainIndexPath: IndexPath, subIndexPath: IndexPath) {
     registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].isSelected.toggle()
+    let id = registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].id
     cell.isTapped.toggle()
+    // 카테고리가 선택되거나 취소되었다면, 해당 카테고리의 id를 이용하여 emit
+    cell.isTapped ? viewModel.selectSubCategory.onNext(id) : viewModel.deselectSubCategory.onNext(id)
   }
 }
