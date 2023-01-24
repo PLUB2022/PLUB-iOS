@@ -32,7 +32,6 @@ class ParticipantListView: UIView {
     $0.spacing = 8.05
     $0.axis = .horizontal
     $0.alignment = .leading
-//    $0.distribution = .
   }
   
   private let profileImageView = UIImageView().then {
@@ -45,17 +44,6 @@ class ParticipantListView: UIView {
     $0.tintColor = .deepGray
     $0.layer.masksToBounds = true
   }
-  
-//  private lazy var participantListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
-//    $0.minimumInteritemSpacing = 3
-//    $0.scrollDirection = .horizontal
-//  })).then {
-//    $0.backgroundColor = .background
-//    $0.isScrollEnabled = false
-//    $0.delegate = self
-//    $0.dataSource = self
-//    $0.register(ParticipantListCollectionViewCell.self, forCellWithReuseIdentifier: ParticipantListCollectionViewCell.identifier)
-//  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -84,12 +72,12 @@ class ParticipantListView: UIView {
       $0.left.right.bottom.equalToSuperview()
     }
     
-    profileImageView.snp.makeConstraints { make in
-      make.width.height.equalTo(34)
+    profileImageView.snp.makeConstraints {
+      $0.width.height.equalTo(34)
     }
     
-    moreButton.snp.makeConstraints { make in
-      make.width.height.equalTo(34)
+    moreButton.snp.makeConstraints {
+      $0.width.height.equalTo(34)
     }
 
     moreButton.addTarget(self, action: #selector(didTappedMoreButton), for: .touchUpInside)
