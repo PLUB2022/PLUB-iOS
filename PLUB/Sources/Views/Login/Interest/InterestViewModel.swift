@@ -37,9 +37,45 @@ final class InterestViewModel {
     fetchData = fetchedCategoriesSubject.asDriver(onErrorDriveWith: .empty())
     selectSubCategory = selectSubject.asObserver()
     deselectSubCategory = deselectSubject.asObserver()
+    // emit array of categories when selected categories
+    selectedSubCategories = selectedSubCategoriesRelay.asDriver()
     isButtonEnabled = selectedSubCategoriesRelay
       .map { $0.count != 0 }
       .asDriver(onErrorJustReturn: false)
-    selectedSubCategories = selectedSubCategoriesRelay.asDriver()
+    
+    bind()
+  }
+  
+  private func bind() {
+    // fetch categories
+    CategoryService.shared.inquireAll()
+      .compactMap { result -> [Category]? in
+        // 필요한 데이터를 가져오고 그 외는 nil 처리
+        guard case let .success(allCategoryResponse) = result else { return nil }
+        return allCategoryResponse.data?.categories
+      }
+      .map { return $0.map { RegisterInterestModel(category: $0) } }
+      .bind(to: fetchedCategoriesSubject)
+      .disposed(by: disposeBag)
+    
+    // insert subcategory's id in `selectedSubCategoriesRelay`
+    selectSubject
+      .withUnretained(self)
+      .filter { $0.selectedSubCategoriesRelay.value.contains($1) == false }
+      .map { owner, value in
+        var array = owner.selectedSubCategoriesRelay.value
+        array.append(value)
+        return array
+      }
+      .bind(to: selectedSubCategoriesRelay)
+      .disposed(by: disposeBag)
+    
+    // delete subcategory's id in `selectedSubCategoriesRelay`
+    deselectSubject
+      .withUnretained(self)
+      .filter { $0.selectedSubCategoriesRelay.value.contains($1) }
+      .map { owner, value in owner.selectedSubCategoriesRelay.value.filter { $0 != value } }
+      .bind(to: selectedSubCategoriesRelay)
+      .disposed(by: disposeBag)
   }
 }
