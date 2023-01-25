@@ -228,6 +228,12 @@ struct InputViewOptions: OptionSet {
   static let questionMark = InputViewOptions(rawValue: 1 << 1) // 물음표 버튼
 }
 
+extension InputTextView {
+  func setTitleText(text: String) {
+    titleLabel.text = text
+  }
+}
+
 // MARK: - RxSwift Custom Property
 
 extension Reactive where Base: InputTextView {

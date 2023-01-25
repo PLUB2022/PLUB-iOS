@@ -11,6 +11,9 @@ import RxSwift
 
 final class MeetingDateViewController: BaseViewController {
   
+  weak var delegate: CreateMeetingChildViewControllerDelegate?
+  private var childIndex: Int
+  
   private let scrollView = UIScrollView().then {
     $0.bounces = false
     $0.contentInsetAdjustmentBehavior = .never
@@ -95,7 +98,10 @@ final class MeetingDateViewController: BaseViewController {
   
   private let locationControl = LocationControl()
   
-  init() {
+  init(
+    childIndex: Int
+  ) {
+    self.childIndex = childIndex
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -105,6 +111,11 @@ final class MeetingDateViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    // TODO: 수빈 - nextButton enable 로직 구현
+    delegate?.checkValidation(
+      index: childIndex,
+      state: true
+    )
   }
   
   override func setupLayouts() {
