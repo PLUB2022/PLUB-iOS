@@ -39,6 +39,8 @@ final class MeetingQuestionViewModel {
     var oldData = questionListBehaviorRelay.value
     oldData[index] = data
     questionListBehaviorRelay.accept(oldData)
+    
+    questionList = oldData.map {$0.question}
   }
   
   func removeQuestion(index: Int) {
@@ -53,5 +55,7 @@ final class MeetingQuestionViewModel {
     var oldData = questionListBehaviorRelay.value
     oldData.append(MeetingQuestionCellModel(question: "", isFilled: false))
     questionListBehaviorRelay.accept(oldData)
+    
+    questionList = oldData.map {$0.question}
   }
 }
