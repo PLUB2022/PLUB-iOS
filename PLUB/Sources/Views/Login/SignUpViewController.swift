@@ -45,7 +45,8 @@ final class SignUpViewController: BaseViewController {
     PolicyViewController().then { $0.delegate = self },
     BirthViewController().then { $0.delegate = self },
     ProfileViewController().then { $0.delegate = self },
-    IntroductionViewController().then { $0.delegate = self }
+    IntroductionViewController().then { $0.delegate = self },
+    InterestViewController().then { $0.delegate = self }
   ]
   
   // MARK: UI Properties
