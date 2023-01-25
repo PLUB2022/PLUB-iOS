@@ -30,7 +30,7 @@
 		7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* ToggleButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
-		70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */; };
+		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
 		70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */; };
 		70BD5F35296491C8002CBA89 /* ApplyQuestionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */; };
@@ -45,6 +45,12 @@
 		70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */; };
 		70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */; };
 		70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */; };
+		70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */; };
+		70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */; };
+		70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */; };
+		70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEE297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift */; };
+		70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */; };
+		70F1DFF3297EB89600F9BC83 /* RecruitmentQuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */; };
 		BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
@@ -176,7 +182,7 @@
 		7095A589292E58F9002A52E6 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
-		70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryViewController.swift; sourceTree = "<group>"; };
+		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
 		70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionHeaderView.swift; sourceTree = "<group>"; };
@@ -191,6 +197,12 @@
 		70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRouter.swift; sourceTree = "<group>"; };
 		70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingService.swift; sourceTree = "<group>"; };
 		70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingResponse.swift; sourceTree = "<group>"; };
+		70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentRouter.swift; sourceTree = "<group>"; };
+		70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentService.swift; sourceTree = "<group>"; };
+		70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentResponse.swift; sourceTree = "<group>"; };
+		70F1DFEE297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewModel.swift; sourceTree = "<group>"; };
+		70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentModel.swift; sourceTree = "<group>"; };
+		70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentQuestionResponse.swift; sourceTree = "<group>"; };
 		BA0322B9294F3F9D002466C5 /* PolicyConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyConfigurable.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -375,6 +387,7 @@
 				70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */,
 				70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */,
 				70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */,
+				70F1DFEE297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -414,6 +427,7 @@
 		704AC7932938E7EA008C3A88 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				70F1DFEB297D99A400F9BC83 /* Recruitment */,
 				70F1DFE2297A917D00F9BC83 /* Meeting */,
 				70F1DFE1297A917100F9BC83 /* Category */,
 				704AC7942938E800008C3A88 /* RegisterInterestModel.swift */,
@@ -483,6 +497,16 @@
 			path = Meeting;
 			sourceTree = "<group>";
 		};
+		70F1DFEB297D99A400F9BC83 /* Recruitment */ = {
+			isa = PBXGroup;
+			children = (
+				70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */,
+				70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */,
+				70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */,
+			);
+			path = Recruitment;
+			sourceTree = "<group>";
+		};
 		BA1BEDC12964548300C6BD41 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -544,7 +568,7 @@
 				BA88125128E48A2F00BD832A /* HomeViewController.swift */,
 				7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */,
 				70197B712953698F000503F6 /* SelectedCategoryViewController.swift */,
-				70BD5F2B2963204D002CBA89 /* IntroduceCategoryViewController.swift */,
+				70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */,
 				70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */,
 			);
 			path = Home;
@@ -647,6 +671,7 @@
 				C38A5B94297AD5B000485355 /* KakaoLocationRouter.swift */,
 				70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */,
 				70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */,
+				70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -659,6 +684,7 @@
 				C38A5B96297AD5C300485355 /* KakaoLocationService.swift */,
 				70F1DFD32979508000F9BC83 /* CategoryService.swift */,
 				70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */,
+				70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -937,6 +963,7 @@
 				70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */,
 				7085678828EEACFB008047DC /* RecommendedMeetingCollectionViewCell.swift in Sources */,
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
+				70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */,
 				BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */,
@@ -947,7 +974,8 @@
 				70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */,
 				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,
-				70BD5F2C2963204D002CBA89 /* IntroduceCategoryViewController.swift in Sources */,
+				70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */,
+				70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
@@ -976,6 +1004,7 @@
 				C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
+				70F1DFF3297EB89600F9BC83 /* RecruitmentQuestionResponse.swift in Sources */,
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
 				BA340E2529782356002BAF2C /* ProfileViewController.swift in Sources */,
 				C3AB743F296B21C1003DD5E2 /* MeetingDateViewController.swift in Sources */,
@@ -998,6 +1027,7 @@
 				C34F71C329799B1C003DB376 /* TimeControl.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
+				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,
 				70F1DFD8297959A900F9BC83 /* MainCategoryListResponse.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
@@ -1008,8 +1038,10 @@
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BAE2B362297C1D6C0000D5B9 /* AccountRouter.swift in Sources */,
 				BAE2B364297C1D720000D5B9 /* AccountService.swift in Sources */,
+				70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */,
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
+				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
 				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
