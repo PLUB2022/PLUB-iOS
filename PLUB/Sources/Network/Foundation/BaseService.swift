@@ -70,6 +70,33 @@ class BaseService {
     }
     .asObservable()
   }
+  
+  /// PLUB 서버에 필요한 값과 이미지 파일을 동봉하여 요청합니다.
+  /// - MultipartFormData:
+  ///   - 이미지 formData: byte buffer 형식
+
+  func sendRequestWithImage<T: Codable>(
+    _ formData: MultipartFormData,
+    _ router: Router,
+    type: T.Type = EmptyModel.self
+  ) -> Observable<NetworkResult<GeneralResponse<T>>> {
+    Single.create { observer in
+      AF.upload(multipartFormData: formData, with: router).responseData { response in
+        switch response.result {
+        case .success(let data):
+          guard let statusCode = response.response?.statusCode else {
+            fatalError("statusCode가 없는 응답값????")
+          }
+          // PLUBError와 Success(GeneralResponse<T>)가 같이 들어가 있음
+          observer(.success(self.evaluateStatus(by: statusCode, data, type: type)))
+        case .failure(let error):
+          observer(.failure(error)) // Alamofire Error
+        }
+      }
+      return Disposables.create()
+    }
+    .asObservable()
+  }
 }
 
 // MARK: - Empty Model
