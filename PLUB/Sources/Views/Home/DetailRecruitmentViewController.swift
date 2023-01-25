@@ -10,35 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
-struct IntroduceCategoryModel {
-  let title: String
-  let introduce: String
-  let categories: [String]
-  let name: String
-  let goal: String
-  let mainImage: String?
-  let days: [String]
-  let time: String
-  let address: String
-  let roadAddress: String
-  let placeName: String
-  let placePositionX: Double
-  let placePositionY: Double
-  let isBookmarked: Bool
-  let isApplied: Bool
-  let curAccountNum: Int
-  let remainAccountNum: Int
-  let joinedAccounts: [AccountInfo]
-}
-
-struct AccountInfo {
-  let accountId: Int
-  let profileImage: String?
-}
-
-final class IntroduceCategoryViewController: BaseViewController {
+// TODO: -이건준 plubbingId를 통해 받아온 DetailRecruitmentModel을 이용
+final class DetailRecruitmentViewController: BaseViewController {
   
-  private let model: SelectedCategoryCollectionViewCellModel
+  private let viewModel: DetailRecruitmentViewModelType
+  private let plubbingId: Int
+  private var model: SelectedCategoryCollectionViewCellModel?
   let mod = [
     "이건준",
     "이건준ㅇㄹ",
@@ -104,8 +81,9 @@ final class IntroduceCategoryViewController: BaseViewController {
   
   private let participantListView = ParticipantListView()
   
-  init(model: SelectedCategoryCollectionViewCellModel) {
-    self.model = model
+  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingId: Int) {
+    self.viewModel = viewModel
+    self.plubbingId = plubbingId
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -136,10 +114,11 @@ final class IntroduceCategoryViewController: BaseViewController {
     }
     
     participantListView.snp.makeConstraints { make in
-      make.left.right.equalToSuperview().inset(16)
-      make.height.greaterThanOrEqualTo(64)
+      make.left.equalToSuperview().offset(17.5)
+      make.right.lessThanOrEqualToSuperview().offset(-14.14)
+      make.height.equalTo(64)
     }
-    
+    participantListView.backgroundColor = .red
     bottomStackView.snp.makeConstraints { make in
       make.right.equalToSuperview().offset(-16.5)
       make.height.equalTo(46)
@@ -164,6 +143,13 @@ final class IntroduceCategoryViewController: BaseViewController {
     )
   }
   
+  override func bind() {
+    super.bind()
+    viewModel.selectPlubbingID.onNext(plubbingId)
+//    viewModel.fetchDetailRecruitment
+//      .drive(rx.)
+  }
+  
   @objc private func didTappedBackButton() {
     self.navigationController?.popViewController(animated: true)
   }
@@ -173,7 +159,7 @@ final class IntroduceCategoryViewController: BaseViewController {
   }
 }
 
-extension IntroduceCategoryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }

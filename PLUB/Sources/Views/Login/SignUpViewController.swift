@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol SignUpChildViewControllerDelegate: BaseViewController {
+  func checkValidation(index: Int, state: Bool)
+}
+
 final class SignUpViewController: BaseViewController {
   
   // MARK: - Properties
@@ -33,14 +37,16 @@ final class SignUpViewController: BaseViewController {
       viewControllers[lastPageIndex].view.snp.makeConstraints {
         $0.width.equalTo(view.snp.width)
       }
+      viewModel.validationState.onNext(ValidationState(index: lastPageIndex, state: false))
     }
   }
   
-  private var viewControllers = [
-    PolicyViewController(),
-    BirthViewController(),
-    ProfileViewController(),
-    IntroductionViewController()
+  private lazy var viewControllers = [
+    PolicyViewController().then { $0.delegate = self },
+    BirthViewController().then { $0.delegate = self },
+    ProfileViewController().then { $0.delegate = self },
+    IntroductionViewController().then { $0.delegate = self },
+    InterestViewController().then { $0.delegate = self }
   ]
   
   // MARK: UI Properties
@@ -169,6 +175,10 @@ final class SignUpViewController: BaseViewController {
         owner.scrollToPage(index: owner.currentPage)
       })
       .disposed(by: disposeBag)
+    
+    viewModel.isButtonEnabled
+      .drive(nextButton.rx.isEnabled)
+      .disposed(by: disposeBag)
   }
   
   // MARK: - Custom Methods
@@ -248,5 +258,13 @@ extension SignUpViewController: UIScrollViewDelegate {
     } else if velocity.x < 0 { // move left
       currentPage = currentPage == 0 ? 0 : currentPage - 1
     }
+  }
+}
+
+// MARK: - SignUpChildViewControllerDelegate
+
+extension SignUpViewController: SignUpChildViewControllerDelegate {
+  func checkValidation(index: Int, state: Bool) {
+    viewModel.validationState.onNext(ValidationState(index: index, state: state))
   }
 }

@@ -134,7 +134,7 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
       return cell
     } else {
       let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
-      cell.configureUI(with: registerInterestModels[indexPath.section])
+      cell.configureUI(with: registerInterestModels[indexPath.section], indexPath: indexPath)
       cell.delegate = self
       return cell
     }
@@ -164,7 +164,8 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
 }
 
 extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDelegate {
-  func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell) {
+  func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell, mainIndexPath: IndexPath, subIndexPath: IndexPath) {
+    registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].isSelected.toggle()
     cell.isTapped.toggle()
     cell.isTapped ? viewModel.selectDetailCell.onNext(()) : viewModel.deselectDetailCell.onNext(())
   }

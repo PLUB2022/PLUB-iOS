@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxCocoa
 import RxSwift
 import SnapKit
 
@@ -185,15 +186,6 @@ final class InputTextView: UIView {
   }
 }
 
-// MARK: - First Responder
-
-extension InputTextView {
-  @discardableResult
-  override func resignFirstResponder() -> Bool {
-    return textView.resignFirstResponder()
-  }
-}
-
 // MARK: - Function
 
 extension InputTextView {
@@ -239,5 +231,13 @@ struct InputViewOptions: OptionSet {
 extension InputTextView {
   func setTitleText(text: String) {
     titleLabel.text = text
+  }
+}
+
+// MARK: - RxSwift Custom Property
+
+extension Reactive where Base: InputTextView {
+  var text: ControlProperty<String?> {
+    return base.textView.rx.text
   }
 }

@@ -22,6 +22,10 @@ class BaseViewController: UIViewController {
     bind()
   }
   
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    view.endEditing(true)
+  }
+  
   /// UI 프로퍼티를 view에 할당합니다.
   ///
   /// ```

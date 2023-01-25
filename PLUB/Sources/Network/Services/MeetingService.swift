@@ -7,6 +7,7 @@
 
 import RxSwift
 
+// TODO: -이건준 추천모임조회 응답모델 코드 수정
 class MeetingService: BaseService {
   static let shared = MeetingService()
   
@@ -14,8 +15,8 @@ class MeetingService: BaseService {
 }
 
 extension MeetingService {
-  func inquireCategoryMeeting(categoryId: Int, query: MeetingQuery) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>>  {
-    return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryId, query), type: CategoryMeetingResponse.self)
+  func inquireCategoryMeeting(categoryId: String, page: Int = 1) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>>  {
+    return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryId, page), type: CategoryMeetingResponse.self)
   }
   
   func inquireRecommendationMeeting() -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>> {

@@ -19,7 +19,7 @@ class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   
-  private let introduceCategoryModels: [IntroduceCategoryModel] = []
+  private let categoryID: String
   
   private var selectedCategoryCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
   
@@ -27,7 +27,6 @@ class SelectedCategoryViewController: BaseViewController {
   
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
     $0.scrollDirection = .vertical
-//    $0.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
   })).then {
     $0.backgroundColor = .background
   }.then {
@@ -38,8 +37,9 @@ class SelectedCategoryViewController: BaseViewController {
     $0.dataSource = self
   }
  
-  init(viewModel: SelectedCategoryViewModelType) {
+  init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryID: String) {
     self.viewModel = viewModel
+    self.categoryID = categoryID // 카테고리별 모임 조회 API에 사용될 categoryId
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -141,7 +141,7 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = IntroduceCategoryViewController(model: selectedCategoryCollectionViewCellModels[indexPath.row])
+    let vc = DetailRecruitmentViewController(plubbingId: selectedCategoryCollectionViewCellModels[indexPath.row].plubbingId)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }

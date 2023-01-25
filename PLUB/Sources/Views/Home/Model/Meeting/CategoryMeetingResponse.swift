@@ -8,37 +8,22 @@
 import Foundation
 
 struct CategoryMeetingResponse: Codable {
-  let plubbings: Plubbing?
-  let pageable: Pageable?
-  let last: Bool
   let totalPages: Int
   let totalElements: Int
-  let size: Int
-  let number: Int
-  let sort: Sort?
-  let first: Bool
-  let numberOfElements: Int
-  let empty: Bool
+  let last: Bool
+  let content: [Content]
   
   enum CodingKeys: String, CodingKey {
-    case plubbings, pageable, last, totalPages, totalElements, size, number, sort, first, numberOfElements, empty
+    case totalPages, totalElements, last, content
   }
   
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    self.plubbings = try values.decodeIfPresent(Plubbing.self, forKey: .plubbings)
-    self.pageable = try values.decodeIfPresent(Pageable.self, forKey: .pageable)
-    self.last = try values.decodeIfPresent(Bool.self, forKey: .last) ?? false
     self.totalPages = try values.decodeIfPresent(Int.self, forKey: .totalPages) ?? 0
     self.totalElements = try values.decodeIfPresent(Int.self, forKey: .totalElements) ?? 0
-    self.size = try values.decodeIfPresent(Int.self, forKey: .size) ?? 0
-    self.number = try values.decodeIfPresent(Int.self, forKey: .number) ?? 0
-    self.sort = try values.decodeIfPresent(Sort.self, forKey: .sort)
-    self.first = try values.decodeIfPresent(Bool.self, forKey: .first) ?? false
-    self.numberOfElements = try values.decodeIfPresent(Int.self, forKey: .numberOfElements) ?? 0
-    self.empty = try values.decodeIfPresent(Bool.self, forKey: .empty) ?? false
-    
+    self.last = try values.decodeIfPresent(Bool.self, forKey: .last) ?? false
+    self.content = try values.decodeIfPresent([Content].self, forKey: .content) ?? []
   }
 }
 

@@ -8,7 +8,7 @@
 import Alamofire
 
 enum MeetingRouter {
-  case inquireCategoryMeeting(Int, MeetingQuery)
+  case inquireCategoryMeeting(String, Int)
   case inquireRecommendationMeeting
 }
 
@@ -31,8 +31,8 @@ extension MeetingRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case .inquireCategoryMeeting(_, let query):
-      return .query(query)
+    case .inquireCategoryMeeting(_, let page):
+      return .query(["page": page])
     case .inquireRecommendationMeeting:
       return .plain
     }
@@ -46,16 +46,3 @@ extension MeetingRouter: Router {
   }
 }
 
-struct MeetingQuery: Encodable {
-  let page: Int
-  
-  enum CodingKeys: String, CodingKey {
-    case page
-  }
-  
-  func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    
-    try container.encode(page, forKey: .page)
-  }
-}

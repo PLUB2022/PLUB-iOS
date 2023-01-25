@@ -41,6 +41,7 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     interestTypeLabel.text = nil
+    isTapped = false
   }
   
   private func configureUI() {
@@ -58,5 +59,6 @@ class InterestTypeCollectionViewCell: UICollectionViewCell {
   
   public func configureUI(with model: SubCategory) {
     interestTypeLabel.text = model.name
+    isTapped = model.isSelected
   }
 }
