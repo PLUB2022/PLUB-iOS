@@ -24,7 +24,10 @@ extension ImageService {
     params: UploadImageRequest
   ) -> Observable<NetworkResult<GeneralResponse<UploadImageResponse>>> {
     return sendRequestWithImage(
-      setUpImageData(images: images, params: params.toDictionary),
+      setUpImageData(
+        images: images,
+        params: params.toDictionary
+      ),
       ImageRouter.uploadImage,
       type: UploadImageResponse.self
     )
@@ -36,20 +39,22 @@ extension ImageService {
   ) -> MultipartFormData {
     let formData = MultipartFormData()
 
-    for i in 0..<images.count {
-      guard let imageData = images[i].jpegData(compressionQuality: 0.1)
-      else { continue }
+    for image in images {
+      guard let imageData = image.jpegData(compressionQuality: 0.1) else { continue }
       formData.append(
         imageData,
         withName: "files",
-        fileName: "\(images[i]).jpeg",
+        fileName: "\(image).jpeg",
         mimeType: "image/jpeg"
       )
     }
     
     for (key, value) in params {
       guard let value = value as? String else { continue }
-      formData.append(Data(value.utf8), withName: key)
+      formData.append(
+        Data(value.utf8),
+        withName: key
+      )
     }
     
     return formData
