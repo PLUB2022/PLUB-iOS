@@ -93,8 +93,7 @@ private extension QuestionTableViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
         owner.delegate?.updateHeightOfRow(owner, owner.inputTextView.textView)
-        let textUnfilled = text.isEmpty ||
-        text == Constants.placeHolder
+        let textUnfilled = text.isEmpty || text == Constants.placeHolder
         owner.removeButton.isHidden = textUnfilled
         owner.delegate?.updateQuestion(
           index: owner.indexPathRow,

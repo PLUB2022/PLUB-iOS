@@ -9,24 +9,24 @@ import UIKit
 
 import RxSwift
 
-enum MeetingQuestionSectionType: Int, CaseIterable{
-//TODO: 수빈 - title, button 뷰 tableViewCell에 넣기
-//  case titleSection = 0
-//  case buttonSection = 1
+enum MeetingQuestionSectionType: Int, CaseIterable {
+  //TODO: 수빈 - title, button 뷰 tableViewCell에 넣기
+  //  case titleSection = 0
+  //  case buttonSection = 1
   case questionSection = 0
   case addQuestionSection = 1
-
+  
   var index: Int {
     return self.rawValue
   }
-
+  
   var height: CGFloat {
     switch self {
-//TODO: 수빈 - title, button 뷰 tableViewCell에 넣기
-//    case .titleSection:
-//      return 70
-//    case .buttonSection:
-//      return 142
+      //TODO: 수빈 - title, button 뷰 tableViewCell에 넣기
+      //    case .titleSection:
+      //      return 70
+      //    case .buttonSection:
+      //      return 142
     case .questionSection, .addQuestionSection:
       return UITableView.automaticDimension
     }
@@ -103,8 +103,8 @@ final class MeetingQuestionViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     contentStackView.snp.makeConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.equalToSuperview().inset(24)
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalToSuperview().inset(24)
     }
     
     tableView.snp.makeConstraints {
@@ -126,20 +126,20 @@ final class MeetingQuestionViewController: BaseViewController {
   override func bind() {
     super.bind()
     questionButton.rx.tap
-       .withUnretained(self)
-       .subscribe(onNext: { owner, _ in
-         owner.questionButton.isSelected = true
-         owner.noquestionButton.isSelected = false
-       })
-       .disposed(by: disposeBag)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.questionButton.isSelected = true
+        owner.noquestionButton.isSelected = false
+      })
+      .disposed(by: disposeBag)
     
     noquestionButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-         owner.questionButton.isSelected = false
-         owner.noquestionButton.isSelected = true
-       })
-       .disposed(by: disposeBag)
+        owner.questionButton.isSelected = false
+        owner.noquestionButton.isSelected = true
+      })
+      .disposed(by: disposeBag)
     
     viewModel.allQuestionFilled
       .subscribe(onNext: { state in
@@ -149,7 +149,7 @@ final class MeetingQuestionViewController: BaseViewController {
         )
         let addQuestionIndex = IndexPath(row: 0, section: MeetingQuestionSectionType.addQuestionSection.index)
         guard let currentCell = self.tableView.cellForRow(at: addQuestionIndex) as? AddQuestionTableViewCell else {
-            return
+          return
         }
         currentCell.addQuestionControl.isHidden = !(state && self.viewModel.questionList.count < 5)
       })
@@ -171,13 +171,13 @@ extension MeetingQuestionViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
     return MeetingQuestionSectionType.allCases.count
   }
-    
+  
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     switch indexPath.section {
     case MeetingQuestionSectionType.questionSection.index:
       guard let cell = tableView.dequeueReusableCell(
-          withIdentifier: QuestionTableViewCell.identifier,
-          for: indexPath
+        withIdentifier: QuestionTableViewCell.identifier,
+        for: indexPath
       ) as? QuestionTableViewCell else { return UITableViewCell() }
       cell.indexPathRow = indexPath.row
       cell.setCellData(text: viewModel.questionList[indexPath.row])
@@ -185,8 +185,8 @@ extension MeetingQuestionViewController: UITableViewDataSource {
       return cell
     case MeetingQuestionSectionType.addQuestionSection.index:
       guard let cell = tableView.dequeueReusableCell(
-          withIdentifier: AddQuestionTableViewCell.identifier,
-          for: indexPath
+        withIdentifier: AddQuestionTableViewCell.identifier,
+        for: indexPath
       ) as? AddQuestionTableViewCell else { return UITableViewCell() }
       cell.delegate = self
       return cell
@@ -194,15 +194,15 @@ extension MeetingQuestionViewController: UITableViewDataSource {
       return UITableViewCell()
     }
   }
-    
+  
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     return 0
   }
-    
+  
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     return UIView()
   }
-    
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch section {
     case MeetingQuestionSectionType.questionSection.index:
@@ -213,7 +213,7 @@ extension MeetingQuestionViewController: UITableViewDataSource {
       return 0
     }
   }
-    
+  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
   }
@@ -235,9 +235,9 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
       }, completion: nil)
     
     guard let currentCell = tableView.cellForRow(at: newIndex) as? QuestionTableViewCell else {
-        return
+      return
     }
-
+    
     currentCell.inputTextView.textView.becomeFirstResponder()
   }
   
@@ -249,8 +249,7 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
   
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView) {
     let size = textView.bounds.size
-    let newSize = tableView.sizeThatFits(CGSize(width: size.width,
-                                                        height: .infinity))
+    let newSize = tableView.sizeThatFits(CGSize(width: size.width, height: .infinity))
     if size.height != newSize.height {
       UIView.setAnimationsEnabled(false)
       tableView.beginUpdates()

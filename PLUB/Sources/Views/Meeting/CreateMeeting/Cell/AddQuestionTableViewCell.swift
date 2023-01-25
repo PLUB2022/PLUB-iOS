@@ -17,7 +17,7 @@ final class AddQuestionTableViewCell: UITableViewCell {
   
   weak var delegate: QuestionTableViewCellDelegate?
   static let identifier = "AddQuestionTableViewCell"
-    
+  
   let addQuestionControl = AddQuestionControl()
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -31,7 +31,7 @@ final class AddQuestionTableViewCell: UITableViewCell {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-    
+  
   override func prepareForReuse() {
     super.prepareForReuse()
   }

@@ -237,7 +237,7 @@ struct InputViewOptions: OptionSet {
 }
 
 extension InputTextView {
-  func setTitleText(text: String){
+  func setTitleText(text: String) {
     titleLabel.text = text
   }
 }

@@ -100,8 +100,8 @@ final class MeetingPeopleNumberViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     contentStackView.snp.makeConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.equalToSuperview().inset(24)
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalToSuperview().inset(24)
     }
     
     subtitleLabel.snp.makeConstraints {
