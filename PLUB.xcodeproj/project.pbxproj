@@ -32,6 +32,7 @@
 		70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4207F2982ED9C0026E9F9 /* Ex+String.swift */; };
 		70A420832982F0360026E9F9 /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420822982F0360026E9F9 /* SearchInputViewController.swift */; };
 		70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420852982F0920026E9F9 /* SearchAlertView.swift */; };
+		70A420882982F0F00026E9F9 /* SearchOutputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420872982F0F00026E9F9 /* SearchOutputViewController.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
 		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
@@ -192,6 +193,7 @@
 		70A4207F2982ED9C0026E9F9 /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
 		70A420822982F0360026E9F9 /* SearchInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputViewController.swift; sourceTree = "<group>"; };
 		70A420852982F0920026E9F9 /* SearchAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlertView.swift; sourceTree = "<group>"; };
+		70A420872982F0F00026E9F9 /* SearchOutputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOutputViewController.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 			children = (
 				70A420842982F07D0026E9F9 /* Component */,
 				70A420822982F0360026E9F9 /* SearchInputViewController.swift */,
+				70A420872982F0F00026E9F9 /* SearchOutputViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -1045,6 +1048,7 @@
 				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */,
+				70A420882982F0F00026E9F9 /* SearchOutputViewController.swift in Sources */,
 				C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
