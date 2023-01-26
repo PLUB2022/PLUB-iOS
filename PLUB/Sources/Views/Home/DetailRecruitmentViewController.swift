@@ -141,6 +141,7 @@ final class DetailRecruitmentViewController: BaseViewController {
       target: self,
       action: #selector(didTappedComponentButton)
     )
+    
   }
   
   override func bind() {

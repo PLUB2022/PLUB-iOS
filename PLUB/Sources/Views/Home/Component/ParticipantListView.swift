@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 
@@ -35,7 +36,10 @@ class ParticipantListView: UIView {
   private let moreButton = UIButton().then {
     $0.backgroundColor = .lightGray
     $0.tintColor = .deepGray
+    $0.titleLabel?.textAlignment = .center
     $0.layer.masksToBounds = true
+    $0.clipsToBounds = true
+    $0.isHidden = true
   }
   
   override init(frame: CGRect) {
@@ -49,8 +53,8 @@ class ParticipantListView: UIView {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    let moreButtonSize = moreButton.frame.size
-    moreButton.layer.cornerRadius = moreButtonSize.width / 2
+    let moreButtonSize = moreButton.bounds.size
+    moreButton.layer.cornerRadius = moreButtonSize.height / 2.0
   }
   
   private func configureUI() {
@@ -62,11 +66,12 @@ class ParticipantListView: UIView {
     
     participantListStackView.snp.makeConstraints {
       $0.top.equalTo(participantTitleLabel.snp.bottom).offset(7)
-      $0.left.right.bottom.equalToSuperview()
+      $0.left.bottom.equalToSuperview()
+      $0.right.lessThanOrEqualToSuperview()
     }
     
     moreButton.snp.makeConstraints {
-      $0.width.height.equalTo(34)
+      $0.size.equalTo(34)
     }
 
     moreButton.addTarget(self, action: #selector(didTappedMoreButton), for: .touchUpInside)
@@ -74,11 +79,25 @@ class ParticipantListView: UIView {
   
   public func configureUI(with model: [AccountInfo]) {
     let joinedCount = model.count
-    guard joinedCount < 1 else { return }
+    guard joinedCount > 0 else { return }
     if joinedCount <= 8 {
-      
-    } else { // 9명 이상일때
-      
+      model.forEach { account in
+        let participantImageView = ParticipantImageView(frame: .zero)
+        participantImageView.configureUI(with: account.profileImage)
+        participantListStackView.addArrangedSubview(participantImageView)
+      }
+    }
+    else { // 9명 이상일때
+      let moreCount = joinedCount - 7
+      moreButton.isHidden = false
+      moreButton.setTitle("+\(moreCount)", for: .normal)
+      for index in 0..<7 {
+        let participantImageView = ParticipantImageView(frame: .zero)
+        participantImageView.configureUI(with: model[index].profileImage)
+        participantListStackView.addArrangedSubview(participantImageView)
+      }
+      participantListStackView.addArrangedSubview(moreButton)
+      moreButton.layoutIfNeeded()
     }
   }
   
@@ -87,9 +106,9 @@ class ParticipantListView: UIView {
   }
 }
 
-final class ParticipantImageView: UIImageView {
+class ParticipantImageView: UIImageView {
   override init(frame: CGRect) {
-    super.init(frame: frame)
+    super.init(frame: .zero)
     configureUI()
   }
   
@@ -99,8 +118,8 @@ final class ParticipantImageView: UIImageView {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    let imageSize = self.bounds.size.width
-    layer.cornerRadius = imageSize / 2
+    let imageSize = self.bounds.size
+    layer.cornerRadius = imageSize.width / 2.0
   }
   
   private func configureUI() {
@@ -108,8 +127,13 @@ final class ParticipantImageView: UIImageView {
     contentMode = .scaleAspectFit
     image = UIImage(systemName: "person.fill")
     backgroundColor = .yellow
-    snp.makeConstraints { make in
-      make.size.equalTo(34)
+    snp.makeConstraints {
+      $0.size.equalTo(34)
     }
+  }
+  
+  public func configureUI(with model: String?) {
+    guard let url = URL(string: model ?? "") else { return }
+    kf.setImage(with: url)
   }
 }
