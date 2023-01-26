@@ -5,14 +5,13 @@
 //  Created by 김수빈 on 2023/01/25.
 //
 
-import Foundation
 import UIKit
 
 import Alamofire
 import RxCocoa
 import RxSwift
 
-class ImageService: BaseService {
+final class ImageService: BaseService {
   static let shared = ImageService()
   
   private override init() { }

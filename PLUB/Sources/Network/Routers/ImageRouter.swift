@@ -37,11 +37,7 @@ extension ImageRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case .uploadImage:
-      return .plain
-    case .updateImage:
-      return .plain
-    case .deleteImage:
+    case .uploadImage, .updateImage, .deleteImage:
       return .plain
     }
   }
