@@ -113,15 +113,15 @@ final class DetailRecruitmentViewController: BaseViewController {
       $0.height.greaterThanOrEqualTo(48)
     }
     
-    participantListView.snp.makeConstraints { make in
-      make.left.equalToSuperview().offset(17.5)
-      make.right.lessThanOrEqualToSuperview().offset(-14.14)
-      make.height.equalTo(64)
+    participantListView.snp.makeConstraints {
+      $0.left.equalToSuperview().offset(17.5)
+      $0.right.lessThanOrEqualToSuperview().offset(-14.14)
+      $0.height.equalTo(64)
     }
-    participantListView.backgroundColor = .red
-    bottomStackView.snp.makeConstraints { make in
-      make.right.equalToSuperview().offset(-16.5)
-      make.height.equalTo(46)
+    
+    bottomStackView.snp.makeConstraints {
+      $0.right.equalToSuperview().offset(-16.5)
+      $0.height.equalTo(46)
     }
   }
   
