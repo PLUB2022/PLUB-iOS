@@ -29,6 +29,7 @@
 		7095A585292B566C002A52E6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7095A584292B566C002A52E6 /* Kingfisher */; };
 		7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* ToggleButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
+		70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4207F2982ED9C0026E9F9 /* Ex+String.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
 		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
@@ -190,6 +191,7 @@
 		708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestHeaderView.swift; sourceTree = "<group>"; };
 		7095A589292E58F9002A52E6 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		70A4207F2982ED9C0026E9F9 /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
@@ -624,6 +626,7 @@
 				BA52778F28EECEB40036B825 /* Ex+UIFont.swift */,
 				C36D337C2975ADD800943B11 /* Ex+CALayer.swift */,
 				C38A5BA8297C60A000485355 /* Ex+UILabel.swift */,
+				70A4207F2982ED9C0026E9F9 /* Ex+String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1068,6 +1071,7 @@
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
+				70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */,
 				70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */,
 				BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */,
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
