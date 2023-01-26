@@ -143,19 +143,6 @@ final class DetailRecruitmentViewController: BaseViewController {
       target: self,
       action: #selector(didTappedComponentButton)
     )
-    participantListView.configureUI(with: [
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-      .init(accountId: 1, profileImage: ""),
-    ])
   }
   
   override func bind() {
