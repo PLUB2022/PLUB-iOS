@@ -68,8 +68,8 @@ final class DetailRecruitmentViewController: BaseViewController {
   private let meetingIntroduceView = MeetingIntroduceView()
   
   private lazy var introduceTagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: LeftAlignedCollectionViewFlowLayout().then({
-    $0.minimumLineSpacing = 3
-    $0.minimumInteritemSpacing = 3
+    $0.minimumLineSpacing = 8
+    $0.minimumInteritemSpacing = 8
   })).then {
     $0.backgroundColor = .background
     $0.register(IntroduceTagCollectionViewCell.self, forCellWithReuseIdentifier: IntroduceTagCollectionViewCell.identifier)
