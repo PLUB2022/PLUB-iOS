@@ -47,7 +47,8 @@ class IntroduceCategoryInfoView: UIView {
     
     categoryInfoListView.snp.makeConstraints {
       $0.top.equalTo(meetingRecommendedLabel.snp.bottom)
-      $0.centerX.equalToSuperview()
+      $0.left.equalToSuperview()
+      $0.right.lessThanOrEqualToSuperview()
     }
     
     meetingImageView.snp.makeConstraints {
