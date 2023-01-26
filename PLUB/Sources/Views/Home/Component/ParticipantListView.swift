@@ -32,10 +32,11 @@ class ParticipantListView: UIView {
     $0.axis = .horizontal
     $0.alignment = .leading
   }
-
+  
   private let moreButton = UIButton().then {
     $0.backgroundColor = .lightGray
     $0.tintColor = .deepGray
+    $0.titleLabel?.font = .overLine
     $0.titleLabel?.textAlignment = .center
     $0.layer.masksToBounds = true
     $0.clipsToBounds = true
@@ -73,18 +74,23 @@ class ParticipantListView: UIView {
     moreButton.snp.makeConstraints {
       $0.size.equalTo(34)
     }
-
+    
     moreButton.addTarget(self, action: #selector(didTappedMoreButton), for: .touchUpInside)
   }
   
+  private func addElement(model: AccountInfo) {
+    let participantImageView = ParticipantImageView(frame: .zero)
+    participantImageView.configureUI(with: model.profileImage)
+    participantListStackView.addArrangedSubview(participantImageView)
+  }
+  
   public func configureUI(with model: [AccountInfo]) {
+    let model = model.compactMap{ $0 }
     let joinedCount = model.count
     guard joinedCount > 0 else { return }
     if joinedCount <= 8 {
       model.forEach { account in
-        let participantImageView = ParticipantImageView(frame: .zero)
-        participantImageView.configureUI(with: account.profileImage)
-        participantListStackView.addArrangedSubview(participantImageView)
+        addElement(model: account)
       }
     }
     else { // 9명 이상일때
@@ -92,9 +98,7 @@ class ParticipantListView: UIView {
       moreButton.isHidden = false
       moreButton.setTitle("+\(moreCount)", for: .normal)
       for index in 0..<7 {
-        let participantImageView = ParticipantImageView(frame: .zero)
-        participantImageView.configureUI(with: model[index].profileImage)
-        participantListStackView.addArrangedSubview(participantImageView)
+        addElement(model: model[index])
       }
       participantListStackView.addArrangedSubview(moreButton)
       moreButton.layoutIfNeeded()

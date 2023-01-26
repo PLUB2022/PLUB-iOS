@@ -79,7 +79,9 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.sizeToFit()
   }
   
-  private let participantListView = ParticipantListView()
+  private let participantListView = ParticipantListView().then {
+    $0.backgroundColor = .clear
+  }
   
   init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingId: Int) {
     self.viewModel = viewModel
@@ -141,7 +143,19 @@ final class DetailRecruitmentViewController: BaseViewController {
       target: self,
       action: #selector(didTappedComponentButton)
     )
-    
+    participantListView.configureUI(with: [
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+      .init(accountId: 1, profileImage: ""),
+    ])
   }
   
   override func bind() {
