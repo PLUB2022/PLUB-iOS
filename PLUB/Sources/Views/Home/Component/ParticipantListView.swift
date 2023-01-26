@@ -124,9 +124,7 @@ class ParticipantImageView: UIImageView {
   
   private func configureUI() {
     layer.masksToBounds = true
-    contentMode = .scaleAspectFit
-    image = UIImage(systemName: "person.fill")
-    backgroundColor = .yellow
+    contentMode = .scaleAspectFill
     snp.makeConstraints {
       $0.size.equalTo(34)
     }
