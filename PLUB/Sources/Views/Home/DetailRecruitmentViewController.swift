@@ -41,7 +41,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.alignment = .center
     $0.distribution = .fill
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.spacing = 16
+    $0.spacing = 24
     $0.layoutMargins = UIEdgeInsets(top: .zero, left: 16.5, bottom: .zero, right: 16.5)
   }
   
@@ -68,8 +68,8 @@ final class DetailRecruitmentViewController: BaseViewController {
   private let meetingIntroduceView = MeetingIntroduceView()
   
   private lazy var introduceTagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: LeftAlignedCollectionViewFlowLayout().then({
-    $0.minimumLineSpacing = 3
-    $0.minimumInteritemSpacing = 3
+    $0.minimumLineSpacing = 8
+    $0.minimumInteritemSpacing = 8
   })).then {
     $0.backgroundColor = .background
     $0.register(IntroduceTagCollectionViewCell.self, forCellWithReuseIdentifier: IntroduceTagCollectionViewCell.identifier)
@@ -79,7 +79,9 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.sizeToFit()
   }
   
-  private let participantListView = ParticipantListView()
+  private let participantListView = ParticipantListView().then {
+    $0.backgroundColor = .clear
+  }
   
   init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingId: Int) {
     self.viewModel = viewModel
@@ -113,15 +115,15 @@ final class DetailRecruitmentViewController: BaseViewController {
       $0.height.greaterThanOrEqualTo(48)
     }
     
-    participantListView.snp.makeConstraints { make in
-      make.left.equalToSuperview().offset(17.5)
-      make.right.lessThanOrEqualToSuperview().offset(-14.14)
-      make.height.equalTo(64)
+    participantListView.snp.makeConstraints {
+      $0.left.equalToSuperview().offset(17.5)
+      $0.right.lessThanOrEqualToSuperview().offset(-14.14)
+      $0.height.equalTo(64)
     }
-    participantListView.backgroundColor = .red
-    bottomStackView.snp.makeConstraints { make in
-      make.right.equalToSuperview().offset(-16.5)
-      make.height.equalTo(46)
+    
+    bottomStackView.snp.makeConstraints {
+      $0.right.equalToSuperview().offset(-16.5)
+      $0.height.equalTo(46)
     }
   }
   
@@ -188,7 +190,7 @@ extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectio
         $0.sizeToFit()
       }
       let size = label.frame.size
-      return CGSize(width: size.width + 16, height: 20)
+      return CGSize(width: size.width + 16, height: size.height + 4)
     }
     return .zero
   }
