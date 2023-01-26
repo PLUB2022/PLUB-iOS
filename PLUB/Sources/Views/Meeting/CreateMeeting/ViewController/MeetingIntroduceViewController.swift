@@ -179,5 +179,20 @@ extension MeetingIntroduceViewController: PhotoBottomSheetDelegate {
     photoSelectView.snp.updateConstraints {
       $0.height.equalTo(width * image.size.height / image.size.width)
     }
+    
+    ImageService.shared.uploadImage(images: [image], params: UploadImageRequest(type: ImageType.plubbingMain.value))
+      .subscribe(onNext: { result in
+        switch result {
+        case .success(let model):
+          print(model)
+          
+        case .requestError(let model):
+          print(model)
+        case .networkError, .serverError, .pathError:
+          // TODO: 수빈 - PLUB 에러 Alert 띄우기
+          break
+        }
+      })
+      .disposed(by: disposeBag)
   }
 }
