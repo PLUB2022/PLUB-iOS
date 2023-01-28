@@ -16,6 +16,8 @@ class SearchInputViewController: BaseViewController {
     $0.placeholder = "검색할 내용을 입력해주세요"
   }
   
+  private let searchAlertView = SearchAlertView()
+  
   override func setupStyles() {
     super.setupStyles()
     self.navigationItem.titleView = searchBar
@@ -25,6 +27,14 @@ class SearchInputViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+  }
+  
+  override func setupLayouts() {
+    super.setupLayouts()
+    view.addSubview(searchAlertView)
+    searchAlertView.snp.makeConstraints { make in
+      make.edges.equalTo(view.safeAreaLayoutGuide)
+    }
   }
   
   @objc private func didTappedBackButton() {
