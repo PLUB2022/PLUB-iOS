@@ -233,6 +233,12 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
       UIView.setAnimationsEnabled(true)
     }
   }
+  
+  func scrollToRow(_ cell: QuestionTableViewCell) {
+    if let thisIndexPath = tableView.indexPath(for: cell) {
+      tableView.scrollToRow(at: thisIndexPath, at: .middle, animated: false)
+    }
+  }
 }
 
 // MARK: - QuestionDeleteBottomSheetDelegate

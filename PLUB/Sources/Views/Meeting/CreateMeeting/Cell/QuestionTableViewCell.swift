@@ -17,6 +17,7 @@ protocol QuestionTableViewCellDelegate: AnyObject {
   func addQuestion()
   func presentQuestionDeleteBottomSheet(index: Int)
   func updateQuestion(index: Int, data: MeetingQuestionCellModel)
+  func scrollToRow(_ cell: QuestionTableViewCell)
 }
 
 final class QuestionTableViewCell: UITableViewCell {
@@ -102,6 +103,13 @@ private extension QuestionTableViewCell {
             isFilled: !textUnfilled
           )
         )
+      })
+      .disposed(by: disposeBag)
+    
+    inputTextView.textView.rx.didBeginEditing
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.scrollToRow(owner)
       })
       .disposed(by: disposeBag)
     
