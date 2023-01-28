@@ -34,14 +34,14 @@ class SearchAlertView: UIView {
   
   private func configureUI() {
     [emptyImageView, emptyLabel].forEach { addSubview($0) }
-    emptyImageView.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.bottom.equalTo(snp.centerY)
+    emptyImageView.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.bottom.equalTo(snp.centerY)
     }
     
-    emptyLabel.snp.makeConstraints { make in
-      make.centerX.equalToSuperview()
-      make.top.equalTo(snp.centerY).offset(32)
+    emptyLabel.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.top.equalTo(snp.centerY).offset(32)
     }
   }
 }

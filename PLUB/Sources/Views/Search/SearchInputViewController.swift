@@ -32,8 +32,8 @@ class SearchInputViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(searchAlertView)
-    searchAlertView.snp.makeConstraints { make in
-      make.edges.equalTo(view.safeAreaLayoutGuide)
+    searchAlertView.snp.makeConstraints {
+      $0.edges.equalTo(view.safeAreaLayoutGuide)
     }
   }
   
