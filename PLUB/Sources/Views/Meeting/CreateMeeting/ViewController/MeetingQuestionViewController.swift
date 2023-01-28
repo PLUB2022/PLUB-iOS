@@ -61,6 +61,16 @@ final class MeetingQuestionViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    removeKeyboardNotification()
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(tableView)
@@ -70,7 +80,8 @@ final class MeetingQuestionViewController: BaseViewController {
     super.setupConstraints()
     tableView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.leading.trailing.bottom.equalToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(56)
+      $0.leading.trailing.equalToSuperview()
     }
   }
   
@@ -264,5 +275,32 @@ extension MeetingQuestionViewController {
       return
     }
     currentCell.addQuestionControl.isHidden = state
+  }
+}
+
+// MARK: - Keyboard
+
+extension MeetingQuestionViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                             name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    if let keyboardRect = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue, view.frame.origin.y == 0{
+      view.frame.origin.y -= keyboardRect.height
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    view.frame.origin.y = 0
   }
 }
