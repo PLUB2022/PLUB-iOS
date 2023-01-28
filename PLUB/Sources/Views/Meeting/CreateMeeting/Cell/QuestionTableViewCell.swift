@@ -15,7 +15,7 @@ import RxCocoa
 protocol QuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView)
   func addQuestion()
-  func removeQuestion(index: Int)
+  func presentQuestionDeleteBottomSheet(index: Int)
   func updateQuestion(index: Int, data: MeetingQuestionCellModel)
 }
 
@@ -108,7 +108,7 @@ private extension QuestionTableViewCell {
     removeButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.delegate?.removeQuestion(index: owner.indexPathRow)
+        owner.delegate?.presentQuestionDeleteBottomSheet(index: owner.indexPathRow)
       })
       .disposed(by: disposeBag)
   }

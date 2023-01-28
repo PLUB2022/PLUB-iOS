@@ -241,10 +241,11 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
     currentCell.inputTextView.textView.becomeFirstResponder()
   }
   
-  func removeQuestion(index: Int) {
-    viewModel.questionList.remove(at: index)
-    viewModel.removeQuestion(index: index)
-    self.tableView.reloadData()
+  func presentQuestionDeleteBottomSheet(index: Int) {
+    let vc = QuestionDeleteBottomSheetViewController(index: index)
+    vc.delegate = self
+    vc.modalPresentationStyle = .overFullScreen
+    present(vc, animated: false)
   }
   
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView) {
@@ -256,5 +257,14 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
       tableView.endUpdates()
       UIView.setAnimationsEnabled(true)
     }
+  }
+}
+
+extension MeetingQuestionViewController: QuestionDeleteBottomSheetDelegate {
+  func removeQuestion(index: Int) {
+    viewModel.questionList.remove(at: index)
+    viewModel.removeQuestion(index: index)
+    tableView.reloadData()
+    view.endEditing(true)
   }
 }

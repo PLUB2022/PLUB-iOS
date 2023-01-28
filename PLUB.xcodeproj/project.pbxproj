@@ -167,6 +167,7 @@
 		C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */; };
 		C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */; };
 		C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */; };
+		C3FC1815298509C50083039A /* QuestionDeleteBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FC1814298509C50083039A /* QuestionDeleteBottomSheetViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -323,6 +324,7 @@
 		C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingNameViewModel.swift; sourceTree = "<group>"; };
 		C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewModel.swift; sourceTree = "<group>"; };
+		C3FC1814298509C50083039A /* QuestionDeleteBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionDeleteBottomSheetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -832,6 +834,7 @@
 				C38A5BA0297B0C4100485355 /* NoLocationView.swift */,
 				C38A5BA6297C549A00485355 /* LocationBaseView.swift */,
 				C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */,
+				C3FC1814298509C50083039A /* QuestionDeleteBottomSheetViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -981,6 +984,7 @@
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
 				C3D9807A297D982E00B8F5DF /* MeetingQuestionViewModel.swift in Sources */,
+				C3FC1815298509C50083039A /* QuestionDeleteBottomSheetViewController.swift in Sources */,
 				BA117A3D297440D900B37E03 /* UserManager.swift in Sources */,
 				C38A5B97297AD5C300485355 /* KakaoLocationService.swift in Sources */,
 				BA784FA82978EB9100E8B06F /* SignUpViewController.swift in Sources */,
