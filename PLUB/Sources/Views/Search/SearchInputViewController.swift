@@ -13,6 +13,8 @@ import Then
 
 class SearchInputViewController: BaseViewController {
   
+  private let viewModel: SearchInputViewModelType
+  
   private let searchBar = UISearchBar().then {
     $0.placeholder = "검색할 내용을 입력해주세요"
     $0.returnKeyType = .search
@@ -22,6 +24,15 @@ class SearchInputViewController: BaseViewController {
   }
   
   private let searchAlertView = SearchAlertView()
+  
+  init(viewModel: SearchInputViewModelType = SearchInputViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func setupStyles() {
     super.setupStyles()
@@ -52,8 +63,9 @@ class SearchInputViewController: BaseViewController {
       .withLatestFrom(searchBar.rx.text.orEmpty)
       .filter { $0.count != 0 }
       .distinctUntilChanged()
-      .subscribe(onNext: { text in
-        print("tete = \(text)")
+      .withUnretained(self)
+      .subscribe(onNext: { owner, text in
+        owner.viewModel.whichKeyword.onNext(text)
       })
       .disposed(by: disposeBag)
   }
