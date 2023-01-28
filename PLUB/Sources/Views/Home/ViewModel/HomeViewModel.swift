@@ -54,7 +54,8 @@ class HomeViewModel: HomeViewModelType {
           selectedCategoryInfoModel: .init(
             placeName: content.placeName,
             peopleCount: 0,
-            when: "")
+            when: ""
+          )
         )
         return cellData
       }

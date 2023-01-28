@@ -10,7 +10,7 @@ enum HomeType { // 사용자 관심사 선택 유무
 }
 
 enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
-  case interest
+  case mainCategoryList
   case recommendedMeeting
 }
 
@@ -107,7 +107,7 @@ final class HomeViewController: BaseViewController {
   
   private static func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
     switch homeCollectionType {
-    case .interest:
+    case .mainCategoryList:
       let item = NSCollectionLayoutItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
@@ -173,7 +173,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch HomeSectionType.allCases[section] {
-    case .interest:
+    case .mainCategoryList:
       return mainCategoryList.count
     case .recommendedMeeting:
       return 1
@@ -184,7 +184,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     let homeCollectionType = HomeSectionType.allCases[indexPath.section]
     
     switch homeCollectionType {
-    case .interest:
+    case .mainCategoryList:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell ?? HomeCollectionViewCell()
       print("fdsf = \(mainCategoryList[indexPath.row])")
       cell.configureUI(with: mainCategoryList[indexPath.row])
