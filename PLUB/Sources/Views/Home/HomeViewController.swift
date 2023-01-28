@@ -20,11 +20,15 @@ final class HomeViewController: BaseViewController {
   private let viewModel: HomeViewModelType
   private var mainCategoryList: [MainCategory] = [] {
     didSet {
-      self.homeCollectionView.reloadSections(.init(integer: 0))
+      self.homeCollectionView.reloadSections([0])
     }
   }
   
-  private var homeType: HomeType = .nonSelected
+  private var homeType: HomeType = .selected {
+    didSet {
+      self.homeCollectionView.reloadSections([1])
+    }
+  }
   
   init(viewModel: HomeViewModelType) {
     self.viewModel = viewModel
@@ -95,6 +99,13 @@ final class HomeViewController: BaseViewController {
     super.bind()
     viewModel.fetchedMainCategoryList
       .drive(rx.mainCategoryList)
+      .disposed(by: disposeBag)
+    
+    viewModel.isSelectedInterest
+      .withUnretained(self)
+      .emit(onNext: { owner, isSelectedInterest in
+        owner.homeType = isSelectedInterest ? .selected : .nonSelected
+      })
       .disposed(by: disposeBag)
     
     homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
@@ -200,7 +211,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     case .mainCategoryList:
       return mainCategoryList.count
     case .interestSelect:
-      return 1
+      switch homeType {
+      case .nonSelected:
+        return 1
+      case .selected:
+        return 0
+      }
     case .recommendedMeeting:
       return 10
     }
@@ -215,9 +231,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       cell.configureUI(with: mainCategoryList[indexPath.row])
       return cell
     case.interestSelect:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InterestSelectCollectionViewCell.identifier, for: indexPath) as? InterestSelectCollectionViewCell ?? InterestSelectCollectionViewCell()
-      cell.delegate = self
-      return cell
+      switch homeType {
+      case .selected:
+        return UICollectionViewCell()
+      case .nonSelected:
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InterestSelectCollectionViewCell.identifier, for: indexPath) as? InterestSelectCollectionViewCell ?? InterestSelectCollectionViewCell()
+        cell.delegate = self
+        return cell
+      }
     case .recommendedMeeting:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
 //      cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
