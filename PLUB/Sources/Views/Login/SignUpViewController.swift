@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 
@@ -171,8 +173,11 @@ final class SignUpViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    nextButton.rx.tap
+    let nextButtonShareObservable = nextButton.rx.tap
+      .share()
       .withUnretained(self)
+    
+    nextButtonShareObservable
       .subscribe(onNext: { owner, _ in
         if owner.currentPage < owner.lastPageIndex {
           owner.currentPage += 1
