@@ -188,6 +188,52 @@ final class SignUpViewModel: SignUpViewModelType {
     }
     stateList[index] = state
   }
+  
+  func signUp() -> Observable<Bool> {
+    // 1. 지금까지 초기화된 request model 등록
+    var requestObservable = Observable<SignUpRequest>.just(signUpRelay.value)
+    
+    // 2. 이미지가 등록되어있는지 판단
+    if let profileImage = try? userProfileSubject.value() {
+      // 2-1. 이미지를 request model에 등록한 Observable로 세팅
+      requestObservable = ImageService.shared.uploadImage(images: [profileImage], params: UploadImageRequest(type: ImageType.profile.value))
+        .flatMap { response -> Observable<String?> in
+          switch response {
+          case let .success(imageModel):
+            return .just(imageModel.data?.files.first?.fileUrl)
+          default:
+            // 이미지 등록이 되지 못함 (오류 발생)
+            return .empty()
+          }
+        }
+        .compactMap { $0 }
+        .withUnretained(self)
+        .map { owner, link in
+          owner.signUpRelay.value.with {
+            $0.profileImageLink = link
+          }
+        }
+    }
+    
+    // 3. Sign Up 실행
+    return requestObservable
+      .debug("SignUp")
+      .flatMap { AuthService.shared.signUpToPLUB(request: $0) }
+      .compactMap { result in
+        print(result)
+        switch result {
+        case let .success(response):
+          guard let accessToken = response.data?.accessToken,
+                let refreshToken = response.data?.refreshToken else {
+            fatalError("성공했는데 Token값이 들어있지 않습니다. 이 경우는 발생할 수 없습니다.")
+          }
+          UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
+          return true // 토큰 저장 성공
+        default:
+          return false // 회원가입 실패
+        }
+      }
+  }
 }
 
 // MARK: - Constants

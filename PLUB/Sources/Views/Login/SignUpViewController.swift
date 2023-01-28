@@ -177,6 +177,21 @@ final class SignUpViewController: BaseViewController {
       .share()
       .withUnretained(self)
     
+    // 유저가 필요한 정부를 전부 기입했을 때 회원가입 진행
+    nextButtonShareObservable
+      .filter { owner, _ in return owner.lastPageIndex + 1 == owner.viewControllers.count }
+      .flatMap { owner, _ in return owner.viewModel.signUp() }
+      .withUnretained(self)
+      .subscribe(onNext: { owner, succeed in
+        if succeed {
+          owner.navigationController?.setViewControllers([HomeViewController(viewModel: HomeViewModel())], animated: true)
+        } else {
+          print("회원가입 실패")
+        }
+      })
+      .disposed(by: disposeBag)
+    
+    // 아직 유저가 필요한 정보를 전부 기입하지 못한 경우(남은 페이지가 있는 경우를 뜻함)
     nextButtonShareObservable
       .subscribe(onNext: { owner, _ in
         if owner.currentPage < owner.lastPageIndex {
