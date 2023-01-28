@@ -15,8 +15,9 @@ import RxCocoa
 protocol QuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView)
   func addQuestion()
-  func removeQuestion(index: Int)
+  func presentQuestionDeleteBottomSheet(index: Int)
   func updateQuestion(index: Int, data: MeetingQuestionCellModel)
+  func scrollToRow(_ cell: QuestionTableViewCell)
 }
 
 final class QuestionTableViewCell: UITableViewCell {
@@ -105,10 +106,17 @@ private extension QuestionTableViewCell {
       })
       .disposed(by: disposeBag)
     
+    inputTextView.textView.rx.didBeginEditing
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.scrollToRow(owner)
+      })
+      .disposed(by: disposeBag)
+    
     removeButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.delegate?.removeQuestion(index: owner.indexPathRow)
+        owner.delegate?.presentQuestionDeleteBottomSheet(index: owner.indexPathRow)
       })
       .disposed(by: disposeBag)
   }
@@ -118,7 +126,7 @@ extension QuestionTableViewCell {
   func setCellData(text: String) {
     inputTextView.setTitleText(text: "질문 \(indexPathRow + 1)")
     
-    if text.isEmpty { return }
+    if text.isEmpty || text == "질문을 입력해주세요" { return }
     inputTextView.textView.text = text
     inputTextView.textView.textColor = .black
   }

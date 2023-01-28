@@ -19,14 +19,16 @@ final class MeetingQuestionViewModel {
   // Input
   var questionList: [String]
   let questionListBehaviorRelay: BehaviorRelay<[MeetingQuestionCellModel]>
+  var noQuestionMode: BehaviorRelay<Bool>
   
   // Output
-  let allQuestionFilled = PublishRelay<Bool>()
+  let allQuestionFilled: BehaviorRelay<Bool>
   
   init() {
     questionList = [""]
     questionListBehaviorRelay = .init(value: [MeetingQuestionCellModel(question: "", isFilled: false)])
-    
+    noQuestionMode = .init(value: false)
+    allQuestionFilled = .init(value: false)
     questionListBehaviorRelay
       .map { $0.map { $0.isFilled } }
       .map { !$0.contains(false) }
