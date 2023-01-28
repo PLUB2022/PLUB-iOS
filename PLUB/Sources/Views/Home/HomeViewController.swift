@@ -145,7 +145,7 @@ final class HomeViewController: BaseViewController {
           heightDimension: .fractionalHeight(1)
         )
       )
-      let group = NSCollectionLayoutGroup.horizontal(
+      let group = NSCollectionLayoutGroup.vertical(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
           heightDimension: .absolute(176)
@@ -153,6 +153,7 @@ final class HomeViewController: BaseViewController {
         subitem: item,
         count: 1
       )
+      
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
@@ -163,7 +164,9 @@ final class HomeViewController: BaseViewController {
       )
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
+      section.contentInsets = .init(top: .zero, leading: .zero, bottom: 12, trailing: .zero)
       return section
+      
     case .recommendedMeeting:
       let item = NSCollectionLayoutItem(
         layoutSize: NSCollectionLayoutSize(
