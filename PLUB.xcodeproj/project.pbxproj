@@ -407,6 +407,7 @@
 		70197B6C29535BA2000503F6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */,
 				70197B6D29535BAA000503F6 /* HomeViewModel.swift */,
 				70197B6F29535BDA000503F6 /* RegisterInterestViewModel.swift */,
 				70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */,
@@ -451,6 +452,7 @@
 		704AC7932938E7EA008C3A88 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				70A42091298564B10026E9F9 /* Search */,
 				70F1DFEB297D99A400F9BC83 /* Recruitment */,
 				70F1DFE2297A917D00F9BC83 /* Meeting */,
 				70F1DFE1297A917100F9BC83 /* Category */,
@@ -474,6 +476,7 @@
 		7095A588292E58EE002A52E6 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				70A420852982F0920026E9F9 /* SearchAlertView.swift */,
 				7095A589292E58F9002A52E6 /* ToggleButton.swift */,
 				70197B802955A68C000503F6 /* CategoryInfoListView.swift */,
 				70BD5F3829684EAC002CBA89 /* HomeAlert.swift */,
@@ -486,41 +489,13 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
-		70A420812982EFBB0026E9F9 /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				70A4208C29853D6F0026E9F9 /* Model */,
-				70A42089298535C50026E9F9 /* ViewModel */,
-				70A420842982F07D0026E9F9 /* Component */,
-				70A420822982F0360026E9F9 /* SearchInputViewController.swift */,
-				70A420872982F0F00026E9F9 /* SearchOutputViewController.swift */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
-		70A420842982F07D0026E9F9 /* Component */ = {
-			isa = PBXGroup;
-			children = (
-				70A420852982F0920026E9F9 /* SearchAlertView.swift */,
-			);
-			path = Component;
-			sourceTree = "<group>";
-		};
-		70A42089298535C50026E9F9 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		70A4208C29853D6F0026E9F9 /* Model */ = {
+		70A42091298564B10026E9F9 /* Search */ = {
 			isa = PBXGroup;
 			children = (
 				70A4208D298550240026E9F9 /* SearchParameter.swift */,
 				70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */,
 			);
-			path = Model;
+			path = Search;
 			sourceTree = "<group>";
 		};
 		70BD5F252959F706002CBA89 /* Extension */ = {
@@ -621,7 +596,6 @@
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				70A420812982EFBB0026E9F9 /* Search */,
 				70BD5F252959F706002CBA89 /* Extension */,
 				70197B6C29535BA2000503F6 /* ViewModel */,
 				704AC7932938E7EA008C3A88 /* Model */,
@@ -629,6 +603,8 @@
 				7085678428EE9A84008047DC /* Cell */,
 				BA88125128E48A2F00BD832A /* HomeViewController.swift */,
 				7085678B28EFBDC1008047DC /* RegisterInterestViewController.swift */,
+				70A420822982F0360026E9F9 /* SearchInputViewController.swift */,
+				70A420872982F0F00026E9F9 /* SearchOutputViewController.swift */,
 				70197B712953698F000503F6 /* SelectedCategoryViewController.swift */,
 				70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */,
 				70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */,
