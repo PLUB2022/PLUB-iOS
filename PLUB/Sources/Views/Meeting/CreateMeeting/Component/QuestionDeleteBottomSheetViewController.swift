@@ -8,13 +8,14 @@
 import UIKit
 
 protocol QuestionDeleteBottomSheetDelegate: AnyObject {
-  func removeQuestion(index: Int)
+  func removeQuestion(index: Int, lastQuestion: Bool)
 }
 
 final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
   weak var delegate: QuestionDeleteBottomSheetDelegate?
   
   private var questionIndex: Int
+  private var lastQuestion: Bool
   
   private let lineView = UIView().then {
     $0.backgroundColor = .mediumGray
@@ -22,7 +23,11 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
   }
   
   private lazy var titleLabel = UILabel().then {
-    $0.attributedText = setTitleAttributeText(count: questionIndex)
+    $0.attributedText = setTitleAttributeText(
+      count: questionIndex,
+      lastQuestion: lastQuestion
+    )
+    $0.numberOfLines = 0
     $0.font = .subtitle
     $0.textAlignment = .left
   }
@@ -50,9 +55,11 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
   }
   
   init(
-    index: Int
+    index: Int,
+    lastQuestion: Bool
   ) {
     questionIndex = index
+    self.lastQuestion = lastQuestion
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -91,7 +98,7 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
     
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(lineView.snp.bottom).offset(31)
-      $0.height.equalTo(19)
+      $0.height.greaterThanOrEqualTo(19)
       $0.leading.trailing.equalToSuperview().inset(24)
     }
     
@@ -114,23 +121,23 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
     deleteButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.delegate?.removeQuestion(index: owner.questionIndex)
+        owner.delegate?.removeQuestion(index: owner.questionIndex, lastQuestion: owner.lastQuestion)
         owner.dismiss(animated: false)
       })
       .disposed(by: disposeBag)
   }
   
-  private func setTitleAttributeText(count: Int) -> NSMutableAttributedString {
+  private func setTitleAttributeText(count: Int, lastQuestion: Bool) -> NSMutableAttributedString {
     let purpleCharacters = NSAttributedString(
       string: "질문 \(count + 1)",
       attributes: [.foregroundColor: UIColor.main]
     )
     
     let blackCharacters = NSAttributedString(
-      string: "를 삭제 할까요?",
+      string: "를 삭제 할까요?" + (lastQuestion ? "\n삭제할 경우 질문 없이 모집하기로 변경돼요." : ""),
       attributes: [.foregroundColor: UIColor.black]
     )
-    
+
     return NSMutableAttributedString(attributedString: purpleCharacters).then {
       $0.append(blackCharacters)
     }

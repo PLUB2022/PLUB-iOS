@@ -118,7 +118,7 @@ extension QuestionTableViewCell {
   func setCellData(text: String) {
     inputTextView.setTitleText(text: "질문 \(indexPathRow + 1)")
     
-    if text.isEmpty { return }
+    if text.isEmpty || text == "질문을 입력해주세요" { return }
     inputTextView.textView.text = text
     inputTextView.textView.textColor = .black
   }

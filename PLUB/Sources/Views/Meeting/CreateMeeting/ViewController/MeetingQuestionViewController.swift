@@ -197,7 +197,13 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
   }
   
   func presentQuestionDeleteBottomSheet(index: Int) {
-    let vc = QuestionDeleteBottomSheetViewController(index: index)
+    let questionFilledList = viewModel.questionListBehaviorRelay.value
+    let lastQuestion = questionFilledList
+      .map { $0.isFilled }
+      .filter { $0 == true }
+      .count == 1
+    
+    let vc = QuestionDeleteBottomSheetViewController(index: index, lastQuestion: lastQuestion)
     vc.delegate = self
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: false)
@@ -216,16 +222,26 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
 }
 
 extension MeetingQuestionViewController: QuestionDeleteBottomSheetDelegate {
-  func removeQuestion(index: Int) {
+  func removeQuestion(index: Int, lastQuestion: Bool) {
     viewModel.questionList.remove(at: index)
     viewModel.removeQuestion(index: index)
-    tableView.reloadData()
-    view.endEditing(true)
+    
+    if lastQuestion {
+      chageQuestionMode(state: true)
+      questionHeaderView.setQuestionButtonState(state: false)
+    } else {
+      tableView.reloadData()
+      view.endEditing(true)
+    }
   }
 }
 
 extension MeetingQuestionViewController: QuestionHeaderViewCellDelegate {
   func chageQuestionMode(state: Bool) {
+    if !state && viewModel.questionList.count == 0 {
+      viewModel.questionList.append("")
+      viewModel.addQuestion()
+    }
     viewModel.noQuestionMode.accept(state)
     tableView.reloadData()
   }

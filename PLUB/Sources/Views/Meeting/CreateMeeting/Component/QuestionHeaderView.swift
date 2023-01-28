@@ -94,8 +94,7 @@ private extension QuestionHeaderView {
     questionButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.questionButton.isSelected = true
-        owner.noquestionButton.isSelected = false
+        owner.setQuestionButtonState(state: true)
         owner.delegate?.chageQuestionMode(state: false)
       })
       .disposed(by: disposeBag)
@@ -103,10 +102,16 @@ private extension QuestionHeaderView {
     noquestionButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.questionButton.isSelected = false
-        owner.noquestionButton.isSelected = true
+        owner.setQuestionButtonState(state: false)
         owner.delegate?.chageQuestionMode(state: true)
       })
       .disposed(by: disposeBag)
+  }
+}
+
+extension QuestionHeaderView {
+  func setQuestionButtonState(state: Bool) {
+    questionButton.isSelected = state
+    noquestionButton.isSelected = !state
   }
 }
