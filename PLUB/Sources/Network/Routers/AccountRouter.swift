@@ -9,12 +9,13 @@ import Alamofire
 
 enum AccountRouter {
   case validateNickname(String)
+  case inquireInterest
 }
 
 extension AccountRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .validateNickname:
+    case .validateNickname, .inquireInterest:
       return .get
     }
   }
@@ -23,6 +24,17 @@ extension AccountRouter: Router {
     switch self {
     case let .validateNickname(nickname):
       return "/accounts/check/nickname/\(nickname)"
+    case .inquireInterest:
+      return "/accounts/me/interest"
+    }
+  }
+  
+  var headers: HeaderType {
+    switch self {
+    case .validateNickname:
+      return .default
+    case .inquireInterest:
+      return .withAccessToken
     }
   }
 }
