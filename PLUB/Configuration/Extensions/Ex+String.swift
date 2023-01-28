@@ -20,6 +20,7 @@ extension String {
     case FRI
     case SAT
     case SUN
+    case ALL
     
     var toKOR: String {
       switch self {
@@ -37,6 +38,8 @@ extension String {
         return "토"
       case .SUN:
         return "일"
+      case .ALL:
+        return "요일 무관"
       }
     }
   }
