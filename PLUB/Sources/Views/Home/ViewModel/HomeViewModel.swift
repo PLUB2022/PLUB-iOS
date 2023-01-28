@@ -30,11 +30,17 @@ class HomeViewModel: HomeViewModelType {
     self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
-    let inquireRecommendationMeeting = MeetingService.shared.inquireRecommendationMeeting()
+    let inquireRecommendationMeeting = MeetingService.shared.inquireRecommendationMeeting().share()
+    let inquireInterest = AccountService.shared.inquireInterest().share()
     
     let successFetchingMainCategoryList = inquireMainCategoryList.compactMap { result -> [MainCategory]? in
       guard case .success(let mainCategoryListResponse) = result else { return nil }
       return mainCategoryListResponse.data?.categories
+    }
+    
+    let successFetchingInterest = inquireInterest.compactMap { result -> InquireInterestResponse? in
+      guard case .success(let interestResponse) = result else { return nil }
+      return interestResponse.data
     }
     
     let successFetchingRecommendationMeeting = inquireRecommendationMeeting.compactMap { result -> [Content]? in
