@@ -8,17 +8,52 @@
 import RxSwift
 import RxCocoa
 
+enum Day: CaseIterable {
+  case MON
+  case TUE
+  case WED
+  case THR
+  case FRI
+  case SAT
+  case SUN
+  case ALL
+  
+  var toKOR: String {
+    switch self {
+    case .MON:
+      return "월"
+    case .TUE:
+      return "화"
+    case .WED:
+      return "수"
+    case .THR:
+      return "목"
+    case .FRI:
+      return "금"
+    case .SAT:
+      return "토"
+    case .SUN:
+      return "일"
+    case .ALL:
+      return "요일 무관"
+    }
+  }
+}
+
 final class MeetingDateViewModel {
   private lazy var disposeBag = DisposeBag()
-  
-  let dateList = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일", "요일 무관"].map {
-    MeetingDateCollectionViewCellModel(date: $0, isSelected: false)
-  }
+
   var dateCellData: BehaviorRelay<[MeetingDateCollectionViewCellModel]>
-  
   var dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
 
   init() {
+    let dateList = Day.allCases.map { $0.toKOR }
+                    .map {
+                      MeetingDateCollectionViewCellModel(
+                        date: $0,
+                        isSelected: false
+                      )
+                    }
     dateCellData = .init(value: dateList)
   }
   
@@ -72,5 +107,4 @@ final class MeetingDateViewModel {
       }
     }
   }
-  
 }
