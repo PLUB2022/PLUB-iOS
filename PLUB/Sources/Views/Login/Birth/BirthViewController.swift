@@ -116,7 +116,10 @@ final class BirthViewController: BaseViewController {
     
     maleButton.rx.tap
       .withUnretained(self)
-      .do { $0.0.viewModel.sexButtonTapped.onNext(()) } // 성별 선택이 완료되었다고 알리기
+      .do {
+        $0.0.viewModel.sexButtonTapped.onNext(())  // 성별 선택이 완료되었다고 알리기
+        $0.0.delegate?.information(sex: .male)     // delegate에게 성별 알리기
+      }
       .subscribe(onNext: { owner, _ in
         owner.maleButton.isSelected = true
         owner.femaleButton.isSelected = false
@@ -125,7 +128,10 @@ final class BirthViewController: BaseViewController {
     
     femaleButton.rx.tap
       .withUnretained(self)
-      .do { $0.0.viewModel.sexButtonTapped.onNext(()) } // 성별 선택이 완료되었다고 알리기
+      .do {
+        $0.0.viewModel.sexButtonTapped.onNext(()) // 성별 선택이 완료되었다고 알리기
+        $0.0.delegate?.information(sex: .female)  // delegate에게 성별 알리기
+      }
       .subscribe(onNext: { owner, _ in
         owner.femaleButton.isSelected = true
         owner.maleButton.isSelected = false
@@ -156,6 +162,7 @@ extension BirthViewController: DateBottomSheetDelegate {
     birthSettingControl.date = date
     birthSettingControl.isSelected = true
     viewModel.calendarDidSet.onNext(()) // 생년월일이 세팅되었다고 알리기
+    delegate?.information(birth: date)
   }
 }
 

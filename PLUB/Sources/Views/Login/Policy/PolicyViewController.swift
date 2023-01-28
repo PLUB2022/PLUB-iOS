@@ -93,19 +93,25 @@ final class PolicyViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.checkedButtonListState
-      .do { print($0) }
       .map { $0.reduce(true, { $0 && $1 }) }
-      .drive(onNext: { [weak self] in
-        self?.agreementCheckboxButton.isChecked = $0
-      })
+      .drive(with: self) { owner, flag in
+        owner.agreementCheckboxButton.isChecked = flag
+      }
       .disposed(by: disposeBag)
     
     viewModel.checkedButtonListState
       .map { $0.dropLast(1).reduce(true, { $0 && $1 }) }
-      .drive(with: self, onNext: { owner, flag in
-        // delegate 처리
+      .drive(with: self) { owner, flag in
+        // 부모 뷰컨의 `확인 버튼` 활성화 처리
         owner.delegate?.checkValidation(index: 0, state: flag)
-      })
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.checkedButtonListState
+      .drive(with: self) { owner, policies in
+        // 설정한 약관 정보 전달
+        owner.delegate?.information(policies: policies)
+      }
       .disposed(by: disposeBag)
   }
 }

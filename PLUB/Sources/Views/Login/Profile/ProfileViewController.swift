@@ -207,10 +207,21 @@ final class ProfileViewController: BaseViewController {
     
     // 닉네임 사용가능여부를 판단하고 UI 업데이트
     viewModel.isAvailableNickname
-      .drive(with: self, onNext: { owner, flag in
+      .drive(with: self) { owner, flag in
         owner.updateNicknameValidationUI(isValid: flag)
+        // 부모 뷰컨의 `확인 버튼` 활성화 처리
         owner.delegate?.checkValidation(index: 2, state: flag)
-      })
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isAvailableNickname
+      .filter { $0 }
+      .withLatestFrom(nicknameTextField.rx.text.asDriver())
+      .compactMap { $0 }
+      .drive(with: self) { owner, nickname in
+        // 사용가능한 닉네임 전달
+        owner.delegate?.information(nickname: nickname)
+      }
       .disposed(by: disposeBag)
     
     // 메시지 처리
@@ -259,6 +270,7 @@ final class ProfileViewController: BaseViewController {
 extension ProfileViewController: PhotoBottomSheetDelegate {
   func selectImage(image: UIImage) {
     uploadImageButton.setImage(image, for: .normal)
+    delegate?.information(profile: image) // 프로필 이미지 전달
   }
 }
 
