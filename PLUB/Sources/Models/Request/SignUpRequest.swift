@@ -29,3 +29,7 @@ struct SignUpRequest: Codable {
   let usePolicy: Bool
   let agePolicy: Bool
 }
+
+// MARK: - Conform `Then`
+
+extension SignUpRequest: Then { }
