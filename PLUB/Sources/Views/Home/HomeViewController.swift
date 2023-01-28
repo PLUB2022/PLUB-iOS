@@ -100,7 +100,9 @@ final class HomeViewController: BaseViewController {
   }
   
   @objc private func didTappedSearchButton() {
-    print("search")
+    let vc = SearchInputViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
   }
   
   private static func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
