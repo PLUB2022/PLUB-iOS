@@ -109,7 +109,74 @@ final class SignUpViewModel: SignUpViewModelType {
       .map { owner, _ in
         owner.stateList.firstIndex(of: false) == nil
       }
-      .bind(to: resultSubject)
+      .bind(to: buttonEnabledSubject)
+      .disposed(by: disposeBag)
+    
+    userCategoriesSubject
+      .withUnretained(self)
+      .compactMap { owner, categories in
+        owner.signUpRelay.value.with {
+          $0.categoryList = categories
+        }
+      }
+      .bind(to: signUpRelay)
+      .disposed(by: disposeBag)
+    
+    userBirthSubject
+      .withUnretained(self)
+      .compactMap { owner, birthday in
+        owner.signUpRelay.value.with {
+          let formatter = DateFormatter().then {
+            $0.dateFormat = "yyyy-MM-dd"
+          }
+          $0.birthday = formatter.string(from: birthday)
+        }
+      }
+      .bind(to: signUpRelay)
+      .disposed(by: disposeBag)
+    
+    userSexSubject
+      .withUnretained(self)
+      .compactMap { owner, sex in
+        owner.signUpRelay.value.with {
+          $0.sex = sex
+        }
+      }
+      .bind(to: signUpRelay)
+      .disposed(by: disposeBag)
+    
+    userIntroductionSubject
+      .withUnretained(self)
+      .compactMap { owner, introduction in
+        owner.signUpRelay.value.with {
+          $0.introduction = introduction
+        }
+      }
+      .bind(to: signUpRelay)
+      .disposed(by: disposeBag)
+    
+    userNicknameSubject
+      .withUnretained(self)
+      .compactMap { owner, nickname in
+        owner.signUpRelay.value.with {
+          $0.nickname = nickname
+        }
+      }
+      .bind(to: signUpRelay)
+      .disposed(by: disposeBag)
+    
+    userPoliciesSubject
+      .withUnretained(self)
+      .compactMap { owner, policies in
+        owner.signUpRelay.value.with {
+          $0.termsOfService = policies[0]
+          $0.locationBasedService = policies[1]
+          $0.termsAndConditionsForAges = policies[2]
+          $0.privacyPolicy = policies[3]
+          $0.marketing = policies[4]
+        }
+      }
+      .bind(to: signUpRelay)
       .disposed(by: disposeBag)
   }
   
