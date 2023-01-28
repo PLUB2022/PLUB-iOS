@@ -20,4 +20,8 @@ extension AccountService {
   func validateNickname(_ nickname: String) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
     return sendRequest(AccountRouter.validateNickname(nickname))
   }
+  
+  func inquireInterest() {
+    return sendRequest(<#T##router: Router##Router#>)
+  }
 }
