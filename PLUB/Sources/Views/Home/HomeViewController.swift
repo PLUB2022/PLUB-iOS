@@ -7,6 +7,24 @@ import Then
 enum HomeType { // 사용자 관심사 선택 유무
   case selected
   case nonSelected
+  
+  var height: NSCollectionLayoutDimension {
+    switch self {
+    case .selected:
+      return .absolute(32)
+    case .nonSelected:
+      return .absolute(56)
+    }
+  }
+  
+  var bottomInset: CGFloat {
+    switch self {
+    case .selected:
+      return 24
+    case .nonSelected:
+      return 8
+    }
+  }
 }
 
 enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
@@ -39,19 +57,21 @@ final class HomeViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private lazy var homeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-    guard let `self` = self else {
-      return nil
+  private lazy var homeCollectionView = UICollectionView(
+    frame: .zero,
+    collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
+      guard let `self` = self else {
+        return nil
+      }
+      return self.createCompositionalSection(homeCollectionType: HomeSectionType.allCases[sec])
+    }).then {
+      $0.backgroundColor = .background
+      $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
+      $0.register(InterestSelectCollectionViewCell.self, forCellWithReuseIdentifier: InterestSelectCollectionViewCell.identifier)
+      $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
+      $0.register(InterestSelectCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: InterestSelectCollectionHeaderView.identifier)
+      $0.register(HomeMainCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeMainCollectionHeaderView.identifier)
     }
-    return type(of: self).createCompositionalSection(homeCollectionType: HomeSectionType.allCases[sec])
-  }).then {
-    $0.backgroundColor = .background
-    $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
-    $0.register(InterestSelectCollectionViewCell.self, forCellWithReuseIdentifier: InterestSelectCollectionViewCell.identifier)
-    $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
-    $0.register(InterestSelectCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: InterestSelectCollectionHeaderView.identifier)
-    $0.register(HomeMainCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeMainCollectionHeaderView.identifier)
-  }
   
   // MARK: - Configuration
   override func setupLayouts() {
@@ -118,7 +138,7 @@ final class HomeViewController: BaseViewController {
     self.navigationController?.pushViewController(vc, animated: true)
   }
   
-  private static func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
+  private func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
     switch homeCollectionType {
     case .mainCategoryList:
       let item = NSCollectionLayoutItem(
@@ -147,6 +167,7 @@ final class HomeViewController: BaseViewController {
       let section = NSCollectionLayoutSection(group: group)
       section.orthogonalScrollingBehavior = .none
       section.boundarySupplementaryItems = [header]
+      section.contentInsets = .init(top: .zero, leading: .zero, bottom: 37, trailing: .zero)
       return section
       
     case .interestSelect:
@@ -168,14 +189,14 @@ final class HomeViewController: BaseViewController {
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(120)
+          heightDimension: homeType.height
         ),
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
       )
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
-      section.contentInsets = .init(top: .zero, leading: .zero, bottom: 12, trailing: .zero)
+      section.contentInsets = .init(top: .zero, leading: .zero, bottom: homeType.bottomInset, trailing: .zero)
       return section
       
     case .recommendedMeeting:
@@ -241,7 +262,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       }
     case .recommendedMeeting:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-//      cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
+      //      cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
       return cell
     }
   }
@@ -254,6 +275,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       return header
     case .interestSelect:
       let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InterestSelectCollectionHeaderView.identifier, for: indexPath) as? InterestSelectCollectionHeaderView ?? InterestSelectCollectionHeaderView()
+      header.configureUI(with: homeType)
       return header
     case .recommendedMeeting:
       return UICollectionReusableView()
