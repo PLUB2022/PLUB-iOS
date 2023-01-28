@@ -44,6 +44,7 @@ final class MeetingQuestionViewController: BaseViewController {
     $0.dataSource = self
     $0.tableHeaderView = questionHeaderView
     $0.tableHeaderView?.frame.size.height = 212
+    $0.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 56))
     $0.register(QuestionTableViewCell.self, forCellReuseIdentifier: QuestionTableViewCell.identifier)
     $0.register(AddQuestionTableViewCell.self, forCellReuseIdentifier: AddQuestionTableViewCell.identifier)
   }
@@ -80,8 +81,7 @@ final class MeetingQuestionViewController: BaseViewController {
     super.setupConstraints()
     tableView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(56)
-      $0.leading.trailing.equalToSuperview()
+      $0.leading.bottom.trailing.equalToSuperview()
     }
   }
   
@@ -296,11 +296,13 @@ extension MeetingQuestionViewController {
   func keyboardWillShow(_ sender: Notification) {
     if let keyboardRect = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue, view.frame.origin.y == 0{
       view.frame.origin.y -= keyboardRect.height
+      tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 56 + 26))
     }
   }
   
   @objc
   func keyboardWillHide(_ sender: Notification) {
     view.frame.origin.y = 0
+    tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 56))
   }
 }
