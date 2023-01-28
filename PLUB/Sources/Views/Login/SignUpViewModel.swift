@@ -5,7 +5,7 @@
 //  Created by 홍승현 on 2023/01/19.
 //
 
-import Foundation
+import UIKit
 
 import RxCocoa
 import RxSwift
@@ -20,6 +20,13 @@ struct ValidationState {
 protocol SignUpViewModelType: SignUpViewModel {
   // Input
   var validationState: AnyObserver<ValidationState> { get }
+  var categories: AnyObserver<[Int]> { get }
+  var profileImage: AnyObserver<UIImage?> { get }
+  var birth: AnyObserver<Date> { get }
+  var sex: AnyObserver<Sex> { get }
+  var introduction: AnyObserver<String> { get }
+  var nickname: AnyObserver<String> { get }
+  var policies: AnyObserver<[Bool]> { get }
   
   // Output
   var isButtonEnabled: Driver<Bool> { get }
@@ -29,6 +36,13 @@ final class SignUpViewModel: SignUpViewModelType {
   
   // Input
   let validationState: AnyObserver<ValidationState> // 자식들에게서 상태값을 받음
+  let categories: AnyObserver<[Int]>                // 유저가 선택한 카테고리
+  let profileImage: AnyObserver<UIImage?>           // 유저로부터 받은 프로필 이미지
+  let birth: AnyObserver<Date>                      // 유저의 생일
+  let sex: AnyObserver<Sex>                         // 유저의 성별
+  let introduction: AnyObserver<String>             // 유저의 소개글
+  let nickname: AnyObserver<String>                 // 유저의 닉네임
+  let policies: AnyObserver<[Bool]>                 // 유저가 체크한 약관 내역
   
   // Output
   let isButtonEnabled: Driver<Bool> // 버튼 활성화 제어
@@ -53,14 +67,32 @@ final class SignUpViewModel: SignUpViewModelType {
   
   private var stateList = [Bool]()
   
-  private let stateSubject = PublishSubject<ValidationState>()
-  private let resultSubject = BehaviorSubject<Bool>(value: false)
+  private let userCategoriesSubject = BehaviorSubject(value: [Int]())     // 유저 카테고리 서브젝트
+  private let userProfileSubject = BehaviorSubject<UIImage?>(value: nil)  // 유저 프로필 서브젝트
+  private let userBirthSubject = BehaviorSubject(value: Date())           // 유저 생일 서브젝트
+  private let userSexSubject = BehaviorSubject(value: Sex.male)           // 유저 성별 서브젝트
+  private let userIntroductionSubject = BehaviorSubject(value: "")        // 유저 소개글 서브젝트
+  private let userNicknameSubject = BehaviorSubject(value: "")            // 유저 닉네임 서브젝트
+  private let userPoliciesSubject = BehaviorSubject(value: [Bool]())      // 유저 약관 서브젝트
+  
+  private let signUpRelay = BehaviorRelay(value: SignUpRequest())         // 회원가입 플로우로 사용할 릴레이
+  private let validationStateSubject = PublishSubject<ValidationState>()  // 버튼을 활성화할지 검증할 때 필요한 서브젝트
+  private let buttonEnabledSubject = BehaviorSubject<Bool>(value: false)  // 버튼 활성화 여부 서브젝트
   
   // MARK: - Initialization
   
   init() {
-    validationState = stateSubject.asObserver()
-    isButtonEnabled = resultSubject.asDriver(onErrorDriveWith: .empty())
+    validationState = validationStateSubject.asObserver()
+    categories = userCategoriesSubject.asObserver()
+    profileImage = userProfileSubject.asObserver()
+    birth = userBirthSubject.asObserver()
+    sex = userSexSubject.asObserver()
+    introduction = userIntroductionSubject.asObserver()
+    nickname = userNicknameSubject.asObserver()
+    policies = userPoliciesSubject.asObserver()
+    
+    isButtonEnabled = buttonEnabledSubject.asDriver(onErrorDriveWith: .empty())
+    
     bind()
   }
   
@@ -71,7 +103,7 @@ final class SignUpViewModel: SignUpViewModelType {
     // ==> viewModel의 state 값 변경
     // ==> 값 변동 이후 버튼 활성화 유무 판단
     // ==> `버튼 활성화 Driver`에 부울값 emit
-    stateSubject
+    validationStateSubject
       .withUnretained(self)
       .do { $0.changeState(index: $1.index, state: $1.state) }
       .map { owner, _ in
@@ -88,5 +120,13 @@ final class SignUpViewModel: SignUpViewModelType {
       stateList.append(state)
     }
     stateList[index] = state
+  }
+}
+
+// MARK: - Constants
+
+extension SignUpViewModel {
+  private enum Constants {
+    static let defaultProfileName = "userDefaultImage"
   }
 }

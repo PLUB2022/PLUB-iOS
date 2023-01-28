@@ -277,37 +277,30 @@ extension SignUpViewController: SignUpChildViewControllerDelegate {
   }
   
   func information(categories: [Int]) {
-    print(#function)
-    print(categories)
+    viewModel.categories.onNext(categories)
   }
   
   func information(profile image: UIImage) {
-    print(#function)
-    print(image)
+    viewModel.profileImage.onNext(image)
   }
   
   func information(birth date: Date) {
-    print(#function)
-    print(date)
+    viewModel.birth.onNext(date)
   }
   
   func information(sex: Sex) {
-    print(#function)
-    print(sex.rawValue)
+    viewModel.sex.onNext(sex)
   }
   
   func information(introduction: String) {
-    print(#function)
-    print(introduction)
+    viewModel.introduction.onNext(introduction)
   }
   
   func information(nickname: String) {
-    print(#function)
-    print(nickname)
+    viewModel.nickname.onNext(nickname)
   }
   
   func information(policies: [Bool]) {
-    print(#function)
-    print(policies)
+    viewModel.policies.onNext(policies)
   }
 }
