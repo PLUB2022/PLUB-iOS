@@ -590,7 +590,6 @@
 		BA36EED32954637F00D30169 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				70A420812982EFBB0026E9F9 /* Search */,
 				BA42D1EE28EDE05000C20061 /* Home */,
 				BA42D1EF28EDE05A00C20061 /* Login */,
 				BA42D1F028EDE08000C20061 /* Meeting */,
@@ -622,6 +621,7 @@
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				70A420812982EFBB0026E9F9 /* Search */,
 				70BD5F252959F706002CBA89 /* Extension */,
 				70197B6C29535BA2000503F6 /* ViewModel */,
 				704AC7932938E7EA008C3A88 /* Model */,
