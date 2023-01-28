@@ -14,6 +14,7 @@ protocol HomeViewModelType {
   // Output
   var fetchedMainCategoryList: Driver<[MainCategory]> { get }
   var updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
+  var isSelectedInterest: Signal<Bool> { get }
 }
 
 class HomeViewModel: HomeViewModelType {
@@ -24,6 +25,7 @@ class HomeViewModel: HomeViewModelType {
   // Output
   let fetchedMainCategoryList: Driver<[MainCategory]>
   let updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
+  let isSelectedInterest: Signal<Bool>
   
   init() {
     let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
@@ -47,6 +49,11 @@ class HomeViewModel: HomeViewModelType {
       guard case .success(let recommendationMeetingResponse) = result else { return nil }
       return recommendationMeetingResponse.data?.content
     }
+    
+    isSelectedInterest = successFetchingInterest.map { response in
+      return !response.categoryID.isEmpty
+    }
+    .asSignal(onErrorSignalWith: .empty())
     
     updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
       return contents.map { content in
