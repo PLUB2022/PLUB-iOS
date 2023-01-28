@@ -13,6 +13,7 @@ protocol HomeViewModelType {
   
   // Output
   var fetchedMainCategoryList: Driver<[MainCategory]> { get }
+  var updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
 }
 
 class HomeViewModel: HomeViewModelType {
@@ -22,6 +23,7 @@ class HomeViewModel: HomeViewModelType {
   
   // Output
   let fetchedMainCategoryList: Driver<[MainCategory]>
+  let updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
   
   init() {
     let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
@@ -39,6 +41,24 @@ class HomeViewModel: HomeViewModelType {
       guard case .success(let recommendationMeetingResponse) = result else { return nil }
       return recommendationMeetingResponse.data?.content
     }
+    
+    updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
+      return contents.map { content in
+        let cellData = SelectedCategoryCollectionViewCellModel(
+          plubbingId: content.plubbingId,
+          name: content.name,
+          title: content.title,
+          mainImage: content.mainImage,
+          introduce: content.introduce,
+          isBookmarked: content.isBookmarked,
+          selectedCategoryInfoModel: .init(
+            placeName: content.placeName,
+            peopleCount: 0,
+            when: "")
+        )
+        return cellData
+      }
+    }.asDriver(onErrorDriveWith: .empty())
     
     successFetchingMainCategoryList
       .bind(to: fetchingMainCategoryList)
