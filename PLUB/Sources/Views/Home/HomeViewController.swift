@@ -48,6 +48,12 @@ final class HomeViewController: BaseViewController {
     }
   }
   
+  private var selectedCategoryCollectionViewCellModel: [SelectedCategoryCollectionViewCellModel] = [] {
+    didSet {
+      self.homeCollectionView.reloadSections([2])
+    }
+  }
+  
   init(viewModel: HomeViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -128,6 +134,10 @@ final class HomeViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
+    viewModel.updatedRecommendationCellData
+      .drive(rx.selectedCategoryCollectionViewCellModel)
+      .disposed(by: disposeBag)
+    
     homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
     homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)
   }
@@ -164,6 +174,7 @@ final class HomeViewController: BaseViewController {
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
       )
+      
       let section = NSCollectionLayoutSection(group: group)
       section.orthogonalScrollingBehavior = .none
       section.boundarySupplementaryItems = [header]
@@ -177,6 +188,7 @@ final class HomeViewController: BaseViewController {
           heightDimension: .fractionalHeight(1)
         )
       )
+      
       let group = NSCollectionLayoutGroup.vertical(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
@@ -194,6 +206,7 @@ final class HomeViewController: BaseViewController {
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
       )
+      
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
       section.contentInsets = .init(top: .zero, leading: .zero, bottom: homeType.bottomInset, trailing: .zero)
@@ -206,6 +219,7 @@ final class HomeViewController: BaseViewController {
           heightDimension: .fractionalHeight(1)
         )
       )
+      
       let group = NSCollectionLayoutGroup.vertical(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
@@ -239,7 +253,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return 0
       }
     case .recommendedMeeting:
-      return 10
+      return selectedCategoryCollectionViewCellModel.count
     }
   }
   
@@ -262,7 +276,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       }
     case .recommendedMeeting:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-      //      cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
+      cell.configureUI(with: selectedCategoryCollectionViewCellModel[indexPath.row])
       return cell
     }
   }
