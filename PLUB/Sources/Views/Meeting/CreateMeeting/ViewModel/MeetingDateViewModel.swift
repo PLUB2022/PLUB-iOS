@@ -8,54 +8,69 @@
 import RxSwift
 import RxCocoa
 
-protocol MeetingDateViewModelType {
-  associatedtype Input
-  associatedtype Output
-
-//  func transform(input: Input) -> Output
-}
-
-final class MeetingDateViewModel: MeetingDateViewModelType {
+final class MeetingDateViewModel {
   private lazy var disposeBag = DisposeBag()
   
-  private let goalInputRelay = BehaviorRelay<String>.init(value: .init())
-  private let introduceInputRelay = BehaviorRelay<String>.init(value: .init())
+  let dateList = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일", "요일 무관"].map {
+    MeetingDateCollectionViewCellModel(date: $0, isSelected: false)
+  }
+  var dateCellData: BehaviorRelay<[MeetingDateCollectionViewCellModel]>
   
-  struct Input {
-//    let goalText: Observable<String>
-//    let introduceText: Observable<String>
+  var dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
+
+  init() {
+    dateCellData = .init(value: dateList)
   }
   
-  struct Output {
-//    let isBtnEnabled: Driver<Bool>
+  func updateDateData(data: MeetingDateCollectionViewCellModel) {
+    var dates = dateInputRelay.value
+    var cellDatas = dateCellData.value
+    
+    if data.isSelected { // CASE 1) 선택 해제
+      dateInputRelay.accept(dates.filter { $0 != data.date.fromENGToKOR() })
+      dateCellData.accept(
+        cellDatas.map {
+          MeetingDateCollectionViewCellModel(
+            date: $0.date,
+            isSelected: $0.date == data.date ? false : $0.isSelected
+          )
+        }
+      )
+    } else { // CASE 2) 선택
+      if data.date == "요일 무관" { // CASE 2-1) 요일 무관
+        dateInputRelay.accept([data.date.fromENGToKOR()])
+        dateCellData.accept(
+          cellDatas.map {
+            MeetingDateCollectionViewCellModel(
+              date: $0.date,
+              isSelected: $0.date == "요일 무관" ? true : false
+            )
+          }
+        )
+      } else { // CASE 2-1) 요일 무관 제외한 요일
+        var filterDates = dates.filter { $0 != "ALL" }
+        filterDates.append(data.date.fromENGToKOR())
+        dateInputRelay.accept(filterDates)
+        
+        dateCellData.accept(
+          cellDatas.map {
+            var isSelected = false
+            if $0.date == "요일 무관" {
+              isSelected = false
+            } else if $0.date == data.date {
+              isSelected = true
+            } else {
+              isSelected = $0.isSelected
+            }
+            
+            return MeetingDateCollectionViewCellModel(
+              date: $0.date,
+              isSelected: isSelected
+            )
+          }
+        )
+      }
+    }
   }
   
-//  func transform(input: Input) -> Output {
-//
-//    input.goalText
-//      .subscribe(onNext: { [weak self] in
-//        self?.goalInputRelay.accept($0)
-//      })
-//      .disposed(by: disposeBag)
-//
-//    input.introduceText
-//      .subscribe(onNext: { [weak self] in
-//        self?.introduceInputRelay.accept($0)
-//      })
-//      .disposed(by: disposeBag)
-//
-//    let isBtnEnabled = Driver.combineLatest(
-//      goalInputRelay.asDriver(),
-//      introduceInputRelay.asDriver()
-//    ) {
-//      !$0.isEmpty &&
-//      $0 != "소개하는 내용을 입력해주세요" &&
-//      !$1.isEmpty &&
-//      $1 != "우리동네 사진모임"
-//    }
-//
-//    return Output(
-//      isBtnEnabled: isBtnEnabled
-//    )
-//  }
 }
