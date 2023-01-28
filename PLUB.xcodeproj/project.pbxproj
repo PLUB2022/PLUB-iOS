@@ -33,6 +33,9 @@
 		70A420832982F0360026E9F9 /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420822982F0360026E9F9 /* SearchInputViewController.swift */; };
 		70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420852982F0920026E9F9 /* SearchAlertView.swift */; };
 		70A420882982F0F00026E9F9 /* SearchOutputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420872982F0F00026E9F9 /* SearchOutputViewController.swift */; };
+		70A4208B298535D10026E9F9 /* SearchInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */; };
+		70A4208E298550240026E9F9 /* SearchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4208D298550240026E9F9 /* SearchParameter.swift */; };
+		70A42090298551850026E9F9 /* SearchRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
 		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
@@ -194,6 +197,9 @@
 		70A420822982F0360026E9F9 /* SearchInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputViewController.swift; sourceTree = "<group>"; };
 		70A420852982F0920026E9F9 /* SearchAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlertView.swift; sourceTree = "<group>"; };
 		70A420872982F0F00026E9F9 /* SearchOutputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOutputViewController.swift; sourceTree = "<group>"; };
+		70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputViewModel.swift; sourceTree = "<group>"; };
+		70A4208D298550240026E9F9 /* SearchParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParameter.swift; sourceTree = "<group>"; };
+		70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
@@ -483,6 +489,8 @@
 		70A420812982EFBB0026E9F9 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				70A4208C29853D6F0026E9F9 /* Model */,
+				70A42089298535C50026E9F9 /* ViewModel */,
 				70A420842982F07D0026E9F9 /* Component */,
 				70A420822982F0360026E9F9 /* SearchInputViewController.swift */,
 				70A420872982F0F00026E9F9 /* SearchOutputViewController.swift */,
@@ -496,6 +504,23 @@
 				70A420852982F0920026E9F9 /* SearchAlertView.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		70A42089298535C50026E9F9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		70A4208C29853D6F0026E9F9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				70A4208D298550240026E9F9 /* SearchParameter.swift */,
+				70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		70BD5F252959F706002CBA89 /* Extension */ = {
@@ -1044,6 +1069,7 @@
 				BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */,
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
 				C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */,
+				70A42090298551850026E9F9 /* SearchRecruitmentResponse.swift in Sources */,
 				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
 				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
@@ -1055,6 +1081,7 @@
 				70F1DFF3297EB89600F9BC83 /* RecruitmentQuestionResponse.swift in Sources */,
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
 				BA340E2529782356002BAF2C /* ProfileViewController.swift in Sources */,
+				70A4208B298535D10026E9F9 /* SearchInputViewModel.swift in Sources */,
 				C3AB743F296B21C1003DD5E2 /* MeetingDateViewController.swift in Sources */,
 				C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */,
 				C34F07F3297DAFD900C91E90 /* AddQuestionTableViewCell.swift in Sources */,
@@ -1092,6 +1119,7 @@
 				70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */,
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
+				70A4208E298550240026E9F9 /* SearchParameter.swift in Sources */,
 				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
 				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
