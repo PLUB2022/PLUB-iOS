@@ -114,11 +114,7 @@ final class MeetingDateViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // TODO: 수빈 - nextButton enable 로직 구현
-    delegate?.checkValidation(
-      index: childIndex,
-      state: true
-    )
+
   }
   
   override func setupLayouts() {
@@ -197,19 +193,21 @@ final class MeetingDateViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     onlineButton.rx.tap
-       .withUnretained(self)
-       .subscribe(onNext: { owner, _ in
-         owner.onlineButton.isSelected = true
-         owner.offlineButton.isSelected = false
-       })
-       .disposed(by: disposeBag)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.onlineButton.isSelected = true
+        owner.offlineButton.isSelected = false
+        owner.viewModel.onOffInputRelay.accept("ON")
+      })
+      .disposed(by: disposeBag)
     
     offlineButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-         owner.onlineButton.isSelected = false
-         owner.offlineButton.isSelected = true
-       })
+        owner.onlineButton.isSelected = false
+        owner.offlineButton.isSelected = true
+        owner.viewModel.onOffInputRelay.accept("OFF")
+      })
        .disposed(by: disposeBag)
     
     timeControl.rx.tap
@@ -231,6 +229,17 @@ final class MeetingDateViewController: BaseViewController {
         owner.parent?.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
+    
+    viewModel.isBtnEnabled
+      .distinctUntilChanged()
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.delegate?.checkValidation(
+          index: self.childIndex,
+          state: $0
+        )
+      })
+      .disposed(by: disposeBag)
   }
 }
 
@@ -238,6 +247,11 @@ extension MeetingDateViewController: DateBottomSheetDelegate {
   func selectDate(date: Date) {
     timeControl.date = date
     timeControl.isSelected = true
+
+    viewModel.timeInputRelay.accept(DateFormatter().then {
+      $0.dateFormat = "hhmm"
+      $0.locale = Locale(identifier: "ko_KR")
+    }.string(from: date))
   }
 }
 
@@ -245,5 +259,6 @@ extension MeetingDateViewController: LocationBottomSheetDelegate {
   func selectLocation(placeName: String) {
     locationControl.setLocationLabelText(text: placeName)
     locationControl.isSelected = true
+    viewModel.locationInputRelay.accept(placeName)
   }
 }

@@ -43,23 +43,45 @@ enum Day: CaseIterable {
 final class MeetingDateViewModel {
   private lazy var disposeBag = DisposeBag()
 
+  // CellData
   var dateCellData: BehaviorRelay<[MeetingDateCollectionViewCellModel]>
+  
+  // Input
   var dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
-
+  var timeInputRelay = BehaviorRelay<String>.init(value: .init())
+  var onOffInputRelay = BehaviorRelay<String>.init(value: .init())
+  var locationInputRelay = BehaviorRelay<String>.init(value: .init())
+  
+  // OutPut
+  var isBtnEnabled: Observable<Bool>
+  
   init() {
-    let dateList = Day.allCases.map { $0.toKOR }
-                    .map {
-                      MeetingDateCollectionViewCellModel(
-                        date: $0,
-                        isSelected: false
-                      )
-                    }
+    let dateList = Day.allCases
+      .map { $0.toKOR }
+      .map {
+        MeetingDateCollectionViewCellModel(
+          date: $0,
+          isSelected: false
+        )
+      }
     dateCellData = .init(value: dateList)
+    
+    isBtnEnabled = Observable.combineLatest(
+      dateInputRelay,
+      timeInputRelay,
+      onOffInputRelay,
+      locationInputRelay
+    ).map {
+      return !$0.0.isEmpty &&
+      !$0.1.isEmpty &&
+      !$0.2.isEmpty &&
+      !$0.3.isEmpty
+    }
   }
   
   func updateDateData(data: MeetingDateCollectionViewCellModel) {
-    var dates = dateInputRelay.value
-    var cellDatas = dateCellData.value
+    let dates = dateInputRelay.value
+    let cellDatas = dateCellData.value
     
     if data.isSelected { // CASE 1) 선택 해제
       dateInputRelay.accept(dates.filter { $0 != data.date.fromENGToKOR() })
