@@ -196,7 +196,7 @@ final class SignUpViewModel: SignUpViewModelType {
     // 2. 이미지가 등록되어있는지 판단
     if let profileImage = try? userProfileSubject.value() {
       // 2-1. 이미지를 request model에 등록한 Observable로 세팅
-      requestObservable = ImageService.shared.uploadImage(images: [profileImage], params: UploadImageRequest(type: ImageType.profile.value))
+      requestObservable = ImageService.shared.uploadImage(images: [profileImage], params: UploadImageRequest(type: .profile))
         .flatMap { response -> Observable<String?> in
           switch response {
           case let .success(imageModel):
