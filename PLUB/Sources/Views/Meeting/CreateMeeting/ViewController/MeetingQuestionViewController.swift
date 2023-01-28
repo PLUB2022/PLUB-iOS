@@ -81,8 +81,9 @@ final class MeetingQuestionViewController: BaseViewController {
   override func bind() {
     super.bind()
     viewModel.allQuestionFilled
-      .subscribe(onNext: { state in
-        self.hideAddQuestionButton(state: !(state && self.viewModel.questionList.count < 5))
+      .withUnretained(self)
+      .subscribe(onNext: { owner, state in
+        owner.hideAddQuestionButton(state: !(state && owner.viewModel.questionList.count < 5))
       })
       .disposed(by: disposeBag)
     
@@ -90,9 +91,10 @@ final class MeetingQuestionViewController: BaseViewController {
       viewModel.allQuestionFilled,
       viewModel.noQuestionMode
     )
-      .subscribe(onNext: { tuple in
-        self.delegate?.checkValidation(
-          index: self.childIndex,
+      .withUnretained(self)
+      .subscribe(onNext: { owner, tuple in
+        owner.delegate?.checkValidation(
+          index: owner.childIndex,
           state: tuple.0 || tuple.1
         )
       })
@@ -105,6 +107,22 @@ final class MeetingQuestionViewController: BaseViewController {
 extension MeetingQuestionViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
+  }
+  
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 0
+  }
+  
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    return UIView()
+  }
+  
+  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    return 0
+  }
+  
+  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    return UIView()
   }
 }
 
@@ -144,22 +162,6 @@ extension MeetingQuestionViewController: UITableViewDataSource {
     }
   }
   
-  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 0
-  }
-  
-  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    return UIView()
-  }
-  
-  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-    return UIView()
-  }
-  
-  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    return 0
-  }
-  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     let noQuestionMode = viewModel.noQuestionMode.value
     switch section {
@@ -173,6 +175,8 @@ extension MeetingQuestionViewController: UITableViewDataSource {
   }
 }
 
+// MARK: - QuestionTableViewCellDelegate
+
 extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
   func updateQuestion(index: Int, data: MeetingQuestionCellModel) {
     viewModel.updateQuestion(index: index, data: data)
@@ -184,9 +188,9 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
     let indexPathRow = viewModel.questionList.count - 1
     let newIndex = IndexPath(row: indexPathRow, section: MeetingQuestionSectionType.questionSection.index)
     tableView.performBatchUpdates(
-      {
-        tableView.insertRows(at: [newIndex], with: .automatic)
-      }, completion: nil)
+      { tableView.insertRows(at: [newIndex], with: .automatic) },
+      completion: nil
+    )
     
     guard let currentCell = tableView.cellForRow(at: newIndex) as? QuestionTableViewCell else {
       return
@@ -220,6 +224,8 @@ extension MeetingQuestionViewController: QuestionTableViewCellDelegate {
   }
 }
 
+// MARK: - QuestionDeleteBottomSheetDelegate
+
 extension MeetingQuestionViewController: QuestionDeleteBottomSheetDelegate {
   func removeQuestion(index: Int, lastQuestion: Bool) {
     viewModel.questionList.remove(at: index)
@@ -236,6 +242,8 @@ extension MeetingQuestionViewController: QuestionDeleteBottomSheetDelegate {
   }
 }
 
+// MARK: - QuestionHeaderViewCellDelegate
+
 extension MeetingQuestionViewController: QuestionHeaderViewCellDelegate {
   func chageQuestionMode(state: Bool) {
     if !state && viewModel.questionList.count == 0 {
@@ -246,6 +254,8 @@ extension MeetingQuestionViewController: QuestionHeaderViewCellDelegate {
     tableView.reloadData()
   }
 }
+
+// MARK: - Custom Function
 
 extension MeetingQuestionViewController {
   private func hideAddQuestionButton(state: Bool) {
