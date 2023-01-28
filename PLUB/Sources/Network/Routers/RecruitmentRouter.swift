@@ -10,12 +10,13 @@ import Alamofire
 enum RecruitmentRouter {
   case inquireDetailRecruitment(String)
   case inquireRecruitmentQuestion(String)
+  case searchRecruitment(SearchParameter)
 }
 
 extension RecruitmentRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment:
       return .get
     }
   }
@@ -26,6 +27,8 @@ extension RecruitmentRouter: Router {
       return "/plubbings/\(plubbingId)/recruit"
     case .inquireRecruitmentQuestion(let plubbingId):
       return "/plubbings/\(plubbingId)/recruit/questions"
+    case .searchRecruitment:
+      return "/plubbings/recruit"
     }
   }
   
@@ -33,12 +36,14 @@ extension RecruitmentRouter: Router {
     switch self {
     case .inquireDetailRecruitment, .inquireRecruitmentQuestion:
       return .plain
+    case .searchRecruitment(let parameter):
+      return .query(parameter)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment:
       return .withAccessToken
     }
   }
