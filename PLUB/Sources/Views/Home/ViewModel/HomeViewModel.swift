@@ -28,15 +28,20 @@ class HomeViewModel: HomeViewModelType {
     self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
-    let successFetchingMainCategoryList = inquireMainCategoryList.map { result -> [MainCategory]? in
+    let inquireRecommendationMeeting = MeetingService.shared.inquireRecommendationMeeting()
+    
+    let successFetchingMainCategoryList = inquireMainCategoryList.compactMap { result -> [MainCategory]? in
       guard case .success(let mainCategoryListResponse) = result else { return nil }
       return mainCategoryListResponse.data?.categories
     }
     
-    successFetchingMainCategoryList.subscribe(onNext: { mainCategories in
-      guard let mainCategories = mainCategories else { return }
-      fetchingMainCategoryList.onNext(mainCategories)
-    })
+    let successFetchingRecommendationMeeting = inquireRecommendationMeeting.compactMap { result -> [Content]? in
+      guard case .success(let recommendationMeetingResponse) = result else { return nil }
+      return recommendationMeetingResponse.data?.content
+    }
+    
+    successFetchingMainCategoryList
+      .bind(to: fetchingMainCategoryList)
     .disposed(by: disposeBag)
   }
 }
