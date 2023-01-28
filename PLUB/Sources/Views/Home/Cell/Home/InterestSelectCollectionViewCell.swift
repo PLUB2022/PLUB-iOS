@@ -10,14 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
-protocol RecommendedMeetingCollectionViewCellDelegate: AnyObject {
+protocol InterestSelectCollectionViewCellDelegate: AnyObject {
   func didTappedRegisterInterestView()
 }
 
-class RecommendedMeetingCollectionViewCell: UICollectionViewCell {
-  static let identifier = "RecommendedMeetingCollectionViewCell"
+class InterestSelectCollectionViewCell: UICollectionViewCell {
+  static let identifier = "InterestSelectCollectionViewCell"
   
-  weak var delegate: RecommendedMeetingCollectionViewCellDelegate?
+  weak var delegate: InterestSelectCollectionViewCellDelegate?
   
   private let registerInterestView = RegisterInterestView().then {
     $0.layer.masksToBounds = true
