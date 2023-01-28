@@ -11,6 +11,7 @@ enum HomeType { // 사용자 관심사 선택 유무
 
 enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
   case mainCategoryList
+  case interestSelect
   case recommendedMeeting
 }
 
@@ -42,8 +43,9 @@ final class HomeViewController: BaseViewController {
   }).then {
     $0.backgroundColor = .background
     $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
-    $0.register(RecommendedMeetingCollectionViewCell.self, forCellWithReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier)
-    $0.register(RecommendedMeetingHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecommendedMeetingHeaderView.identifier)
+    $0.register(InterestSelectCollectionViewCell.self, forCellWithReuseIdentifier: InterestSelectCollectionViewCell.identifier)
+    $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
+    $0.register(InterestSelectCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: InterestSelectCollectionHeaderView.identifier)
     $0.register(HomeMainCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeMainCollectionHeaderView.identifier)
   }
   
@@ -136,17 +138,17 @@ final class HomeViewController: BaseViewController {
       section.boundarySupplementaryItems = [header]
       return section
       
-    case .recommendedMeeting:
+    case .interestSelect:
       let item = NSCollectionLayoutItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(176)
+          heightDimension: .fractionalHeight(1)
         )
       )
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(150)
+          heightDimension: .absolute(176)
         ),
         subitem: item,
         count: 1
@@ -162,6 +164,25 @@ final class HomeViewController: BaseViewController {
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
       return section
+    case .recommendedMeeting:
+      let item = NSCollectionLayoutItem(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .fractionalHeight(1)
+        )
+      )
+      let group = NSCollectionLayoutGroup.vertical(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(176)
+        ),
+        subitem: item,
+        count: 1
+      )
+      
+      let section = NSCollectionLayoutSection(group: group)
+      section.interGroupSpacing = 12
+      return section
     }
   }
 }
@@ -175,8 +196,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     switch HomeSectionType.allCases[section] {
     case .mainCategoryList:
       return mainCategoryList.count
-    case .recommendedMeeting:
+    case .interestSelect:
       return 1
+    case .recommendedMeeting:
+      return 10
     }
   }
   
@@ -186,29 +209,30 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     switch homeCollectionType {
     case .mainCategoryList:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath) as? HomeCollectionViewCell ?? HomeCollectionViewCell()
-      print("fdsf = \(mainCategoryList[indexPath.row])")
       cell.configureUI(with: mainCategoryList[indexPath.row])
       return cell
-    case .recommendedMeeting:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedMeetingCollectionViewCell.identifier, for: indexPath) as? RecommendedMeetingCollectionViewCell ?? RecommendedMeetingCollectionViewCell()
+    case.interestSelect:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InterestSelectCollectionViewCell.identifier, for: indexPath) as? InterestSelectCollectionViewCell ?? InterestSelectCollectionViewCell()
       cell.delegate = self
+      return cell
+    case .recommendedMeeting:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
+//      cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
       return cell
     }
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    if indexPath.section == 0 {
+    let homeSection = HomeSectionType.allCases[indexPath.section]
+    switch homeSection {
+    case .mainCategoryList:
       let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeMainCollectionHeaderView.identifier, for: indexPath) as? HomeMainCollectionHeaderView ?? HomeMainCollectionHeaderView()
       return header
-    }
-    else {
-      switch homeType {
-      case .selected:
-        return UICollectionReusableView()
-      case .nonSelected:
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecommendedMeetingHeaderView.identifier, for: indexPath) as? RecommendedMeetingHeaderView ?? RecommendedMeetingHeaderView()
-        return header
-      }
+    case .interestSelect:
+      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: InterestSelectCollectionHeaderView.identifier, for: indexPath) as? InterestSelectCollectionHeaderView ?? InterestSelectCollectionHeaderView()
+      return header
+    case .recommendedMeeting:
+      return UICollectionReusableView()
     }
   }
   
@@ -220,7 +244,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
 }
 
-extension HomeViewController: RecommendedMeetingCollectionViewCellDelegate {
+extension HomeViewController: InterestSelectCollectionViewCellDelegate {
   func didTappedRegisterInterestView() {
     let vc = RegisterInterestViewController(viewModel: RegisterInterestViewModel())
     vc.navigationItem.largeTitleDisplayMode = .never

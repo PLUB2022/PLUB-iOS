@@ -126,18 +126,18 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     switch selectedCategoryType {
     case .chart:
-      return CGSize(width: collectionView.frame.width - 10, height: collectionView.frame.height / 4 - 10)
+      return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
     case .grid:
-      return CGSize(width: collectionView.frame.width / 2 - 10, height: collectionView.frame.height / 2.5)
+      return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
     }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    return 10
+    return 12
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    return 10
+    return 12
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

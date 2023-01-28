@@ -10,9 +10,9 @@ import UIKit
 import SnapKit
 import Then
 
-class RecommendedMeetingHeaderView: UICollectionReusableView {
+class InterestSelectCollectionHeaderView: UICollectionReusableView {
   
-  static let identifier = "RecommendedMeetingHeaderView"
+  static let identifier = "InterestSelectCollectionHeaderView"
   
   private let titleLabel = UILabel().then {
     $0.font = .h4
