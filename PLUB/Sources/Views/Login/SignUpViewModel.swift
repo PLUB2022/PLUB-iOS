@@ -35,7 +35,7 @@ final class SignUpViewModel: SignUpViewModelType {
   
   private let disposeBag = DisposeBag()
   
-  var titles = [
+  let titles = [
     "가입을 위한 약관 동의가 필요해요.",
     "먼저, 성별과 태어난 날을 알려주세요.",
     "프로필을 만들어 볼까요?",
@@ -43,12 +43,12 @@ final class SignUpViewModel: SignUpViewModelType {
     "마지막으로, 관심 있는 분야를 모두 선택해주세요."
   ]
   
-  var subtitles = [
+  let subtitles = [
     "서비스를 이용할 때 필요해요.",
     "서비스의 원활한 이용을 위해 정확한 정보를 입력해주세요!",
     "멋진 사진을 등록하고 나만의 닉네임을 만들어 주세요! 닉네임 변경은 1회 가능해요!",
     "취미, 관심사, 가치관, 종사하는 분야, 뭐든 좋아요.",
-    "(닉네임)님이 흥미로워 할 만한 모임을 추천해 드릴게요."
+    "님이 흥미로워 할 만한 모임을 추천해 드릴게요."
   ]
   
   private var stateList = [Bool]()
@@ -66,7 +66,7 @@ final class SignUpViewModel: SignUpViewModelType {
   
   // MARK: - Custom Functions
   
-  func bind() {
+  private func bind() {
     // 어떤 VC의 delegate로 인한 state 변경
     // ==> viewModel의 state 값 변경
     // ==> 값 변동 이후 버튼 활성화 유무 판단
