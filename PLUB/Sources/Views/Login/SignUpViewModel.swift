@@ -67,13 +67,13 @@ final class SignUpViewModel: SignUpViewModelType {
   
   private var stateList = [Bool]()
   
-  private let userCategoriesSubject = BehaviorSubject(value: [Int]())     // 유저 카테고리 서브젝트
+  private let userCategoriesSubject = PublishSubject<[Int]>()             // 유저 카테고리 서브젝트
   private let userProfileSubject = BehaviorSubject<UIImage?>(value: nil)  // 유저 프로필 서브젝트
-  private let userBirthSubject = BehaviorSubject(value: Date())           // 유저 생일 서브젝트
-  private let userSexSubject = BehaviorSubject(value: Sex.male)           // 유저 성별 서브젝트
-  private let userIntroductionSubject = BehaviorSubject(value: "")        // 유저 소개글 서브젝트
-  private let userNicknameSubject = BehaviorSubject(value: "")            // 유저 닉네임 서브젝트
-  private let userPoliciesSubject = BehaviorSubject(value: [Bool]())      // 유저 약관 서브젝트
+  private let userBirthSubject = PublishSubject<Date>()                   // 유저 생일 서브젝트
+  private let userSexSubject = PublishSubject<Sex>()                      // 유저 성별 서브젝트
+  private let userIntroductionSubject = PublishSubject<String>()          // 유저 소개글 서브젝트
+  private let userNicknameSubject = BehaviorSubject<String>(value: "")    // 유저 닉네임 서브젝트
+  private let userPoliciesSubject = PublishSubject<[Bool]>()              // 유저 약관 서브젝트
   
   private let signUpRelay = BehaviorRelay(value: SignUpRequest())         // 회원가입 플로우로 사용할 릴레이
   private let validationStateSubject = PublishSubject<ValidationState>()  // 버튼을 활성화할지 검증할 때 필요한 서브젝트
