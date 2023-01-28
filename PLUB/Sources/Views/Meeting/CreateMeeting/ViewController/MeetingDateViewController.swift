@@ -11,6 +11,7 @@ import RxSwift
 
 final class MeetingDateViewController: BaseViewController {
   
+  private var viewModel: MeetingDateViewModel
   weak var delegate: CreateMeetingChildViewControllerDelegate?
   private var childIndex: Int
   
@@ -99,8 +100,10 @@ final class MeetingDateViewController: BaseViewController {
   private let locationControl = LocationControl()
   
   init(
+    viewModel: MeetingDateViewModel,
     childIndex: Int
   ) {
+    self.viewModel = viewModel
     self.childIndex = childIndex
     super.init(nibName: nil, bundle: nil)
   }
@@ -174,7 +177,7 @@ final class MeetingDateViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    Observable.of(["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일", "요일 무관"])
+    viewModel.dateCellData
       .bind(to: dateCollectionView.rx.items) { _, row, item -> UICollectionViewCell in
         guard let cell = self.dateCollectionView.dequeueReusableCell(
           withReuseIdentifier: WeekDateCollectionViewCell.identifier,
@@ -182,9 +185,15 @@ final class MeetingDateViewController: BaseViewController {
         ) as? WeekDateCollectionViewCell
         else { return UICollectionViewCell() }
         
-        cell.setupData(dateText: item)
+        cell.setupData(data: item)
         return cell
       }
+      .disposed(by: disposeBag)
+    
+    dateCollectionView.rx.modelSelected(MeetingDateCollectionViewCellModel.self)
+      .subscribe(onNext: { data in
+        self.viewModel.updateDateData(data: data)
+      })
       .disposed(by: disposeBag)
     
     onlineButton.rx.tap
