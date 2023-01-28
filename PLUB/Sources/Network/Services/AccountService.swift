@@ -21,7 +21,7 @@ extension AccountService {
     return sendRequest(AccountRouter.validateNickname(nickname))
   }
   
-  func inquireInterest() {
-    return sendRequest(<#T##router: Router##Router#>)
+  func inquireInterest() -> Observable<NetworkResult<GeneralResponse<InquireInterestResponse>>> {
+    return sendRequest(AccountRouter.inquireInterest, type: InquireInterestResponse.self)
   }
 }
