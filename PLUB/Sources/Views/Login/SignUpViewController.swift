@@ -10,11 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-enum Sex: String {
-  case male = "M"
-  case female = "F"
-}
-
 protocol SignUpChildViewControllerDelegate: BaseViewController {
   func checkValidation(index: Int, state: Bool)
   

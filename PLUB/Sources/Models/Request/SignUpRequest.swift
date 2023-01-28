@@ -7,12 +7,19 @@
 
 import Foundation
 
+import Then
+
+enum Sex: String, Codable {
+  case male = "M"
+  case female = "F"
+}
+
 struct SignUpRequest: Codable {
   let signToken: String
   let categoryList: [String]
   let profileImage: String
   let birthday: String
-  let gender: String
+  let gender: Sex
   let introduce: String
   let nickname: String
   
