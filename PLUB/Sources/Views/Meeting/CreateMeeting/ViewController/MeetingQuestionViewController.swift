@@ -82,15 +82,14 @@ final class MeetingQuestionViewController: BaseViewController {
     super.bind()
     viewModel.allQuestionFilled
       .subscribe(onNext: { state in
-        let addQuestionIndex = IndexPath(row: 0, section: MeetingQuestionSectionType.addQuestionSection.index)
-        guard let currentCell = self.tableView.cellForRow(at: addQuestionIndex) as? AddQuestionTableViewCell else {
-          return
-        }
-        currentCell.addQuestionControl.isHidden = !(state && self.viewModel.questionList.count < 5)
+        self.hideAddQuestionButton(state: !(state && self.viewModel.questionList.count < 5))
       })
       .disposed(by: disposeBag)
     
-    Observable.combineLatest(viewModel.allQuestionFilled, viewModel.noQuestionMode)
+    Observable.combineLatest(
+      viewModel.allQuestionFilled,
+      viewModel.noQuestionMode
+    )
       .subscribe(onNext: { tuple in
         self.delegate?.checkValidation(
           index: self.childIndex,
@@ -232,6 +231,7 @@ extension MeetingQuestionViewController: QuestionDeleteBottomSheetDelegate {
     } else {
       tableView.reloadData()
       view.endEditing(true)
+      hideAddQuestionButton(state: !viewModel.allQuestionFilled.value)
     }
   }
 }
@@ -244,5 +244,15 @@ extension MeetingQuestionViewController: QuestionHeaderViewCellDelegate {
     }
     viewModel.noQuestionMode.accept(state)
     tableView.reloadData()
+  }
+}
+
+extension MeetingQuestionViewController {
+  private func hideAddQuestionButton(state: Bool) {
+    let addQuestionIndex = IndexPath(row: 0, section: MeetingQuestionSectionType.addQuestionSection.index)
+    guard let currentCell = self.tableView.cellForRow(at: addQuestionIndex) as? AddQuestionTableViewCell else {
+      return
+    }
+    currentCell.addQuestionControl.isHidden = state
   }
 }
