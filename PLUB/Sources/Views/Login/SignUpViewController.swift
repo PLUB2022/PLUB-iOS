@@ -10,8 +10,21 @@ import UIKit
 import SnapKit
 import Then
 
+enum Sex: String {
+  case male = "M"
+  case female = "F"
+}
+
 protocol SignUpChildViewControllerDelegate: BaseViewController {
   func checkValidation(index: Int, state: Bool)
+  
+  func information(categories: [Int])
+  func information(profile image: UIImage)
+  func information(birth date: Date)
+  func information(sex: Sex)
+  func information(introduction: String)
+  func information(nickname: String)
+  func information(policies: [Bool])
 }
 
 final class SignUpViewController: BaseViewController {
@@ -266,5 +279,40 @@ extension SignUpViewController: UIScrollViewDelegate {
 extension SignUpViewController: SignUpChildViewControllerDelegate {
   func checkValidation(index: Int, state: Bool) {
     viewModel.validationState.onNext(ValidationState(index: index, state: state))
+  }
+  
+  func information(categories: [Int]) {
+    print(#function)
+    print(categories)
+  }
+  
+  func information(profile image: UIImage) {
+    print(#function)
+    print(image)
+  }
+  
+  func information(birth date: Date) {
+    print(#function)
+    print(date)
+  }
+  
+  func information(sex: Sex) {
+    print(#function)
+    print(sex.rawValue)
+  }
+  
+  func information(introduction: String) {
+    print(#function)
+    print(introduction)
+  }
+  
+  func information(nickname: String) {
+    print(#function)
+    print(nickname)
+  }
+  
+  func information(policies: [Bool]) {
+    print(#function)
+    print(policies)
   }
 }
