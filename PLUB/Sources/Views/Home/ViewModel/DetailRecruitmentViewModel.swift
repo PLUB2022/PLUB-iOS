@@ -35,7 +35,7 @@ class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     
     let fetchingDetail = selectingPlubbingID
       .map { "\($0)" }
-      .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingId:))
+      .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingID:))
       .share()
     
     let successFetchingDetail = fetchingDetail.map { result -> DetailRecruitmentResponse? in

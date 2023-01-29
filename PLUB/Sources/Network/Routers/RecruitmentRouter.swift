@@ -26,14 +26,14 @@ extension RecruitmentRouter: Router {
   
   var path: String {
     switch self {
-    case .inquireDetailRecruitment(let plubbingId):
-      return "/plubbings/\(plubbingId)/recruit"
-    case .inquireRecruitmentQuestion(let plubbingId):
-      return "/plubbings/\(plubbingId)/recruit/questions"
+    case .inquireDetailRecruitment(let plubbingID):
+      return "/plubbings/\(plubbingID)/recruit"
+    case .inquireRecruitmentQuestion(let plubbingID):
+      return "/plubbings/\(plubbingID)/recruit/questions"
     case .searchRecruitment:
       return "/plubbings/recruit"
-    case .requestBookmark(let plubbingId):
-      return "/plubbings/\(plubbingId)/recruit/bookmarks"
+    case .requestBookmark(let plubbingID):
+      return "/plubbings/\(plubbingID)/recruit/bookmarks"
     }
   }
   

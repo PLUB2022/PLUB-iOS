@@ -331,6 +331,6 @@ extension HomeViewController: SelectedCategoryChartCollectionViewCellDelegate {
   }
   
   func didUnTappedBookmarkButton() {
-    <#code#>
+    
   }
 }
