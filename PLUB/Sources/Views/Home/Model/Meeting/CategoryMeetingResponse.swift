@@ -47,6 +47,11 @@ struct Content: Codable {
   let curAccountNum: Int
   let remainAccountNum: Int
   let isBookmarked: Bool
+  
+  enum CodingKeys: String, CodingKey {
+    case plubbingID = "plubbingId"
+    case name, title, mainImage, introduce, time, days, address, roadAddress, placeName, placePositionX, placePositionY, curAccountNum, remainAccountNum, isBookmarked
+  }
 }
 
 struct Pageable: Codable {

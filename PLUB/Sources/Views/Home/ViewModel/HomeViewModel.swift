@@ -63,6 +63,7 @@ class HomeViewModel: HomeViewModelType {
     .asSignal(onErrorSignalWith: .empty())
     
     updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
+      print("콘텐츠 = \(contents)")
       return contents.map { content in
         let cellData = SelectedCategoryCollectionViewCellModel(
           plubbingID: content.plubbingID,

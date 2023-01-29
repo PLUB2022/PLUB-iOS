@@ -23,18 +23,6 @@ final class DetailRecruitmentViewController: BaseViewController {
     }
   }
   
-//  let mod = [
-//    "이건준",
-//    "이건준ㅇㄹ",
-//    "이건준ㅁㄹ",
-//    "이건준ㅁㅁㅁㅁ",
-//    "이건",
-//    "이건",
-//    "이건",
-//    "이",
-//    "이afasfasf",
-//  ]
-  
   private let scrollView = UIScrollView().then {
     $0.showsVerticalScrollIndicator = true
     $0.showsHorizontalScrollIndicator = false

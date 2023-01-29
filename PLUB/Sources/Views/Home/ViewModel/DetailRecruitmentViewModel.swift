@@ -42,10 +42,10 @@ class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingID:))
       .share()
     
-    fetchingDetail.subscribe(onNext: { result in
-      print("안돼요 = \(result)")
-    })
-    .disposed(by: disposeBag)
+//    fetchingDetail.subscribe(onNext: { result in
+//      print("안돼요 = \(result)")
+//    })
+//    .disposed(by: disposeBag)
     
     let successFetchingDetail = fetchingDetail.map { result -> DetailRecruitmentResponse? in
       print("뭐냐고 = \(result)")

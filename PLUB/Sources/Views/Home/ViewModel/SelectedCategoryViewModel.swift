@@ -14,6 +14,8 @@ protocol SelectedCategoryViewModelType {
   
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
+  
+  func createSelectedCategoryChartCollectionViewCellModels() -> Observable<[SelectedCategoryCollectionViewCellModel]>
 }
 
 class SelectedCategoryViewModel: SelectedCategoryViewModelType {
@@ -55,5 +57,19 @@ class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       updatingCellData.onNext(model)
     })
     .disposed(by: disposeBag)
+  }
+  
+  private let selectedCategoryChartCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = [
+    .init(plubbingID: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
+    .init(plubbingID: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
+    .init(plubbingID: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
+    .init(plubbingID: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
+    .init(plubbingID: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
+    .init(plubbingID: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분"))
+    
+  ]
+  
+  func createSelectedCategoryChartCollectionViewCellModels() -> Observable<[SelectedCategoryCollectionViewCellModel]> {
+    return Observable.just(selectedCategoryChartCollectionViewCellModels)
   }
 }
