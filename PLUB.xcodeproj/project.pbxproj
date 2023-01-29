@@ -138,6 +138,7 @@
 		C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
 		C344E53F2986B938009F73A9 /* MeetingCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C344E53E2986B938009F73A9 /* MeetingCategoryViewController.swift */; };
+		C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */; };
 		C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */; };
 		C34F07F3297DAFD900C91E90 /* AddQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F07F2297DAFD900C91E90 /* AddQuestionTableViewCell.swift */; };
 		C34F07F5297DB1DC00C91E90 /* AddQuestionControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */; };
@@ -304,6 +305,7 @@
 		C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewModel.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C344E53E2986B938009F73A9 /* MeetingCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewController.swift; sourceTree = "<group>"; };
+		C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewModel.swift; sourceTree = "<group>"; };
 		C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C34F07F2297DAFD900C91E90 /* AddQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionControl.swift; sourceTree = "<group>"; };
@@ -915,6 +917,7 @@
 				C38A5BA2297B17EF00485355 /* MeetingLocationViewModel.swift */,
 				C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */,
 				C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */,
+				C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1143,6 +1146,7 @@
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
 				C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
+				C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */,
 				70F1DFDA29795AB900F9BC83 /* AllCategoryListResponse.swift in Sources */,
 				BA0322BA294F3F9D002466C5 /* PolicyConfigurable.swift in Sources */,
 				C38A5B95297AD5B000485355 /* KakaoLocationRouter.swift in Sources */,
