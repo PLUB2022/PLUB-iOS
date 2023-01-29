@@ -8,11 +8,11 @@
 extension String {
   
   func fromENGToKOR() -> Self {
-    guard let day = Day.allCases.filter({ $0.toKOR == self }).first else { return "" }
+    guard let day = Day.allCases.filter({ $0.rawValue == self }).first else { return "" }
     return day.toKOR
   }
   
-  enum Day: CaseIterable {
+  enum Day: String, CaseIterable {
     case MON
     case TUE
     case WED

@@ -25,6 +25,11 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   static let identifier = "SelectedCategoryChartCollectionViewCell"
   private var disposeBag = DisposeBag()
   
+  private let backgroundImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+    $0.backgroundColor = .orange
+  }
+  
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
     $0.numberOfLines = 0
@@ -57,6 +62,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    backgroundImageView.image = nil
     titleLabel.text = nil
     descriptionLabel.text = nil
     categoryInfoListView.backgroundColor = nil
@@ -71,10 +77,15 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .orange
+    contentView.backgroundColor = .background
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
-    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
+    contentView.addSubview(backgroundImageView)
+    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { backgroundImageView.addSubview($0) }
+    
+    backgroundImageView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
     
     categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
@@ -112,9 +123,14 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
+    print("model = \(model)")
+    guard let urlString = model.mainImage,
+      let url = URL(string: urlString) else { return }
+    backgroundImageView.kf.setImage(with: url)
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
     bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
+    bookmarkButton.isSelected = model.isBookmarked
   }
 }
