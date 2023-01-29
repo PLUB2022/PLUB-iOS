@@ -11,6 +11,7 @@ enum RecruitmentRouter {
   case inquireDetailRecruitment(String)
   case inquireRecruitmentQuestion(String)
   case searchRecruitment(SearchParameter)
+  case requestBookmark(String)
 }
 
 extension RecruitmentRouter: Router {
@@ -18,6 +19,8 @@ extension RecruitmentRouter: Router {
     switch self {
     case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment:
       return .get
+    case .requestBookmark:
+      return .post
     }
   }
   
@@ -29,12 +32,14 @@ extension RecruitmentRouter: Router {
       return "/plubbings/\(plubbingId)/recruit/questions"
     case .searchRecruitment:
       return "/plubbings/recruit"
+    case .requestBookmark(let plubbingId):
+      return "/plubbings/\(plubbingId)/recruit/bookmarks"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .requestBookmark:
       return .plain
     case .searchRecruitment(let parameter):
       return .query(parameter)
@@ -43,7 +48,7 @@ extension RecruitmentRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment, .requestBookmark:
       return .withAccessToken
     }
   }

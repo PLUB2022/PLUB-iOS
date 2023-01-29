@@ -21,6 +21,8 @@ class HomeViewModel: HomeViewModelType {
   var disposeBag = DisposeBag()
   
   // Input
+  let addBookmark: AnyObserver<Void>
+  let removeBookmark: AnyObserver<Void>
   
   // Output
   let fetchedMainCategoryList: Driver<[MainCategory]>
@@ -29,6 +31,11 @@ class HomeViewModel: HomeViewModelType {
   
   init() {
     let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
+    let requestAddBookmark = PublishSubject<Void>()
+    let requestRemoveBookmark = PublishSubject<Void>()
+    
+    self.addBookmark = requestAddBookmark.asObserver()
+    self.removeBookmark = requestRemoveBookmark.asObserver()
     self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
@@ -77,6 +84,8 @@ class HomeViewModel: HomeViewModelType {
     successFetchingMainCategoryList
       .bind(to: fetchingMainCategoryList)
       .disposed(by: disposeBag)
+    
+//    requestAddBookmark.withLatestFrom(<#T##second: ObservableConvertibleType##ObservableConvertibleType#>)
   }
   
   private static func formatDays(days: [String]) -> String {

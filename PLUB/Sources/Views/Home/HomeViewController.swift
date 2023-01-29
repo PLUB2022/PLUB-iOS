@@ -277,6 +277,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     case .recommendedMeeting:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
       cell.configureUI(with: selectedCategoryCollectionViewCellModel[indexPath.row])
+      cell.delegate = self
       return cell
     }
   }
@@ -321,5 +322,15 @@ extension HomeViewController: InterestSelectCollectionViewCellDelegate {
     let vc = RegisterInterestViewController(viewModel: RegisterInterestViewModel())
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension HomeViewController: SelectedCategoryChartCollectionViewCellDelegate {
+  func didTappedBookmarkButton() {
+    
+  }
+  
+  func didUnTappedBookmarkButton() {
+    <#code#>
   }
 }
