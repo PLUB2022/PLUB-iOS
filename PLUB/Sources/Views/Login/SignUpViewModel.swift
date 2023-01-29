@@ -34,6 +34,8 @@ protocol SignUpViewModelType: SignUpViewModel {
 
 final class SignUpViewModel: SignUpViewModelType {
   
+  // MARK: - Protocol Properties
+  
   // Input
   let validationState: AnyObserver<ValidationState> // 자식들에게서 상태값을 받음
   let categories: AnyObserver<[Int]>                // 유저가 선택한 카테고리
@@ -49,7 +51,9 @@ final class SignUpViewModel: SignUpViewModelType {
   
   private let disposeBag = DisposeBag()
   
-  let titles = [
+  // MARK: - Custom Properties
+  
+  private let _titles = [
     "가입을 위한 약관 동의가 필요해요.",
     "먼저, 성별과 태어난 날을 알려주세요.",
     "프로필을 만들어 볼까요?",
@@ -57,7 +61,7 @@ final class SignUpViewModel: SignUpViewModelType {
     "마지막으로, 관심 있는 분야를 모두 선택해주세요."
   ]
   
-  let subtitles = [
+  private let _subtitles = [
     "서비스를 이용할 때 필요해요.",
     "서비스의 원활한 이용을 위해 정확한 정보를 입력해주세요!",
     "멋진 사진을 등록하고 나만의 닉네임을 만들어 주세요! 닉네임 변경은 1회 가능해요!",
@@ -65,7 +69,43 @@ final class SignUpViewModel: SignUpViewModelType {
     "님이 흥미로워 할 만한 모임을 추천해 드릴게요."
   ]
   
+  var titles: [NSAttributedString] {
+    _titles.map {
+      let defaultString = NSAttributedString(string: $0)
+      // 닉네임을 넣어야하는 구간이 아닌 경우
+      if _titles[3] != $0 {
+        return defaultString
+      }
+      
+      // 닉네임 설정이 안된 경우 (발생 가능성 0%)
+      guard let nickname = try? userNicknameSubject.value() else {
+        return defaultString
+      }
+      // 닉네임만 색상을 main컬러로 적용
+      let mutableString = NSMutableAttributedString(string: nickname, attributes: [.foregroundColor: UIColor.main])
+      mutableString.append(defaultString)
+      return mutableString
+    }
+  }
+  
+  var subtitles: [NSAttributedString] {
+    _subtitles.map {
+      let defaultString = NSAttributedString(string: $0)
+      // 닉네임을 넣어야하는 구간이 아닌 경우
+      if _subtitles[4] != $0 {
+        return defaultString
+      }
+      // 닉네임 설정이 안된 경우 (발생 가능성 0%)
+      guard let nickname = try? userNicknameSubject.value() else {
+        return defaultString
+      }
+      return NSAttributedString(string: nickname + $0)
+    }
+  }
+  
   private var stateList = [Bool]()
+  
+  // MARK: - Subjects
   
   private let userCategoriesSubject = PublishSubject<[Int]>()             // 유저 카테고리 서브젝트
   private let userProfileSubject = BehaviorSubject<UIImage?>(value: nil)  // 유저 프로필 서브젝트
@@ -233,13 +273,5 @@ final class SignUpViewModel: SignUpViewModelType {
           return false // 회원가입 실패
         }
       }
-  }
-}
-
-// MARK: - Constants
-
-extension SignUpViewModel {
-  private enum Constants {
-    static let defaultProfileName = "userDefaultImage"
   }
 }
