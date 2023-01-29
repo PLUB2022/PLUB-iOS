@@ -16,7 +16,7 @@ protocol MeetingNameViewModelType {
 }
 
 final class MeetingNameViewModel: MeetingNameViewModelType {
-  private lazy var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   private let introduceTitleInputRelay = BehaviorRelay<String>.init(value: .init())
   private let nameTitleInputRelay = BehaviorRelay<String>.init(value: .init())
