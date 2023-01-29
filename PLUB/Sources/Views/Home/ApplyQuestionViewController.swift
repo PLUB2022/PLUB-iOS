@@ -104,7 +104,7 @@ class ApplyQuestionViewController: BaseViewController {
   }
   
   @objc private func didTappedBackButton() {
-    
+    self.navigationController?.popViewController(animated: true)
   }
 }
 
