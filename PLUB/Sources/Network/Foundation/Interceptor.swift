@@ -1,0 +1,36 @@
+//
+//  Interceptor.swift
+//  PLUB
+//
+//  Created by 홍승현 on 2023/01/29.
+//
+
+import Foundation
+
+import Alamofire
+import RxSwift
+
+final class Interceptor: RequestInterceptor {
+  
+  private let disposeBag = DisposeBag()
+  
+  func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+    guard request.response?.statusCode == 401 else {
+      // 401이 아닌 다른 에러가 발생한 경우, retry하지 않고 Error를 뱉음 (토큰 만료 에러가 아니기 때문)
+      completion(.doNotRetryWithError(error))
+      return
+    }
+    // 토큰 만료인 경우 토큰 값 갱신
+    UserManager.shared.reissuanceAccessToken()
+      .subscribe { succeed in
+        if succeed {
+          // 재발급을 성공했다면 기존에 발생했던 요청 재시도
+          completion(.retry)
+        } else {
+          // 재발급 실패시 retry를 하지 않고 Error 전달
+          completion(.doNotRetryWithError(error))
+        }
+      }
+      .disposed(by: disposeBag)
+  }
+}
