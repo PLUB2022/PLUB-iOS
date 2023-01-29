@@ -12,7 +12,7 @@ import Then
 
 struct IntroduceCategoryTitleViewModel {
   let title: String
-  let introduce: String
+  let name: String
   let infoText: String
 }
 
@@ -65,7 +65,7 @@ class IntroduceCategoryTitleView: UIView {
   
   public func configureUI(with model: IntroduceCategoryTitleViewModel) {
     meetingTitleLabel.text = model.title
-    introduceTitleLabel.text = model.introduce
+    introduceTitleLabel.text = model.name
     locationInfoView.configureUI(with: model.infoText, categoryListType: .onlyLocation)
   }
 }

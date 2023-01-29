@@ -16,6 +16,7 @@ protocol DetailRecruitmentViewModelType {
   var introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel> { get }
   var introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel> { get }
   var participantListViewModel: Driver<[AccountInfo]> { get }
+  var meetingIntroduceModel: Driver<MeetingIntroduceModel> { get }
 }
 
 class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
@@ -29,6 +30,7 @@ class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   let introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel>
   let introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel>
   let participantListViewModel: Driver<[AccountInfo]>
+  let meetingIntroduceModel: Driver<MeetingIntroduceModel>
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
@@ -48,7 +50,7 @@ class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     .disposed(by: disposeBag)
     
     self.introduceCategoryTitleViewModel = successFetchingDetail.map { response -> IntroduceCategoryTitleViewModel in
-      return IntroduceCategoryTitleViewModel(title: response.title, introduce: response.introduce, infoText: response.placeName)
+      return IntroduceCategoryTitleViewModel(title: response.title, name: response.name, infoText: response.placeName)
     }
     .asDriver(onErrorDriveWith: .empty())
     
@@ -59,6 +61,11 @@ class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     
     self.participantListViewModel = successFetchingDetail.map { response -> [AccountInfo] in
       return response.joinedAccounts
+    }
+    .asDriver(onErrorDriveWith: .empty())
+    
+    self.meetingIntroduceModel = successFetchingDetail.map { response -> MeetingIntroduceModel in
+      return MeetingIntroduceModel(title: response.title, introduce: response.introduce)
     }
     .asDriver(onErrorDriveWith: .empty())
   }
