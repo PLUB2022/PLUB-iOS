@@ -297,10 +297,22 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel(), categoryID: "")
-    vc.title = mainCategoryList[indexPath.row].name
-    vc.navigationItem.largeTitleDisplayMode = .never
-    self.navigationController?.pushViewController(vc, animated: true)
+    let homeSection = HomeSectionType.allCases[indexPath.section]
+    switch homeSection {
+    case .mainCategoryList:
+      let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel(), categoryID: "")
+      vc.title = mainCategoryList[indexPath.row].name
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
+    case .interestSelect:
+      let vc = RegisterInterestViewController(viewModel: RegisterInterestViewModel())
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
+    case .recommendedMeeting:
+      let vc = DetailRecruitmentViewController(plubbingId: selectedCategoryCollectionViewCellModel[indexPath.row].plubbingId)
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
+    }
   }
 }
 

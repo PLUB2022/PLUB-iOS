@@ -111,19 +111,18 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   private func bind() {
     bookmarkButton.buttonTapObservable
       .subscribe(onNext: {
-        
+        print("tapped")
       })
       .disposed(by: disposeBag)
     
     bookmarkButton.buttonUnTapObservable
       .subscribe(onNext: {
-        
+        print("untapped")
       })
       .disposed(by: disposeBag)
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
-    print("model = \(model)")
     guard let urlString = model.mainImage,
       let url = URL(string: urlString) else { return }
     backgroundImageView.kf.setImage(with: url)
