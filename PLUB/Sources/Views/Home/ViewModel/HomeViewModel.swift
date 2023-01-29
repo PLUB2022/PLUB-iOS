@@ -10,32 +10,32 @@ import RxCocoa
 
 protocol HomeViewModelType {
   // Input
+  var tappedBookmark: AnyObserver<String> { get }
   
   // Output
   var fetchedMainCategoryList: Driver<[MainCategory]> { get }
   var updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
   var isSelectedInterest: Signal<Bool> { get }
+  var isBookmarked: Signal<Bool> { get }
 }
 
 class HomeViewModel: HomeViewModelType {
-  var disposeBag = DisposeBag()
+  private var disposeBag = DisposeBag()
   
   // Input
-  let addBookmark: AnyObserver<Void>
-  let removeBookmark: AnyObserver<Void>
+  let tappedBookmark: AnyObserver<String>
   
   // Output
   let fetchedMainCategoryList: Driver<[MainCategory]>
   let updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
   let isSelectedInterest: Signal<Bool>
+  let isBookmarked: Signal<Bool>
   
   init() {
     let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
-    let requestAddBookmark = PublishSubject<Void>()
-    let requestRemoveBookmark = PublishSubject<Void>()
+    let whichBookmark = PublishSubject<String>()
     
-    self.addBookmark = requestAddBookmark.asObserver()
-    self.removeBookmark = requestRemoveBookmark.asObserver()
+    self.tappedBookmark = whichBookmark.asObserver()
     self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
@@ -85,7 +85,19 @@ class HomeViewModel: HomeViewModelType {
       .bind(to: fetchingMainCategoryList)
       .disposed(by: disposeBag)
     
-//    requestAddBookmark.withLatestFrom(<#T##second: ObservableConvertibleType##ObservableConvertibleType#>)
+    let requestBookmark = whichBookmark
+      .debounce(.seconds(3), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+      .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
+    
+    let successRequestBookmark = requestBookmark.compactMap { result -> RequestBookmarkResponse? in
+      guard case .success(let response) = result else { return nil }
+      return response.data
+    }
+    
+    self.isBookmarked = successRequestBookmark.distinctUntilChanged()
+      .do(onNext: { print("뭐야 = \($0)") })
+      .map { $0.isBookmarked }
+      .asSignal(onErrorSignalWith: .empty())
   }
   
   private static func formatDays(days: [String]) -> String {

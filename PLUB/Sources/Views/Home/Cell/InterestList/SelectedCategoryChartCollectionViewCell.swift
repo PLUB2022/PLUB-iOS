@@ -22,8 +22,7 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
 }
 
 protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
-  func didTappedBookmarkButton()
-  func didUnTappedBookmarkButton()
+  func didTappedBookmarkButton(plubbingID: String)
 }
 
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
@@ -31,6 +30,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   weak var delegate: SelectedCategoryChartCollectionViewCellDelegate?
   
   private var disposeBag = DisposeBag()
+  private var plubbingID: Int?
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
@@ -109,14 +109,16 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     bookmarkButton.buttonTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.delegate?.didTappedBookmarkButton()
+        guard let plubbingID = owner.plubbingID else { return }
+        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
-    
+      
     bookmarkButton.buttonUnTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.delegate?.didUnTappedBookmarkButton()
+        guard let plubbingID = owner.plubbingID else { return }
+        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
   }
@@ -127,5 +129,6 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
     bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
     bookmarkButton.isSelected = model.isBookmarked
+    plubbingID = model.plubbingId
   }
 }

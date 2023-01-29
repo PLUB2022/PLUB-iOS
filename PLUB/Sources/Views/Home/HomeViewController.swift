@@ -138,6 +138,11 @@ final class HomeViewController: BaseViewController {
       .drive(rx.selectedCategoryCollectionViewCellModel)
       .disposed(by: disposeBag)
     
+    viewModel.isBookmarked.emit(onNext: { isBookmarked in
+      print("해당 모집글을 북마크 \(isBookmarked)")
+    })
+    .disposed(by: disposeBag)
+    
     homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
     homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)
   }
@@ -326,11 +331,7 @@ extension HomeViewController: InterestSelectCollectionViewCellDelegate {
 }
 
 extension HomeViewController: SelectedCategoryChartCollectionViewCellDelegate {
-  func didTappedBookmarkButton() {
-    
-  }
-  
-  func didUnTappedBookmarkButton() {
-    
+  func didTappedBookmarkButton(plubbingID: String) {
+    viewModel.tappedBookmark.onNext(plubbingID)
   }
 }
