@@ -35,6 +35,7 @@ final class SignUpViewController: BaseViewController {
       view.endEditing(true)
       pageControl.currentPage = currentPage
       updateTitles(index: currentPage)
+      setRightNavigationItem(index: currentPage)
     }
   }
   
@@ -242,6 +243,36 @@ final class SignUpViewController: BaseViewController {
   private func updateTitles(index: Int) {
     titleLabel.attributedText = viewModel.titles[index]
     subtitleLabel.attributedText = viewModel.subtitles[index]
+  }
+  
+  private func setRightNavigationItem(index: Int) {
+    // 마지막 페이지가 아닌 경우 right button item 없앰
+    if index + 1 != viewControllers.count {
+      navigationItem.rightBarButtonItem = UIBarButtonItem()
+      return
+    }
+    // `다음에 하기` 버튼 생성
+    let button = UIButton().then {
+      $0.setTitle("다음에 하기", for: .normal)
+      $0.setTitleColor(.deepGray, for: .normal)
+      $0.titleLabel?.font = .body1
+      // action으로 회원가입 파트 바로 진행
+      $0.addAction(UIAction { [weak self] _ in
+        guard let self else { return }
+        self.viewModel.signUp()
+          .subscribe(onNext: { succeed in
+            if succeed {
+              self.navigationController?.setViewControllers([HomeViewController(viewModel: HomeViewModel())], animated: true)
+            } else {
+              print("회원가입 실패")
+            }
+          })
+          .disposed(by: self.disposeBag)
+      }, for: .touchUpInside)
+    }
+    
+    // 버튼 등록
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
   }
 }
 
