@@ -65,7 +65,8 @@ final class PolicyViewController: BaseViewController {
     super.setupConstraints()
     
     agreementControl.snp.makeConstraints {
-      $0.top.horizontalEdges.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
       $0.height.equalTo(48)
     }
     
@@ -82,7 +83,8 @@ final class PolicyViewController: BaseViewController {
     
     tableView.snp.makeConstraints {
       $0.top.equalTo(agreementControl.snp.bottom).offset(16)
-      $0.horizontalEdges.bottom.equalToSuperview()
+      $0.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
     }
   }
   
