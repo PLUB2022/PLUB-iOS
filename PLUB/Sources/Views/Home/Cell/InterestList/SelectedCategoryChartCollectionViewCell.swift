@@ -21,14 +21,16 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
   let selectedCategoryInfoModel: CategoryInfoListModel
 }
 
+protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
+  func didTappedBookmarkButton()
+  func didUnTappedBookmarkButton()
+}
+
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   static let identifier = "SelectedCategoryChartCollectionViewCell"
-  private var disposeBag = DisposeBag()
+  weak var delegate: SelectedCategoryChartCollectionViewCellDelegate?
   
-  private let backgroundImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
-    $0.backgroundColor = .orange
-  }
+  private var disposeBag = DisposeBag()
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
@@ -62,7 +64,6 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    backgroundImageView.image = nil
     titleLabel.text = nil
     descriptionLabel.text = nil
     categoryInfoListView.backgroundColor = nil
@@ -77,15 +78,11 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .background
+    contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
-    contentView.addSubview(backgroundImageView)
-    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { backgroundImageView.addSubview($0) }
     
-    backgroundImageView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
-    }
+    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
     
     categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
@@ -110,22 +107,21 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   private func bind() {
     bookmarkButton.buttonTapObservable
-      .subscribe(onNext: {
-        print("tapped")
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.didTappedBookmarkButton()
       })
       .disposed(by: disposeBag)
     
     bookmarkButton.buttonUnTapObservable
-      .subscribe(onNext: {
-        print("untapped")
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.didUnTappedBookmarkButton()
       })
       .disposed(by: disposeBag)
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
-    guard let urlString = model.mainImage,
-      let url = URL(string: urlString) else { return }
-    backgroundImageView.kf.setImage(with: url)
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
