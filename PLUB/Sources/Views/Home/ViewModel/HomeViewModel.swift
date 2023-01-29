@@ -63,7 +63,6 @@ class HomeViewModel: HomeViewModelType {
     .asSignal(onErrorSignalWith: .empty())
     
     updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
-      print("콘텐츠 = \(contents)")
       return contents.map { content in
         let cellData = SelectedCategoryCollectionViewCellModel(
           plubbingID: content.plubbingID,
@@ -96,7 +95,6 @@ class HomeViewModel: HomeViewModelType {
     }
     
     self.isBookmarked = successRequestBookmark.distinctUntilChanged()
-      .do(onNext: { print("뭐야 = \($0)") })
       .map { $0.isBookmarked }
       .asSignal(onErrorSignalWith: .empty())
   }

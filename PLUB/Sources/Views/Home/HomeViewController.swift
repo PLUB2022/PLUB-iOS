@@ -135,7 +135,6 @@ final class HomeViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.updatedRecommendationCellData
-      .do(onNext: { print("업데이트 = \($0)") })
       .drive(rx.selectedCategoryCollectionViewCellModel)
       .disposed(by: disposeBag)
     
