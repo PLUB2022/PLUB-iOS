@@ -21,7 +21,6 @@ class IntroduceCategoryInfoView: UIView {
   private let meetingRecommendedLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 32)
     $0.textColor = .main
-    $0.text = "“스트레칭은 20분 이상”"
     $0.textAlignment = .center
     $0.sizeToFit()
   }
@@ -32,7 +31,6 @@ class IntroduceCategoryInfoView: UIView {
     $0.contentMode = .scaleAspectFit
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
-    $0.image = UIImage(named: "selectImage")
   }
   
   override init(frame: CGRect) {

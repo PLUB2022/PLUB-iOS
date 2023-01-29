@@ -37,7 +37,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.distribution = .fill
     $0.isLayoutMarginsRelativeArrangement = true
     $0.spacing = 24
-    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 16.5, bottom: .zero, right: 16.5)
+    $0.layoutMargins = UIEdgeInsets(top: Device.navigationBarHeight, left: 16.5, bottom: .zero, right: 16.5)
   }
   
   private lazy var bottomStackView = UIStackView(arrangedSubviews: [surroundMeetingButton, applyButton]).then {

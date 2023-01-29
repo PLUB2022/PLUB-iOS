@@ -85,7 +85,7 @@ class ParticipantListView: UIView {
   }
   
   public func configureUI(with model: [AccountInfo]) {
-    let model = model.compactMap{ $0 }
+    let model = model.compactMap { $0 }
     let joinedCount = model.count
     guard joinedCount > 0 else { return }
     if joinedCount <= 8 {

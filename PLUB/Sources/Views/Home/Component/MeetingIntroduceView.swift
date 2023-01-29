@@ -10,6 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
+struct MeetingIntroduceModel {
+  let introduce: String
+  let description: String
+}
+
 class MeetingIntroduceView: UIView {
   
   private let meetingIntroduceLabel = UILabel().then {
@@ -53,5 +58,10 @@ class MeetingIntroduceView: UIView {
       make.left.right.bottom.equalToSuperview()
       make.width.equalTo(Device.width)
     }
+  }
+  
+  public func configureUI(with model: MeetingIntroduceModel) {
+    meetingIntroduceLabel.text = model.introduce
+    meetingDescriptionLabel.text = model.description
   }
 }
