@@ -32,42 +32,32 @@ class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
-    let fetchingDetailRecruitment = PublishSubject<DetailRecruitmentModel>()
-    
+    let successFetchingDetail = PublishSubject<DetailRecruitmentResponse>()
     self.selectPlubbingID = selectingPlubbingID.asObserver()
-//    self.fetchDetailRecruitment = fetchingDetailRecruitment.asDriver(onErrorDriveWith: .empty())
     
     let fetchingDetail = selectingPlubbingID
       .map { "\($0)" }
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingID:))
       .share()
     
-//    fetchingDetail.subscribe(onNext: { result in
-//      print("안돼요 = \(result)")
-//    })
-//    .disposed(by: disposeBag)
-    
-    let successFetchingDetail = fetchingDetail.map { result -> DetailRecruitmentResponse? in
-      print("뭐냐고 = \(result)")
+    fetchingDetail.compactMap { result -> DetailRecruitmentResponse? in
       guard case .success(let detailRecruitmentResponse) = result else { return nil }
-      print("돼냐 = \(detailRecruitmentResponse.data)")
       return detailRecruitmentResponse.data
     }
+    .bind(to: successFetchingDetail)
+    .disposed(by: disposeBag)
     
-    introduceCategoryTitleViewModel = successFetchingDetail.compactMap { response -> IntroduceCategoryTitleViewModel? in
-      guard let response = response else { return nil }
+    self.introduceCategoryTitleViewModel = successFetchingDetail.map { response -> IntroduceCategoryTitleViewModel in
       return IntroduceCategoryTitleViewModel(title: response.title, introduce: response.introduce, infoText: response.placeName)
     }
     .asDriver(onErrorDriveWith: .empty())
     
-    introduceCategoryInfoViewModel = successFetchingDetail.compactMap { response -> IntroduceCategoryInfoViewModel? in
-      guard let response = response else { return nil }
+    self.introduceCategoryInfoViewModel = successFetchingDetail.map { response -> IntroduceCategoryInfoViewModel in
       return IntroduceCategoryInfoViewModel(recommendedText: response.goal, meetingImage: response.mainImage ?? "", categortInfoListModel: .init(placeName: response.placeName, peopleCount: response.remainAccountNum, when: ""))
     }
     .asDriver(onErrorDriveWith: .empty())
     
-    participantListViewModel = successFetchingDetail.compactMap { response -> [AccountInfo]? in
-      guard let response = response else { return nil }
+    self.participantListViewModel = successFetchingDetail.map { response -> [AccountInfo] in
       return response.joinedAccounts
     }
     .asDriver(onErrorDriveWith: .empty())

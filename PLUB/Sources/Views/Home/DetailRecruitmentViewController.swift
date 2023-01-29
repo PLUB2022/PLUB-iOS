@@ -138,10 +138,6 @@ final class DetailRecruitmentViewController: BaseViewController {
       target: self,
       action: #selector(didTappedComponentButton)
     )
-    
-//    introduceCategoryTitleView.configureUI(with: .init(title: model?.title, introduce: model?.introduce, infoText: model?.placeName))
-//    introduceCategoryInfoView.configureUI(with: <#T##IntroduceCategoryInfoViewModel#>)
-//    participantListView.configureUI(with: <#T##[AccountInfo]#>)
   }
   
   func bind(plubbingID: Int) {
