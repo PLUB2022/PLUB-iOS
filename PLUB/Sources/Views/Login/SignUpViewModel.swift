@@ -275,11 +275,3 @@ final class SignUpViewModel: SignUpViewModelType {
       }
   }
 }
-
-// MARK: - Constants
-
-extension SignUpViewModel {
-  private enum Constants {
-    static let defaultProfileName = "userDefaultImage"
-  }
-}
