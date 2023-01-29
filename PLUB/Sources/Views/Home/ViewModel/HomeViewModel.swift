@@ -57,8 +57,6 @@ class HomeViewModel: HomeViewModelType {
     
     updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
       return contents.map { content in
-        print("day = \(content.days)")
-        print("엥 = \(HomeViewModel.formatDays(days: content.days))")
         let cellData = SelectedCategoryCollectionViewCellModel(
           plubbingId: content.plubbingId,
           name: content.name,
@@ -84,9 +82,9 @@ class HomeViewModel: HomeViewModelType {
   private static func formatDays(days: [String]) -> String {
     var formatStr = ""
     days.forEach { day in
-      print("요일 = \(day.fromENGToKOR())")
-      formatStr.append(day.fromENGToKOR())
+      formatStr.append(day.fromENGToKOR() + ",")
     }
+    formatStr.removeLast()
     return formatStr
   }
 }
