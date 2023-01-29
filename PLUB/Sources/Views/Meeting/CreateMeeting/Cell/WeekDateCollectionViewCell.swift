@@ -21,13 +21,6 @@ final class WeekDateCollectionViewCell: UICollectionViewCell {
     $0.textAlignment = .center
   }
   
-//  override var isSelected: Bool {
-//    didSet {
-//      guard isSelected != oldValue else { return }
-//      setupSelected(isSelected)
-//    }
-//  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayouts()
