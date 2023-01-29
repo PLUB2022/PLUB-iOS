@@ -200,7 +200,8 @@ extension LoginViewController {
   
   private func requestPLUBTokens(socialType: SignInType, token: String? = nil, authorizationCode: String? = nil) {
     AuthService.shared.requestAuth(socialType: socialType, token: token, authorizationCode: authorizationCode)
-      .subscribe(onNext: { result in
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
         switch result {
         case .success(let model):
           guard let accessToken  = model.data?.accessToken,
@@ -209,6 +210,7 @@ extension LoginViewController {
           }
           // accessToken, refreshToken 업데이트
           UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
+          owner.navigationController?.pushViewController(HomeViewController(viewModel: HomeViewModel()), animated: true)
           
         case .requestError(let model):
           guard let signToken = model.data?.signToken else {
@@ -218,6 +220,7 @@ extension LoginViewController {
           // Signin token 업데이트 및 소셜로그인 타입 업데이트
           UserManager.shared.set(signToken: signToken)
           UserManager.shared.set(socialType: socialType)
+          owner.navigationController?.pushViewController(SignUpViewController(), animated: true)
         case .networkError, .serverError, .pathError:
           // TODO: 승현 - PLUB 에러 Alert 띄우기
           break

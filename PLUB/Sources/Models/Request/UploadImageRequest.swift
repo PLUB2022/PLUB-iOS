@@ -9,27 +9,14 @@
 struct UploadImageRequest: Codable {
   
   /// 타입 설정
-  let type: String
+  let type: ImageType
 }
 
-enum ImageType {
+enum ImageType: String, Codable {
   
   /// 프로필 이미지
   case profile
   
   /// 플러빙 메인 이미지
-  case plubbingMain
-}
-
-extension ImageType {
-  
-  var value: String {
-    switch self {
-    case .profile:
-      return "profile"
-      
-    case .plubbingMain:
-      return "plubbing-main"
-    }
-  }
+  case plubbingMain = "plubbing-main"
 }
