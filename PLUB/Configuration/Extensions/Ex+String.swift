@@ -8,36 +8,52 @@
 extension String {
   
   func fromENGToKOR() -> Self {
-    guard let day = Day.allCases.filter({ $0.rawValue == self }).first else { return "" }
-    return day.toKOR
+    guard let day = Day.allCases.filter({ $0.eng == self }).first else { return "" }
+    return day.kor
   }
   
   enum Day: String, CaseIterable {
-    case MON
-    case TUE
-    case WED
-    case THR
-    case FRI
-    case SAT
-    case SUN
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case sunday
+    case all
     
-    var toKOR: String {
+    var kor: String {
       switch self {
-      case .MON:
+      case .monday:
         return "월"
-      case .TUE:
+      case .tuesday:
         return "화"
-      case .WED:
+      case .wednesday:
         return "수"
-      case .THR:
+      case .thursday:
         return "목"
-      case .FRI:
+      case .friday:
         return "금"
-      case .SAT:
+      case .saturday:
         return "토"
-      case .SUN:
+      case .sunday:
         return "일"
+      case .all:
+        return "요일 무관"
       }
     }
+    
+    var eng: String {
+      switch self {
+      case .monday: return "MON"
+      case .tuesday: return "TUE"
+      case .wednesday: return "WED"
+      case .thursday: return "THR"
+      case .friday: return "FRI"
+      case .saturday: return "SAT"
+      case .sunday: return "SUN"
+      case .all: return "ALL"
+      }
+     }
   }
 }
