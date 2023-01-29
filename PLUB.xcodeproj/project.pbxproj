@@ -911,13 +911,13 @@
 		C3E98EAB29744DAF00E36C45 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */,
 				C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */,
 				C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */,
 				C34F71C029798C87003DB376 /* MeetingDateViewModel.swift */,
 				C38A5BA2297B17EF00485355 /* MeetingLocationViewModel.swift */,
 				C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */,
 				C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */,
-				C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

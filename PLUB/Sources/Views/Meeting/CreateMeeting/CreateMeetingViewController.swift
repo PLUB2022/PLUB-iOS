@@ -59,41 +59,49 @@ final class CreateMeetingViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
   
+  private lazy var meetingCategoryViewController = MeetingCategoryViewController(
+    viewModel: MeetingCategoryViewModel(),
+    childIndex: 0
+  ).then {
+    $0.delegate = self
+  }
+  
   private lazy var meetingNameViewController = MeetingNameViewController(
     viewModel: MeetingNameViewModel(),
-    childIndex: 0
+    childIndex: 1
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingIntroduceViewController = MeetingIntroduceViewController(
     viewModel: MeetingIntroduceViewModel(),
-    childIndex: 1
+    childIndex: 2
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingDateViewController = MeetingDateViewController(
-    childIndex: 2
+    childIndex: 3
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingPeopleNumberViewController = MeetingPeopleNumberViewController(
     viewModel: MeetingPeopleNumberViewModel(),
-    childIndex: 3
+    childIndex: 4
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetinQuestionViewController = MeetingQuestionViewController(
     viewModel: MeetingQuestionViewModel(),
-    childIndex: 4
+    childIndex: 5
   ).then {
     $0.delegate = self
   }
   
   private lazy var viewControllers: [UIViewController] = [
+    meetingCategoryViewController,
     meetingNameViewController,
     meetingIntroduceViewController,
     meetingDateViewController,
