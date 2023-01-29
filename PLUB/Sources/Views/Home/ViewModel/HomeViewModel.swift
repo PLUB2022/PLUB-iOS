@@ -65,7 +65,7 @@ class HomeViewModel: HomeViewModelType {
     updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
       return contents.map { content in
         let cellData = SelectedCategoryCollectionViewCellModel(
-          plubbingId: content.plubbingId,
+          plubbingID: content.plubbingID,
           name: content.name,
           title: content.title,
           mainImage: content.mainImage,

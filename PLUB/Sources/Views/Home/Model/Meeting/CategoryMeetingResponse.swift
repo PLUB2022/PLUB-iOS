@@ -32,7 +32,7 @@ struct Plubbing: Codable {
 }
 
 struct Content: Codable {
-  let plubbingId: Int
+  let plubbingID: Int
   let name: String
   let title: String
   let mainImage: String?

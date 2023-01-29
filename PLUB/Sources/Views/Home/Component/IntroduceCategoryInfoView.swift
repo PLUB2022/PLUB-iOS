@@ -10,6 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
+struct IntroduceCategoryInfoViewModel {
+  let recommendedText: String
+  let meetingImage: String
+  let categortInfoListModel: CategoryInfoListModel
+}
+
 class IntroduceCategoryInfoView: UIView {
   
   private let meetingRecommendedLabel = UILabel().then {
@@ -55,5 +61,12 @@ class IntroduceCategoryInfoView: UIView {
       $0.top.equalTo(categoryInfoListView.snp.bottom)
       $0.left.right.bottom.equalToSuperview()
     }
+  }
+  
+  public func configureUI(with model: IntroduceCategoryInfoViewModel) {
+    guard let url = URL(string: model.meetingImage) else { return }
+    meetingRecommendedLabel.text = model.recommendedText
+    categoryInfoListView.configureUI(with: model.categortInfoListModel)
+    meetingImageView.kf.setImage(with: url)
   }
 }

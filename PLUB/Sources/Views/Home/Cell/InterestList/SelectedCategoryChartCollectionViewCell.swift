@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
-  let plubbingId: Int
+  let plubbingID: Int
   let name: String
   let title: String
   let mainImage: String?
@@ -129,6 +129,6 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
     bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
     bookmarkButton.isSelected = model.isBookmarked
-    plubbingID = model.plubbingId
+    plubbingID = model.plubbingID
   }
 }

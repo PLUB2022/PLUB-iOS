@@ -315,7 +315,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     case .recommendedMeeting:
-      let vc = DetailRecruitmentViewController(plubbingId: selectedCategoryCollectionViewCellModel[indexPath.row].plubbingId)
+      let vc = DetailRecruitmentViewController(plubbingID: selectedCategoryCollectionViewCellModel[indexPath.row].plubbingID)
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     }

@@ -75,12 +75,12 @@ class SelectedCategoryViewController: BaseViewController {
   }
   
   override func bind() {
-    viewModel.createSelectedCategoryChartCollectionViewCellModels()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, selectedCategoryChartCollectionViewCellModels in
-        owner.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
-      })
-      .disposed(by: disposeBag)
+//    viewModel.createSelectedCategoryChartCollectionViewCellModels()
+//      .withUnretained(self)
+//      .subscribe(onNext: { owner, selectedCategoryChartCollectionViewCellModels in
+//        owner.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
+//      })
+//      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
@@ -141,7 +141,7 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = DetailRecruitmentViewController(plubbingId: selectedCategoryCollectionViewCellModels[indexPath.row].plubbingId)
+    let vc = DetailRecruitmentViewController(plubbingID: selectedCategoryCollectionViewCellModels[indexPath.row].plubbingID)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
