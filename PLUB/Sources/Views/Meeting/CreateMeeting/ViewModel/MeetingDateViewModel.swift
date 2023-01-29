@@ -49,7 +49,7 @@ final class MeetingDateViewModel {
   // Input
   var dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
   var timeInputRelay = BehaviorRelay<String>.init(value: .init())
-  var onOffInputRelay = BehaviorRelay<String>.init(value: .init())
+  var onOffInputRelay = BehaviorRelay<String>.init(value: "ON")
   var locationInputRelay = BehaviorRelay<String>.init(value: .init())
   
   // OutPut
@@ -66,16 +66,27 @@ final class MeetingDateViewModel {
       }
     dateCellData = .init(value: dateList)
     
-    isBtnEnabled = Observable.combineLatest(
-      dateInputRelay,
-      timeInputRelay,
+    let whereInput = Observable.combineLatest(
       onOffInputRelay,
       locationInputRelay
     ).map {
+      if $0.0.contains("ON") {
+        return true
+      } else if $0.0.contains("OFF") && !$0.1.isEmpty {
+        return true
+      } else {
+        return false
+      }
+    }
+    
+    isBtnEnabled = Observable.combineLatest(
+      dateInputRelay,
+      timeInputRelay,
+      whereInput
+    ).map {
       return !$0.0.isEmpty &&
       !$0.1.isEmpty &&
-      !$0.2.isEmpty &&
-      !$0.3.isEmpty
+      $0.2
     }
   }
   

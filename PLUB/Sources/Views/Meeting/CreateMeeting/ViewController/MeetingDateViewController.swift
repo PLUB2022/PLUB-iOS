@@ -168,6 +168,8 @@ final class MeetingDateViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    changeOnOffButton(state: true)
   }
   
   override func bind() {
@@ -195,8 +197,7 @@ final class MeetingDateViewController: BaseViewController {
     onlineButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.onlineButton.isSelected = true
-        owner.offlineButton.isSelected = false
+        owner.changeOnOffButton(state: true)
         owner.viewModel.onOffInputRelay.accept("ON")
       })
       .disposed(by: disposeBag)
@@ -204,8 +205,7 @@ final class MeetingDateViewController: BaseViewController {
     offlineButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.onlineButton.isSelected = false
-        owner.offlineButton.isSelected = true
+        owner.changeOnOffButton(state: false)
         owner.viewModel.onOffInputRelay.accept("OFF")
       })
        .disposed(by: disposeBag)
@@ -260,5 +260,16 @@ extension MeetingDateViewController: LocationBottomSheetDelegate {
     locationControl.setLocationLabelText(text: placeName)
     locationControl.isSelected = true
     viewModel.locationInputRelay.accept(placeName)
+  }
+}
+
+extension MeetingDateViewController {
+  func changeOnOffButton(state: Bool) { // OnLine: true, OffLine: false
+    onlineButton.isSelected = state
+    offlineButton.isSelected = !state
+
+    [locationLabel, locationControl].forEach {
+      $0.isHidden = state
+    }
   }
 }
