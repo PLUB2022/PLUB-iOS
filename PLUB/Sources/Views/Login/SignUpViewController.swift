@@ -34,8 +34,7 @@ final class SignUpViewController: BaseViewController {
     didSet {
       view.endEditing(true)
       pageControl.currentPage = currentPage
-      titleLabel.text = viewModel.titles[currentPage]
-      subtitleLabel.text = viewModel.subtitles[currentPage]
+      updateTitles(index: currentPage)
     }
   }
   
@@ -74,14 +73,14 @@ final class SignUpViewController: BaseViewController {
   private lazy var titleLabel = UILabel().then {
     $0.textColor = .black
     $0.numberOfLines = 0
-    $0.text = viewModel.titles[currentPage]
+    $0.attributedText = viewModel.titles[currentPage]
     $0.font = .h4
   }
   
   private lazy var subtitleLabel = UILabel().then {
     $0.textColor = .black
     $0.numberOfLines = 0
-    $0.text = viewModel.subtitles[currentPage]
+    $0.attributedText = viewModel.subtitles[currentPage]
     $0.font = .body2
   }
   
@@ -238,6 +237,11 @@ final class SignUpViewController: BaseViewController {
   private func scrollToPage(index: Int) {
     let offset: CGPoint = CGPoint(x: view.frame.width * CGFloat(index), y: 0)
     scrollView.setContentOffset(offset, animated: true)
+  }
+  
+  private func updateTitles(index: Int) {
+    titleLabel.attributedText = viewModel.titles[index]
+    subtitleLabel.attributedText = viewModel.subtitles[index]
   }
 }
 
