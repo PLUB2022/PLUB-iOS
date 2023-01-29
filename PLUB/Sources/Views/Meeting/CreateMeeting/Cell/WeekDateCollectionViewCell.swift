@@ -7,6 +7,11 @@
 
 import UIKit
 
+struct MeetingDateCollectionViewCellModel {
+  let date: String
+  let isSelected: Bool
+}
+
 final class WeekDateCollectionViewCell: UICollectionViewCell {
   static let identifier = "WeekDateCollectionViewCell"
   
@@ -14,13 +19,6 @@ final class WeekDateCollectionViewCell: UICollectionViewCell {
     $0.font = .caption
     $0.textColor = .deepGray
     $0.textAlignment = .center
-  }
-  
-  override var isSelected: Bool {
-    didSet {
-      guard isSelected != oldValue else { return }
-      setupSelected(isSelected)
-    }
   }
   
   override init(frame: CGRect) {
@@ -63,7 +61,8 @@ private extension WeekDateCollectionViewCell {
 }
 
 extension WeekDateCollectionViewCell {
-  func setupData(dateText: String) {
-    label.text = dateText
+  func setupData(data: MeetingDateCollectionViewCellModel) {
+    label.text = data.date
+    setupSelected(data.isSelected)
   }
 }
