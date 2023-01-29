@@ -189,8 +189,9 @@ final class MeetingDateViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     dateCollectionView.rx.modelSelected(MeetingDateCollectionViewCellModel.self)
-      .subscribe(onNext: { data in
-        self.viewModel.updateDateData(data: data)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, data in
+        owner.viewModel.updateDate(data: data)
       })
       .disposed(by: disposeBag)
     

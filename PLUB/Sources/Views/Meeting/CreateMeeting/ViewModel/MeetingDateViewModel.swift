@@ -41,19 +41,19 @@ enum Day: CaseIterable {
 }
 
 final class MeetingDateViewModel {
-  private lazy var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
 
   // CellData
-  var dateCellData: BehaviorRelay<[MeetingDateCollectionViewCellModel]>
+  let dateCellData: BehaviorRelay<[MeetingDateCollectionViewCellModel]>
   
   // Input
-  var dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
-  var timeInputRelay = BehaviorRelay<String>.init(value: .init())
-  var onOffInputRelay = BehaviorRelay<String>.init(value: "ON")
-  var locationInputRelay = BehaviorRelay<String>.init(value: .init())
+  let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
+  let timeInputRelay = BehaviorRelay<String>.init(value: .init())
+  let onOffInputRelay = BehaviorRelay<String>.init(value: "ON")
+  let locationInputRelay = BehaviorRelay<String>.init(value: .init())
   
   // OutPut
-  var isBtnEnabled: Observable<Bool>
+  let isBtnEnabled: Observable<Bool>
   
   init() {
     let dateList = Day.allCases
@@ -90,7 +90,7 @@ final class MeetingDateViewModel {
     }
   }
   
-  func updateDateData(data: MeetingDateCollectionViewCellModel) {
+  func updateDate(data: MeetingDateCollectionViewCellModel) {
     let dates = dateInputRelay.value
     let cellDatas = dateCellData.value
     
@@ -104,40 +104,40 @@ final class MeetingDateViewModel {
           )
         }
       )
-    } else { // CASE 2) 선택
-      if data.date == "요일 무관" { // CASE 2-1) 요일 무관
-        dateInputRelay.accept([data.date.fromENGToKOR()])
-        dateCellData.accept(
-          cellDatas.map {
-            MeetingDateCollectionViewCellModel(
-              date: $0.date,
-              isSelected: $0.date == "요일 무관" ? true : false
-            )
+    }
+    else if data.date == "요일 무관" { // CASE 2-1) 요일 무관 선택
+      dateInputRelay.accept([data.date.fromENGToKOR()])
+      dateCellData.accept(
+        cellDatas.map {
+          MeetingDateCollectionViewCellModel(
+            date: $0.date,
+            isSelected: $0.date == "요일 무관" ? true : false
+          )
+        }
+      )
+    }
+    else { // CASE 2-2) 요일 무관 제외한 요일 선택
+      var filterDates = dates.filter { $0 != "ALL" }
+      filterDates.append(data.date.fromENGToKOR())
+      dateInputRelay.accept(filterDates)
+      
+      dateCellData.accept(
+        cellDatas.map {
+          var isSelected = false
+          if $0.date == "요일 무관" {
+            isSelected = false
+          } else if $0.date == data.date {
+            isSelected = true
+          } else {
+            isSelected = $0.isSelected
           }
-        )
-      } else { // CASE 2-1) 요일 무관 제외한 요일
-        var filterDates = dates.filter { $0 != "ALL" }
-        filterDates.append(data.date.fromENGToKOR())
-        dateInputRelay.accept(filterDates)
-        
-        dateCellData.accept(
-          cellDatas.map {
-            var isSelected = false
-            if $0.date == "요일 무관" {
-              isSelected = false
-            } else if $0.date == data.date {
-              isSelected = true
-            } else {
-              isSelected = $0.isSelected
-            }
-            
-            return MeetingDateCollectionViewCellModel(
-              date: $0.date,
-              isSelected: isSelected
-            )
-          }
-        )
-      }
+          
+          return MeetingDateCollectionViewCellModel(
+            date: $0.date,
+            isSelected: isSelected
+          )
+        }
+      )
     }
   }
 }
