@@ -144,23 +144,10 @@ final class DetailRecruitmentViewController: BaseViewController {
     super.bind()
     viewModel.selectPlubbingID.onNext(plubbingID)
     
-//    Driver.combineLatest(viewModel.introduceCategoryTitleViewModel, viewModel.introduceCategoryInfoViewModel, viewModel.participantListViewModel)
-//      .drive(onNext: { [weak self] introduceCategoryTitleViewModel, introduceCategoryInfoViewModel, participantListViewModel in
-//        guard let `self` = self else { return }
-//        print("모델 = \(introduceCategoryTitleViewModel)")
-//        print("모델1 = \(introduceCategoryInfoViewModel)")
-//        print("모델2 = \(participantListViewModel)")
-//        self.introduceCategoryTitleView.configureUI(with: introduceCategoryTitleViewModel)
-//        self.introduceCategoryInfoView.configureUI(with: introduceCategoryInfoViewModel)
-//        self.participantListView.configureUI(with: participantListViewModel)
-//      })
-//      .disposed(by: disposeBag)
-    
     viewModel.introduceCategoryTitleViewModel
       .asObservable()
       .withUnretained(self)
       .subscribe(onNext: { owner, model in
-print("모델 1 = \(model)")
         owner.introduceCategoryTitleView.configureUI(with: model)
       })
       .disposed(by: disposeBag)
@@ -169,7 +156,6 @@ print("모델 1 = \(model)")
       .asObservable()
       .withUnretained(self)
       .subscribe(onNext: { owner, model in
-        print("모델 2 = \(model)")
         owner.introduceCategoryInfoView.configureUI(with: model)
       })
       .disposed(by: disposeBag)
@@ -178,8 +164,21 @@ print("모델 1 = \(model)")
       .asObservable()
       .withUnretained(self)
       .subscribe(onNext: { owner, model in
-        print("모델 3 = \(model)")
         owner.participantListView.configureUI(with: model)
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.meetingIntroduceModel
+      .asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, model in
+        owner.meetingIntroduceView.configureUI(with: model)
+      })
+      .disposed(by: disposeBag)
+    
+    applyButton.rx.tap
+      .subscribe(onNext: { _ in
+        
       })
       .disposed(by: disposeBag)
   }
