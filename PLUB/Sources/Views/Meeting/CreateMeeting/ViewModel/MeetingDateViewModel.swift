@@ -8,15 +8,36 @@
 import RxSwift
 import RxCocoa
 
-enum Day: String, CaseIterable {
-  case monday = "월"
-  case tuesday = "화"
-  case wednesday = "수"
-  case thursday = "목"
-  case friday = "금"
-  case saturday = "토"
-  case sunday = "일"
-  case all = "요일 무관"
+enum Day: CaseIterable {
+  case MON
+  case TUE
+  case WED
+  case THR
+  case FRI
+  case SAT
+  case SUN
+  case ALL
+  
+  var toKOR: String {
+    switch self {
+    case .MON:
+      return "월"
+    case .TUE:
+      return "화"
+    case .WED:
+      return "수"
+    case .THR:
+      return "목"
+    case .FRI:
+      return "금"
+    case .SAT:
+      return "토"
+    case .SUN:
+      return "일"
+    case .ALL:
+      return "요일 무관"
+    }
+  }
 }
 
 final class MeetingDateViewModel {
@@ -36,7 +57,7 @@ final class MeetingDateViewModel {
   
   init() {
     let dateList = Day.allCases
-      .map { $0.rawValue }
+      .map { $0.toKOR }
       .map {
         MeetingDateCollectionViewCellModel(
           date: $0,
@@ -74,7 +95,7 @@ final class MeetingDateViewModel {
     let cellDatas = dateCellData.value
     
     if data.isSelected { // CASE 1) 선택 해제
-      dateInputRelay.accept(dates.filter { $0 != data.date })
+      dateInputRelay.accept(dates.filter { $0 != data.date.fromENGToKOR() })
       dateCellData.accept(
         cellDatas.map {
           MeetingDateCollectionViewCellModel(
@@ -85,7 +106,7 @@ final class MeetingDateViewModel {
       )
     }
     else if data.date == "요일 무관" { // CASE 2-1) 요일 무관 선택
-      dateInputRelay.accept([data.date])
+      dateInputRelay.accept([data.date.fromENGToKOR()])
       dateCellData.accept(
         cellDatas.map {
           MeetingDateCollectionViewCellModel(
@@ -97,7 +118,7 @@ final class MeetingDateViewModel {
     }
     else { // CASE 2-2) 요일 무관 제외한 요일 선택
       var filterDates = dates.filter { $0 != "요일 무관" }
-      filterDates.append(data.date)
+      filterDates.append(data.date.fromENGToKOR())
       dateInputRelay.accept(filterDates)
       
       dateCellData.accept(
