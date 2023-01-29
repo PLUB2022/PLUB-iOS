@@ -25,4 +25,8 @@ extension RecruitmentService {
   func searchRecruitment(searchParameter: SearchParameter) -> Observable<NetworkResult<GeneralResponse<SearchRecruitmentResponse>>> {
     return sendRequest(RecruitmentRouter.searchRecruitment(searchParameter), type: SearchRecruitmentResponse.self)
   }
+  
+  func requestBookmark(plubbingId: String) {
+    return sendRequest(RecruitmentRouter.requestBookmark(plubbingId), type: <#T##T.Type#>)
+  }
 }
