@@ -7,11 +7,21 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 
 protocol SignUpChildViewControllerDelegate: BaseViewController {
   func checkValidation(index: Int, state: Bool)
+  
+  func information(categories: [Int])
+  func information(profile image: UIImage)
+  func information(birth date: Date)
+  func information(sex: Sex)
+  func information(introduction: String)
+  func information(nickname: String)
+  func information(policies: [Bool])
 }
 
 final class SignUpViewController: BaseViewController {
@@ -163,8 +173,26 @@ final class SignUpViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    nextButton.rx.tap
+    let nextButtonShareObservable = nextButton.rx.tap
+      .share()
       .withUnretained(self)
+    
+    // 유저가 필요한 정부를 전부 기입했을 때 회원가입 진행
+    nextButtonShareObservable
+      .filter { owner, _ in return owner.lastPageIndex + 1 == owner.viewControllers.count }
+      .flatMap { owner, _ in return owner.viewModel.signUp() }
+      .withUnretained(self)
+      .subscribe(onNext: { owner, succeed in
+        if succeed {
+          owner.navigationController?.setViewControllers([HomeViewController(viewModel: HomeViewModel())], animated: true)
+        } else {
+          print("회원가입 실패")
+        }
+      })
+      .disposed(by: disposeBag)
+    
+    // 아직 유저가 필요한 정보를 전부 기입하지 못한 경우(남은 페이지가 있는 경우를 뜻함)
+    nextButtonShareObservable
       .subscribe(onNext: { owner, _ in
         if owner.currentPage < owner.lastPageIndex {
           owner.currentPage += 1
@@ -266,5 +294,33 @@ extension SignUpViewController: UIScrollViewDelegate {
 extension SignUpViewController: SignUpChildViewControllerDelegate {
   func checkValidation(index: Int, state: Bool) {
     viewModel.validationState.onNext(ValidationState(index: index, state: state))
+  }
+  
+  func information(categories: [Int]) {
+    viewModel.categories.onNext(categories)
+  }
+  
+  func information(profile image: UIImage) {
+    viewModel.profileImage.onNext(image)
+  }
+  
+  func information(birth date: Date) {
+    viewModel.birth.onNext(date)
+  }
+  
+  func information(sex: Sex) {
+    viewModel.sex.onNext(sex)
+  }
+  
+  func information(introduction: String) {
+    viewModel.introduction.onNext(introduction)
+  }
+  
+  func information(nickname: String) {
+    viewModel.nickname.onNext(nickname)
+  }
+  
+  func information(policies: [Bool]) {
+    viewModel.policies.onNext(policies)
   }
 }

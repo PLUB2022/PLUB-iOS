@@ -180,7 +180,7 @@ extension MeetingIntroduceViewController: PhotoBottomSheetDelegate {
       $0.height.equalTo(width * image.size.height / image.size.width)
     }
     
-    ImageService.shared.uploadImage(images: [image], params: UploadImageRequest(type: ImageType.plubbingMain.value))
+    ImageService.shared.uploadImage(images: [image], params: UploadImageRequest(type: .plubbingMain))
       .subscribe(onNext: { result in
         switch result {
         case .success(let model):

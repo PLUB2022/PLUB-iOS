@@ -60,8 +60,8 @@ final class InterestViewController: BaseViewController {
         let flag = tuple.0
         let categories = tuple.1
         
-        // TODO: 승현 - delegate에게 카테고리 정보 전달
-        owner.delegate?.checkValidation(index: 4, state: flag)
+        owner.delegate?.information(categories: categories) // 선택한 카테고리 전달
+        owner.delegate?.checkValidation(index: 4, state: flag)  // 부모 뷰컨의 `확인 버튼` 활성화 처리
       })
       .disposed(by: disposeBag)
   }

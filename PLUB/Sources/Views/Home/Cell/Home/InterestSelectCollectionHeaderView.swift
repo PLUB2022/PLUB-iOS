@@ -10,9 +10,9 @@ import UIKit
 import SnapKit
 import Then
 
-class RecommendedMeetingHeaderView: UICollectionReusableView {
+class InterestSelectCollectionHeaderView: UICollectionReusableView {
   
-  static let identifier = "RecommendedMeetingHeaderView"
+  static let identifier = "InterestSelectCollectionHeaderView"
   
   private let titleLabel = UILabel().then {
     $0.font = .h4
@@ -47,25 +47,38 @@ class RecommendedMeetingHeaderView: UICollectionReusableView {
   
   private func configureUI() {
     backgroundColor = .background
-    [titleLabel, descriptionLabel, settingButton].forEach { addSubview($0) }
-    descriptionLabel.snp.makeConstraints {
-      $0.left.bottom.equalToSuperview()
-      $0.top.equalTo(snp.centerY)
-    }
-    
-    titleLabel.snp.makeConstraints {
-      $0.left.equalToSuperview()
-      $0.bottom.equalTo(snp.centerY)
-    }
-    
-    settingButton.snp.makeConstraints {
-      $0.centerY.equalTo(titleLabel)
-      $0.right.equalToSuperview()
-    }
   }
   
-  public func configureUI(with model: String) {
-    titleLabel.text = model
+  public func configureUI(with model: HomeType) {
+    switch model {
+    case .selected:
+      [titleLabel, settingButton].forEach { addSubview($0) }
+      titleLabel.snp.makeConstraints {
+        $0.top.left.equalToSuperview()
+      }
+      
+      settingButton.snp.makeConstraints {
+        $0.right.equalToSuperview()
+        $0.centerY.equalTo(titleLabel)
+      }
+      
+    case .nonSelected:
+      [titleLabel, descriptionLabel, settingButton].forEach { addSubview($0) }
+      titleLabel.snp.makeConstraints {
+        $0.top.left.equalToSuperview()
+      }
+      
+      settingButton.snp.makeConstraints {
+        $0.right.equalToSuperview()
+        $0.centerY.equalTo(titleLabel)
+      }
+      
+      descriptionLabel.snp.makeConstraints {
+        $0.left.equalToSuperview()
+        $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+        $0.right.lessThanOrEqualToSuperview()
+      }
+    }
   }
 }
 
