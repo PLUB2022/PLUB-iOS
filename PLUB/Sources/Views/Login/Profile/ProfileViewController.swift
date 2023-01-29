@@ -128,7 +128,8 @@ final class ProfileViewController: BaseViewController {
     super.setupConstraints()
     
     wholeStackView.snp.makeConstraints {
-      $0.top.horizontalEdges.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
     }
     
     uploadImageButton.snp.makeConstraints {

@@ -34,8 +34,8 @@ final class SignUpViewController: BaseViewController {
     didSet {
       view.endEditing(true)
       pageControl.currentPage = currentPage
-      titleLabel.text = viewModel.titles[currentPage]
-      subtitleLabel.text = viewModel.subtitles[currentPage]
+      updateTitles(index: currentPage)
+      setRightNavigationItem(index: currentPage)
     }
   }
   
@@ -74,14 +74,14 @@ final class SignUpViewController: BaseViewController {
   private lazy var titleLabel = UILabel().then {
     $0.textColor = .black
     $0.numberOfLines = 0
-    $0.text = viewModel.titles[currentPage]
+    $0.attributedText = viewModel.titles[currentPage]
     $0.font = .h4
   }
   
   private lazy var subtitleLabel = UILabel().then {
     $0.textColor = .black
     $0.numberOfLines = 0
-    $0.text = viewModel.subtitles[currentPage]
+    $0.attributedText = viewModel.subtitles[currentPage]
     $0.font = .body2
   }
   
@@ -239,16 +239,55 @@ final class SignUpViewController: BaseViewController {
     let offset: CGPoint = CGPoint(x: view.frame.width * CGFloat(index), y: 0)
     scrollView.setContentOffset(offset, animated: true)
   }
+  
+  private func updateTitles(index: Int) {
+    titleLabel.attributedText = viewModel.titles[index]
+    subtitleLabel.attributedText = viewModel.subtitles[index]
+  }
+  
+  private func setRightNavigationItem(index: Int) {
+    // 마지막 페이지가 아닌 경우 right button item 없앰
+    if index + 1 != viewControllers.count {
+      navigationItem.rightBarButtonItem = UIBarButtonItem()
+      return
+    }
+    // `다음에 하기` 버튼 생성
+    let button = UIButton().then {
+      $0.setTitle("다음에 하기", for: .normal)
+      $0.setTitleColor(.deepGray, for: .normal)
+      $0.titleLabel?.font = .body1
+      // action으로 회원가입 파트 바로 진행
+      $0.addAction(UIAction { [weak self] _ in
+        guard let self else { return }
+        self.viewModel.signUp()
+          .subscribe(onNext: { succeed in
+            if succeed {
+              self.navigationController?.setViewControllers([HomeViewController(viewModel: HomeViewModel())], animated: true)
+            } else {
+              print("회원가입 실패")
+            }
+          })
+          .disposed(by: self.disposeBag)
+      }, for: .touchUpInside)
+    }
+    
+    // 버튼 등록
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+  }
 }
 
 // MARK: - Keyboard
 
 extension SignUpViewController {
   func registerKeyboardNotification() {
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
-                                             name: UIResponder.keyboardWillShowNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
-                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification, object: nil
+    )
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillHide(_:)),
+      name: UIResponder.keyboardWillHideNotification, object: nil
+    )
   }
   
   func removeKeyboardNotification() {
