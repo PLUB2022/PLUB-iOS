@@ -69,12 +69,13 @@ class ApplyQuestionViewController: BaseViewController {
     super.setupConstraints()
     
     questionHeaderView.snp.makeConstraints {
-      $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
-      $0.height.equalTo(120)
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(Device.navigationBarHeight)
+      $0.left.right.equalTo(view.safeAreaLayoutGuide)
+      $0.height.lessThanOrEqualTo(120)
     }
     
     questionTableView.snp.makeConstraints {
-      $0.top.equalTo(questionHeaderView.snp.bottom)
+      $0.top.equalTo(questionHeaderView.snp.bottom).offset(37.5)
       $0.left.right.bottom.equalToSuperview()
     }
     
@@ -95,8 +96,12 @@ class ApplyQuestionViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isActivated
-      .do(onNext: {print("isActive = \($0)")})
       .drive(rx.isActive)
+      .disposed(by: disposeBag)
+    
+    applyButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in HomeAlert.shared.showAlert(on: owner)})
       .disposed(by: disposeBag)
     
     questionTableView.rx.setDelegate(self).disposed(by: disposeBag)
