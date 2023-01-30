@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
-  let plubbingID: Int
+  let plubbingID: String
   let name: String
   let title: String
   let mainImage: String?
@@ -30,7 +30,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   weak var delegate: SelectedCategoryChartCollectionViewCellDelegate?
   
   private var disposeBag = DisposeBag()
-  private var plubbingID: Int?
+  private var plubbingID: String?
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle

@@ -78,7 +78,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.backgroundColor = .clear
   }
   
-  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: Int) {
+  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: String) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
@@ -140,7 +140,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     )
   }
   
-  func bind(plubbingID: Int) {
+  func bind(plubbingID: String) {
     super.bind()
     viewModel.selectPlubbingID.onNext(plubbingID)
     
