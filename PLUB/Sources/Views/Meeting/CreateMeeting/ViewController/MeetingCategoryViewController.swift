@@ -72,18 +72,18 @@ final class MeetingCategoryViewController: BaseViewController {
   }
   
   override func bind() {
-    viewModel.fetchedRegisterInterest
+    viewModel.fetchData
       .drive(rx.registerInterestModels)
       .disposed(by: disposeBag)
     
-    viewModel.selectingDetailCellCount
+    viewModel.selectedSubCategoriesCount.asObservable()
       .withUnretained(self)
       .subscribe(onNext: { owner, count in
         owner.categoryHeaderView.updateSelectedCount(count: count)
       })
       .disposed(by: disposeBag)
     
-    viewModel.isEnabledFloatingButton.asObservable()
+    viewModel.isButtonEnabled.asObservable()
       .withUnretained(self)
       .subscribe(onNext: { owner, isEnabled in
         owner.delegate?.checkValidation(
@@ -150,8 +150,9 @@ extension MeetingCategoryViewController: UITableViewDelegate, UITableViewDataSou
 extension MeetingCategoryViewController: RegisterInterestDetailTableViewCellDelegate {
   func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell, mainIndexPath: IndexPath, subIndexPath: IndexPath) {
     registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].isSelected.toggle()
+    let id = registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].id
     cell.isTapped.toggle()
-    cell.isTapped ? viewModel.selectDetailCell.onNext(()) : viewModel.deselectDetailCell.onNext(())
+    cell.isTapped ? viewModel.selectSubCategory.onNext(id) : viewModel.deselectSubCategory.onNext(id)
   }
 }
 

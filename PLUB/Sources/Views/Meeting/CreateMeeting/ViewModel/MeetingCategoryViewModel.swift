@@ -8,51 +8,77 @@
 import RxSwift
 import RxCocoa
 
-final class MeetingCategoryViewModel: RegisterInterestViewModelType {
-  private let disposeBag = DisposeBag()
-
+final class MeetingCategoryViewModel {
+  
   // Input
-  var selectDetailCell: AnyObserver<Void>
-  var deselectDetailCell: AnyObserver<Void>
+  let selectSubCategory: AnyObserver<Int>   // 선택된 카테고리의 id
+  let deselectSubCategory: AnyObserver<Int> // 취소한 카테고리의 id
   
   // Output
-  var fetchedRegisterInterest: Driver<[RegisterInterestModel]>
-  let selectingDetailCellCount = BehaviorSubject<Int>(value: 0)
-  var isEnabledFloatingButton: Driver<Bool> // 하나의 셀이라도 눌렸는지에 대한 값 방출
+  let fetchData: Driver<[RegisterInterestModel]>  // tableView data fetch
+  let selectedSubCategories: Driver<[Int]>        // 선택된 카테고리의 id 배열
+  let isButtonEnabled: Driver<Bool>               // 버튼 활성화 여부
+  let selectedSubCategoriesCount: Driver<Int>     // 선택된 카테고리 개수
+  
+  /// fetch한 카테고리 데이터
+  private let fetchedCategoriesRelay = BehaviorRelay<[RegisterInterestModel]>(value: [])
+  
+  /// 선택된 카테고리의 `Subject`
+  private let selectSubject = PublishSubject<Int>()
+  
+  /// 취소된 카테고리의 `Subject`
+  private let deselectSubject = PublishSubject<Int>()
+  
+  /// 선택된 카테고리들의 `Relay`
+  private let selectedSubCategoriesRelay = BehaviorRelay<[Int]>(value: [])
+  
+  /// 선택된 카테고리 개수의 `Relay`
+  private let selectedSubCategoriesCountRelay = BehaviorRelay<Int>(value: 0)
+  
+  private let disposeBag = DisposeBag()
   
   init() {
-    let fetchingRegisterInterest = BehaviorSubject<[RegisterInterestModel]>(value: [])
-    let selectingDetailCell = PublishSubject<Void>()
-    let deselectingDetailCell = PublishSubject<Void>()
-    self.fetchedRegisterInterest = fetchingRegisterInterest.asDriver(onErrorDriveWith: .empty())
-    self.selectDetailCell = selectingDetailCell.asObserver()
-    self.deselectDetailCell = deselectingDetailCell.asObserver()
+    fetchData = fetchedCategoriesRelay.asDriver()
+    selectSubCategory = selectSubject.asObserver()
+    deselectSubCategory = deselectSubject.asObserver()
+   
+    selectedSubCategories = selectedSubCategoriesRelay.asDriver()
+    selectedSubCategoriesCount = selectedSubCategoriesCountRelay.asDriver()
     
-    let inquireAllCategoryList = CategoryService.shared.inquireAll().share()
-    let successFetching = inquireAllCategoryList.map { result -> [Category]? in
-      guard case .success(let allCategoryResponse) = result else { return nil }
-      return allCategoryResponse.data?.categories
-    }
+    isButtonEnabled = selectedSubCategoriesRelay
+      .map { $0.count != 0 }
+      .asDriver(onErrorJustReturn: false)
     
-    successFetching.subscribe(onNext: { categories in
-      guard let categories = categories else { return }
-      let models = categories.map { category in
-        return RegisterInterestModel(category: category)
+    bind()
+  }
+  
+  private func bind() {
+    CategoryService.shared.inquireAll()
+      .compactMap { result -> [Category]? in
+        guard case let .success(allCategoryResponse) = result else { return nil }
+        return allCategoryResponse.data?.categories
       }
-      fetchingRegisterInterest.onNext(models)
-    })
-    .disposed(by: disposeBag)
-    
-    selectingDetailCell.withLatestFrom(selectingDetailCellCount)
-      .map{ $0 + 1 }
-      .subscribe(onNext: selectingDetailCellCount.onNext(_:))
+      .map { return $0.map { RegisterInterestModel(category: $0) } }
+      .bind(to: fetchedCategoriesRelay)
       .disposed(by: disposeBag)
     
-    deselectingDetailCell.withLatestFrom(selectingDetailCellCount)
-      .map{ $0 - 1 }
-      .subscribe(onNext: selectingDetailCellCount.onNext(_:))
+    selectSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, value in
+        var array = owner.selectedSubCategoriesRelay.value
+        array.append(value)
+        owner.selectedSubCategoriesRelay.accept(array) // 선택된 카테고리 업데이트
+        owner.selectedSubCategoriesCountRelay.accept(array.count) // 선택된 카테고리 개수 업데이트
+      })
       .disposed(by: disposeBag)
     
-    isEnabledFloatingButton = selectingDetailCellCount.map{ $0 != 0 }.asDriver(onErrorJustReturn: false)
+    deselectSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, value in
+        let array = owner.selectedSubCategoriesRelay.value.filter { $0 != value }
+        owner.selectedSubCategoriesRelay.accept(array) // 선택된 카테고리 업데이트
+        owner.selectedSubCategoriesCountRelay.accept(array.count) // 선택된 카테고리 개수
+      })
+      .disposed(by: disposeBag)
   }
 }
