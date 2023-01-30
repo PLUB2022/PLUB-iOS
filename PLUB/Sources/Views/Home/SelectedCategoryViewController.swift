@@ -78,16 +78,11 @@ class SelectedCategoryViewController: BaseViewController {
   }
   
   func bind(categoryID: String) {
-    
     viewModel.selectCategoryID.onNext(categoryID)
     
-    viewModel.updatedCellData.asObservable()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, model in
-        owner.model = model
-      })
+    viewModel.updatedCellData
+      .drive(rx.model)
       .disposed(by: disposeBag)
-    
   }
   
   @objc private func didTappedBackButton() {
