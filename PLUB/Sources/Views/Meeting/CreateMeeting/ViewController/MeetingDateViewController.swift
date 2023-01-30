@@ -63,7 +63,7 @@ final class MeetingDateViewController: BaseViewController {
   }
   
   private let timeTitlelabel = UILabel().then {
-    $0.text = "생년월일"
+    $0.text = "몇시에 만나요?"
     $0.font = .subtitle
     $0.textColor = .black
   }
@@ -71,7 +71,7 @@ final class MeetingDateViewController: BaseViewController {
   private let timeControl = TimeControl()
 
   private let locationTitlelabel = UILabel().then {
-    $0.text = "생년월일"
+    $0.text = "온/오프라인"
     $0.font = .subtitle
     $0.textColor = .black
   }
@@ -213,7 +213,7 @@ final class MeetingDateViewController: BaseViewController {
     timeControl.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        let vc = DateBottomSheetViewController(type: .time, buttonTitle: "생일 입력 완료")
+        let vc = DateBottomSheetViewController(type: .time, buttonTitle: "시간 입력 완료")
         vc.modalPresentationStyle = .overFullScreen
         vc.delegate = owner
         owner.parent?.present(vc, animated: false)
