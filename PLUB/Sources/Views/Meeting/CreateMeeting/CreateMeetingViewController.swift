@@ -149,7 +149,7 @@ final class CreateMeetingViewController: BaseViewController {
     }
     
     scrollView.snp.makeConstraints {
-      $0.top.equalTo(pageControl.snp.bottom).offset(24)
+      $0.top.equalTo(pageControl.snp.bottom)
       $0.leading.trailing.bottom.equalToSuperview()
     }
     

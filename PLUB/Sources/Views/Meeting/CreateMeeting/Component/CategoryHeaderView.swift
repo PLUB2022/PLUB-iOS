@@ -69,12 +69,12 @@ private extension CategoryHeaderView {
   
   func setupConstraints() {
     titleLabel.snp.makeConstraints {
-      $0.top.equalToSuperview()
+      $0.top.equalToSuperview().inset(24)
       $0.leading.equalToSuperview().inset(16)
     }
     
     countStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(3)
+      $0.top.equalToSuperview().inset(24 + 3)
       $0.trailing.equalToSuperview().inset(16)
       $0.width.equalTo(54)
     }
