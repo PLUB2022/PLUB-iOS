@@ -15,7 +15,11 @@ class ApplyQuestionViewController: BaseViewController {
   
   private let viewModel: ApplyQuestionViewModelType
   
-  private var models: [ApplyQuestionTableViewCellModel] = []
+  private var models: [ApplyQuestionTableViewCellModel] = [] {
+    didSet {
+      questionTableView.reloadData()
+    }
+  }
   
   private var isActive: Bool = false {
     didSet {
@@ -89,9 +93,13 @@ class ApplyQuestionViewController: BaseViewController {
   
   func bind(plubbingID: String) {
     super.bind()
+    
+    viewModel.whichRecruitment.onNext(plubbingID)
+    
     viewModel.allQuestion.asObservable()
       .withUnretained(self)
       .subscribe(onNext: { owner, questions in
+        print("질문 = \(questions)")
         owner.models = questions
       })
       .disposed(by: disposeBag)
