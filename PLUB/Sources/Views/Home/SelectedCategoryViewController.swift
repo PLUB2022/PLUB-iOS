@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -19,7 +20,11 @@ class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   
-  private var selectedCategoryCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
+  private var model: [SelectedCategoryCollectionViewCellModel] = [] {
+    didSet {
+      interestListCollectionView.reloadData()
+    }
+  }
   
   private var selectedCategoryType: SelectedCategoryType = .chart
   
@@ -34,7 +39,7 @@ class SelectedCategoryViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
   }
- 
+  
   init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryID: String) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -76,12 +81,13 @@ class SelectedCategoryViewController: BaseViewController {
     
     viewModel.selectCategoryID.onNext(categoryID)
     
-    viewModel.createSelectedCategoryChartCollectionViewCellModels()
+    viewModel.updatedCellData.asObservable()
       .withUnretained(self)
-      .subscribe(onNext: { owner, selectedCategoryChartCollectionViewCellModels in
-        owner.selectedCategoryCollectionViewCellModels = selectedCategoryChartCollectionViewCellModels
+      .subscribe(onNext: { owner, model in
+        owner.model = model
       })
       .disposed(by: disposeBag)
+    
   }
   
   @objc private func didTappedBackButton() {
@@ -95,18 +101,18 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return selectedCategoryCollectionViewCellModels.count
+    return model.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     switch selectedCategoryType {
     case .chart:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-      cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
+      cell.configureUI(with: model[indexPath.row])
       return cell
     case .grid:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
-      cell.configureUI(with: selectedCategoryCollectionViewCellModels[indexPath.row])
+      cell.configureUI(with: model[indexPath.row])
       return cell
     }
   }
@@ -142,7 +148,7 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = DetailRecruitmentViewController(plubbingID: selectedCategoryCollectionViewCellModels[indexPath.row].plubbingID)
+    let vc = DetailRecruitmentViewController(plubbingID: model[indexPath.row].plubbingID)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
