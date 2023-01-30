@@ -15,9 +15,6 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   
   static let identifier = "\(PolicyHeaderTableViewCell.self)"
   
-  /// Disclosure Indicator의 애니메이션 flag
-  private var indicatorFlag = false
-  
   var disposeBag = DisposeBag()
   
   private let disclosureIndicator: UIImageView = UIImageView().then {
@@ -84,11 +81,11 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
   }
   
   /// 화살표 인디케이터에 아래쪽, 위쪽 방향 애니메이션을 적용합니다.
-  private func updateIndicators() {
-    indicatorFlag.toggle() // toggle flag
+  /// - Parameter flag: Disclosure Indicator의 애니메이션 flag
+  private func updateIndicators(flag: Bool) {
     UIView.animate(withDuration: 0.3) {
       let upsideDown = CGAffineTransform(rotationAngle: .pi * 0.9999)
-      self.disclosureIndicator.transform = self.indicatorFlag ? upsideDown : .identity
+      self.disclosureIndicator.transform = flag ? upsideDown : .identity
     }
   }
   
@@ -98,15 +95,9 @@ final class PolicyHeaderTableViewCell: UITableViewCell {
     disposeBag = DisposeBag()
   }
   
-  func configure(with policy: String) {
+  func configure(with policy: String, isExpandable: Bool) {
     policyLabel.text = policy
-  }
-  
-  override func setSelected(_ selected: Bool, animated: Bool) {
-    super.setSelected(false, animated: animated)
-    if selected {
-      updateIndicators()
-      seperatorLineView.isHidden.toggle()
-    }
+    updateIndicators(flag: isExpandable)
+    seperatorLineView.isHidden = isExpandable // 확장될 시 구분선 제거
   }
 }
