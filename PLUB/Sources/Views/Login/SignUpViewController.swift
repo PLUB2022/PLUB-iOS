@@ -297,20 +297,28 @@ extension SignUpViewController {
   @objc
   func keyboardWillShow(_ sender: Notification) {
     if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-      let keyboardHeight: CGFloat = keyboardSize.height
-      nextButton.snp.updateConstraints {
-        $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(keyboardHeight + 4)
+      let keyboardHeight = keyboardSize.height
+      
+      UIView.animate(withDuration: 1) {
+        if self.currentPage == 2 { // Profile VC가 보이는 경우에만 처리
+          self.view.frame.origin.y -= keyboardHeight
+        } else {
+          self.nextButton.snp.updateConstraints {
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(keyboardHeight + 4)
+          }
+        }
       }
-      view.layoutIfNeeded()
     }
   }
   
   @objc
   func keyboardWillHide(_ sender: Notification) {
-    nextButton.snp.updateConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
+    self.nextButton.snp.updateConstraints {
+      $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(4)
     }
-    view.layoutIfNeeded()
+    UIView.animate(withDuration: 1) {
+      self.view.frame.origin.y = 0
+    }
   }
 }
 
@@ -319,12 +327,11 @@ extension SignUpViewController {
 extension SignUpViewController: UIScrollViewDelegate {
   
   func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-    // 스와이프로 페이지 이동했을 때 보이는 페이지 index를 세팅
-    if velocity.x > 0 { // move right
-      currentPage = lastPageIndex == currentPage ? lastPageIndex : currentPage + 1
-    } else if velocity.x < 0 { // move left
-      currentPage = currentPage == 0 ? 0 : currentPage - 1
-    }
+    
+    // 현재 보여지고 있는 페이지의 x값을 scrollView의 width로 나누면 현재 보여지는 페이지의 인덱스가 도출됨
+    // 만약 scrollView의 width가 375라면, 첫 번째 페이지 pointee.x는 0이고, 두 번째는 375.0이 되는 방식이기 때문
+    let index = Int(targetContentOffset.pointee.x / scrollView.bounds.width)
+    currentPage = index
   }
 }
 
