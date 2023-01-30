@@ -22,9 +22,14 @@ final class MeetingCategoryViewController: BaseViewController {
     }
   }
   
+  private lazy var categoryHeaderView = CategoryHeaderView()
+  
   private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
     $0.separatorStyle = .none
     $0.backgroundColor = .secondarySystemBackground
+    $0.tableHeaderView = categoryHeaderView
+    $0.tableHeaderView?.frame.size.height = 90
+    $0.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 56))
     $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.sectionFooterHeight = .leastNonzeroMagnitude
     $0.showsVerticalScrollIndicator = false

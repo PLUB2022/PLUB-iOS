@@ -164,6 +164,7 @@
 		C38A5BA5297B234100485355 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA4297B234100485355 /* LocationTableViewCell.swift */; };
 		C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA6297C549A00485355 /* LocationBaseView.swift */; };
 		C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA8297C60A000485355 /* Ex+UILabel.swift */; };
+		C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D65612987F0990052013F /* CategoryHeaderView.swift */; };
 		C3AB743D296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift */; };
 		C3AB743F296B21C1003DD5E2 /* MeetingDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743E296B21C1003DD5E2 /* MeetingDateViewController.swift */; };
 		C3AB7441296B21E6003DD5E2 /* MeetingQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB7440296B21E6003DD5E2 /* MeetingQuestionViewController.swift */; };
@@ -332,6 +333,7 @@
 		C38A5BA4297B234100485355 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		C38A5BA6297C549A00485355 /* LocationBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationBaseView.swift; sourceTree = "<group>"; };
 		C38A5BA8297C60A000485355 /* Ex+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UILabel.swift"; sourceTree = "<group>"; };
+		C38D65612987F0990052013F /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewController.swift; sourceTree = "<group>"; };
 		C3AB743E296B21C1003DD5E2 /* MeetingDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDateViewController.swift; sourceTree = "<group>"; };
 		C3AB7440296B21E6003DD5E2 /* MeetingQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingQuestionViewController.swift; sourceTree = "<group>"; };
@@ -882,6 +884,7 @@
 				C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */,
 				C3FC1814298509C50083039A /* QuestionDeleteBottomSheetViewController.swift */,
 				C3FC181629852D370083039A /* QuestionHeaderView.swift */,
+				C38D65612987F0990052013F /* CategoryHeaderView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1144,6 +1147,7 @@
 				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
 				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
+				C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
 				70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */,
