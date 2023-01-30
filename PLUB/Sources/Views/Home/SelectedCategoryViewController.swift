@@ -19,8 +19,6 @@ class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   
-  private let categoryID: String
-  
   private var selectedCategoryCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = []
   
   private var selectedCategoryType: SelectedCategoryType = .chart
@@ -39,8 +37,8 @@ class SelectedCategoryViewController: BaseViewController {
  
   init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryID: String) {
     self.viewModel = viewModel
-    self.categoryID = categoryID // 카테고리별 모임 조회 API에 사용될 categoryId
     super.init(nibName: nil, bundle: nil)
+    bind(categoryID: categoryID)
   }
   
   required init?(coder: NSCoder) {
@@ -74,7 +72,10 @@ class SelectedCategoryViewController: BaseViewController {
     }
   }
   
-  override func bind() {
+  func bind(categoryID: String) {
+    
+    viewModel.selectCategoryID.onNext(categoryID)
+    
     viewModel.createSelectedCategoryChartCollectionViewCellModels()
       .withUnretained(self)
       .subscribe(onNext: { owner, selectedCategoryChartCollectionViewCellModels in

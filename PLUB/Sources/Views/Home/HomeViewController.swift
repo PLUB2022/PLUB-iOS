@@ -306,7 +306,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     let homeSection = HomeSectionType.allCases[indexPath.section]
     switch homeSection {
     case .mainCategoryList:
-      let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel(), categoryID: "")
+      let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel(), categoryID: "\(mainCategoryList[indexPath.row].id)")
       vc.title = mainCategoryList[indexPath.row].name
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
