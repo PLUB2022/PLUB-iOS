@@ -36,9 +36,10 @@ class ApplyQuestionViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "지원하기")
   }
   
-  init(viewModel: ApplyQuestionViewModelType) {
+  init(viewModel: ApplyQuestionViewModelType = ApplyQuestionViewModel(), plubbingID: String) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
@@ -86,7 +87,7 @@ class ApplyQuestionViewController: BaseViewController {
     }
   }
   
-  override func bind() {
+  func bind(plubbingID: String) {
     super.bind()
     viewModel.allQuestion.asObservable()
       .withUnretained(self)

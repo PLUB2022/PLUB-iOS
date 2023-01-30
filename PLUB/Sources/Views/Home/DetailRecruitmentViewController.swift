@@ -178,7 +178,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     
     applyButton.rx.tap
       .subscribe(onNext: { _ in
-        let vc = ApplyQuestionViewController(viewModel: ApplyQuestionViewModel())
+        let vc = ApplyQuestionViewController(plubbingID: plubbingID)
         vc.navigationItem.largeTitleDisplayMode = .never
         self.navigationController?.pushViewController(vc, animated: true)
       })
