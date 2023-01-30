@@ -43,7 +43,6 @@ final class CreateMeetingViewController: BaseViewController {
   
   private lazy var scrollView = UIScrollView().then {
     $0.bounces = false
-    $0.contentInsetAdjustmentBehavior = .never
     $0.isPagingEnabled = true
     $0.contentSize.width = Device.width
     $0.showsHorizontalScrollIndicator = false
