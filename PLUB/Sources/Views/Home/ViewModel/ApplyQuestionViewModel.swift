@@ -64,12 +64,12 @@ class ApplyQuestionViewModel: ApplyQuestionViewModelType {
       .disposed(by: disposeBag)
     
     entireQuestionStatus
-          .distinctUntilChanged()
-          .subscribe(onNext: { current in
-            let isAllChecked = current.filter{ $0.isFilled == false }.count == 0
-            isActivating.onNext(isAllChecked)
-          })
-          .disposed(by: disposeBag)
+      .distinctUntilChanged()
+      .subscribe(onNext: { current in
+        let isAllChecked = current.filter{ $0.isFilled == false }.count == 0
+        isActivating.onNext(isAllChecked)
+      })
+      .disposed(by: disposeBag)
     
     let fetchingQuestions = currentPlubbing
       .flatMapLatest(RecruitmentService.shared.inquireRecruitmentQuestion(plubbingID: ))
@@ -87,13 +87,6 @@ class ApplyQuestionViewModel: ApplyQuestionViewModelType {
     }
     .bind(to: questions)
     .disposed(by: disposeBag)
-    
-    
-//    questions.onNext([
-//      .init(id: 1,question: "1. 지원 동기가 궁금해요!"),
-//      .init(id: 2,question: "2. 당신의 실력은 어느정도?!"),
-//      .init(id: 3,question: "3. 간단한 자기소개! ")
-//    ])
   }
 }
 
