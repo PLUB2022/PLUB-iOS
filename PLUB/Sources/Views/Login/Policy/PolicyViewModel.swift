@@ -75,12 +75,52 @@ extension PolicyViewModel {
 
 extension PolicyViewModel {
   
+  /// 셀의 정보를 주입 및 업데이트 합니다. 셀이 reconfigure되거나 reload, init될 때 불려집니다.
+  /// - Parameters:
+  ///   - cell: UITableViewCell
+  ///   - indexPath: indexPath
+  ///   - model: Item타입의 모델
+  func configure(cell: UITableViewCell, indexPath: IndexPath, model: Item) {
+    
+    // MARK: body cell 처리
+    if let bodyCell = cell as? PolicyBodyTableViewCell {
+      // body는 무조건 url이 들어가 있음
+      guard let url = model.url else { return }
+      bodyCell.configure(with: url)
+      return // body cell 적용 후 빠른 리턴
+    }
+    
+    // MARK: header cell 처리
+    guard let headerCell = cell as? PolicyHeaderTableViewCell,
+          let policy = model.policy else {
+      return
+    }
+    // header cell에 약관 데이터 주입
+    headerCell.configure(with: policy)
+    
+    // 셀의 체크박스가 탭되면, viewModel의 check list 업데이트
+    headerCell.checkbox.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        var transformedValue = owner.buttonCheckedRelay.value
+        transformedValue[indexPath.section] = headerCell.checkbox.isChecked
+        owner.buttonCheckedRelay.accept(transformedValue)
+      })
+      .disposed(by: headerCell.disposeBag) // disposeBag을 cell에게 위임 -> cell 재사용될 시 dispose
+    
+    // check list가 바뀌면 버튼 ui도 바뀌도록 바인딩 처리 진행
+    self.buttonCheckedRelay
+      .map { $0[indexPath.section] }
+      .bind(to: headerCell.checkbox.rx.isChecked)
+      .disposed(by: headerCell.disposeBag) // disposeBag을 cell에게 위임 -> cell 재사용 시 dispose
+  }
+  
   // MARK: DataSource
   
   /// tableView를 세팅하며, `DiffableDataSource`를 초기화하여 해당 tableView에 데이터를 지닌 셀을 처리합니다.
   /// - Parameter tableView: 보여질 tableView
   func setTableView(_ tableView: UITableView) {
-    dataSource = DataSource(tableView: tableView) { tableView, indexPath, model in
+    dataSource = DataSource(tableView: tableView) { [weak self] tableView, indexPath, model in
       let identifier: String
       switch model.type {
       case .header:
@@ -90,29 +130,7 @@ extension PolicyViewModel {
       }
       
       let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
-      
-      if let cellConfigurable = cell as? PolicyConfigurable {
-        cellConfigurable.configure(with: model)
-      }
-      
-      if let headerCell = cell as? PolicyHeaderTableViewCell {
-        
-        // 셀의 체크박스가 탭되면, viewModel의 check list 업데이트
-        headerCell.checkbox.rx.tap
-          .withUnretained(self)
-          .subscribe(onNext: { owner, _ in
-            var transformedValue = owner.buttonCheckedRelay.value
-            transformedValue[indexPath.section] = headerCell.checkbox.isChecked
-            owner.buttonCheckedRelay.accept(transformedValue)
-          })
-          .disposed(by: headerCell.disposeBag) // disposeBag을 cell에게 위임 -> cell 재사용될 시 dispose
-        
-        // check list가 바뀌면 버튼 ui도 바뀌도록 바인딩 처리 진행
-        self.buttonCheckedRelay
-          .map { $0[indexPath.section] }
-          .bind(to: headerCell.checkbox.rx.isChecked)
-          .disposed(by: headerCell.disposeBag) // disposeBag을 cell에게 위임 -> cell 재사용 시 dispose
-      }
+      self?.configure(cell: cell, indexPath: indexPath, model: model)
       
       return cell
     }
