@@ -106,7 +106,7 @@ class ApplyQuestionViewController: BaseViewController {
     
     applyButton.rx.tap
       .withUnretained(self)
-      .subscribe(onNext: { owner, _ in HomeAlert.shared.showAlert(on: owner)})
+      .subscribe(onNext: { owner, _ in HomeAlert.shared.showAlert()})
       .disposed(by: disposeBag)
     
     questionTableView.rx.setDelegate(self).disposed(by: disposeBag)

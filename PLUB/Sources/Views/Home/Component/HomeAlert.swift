@@ -77,10 +77,14 @@ class HomeAlert {
     backButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
   }
   
-  public func showAlert(on viewController: UIViewController) {
-    guard let targetView = viewController.view else { return }
+  public func showAlert() {
+    guard let keyWindow = UIApplication.shared.connectedScenes
+      .filter({$0.activationState == .foregroundActive})
+      .compactMap({$0 as? UIWindowScene})
+      .first?.windows
+      .filter({$0.isKeyWindow}).first else { return }
     
-    [backgroundView, alertView].forEach { targetView.addSubview($0) }
+    [backgroundView, alertView].forEach { keyWindow.addSubview($0) }
     [backButton, stackView].forEach { alertView.addSubview($0) }
     
     backgroundView.alpha = Constants.backgroundAlphaTo
@@ -107,11 +111,14 @@ class HomeAlert {
     applyImageView.snp.makeConstraints {
       $0.width.height.equalTo(224)
     }
-
+    
     subLabel.snp.makeConstraints {
       $0.top.equalTo(mainLabel.snp.bottom)
       $0.height.equalTo(36)
     }
+    
+    
+    
   }
   
   @objc private func dismissAlert() {

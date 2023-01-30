@@ -38,6 +38,7 @@
 		70A42090298551850026E9F9 /* SearchRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */; };
 		70A42094298590B30026E9F9 /* InquireInterestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A42093298590B30026E9F9 /* InquireInterestResponse.swift */; };
 		70A42098298682080026E9F9 /* RequestBookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A42097298682080026E9F9 /* RequestBookmarkResponse.swift */; };
+		70A4209A2987FD220026E9F9 /* Ex+UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420992987FD220026E9F9 /* Ex+UIWindow.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
 		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
@@ -211,6 +212,7 @@
 		70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70A42093298590B30026E9F9 /* InquireInterestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireInterestResponse.swift; sourceTree = "<group>"; };
 		70A42097298682080026E9F9 /* RequestBookmarkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookmarkResponse.swift; sourceTree = "<group>"; };
+		70A420992987FD220026E9F9 /* Ex+UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIWindow.swift"; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 				C36D337C2975ADD800943B11 /* Ex+CALayer.swift */,
 				C38A5BA8297C60A000485355 /* Ex+UILabel.swift */,
 				70A4207F2982ED9C0026E9F9 /* Ex+String.swift */,
+				70A420992987FD220026E9F9 /* Ex+UIWindow.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1084,6 +1087,7 @@
 				BA780E0D297133F80032C178 /* Router.swift in Sources */,
 				BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */,
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
+				70A4209A2987FD220026E9F9 /* Ex+UIWindow.swift in Sources */,
 				C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */,
 				70A42090298551850026E9F9 /* SearchRecruitmentResponse.swift in Sources */,
 				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
