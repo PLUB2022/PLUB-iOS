@@ -17,11 +17,11 @@ final class MeetingCategoryViewModel: RegisterInterestViewModelType {
   
   // Output
   var fetchedRegisterInterest: Driver<[RegisterInterestModel]>
+  let selectingDetailCellCount = BehaviorSubject<Int>(value: 0)
   var isEnabledFloatingButton: Driver<Bool> // 하나의 셀이라도 눌렸는지에 대한 값 방출
   
   init() {
     let fetchingRegisterInterest = BehaviorSubject<[RegisterInterestModel]>(value: [])
-    let selectingDetailCellCount = BehaviorSubject<Int>(value: 0)
     let selectingDetailCell = PublishSubject<Void>()
     let deselectingDetailCell = PublishSubject<Void>()
     self.fetchedRegisterInterest = fetchingRegisterInterest.asDriver(onErrorDriveWith: .empty())

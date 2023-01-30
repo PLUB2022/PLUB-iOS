@@ -26,6 +26,7 @@ final class CategoryHeaderView: UIView {
   private let countStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 2
+    $0.alignment = .center
   }
   
   private let countLabel = UILabel().then {
@@ -74,7 +75,8 @@ private extension CategoryHeaderView {
     
     countStackView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(3)
-      $0.trailing.equalToSuperview().inset(24)
+      $0.trailing.equalToSuperview().inset(16)
+      $0.width.equalTo(54)
     }
     
     countLabel.snp.makeConstraints {

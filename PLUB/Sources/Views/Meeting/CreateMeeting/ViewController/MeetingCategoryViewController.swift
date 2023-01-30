@@ -76,12 +76,20 @@ final class MeetingCategoryViewController: BaseViewController {
       .drive(rx.registerInterestModels)
       .disposed(by: disposeBag)
     
+    viewModel.selectingDetailCellCount
+      .withUnretained(self)
+      .subscribe(onNext: { owner, count in
+        owner.categoryHeaderView.updateSelectedCount(count: count)
+      })
+      .disposed(by: disposeBag)
+    
     viewModel.isEnabledFloatingButton.asObservable()
       .withUnretained(self)
       .subscribe(onNext: { owner, isEnabled in
-//        owner.floatingButton.isEnabled = isEnabled
-//        owner.floatingButton.backgroundColor = isEnabled ? .main : .lightGray
-//        owner.floatingButton.setTitleColor(isEnabled ? .white : .darkGray, for: .normal)
+        owner.delegate?.checkValidation(
+          index: owner.childIndex,
+          state: isEnabled
+        )
       })
       .disposed(by: disposeBag)
     
