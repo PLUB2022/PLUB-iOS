@@ -29,6 +29,19 @@ final class CategoryHeaderView: UIView {
     $0.alignment = .center
   }
   
+  private let polygonImageView = UIImageView().then {
+    $0.image = UIImage(named: "polygonWhite")
+  }
+  
+  private let limitLabel = PaddingLabel(withInsets: 2, 2, 8, 8).then {
+    $0.text = "5개까지 선택할 수 있어요!"
+    $0.textColor = .black
+    $0.font = .overLine
+    $0.clipsToBounds = true
+    $0.layer.cornerRadius = 10
+    $0.backgroundColor = .white
+  }
+  
   private let countLabel = UILabel().then {
     $0.text = "0개"
     $0.textColor = .mediumGray
@@ -58,7 +71,7 @@ final class CategoryHeaderView: UIView {
 
 private extension CategoryHeaderView {
   func setupLayouts() {
-    [titleLabel, countStackView].forEach {
+    [titleLabel, limitLabel, polygonImageView, countStackView].forEach {
       addSubview($0)
     }
     
@@ -73,10 +86,22 @@ private extension CategoryHeaderView {
       $0.leading.equalToSuperview().inset(16)
     }
     
+    limitLabel.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.trailing.equalToSuperview().inset(16)
+      $0.height.equalTo(17)
+    }
+    
     countStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(24 + 3)
+      $0.top.equalTo(limitLabel.snp.bottom).offset(3)
       $0.trailing.equalToSuperview().inset(16)
       $0.width.equalTo(54)
+    }
+    
+    polygonImageView.snp.makeConstraints {
+      $0.size.equalTo(8)
+      $0.centerX.equalTo(countStackView.snp.centerX)
+      $0.top.equalTo(limitLabel.snp.bottom).offset(-4)
     }
     
     countLabel.snp.makeConstraints {
