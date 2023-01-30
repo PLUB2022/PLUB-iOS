@@ -83,10 +83,6 @@ class HomeAlert {
     [backgroundView, alertView].forEach { targetView.addSubview($0) }
     [backButton, stackView].forEach { alertView.addSubview($0) }
     
-    defer {
-      targetView.bringSubviewToFront(alertView)
-    }
-    
     backgroundView.alpha = Constants.backgroundAlphaTo
     backgroundView.snp.makeConstraints {
       $0.edges.equalToSuperview()

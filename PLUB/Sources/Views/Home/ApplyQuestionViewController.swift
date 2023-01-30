@@ -96,12 +96,8 @@ class ApplyQuestionViewController: BaseViewController {
     
     viewModel.whichRecruitment.onNext(plubbingID)
     
-    viewModel.allQuestion.asObservable()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, questions in
-        print("질문 = \(questions)")
-        owner.models = questions
-      })
+    viewModel.allQuestion
+      .drive(rx.models)
       .disposed(by: disposeBag)
     
     viewModel.isActivated
