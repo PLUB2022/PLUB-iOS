@@ -20,25 +20,26 @@ final class ProfileViewController: BaseViewController {
   
   private let viewModel = ProfileViewModel()
   
-  private let wholeStackView: UIStackView = UIStackView().then {
+  private let wholeStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 48
   }
   
   // MARK: Profile Part
   
-  private let profileStackView: UIStackView = UIStackView().then {
+  private let profileStackView = UIStackView().then {
     $0.axis = .vertical
     $0.alignment = .center
     $0.spacing = 16
   }
   
-  private let profileLabel: UILabel = UILabel().then {
+  private let profileLabel = UILabel().then {
     $0.text = "프로필 사진"
     $0.font = .subtitle
   }
   
-  private let uploadImageButton: UIButton = UIButton().then {
+  private let uploadImageButton = UIButton().then {
+    $0.imageView?.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 60
     $0.clipsToBounds = true
     $0.setImage(UIImage(named: "userDefaultImage"), for: .normal)
