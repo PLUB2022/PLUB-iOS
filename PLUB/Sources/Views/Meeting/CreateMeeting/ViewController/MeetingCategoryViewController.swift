@@ -118,7 +118,7 @@ extension MeetingCategoryViewController: UITableViewDelegate, UITableViewDataSou
       return cell
     } else {
       let cell = tableView.dequeueReusableCell(withIdentifier: RegisterInterestDetailTableViewCell.identifier, for: indexPath) as? RegisterInterestDetailTableViewCell ?? RegisterInterestDetailTableViewCell()
-      cell.configureUI(with: registerInterestModels[indexPath.section], indexPath: indexPath)
+      cell.configureUI(with: registerInterestModels[indexPath.section], indexPath: indexPath, selectEnabled: viewModel.selectEnabled)
       cell.delegate = self
       return cell
     }

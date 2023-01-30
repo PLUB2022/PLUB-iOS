@@ -28,6 +28,8 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
     }
   }
   
+  private var selectEnabled: Bool?
+  
   private let containerView = UIView().then {
     $0.backgroundColor = .white
     $0.layer.borderWidth = 1
@@ -76,9 +78,14 @@ class RegisterInterestDetailTableViewCell: UITableViewCell {
     }
   }
   
-  public func configureUI(with model: RegisterInterestModel, indexPath: IndexPath) {
+  public func configureUI(
+    with model: RegisterInterestModel,
+    indexPath: IndexPath,
+    selectEnabled: Bool = true
+  ) {
     self.subCategories = model.category.subCategories
     self.indexPath = indexPath
+    self.selectEnabled = selectEnabled
   }
 }
 
@@ -111,9 +118,13 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let cell = collectionView.cellForItem(at: indexPath) as? InterestTypeCollectionViewCell,
-    let mainIndexPath = self.indexPath else {
+    let mainIndexPath = self.indexPath, let selectEnabled = selectEnabled else {
       return
     }
+    let currentSeleted = subCategories[indexPath.row].isSelected
+    
+    guard selectEnabled || (currentSeleted && !selectEnabled) else { return }
+    
     subCategories[indexPath.row].isSelected.toggle()
     delegate?.didTappedInterestTypeCollectionViewCell(cell: cell, mainIndexPath: mainIndexPath, subIndexPath: indexPath)
   }

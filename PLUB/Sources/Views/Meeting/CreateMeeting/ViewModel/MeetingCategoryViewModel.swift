@@ -19,6 +19,7 @@ final class MeetingCategoryViewModel {
   let selectedSubCategories: Driver<[Int]>        // 선택된 카테고리의 id 배열
   let isButtonEnabled: Driver<Bool>               // 버튼 활성화 여부
   let selectedSubCategoriesCount: Driver<Int>     // 선택된 카테고리 개수
+  var selectEnabled: Bool = true                  // 카테고리 선택 활성화 여부 (5개 이하 제한)
   
   /// fetch한 카테고리 데이터
   private let fetchedCategoriesRelay = BehaviorRelay<[RegisterInterestModel]>(value: [])
@@ -69,6 +70,9 @@ final class MeetingCategoryViewModel {
         array.append(value)
         owner.selectedSubCategoriesRelay.accept(array) // 선택된 카테고리 업데이트
         owner.selectedSubCategoriesCountRelay.accept(array.count) // 선택된 카테고리 개수 업데이트
+        if array.count > 4 {
+          owner.selectEnabled = false // 카테고리 선택 제한
+        }
       })
       .disposed(by: disposeBag)
     
@@ -78,6 +82,9 @@ final class MeetingCategoryViewModel {
         let array = owner.selectedSubCategoriesRelay.value.filter { $0 != value }
         owner.selectedSubCategoriesRelay.accept(array) // 선택된 카테고리 업데이트
         owner.selectedSubCategoriesCountRelay.accept(array.count) // 선택된 카테고리 개수
+        if array.count < 5 {
+          owner.selectEnabled = true // 카테고리 선택 제한 해제
+        }
       })
       .disposed(by: disposeBag)
   }
