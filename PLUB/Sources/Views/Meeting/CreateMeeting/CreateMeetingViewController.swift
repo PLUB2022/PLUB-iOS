@@ -74,6 +74,7 @@ final class CreateMeetingViewController: BaseViewController {
   }
   
   private lazy var meetingDateViewController = MeetingDateViewController(
+    viewModel: MeetingDateViewModel(),
     childIndex: 2
   ).then {
     $0.delegate = self

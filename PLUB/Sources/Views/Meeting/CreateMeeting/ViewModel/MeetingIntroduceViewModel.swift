@@ -8,14 +8,7 @@
 import RxSwift
 import RxCocoa
 
-protocol MeetingIntroduceViewModelType {
-  associatedtype Input
-  associatedtype Output
-
-  func transform(input: Input) -> Output
-}
-
-final class MeetingIntroduceViewModel: MeetingIntroduceViewModelType {
+final class MeetingIntroduceViewModel: ViewModelType {
   private lazy var disposeBag = DisposeBag()
   
   private let goalInputRelay = BehaviorRelay<String>.init(value: .init())

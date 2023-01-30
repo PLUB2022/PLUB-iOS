@@ -44,7 +44,8 @@ final class InterestViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     tableView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.directionalVerticalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
     }
   }
   

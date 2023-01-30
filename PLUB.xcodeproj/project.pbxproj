@@ -117,6 +117,7 @@
 		BA88126A28E48A8D00BD832A /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126928E48A8D00BD832A /* Then */; };
 		BA88126D28E48AB700BD832A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126C28E48AB700BD832A /* SnapKit */; };
 		BA88127028E48AC800BD832A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126F28E48AC800BD832A /* Alamofire */; };
+		BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AA42929863ABC004E9403 /* Interceptor.swift */; };
 		BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */; };
 		BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4329746737009DDF32 /* AuthRouter.swift */; };
 		BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B45297467A2009DDF32 /* AuthService.swift */; };
@@ -282,6 +283,7 @@
 		BA88125928E48A3000BD832A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA88125B28E48A3000BD832A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA88126128E48A5800BD832A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		BA8AA42929863ABC004E9403 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
 		BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		BA8E2B4329746737009DDF32 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		BA8E2B45297467A2009DDF32 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -716,6 +718,7 @@
 				BA780E0C297133F80032C178 /* Router.swift */,
 				BA780E1229713F370032C178 /* BaseService.swift */,
 				BA5DEB2F2974D8E200650788 /* NetworkResult.swift */,
+				BA8AA42929863ABC004E9403 /* Interceptor.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -1043,6 +1046,7 @@
 				7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */,
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
 				70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */,
+				BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */,
 				BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */,

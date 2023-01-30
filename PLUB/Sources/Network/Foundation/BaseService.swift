@@ -16,6 +16,8 @@ extension Session: Then { }
 
 class BaseService {
   
+  private let session = Session(configuration: .af.default, interceptor: Interceptor())
+  
   /// Network Response에 대해 값을 검증하고 그 결과값을 리턴합니다.
   /// - Parameters:
   ///   - statusCode: http 상태 코드
@@ -54,7 +56,7 @@ class BaseService {
     type: T.Type = EmptyModel.self
   ) -> Observable<NetworkResult<GeneralResponse<T>>> {
     Single.create { observer in
-      AF.request(router).responseData { response in
+      self.session.request(router).responseData { response in
         switch response.result {
         case .success(let data):
           guard let statusCode = response.response?.statusCode else {
@@ -74,14 +76,13 @@ class BaseService {
   /// PLUB 서버에 필요한 값과 이미지 파일을 동봉하여 요청합니다.
   /// - MultipartFormData:
   ///   - 이미지 formData: byte buffer 형식
-
   func sendRequestWithImage<T: Codable>(
     _ formData: MultipartFormData,
     _ router: Router,
     type: T.Type = EmptyModel.self
   ) -> Observable<NetworkResult<GeneralResponse<T>>> {
     Single.create { observer in
-      AF.upload(multipartFormData: formData, with: router).responseData { response in
+      self.session.upload(multipartFormData: formData, with: router).responseData { response in
         switch response.result {
         case .success(let data):
           guard let statusCode = response.response?.statusCode else {

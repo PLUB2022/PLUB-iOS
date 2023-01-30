@@ -11,6 +11,7 @@ import RxSwift
 
 final class MeetingDateViewController: BaseViewController {
   
+  private var viewModel: MeetingDateViewModel
   weak var delegate: CreateMeetingChildViewControllerDelegate?
   private var childIndex: Int
   
@@ -99,8 +100,10 @@ final class MeetingDateViewController: BaseViewController {
   private let locationControl = LocationControl()
   
   init(
+    viewModel: MeetingDateViewModel,
     childIndex: Int
   ) {
+    self.viewModel = viewModel
     self.childIndex = childIndex
     super.init(nibName: nil, bundle: nil)
   }
@@ -111,11 +114,7 @@ final class MeetingDateViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // TODO: 수빈 - nextButton enable 로직 구현
-    delegate?.checkValidation(
-      index: childIndex,
-      state: true
-    )
+
   }
   
   override func setupLayouts() {
@@ -169,12 +168,14 @@ final class MeetingDateViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    changeOnOffButton(state: true)
   }
   
   override func bind() {
     super.bind()
     
-    Observable.of(["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일", "요일 무관"])
+    viewModel.dateCellData
       .bind(to: dateCollectionView.rx.items) { _, row, item -> UICollectionViewCell in
         guard let cell = self.dateCollectionView.dequeueReusableCell(
           withReuseIdentifier: WeekDateCollectionViewCell.identifier,
@@ -182,25 +183,32 @@ final class MeetingDateViewController: BaseViewController {
         ) as? WeekDateCollectionViewCell
         else { return UICollectionViewCell() }
         
-        cell.setupData(dateText: item)
+        cell.setupData(data: item)
         return cell
       }
       .disposed(by: disposeBag)
     
+    dateCollectionView.rx.modelSelected(MeetingDateCollectionViewCellModel.self)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, data in
+        owner.viewModel.updateDate(data: data)
+      })
+      .disposed(by: disposeBag)
+    
     onlineButton.rx.tap
-       .withUnretained(self)
-       .subscribe(onNext: { owner, _ in
-         owner.onlineButton.isSelected = true
-         owner.offlineButton.isSelected = false
-       })
-       .disposed(by: disposeBag)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.changeOnOffButton(state: true)
+        owner.viewModel.onOffInputRelay.accept("ON")
+      })
+      .disposed(by: disposeBag)
     
     offlineButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-         owner.onlineButton.isSelected = false
-         owner.offlineButton.isSelected = true
-       })
+        owner.changeOnOffButton(state: false)
+        owner.viewModel.onOffInputRelay.accept("OFF")
+      })
        .disposed(by: disposeBag)
     
     timeControl.rx.tap
@@ -222,6 +230,17 @@ final class MeetingDateViewController: BaseViewController {
         owner.parent?.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
+    
+    viewModel.isBtnEnabled
+      .distinctUntilChanged()
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.delegate?.checkValidation(
+          index: self.childIndex,
+          state: $0
+        )
+      })
+      .disposed(by: disposeBag)
   }
 }
 
@@ -229,6 +248,11 @@ extension MeetingDateViewController: DateBottomSheetDelegate {
   func selectDate(date: Date) {
     timeControl.date = date
     timeControl.isSelected = true
+
+    viewModel.timeInputRelay.accept(DateFormatter().then {
+      $0.dateFormat = "hhmm"
+      $0.locale = Locale(identifier: "ko_KR")
+    }.string(from: date))
   }
 }
 
@@ -236,5 +260,17 @@ extension MeetingDateViewController: LocationBottomSheetDelegate {
   func selectLocation(placeName: String) {
     locationControl.setLocationLabelText(text: placeName)
     locationControl.isSelected = true
+    viewModel.locationInputRelay.accept(placeName)
+  }
+}
+
+extension MeetingDateViewController {
+  func changeOnOffButton(state: Bool) { // OnLine: true, OffLine: false
+    onlineButton.isSelected = state
+    offlineButton.isSelected = !state
+
+    [locationLabel, locationControl].forEach {
+      $0.isHidden = state
+    }
   }
 }
