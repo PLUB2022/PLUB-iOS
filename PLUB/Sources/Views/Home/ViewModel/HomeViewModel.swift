@@ -10,25 +10,32 @@ import RxCocoa
 
 protocol HomeViewModelType {
   // Input
+  var tappedBookmark: AnyObserver<String> { get }
   
   // Output
   var fetchedMainCategoryList: Driver<[MainCategory]> { get }
   var updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
   var isSelectedInterest: Signal<Bool> { get }
+  var isBookmarked: Signal<Bool> { get }
 }
 
 class HomeViewModel: HomeViewModelType {
-  var disposeBag = DisposeBag()
+  private var disposeBag = DisposeBag()
   
   // Input
+  let tappedBookmark: AnyObserver<String>
   
   // Output
   let fetchedMainCategoryList: Driver<[MainCategory]>
   let updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
   let isSelectedInterest: Signal<Bool>
+  let isBookmarked: Signal<Bool>
   
   init() {
     let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
+    let whichBookmark = PublishSubject<String>()
+    
+    self.tappedBookmark = whichBookmark.asObserver()
     self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
@@ -58,7 +65,7 @@ class HomeViewModel: HomeViewModelType {
     updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
       return contents.map { content in
         let cellData = SelectedCategoryCollectionViewCellModel(
-          plubbingId: content.plubbingId,
+          plubbingID: "\(content.plubbingID)",
           name: content.name,
           title: content.title,
           mainImage: content.mainImage,
@@ -66,8 +73,8 @@ class HomeViewModel: HomeViewModelType {
           isBookmarked: content.isBookmarked,
           selectedCategoryInfoModel: .init(
             placeName: content.placeName,
-            peopleCount: 0,
-            when: ""
+            peopleCount: content.remainAccountNum,
+            when: HomeViewModel.formatDays(days: content.days)
           )
         )
         return cellData
@@ -76,6 +83,28 @@ class HomeViewModel: HomeViewModelType {
     
     successFetchingMainCategoryList
       .bind(to: fetchingMainCategoryList)
-    .disposed(by: disposeBag)
+      .disposed(by: disposeBag)
+    
+    let requestBookmark = whichBookmark
+      .debounce(.seconds(3), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+      .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
+    
+    let successRequestBookmark = requestBookmark.compactMap { result -> RequestBookmarkResponse? in
+      guard case .success(let response) = result else { return nil }
+      return response.data
+    }
+    
+    self.isBookmarked = successRequestBookmark.distinctUntilChanged()
+      .map { $0.isBookmarked }
+      .asSignal(onErrorSignalWith: .empty())
+  }
+  
+  private static func formatDays(days: [String]) -> String {
+    var formatStr = ""
+    days.forEach { day in
+      formatStr.append(day.fromENGToKOR() + ",")
+    }
+    formatStr.removeLast()
+    return formatStr
   }
 }

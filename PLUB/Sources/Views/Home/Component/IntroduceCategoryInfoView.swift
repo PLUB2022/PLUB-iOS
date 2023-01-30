@@ -10,12 +10,17 @@ import UIKit
 import SnapKit
 import Then
 
+struct IntroduceCategoryInfoViewModel {
+  let recommendedText: String
+  let meetingImage: String
+  let categortInfoListModel: CategoryInfoListModel
+}
+
 class IntroduceCategoryInfoView: UIView {
   
   private let meetingRecommendedLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 32)
     $0.textColor = .main
-    $0.text = "“스트레칭은 20분 이상”"
     $0.textAlignment = .center
     $0.sizeToFit()
   }
@@ -26,7 +31,6 @@ class IntroduceCategoryInfoView: UIView {
     $0.contentMode = .scaleAspectFit
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
-    $0.image = UIImage(named: "selectImage")
   }
   
   override init(frame: CGRect) {
@@ -55,5 +59,12 @@ class IntroduceCategoryInfoView: UIView {
       $0.top.equalTo(categoryInfoListView.snp.bottom)
       $0.left.right.bottom.equalToSuperview()
     }
+  }
+  
+  public func configureUI(with model: IntroduceCategoryInfoViewModel) {
+    guard let url = URL(string: model.meetingImage) else { return }
+    meetingRecommendedLabel.text = model.recommendedText
+    categoryInfoListView.configureUI(with: model.categortInfoListModel)
+    meetingImageView.kf.setImage(with: url)
   }
 }

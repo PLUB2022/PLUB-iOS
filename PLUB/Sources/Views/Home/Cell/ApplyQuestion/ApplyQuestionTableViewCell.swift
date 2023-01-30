@@ -75,21 +75,22 @@ class ApplyQuestionTableViewCell: UITableViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         if owner.questionTextView.text == Constants.placeHolder {
-        owner.questionTextView.text = nil
-        owner.questionTextView.textColor = .black
-      }
-    })
-    .disposed(by: disposeBag)
+          owner.questionTextView.text = nil
+          owner.questionTextView.textColor = .black
+        }
+      })
+      .disposed(by: disposeBag)
     
     questionTextView.rx.didEndEditing
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-      if owner.questionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-        owner.questionTextView.textColor = .deepGray
-        owner.questionTextView.text = Constants.placeHolder
-      }
-    })
-    .disposed(by: disposeBag)
+        if owner.questionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+          owner.questionTextView.textColor = .deepGray
+          owner.questionTextView.text = Constants.placeHolder
+          owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
+        }
+      })
+      .disposed(by: disposeBag)
     
     questionTextView.rx.text.orEmpty
       .filter { $0 != Constants.placeHolder }

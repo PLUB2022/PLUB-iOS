@@ -33,11 +33,13 @@ class HomeAlert {
     $0.axis = .vertical
     $0.distribution = .fill
     $0.alignment = .center
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = .init(top: .zero, left: 28, bottom: 32, right: 28)
   }
   
   private let applyImageView = UIImageView().then {
     $0.image = UIImage(named: "apply")
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
   }
   
   private lazy var backButton = UIButton().then {
@@ -77,10 +79,14 @@ class HomeAlert {
     backButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
   }
   
-  public func showAlert(on viewController: UIViewController) {
-    guard let targetView = viewController.view else { return }
+  public func showAlert() {
+    guard let keyWindow = UIApplication.shared.connectedScenes
+      .filter({$0.activationState == .foregroundActive})
+      .compactMap({$0 as? UIWindowScene})
+      .first?.windows
+      .filter({$0.isKeyWindow}).first else { return }
     
-    [backgroundView, alertView].forEach { targetView.addSubview($0) }
+    [backgroundView, alertView].forEach { keyWindow.addSubview($0) }
     [backButton, stackView].forEach { alertView.addSubview($0) }
     
     backgroundView.alpha = Constants.backgroundAlphaTo
@@ -100,18 +106,12 @@ class HomeAlert {
     }
     
     stackView.snp.makeConstraints {
-      $0.top.equalTo(backButton.snp.bottom)
-      $0.left.right.bottom.equalToSuperview().inset(20)
+      $0.top.equalTo(backButton.snp.bottom).offset(0.5)
+      $0.left.right.bottom.equalToSuperview()
     }
     
-    applyImageView.snp.makeConstraints {
-      $0.width.height.equalTo(224)
-    }
-
-    subLabel.snp.makeConstraints {
-      $0.top.equalTo(mainLabel.snp.bottom)
-      $0.height.equalTo(36)
-    }
+    stackView.setCustomSpacing(8, after: mainLabel)
+    stackView.setCustomSpacing(32, after: subLabel)
   }
   
   @objc private func dismissAlert() {
@@ -123,6 +123,5 @@ class HomeAlert {
         self.backgroundView.removeFromSuperview()
       }
     }
-    
   }
 }

@@ -12,6 +12,7 @@ import RxCocoa
 protocol ApplyQuestionViewModelType {
   // Input
   var whichQuestion: AnyObserver<QuestionStatus> { get }
+  var whichRecruitment: AnyObserver<String> { get }
   
   // Output
   var allQuestion: Driver<[ApplyQuestionTableViewCellModel]> { get }
@@ -21,18 +22,21 @@ protocol ApplyQuestionViewModelType {
 class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   private var disposeBag = DisposeBag()
   // Input
-  var whichQuestion: AnyObserver<QuestionStatus>
+  let whichQuestion: AnyObserver<QuestionStatus>
+  let whichRecruitment: AnyObserver<String>
   
   // Output
-  var allQuestion: Driver<[ApplyQuestionTableViewCellModel]>
-  var isActivated: Driver<Bool>
+  let allQuestion: Driver<[ApplyQuestionTableViewCellModel]>
+  let isActivated: Driver<Bool>
   
   init() {
+    let currentPlubbing = PublishSubject<String>()
     let questions = BehaviorSubject<[ApplyQuestionTableViewCellModel]>(value: [])
     let currentQuestion = PublishSubject<QuestionStatus>()
     let isActivating = BehaviorSubject<Bool>(value: false)
     let entireQuestionStatus = PublishSubject<[QuestionStatus]>()
     
+    self.whichRecruitment = currentPlubbing.asObserver()
     self.allQuestion = questions.asDriver(onErrorJustReturn: [])
     self.whichQuestion = currentQuestion.asObserver()
     self.isActivated = isActivating.asDriver(onErrorJustReturn: false)
@@ -60,18 +64,29 @@ class ApplyQuestionViewModel: ApplyQuestionViewModelType {
       .disposed(by: disposeBag)
     
     entireQuestionStatus
-          .distinctUntilChanged()
-          .subscribe(onNext: { current in
-            let isAllChecked = current.filter{ $0.isFilled == false }.count == 0
-            isActivating.onNext(isAllChecked)
-          })
-          .disposed(by: disposeBag)
+      .distinctUntilChanged()
+      .subscribe(onNext: { current in
+        let isAllChecked = current.filter{ $0.isFilled == false }.count == 0
+        isActivating.onNext(isAllChecked)
+      })
+      .disposed(by: disposeBag)
     
-    questions.onNext([
-      .init(id: 1,question: "1. 지원 동기가 궁금해요!"),
-      .init(id: 2,question: "2. 당신의 실력은 어느정도?!"),
-      .init(id: 3,question: "3. 간단한 자기소개! ")
-    ])
+    let fetchingQuestions = currentPlubbing
+      .flatMapLatest(RecruitmentService.shared.inquireRecruitmentQuestion(plubbingID: ))
+    
+    let successFetching = fetchingQuestions.compactMap { result -> RecruitmentQuestionResponse? in
+      guard case .success(let response) = result else { return nil }
+      return response.data
+    }
+    
+    successFetching.map { response in
+      let data = response.questions.map { question in
+        return ApplyQuestionTableViewCellModel(id: question.id, question: question.question)
+      }
+      return data
+    }
+    .bind(to: questions)
+    .disposed(by: disposeBag)
   }
 }
 

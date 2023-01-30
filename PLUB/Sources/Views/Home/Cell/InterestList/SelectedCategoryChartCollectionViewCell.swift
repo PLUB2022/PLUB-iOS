@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
-  let plubbingId: Int
+  let plubbingID: String
   let name: String
   let title: String
   let mainImage: String?
@@ -21,9 +21,16 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
   let selectedCategoryInfoModel: CategoryInfoListModel
 }
 
+protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
+  func didTappedBookmarkButton(plubbingID: String)
+}
+
 class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   static let identifier = "SelectedCategoryChartCollectionViewCell"
+  weak var delegate: SelectedCategoryChartCollectionViewCellDelegate?
+  
   private var disposeBag = DisposeBag()
+  private var plubbingID: String?
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
@@ -74,6 +81,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
+    
     [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
     
     categoryInfoListView.snp.makeConstraints {
@@ -99,14 +107,18 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   private func bind() {
     bookmarkButton.buttonTapObservable
-      .subscribe(onNext: {
-        
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        guard let plubbingID = owner.plubbingID else { return }
+        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
-    
+      
     bookmarkButton.buttonUnTapObservable
-      .subscribe(onNext: {
-        
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        guard let plubbingID = owner.plubbingID else { return }
+        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
   }
@@ -116,5 +128,7 @@ class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
     bookmarkButton.setImage(UIImage(named: "whiteBookmark"), for: .normal)
+    bookmarkButton.isSelected = model.isBookmarked
+    plubbingID = model.plubbingID
   }
 }

@@ -138,6 +138,11 @@ final class HomeViewController: BaseViewController {
       .drive(rx.selectedCategoryCollectionViewCellModel)
       .disposed(by: disposeBag)
     
+    viewModel.isBookmarked.emit(onNext: { isBookmarked in
+      print("해당 모집글을 북마크 \(isBookmarked)")
+    })
+    .disposed(by: disposeBag)
+    
     homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
     homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)
   }
@@ -277,6 +282,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     case .recommendedMeeting:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
       cell.configureUI(with: selectedCategoryCollectionViewCellModel[indexPath.row])
+      cell.delegate = self
       return cell
     }
   }
@@ -297,10 +303,22 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel(), categoryID: "")
-    vc.title = mainCategoryList[indexPath.row].name
-    vc.navigationItem.largeTitleDisplayMode = .never
-    self.navigationController?.pushViewController(vc, animated: true)
+    let homeSection = HomeSectionType.allCases[indexPath.section]
+    switch homeSection {
+    case .mainCategoryList:
+      let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel(), categoryID: "\(mainCategoryList[indexPath.row].id)")
+      vc.title = mainCategoryList[indexPath.row].name
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
+    case .interestSelect:
+      let vc = RegisterInterestViewController(viewModel: RegisterInterestViewModel())
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
+    case .recommendedMeeting:
+      let vc = DetailRecruitmentViewController(plubbingID: selectedCategoryCollectionViewCellModel[indexPath.row].plubbingID)
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
+    }
   }
 }
 
@@ -309,5 +327,11 @@ extension HomeViewController: InterestSelectCollectionViewCellDelegate {
     let vc = RegisterInterestViewController(viewModel: RegisterInterestViewModel())
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension HomeViewController: SelectedCategoryChartCollectionViewCellDelegate {
+  func didTappedBookmarkButton(plubbingID: String) {
+    viewModel.tappedBookmark.onNext(plubbingID)
   }
 }

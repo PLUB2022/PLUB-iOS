@@ -44,6 +44,7 @@ class ToggleButton: UIButton {
       .map { _ in return Void() }
       .asObservable()
   }
+  
   var buttonUnTapObservable: Observable<Void> {
     self.onPlayButtonPressed
       .filter { $0 == true }

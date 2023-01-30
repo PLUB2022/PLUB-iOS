@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       clientID: KeyConstants.googleID,
       serverClientID: KeyConstants.googleServerClientID
     )
-    
     return true
   }
   
