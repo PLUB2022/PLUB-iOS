@@ -39,6 +39,9 @@ final class PolicyViewModel: PolicyViewModelType {
     "마케팅 활용 동의 (선택)"
   ]
   
+  /// tableView header cell의 확장여부를 관리합니다.
+  private var isHeaderExpandableList = Section.allCases.map { _ in return false }
+  
   private var dataSource: DataSource? = nil {
     didSet {
       applyInitialSnapshots()
@@ -75,6 +78,8 @@ extension PolicyViewModel {
 
 extension PolicyViewModel {
   
+  // MARK: Configure TableViewCells
+  
   /// 셀의 정보를 주입 및 업데이트 합니다. 셀이 reconfigure되거나 reload, init될 때 불려집니다.
   /// - Parameters:
   ///   - cell: UITableViewCell
@@ -96,7 +101,7 @@ extension PolicyViewModel {
       return
     }
     // header cell에 약관 데이터 주입
-    headerCell.configure(with: policy)
+    headerCell.configure(with: policy, isExpandable: self.isHeaderExpandableList[indexPath.section])
     
     // 셀의 체크박스가 탭되면, viewModel의 check list 업데이트
     headerCell.checkbox.rx.tap
@@ -141,18 +146,37 @@ extension PolicyViewModel {
   func loadNextSnapshots(for indexPath: IndexPath) {
     guard let dataSource = dataSource,
           let section = Section(rawValue: indexPath.section) else { return }
+    
+    // 선택한 셀이 body타입이면 단순 리턴
+    guard indexPath.row != 1 else { return }
+    
+    // 기존 dataSource의 snapshot 가져옴
     var snapshot = dataSource.snapshot()
-    // selected 된 section의 셀 정보(identifier)를 가져옴
+    
+    // selected 된 section의 셀의 마지막 정보(identifier)를 가져옴
+    // body, header인지 확인하기 위함
     guard let identifier = snapshot.itemIdentifiers(inSection: section).last else { return }
     
-    // body가 없어 expand 해야하는 경우
+    // 마지막이 header값인 경우 == body가 없어 expand 해야하는 경우
     if identifier.type == .header {
+      
+      // 선택된 cell의 section값을 true로 설정 ==> 나중에 reconfigure하여 화살표의 애니메이션을 정함
+      isHeaderExpandableList = isHeaderExpandableList.map { _ in false }
+      isHeaderExpandableList[indexPath.section] = true
+      
+      // 기존에 Expand되었던 다른 body 셀들이 있다면 전부 제거
+      let deletableItems = snapshot.itemIdentifiers.filter { $0.type == .body }
+      snapshot.deleteItems(deletableItems)
+      
+      // body cell 추가
       snapshot.appendItems([Item(type: .body, url: URL(string: "https://velog.io/@whitehyun"))], toSection: section)
     }
-    // body가 이미 존재하지만, 한번 더 탭되어 collapse 해야하는 경우
-    else if indexPath.row == 0 {
-      snapshot.deleteItems([identifier])
+    // 한번 더 탭되어 collapse 해야하는 경우
+    else {
+      isHeaderExpandableList[indexPath.section] = false
+      snapshot.deleteItems([identifier]) // body cell 제거
     }
+    snapshot.reconfigureItems(snapshot.itemIdentifiers) // UI 업데이트
     
     dataSource.apply(snapshot)
   }
