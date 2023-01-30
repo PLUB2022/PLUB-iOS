@@ -44,16 +44,19 @@ class HomeViewModel: HomeViewModelType {
     
     let successFetchingMainCategoryList = inquireMainCategoryList.compactMap { result -> [MainCategory]? in
       guard case .success(let mainCategoryListResponse) = result else { return nil }
+      print("메인카테고리 = \(mainCategoryListResponse)")
       return mainCategoryListResponse.data?.categories
     }
     
     let successFetchingInterest = inquireInterest.compactMap { result -> InquireInterestResponse? in
       guard case .success(let interestResponse) = result else { return nil }
+      print("관심사 = \(interestResponse)")
       return interestResponse.data
     }
     
     let successFetchingRecommendationMeeting = inquireRecommendationMeeting.compactMap { result -> [Content]? in
       guard case .success(let recommendationMeetingResponse) = result else { return nil }
+      print("추천 = \(recommendationMeetingResponse)")
       return recommendationMeetingResponse.data?.content
     }
     
@@ -65,7 +68,7 @@ class HomeViewModel: HomeViewModelType {
     updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
       return contents.map { content in
         let cellData = SelectedCategoryCollectionViewCellModel(
-          plubbingID: content.plubbingID,
+          plubbingID: "\(content.plubbingID)",
           name: content.name,
           title: content.title,
           mainImage: content.mainImage,

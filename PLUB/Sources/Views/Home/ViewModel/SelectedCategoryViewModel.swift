@@ -52,7 +52,7 @@ class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     selectingContents.subscribe(onNext: { contents in
       guard let contents = contents else { return }
       let model = contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(plubbingID: content.plubbingID, name: content.name, title: content.title, mainImage: content.mainImage, introduce: content.introduce, isBookmarked: content.isBookmarked, selectedCategoryInfoModel: .init(placeName: content.placeName, peopleCount: 5, when: "서울 서초구 | 월, 화, 수"))
+        return SelectedCategoryCollectionViewCellModel(plubbingID: "\(content.plubbingID)", name: content.name, title: content.title, mainImage: content.mainImage, introduce: content.introduce, isBookmarked: content.isBookmarked, selectedCategoryInfoModel: .init(placeName: content.placeName, peopleCount: 5, when: "서울 서초구 | 월, 화, 수"))
       }
       updatingCellData.onNext(model)
     })
