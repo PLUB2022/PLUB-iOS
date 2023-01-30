@@ -15,7 +15,6 @@ protocol SelectedCategoryViewModelType {
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
   
-  func createSelectedCategoryChartCollectionViewCellModels() -> Observable<[SelectedCategoryCollectionViewCellModel]>
 }
 
 class SelectedCategoryViewModel: SelectedCategoryViewModelType {
@@ -38,38 +37,23 @@ class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId)
     }
     .share()
-
-    let successFetching = fetchingSelectedCategory.map { result -> CategoryMeetingResponse? in
+    
+    let successFetching = fetchingSelectedCategory.compactMap { result -> CategoryMeetingResponse? in
       guard case .success(let response) = result else { return nil }
       return response.data
     }
     
-    let selectingContents = successFetching.map { response -> [Content]? in
-      guard let response = response else { return nil }
+    let selectingContents = successFetching.compactMap { response -> [Content]? in
       return response.content
     }
     
     selectingContents.subscribe(onNext: { contents in
-      guard let contents = contents else { return }
       let model = contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(plubbingId: content.plubbingId, name: content.name, title: content.title, mainImage: content.mainImage, introduce: content.introduce, isBookmarked: content.isBookmarked, selectedCategoryInfoModel: .init(placeName: content.placeName, peopleCount: 5, when: "서울 서초구 | 월, 화, 수"))
+        return SelectedCategoryCollectionViewCellModel(plubbingID: "\(content.plubbingID)", name: content.name, title: content.title, mainImage: content.mainImage, introduce: content.introduce, isBookmarked: content.isBookmarked, selectedCategoryInfoModel: .init(placeName: content.placeName, peopleCount: 5, when: "서울 서초구 | 월, 화, 수"))
       }
       updatingCellData.onNext(model)
     })
     .disposed(by: disposeBag)
   }
   
-  private let selectedCategoryChartCollectionViewCellModels: [SelectedCategoryCollectionViewCellModel] = [
-    .init(plubbingId: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
-    .init(plubbingId: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
-    .init(plubbingId: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
-    .init(plubbingId: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
-    .init(plubbingId: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분")),
-    .init(plubbingId: 1, name: "", title: "스트릿 댄스 신사동스 파이터", mainImage: nil, introduce: "스트릿 댄스를 배우고 싶은 신사동 여러분을 모집합니다.", isBookmarked: false, selectedCategoryInfoModel: .init(placeName: "서울 서초구", peopleCount: 10, when: "매주 금요일 | 오후 5시 30분"))
-    
-  ]
-  
-  func createSelectedCategoryChartCollectionViewCellModels() -> Observable<[SelectedCategoryCollectionViewCellModel]> {
-    return Observable.just(selectedCategoryChartCollectionViewCellModels)
-  }
 }

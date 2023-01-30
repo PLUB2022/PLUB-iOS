@@ -15,7 +15,11 @@ class ApplyQuestionViewController: BaseViewController {
   
   private let viewModel: ApplyQuestionViewModelType
   
-  private var models: [ApplyQuestionTableViewCellModel] = []
+  private var models: [ApplyQuestionTableViewCellModel] = [] {
+    didSet {
+      questionTableView.reloadData()
+    }
+  }
   
   private var isActive: Bool = false {
     didSet {
@@ -36,9 +40,10 @@ class ApplyQuestionViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "지원하기")
   }
   
-  init(viewModel: ApplyQuestionViewModelType) {
+  init(viewModel: ApplyQuestionViewModelType = ApplyQuestionViewModel(), plubbingID: String) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
@@ -69,12 +74,13 @@ class ApplyQuestionViewController: BaseViewController {
     super.setupConstraints()
     
     questionHeaderView.snp.makeConstraints {
-      $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
-      $0.height.equalTo(120)
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(Device.navigationBarHeight)
+      $0.left.right.equalTo(view.safeAreaLayoutGuide)
+      $0.height.lessThanOrEqualTo(120)
     }
     
     questionTableView.snp.makeConstraints {
-      $0.top.equalTo(questionHeaderView.snp.bottom)
+      $0.top.equalTo(questionHeaderView.snp.bottom).offset(37.5)
       $0.left.right.bottom.equalToSuperview()
     }
     
@@ -85,18 +91,22 @@ class ApplyQuestionViewController: BaseViewController {
     }
   }
   
-  override func bind() {
+  func bind(plubbingID: String) {
     super.bind()
-    viewModel.allQuestion.asObservable()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, questions in
-        owner.models = questions
-      })
+    
+    viewModel.whichRecruitment.onNext(plubbingID)
+    
+    viewModel.allQuestion
+      .drive(rx.models)
       .disposed(by: disposeBag)
     
     viewModel.isActivated
-      .do(onNext: {print("isActive = \($0)")})
       .drive(rx.isActive)
+      .disposed(by: disposeBag)
+    
+    applyButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in HomeAlert.shared.showAlert(on: owner)})
       .disposed(by: disposeBag)
     
     questionTableView.rx.setDelegate(self).disposed(by: disposeBag)
@@ -104,7 +114,7 @@ class ApplyQuestionViewController: BaseViewController {
   }
   
   @objc private func didTappedBackButton() {
-    
+    self.navigationController?.popViewController(animated: true)
   }
 }
 

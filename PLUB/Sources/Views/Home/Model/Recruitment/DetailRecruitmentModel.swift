@@ -18,6 +18,7 @@ struct DetailRecruitmentModel {
   let placeName: String
   let isBookmarked: Bool
   let isApplied: Bool
+  let remainAccountNum: Int
   let joinedAccounts: [AccountInfo]
   
   init(response: DetailRecruitmentResponse) {
@@ -31,6 +32,7 @@ struct DetailRecruitmentModel {
     self.placeName = response.placeName
     self.isBookmarked = response.isBookmarked
     self.isApplied = response.isApplied
+    self.remainAccountNum = response.remainAccountNum
     self.joinedAccounts = response.joinedAccounts
   }
 }

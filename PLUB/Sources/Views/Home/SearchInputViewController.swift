@@ -59,15 +59,15 @@ class SearchInputViewController: BaseViewController {
       .do(onNext: { [weak self] _ in
         self?.searchBar.resignFirstResponder()
       })
-        .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
-      .withLatestFrom(searchBar.rx.text.orEmpty)
-      .filter { $0.count != 0 }
-      .distinctUntilChanged()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, text in
-        owner.viewModel.whichKeyword.onNext(text)
-      })
-      .disposed(by: disposeBag)
+      .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+        .withLatestFrom(searchBar.rx.text.orEmpty)
+        .filter { $0.count != 0 }
+        .distinctUntilChanged()
+        .withUnretained(self)
+        .subscribe(onNext: { owner, text in
+          owner.viewModel.whichKeyword.onNext(text)
+        })
+        .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {

@@ -8,7 +8,7 @@
 import Alamofire
 
 enum MeetingRouter {
-  case inquireCategoryMeeting(String, Int)
+  case inquireCategoryMeeting(String, Int, String)
   case inquireRecommendationMeeting
 }
 
@@ -22,7 +22,7 @@ extension MeetingRouter: Router {
   
   var path: String {
     switch self {
-    case .inquireCategoryMeeting(let categoryId, _):
+    case .inquireCategoryMeeting(let categoryId, _, _):
       return "/plubbings/categories/\(categoryId)"
     case .inquireRecommendationMeeting:
       return "/plubbings/recommendation"
@@ -31,8 +31,8 @@ extension MeetingRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case .inquireCategoryMeeting(_, let page):
-      return .query(["page": page])
+    case .inquireCategoryMeeting(_, let page, let sort):
+      return .query(["page": "\(page)", "sort": sort])
     case .inquireRecommendationMeeting:
       return .plain
     }

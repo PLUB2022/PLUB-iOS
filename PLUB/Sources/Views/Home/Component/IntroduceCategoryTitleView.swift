@@ -10,13 +10,18 @@ import UIKit
 import SnapKit
 import Then
 
+struct IntroduceCategoryTitleViewModel {
+  let title: String
+  let name: String
+  let infoText: String
+}
+
 class IntroduceCategoryTitleView: UIView {
   
   private let meetingTitleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .systemFont(ofSize: 18)
     $0.textAlignment = .left
-    $0.text = "요란한 한줄"
     $0.sizeToFit()
   }
   
@@ -24,7 +29,6 @@ class IntroduceCategoryTitleView: UIView {
     $0.textColor = .black
     $0.font = .h3
     $0.textAlignment = .left
-    $0.text = "책 읽고 얘기해요!"
     $0.sizeToFit()
   }
   
@@ -42,8 +46,6 @@ class IntroduceCategoryTitleView: UIView {
   private func configureUI() {
     [meetingTitleLabel, introduceTitleLabel, locationInfoView].forEach { addSubview($0) }
     
-    locationInfoView.configureUI(with: "서울 서초구", categoryListType: .onlyLocation)
-    
     meetingTitleLabel.snp.makeConstraints {
       $0.top.left.right.equalToSuperview()
       $0.width.equalTo(Device.width)
@@ -59,5 +61,11 @@ class IntroduceCategoryTitleView: UIView {
       $0.top.equalTo(introduceTitleLabel.snp.bottom)
       $0.bottom.equalToSuperview()
     }
+  }
+  
+  public func configureUI(with model: IntroduceCategoryTitleViewModel) {
+    meetingTitleLabel.text = model.title
+    introduceTitleLabel.text = model.name
+    locationInfoView.configureUI(with: model.infoText, categoryListType: .onlyLocation)
   }
 }

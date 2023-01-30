@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
@@ -14,19 +16,12 @@ import Then
 final class DetailRecruitmentViewController: BaseViewController {
   
   private let viewModel: DetailRecruitmentViewModelType
-  private let plubbingId: Int
-  private var model: SelectedCategoryCollectionViewCellModel?
-  let mod = [
-    "이건준",
-    "이건준ㅇㄹ",
-    "이건준ㅁㄹ",
-    "이건준ㅁㅁㅁㅁ",
-    "이건",
-    "이건",
-    "이건",
-    "이",
-    "이afasfasf",
-  ]
+  
+  private var model: DetailRecruitmentModel? {
+    didSet {
+      self.introduceTagCollectionView.reloadData()
+    }
+  }
   
   private let scrollView = UIScrollView().then {
     $0.showsVerticalScrollIndicator = true
@@ -42,7 +37,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.distribution = .fill
     $0.isLayoutMarginsRelativeArrangement = true
     $0.spacing = 24
-    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 16.5, bottom: .zero, right: 16.5)
+    $0.layoutMargins = UIEdgeInsets(top: Device.navigationBarHeight, left: 16.5, bottom: .zero, right: 16.5)
   }
   
   private lazy var bottomStackView = UIStackView(arrangedSubviews: [surroundMeetingButton, applyButton]).then {
@@ -83,10 +78,10 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.backgroundColor = .clear
   }
   
-  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingId: Int) {
+  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: String) {
     self.viewModel = viewModel
-    self.plubbingId = plubbingId
     super.init(nibName: nil, bundle: nil)
+    bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
@@ -145,11 +140,49 @@ final class DetailRecruitmentViewController: BaseViewController {
     )
   }
   
-  override func bind() {
+  func bind(plubbingID: String) {
     super.bind()
-    viewModel.selectPlubbingID.onNext(plubbingId)
-//    viewModel.fetchDetailRecruitment
-//      .drive(rx.)
+    viewModel.selectPlubbingID.onNext(plubbingID)
+    
+    viewModel.introduceCategoryTitleViewModel
+      .asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, model in
+        owner.introduceCategoryTitleView.configureUI(with: model)
+      })
+      .disposed(by: disposeBag)
+
+    viewModel.introduceCategoryInfoViewModel
+      .asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, model in
+        owner.introduceCategoryInfoView.configureUI(with: model)
+      })
+      .disposed(by: disposeBag)
+
+    viewModel.participantListViewModel
+      .asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, model in
+        owner.participantListView.configureUI(with: model)
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.meetingIntroduceModel
+      .asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, model in
+        owner.meetingIntroduceView.configureUI(with: model)
+      })
+      .disposed(by: disposeBag)
+    
+    applyButton.rx.tap
+      .subscribe(onNext: { _ in
+        let vc = ApplyQuestionViewController(plubbingID: plubbingID)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        self.navigationController?.pushViewController(vc, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
@@ -167,31 +200,25 @@ extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectio
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if collectionView == introduceTagCollectionView {
-      return mod.count
-    }
-    return mod.count
+    guard let model = model else { return 0 }
+    return model.categories.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    if collectionView == introduceTagCollectionView {
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IntroduceTagCollectionViewCell.identifier, for: indexPath) as? IntroduceTagCollectionViewCell ?? IntroduceTagCollectionViewCell()
-      cell.configureUI(with: mod[indexPath.row])
-      return cell
-    }
-    return UICollectionViewCell()
+    guard let model = model else { return UICollectionViewCell() }
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IntroduceTagCollectionViewCell.identifier, for: indexPath) as? IntroduceTagCollectionViewCell ?? IntroduceTagCollectionViewCell()
+    cell.configureUI(with: model.categories[indexPath.row])
+    return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    if collectionView == introduceTagCollectionView {
+    guard let model = model else { return .zero }
       let label = UILabel().then {
         $0.font = .caption
-        $0.text = mod[indexPath.row]
+        $0.text = model.categories[indexPath.row]
         $0.sizeToFit()
       }
       let size = label.frame.size
       return CGSize(width: size.width + 16, height: size.height + 4)
-    }
-    return .zero
   }
 }
