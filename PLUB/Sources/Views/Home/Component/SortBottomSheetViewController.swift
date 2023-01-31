@@ -48,14 +48,14 @@ class SortBottomSheetView: UIControl {
   private func configureUI() {
     [sortLabel, selectImageView].forEach { addSubview($0) }
     
-    sortLabel.snp.makeConstraints { make in
-      make.left.top.bottom.equalToSuperview()
+    sortLabel.snp.makeConstraints {
+      $0.left.top.bottom.equalToSuperview()
     }
     
-    selectImageView.snp.makeConstraints { make in
-      make.left.equalTo(sortLabel.snp.right)
-      make.top.bottom.equalToSuperview()
-      make.right.lessThanOrEqualToSuperview()
+    selectImageView.snp.makeConstraints {
+      $0.left.equalTo(sortLabel.snp.right)
+      $0.top.bottom.equalToSuperview()
+      $0.right.lessThanOrEqualToSuperview()
     }
     
     sortLabel.text = type.text
@@ -116,16 +116,16 @@ class SortBottomSheetViewController: BottomSheetViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
-    grabber.snp.makeConstraints { make in
-      make.top.equalToSuperview().inset(8)
-      make.centerX.equalToSuperview()
-      make.width.equalTo(48)
-      make.height.equalTo(4)
+    grabber.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(8)
+      $0.centerX.equalToSuperview()
+      $0.width.equalTo(48)
+      $0.height.equalTo(4)
     }
     
-    stackView.snp.makeConstraints { make in
-      make.top.equalTo(grabber.snp.bottom).offset(8)
-      make.left.right.bottom.equalToSuperview()
+    stackView.snp.makeConstraints {
+      $0.top.equalTo(grabber.snp.bottom).offset(8)
+      $0.left.right.bottom.equalToSuperview()
     }
   }
   

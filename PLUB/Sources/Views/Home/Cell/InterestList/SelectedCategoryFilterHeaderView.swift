@@ -75,9 +75,9 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
       $0.size.equalTo(32)
     }
     
-    sortButton.snp.makeConstraints { make in
-      make.centerY.equalToSuperview()
-      make.right.equalToSuperview()
+    sortButton.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      $0.right.equalToSuperview()
     }
     
     interesetListGridButton.snp.makeConstraints {

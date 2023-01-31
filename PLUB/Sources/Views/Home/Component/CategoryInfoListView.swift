@@ -11,7 +11,6 @@ struct CategoryInfoListModel {
   let placeName: String
   let peopleCount: Int
   let when: String
-//  let days: [String]
 }
 
 enum CategoryAlignment {

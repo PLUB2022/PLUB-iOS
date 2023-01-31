@@ -42,14 +42,14 @@ class MeetingIntroduceView: UIView {
   
   private func configureUI() {
     [meetingIntroduceLabel, meetingDescriptionLabel].forEach { addSubview($0) }
-    meetingIntroduceLabel.snp.makeConstraints { make in
-      make.top.left.equalToSuperview()
+    meetingIntroduceLabel.snp.makeConstraints {
+      $0.top.left.equalToSuperview()
     }
     
-    meetingDescriptionLabel.snp.makeConstraints { make in
-      make.top.equalTo(meetingIntroduceLabel.snp.bottom).offset(16)
-      make.left.right.bottom.equalToSuperview()
-      make.width.equalTo(Device.width)
+    meetingDescriptionLabel.snp.makeConstraints {
+      $0.top.equalTo(meetingIntroduceLabel.snp.bottom).offset(16)
+      $0.left.right.bottom.equalToSuperview()
+      $0.width.equalTo(Device.width)
     }
   }
   
