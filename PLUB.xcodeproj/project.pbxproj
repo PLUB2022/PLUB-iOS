@@ -119,6 +119,7 @@
 		BA88127028E48AC800BD832A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126F28E48AC800BD832A /* Alamofire */; };
 		BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AA42929863ABC004E9403 /* Interceptor.swift */; };
 		BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */; };
+		BA8AA4302988FDCC004E9403 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BA8AA42F2988FDCC004E9403 /* Lottie */; };
 		BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */; };
 		BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4329746737009DDF32 /* AuthRouter.swift */; };
 		BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B45297467A2009DDF32 /* AuthService.swift */; };
@@ -360,6 +361,7 @@
 				BA88127028E48AC800BD832A /* Alamofire in Frameworks */,
 				BA88126728E48A7A00BD832A /* RxSwift in Frameworks */,
 				BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */,
+				BA8AA4302988FDCC004E9403 /* Lottie in Frameworks */,
 				BA88126D28E48AB700BD832A /* SnapKit in Frameworks */,
 				BA88126A28E48A8D00BD832A /* Then in Frameworks */,
 				BA88126528E48A7A00BD832A /* RxCocoa in Frameworks */,
@@ -960,6 +962,7 @@
 				BA117A4F297444EE00B37E03 /* KakaoSDKCommon */,
 				BA117A51297444EE00B37E03 /* KakaoSDKUser */,
 				BA5DEB3229751E5F00650788 /* GoogleSignIn */,
+				BA8AA42F2988FDCC004E9403 /* Lottie */,
 			);
 			productName = PLUB;
 			productReference = BA88124A28E48A2F00BD832A /* PLUB.app */;
@@ -997,6 +1000,7 @@
 				7095A583292B566C002A52E6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				BA117A4C297444EE00B37E03 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				BA5DEB3129751E5F00650788 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = BA88124B28E48A2F00BD832A /* Products */;
 			projectDirPath = "";
@@ -1465,6 +1469,14 @@
 				kind = branch;
 			};
 		};
+		BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1517,6 +1529,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA88126E28E48AC800BD832A /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		BA8AA42F2988FDCC004E9403 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
