@@ -47,6 +47,13 @@ enum Day: String, CaseIterable {
    }
 }
 
+struct Location {
+  let roadAddress: String?
+  let placeName: String?
+  let positionX: Double?
+  let positionY: Double?
+}
+
 final class MeetingDateViewModel {
   private let disposeBag = DisposeBag()
 
@@ -57,7 +64,7 @@ final class MeetingDateViewModel {
   let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
   let timeInputRelay = BehaviorRelay<String>.init(value: .init())
   let onOffInputRelay = BehaviorRelay<OnOff>.init(value: .on)
-  let locationInputRelay = BehaviorRelay<String>.init(value: .init())
+  let locationInputRelay = BehaviorRelay<Location?>.init(value: nil)
   
   // OutPut
   let isBtnEnabled: Observable<Bool>
@@ -79,7 +86,7 @@ final class MeetingDateViewModel {
     ).map {
       if $0.0 == OnOff.on {
         return true
-      } else if $0.0 == OnOff.off && !$0.1.isEmpty {
+      } else if $0.0 == OnOff.off && !($0.1 == nil) {
         return true
       } else {
         return false

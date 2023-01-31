@@ -51,17 +51,8 @@ final class CreateMeetingViewModel {
   /// 주소
   private var addressRelay = BehaviorRelay<String?>(value: nil)
   
-  /// 도로명 주소
-  private var roadAddressRelay = BehaviorRelay<String?>(value: nil)
-  
-  /// 장소 이름
-  private var placeNameRelay = BehaviorRelay<String?>(value: nil)
-  
-  /// x 좌표
-  private var positionXRelay = BehaviorRelay<Double?>(value: nil)
-  
-  /// y 좌표
-  private var positionYRelay = BehaviorRelay<Double?>(value: nil)
+  /// 장소
+  private var locationRelay = BehaviorRelay<Location?>(value: nil)
   
   /// 인원 수
   private var peopleNumberRelay = BehaviorRelay<Int>(value: 4)
@@ -130,7 +121,7 @@ final class CreateMeetingViewModel {
     dateViewModel.locationInputRelay
       .do { print($0) }
       .asObservable()
-      .bind(to: placeNameRelay)
+      .bind(to: locationRelay)
       .disposed(by: disposeBag)
     
     peopleNumberViewModel.peopleNumber

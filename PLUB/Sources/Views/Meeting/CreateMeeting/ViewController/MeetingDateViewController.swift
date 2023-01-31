@@ -256,10 +256,10 @@ extension MeetingDateViewController: DateBottomSheetDelegate {
 }
 
 extension MeetingDateViewController: LocationBottomSheetDelegate {
-  func selectLocation(placeName: String) {
-    locationControl.setLocationLabelText(text: placeName)
+  func selectLocation(location: Location) {
+    locationControl.setLocationLabelText(text: location.placeName ?? "")
     locationControl.isSelected = true
-    viewModel.locationInputRelay.accept(placeName)
+    viewModel.locationInputRelay.accept(location)
   }
 }
 
