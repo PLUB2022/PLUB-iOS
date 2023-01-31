@@ -64,5 +64,9 @@ class SortButton: UIView {
     }
     
     sortLabel.text = type.text
+    layer.masksToBounds = true
+    layer.cornerRadius = 12
+    layer.borderWidth = 1
+    layer.borderColor = UIColor.sortButtonColor.cgColor
   }
 }

@@ -36,12 +36,7 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     $0.setImage(UIImage(named: "grid"), for: .normal)
   }
   
-  private let sortButton = SortButton().then {
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 12
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.sortButtonColor.cgColor
-  }
+  private let sortButton = SortButton()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
