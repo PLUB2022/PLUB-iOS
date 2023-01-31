@@ -17,9 +17,7 @@ final class OnboardingViewController: BaseViewController {
   
   private let viewModel = OnboardingViewModel()
   
-  private let onboardingView = LottieAnimationView().then {
-    $0.backgroundColor = .red
-  }
+  private let onboardingView = LottieAnimationView()
   
   private let titleLabel = UILabel().then {
     $0.textAlignment = .center
@@ -105,6 +103,14 @@ final class OnboardingViewController: BaseViewController {
     
     viewModel.emitDescriptions
       .drive(descriptionLabel.rx.text)
+      .disposed(by: disposeBag)
+    
+    viewModel.emitLottieJSONName
+      .debug()
+      .drive(with: self) { owner, jsonName in
+        owner.onboardingView.animation = LottieAnimation.named(jsonName)
+        owner.onboardingView.play()
+      }
       .disposed(by: disposeBag)
     
     viewModel.emitCurrentPage
