@@ -21,7 +21,6 @@ final class CreateMeetingViewModel {
   let peopleNumberViewModel = MeetingPeopleNumberViewModel()
   let questionViewModel = MeetingQuestionViewModel()
   
-  
   /// 선택한 카테고리 리스트
   private let categoryIDsRelay = BehaviorRelay<[Int]>(value: [])
   
@@ -102,6 +101,12 @@ final class CreateMeetingViewModel {
       .do { print($0) }
       .asObservable()
       .bind(to: introduceRelay)
+      .disposed(by: disposeBag)
+    
+    introduceViewModel.imageInputRelay
+      .do { print($0) }
+      .asObservable()
+      .bind(to: mainImageRelay)
       .disposed(by: disposeBag)
     
     dateViewModel.dateInputRelay
