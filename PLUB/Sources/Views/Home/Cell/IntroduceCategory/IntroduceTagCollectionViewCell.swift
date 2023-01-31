@@ -16,7 +16,7 @@ class IntroduceTagCollectionViewCell: UICollectionViewCell {
   
   private let tagLabel = UILabel().then {
     $0.font = .caption
-    $0.textColor = .tagTextColor
+    $0.textColor = .main
     $0.textAlignment = .center
     $0.sizeToFit()
   }

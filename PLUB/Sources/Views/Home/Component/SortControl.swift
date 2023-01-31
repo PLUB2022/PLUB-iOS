@@ -76,7 +76,7 @@ class SortControl: UIControl {
     layer.masksToBounds = true
     layer.cornerRadius = 12
     layer.borderWidth = 1
-    layer.borderColor = UIColor.sortButtonColor.cgColor
+    layer.borderColor = UIColor.main.cgColor
   }
 }
 
