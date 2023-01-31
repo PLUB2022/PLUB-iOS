@@ -75,6 +75,23 @@ final class OnboardingViewController: BaseViewController {
       $0.bottom.equalTo(nextButton.snp.top).offset(-24)
     }
   }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    
+    let skipButton = UIButton().then {
+      $0.setTitle("SKIP", for: .normal)
+      $0.setTitleColor(.main, for: .normal)
+      $0.titleLabel?.font = .button
+      $0.addTarget(self, action: #selector(moveToLoginViewController), for: .touchUpInside)
+    }
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: skipButton)
+  }
+  
+  @objc
+  private func moveToLoginViewController() {
+    navigationController?.setViewControllers([LoginViewController()], animated: true)
+  }
 }
 
 // MARK: - Constants
