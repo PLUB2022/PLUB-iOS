@@ -19,7 +19,7 @@ protocol SelectedCategoryViewModelType {
 
 final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   // Input
   let selectCategoryID: AnyObserver<String>

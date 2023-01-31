@@ -20,7 +20,7 @@ protocol HomeViewModelType {
 }
 
 final class HomeViewModel: HomeViewModelType {
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   // Input
   let tappedBookmark: AnyObserver<String>

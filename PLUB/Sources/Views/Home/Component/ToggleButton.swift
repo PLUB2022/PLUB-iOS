@@ -18,7 +18,7 @@ enum ToggleType {
 final class ToggleButton: UIButton {
   
   private let type: ToggleType
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   override var isSelected: Bool {
     didSet {

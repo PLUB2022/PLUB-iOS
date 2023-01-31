@@ -30,7 +30,7 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
   
   static let identifier = "ApplyQuestionTableViewCell"
   
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   private var id: Int?
   
   public weak var delegate: ApplyQuestionTableViewCellDelegate?

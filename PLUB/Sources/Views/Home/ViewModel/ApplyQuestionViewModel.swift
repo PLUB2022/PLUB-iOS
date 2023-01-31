@@ -20,7 +20,7 @@ protocol ApplyQuestionViewModelType {
 }
 
 final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   // Input
   let whichQuestion: AnyObserver<QuestionStatus>
   let whichRecruitment: AnyObserver<String>

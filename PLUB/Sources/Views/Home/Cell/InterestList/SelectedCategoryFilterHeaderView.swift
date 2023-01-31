@@ -20,7 +20,7 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   static let identifier = "InterestListFilterHeaderView"
   
   weak var delegate: SelectedCategoryFilterHeaderViewDelegate?
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   var filterChanged: SortType = .popular {
     didSet {

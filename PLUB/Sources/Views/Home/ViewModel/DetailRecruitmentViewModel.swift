@@ -21,7 +21,7 @@ protocol DetailRecruitmentViewModelType {
 
 final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   // Input
   let selectPlubbingID: AnyObserver<String>

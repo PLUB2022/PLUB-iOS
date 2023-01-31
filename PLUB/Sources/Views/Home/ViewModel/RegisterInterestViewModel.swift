@@ -19,7 +19,7 @@ protocol RegisterInterestViewModelType {
 }
 
 final class RegisterInterestViewModel: RegisterInterestViewModelType {
-  var disposeBag = DisposeBag()
+  let disposeBag = DisposeBag()
 
   // Input
   var selectDetailCell: AnyObserver<Void>
