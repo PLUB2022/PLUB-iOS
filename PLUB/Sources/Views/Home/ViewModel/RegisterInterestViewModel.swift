@@ -18,7 +18,7 @@ protocol RegisterInterestViewModelType {
   var isEnabledFloatingButton: Driver<Bool> { get }
 }
 
-class RegisterInterestViewModel: RegisterInterestViewModelType {
+final class RegisterInterestViewModel: RegisterInterestViewModelType {
   var disposeBag = DisposeBag()
 
   // Input

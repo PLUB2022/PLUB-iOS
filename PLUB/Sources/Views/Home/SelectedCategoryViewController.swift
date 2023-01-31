@@ -16,7 +16,7 @@ enum SelectedCategoryType {
   case grid
 }
 
-class SelectedCategoryViewController: BaseViewController {
+final class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   

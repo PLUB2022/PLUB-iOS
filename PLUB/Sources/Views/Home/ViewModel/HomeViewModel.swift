@@ -19,7 +19,7 @@ protocol HomeViewModelType {
   var isBookmarked: Signal<Bool> { get }
 }
 
-class HomeViewModel: HomeViewModelType {
+final class HomeViewModel: HomeViewModelType {
   private var disposeBag = DisposeBag()
   
   // Input

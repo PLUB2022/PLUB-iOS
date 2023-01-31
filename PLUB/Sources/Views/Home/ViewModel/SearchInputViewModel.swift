@@ -15,7 +15,7 @@ protocol SearchInputViewModelType {
   // Output
 }
 
-class SearchInputViewModel: SearchInputViewModelType {
+final class SearchInputViewModel: SearchInputViewModelType {
   private var disposeBag = DisposeBag()
   
   // Input

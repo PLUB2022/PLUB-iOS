@@ -11,7 +11,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class ApplyQuestionViewController: BaseViewController {
+final class ApplyQuestionViewController: BaseViewController {
   
   private let viewModel: ApplyQuestionViewModelType
   

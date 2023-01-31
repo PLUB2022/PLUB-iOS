@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-class RegisterInterestViewController: BaseViewController {
+final class RegisterInterestViewController: BaseViewController {
   
   private let viewModel: RegisterInterestViewModelType
   

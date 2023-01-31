@@ -30,7 +30,7 @@ enum CategoryListType {
   case all
 }
 
-class CategoryInfoListView: UIView {
+final class CategoryInfoListView: UIView {
   private let categoryAlignment: CategoryAlignment
   private let categoryListType: CategoryListType
   
@@ -90,7 +90,7 @@ class CategoryInfoListView: UIView {
   }
 }
 
-class CategoryInfoView: UIView {
+final class CategoryInfoView: UIView {
   
   private let categoryType: CategoryType
   

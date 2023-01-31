@@ -9,7 +9,7 @@ import UIKit
 
 import RxSwift
 
-class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
+final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "SelectedCategoryGridCollectionViewCell"
   private var disposeBag = DisposeBag()

@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class IntroduceTagCollectionViewCell: UICollectionViewCell {
+final class IntroduceTagCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "IntroduceTagCollectionViewCell"
   

@@ -11,7 +11,7 @@ import Kingfisher
 import SnapKit
 import Then
 
-class HomeCollectionViewCell: UICollectionViewCell {
+final class HomeCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "HomeCollectionViewCell"
   

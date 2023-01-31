@@ -15,7 +15,7 @@ enum ToggleType {
   case bookmark
 }
 
-class ToggleButton: UIButton {
+final class ToggleButton: UIButton {
   
   private let type: ToggleType
   private var disposeBag = DisposeBag()

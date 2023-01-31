@@ -10,6 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-class SearchOutputViewController: BaseViewController {
+final class SearchOutputViewController: BaseViewController {
   
 }

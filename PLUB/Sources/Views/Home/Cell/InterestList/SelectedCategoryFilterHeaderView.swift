@@ -16,7 +16,7 @@ protocol SelectedCategoryFilterHeaderViewDelegate: AnyObject {
   func didTappedSortControl()
 }
 
-class SelectedCategoryFilterHeaderView: UICollectionReusableView {
+final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   static let identifier = "InterestListFilterHeaderView"
   
   weak var delegate: SelectedCategoryFilterHeaderViewDelegate?

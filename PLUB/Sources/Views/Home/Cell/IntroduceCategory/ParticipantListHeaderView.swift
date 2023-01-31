@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class ParticipantListHeaderView: UICollectionReusableView {
+final class ParticipantListHeaderView: UICollectionReusableView {
   
   static let identifier = "ParticipantListHeaderView"
   

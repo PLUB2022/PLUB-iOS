@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-class SortBottomSheetView: UIControl {
+final class SortBottomSheetView: UIControl {
   
   private let type: SortType
   
@@ -72,7 +72,7 @@ protocol SortBottomSheetViewControllerDelegate: AnyObject {
   func didTappedSortButton(type: SortType)
 }
 
-class SortBottomSheetViewController: BottomSheetViewController {
+final class SortBottomSheetViewController: BottomSheetViewController {
   
   weak var delegate: SortBottomSheetViewControllerDelegate?
   

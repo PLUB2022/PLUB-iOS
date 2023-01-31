@@ -15,7 +15,7 @@ struct MeetingIntroduceModel {
   let introduce: String
 }
 
-class MeetingIntroduceView: UIView {
+final class MeetingIntroduceView: UIView {
   
   private let meetingIntroduceLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 18)

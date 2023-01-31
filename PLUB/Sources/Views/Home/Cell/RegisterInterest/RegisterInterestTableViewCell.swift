@@ -17,7 +17,7 @@ protocol RegisterInterestTableViewCellDelegate: AnyObject {
   func didTappedIndicatorButton(cell: RegisterInterestTableViewCell)
 }
 
-class RegisterInterestTableViewCell: UITableViewCell {
+final class RegisterInterestTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestTableViewCell"
   private var disposeBag = DisposeBag()
