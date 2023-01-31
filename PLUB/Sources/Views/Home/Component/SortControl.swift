@@ -44,7 +44,7 @@ final class SortControl: UIControl {
   }
   
   private let sortImageView = UIImageView().then {
-    $0.image = UIImage(named: "sortIndicator")
+    $0.image = UIImage(named: "filledTriangleDown")
     $0.contentMode = .scaleAspectFill
   }
   

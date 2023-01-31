@@ -132,7 +132,7 @@ final class CategoryInfoView: UIView {
       infoImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
       infoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     case .when:
-      infoImageView.image = UIImage(named: "whiteWhen")
+      infoImageView.image = UIImage(named: "calendarWhite")
     case .people:
       infoImageView.image = UIImage(named: "whitePeople")
     }
@@ -159,7 +159,7 @@ final class CategoryInfoView: UIView {
       if categoryType == .people {
         infoImageView.image = UIImage(named: "blackPeople")
       } else if categoryType == .when {
-        infoImageView.image = UIImage(named: "blackWhen")
+        infoImageView.image = UIImage(named: "calendarBlack")
       }
     case .onlyLocation:
       infoLabel.textColor = .main
