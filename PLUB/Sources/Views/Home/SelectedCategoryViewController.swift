@@ -151,7 +151,9 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
 
 extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelegate {
   func didTappedSortControl() {
-    print("tapped")
+    let vc = SortBottomSheetViewController()
+    vc.modalPresentationStyle = .overFullScreen
+    present(vc, animated: true)
   }
   
   func didTappedInterestListFilterButton() {
