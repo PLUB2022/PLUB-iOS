@@ -141,7 +141,8 @@ final class BirthViewController: BaseViewController {
     birthSettingControl.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        let vc = DateBottomSheetViewController(type: .date, buttonTitle: "생일 입력 완료")
+        let date14YearsBefore = Calendar.current.date(byAdding: .year, value: -14, to: Date())!
+        let vc = DateBottomSheetViewController(maximumDate: date14YearsBefore, buttonTitle: "생일 입력 완료")
         vc.modalPresentationStyle = .overFullScreen
         vc.delegate = owner
         owner.parent?.present(vc, animated: false)
