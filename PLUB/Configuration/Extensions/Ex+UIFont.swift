@@ -25,9 +25,8 @@ extension UIFont {
     case thin = "Pretendard-Thin"
   }
   
-  private static let nanumPen = "NanumPen"
+  private static let nanumPen = "NanumPenOTF"
 }
-
 
 extension UIFont {
   static let h1 = UIFont(name: Pretendard.bold.rawValue, size: 32)
