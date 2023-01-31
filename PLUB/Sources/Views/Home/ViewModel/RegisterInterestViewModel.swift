@@ -18,8 +18,8 @@ protocol RegisterInterestViewModelType {
   var isEnabledFloatingButton: Driver<Bool> { get }
 }
 
-class RegisterInterestViewModel: RegisterInterestViewModelType {
-  var disposeBag = DisposeBag()
+final class RegisterInterestViewModel: RegisterInterestViewModelType {
+  let disposeBag = DisposeBag()
 
   // Input
   var selectDetailCell: AnyObserver<Void>

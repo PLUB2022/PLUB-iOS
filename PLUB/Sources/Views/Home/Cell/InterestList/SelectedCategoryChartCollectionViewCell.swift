@@ -25,11 +25,11 @@ protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
   func didTappedBookmarkButton(plubbingID: String)
 }
 
-class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
+final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   static let identifier = "SelectedCategoryChartCollectionViewCell"
   weak var delegate: SelectedCategoryChartCollectionViewCellDelegate?
   
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   private var plubbingID: String?
   
   private let titleLabel = UILabel().then {

@@ -16,7 +16,7 @@ struct IntroduceCategoryInfoViewModel {
   let categortInfoListModel: CategoryInfoListModel
 }
 
-class IntroduceCategoryInfoView: UIView {
+final class IntroduceCategoryInfoView: UIView {
   
   private let meetingRecommendedLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 32)

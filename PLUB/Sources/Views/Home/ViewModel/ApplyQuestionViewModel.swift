@@ -19,8 +19,8 @@ protocol ApplyQuestionViewModelType {
   var isActivated: Driver<Bool> { get }
 }
 
-class ApplyQuestionViewModel: ApplyQuestionViewModelType {
-  private var disposeBag = DisposeBag()
+final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
+  private let disposeBag = DisposeBag()
   // Input
   let whichQuestion: AnyObserver<QuestionStatus>
   let whichRecruitment: AnyObserver<String>

@@ -19,8 +19,8 @@ protocol HomeViewModelType {
   var isBookmarked: Signal<Bool> { get }
 }
 
-class HomeViewModel: HomeViewModelType {
-  private var disposeBag = DisposeBag()
+final class HomeViewModel: HomeViewModelType {
+  private let disposeBag = DisposeBag()
   
   // Input
   let tappedBookmark: AnyObserver<String>

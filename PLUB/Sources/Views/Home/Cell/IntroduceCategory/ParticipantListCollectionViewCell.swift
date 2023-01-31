@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class ParticipantListCollectionViewCell: UICollectionViewCell {
+final class ParticipantListCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "ParticipantListCollectionViewCell"
   

@@ -10,10 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
-class SearchAlertView: UIView {
+final class SearchAlertView: UIView {
   
   private let emptyImageView = UIImageView().then {
-    $0.image = UIImage(named: "emptySearch")
+    $0.image = UIImage(named: "magnifierWithQuestionMark")
     $0.contentMode = .scaleAspectFill
   }
   

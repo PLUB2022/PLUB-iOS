@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "검색결과없음1.png",
+      "filename" : "codicon_triangle-down.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "검색결과없음1@2x.png",
+      "filename" : "codicon_triangle-down@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "검색결과없음1@3x.png",
+      "filename" : "codicon_triangle-down@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

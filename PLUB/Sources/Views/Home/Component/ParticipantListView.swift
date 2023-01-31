@@ -15,7 +15,7 @@ protocol ParticipantListViewDelegate: AnyObject {
   func didTappedMoreButton()
 }
 
-class ParticipantListView: UIView {
+final class ParticipantListView: UIView {
   
   weak var delegate: ParticipantListViewDelegate?
   
@@ -110,7 +110,7 @@ class ParticipantListView: UIView {
   }
 }
 
-class ParticipantImageView: UIImageView {
+final class ParticipantImageView: UIImageView {
   override init(frame: CGRect) {
     super.init(frame: .zero)
     configureUI()

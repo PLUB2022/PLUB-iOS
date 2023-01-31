@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class ApplyQuestionHeaderView: UIView {
+final class ApplyQuestionHeaderView: UIView {
   
   var isActive: Bool = false {
     didSet {

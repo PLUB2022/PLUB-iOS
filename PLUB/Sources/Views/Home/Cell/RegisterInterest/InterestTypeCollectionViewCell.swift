@@ -11,7 +11,7 @@ import UIKit
 import SnapKit
 import Then
 
-class InterestTypeCollectionViewCell: UICollectionViewCell {
+final class InterestTypeCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "InterestTypeCollectionViewCell"
   

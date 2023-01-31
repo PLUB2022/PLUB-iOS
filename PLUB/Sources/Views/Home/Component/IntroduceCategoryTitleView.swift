@@ -16,7 +16,7 @@ struct IntroduceCategoryTitleViewModel {
   let infoText: String
 }
 
-class IntroduceCategoryTitleView: UIView {
+final class IntroduceCategoryTitleView: UIView {
   
   private let meetingTitleLabel = UILabel().then {
     $0.textColor = .black

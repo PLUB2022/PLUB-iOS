@@ -16,13 +16,19 @@ enum SelectedCategoryType {
   case grid
 }
 
-class SelectedCategoryViewController: BaseViewController {
+final class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   
   private var model: [SelectedCategoryCollectionViewCellModel] = [] {
     didSet {
       interestListCollectionView.reloadData()
+    }
+  }
+  
+  private var type: SortType = .popular {
+    didSet {
+      interestListCollectionView.reloadSections([0])
     }
   }
   
@@ -115,6 +121,7 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     if collectionView == self.interestListCollectionView && kind == UICollectionView.elementKindSectionHeader {
       let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier, for: indexPath) as? SelectedCategoryFilterHeaderView ?? SelectedCategoryFilterHeaderView()
+      header.filterChanged = type
       header.delegate = self
       return header
     }
@@ -150,6 +157,13 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
 }
 
 extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelegate {
+  func didTappedSortControl() {
+    let vc = SortBottomSheetViewController()
+    vc.modalPresentationStyle = .overFullScreen
+    vc.delegate = self
+    present(vc, animated: false)
+  }
+  
   func didTappedInterestListFilterButton() {
     
   }
@@ -165,3 +179,8 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   }
 }
 
+extension SelectedCategoryViewController: SortBottomSheetViewControllerDelegate {
+  func didTappedSortButton(type: SortType) {
+    self.type = type
+  }
+}

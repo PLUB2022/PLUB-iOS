@@ -9,10 +9,10 @@ import UIKit
 
 import RxSwift
 
-class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
+final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "SelectedCategoryGridCollectionViewCell"
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
