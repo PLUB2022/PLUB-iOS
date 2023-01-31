@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class RegisterInterestHeaderView: UIView {
+final class RegisterInterestHeaderView: UIView {
   
   private let titleLabel = UILabel().then {
     $0.font = .h4

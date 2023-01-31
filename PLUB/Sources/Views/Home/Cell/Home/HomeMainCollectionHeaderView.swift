@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class HomeMainCollectionHeaderView: UICollectionReusableView {
+final class HomeMainCollectionHeaderView: UICollectionReusableView {
   
   static let identifier = "HomeMainCollectionHeaderView"
   

@@ -14,7 +14,7 @@ protocol InterestSelectCollectionViewCellDelegate: AnyObject {
   func didTappedRegisterInterestView()
 }
 
-class InterestSelectCollectionViewCell: UICollectionViewCell {
+final class InterestSelectCollectionViewCell: UICollectionViewCell {
   static let identifier = "InterestSelectCollectionViewCell"
   
   weak var delegate: InterestSelectCollectionViewCellDelegate?

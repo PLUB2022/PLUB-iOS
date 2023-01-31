@@ -15,10 +15,10 @@ enum ToggleType {
   case bookmark
 }
 
-class ToggleButton: UIButton {
+final class ToggleButton: UIButton {
   
   private let type: ToggleType
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   override var isSelected: Bool {
     didSet {
@@ -26,7 +26,7 @@ class ToggleButton: UIButton {
       case .indicator:
         isSelected ? setImage(UIImage(named: "topIndicator"), for: .normal) : setImage(UIImage(named: "bottomIndicator"), for: .normal)
       case .bookmark:
-        isSelected ? setImage(UIImage(named: "mainBookmark"), for: .normal) : setImage(UIImage(named: "whiteBookmark"), for: .normal)
+        isSelected ? setImage(UIImage(named: "bookmarkActivated"), for: .normal) : setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
       }
     }
   }

@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class InterestSelectCollectionHeaderView: UICollectionReusableView {
+final class InterestSelectCollectionHeaderView: UICollectionReusableView {
   
   static let identifier = "InterestSelectCollectionHeaderView"
   

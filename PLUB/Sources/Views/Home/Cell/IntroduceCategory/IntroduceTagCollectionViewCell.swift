@@ -10,13 +10,13 @@ import UIKit
 import SnapKit
 import Then
 
-class IntroduceTagCollectionViewCell: UICollectionViewCell {
+final class IntroduceTagCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "IntroduceTagCollectionViewCell"
   
   private let tagLabel = UILabel().then {
     $0.font = .caption
-    $0.textColor = .tagTextColor
+    $0.textColor = .main
     $0.textAlignment = .center
     $0.sizeToFit()
   }

@@ -11,7 +11,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class SearchInputViewController: BaseViewController {
+final class SearchInputViewController: BaseViewController {
   
   private let viewModel: SearchInputViewModelType
   

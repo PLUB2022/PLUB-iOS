@@ -7,16 +7,26 @@
 
 import UIKit
 
+import RxSwift
+
 protocol SelectedCategoryFilterHeaderViewDelegate: AnyObject {
   func didTappedInterestListFilterButton()
   func didTappedInterestListChartButton()
   func didTappedInterestListGridButton()
+  func didTappedSortControl()
 }
 
-class SelectedCategoryFilterHeaderView: UICollectionReusableView {
+final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   static let identifier = "InterestListFilterHeaderView"
   
-  public weak var delegate: SelectedCategoryFilterHeaderViewDelegate?
+  weak var delegate: SelectedCategoryFilterHeaderViewDelegate?
+  private let disposeBag = DisposeBag()
+  
+  var filterChanged: SortType = .popular {
+    didSet {
+      sortButton.sortChanged = filterChanged
+    }
+  }
   
   private let interestListFilterLabel = UILabel().then {
     $0.text = "전체"
@@ -36,9 +46,12 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     $0.setImage(UIImage(named: "grid"), for: .normal)
   }
   
+  private let sortButton = SortControl()
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -50,7 +63,8 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
     interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
     
-    [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton].forEach { addSubview($0) }
+    [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton, sortButton].forEach { addSubview($0) }
+    
     interestListFilterLabel.snp.makeConstraints {
       $0.centerY.left.equalToSuperview()
     }
@@ -58,16 +72,32 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     interestListFilterButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
       $0.left.equalTo(interestListFilterLabel.snp.right)
+      $0.size.equalTo(32)
+    }
+    
+    sortButton.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      $0.right.equalToSuperview()
     }
     
     interesetListGridButton.snp.makeConstraints {
-      $0.centerY.right.equalToSuperview()
+      $0.centerY.equalToSuperview()
+      $0.right.equalTo(sortButton.snp.left)
     }
     
     interestListChartButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
       $0.right.equalTo(interesetListGridButton.snp.left)
     }
+  }
+  
+  private func bind() {
+    sortButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.didTappedSortControl()
+      })
+      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedInterestListFilterButton() {

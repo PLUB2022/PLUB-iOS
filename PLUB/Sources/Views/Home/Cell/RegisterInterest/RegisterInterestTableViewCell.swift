@@ -17,10 +17,10 @@ protocol RegisterInterestTableViewCellDelegate: AnyObject {
   func didTappedIndicatorButton(cell: RegisterInterestTableViewCell)
 }
 
-class RegisterInterestTableViewCell: UITableViewCell {
+final class RegisterInterestTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestTableViewCell"
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   weak var delegate: RegisterInterestTableViewCellDelegate?
   
   var isExpanded: Bool = false {

@@ -14,7 +14,7 @@ protocol RegisterInterestDetailTableViewCellDelegate: AnyObject {
   func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell, mainIndexPath: IndexPath, subIndexPath: IndexPath)
 }
 
-class RegisterInterestDetailTableViewCell: UITableViewCell {
+final class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   static let identifier = "RegisterInterestDetailTableViewCell"
   

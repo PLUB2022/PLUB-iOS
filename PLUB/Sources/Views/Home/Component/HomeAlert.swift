@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class HomeAlert {
+final class HomeAlert {
   struct Constants {
     static let backgroundAlphaTo = 0.6
   }

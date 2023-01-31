@@ -22,7 +22,7 @@ protocol ApplyQuestionTableViewCellDelegate: AnyObject {
   func whichQuestionChangedIn(_ status: QuestionStatus)
 }
 
-class ApplyQuestionTableViewCell: UITableViewCell {
+final class ApplyQuestionTableViewCell: UITableViewCell {
   
   struct Constants {
     static let placeHolder = "소개하는 내용을 적어주세요"
@@ -30,7 +30,7 @@ class ApplyQuestionTableViewCell: UITableViewCell {
   
   static let identifier = "ApplyQuestionTableViewCell"
   
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   private var id: Int?
   
   public weak var delegate: ApplyQuestionTableViewCellDelegate?

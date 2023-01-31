@@ -11,7 +11,6 @@ struct CategoryInfoListModel {
   let placeName: String
   let peopleCount: Int
   let when: String
-//  let days: [String]
 }
 
 enum CategoryAlignment {
@@ -31,7 +30,7 @@ enum CategoryListType {
   case all
 }
 
-class CategoryInfoListView: UIView {
+final class CategoryInfoListView: UIView {
   private let categoryAlignment: CategoryAlignment
   private let categoryListType: CategoryListType
   
@@ -91,7 +90,7 @@ class CategoryInfoListView: UIView {
   }
 }
 
-class CategoryInfoView: UIView {
+final class CategoryInfoView: UIView {
   
   private let categoryType: CategoryType
   
@@ -133,7 +132,7 @@ class CategoryInfoView: UIView {
       infoImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
       infoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     case .when:
-      infoImageView.image = UIImage(named: "whiteWhen")
+      infoImageView.image = UIImage(named: "calendarWhite")
     case .people:
       infoImageView.image = UIImage(named: "whitePeople")
     }
@@ -160,7 +159,7 @@ class CategoryInfoView: UIView {
       if categoryType == .people {
         infoImageView.image = UIImage(named: "blackPeople")
       } else if categoryType == .when {
-        infoImageView.image = UIImage(named: "blackWhen")
+        infoImageView.image = UIImage(named: "calendarBlack")
       }
     case .onlyLocation:
       infoLabel.textColor = .main

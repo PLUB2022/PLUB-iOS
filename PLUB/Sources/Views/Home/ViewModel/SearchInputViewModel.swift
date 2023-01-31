@@ -15,8 +15,8 @@ protocol SearchInputViewModelType {
   // Output
 }
 
-class SearchInputViewModel: SearchInputViewModelType {
-  private var disposeBag = DisposeBag()
+final class SearchInputViewModel: SearchInputViewModelType {
+  private let disposeBag = DisposeBag()
   
   // Input
   let whichKeyword: AnyObserver<String>
