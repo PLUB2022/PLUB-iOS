@@ -22,6 +22,12 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   weak var delegate: SelectedCategoryFilterHeaderViewDelegate?
   private var disposeBag = DisposeBag()
   
+  var filterChanged: SortType = .popular {
+    didSet {
+      sortButton.sortChanged = filterChanged
+    }
+  }
+  
   private let interestListFilterLabel = UILabel().then {
     $0.text = "전체"
     $0.font = .body1

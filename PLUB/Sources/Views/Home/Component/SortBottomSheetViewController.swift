@@ -69,7 +69,13 @@ extension Reactive where Base: SortBottomSheetView {
   }
 }
 
+protocol SortBottomSheetViewControllerDelegate: AnyObject {
+  func didTappedSortButton(type: SortType)
+}
+
 class SortBottomSheetViewController: BottomSheetViewController {
+  
+  weak var delegate: SortBottomSheetViewControllerDelegate?
   
   private let grabber = UIView().then {
     $0.backgroundColor = .mediumGray
@@ -131,6 +137,7 @@ class SortBottomSheetViewController: BottomSheetViewController {
       .subscribe(onNext: { owner, _ in
         owner.popularButton.isTapped = true
         owner.newButton.isTapped = false
+        owner.delegate?.didTappedSortButton(type: .popular)
       })
       .disposed(by: disposeBag)
     
@@ -139,6 +146,7 @@ class SortBottomSheetViewController: BottomSheetViewController {
       .subscribe(onNext: { owner, _ in
         owner.popularButton.isTapped = false
         owner.newButton.isTapped = true
+        owner.delegate?.didTappedSortButton(type: .new)
       })
       .disposed(by: disposeBag)
   }

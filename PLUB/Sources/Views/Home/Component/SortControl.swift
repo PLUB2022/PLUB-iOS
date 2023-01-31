@@ -30,6 +30,13 @@ class SortControl: UIControl {
   
   private let type: SortType
   
+  var sortChanged: SortType = .popular {
+    didSet {
+      sortLabel.text = sortChanged.text
+      layoutIfNeeded()
+    }
+  }
+  
   private let sortLabel = UILabel().then {
     $0.text = "인기순"
     $0.font = .caption
