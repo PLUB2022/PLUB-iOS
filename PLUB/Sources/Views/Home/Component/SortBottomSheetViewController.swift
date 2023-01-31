@@ -30,7 +30,7 @@ final class SortBottomSheetView: UIControl {
   }
   
   private let selectImageView = UIImageView().then {
-    $0.image = UIImage(named: "sortSelect")
+    $0.image = UIImage(named: "sortControlActivated")
     $0.contentMode = .scaleAspectFit
   }
   
