@@ -150,6 +150,10 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
 }
 
 extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelegate {
+  func didTappedSortControl() {
+    print("tapped")
+  }
+  
   func didTappedInterestListFilterButton() {
     
   }
