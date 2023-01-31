@@ -72,6 +72,7 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     interestListFilterButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
       $0.left.equalTo(interestListFilterLabel.snp.right)
+      $0.size.equalTo(32)
     }
     
     sortButton.snp.makeConstraints { make in
