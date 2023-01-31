@@ -40,7 +40,7 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 12
     $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.main.cgColor
+    $0.layer.borderColor = UIColor.sortButtonColor.cgColor
   }
   
   override init(frame: CGRect) {
@@ -57,7 +57,8 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
     interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
     
-    [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton].forEach { addSubview($0) }
+    [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton, sortButton].forEach { addSubview($0) }
+    
     interestListFilterLabel.snp.makeConstraints {
       $0.centerY.left.equalToSuperview()
     }
@@ -67,8 +68,14 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
       $0.left.equalTo(interestListFilterLabel.snp.right)
     }
     
+    sortButton.snp.makeConstraints { make in
+      make.centerY.equalToSuperview()
+      make.right.equalToSuperview()
+    }
+    
     interesetListGridButton.snp.makeConstraints {
-      $0.centerY.right.equalToSuperview()
+      $0.centerY.equalToSuperview()
+      $0.right.equalTo(sortButton.snp.left)
     }
     
     interestListChartButton.snp.makeConstraints {
