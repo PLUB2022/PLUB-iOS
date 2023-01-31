@@ -106,7 +106,6 @@ final class OnboardingViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.emitLottieJSONName
-      .debug()
       .drive(with: self) { owner, jsonName in
         owner.onboardingView.animation = LottieAnimation.named(jsonName)
         owner.onboardingView.play()
