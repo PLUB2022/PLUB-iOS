@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
@@ -24,7 +26,7 @@ enum SortType {
   }
 }
 
-class SortButton: UIView {
+class SortControl: UIControl {
   
   private let type: SortType
   
@@ -68,5 +70,11 @@ class SortButton: UIView {
     layer.cornerRadius = 12
     layer.borderWidth = 1
     layer.borderColor = UIColor.sortButtonColor.cgColor
+  }
+}
+
+extension Reactive where Base: SortControl {
+  var tap: ControlEvent<Void> {
+    controlEvent(.touchUpInside)
   }
 }

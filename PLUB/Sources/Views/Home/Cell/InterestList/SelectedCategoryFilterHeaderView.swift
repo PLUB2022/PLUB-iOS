@@ -36,7 +36,7 @@ class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     $0.setImage(UIImage(named: "grid"), for: .normal)
   }
   
-  private let sortButton = SortButton()
+  private let sortButton = SortControl()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
