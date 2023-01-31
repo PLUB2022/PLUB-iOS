@@ -34,8 +34,8 @@ final class OnboardingViewController: BaseViewController {
     $0.font = .body2
   }
   
-  private let pageControl = PageControl().then {
-    $0.numberOfPages = 3
+  private lazy var pageControl = PageControl().then {
+    $0.numberOfPages = viewModel.count
     $0.currentPageIndicatorWidth = 24
   }
   

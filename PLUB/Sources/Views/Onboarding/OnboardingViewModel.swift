@@ -37,6 +37,11 @@ final class OnboardingViewModel: OnboardingViewModelType {
     "주변 친구들과 모임을 만들어\n편하게 관리하고 즐거운 추억을 쌓을 수 있어요"
   ]
   
+  /// 제공되는 title과 subtitle의 개수
+  var count: Int {
+    titles.count
+  }
+  
   /// 배열의 index를 관리하는 Relay
   private let indexRelay = BehaviorRelay(value: 0)
   
