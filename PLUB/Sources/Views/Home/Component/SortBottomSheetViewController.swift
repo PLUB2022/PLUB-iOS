@@ -20,7 +20,6 @@ class SortBottomSheetView: UIControl {
     didSet {
       sortLabel.textColor = isTapped ? .main : .black
       selectImageView.isHidden = !isTapped
-      layoutIfNeeded()
     }
   }
   
