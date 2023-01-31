@@ -68,7 +68,7 @@ final class CategoryHeaderView: UIView {
   }
 }
 
-extension CategoryHeaderView {
+private extension CategoryHeaderView {
   private func setupLayouts() {
     [titleLabel, limitLabel, polygonImageView, countStackView].forEach {
       addSubview($0)
