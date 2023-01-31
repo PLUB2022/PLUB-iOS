@@ -158,7 +158,7 @@ final class SignUpViewController: BaseViewController {
     }
     
     nextButton.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(Metric.nextButtonBottom)
       $0.horizontalEdges.equalToSuperview().inset(24)
       $0.height.equalTo(48)
     }
@@ -304,7 +304,7 @@ extension SignUpViewController {
           self.view.frame.origin.y -= keyboardHeight
         } else {
           self.nextButton.snp.updateConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(keyboardHeight + 4)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(keyboardHeight + CGFloat(Metric.nextButtonBottom))
           }
         }
       }
@@ -314,11 +314,19 @@ extension SignUpViewController {
   @objc
   func keyboardWillHide(_ sender: Notification) {
     self.nextButton.snp.updateConstraints {
-      $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(4)
+      $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(Metric.nextButtonBottom)
     }
     UIView.animate(withDuration: 1) {
       self.view.frame.origin.y = 0
     }
+  }
+}
+
+// MARK: - Constants
+
+extension SignUpViewController {
+  private enum Metric {
+    static let nextButtonBottom = Device.isNotch ? 4 : 24
   }
 }
 
