@@ -69,6 +69,13 @@ extension Reactive where Base: SortBottomSheetView {
 }
 
 class SortBottomSheetViewController: BottomSheetViewController {
+  
+  private let grabber = UIView().then {
+    $0.backgroundColor = .mediumGray
+    $0.layer.cornerRadius = 6
+    $0.layer.masksToBounds = true
+  }
+  
   private let stackView = UIStackView().then {
     $0.spacing = 15.5
     $0.axis = .vertical
@@ -95,15 +102,23 @@ class SortBottomSheetViewController: BottomSheetViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    contentView.addSubview(stackView)
+    [grabber, stackView].forEach { contentView.addSubview($0) }
     [titleLabel, popularButton, newButton].forEach { stackView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    grabber.snp.makeConstraints { make in
+      make.top.equalToSuperview().inset(8)
+      make.centerX.equalToSuperview()
+      make.width.equalTo(48)
+      make.height.equalTo(4)
+    }
+    
     stackView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+      make.top.equalTo(grabber.snp.bottom).offset(8)
+      make.left.right.bottom.equalToSuperview()
     }
   }
 }
