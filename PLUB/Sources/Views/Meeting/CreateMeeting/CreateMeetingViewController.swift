@@ -11,13 +11,7 @@ import RxSwift
 
 final class CreateMeetingViewController: BaseViewController {
   
-  init() {
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+  private let viewModel = CreateMeetingViewModel()
   
   private var currentPage = 0 {
     didSet {
@@ -59,42 +53,42 @@ final class CreateMeetingViewController: BaseViewController {
   }
   
   private lazy var meetingCategoryViewController = MeetingCategoryViewController(
-    viewModel: MeetingCategoryViewModel(),
+    viewModel: viewModel.categoryViewModel,
     childIndex: 0
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingNameViewController = MeetingNameViewController(
-    viewModel: MeetingNameViewModel(),
+    viewModel: viewModel.nameViewModel,
     childIndex: 1
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingIntroduceViewController = MeetingIntroduceViewController(
-    viewModel: MeetingIntroduceViewModel(),
+    viewModel: viewModel.introduceViewModel,
     childIndex: 2
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingDateViewController = MeetingDateViewController(
-    viewModel: MeetingDateViewModel(),
+    viewModel: viewModel.dateViewModel,
     childIndex: 3
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingPeopleNumberViewController = MeetingPeopleNumberViewController(
-    viewModel: MeetingPeopleNumberViewModel(),
+    viewModel: viewModel.peopleNumberViewModel,
     childIndex: 4
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetinQuestionViewController = MeetingQuestionViewController(
-    viewModel: MeetingQuestionViewModel(),
+    viewModel: viewModel.questionViewModel,
     childIndex: 5
   ).then {
     $0.delegate = self
@@ -111,6 +105,14 @@ final class CreateMeetingViewController: BaseViewController {
   
   //TODO: 수빈 - viewModel로 빼기
   private var isNextButtonEnable = [Bool]()
+  
+  init() {
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   // MARK: - Life Cycle
   
@@ -181,6 +183,9 @@ final class CreateMeetingViewController: BaseViewController {
         } else if owner.lastPageIndex + 1 < owner.viewControllers.count {
           owner.lastPageIndex += 1
           owner.currentPage = owner.lastPageIndex
+        } else {
+          let vc = MeetingSummaryViewController()
+          owner.navigationController?.pushViewController(vc, animated: true)
         }
       })
       .disposed(by: disposeBag)

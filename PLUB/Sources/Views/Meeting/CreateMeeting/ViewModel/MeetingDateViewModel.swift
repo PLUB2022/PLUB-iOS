@@ -49,7 +49,7 @@ final class MeetingDateViewModel {
   // Input
   let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
   let timeInputRelay = BehaviorRelay<String>.init(value: .init())
-  let onOffInputRelay = BehaviorRelay<String>.init(value: "ON")
+  let onOffInputRelay = BehaviorRelay<OnOff>.init(value: .on)
   let locationInputRelay = BehaviorRelay<String>.init(value: .init())
   
   // OutPut
@@ -70,9 +70,9 @@ final class MeetingDateViewModel {
       onOffInputRelay,
       locationInputRelay
     ).map {
-      if $0.0.contains("ON") {
+      if $0.0 == OnOff.on {
         return true
-      } else if $0.0.contains("OFF") && !$0.1.isEmpty {
+      } else if $0.0 == OnOff.off && !$0.1.isEmpty {
         return true
       } else {
         return false

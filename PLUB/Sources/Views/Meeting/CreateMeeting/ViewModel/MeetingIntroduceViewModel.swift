@@ -11,8 +11,8 @@ import RxCocoa
 final class MeetingIntroduceViewModel: ViewModelType {
   private let disposeBag = DisposeBag()
   
-  private let goalInputRelay = BehaviorRelay<String>.init(value: .init())
-  private let introduceInputRelay = BehaviorRelay<String>.init(value: .init())
+  let goalInputRelay = BehaviorRelay<String>.init(value: .init())
+  let introduceInputRelay = BehaviorRelay<String>.init(value: .init())
   
   struct Input {
     let goalText: Observable<String>

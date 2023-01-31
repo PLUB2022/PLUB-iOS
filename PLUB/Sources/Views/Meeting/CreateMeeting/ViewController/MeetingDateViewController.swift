@@ -198,7 +198,7 @@ final class MeetingDateViewController: BaseViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         owner.changeOnOffButton(state: true)
-        owner.viewModel.onOffInputRelay.accept("ON")
+        owner.viewModel.onOffInputRelay.accept(.on)
       })
       .disposed(by: disposeBag)
     
@@ -206,7 +206,7 @@ final class MeetingDateViewController: BaseViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         owner.changeOnOffButton(state: false)
-        owner.viewModel.onOffInputRelay.accept("OFF")
+        owner.viewModel.onOffInputRelay.accept(.off)
       })
        .disposed(by: disposeBag)
     
