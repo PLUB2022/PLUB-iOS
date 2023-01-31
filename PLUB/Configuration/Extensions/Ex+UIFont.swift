@@ -24,6 +24,8 @@ extension UIFont {
     // thin
     case thin = "Pretendard-Thin"
   }
+  
+  private static let nanumPen = "NanumPen"
 }
 
 
@@ -43,4 +45,6 @@ extension UIFont {
   static let caption2 = UIFont(name: Pretendard.bold.rawValue, size: 12)
   static let caption3 = UIFont(name: Pretendard.medium.rawValue, size: 12)
   static let overLine = UIFont(name: Pretendard.regular.rawValue, size: 10)
+  
+  static let onboarding = UIFont(name: nanumPen, size: 36)
 }
