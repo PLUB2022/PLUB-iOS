@@ -61,13 +61,13 @@ final class QuestionTableViewCell: UITableViewCell {
 }
 
 private extension QuestionTableViewCell {
-  func setupLayouts() {
+  private func setupLayouts() {
     [inputTextView, removeButton].forEach {
       contentView.addSubview($0)
     }
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     inputTextView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.bottom.equalToSuperview().inset(16)
@@ -81,14 +81,14 @@ private extension QuestionTableViewCell {
     }
   }
   
-  func setupStyles() {
+  private func setupStyles() {
     selectionStyle = .none
     accessoryType = .none
     backgroundColor = .background
     removeButton.isHidden = true
   }
   
-  func bind() {
+  private func bind() {
     inputTextView.textView.rx.text.orEmpty
       .distinctUntilChanged()
       .withUnretained(self)

@@ -62,7 +62,7 @@ final class LocationTableViewCell: UITableViewCell {
 }
 
 private extension LocationTableViewCell {
-  func setupLayouts() {
+  private func setupLayouts() {
     contentView.addSubview(contextView)
     contextView.addSubview(contentStackView)
     [titleLabel, subTitleLabel].forEach {
@@ -70,7 +70,7 @@ private extension LocationTableViewCell {
     }
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     contextView.snp.makeConstraints {
       $0.top.bottom.equalToSuperview().inset(4)
       $0.leading.trailing.equalToSuperview().inset(24)
@@ -90,13 +90,13 @@ private extension LocationTableViewCell {
     }
   }
   
-  func setupStyles() {
+  private func setupStyles() {
     selectionStyle = .none
     accessoryType = .none
     backgroundColor = .background
   }
   
-  func setupSelected(_ selected: Bool) {
+  private func setupSelected(_ selected: Bool) {
     contextView.layer.borderColor = selected ? UIColor.main.cgColor : UIColor.clear.cgColor
     contextView.layer.borderWidth = selected ? 2 : 0
   }

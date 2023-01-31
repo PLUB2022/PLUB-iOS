@@ -59,7 +59,7 @@ final class QuestionHeaderView: UIView {
 }
 
 private extension QuestionHeaderView {
-  func setupLayouts() {
+  private func setupLayouts() {
     [contentStackView].forEach {
       addSubview($0)
     }
@@ -73,7 +73,7 @@ private extension QuestionHeaderView {
     }
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     contentStackView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.leading.trailing.equalToSuperview().inset(24)
@@ -86,11 +86,11 @@ private extension QuestionHeaderView {
     }
   }
   
-  func setupStyles() {
+  private func setupStyles() {
 
   }
   
-  func bind() {
+  private func bind() {
     questionButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in

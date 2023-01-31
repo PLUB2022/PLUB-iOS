@@ -43,7 +43,6 @@ final class CreateMeetingViewController: BaseViewController {
   
   private lazy var scrollView = UIScrollView().then {
     $0.bounces = false
-    $0.contentInsetAdjustmentBehavior = .never
     $0.isPagingEnabled = true
     $0.contentSize.width = Device.width
     $0.showsHorizontalScrollIndicator = false
@@ -59,42 +58,50 @@ final class CreateMeetingViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
   
+  private lazy var meetingCategoryViewController = MeetingCategoryViewController(
+    viewModel: MeetingCategoryViewModel(),
+    childIndex: 0
+  ).then {
+    $0.delegate = self
+  }
+  
   private lazy var meetingNameViewController = MeetingNameViewController(
     viewModel: MeetingNameViewModel(),
-    childIndex: 0
+    childIndex: 1
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingIntroduceViewController = MeetingIntroduceViewController(
     viewModel: MeetingIntroduceViewModel(),
-    childIndex: 1
+    childIndex: 2
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingDateViewController = MeetingDateViewController(
     viewModel: MeetingDateViewModel(),
-    childIndex: 2
+    childIndex: 3
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetingPeopleNumberViewController = MeetingPeopleNumberViewController(
     viewModel: MeetingPeopleNumberViewModel(),
-    childIndex: 3
+    childIndex: 4
   ).then {
     $0.delegate = self
   }
   
   private lazy var meetinQuestionViewController = MeetingQuestionViewController(
     viewModel: MeetingQuestionViewModel(),
-    childIndex: 4
+    childIndex: 5
   ).then {
     $0.delegate = self
   }
   
   private lazy var viewControllers: [UIViewController] = [
+    meetingCategoryViewController,
     meetingNameViewController,
     meetingIntroduceViewController,
     meetingDateViewController,
@@ -141,7 +148,7 @@ final class CreateMeetingViewController: BaseViewController {
     }
     
     scrollView.snp.makeConstraints {
-      $0.top.equalTo(pageControl.snp.bottom).offset(24)
+      $0.top.equalTo(pageControl.snp.bottom)
       $0.leading.trailing.bottom.equalToSuperview()
     }
     

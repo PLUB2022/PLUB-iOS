@@ -34,17 +34,17 @@ final class WeekDateCollectionViewCell: UICollectionViewCell {
 }
 
 private extension WeekDateCollectionViewCell {
-  func setupLayouts() {
+  private func setupLayouts() {
     addSubview(label)
   }
     
-  func setupConstraints() {
+  private func setupConstraints() {
     label.snp.makeConstraints {
       $0.center.equalToSuperview()
     }
   }
   
-  func setupStyles() {
+  private func setupStyles() {
     backgroundColor = .clear
     
     layer.cornerRadius = 8
@@ -52,7 +52,7 @@ private extension WeekDateCollectionViewCell {
     layer.borderColor = UIColor.deepGray.cgColor
   }
     
-  func setupSelected(_ selected: Bool) {
+  private func setupSelected(_ selected: Bool) {
     backgroundColor = selected ? .main : .clear
     layer.borderColor = selected ? UIColor.clear.cgColor : UIColor.deepGray.cgColor
     label.textColor = selected ? .white : .deepGray

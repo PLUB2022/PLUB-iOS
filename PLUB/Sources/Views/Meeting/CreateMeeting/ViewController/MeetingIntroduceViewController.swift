@@ -19,7 +19,6 @@ final class MeetingIntroduceViewController: BaseViewController {
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
-    $0.contentInsetAdjustmentBehavior = .never
     $0.showsVerticalScrollIndicator = false
   }
   

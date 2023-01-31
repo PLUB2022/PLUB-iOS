@@ -38,11 +38,11 @@ final class AddQuestionTableViewCell: UITableViewCell {
 }
 
 private extension AddQuestionTableViewCell {
-  func setupLayouts() {
+  private func setupLayouts() {
     contentView.addSubview(addQuestionControl)
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     addQuestionControl.snp.makeConstraints {
       $0.center.equalToSuperview()
       $0.height.equalTo(36)
@@ -51,13 +51,13 @@ private extension AddQuestionTableViewCell {
     }
   }
   
-  func setupStyles() {
+  private func setupStyles() {
     selectionStyle = .none
     accessoryType = .none
     backgroundColor = .background
   }
   
-  func bind() {
+  private func bind() {
     addQuestionControl.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in

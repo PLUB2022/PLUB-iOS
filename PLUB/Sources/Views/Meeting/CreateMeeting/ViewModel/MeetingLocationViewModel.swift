@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 final class MeetingLocationViewModel {
-  private var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
   
   // Paging
   private var pageCount = 1
