@@ -33,7 +33,6 @@ class SortControl: UIControl {
   var sortChanged: SortType = .popular {
     didSet {
       sortLabel.text = sortChanged.text
-      layoutIfNeeded()
     }
   }
   
