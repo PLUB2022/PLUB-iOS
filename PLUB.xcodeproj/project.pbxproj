@@ -118,6 +118,7 @@
 		BA88126D28E48AB700BD832A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126C28E48AB700BD832A /* SnapKit */; };
 		BA88127028E48AC800BD832A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126F28E48AC800BD832A /* Alamofire */; };
 		BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AA42929863ABC004E9403 /* Interceptor.swift */; };
+		BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */; };
 		BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */; };
 		BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4329746737009DDF32 /* AuthRouter.swift */; };
 		BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B45297467A2009DDF32 /* AuthService.swift */; };
@@ -284,6 +285,7 @@
 		BA88125B28E48A3000BD832A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA88126128E48A5800BD832A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		BA8AA42929863ABC004E9403 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
+		BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		BA8E2B4329746737009DDF32 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		BA8E2B45297467A2009DDF32 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -593,6 +595,7 @@
 		BA36EED32954637F00D30169 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BA8AA42B2988FCAC004E9403 /* Onboarding */,
 				BA42D1EE28EDE05000C20061 /* Home */,
 				BA42D1EF28EDE05A00C20061 /* Login */,
 				BA42D1F028EDE08000C20061 /* Meeting */,
@@ -798,6 +801,14 @@
 				BA88125B28E48A3000BD832A /* Info.plist */,
 			);
 			path = PLUB;
+			sourceTree = "<group>";
+		};
+		BA8AA42B2988FCAC004E9403 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		BA8E2B3D297461C8009DDF32 /* Request */ = {
@@ -1110,6 +1121,7 @@
 				BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */,
 				C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */,
 				BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */,
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
 				BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */,
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
