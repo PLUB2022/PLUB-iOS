@@ -42,6 +42,11 @@ final class DateBottomSheetViewController: BottomSheetViewController {
     super.init(nibName: nil, bundle: nil)
   }
   
+  convenience init(maximumDate: Date, buttonTitle: String) {
+    self.init(type: .date, buttonTitle: buttonTitle)
+    datePicker.maximumDate = maximumDate
+  }
+  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
