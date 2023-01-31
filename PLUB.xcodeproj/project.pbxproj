@@ -121,6 +121,9 @@
 		BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */; };
 		BA8AA4302988FDCC004E9403 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BA8AA42F2988FDCC004E9403 /* Lottie */; };
 		BA8AA43229890083004E9403 /* NanumPen.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA8AA43129890083004E9403 /* NanumPen.otf */; };
+		BA8AA437298901B9004E9403 /* Onboarding1.json in Resources */ = {isa = PBXBuildFile; fileRef = BA8AA434298901B9004E9403 /* Onboarding1.json */; };
+		BA8AA438298901B9004E9403 /* Onboarding2.json in Resources */ = {isa = PBXBuildFile; fileRef = BA8AA435298901B9004E9403 /* Onboarding2.json */; };
+		BA8AA439298901B9004E9403 /* Onboarding3.json in Resources */ = {isa = PBXBuildFile; fileRef = BA8AA436298901B9004E9403 /* Onboarding3.json */; };
 		BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */; };
 		BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4329746737009DDF32 /* AuthRouter.swift */; };
 		BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B45297467A2009DDF32 /* AuthService.swift */; };
@@ -289,6 +292,9 @@
 		BA8AA42929863ABC004E9403 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
 		BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		BA8AA43129890083004E9403 /* NanumPen.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumPen.otf; sourceTree = "<group>"; };
+		BA8AA434298901B9004E9403 /* Onboarding1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Onboarding1.json; sourceTree = "<group>"; };
+		BA8AA435298901B9004E9403 /* Onboarding2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Onboarding2.json; sourceTree = "<group>"; };
+		BA8AA436298901B9004E9403 /* Onboarding3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Onboarding3.json; sourceTree = "<group>"; };
 		BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		BA8E2B4329746737009DDF32 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		BA8E2B45297467A2009DDF32 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -382,6 +388,7 @@
 				0A3E42DA28E734C100F62BF0 /* CommonClass */,
 				BA46CC9C28EC9AEA004953B1 /* Extensions */,
 				BA52777A28EECD7F0036B825 /* Font */,
+				BA8AA43329890172004E9403 /* Lottie */,
 				BA771650296FBF2500762362 /* Manager */,
 				BA771653296FBFB600762362 /* Utils */,
 			);
@@ -816,6 +823,16 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		BA8AA43329890172004E9403 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				BA8AA434298901B9004E9403 /* Onboarding1.json */,
+				BA8AA435298901B9004E9403 /* Onboarding2.json */,
+				BA8AA436298901B9004E9403 /* Onboarding3.json */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		BA8E2B3D297461C8009DDF32 /* Request */ = {
 			isa = PBXGroup;
 			children = (
@@ -1021,6 +1038,7 @@
 			files = (
 				BA88125A28E48A3000BD832A /* LaunchScreen.storyboard in Resources */,
 				BA52778628EECDC50036B825 /* Pretendard-Thin.otf in Resources */,
+				BA8AA437298901B9004E9403 /* Onboarding1.json in Resources */,
 				BA52778928EECDC50036B825 /* Pretendard-ExtraLight.otf in Resources */,
 				BA52778828EECDC50036B825 /* Pretendard-SemiBold.otf in Resources */,
 				BA52778728EECDC50036B825 /* Pretendard-ExtraBold.otf in Resources */,
@@ -1031,6 +1049,8 @@
 				BA8AA43229890083004E9403 /* NanumPen.otf in Resources */,
 				BA52778A28EECDC50036B825 /* Pretendard-Bold.otf in Resources */,
 				BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */,
+				BA8AA439298901B9004E9403 /* Onboarding3.json in Resources */,
+				BA8AA438298901B9004E9403 /* Onboarding2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
