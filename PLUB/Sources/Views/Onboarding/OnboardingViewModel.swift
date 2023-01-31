@@ -71,6 +71,41 @@ final class OnboardingViewModel: OnboardingViewModelType {
   }
   
   private func bind() {
+    // 버튼이 탭되었을 시 index를 1 증가 시킴
+    buttonTappedSubject
+      .map { [weak self] in (self?.indexRelay.value ?? -1) + 1 }
+      .debug()
+      .bind(to: indexRelay)
+      .disposed(by: disposeBag)
     
+    let indexDriver = indexRelay.asDriver()
+      .debug()
+      .filter { [weak self] in $0 < self?.titles.count ?? 0 } // self를 가져오는 데 실패했다면 무조건 false
+    
+    // index가 emit되면 title도 배열의 값을 가져와 emit
+    indexDriver
+      .map { [weak self] in self?.titles[$0] ?? "" }
+      .drive(titlesSubject)
+      .disposed(by: disposeBag)
+    
+    
+    // description도 배열의 값을 가져와 emit
+    indexDriver
+      .map { [weak self] in self?.descriptions[$0] ?? "" }
+      .drive(descriptionsSubject)
+      .disposed(by: disposeBag)
+    
+    // currentPage에 따른 인덱스 제공
+    indexDriver
+      .drive(currentPageSubject)
+      .disposed(by: disposeBag)
+    
+    
+    indexRelay.map { [weak self] index in
+      guard let self else { return false }
+      return index == self.titles.count
+    }
+    .bind(to: shouldMoveLoginVCSubject)
+    .disposed(by: disposeBag)
   }
 }

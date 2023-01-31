@@ -7,11 +7,15 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import Lottie
 import SnapKit
 import Then
 
 final class OnboardingViewController: BaseViewController {
+  
+  private let viewModel = OnboardingViewModel()
   
   private let onboardingView = LottieAnimationView().then {
     $0.backgroundColor = .red
@@ -86,6 +90,33 @@ final class OnboardingViewController: BaseViewController {
       $0.addTarget(self, action: #selector(moveToLoginViewController), for: .touchUpInside)
     }
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: skipButton)
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    nextButton.rx.tap
+      .bind(to: viewModel.nextButtonTapped)
+      .disposed(by: disposeBag)
+    
+    viewModel.emitTitles
+      .drive(titleLabel.rx.text)
+      .disposed(by: disposeBag)
+    
+    viewModel.emitDescriptions
+      .drive(descriptionLabel.rx.text)
+      .disposed(by: disposeBag)
+    
+    viewModel.emitCurrentPage
+      .drive(pageControl.rx.currentPage)
+      .disposed(by: disposeBag)
+    
+    viewModel.shouldMoveLoginVC
+      .filter { $0 }
+      .drive(with: self) { owner, _ in
+        owner.moveToLoginViewController()
+      }
+      .disposed(by: disposeBag)
   }
   
   @objc
