@@ -61,7 +61,6 @@ final class CategoryHeaderView: UIView {
     setupLayouts()
     setupConstraints()
     setupStyles()
-    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -69,8 +68,8 @@ final class CategoryHeaderView: UIView {
   }
 }
 
-private extension CategoryHeaderView {
-  func setupLayouts() {
+extension CategoryHeaderView {
+  private func setupLayouts() {
     [titleLabel, limitLabel, polygonImageView, countStackView].forEach {
       addSubview($0)
     }
@@ -80,7 +79,7 @@ private extension CategoryHeaderView {
     }
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(24)
       $0.leading.equalToSuperview().inset(16)
@@ -113,11 +112,8 @@ private extension CategoryHeaderView {
     }
   }
   
-  func setupStyles() {
+  private func setupStyles() {
     backgroundColor = .background
-  }
-  
-  func bind() {
   }
 }
 

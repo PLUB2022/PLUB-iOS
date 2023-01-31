@@ -118,12 +118,12 @@ extension RegisterInterestDetailTableViewCell: UICollectionViewDelegate, UIColle
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let cell = collectionView.cellForItem(at: indexPath) as? InterestTypeCollectionViewCell,
-    let mainIndexPath = self.indexPath, let selectEnabled = selectEnabled else {
-      return
-    }
+            let mainIndexPath = self.indexPath,
+            let selectEnabled = selectEnabled else { return }
+    
     let currentSeleted = subCategories[indexPath.row].isSelected
     
-    guard selectEnabled || (currentSeleted && !selectEnabled) else { return }
+    guard selectEnabled || currentSeleted else { return }
     
     subCategories[indexPath.row].isSelected.toggle()
     delegate?.didTappedInterestTypeCollectionViewCell(cell: cell, mainIndexPath: mainIndexPath, subIndexPath: indexPath)
