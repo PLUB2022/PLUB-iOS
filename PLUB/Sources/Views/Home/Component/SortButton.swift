@@ -40,7 +40,7 @@ class SortButton: UIView {
     $0.contentMode = .scaleAspectFill
   }
   
-  init(type: SortType) {
+  init(type: SortType = .popular) {
     self.type = type
     super.init(frame: .zero)
     configureUI()
