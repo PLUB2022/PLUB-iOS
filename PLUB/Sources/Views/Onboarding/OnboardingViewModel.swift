@@ -8,7 +8,27 @@
 import RxCocoa
 import RxSwift
 
-final class OnboardingViewModel {
+protocol OnboardingViewModelType: OnboardingViewModel {
+  // Input
+  var nextButtonTapped: AnyObserver<Void> { get }
+  
+  // Output
+  var emitTitles: Driver<String> { get }
+  var emitDescriptions: Driver<String> { get }
+  var emitCurrentPage: Driver<Int> { get }
+  var shouldMoveLoginVC: Driver<Bool> { get }
+}
+
+final class OnboardingViewModel: OnboardingViewModelType {
+  
+  // Input
+  let nextButtonTapped: AnyObserver<Void>
+  
+  // Output
+  let emitTitles: Driver<String>        // titles에 들어있는 특정 `title`을 구독
+  let emitDescriptions: Driver<String>  // Descriptions에 들어있는 특정 `description`을 구독
+  let emitCurrentPage: Driver<Int>      // 현재 보여져야할 pagecontrol의 currentpage를 구독
+  let shouldMoveLoginVC: Driver<Bool>   // 로그인 VC를 보여줘야할지 말지에 대한 부울연산값을 구독
   
   private let titles = ["취향을 함께", "성장을 함께", "친구와 함께"]
   private let descriptions = [
@@ -16,4 +36,41 @@ final class OnboardingViewModel {
     "같은 목표를 가진 사람들과 꾸준하고\n깊이 있는 소통을 하며 발전할 수 있어요",
     "주변 친구들과 모임을 만들어\n편하게 관리하고 즐거운 추억을 쌓을 수 있어요"
   ]
+  
+  /// 배열의 index를 관리하는 Relay
+  private let indexRelay = BehaviorRelay(value: 0)
+  
+  /// 버튼이 탭되었을 때를 관장하는 Subject
+  private let buttonTappedSubject = PublishSubject<Void>()
+  
+  /// ViewModel의 title을 emit해주는 Subject
+  private let titlesSubject = PublishSubject<String>()
+  
+  /// ViewModel의 description을 emit해주는 Subject
+  private let descriptionsSubject = PublishSubject<String>()
+  
+  /// PageControl의 currentPage를 위한 Subject, index에 맞게 emit하기 위해 사용됩니다.
+  private let currentPageSubject = PublishSubject<Int>()
+  
+  /// LoginViewController가 보여져야하는지를 처리하는 Subject
+  private let shouldMoveLoginVCSubject = PublishSubject<Bool>()
+  
+  private let disposeBag = DisposeBag()
+  
+  init() {
+    // Input
+    nextButtonTapped = buttonTappedSubject.asObserver()
+    
+    // Output
+    emitTitles = titlesSubject.asDriver(onErrorJustReturn: "")
+    emitDescriptions = descriptionsSubject.asDriver(onErrorJustReturn: "")
+    shouldMoveLoginVC = shouldMoveLoginVCSubject.asDriver(onErrorJustReturn: false)
+    emitCurrentPage = currentPageSubject.asDriver(onErrorJustReturn: 0)
+    
+    bind()
+  }
+  
+  private func bind() {
+    
+  }
 }
