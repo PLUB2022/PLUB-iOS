@@ -153,7 +153,7 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   func didTappedSortControl() {
     let vc = SortBottomSheetViewController()
     vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: true)
+    present(vc, animated: false)
   }
   
   func didTappedInterestListFilterButton() {

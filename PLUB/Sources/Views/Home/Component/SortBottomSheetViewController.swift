@@ -20,6 +20,7 @@ class SortBottomSheetView: UIControl {
     didSet {
       sortLabel.textColor = isTapped ? .main : .black
       selectImageView.isHidden = !isTapped
+      layoutIfNeeded()
     }
   }
   
@@ -120,5 +121,25 @@ class SortBottomSheetViewController: BottomSheetViewController {
       make.top.equalTo(grabber.snp.bottom).offset(8)
       make.left.right.bottom.equalToSuperview()
     }
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    popularButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.popularButton.isTapped = true
+        owner.newButton.isTapped = false
+      })
+      .disposed(by: disposeBag)
+    
+    newButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.popularButton.isTapped = false
+        owner.newButton.isTapped = true
+      })
+      .disposed(by: disposeBag)
   }
 }
