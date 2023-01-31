@@ -11,6 +11,7 @@ import RxCocoa
 protocol SearchInputViewModelType {
   // Input
   var whichKeyword: AnyObserver<String> { get }
+  var whichSortType: AnyObserver<SortType> { get }
   
   // Output
   var fetchedSearchOutput: Driver<[SearchContent]> { get }
@@ -21,20 +22,23 @@ final class SearchInputViewModel: SearchInputViewModelType {
   
   // Input
   let whichKeyword: AnyObserver<String>
+  let whichSortType: AnyObserver<SortType>
   
   // Output
   let fetchedSearchOutput: Driver<[SearchContent]>
   
   init() {
     let searchKeyword = PublishSubject<String>()
+    let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let fetchingSearchOutput = PublishSubject<[SearchContent]>()
     
     self.whichKeyword = searchKeyword.asObserver()
+    self.whichSortType = searchSortType.asObserver()
     self.fetchedSearchOutput = fetchingSearchOutput.asDriver(onErrorDriveWith: .empty())
     
-    let requestSearch = searchKeyword
-      .flatMapLatest { keyword in
-        return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword))
+    let requestSearch = Observable.combineLatest(searchKeyword, searchSortType) { ($0, $1) }
+      .flatMapLatest { (keyword, sortType) in
+        return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, sort: sortType.text))
       }
     
     let successSearch = requestSearch.compactMap { result -> [SearchContent]? in

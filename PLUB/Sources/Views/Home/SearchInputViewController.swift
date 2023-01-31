@@ -63,6 +63,7 @@ final class SearchInputViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    interestListCollectionView.isHidden = true
   }
   
   override func setupConstraints() {
