@@ -19,7 +19,7 @@ final class MeetingQuestionViewModel {
   // Input
   var questionList: [String]
   let questionListBehaviorRelay: BehaviorRelay<[MeetingQuestionCellModel]>
-  var noQuestionMode: BehaviorRelay<Bool>
+  let noQuestionMode: BehaviorRelay<Bool>
   
   // Output
   let allQuestionFilled: BehaviorRelay<Bool>

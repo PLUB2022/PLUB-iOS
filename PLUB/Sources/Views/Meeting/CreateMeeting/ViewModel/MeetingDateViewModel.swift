@@ -5,39 +5,54 @@
 //  Created by 김수빈 on 2023/01/19.
 //
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 
-enum Day: CaseIterable {
-  case MON
-  case TUE
-  case WED
-  case THR
-  case FRI
-  case SAT
-  case SUN
-  case ALL
+enum Day: String, CaseIterable {
+  case monday
+  case tuesday
+  case wednesday
+  case thursday
+  case friday
+  case saturday
+  case sunday
+  case all
   
-  var toKOR: String {
+  var kor: String {
     switch self {
-    case .MON:
-      return "월"
-    case .TUE:
-      return "화"
-    case .WED:
-      return "수"
-    case .THR:
-      return "목"
-    case .FRI:
-      return "금"
-    case .SAT:
-      return "토"
-    case .SUN:
-      return "일"
-    case .ALL:
-      return "요일 무관"
+    case .monday: return "월"
+    case .tuesday: return "화"
+    case .wednesday: return "수"
+    case .thursday: return "목"
+    case .friday: return "금"
+    case .saturday: return "토"
+    case .sunday: return "일"
+    case .all: return "요일 무관"
     }
   }
+  
+  var eng: String {
+    switch self {
+    case .monday: return "MON"
+    case .tuesday: return "TUE"
+    case .wednesday: return "WED"
+    case .thursday: return "THR"
+    case .friday: return "FRI"
+    case .saturday: return "SAT"
+    case .sunday: return "SUN"
+    case .all: return "ALL"
+    }
+   }
+}
+
+struct Location {
+  let address: String?
+  let roadAddress: String?
+  let placeName: String?
+  let positionX: Double?
+  let positionY: Double?
 }
 
 final class MeetingDateViewModel {
@@ -49,15 +64,15 @@ final class MeetingDateViewModel {
   // Input
   let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
   let timeInputRelay = BehaviorRelay<String>.init(value: .init())
-  let onOffInputRelay = BehaviorRelay<String>.init(value: "ON")
-  let locationInputRelay = BehaviorRelay<String>.init(value: .init())
+  let onOffInputRelay = BehaviorRelay<OnOff>.init(value: .on)
+  let locationInputRelay = BehaviorRelay<Location?>.init(value: nil)
   
   // OutPut
   let isBtnEnabled: Observable<Bool>
   
   init() {
     let dateList = Day.allCases
-      .map { $0.toKOR }
+      .map { $0.kor }
       .map {
         MeetingDateCollectionViewCellModel(
           date: $0,
@@ -70,9 +85,9 @@ final class MeetingDateViewModel {
       onOffInputRelay,
       locationInputRelay
     ).map {
-      if $0.0.contains("ON") {
+      if $0.0 == OnOff.on {
         return true
-      } else if $0.0.contains("OFF") && !$0.1.isEmpty {
+      } else if $0.0 == OnOff.off && !($0.1 == nil) {
         return true
       } else {
         return false
@@ -95,7 +110,7 @@ final class MeetingDateViewModel {
     let cellDatas = dateCellData.value // collectionView 셀 데이터 (date: 요일, isSelected: 선택 여부)
     
     if data.isSelected { // CASE 1) 선택 해제
-      dateInputRelay.accept(dates.filter { $0 != data.date.fromENGToKOR() }) // 선택된 요일 값 삭제
+      dateInputRelay.accept(dates.filter { $0 != data.date.fromKORToENG() }) // 선택된 요일 값 삭제
       dateCellData.accept(
         cellDatas.map {
           MeetingDateCollectionViewCellModel(
@@ -105,20 +120,20 @@ final class MeetingDateViewModel {
         }
       )
     }
-    else if data.date == "요일 무관" { // CASE 2) 요일 무관 선택
-      dateInputRelay.accept([data.date.fromENGToKOR()]) // "요일 무관"만 존재
+    else if data.date == Day.all.kor { // CASE 2) 요일 무관 선택
+      dateInputRelay.accept([data.date.fromKORToENG()]) // "요일 무관"만 존재
       dateCellData.accept(
         cellDatas.map {
           MeetingDateCollectionViewCellModel(
             date: $0.date,
-            isSelected: $0.date == "요일 무관" ? true : false // "요일 무관"만 isSelected true, 나머지는 false로 변경
+            isSelected: $0.date == Day.all.kor ? true : false // "요일 무관"만 isSelected true, 나머지는 false로 변경
           )
         }
       )
     }
     else { // CASE 3) 요일 무관 제외한 요일 선택
-      var filterDates = dates.filter { $0 != "요일 무관" } // "요일 무관" 삭제하고,
-      filterDates.append(data.date.fromENGToKOR()) // 선택된 요일 값 추가
+      var filterDates = dates.filter { $0 != Day.all.eng } // "요일 무관" 삭제하고,
+      filterDates.append(data.date.fromKORToENG()) // 선택된 요일 값 추가
       dateInputRelay.accept(filterDates)
       
       dateCellData.accept(
@@ -126,7 +141,7 @@ final class MeetingDateViewModel {
           return MeetingDateCollectionViewCellModel(
             date: $0.date,
             isSelected: {
-              if $0.date == "요일 무관" { // "요일 무관"은 isSelected false
+              if $0.date == Day.all.kor { // "요일 무관"은 isSelected false
                 return false
               } else if $0.date == data.date { // 선택된 요일은 isSelected true
                 return true

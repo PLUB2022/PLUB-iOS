@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LocationBottomSheetDelegate: AnyObject {
-  func selectLocation(placeName: String)
+  func selectLocation(location: Location)
 }
 
 final class LocationBottomSheetViewController: BottomSheetViewController {
@@ -171,7 +171,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
         cell.setupData(
           with: LocationTableViewCellModel(
             title: item.placeName ?? "",
-            subTitle: item.addressName ?? ""
+            subTitle: item.address ?? ""
           )
         )
         return cell
@@ -205,8 +205,20 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .asDriver(onErrorDriveWith: .empty())
       .drive(onNext: { _ in
         guard let data = self.viewModel.selectedLocation.value,
-              let placeName = data.placeName else { return}
-        self.delegate?.selectLocation(placeName: placeName)
+              let address = data.address,
+              let roadAddress = data.roadAddress,
+              let placeName = data.placeName,
+              let positionX = data.placePositionX,
+              let positionY = data.placePositionY else { return }
+        self.delegate?.selectLocation(
+          location: Location(
+            address: address,
+            roadAddress: roadAddress,
+            placeName: placeName,
+            positionX: Double(positionX) ?? 0,
+            positionY: Double(positionY) ?? 0
+          )
+        )
         self.dismiss(animated: false)
       })
       .disposed(by: disposeBag)

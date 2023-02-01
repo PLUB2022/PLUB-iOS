@@ -18,8 +18,8 @@ protocol ViewModelType {
 final class MeetingNameViewModel: ViewModelType {
   private lazy var disposeBag = DisposeBag()
   
-  private let introduceTitleInputRelay = BehaviorRelay<String>.init(value: .init())
-  private let nameTitleInputRelay = BehaviorRelay<String>.init(value: .init())
+  let introduceTitleInputRelay = BehaviorRelay<String>.init(value: .init())
+  let nameTitleInputRelay = BehaviorRelay<String>.init(value: .init())
   
   struct Input {
     let introduceTitleText: Observable<String>
