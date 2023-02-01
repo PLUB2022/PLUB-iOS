@@ -94,7 +94,7 @@ final class SelectedCategoryViewController: BaseViewController {
     
     viewModel.isEmpty
       .emit(onNext: { isEmpty in
-        print("비어있나요 = \(isEmpty)")
+        
       })
       .disposed(by: disposeBag)
   }
