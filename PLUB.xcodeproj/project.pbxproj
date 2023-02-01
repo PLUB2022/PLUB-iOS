@@ -105,6 +105,7 @@
 		BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */; };
 		BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA784FAD297937D600E8B06F /* CalendarControl.swift */; };
 		BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7AD73D297D6720000E7D5D /* BirthViewModel.swift */; };
+		BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA814A3329890AB1003570D3 /* OnboardingViewModel.swift */; };
 		BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA0296514DA0029CF34 /* PaddingTextField.swift */; };
 		BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA876BA3296529100029CF34 /* IntroductionViewController.swift */; };
 		BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88124D28E48A2F00BD832A /* AppDelegate.swift */; };
@@ -119,6 +120,12 @@
 		BA88126D28E48AB700BD832A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126C28E48AB700BD832A /* SnapKit */; };
 		BA88127028E48AC800BD832A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA88126F28E48AC800BD832A /* Alamofire */; };
 		BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AA42929863ABC004E9403 /* Interceptor.swift */; };
+		BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */; };
+		BA8AA4302988FDCC004E9403 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BA8AA42F2988FDCC004E9403 /* Lottie */; };
+		BA8AA43229890083004E9403 /* NanumPen.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA8AA43129890083004E9403 /* NanumPen.otf */; };
+		BA8AA437298901B9004E9403 /* Onboarding1.json in Resources */ = {isa = PBXBuildFile; fileRef = BA8AA434298901B9004E9403 /* Onboarding1.json */; };
+		BA8AA438298901B9004E9403 /* Onboarding2.json in Resources */ = {isa = PBXBuildFile; fileRef = BA8AA435298901B9004E9403 /* Onboarding2.json */; };
+		BA8AA439298901B9004E9403 /* Onboarding3.json in Resources */ = {isa = PBXBuildFile; fileRef = BA8AA436298901B9004E9403 /* Onboarding3.json */; };
 		BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */; };
 		BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4329746737009DDF32 /* AuthRouter.swift */; };
 		BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B45297467A2009DDF32 /* AuthService.swift */; };
@@ -279,6 +286,7 @@
 		BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		BA784FAD297937D600E8B06F /* CalendarControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarControl.swift; sourceTree = "<group>"; };
 		BA7AD73D297D6720000E7D5D /* BirthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewModel.swift; sourceTree = "<group>"; };
+		BA814A3329890AB1003570D3 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		BA876BA0296514DA0029CF34 /* PaddingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingTextField.swift; sourceTree = "<group>"; };
 		BA876BA3296529100029CF34 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		BA88124A28E48A2F00BD832A /* PLUB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLUB.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -290,6 +298,11 @@
 		BA88125B28E48A3000BD832A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA88126128E48A5800BD832A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		BA8AA42929863ABC004E9403 /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
+		BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		BA8AA43129890083004E9403 /* NanumPen.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumPen.otf; sourceTree = "<group>"; };
+		BA8AA434298901B9004E9403 /* Onboarding1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Onboarding1.json; sourceTree = "<group>"; };
+		BA8AA435298901B9004E9403 /* Onboarding2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Onboarding2.json; sourceTree = "<group>"; };
+		BA8AA436298901B9004E9403 /* Onboarding3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Onboarding3.json; sourceTree = "<group>"; };
 		BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		BA8E2B4329746737009DDF32 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		BA8E2B45297467A2009DDF32 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -368,6 +381,7 @@
 				BA88127028E48AC800BD832A /* Alamofire in Frameworks */,
 				BA88126728E48A7A00BD832A /* RxSwift in Frameworks */,
 				BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */,
+				BA8AA4302988FDCC004E9403 /* Lottie in Frameworks */,
 				BA88126D28E48AB700BD832A /* SnapKit in Frameworks */,
 				BA88126A28E48A8D00BD832A /* Then in Frameworks */,
 				BA88126528E48A7A00BD832A /* RxCocoa in Frameworks */,
@@ -386,6 +400,7 @@
 				0A3E42DA28E734C100F62BF0 /* CommonClass */,
 				BA46CC9C28EC9AEA004953B1 /* Extensions */,
 				BA52777A28EECD7F0036B825 /* Font */,
+				BA8AA43329890172004E9403 /* Lottie */,
 				BA771650296FBF2500762362 /* Manager */,
 				BA771653296FBFB600762362 /* Utils */,
 			);
@@ -606,6 +621,7 @@
 		BA36EED32954637F00D30169 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BA8AA42B2988FCAC004E9403 /* Onboarding */,
 				BA42D1EE28EDE05000C20061 /* Home */,
 				BA42D1EF28EDE05A00C20061 /* Login */,
 				BA42D1F028EDE08000C20061 /* Meeting */,
@@ -702,6 +718,7 @@
 				BA52778228EECDC50036B825 /* Pretendard-Regular.otf */,
 				BA52777F28EECDC50036B825 /* Pretendard-SemiBold.otf */,
 				BA52777D28EECDC50036B825 /* Pretendard-Thin.otf */,
+				BA8AA43129890083004E9403 /* NanumPen.otf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -812,6 +829,23 @@
 			path = PLUB;
 			sourceTree = "<group>";
 		};
+		BA8AA42B2988FCAC004E9403 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BA8AA42C2988FCC3004E9403 /* OnboardingViewController.swift */,
+				BA814A3329890AB1003570D3 /* OnboardingViewModel.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		BA8AA43329890172004E9403 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5EF2A2989F58900F3955E /* Onboarding */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		BA8E2B3D297461C8009DDF32 /* Request */ = {
 			isa = PBXGroup;
 			children = (
@@ -842,6 +876,16 @@
 				BABB011B297ED74C004178EC /* InterestViewModel.swift */,
 			);
 			path = Interest;
+			sourceTree = "<group>";
+		};
+		BAC5EF2A2989F58900F3955E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BA8AA434298901B9004E9403 /* Onboarding1.json */,
+				BA8AA435298901B9004E9403 /* Onboarding2.json */,
+				BA8AA436298901B9004E9403 /* Onboarding3.json */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		BAC923DD29546BF000385841 /* Birth */ = {
@@ -964,6 +1008,7 @@
 				BA117A4F297444EE00B37E03 /* KakaoSDKCommon */,
 				BA117A51297444EE00B37E03 /* KakaoSDKUser */,
 				BA5DEB3229751E5F00650788 /* GoogleSignIn */,
+				BA8AA42F2988FDCC004E9403 /* Lottie */,
 			);
 			productName = PLUB;
 			productReference = BA88124A28E48A2F00BD832A /* PLUB.app */;
@@ -1001,6 +1046,7 @@
 				7095A583292B566C002A52E6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				BA117A4C297444EE00B37E03 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				BA5DEB3129751E5F00650788 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = BA88124B28E48A2F00BD832A /* Products */;
 			projectDirPath = "";
@@ -1018,6 +1064,7 @@
 			files = (
 				BA88125A28E48A3000BD832A /* LaunchScreen.storyboard in Resources */,
 				BA52778628EECDC50036B825 /* Pretendard-Thin.otf in Resources */,
+				BA8AA437298901B9004E9403 /* Onboarding1.json in Resources */,
 				BA52778928EECDC50036B825 /* Pretendard-ExtraLight.otf in Resources */,
 				BA52778828EECDC50036B825 /* Pretendard-SemiBold.otf in Resources */,
 				BA52778728EECDC50036B825 /* Pretendard-ExtraBold.otf in Resources */,
@@ -1025,8 +1072,11 @@
 				BA88125728E48A3000BD832A /* Assets.xcassets in Resources */,
 				BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */,
 				BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */,
+				BA8AA43229890083004E9403 /* NanumPen.otf in Resources */,
 				BA52778A28EECDC50036B825 /* Pretendard-Bold.otf in Resources */,
 				BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */,
+				BA8AA439298901B9004E9403 /* Onboarding3.json in Resources */,
+				BA8AA438298901B9004E9403 /* Onboarding2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,6 +1109,7 @@
 				BA340E2429782321002BAF2C /* ParticipantListView.swift in Sources */,
 				C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
+				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
 				BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */,
 				70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */,
 				7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */,
@@ -1128,6 +1179,7 @@
 				BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */,
 				C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */,
 				BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */,
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
 				BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */,
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
@@ -1473,6 +1525,14 @@
 				kind = branch;
 			};
 		};
+		BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1525,6 +1585,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA88126E28E48AC800BD832A /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		BA8AA42F2988FDCC004E9403 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
