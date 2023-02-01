@@ -59,11 +59,6 @@ final class HomeViewModel: HomeViewModelType {
       return recommendationMeetingResponse.data?.content
     }
     
-//    isSelectedInterest = successFetchingInterest.map { response in
-//      return !response.categoryID.isEmpty
-//    }
-//    .asDriver(onErrorDriveWith: .empty())
-    
     successFetchingInterest.subscribe(onNext: { response in
       isSelectingInterest.onNext(!response.categoryID.isEmpty)
     })

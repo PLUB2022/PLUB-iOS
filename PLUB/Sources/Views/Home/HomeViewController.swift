@@ -48,7 +48,7 @@ class HomeViewController: BaseViewController {
     }
   }
   
-  private var selectedCategoryCollectionViewCellModel: [SelectedCategoryCollectionViewCellModel] = [] {
+  private var recommendationList: [SelectedCategoryCollectionViewCellModel] = [] {
     didSet {
       self.homeCollectionView.reloadSections([2])
     }
@@ -136,7 +136,7 @@ class HomeViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.updatedRecommendationCellData
-      .drive(rx.selectedCategoryCollectionViewCellModel)
+      .drive(rx.recommendationList)
       .disposed(by: disposeBag)
     
     viewModel.isBookmarked.emit(onNext: { isBookmarked in
@@ -259,7 +259,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return 0
       }
     case .recommendedMeeting:
-      return selectedCategoryCollectionViewCellModel.count
+      return recommendationList.count
     }
   }
   
@@ -282,7 +282,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       }
     case .recommendedMeeting:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-      cell.configureUI(with: selectedCategoryCollectionViewCellModel[indexPath.row])
+      cell.configureUI(with: recommendationList[indexPath.row])
       cell.delegate = self
       return cell
     }
@@ -316,7 +316,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     case .recommendedMeeting:
-      let vc = DetailRecruitmentViewController(plubbingID: selectedCategoryCollectionViewCellModel[indexPath.row].plubbingID)
+      let vc = DetailRecruitmentViewController(plubbingID: recommendationList[indexPath.row].plubbingID)
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     }
