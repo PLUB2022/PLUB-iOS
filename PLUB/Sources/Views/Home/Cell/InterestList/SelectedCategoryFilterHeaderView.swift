@@ -108,7 +108,7 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     interestListChartButton.buttonUnTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.interesetListGridButton.isSelected = true
+        owner.interestListChartButton.isSelected = true
       })
       .disposed(by: disposeBag)
     
@@ -123,7 +123,7 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
     interesetListGridButton.buttonUnTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.interestListChartButton.isSelected = true
+        owner.interesetListGridButton.isSelected = true
       })
       .disposed(by: disposeBag)
   }
