@@ -13,6 +13,8 @@ import RxCocoa
 enum ToggleType {
   case indicator
   case bookmark
+  case chart
+  case grid
 }
 
 class ToggleButton: UIButton {
@@ -27,6 +29,10 @@ class ToggleButton: UIButton {
         isSelected ? setImage(UIImage(named: "topIndicator"), for: .normal) : setImage(UIImage(named: "bottomIndicator"), for: .normal)
       case .bookmark:
         isSelected ? setImage(UIImage(named: "bookmarkActivated"), for: .normal) : setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
+      case .chart:
+        isSelected ? setImage(UIImage(named: "chartActivated"), for: .normal) : setImage(UIImage(named: "chartInActivated"), for: .normal)
+      case .grid:
+        isSelected ? setImage(UIImage(named: "gridActivated"), for: .normal) : setImage(UIImage(named: "gridInActivated"), for: .normal)
       }
     }
   }
@@ -69,6 +75,10 @@ class ToggleButton: UIButton {
       setImage(UIImage(named: "bottomIndicator"), for: .normal)
     case .bookmark:
       setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
+    case .chart:
+      setImage(UIImage(named: "chartInActivated"), for: .normal)
+    case .grid:
+      setImage(UIImage(named: "gridInActivated"), for: .normal)
     }
   }
   
