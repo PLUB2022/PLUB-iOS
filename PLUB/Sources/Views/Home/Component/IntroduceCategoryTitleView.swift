@@ -59,6 +59,7 @@ final class IntroduceCategoryTitleView: UIView {
     locationInfoView.snp.makeConstraints {
       $0.left.equalToSuperview()
       $0.top.equalTo(introduceTitleLabel.snp.bottom)
+      $0.height.equalTo(18)
       $0.bottom.equalToSuperview()
     }
   }
@@ -66,6 +67,13 @@ final class IntroduceCategoryTitleView: UIView {
   public func configureUI(with model: IntroduceCategoryTitleViewModel) {
     meetingTitleLabel.text = model.title
     introduceTitleLabel.text = model.name
-    locationInfoView.configureUI(with: model.infoText, categoryListType: .onlyLocation)
+    
+    if model.infoText.isEmpty {
+      locationInfoView.snp.updateConstraints {
+        $0.height.equalTo(0)
+      }
+    } else {
+      locationInfoView.configureUI(with: model.infoText, categoryListType: .onlyLocation)
+    }
   }
 }
