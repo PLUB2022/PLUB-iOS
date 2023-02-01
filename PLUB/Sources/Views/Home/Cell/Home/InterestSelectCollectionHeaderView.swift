@@ -79,6 +79,7 @@ final class InterestSelectCollectionHeaderView: UICollectionReusableView {
         $0.right.lessThanOrEqualToSuperview()
       }
     }
+    layoutIfNeeded()
   }
 }
 

@@ -33,7 +33,7 @@ enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
   case recommendedMeeting
 }
 
-final class HomeViewController: BaseViewController {
+class HomeViewController: BaseViewController {
   
   private let viewModel: HomeViewModelType
   private var mainCategoryList: [MainCategory] = [] {
@@ -42,9 +42,9 @@ final class HomeViewController: BaseViewController {
     }
   }
   
-  private var homeType: HomeType = .selected {
+  private var homeType: HomeType = .nonSelected {
     didSet {
-      self.homeCollectionView.reloadSections([1])
+      self.homeCollectionView.reloadData()
     }
   }
   
@@ -128,8 +128,9 @@ final class HomeViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isSelectedInterest
+      .asObservable()
       .withUnretained(self)
-      .emit(onNext: { owner, isSelectedInterest in
+      .subscribe(onNext: { owner, isSelectedInterest in
         owner.homeType = isSelectedInterest ? .selected : .nonSelected
       })
       .disposed(by: disposeBag)
@@ -243,7 +244,7 @@ final class HomeViewController: BaseViewController {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return HomeSectionType.allCases.count
+      return HomeSectionType.allCases.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
