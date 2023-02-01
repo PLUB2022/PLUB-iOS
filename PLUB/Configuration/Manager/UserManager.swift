@@ -15,6 +15,12 @@ final class UserManager {
   
   static let shared = UserManager()
   
+  // MARK: - User Options
+  
+  /// 최초 실행 여부를 확인하는 변수
+  @UserDefaultsWrapper<Bool>(key: "isLaunchedBefore")
+  private(set) var isLaunchedBefore
+  
   // MARK: - PLUB Token
   
   @KeyChainWrapper<String>(key: "signToken")
@@ -59,6 +65,11 @@ extension UserManager {
   /// - Parameter socialType: 소셜로그인 타입(애플, 구글, 카카오)
   func set(socialType: SignInType) {
     loginnedType = socialType
+  }
+  
+  /// 최초 실행 여부를 세팅합니다.
+  func set(isLaunchedBefore: Bool) {
+    self.isLaunchedBefore = isLaunchedBefore
   }
   
   /// 유저의 정보를 전부 초기화합니다.
