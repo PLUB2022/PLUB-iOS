@@ -171,7 +171,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
         cell.setupData(
           with: LocationTableViewCellModel(
             title: item.placeName ?? "",
-            subTitle: item.addressName ?? ""
+            subTitle: item.address ?? ""
           )
         )
         return cell
@@ -205,12 +205,14 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .asDriver(onErrorDriveWith: .empty())
       .drive(onNext: { _ in
         guard let data = self.viewModel.selectedLocation.value,
+              let address = data.address,
               let roadAddress = data.roadAddress,
               let placeName = data.placeName,
               let positionX = data.placePositionX,
               let positionY = data.placePositionY else { return }
         self.delegate?.selectLocation(
           location: Location(
+            address: address,
             roadAddress: roadAddress,
             placeName: placeName,
             positionX: Double(positionX) ?? 0,

@@ -11,14 +11,14 @@ struct KakaoLocationResponse: Codable {
 }
 
 struct KakaoLocationDocuments: Codable {
-  var addressName: String?
+  var address: String?
   var placeName: String?
   var roadAddress: String?
   var placePositionX: String?
   var placePositionY: String?
   
   enum CodingKeys: String, CodingKey {
-    case addressName = "address_name"
+    case address = "address_name"
     case placeName = "place_name"
     case roadAddress = "road_address_name"
     case placePositionX = "x"
