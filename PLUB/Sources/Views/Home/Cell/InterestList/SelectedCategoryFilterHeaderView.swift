@@ -35,15 +35,15 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   }
   
   private let interestListFilterButton = UIButton().then {
-    $0.setImage(UIImage(named: "filter"), for: .normal)
+    $0.setImage(UIImage(named: "filterActivated"), for: .normal)
   }
   
   private let interestListChartButton = UIButton().then {
-    $0.setImage(UIImage(named: "chart"), for: .normal)
+    $0.setImage(UIImage(named: "chartInActivated"), for: .normal)
   }
   
   private let interesetListGridButton = UIButton().then {
-    $0.setImage(UIImage(named: "grid"), for: .normal)
+    $0.setImage(UIImage(named: "gridInActivated"), for: .normal)
   }
   
   private let sortButton = SortControl()
