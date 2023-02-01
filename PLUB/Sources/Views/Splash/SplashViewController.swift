@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 
@@ -35,5 +37,15 @@ final class SplashViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    viewModel.shouldMoveToVC
+      .drive(with: self) { owner, vc in
+        owner.navigationController?.setViewControllers([vc], animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
