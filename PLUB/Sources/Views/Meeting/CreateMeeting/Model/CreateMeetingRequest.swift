@@ -29,7 +29,7 @@ struct CreateMeetingRequest: Codable {
   var introduce: String
   
   /// 메인 이미지
-  var mainImage: String
+  var mainImage: String?
   
   /// 시간
   var time: String
@@ -41,7 +41,7 @@ struct CreateMeetingRequest: Codable {
   var onOff: OnOff
   
   /// 주소
-  var address: String
+  var address: String?
   
   /// 도로명 주소
   var roadAddress: String?
@@ -59,7 +59,7 @@ struct CreateMeetingRequest: Codable {
   var peopleNumber: Int
   
   /// 질문 리스트
-  var questions: [String]
+  var questions: [String]?
 }
 
 extension CreateMeetingRequest {
