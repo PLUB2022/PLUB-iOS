@@ -29,6 +29,7 @@ final class SelectedCategoryViewController: BaseViewController {
   private var type: SortType = .popular {
     didSet {
       interestListCollectionView.reloadSections([0])
+      viewModel.whichSortType.onNext(type)
     }
   }
   
@@ -87,6 +88,7 @@ final class SelectedCategoryViewController: BaseViewController {
     viewModel.selectCategoryID.onNext(categoryID)
     
     viewModel.updatedCellData
+      .do(onNext: { print("모델 = \($0)") })
       .drive(rx.model)
       .disposed(by: disposeBag)
   }

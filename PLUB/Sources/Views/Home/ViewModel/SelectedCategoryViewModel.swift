@@ -11,6 +11,7 @@ import RxCocoa
 protocol SelectedCategoryViewModelType {
   // Input
   var selectCategoryID: AnyObserver<String> { get }
+  var whichSortType: AnyObserver<SortType> { get }
   
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
@@ -23,6 +24,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   
   // Input
   let selectCategoryID: AnyObserver<String>
+  let whichSortType: AnyObserver<SortType>
   
   // Output
   let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
@@ -30,13 +32,22 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   init() {
     let selectingCategoryID = PublishSubject<String>()
     let updatingCellData = BehaviorSubject<[SelectedCategoryCollectionViewCellModel]>(value: [])
+    let searchSortType = BehaviorSubject<SortType>(value: .popular)
+    
+    self.whichSortType = searchSortType.asObserver()
     self.selectCategoryID = selectingCategoryID.asObserver()
     self.updatedCellData = updatingCellData.asDriver(onErrorDriveWith: .empty())
     
-    let fetchingSelectedCategory = selectingCategoryID.flatMapLatest { categoryId in
-      return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId)
-    }
-    .share()
+    let fetchingSelectedCategory = Observable.combineLatest(
+      selectingCategoryID,
+      searchSortType.distinctUntilChanged()
+    ) { ($0, $1) }
+      .flatMapLatest { (categoryId, sortType) in
+        print("분류종류  = \(sortType.text)")
+        print("분류dkdlel  = \(categoryId)")
+        return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId, sort: sortType.text)
+      }
+      .share()
     
     let successFetching = fetchingSelectedCategory.compactMap { result -> CategoryMeetingResponse? in
       guard case .success(let response) = result else { return nil }
