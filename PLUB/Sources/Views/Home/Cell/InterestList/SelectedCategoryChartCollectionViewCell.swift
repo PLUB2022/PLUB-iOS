@@ -106,15 +106,9 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   private func bind() {
-    bookmarkButton.rx.isSelected
-      .subscribe(onNext: { isSelected in
-        print("뭐야 = \(isSelected)")
-      })
-      .disposed(by: disposeBag)
     bookmarkButton.buttonTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        print("탭")
         guard let plubbingID = owner.plubbingID else { return }
         owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
@@ -123,7 +117,6 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     bookmarkButton.buttonUnTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        print("언탭")
         guard let plubbingID = owner.plubbingID else { return }
         owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
@@ -131,11 +124,9 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
-    print("북마크 = \(model.isBookmarked)")
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
-//    bookmarkButton.setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
     bookmarkButton.isSelected = model.isBookmarked
     plubbingID = model.plubbingID
   }

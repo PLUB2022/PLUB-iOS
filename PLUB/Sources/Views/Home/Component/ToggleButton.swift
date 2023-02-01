@@ -74,9 +74,6 @@ class ToggleButton: UIButton {
   
   private func bind() {
     self.onPlayButtonPressed
-      .do(onNext: { a in
-        print("대체 = \(a)")
-      })
       .bind(to: self.rx.isSelected)
       .disposed(by: disposeBag)
   }
