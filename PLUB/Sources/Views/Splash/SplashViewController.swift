@@ -12,6 +12,8 @@ import Then
 
 final class SplashViewController: BaseViewController {
   
+  private let viewModel = SplashViewModel()
+  
   /// PLUB Image
   private let imageView = UIImageView().then {
     $0.image = UIImage(named: "Logo")
