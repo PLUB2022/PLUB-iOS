@@ -43,6 +43,7 @@ final class SplashViewController: BaseViewController {
     super.bind()
     
     viewModel.shouldMoveToVC
+      .delay(.milliseconds(1500))
       .drive(with: self) { owner, vc in
         owner.navigationController?.setViewControllers([vc], animated: true)
       }
