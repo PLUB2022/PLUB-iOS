@@ -14,6 +14,7 @@ import Then
 enum SelectedCategoryType {
   case chart
   case grid
+//  case emp
 }
 
 final class SelectedCategoryViewController: BaseViewController {
@@ -89,6 +90,12 @@ final class SelectedCategoryViewController: BaseViewController {
     
     viewModel.updatedCellData
       .drive(rx.model)
+      .disposed(by: disposeBag)
+    
+    viewModel.isEmpty
+      .emit(onNext: { isEmpty in
+        print("비어있나요 = \(isEmpty)")
+      })
       .disposed(by: disposeBag)
   }
   

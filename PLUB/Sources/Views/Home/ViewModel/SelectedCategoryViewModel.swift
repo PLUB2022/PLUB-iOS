@@ -15,7 +15,7 @@ protocol SelectedCategoryViewModelType {
   
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
-  
+  var isEmpty: Signal<Bool> { get }
 }
 
 final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
@@ -28,12 +28,15 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   
   // Output
   let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
+  let isEmpty: Signal<Bool>
   
   init() {
     let selectingCategoryID = PublishSubject<String>()
     let updatingCellData = BehaviorSubject<[SelectedCategoryCollectionViewCellModel]>(value: [])
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
+    let dataIsEmpty = PublishSubject<Bool>()
     
+    self.isEmpty = dataIsEmpty.asSignal(onErrorSignalWith: .empty())
     self.whichSortType = searchSortType.asObserver()
     self.selectCategoryID = selectingCategoryID.asObserver()
     self.updatedCellData = updatingCellData.asDriver(onErrorDriveWith: .empty())
@@ -43,8 +46,6 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       searchSortType.distinctUntilChanged()
     ) { ($0, $1) }
       .flatMapLatest { (categoryId, sortType) in
-        print("분류종류  = \(sortType.text)")
-        print("분류dkdlel  = \(categoryId)")
         return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId, sort: sortType.text)
       }
       .share()
@@ -58,7 +59,9 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       return response.content
     }
     
-    selectingContents.subscribe(onNext: { contents in
+    selectingContents
+      .do(onNext: { dataIsEmpty.onNext($0.isEmpty) })
+      .subscribe(onNext: { contents in
       let model = contents.map { content in
         return SelectedCategoryCollectionViewCellModel(plubbingID: "\(content.plubbingID)", name: content.name, title: content.title, mainImage: content.mainImage, introduce: content.introduce, isBookmarked: content.isBookmarked, selectedCategoryInfoModel: .init(placeName: content.placeName, peopleCount: 5, when: "서울 서초구 | 월, 화, 수"))
       }
