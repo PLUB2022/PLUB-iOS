@@ -15,6 +15,13 @@ class MeetingService: BaseService {
 }
 
 extension MeetingService {
+  func createMeeting(request: CreateMeetingRequest) -> Observable<NetworkResult<GeneralResponse<CreateMeetingResponse>>> {
+    return sendRequest(
+      MeetingRouter.createMeeting(request),
+      type: CreateMeetingResponse.self
+    )
+  }
+  
   func inquireCategoryMeeting(categoryId: String, page: Int = 1, sort: String) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>>  {
     return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryId, page, sort), type: CategoryMeetingResponse.self)
   }

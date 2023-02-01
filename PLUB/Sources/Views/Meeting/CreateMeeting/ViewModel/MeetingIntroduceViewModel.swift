@@ -5,14 +5,17 @@
 //  Created by 김수빈 on 2023/01/16.
 //
 
+import UIKit
+
 import RxSwift
 import RxCocoa
 
 final class MeetingIntroduceViewModel: ViewModelType {
   private let disposeBag = DisposeBag()
   
-  private let goalInputRelay = BehaviorRelay<String>.init(value: .init())
-  private let introduceInputRelay = BehaviorRelay<String>.init(value: .init())
+  let goalInputRelay = BehaviorRelay<String>.init(value: .init())
+  let introduceInputRelay = BehaviorRelay<String>.init(value: .init())
+  let imageInputRelay = BehaviorRelay<UIImage>.init(value: UIImage())
   
   struct Input {
     let goalText: Observable<String>
