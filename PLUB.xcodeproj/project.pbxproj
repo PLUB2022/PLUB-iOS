@@ -829,9 +829,7 @@
 		BA8AA43329890172004E9403 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
-				BA8AA434298901B9004E9403 /* Onboarding1.json */,
-				BA8AA435298901B9004E9403 /* Onboarding2.json */,
-				BA8AA436298901B9004E9403 /* Onboarding3.json */,
+				BAC5EF2A2989F58900F3955E /* Onboarding */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -866,6 +864,16 @@
 				BABB011B297ED74C004178EC /* InterestViewModel.swift */,
 			);
 			path = Interest;
+			sourceTree = "<group>";
+		};
+		BAC5EF2A2989F58900F3955E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BA8AA434298901B9004E9403 /* Onboarding1.json */,
+				BA8AA435298901B9004E9403 /* Onboarding2.json */,
+				BA8AA436298901B9004E9403 /* Onboarding3.json */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		BAC923DD29546BF000385841 /* Birth */ = {
