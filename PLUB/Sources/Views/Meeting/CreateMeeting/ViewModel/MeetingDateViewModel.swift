@@ -48,6 +48,7 @@ enum Day: String, CaseIterable {
 }
 
 struct Location {
+  let address: String?
   let roadAddress: String?
   let placeName: String?
   let positionX: Double?
