@@ -1,5 +1,5 @@
 //
-//  InterestListGridCollectionViewCell.swift
+//  InterestListChartCollectionViewCell.swift
 //  PLUB
 //
 //  Created by 이건준 on 2022/12/22.
@@ -8,11 +8,29 @@
 import UIKit
 
 import RxSwift
+import SnapKit
+import Then
 
-final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
+struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
+  let plubbingID: String
+  let name: String
+  let title: String
+  let mainImage: String?
+  let introduce: String
+  let isBookmarked: Bool
+  let selectedCategoryInfoModel: CategoryInfoListModel
+}
+
+protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
+  func didTappedBookmarkButton(plubbingID: String)
+}
+
+final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
+  static let identifier = "SelectedCategoryChartCollectionViewCell"
+  weak var delegate: SelectedCategoryChartCollectionViewCellDelegate?
   
-  static let identifier = "SelectedCategoryGridCollectionViewCell"
   private let disposeBag = DisposeBag()
+  private var plubbingID: String?
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
@@ -32,7 +50,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   private let bookmarkButton = ToggleButton(type: .bookmark)
   
-  private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .vertical, categoryListType: .all)
+  private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .horizontal, categoryListType: .all)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -63,7 +81,9 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
+    
     [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
+    
     categoryInfoListView.snp.makeConstraints {
       $0.left.equalToSuperview().offset(10)
       $0.bottom.equalToSuperview().offset(-10)
@@ -87,14 +107,18 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   private func bind() {
     bookmarkButton.buttonTapObservable
-      .subscribe(onNext: {
-        
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        guard let plubbingID = owner.plubbingID else { return }
+        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
-    
+      
     bookmarkButton.buttonUnTapObservable
-      .subscribe(onNext: {
-        
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        guard let plubbingID = owner.plubbingID else { return }
+        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
   }
@@ -103,5 +127,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
+    bookmarkButton.isSelected = model.isBookmarked
+    plubbingID = model.plubbingID
   }
 }

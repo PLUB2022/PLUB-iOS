@@ -35,16 +35,12 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   }
   
   private let interestListFilterButton = UIButton().then {
-    $0.setImage(UIImage(named: "filter"), for: .normal)
+    $0.setImage(UIImage(named: "filterActivated"), for: .normal)
   }
   
-  private let interestListChartButton = UIButton().then {
-    $0.setImage(UIImage(named: "chart"), for: .normal)
-  }
+  private let interestListChartButton = ToggleButton(type: .chart)
   
-  private let interesetListGridButton = UIButton().then {
-    $0.setImage(UIImage(named: "grid"), for: .normal)
-  }
+  private let interesetListGridButton = ToggleButton(type: .grid)
   
   private let sortButton = SortControl()
   
@@ -59,9 +55,10 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    interestListChartButton.isSelected = true
     interestListFilterButton.addTarget(self, action: #selector(didTappedInterestListFilterButton), for: .touchUpInside)
-    interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
-    interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
+//    interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
+//    interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
     
     [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton, sortButton].forEach { addSubview($0) }
     
@@ -98,17 +95,48 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
         owner.delegate?.didTappedSortControl()
       })
       .disposed(by: disposeBag)
+    
+    
+    interestListChartButton.buttonTapObservable
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.interesetListGridButton.isSelected = false
+        owner.delegate?.didTappedInterestListChartButton()
+      })
+      .disposed(by: disposeBag)
+    
+    interestListChartButton.buttonUnTapObservable
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.interestListChartButton.isSelected = true
+      })
+      .disposed(by: disposeBag)
+    
+    interesetListGridButton.buttonTapObservable
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.interestListChartButton.isSelected = false
+        owner.delegate?.didTappedInterestListGridButton()
+      })
+      .disposed(by: disposeBag)
+    
+    interesetListGridButton.buttonUnTapObservable
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.interesetListGridButton.isSelected = true
+      })
+      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedInterestListFilterButton() {
     delegate?.didTappedInterestListFilterButton()
   }
   
-  @objc private func didTappedInterestListChartButton() {
-    delegate?.didTappedInterestListChartButton()
-  }
-  
-  @objc private func didTappedInterestListGridButton() {
-    delegate?.didTappedInterestListGridButton()
-  }
+//  @objc private func didTappedInterestListChartButton() {
+//    delegate?.didTappedInterestListChartButton()
+//  }
+//
+//  @objc private func didTappedInterestListGridButton() {
+//    delegate?.didTappedInterestListGridButton()
+//  }
 }

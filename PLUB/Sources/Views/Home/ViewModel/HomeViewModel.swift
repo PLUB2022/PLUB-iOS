@@ -15,7 +15,7 @@ protocol HomeViewModelType {
   // Output
   var fetchedMainCategoryList: Driver<[MainCategory]> { get }
   var updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
-  var isSelectedInterest: Signal<Bool> { get }
+  var isSelectedInterest: Driver<Bool> { get }
   var isBookmarked: Signal<Bool> { get }
 }
 
@@ -28,13 +28,15 @@ final class HomeViewModel: HomeViewModelType {
   // Output
   let fetchedMainCategoryList: Driver<[MainCategory]>
   let updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
-  let isSelectedInterest: Signal<Bool>
+  let isSelectedInterest: Driver<Bool>
   let isBookmarked: Signal<Bool>
   
   init() {
     let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
     let whichBookmark = PublishSubject<String>()
+    let isSelectingInterest = BehaviorSubject<Bool>(value: false)
     
+    self.isSelectedInterest = isSelectingInterest.asDriver(onErrorDriveWith: .empty())
     self.tappedBookmark = whichBookmark.asObserver()
     self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
@@ -57,10 +59,10 @@ final class HomeViewModel: HomeViewModelType {
       return recommendationMeetingResponse.data?.content
     }
     
-    isSelectedInterest = successFetchingInterest.map { response in
-      return !response.categoryID.isEmpty
-    }
-    .asSignal(onErrorSignalWith: .empty())
+    successFetchingInterest.subscribe(onNext: { response in
+      isSelectingInterest.onNext(!response.categoryID.isEmpty)
+    })
+    .disposed(by: disposeBag)
     
     updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
       return contents.map { content in

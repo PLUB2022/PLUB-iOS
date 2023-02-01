@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "fluent_local-language-24-filled.png",
+      "filename" : "Component 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "fluent_local-language-24-filled@2x.png",
+      "filename" : "Component 2@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "fluent_local-language-24-filled@3x.png",
+      "filename" : "Component 2@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
