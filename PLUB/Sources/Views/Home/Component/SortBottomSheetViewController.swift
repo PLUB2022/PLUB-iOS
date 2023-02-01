@@ -149,4 +149,15 @@ final class SortBottomSheetViewController: BottomSheetViewController {
       })
       .disposed(by: disposeBag)
   }
+  
+  public func configureUI(with type: SortType) {
+    switch type {
+    case .popular:
+      popularButton.isTapped = true
+      newButton.isTapped = false
+    case .new:
+      popularButton.isTapped = false
+      newButton.isTapped = true
+    }
+  }
 }

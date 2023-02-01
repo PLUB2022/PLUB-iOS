@@ -174,6 +174,7 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
     let vc = SortBottomSheetViewController()
     vc.modalPresentationStyle = .overFullScreen
     vc.delegate = self
+    vc.configureUI(with: type)
     present(vc, animated: false)
   }
   
