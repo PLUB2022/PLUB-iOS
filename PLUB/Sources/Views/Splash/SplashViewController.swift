@@ -43,7 +43,6 @@ final class SplashViewController: BaseViewController {
     super.bind()
     
     viewModel.shouldMoveToVC
-      .skip(1) // 초기값 무시
       .delay(.milliseconds(700)) // 어느정도 Splash화면이 보여지도록 0.7초 딜레이
       .drive(with: self) { owner, vc in
         owner.navigationController?.setViewControllers([vc], animated: true)
