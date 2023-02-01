@@ -100,6 +100,9 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
+//    bookmarkButton.setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
+    print("북마크 = \(model.isBookmarked)")
+    bookmarkButton.isSelected = model.isBookmarked
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)

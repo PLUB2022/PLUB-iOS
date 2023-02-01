@@ -15,7 +15,7 @@ enum ToggleType {
   case bookmark
 }
 
-final class ToggleButton: UIButton {
+class ToggleButton: UIButton {
   
   private let type: ToggleType
   private let disposeBag = DisposeBag()
@@ -68,12 +68,15 @@ final class ToggleButton: UIButton {
     case .indicator:
       setImage(UIImage(named: "bottomIndicator"), for: .normal)
     case .bookmark:
-      setImage(UIImage(named: "whiteBookmark"), for: .normal)
+      setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
     }
   }
   
   private func bind() {
     self.onPlayButtonPressed
+      .do(onNext: { a in
+        print("대체 = \(a)")
+      })
       .bind(to: self.rx.isSelected)
       .disposed(by: disposeBag)
   }
