@@ -15,6 +15,5 @@ final class MeetingSummaryViewModel {
   
   init(meetingData: CreateMeetingRequest) {
     self.meetingData = meetingData
-    print(meetingData)
   }
 }

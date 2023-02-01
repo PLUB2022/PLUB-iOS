@@ -61,67 +61,56 @@ final class CreateMeetingViewModel {
   
   init() {
     categoryViewModel.selectedSubCategories
-      .do { print($0) }
       .asObservable()
       .bind(to: categoryIDsRelay)
       .disposed(by: disposeBag)
     
     nameViewModel.introduceTitleInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: titleRelay)
       .disposed(by: disposeBag)
     
     nameViewModel.nameTitleInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: nameRelay)
       .disposed(by: disposeBag)
     
     introduceViewModel.goalInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: goalRelay)
       .disposed(by: disposeBag)
     
     introduceViewModel.introduceInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: introduceRelay)
       .disposed(by: disposeBag)
     
     introduceViewModel.imageInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: mainImageRelay)
       .disposed(by: disposeBag)
     
     dateViewModel.dateInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: daysRelay)
       .disposed(by: disposeBag)
     
     dateViewModel.timeInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: timeRelay)
       .disposed(by: disposeBag)
     
     dateViewModel.onOffInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: onOffRelay)
       .disposed(by: disposeBag)
     
     dateViewModel.locationInputRelay
-      .do { print($0) }
       .asObservable()
       .bind(to: locationRelay)
       .disposed(by: disposeBag)
     
     peopleNumberViewModel.peopleNumber
-      .do { print($0) }
       .asObservable()
       .bind(to: peopleNumberRelay)
       .disposed(by: disposeBag)
@@ -129,14 +118,12 @@ final class CreateMeetingViewModel {
     questionViewModel.noQuestionMode
       .asObservable()
       .map { !$0 }
-      .do { print($0) }
       .bind(to: questionOnOffRelay)
       .disposed(by: disposeBag)
     
     questionViewModel.questionListBehaviorRelay
       .asObservable()
       .map { $0.map { $0.question } }
-      .do { print($0) }
       .bind(to: questionsRelay)
       .disposed(by: disposeBag)
   }
