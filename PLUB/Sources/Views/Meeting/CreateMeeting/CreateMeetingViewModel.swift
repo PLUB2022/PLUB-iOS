@@ -136,4 +136,8 @@ final class CreateMeetingViewModel {
       questions: questionOnOffRelay.value ? questionsRelay.value : nil
     )
   }
+  
+  func setupMeetingMainImage() -> UIImage? {
+    return mainImageRelay.value
+  }
 }

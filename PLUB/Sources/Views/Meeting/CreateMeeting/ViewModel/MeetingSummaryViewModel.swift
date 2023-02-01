@@ -7,13 +7,19 @@
 
 import RxSwift
 import RxCocoa
+import UIKit
 
 final class MeetingSummaryViewModel {
   private let disposeBag = DisposeBag()
   
   let meetingData: CreateMeetingRequest
+  let mainImage: UIImage?
   
-  init(meetingData: CreateMeetingRequest) {
+  init(
+    meetingData: CreateMeetingRequest,
+    mainImage: UIImage?
+  ) {
     self.meetingData = meetingData
+    self.mainImage = mainImage
   }
 }
