@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-
 final class CreateMeetingViewModel {
   private let disposeBag = DisposeBag()
   
@@ -47,9 +46,6 @@ final class CreateMeetingViewModel {
   
   /// 온/오프라인
   private var onOffRelay = BehaviorRelay<OnOff>(value: .on)
-  
-  /// 주소
-  private var addressRelay = BehaviorRelay<String?>(value: nil)
   
   /// 장소
   private var locationRelay = BehaviorRelay<Location?>(value: nil)
@@ -143,5 +139,26 @@ final class CreateMeetingViewModel {
       .do { print($0) }
       .bind(to: questionsRelay)
       .disposed(by: disposeBag)
+  }
+  
+  func setupMeetingData() -> CreateMeetingRequest {
+    CreateMeetingRequest(
+      categoryIDs: categoryIDsRelay.value,
+      title: titleRelay.value,
+      name: nameRelay.value,
+      goal: goalRelay.value,
+      introduce: introduceRelay.value,
+      mainImage: nil,
+      time: timeRelay.value,
+      days: daysRelay.value,
+      onOff: onOffRelay.value,
+      address: locationRelay.value?.address,
+      roadAddress: locationRelay.value?.roadAddress,
+      placeName: locationRelay.value?.placeName,
+      positionX: locationRelay.value?.positionX,
+      positionY: locationRelay.value?.positionY,
+      peopleNumber: peopleNumberRelay.value,
+      questions: questionOnOffRelay.value ? questionsRelay.value : nil
+    )
   }
 }

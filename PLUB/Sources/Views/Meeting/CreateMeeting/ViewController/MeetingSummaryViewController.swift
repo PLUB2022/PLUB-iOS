@@ -9,6 +9,18 @@ import UIKit
 
 final class MeetingSummaryViewController: BaseViewController {
   
+  private var viewModel: MeetingSummaryViewModel
+  
+  init(
+    viewModel: MeetingSummaryViewModel
+  ) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   // MARK: - Life Cycle
   

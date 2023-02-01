@@ -184,7 +184,11 @@ final class CreateMeetingViewController: BaseViewController {
           owner.lastPageIndex += 1
           owner.currentPage = owner.lastPageIndex
         } else {
-          let vc = MeetingSummaryViewController()
+          let vc = MeetingSummaryViewController(
+            viewModel: MeetingSummaryViewModel(
+              meetingData: owner.viewModel.setupMeetingData()
+            )
+          )
           owner.navigationController?.pushViewController(vc, animated: true)
         }
       })
