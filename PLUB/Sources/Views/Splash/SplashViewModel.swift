@@ -21,11 +21,11 @@ final class SplashViewModel: SplashViewModelType {
   // Output
   let shouldMoveToVC: Driver<UIViewController> // 이동할 ViewController를 받음
   
-  /// Splash화면 이후 보여줄 ViewController를 emit할 `Subject`
-  private let moveVCSubject = PublishSubject<UIViewController>()
+  /// Splash화면 이후 보여줄 ViewController를 emit할 `Relay`
+  private let moveVCRelay = PublishRelay<UIViewController>()
   
   init() {
-    shouldMoveToVC = moveVCSubject.asDriver(onErrorDriveWith: .empty())
+    shouldMoveToVC = moveVCRelay.asDriver(onErrorDriveWith: .empty())
     
     bind()
   }
