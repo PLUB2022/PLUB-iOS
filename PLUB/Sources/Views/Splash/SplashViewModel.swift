@@ -34,7 +34,7 @@ final class SplashViewModel: SplashViewModelType {
   
   private func bind() {
     guard let isLaunchedBefore = UserManager.shared.isLaunchedBefore,
-    isLaunchedBefore == false
+          isLaunchedBefore == true
     else {
       UserManager.shared.set(isLaunchedBefore: true) // 최초 실행 로직을 탔으므로 true로 설정
       moveVCRelay.accept(OnboardingViewController()) // 온보딩으로 띄움
