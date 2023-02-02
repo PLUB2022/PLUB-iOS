@@ -133,7 +133,7 @@ final class CreateMeetingViewModel {
       positionX: locationRelay.value?.positionX,
       positionY: locationRelay.value?.positionY,
       peopleNumber: peopleNumberRelay.value,
-      questions: questionOnOffRelay.value ? questionsRelay.value : nil
+      questions: questionOnOffRelay.value ? questionsRelay.value : []
     )
   }
   

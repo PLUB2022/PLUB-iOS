@@ -181,7 +181,7 @@ extension MeetingSummaryViewController {
     nextButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-
+        owner.viewModel.createMeeting()
       })
       .disposed(by: disposeBag)
   }

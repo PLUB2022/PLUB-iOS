@@ -28,4 +28,19 @@ final class MeetingSummaryViewModel {
     self.categoryNames = categoryNames
     self.time = time
   }
+  
+  func createMeeting() {
+    MeetingService.shared
+      .createMeeting(request: meetingData)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let data):
+          print(data.data?.plubbingID)
+        default:
+          break
+        }
+      })
+      .disposed(by: disposeBag)
+  }
 }
