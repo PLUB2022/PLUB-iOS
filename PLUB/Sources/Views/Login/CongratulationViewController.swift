@@ -61,6 +61,16 @@ final class CongratulationViewController: BaseViewController {
     super.setupStyles()
     animationView.play()
   }
+  
+  override func bind() {
+    super.bind()
+    nextButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.dismiss(animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 extension CongratulationViewController {
