@@ -39,7 +39,7 @@ final class CreateMeetingViewModel {
   private let mainImageRelay = BehaviorRelay<UIImage?>(value: nil)
   
   /// 시간
-  private let timeRelay = BehaviorRelay<String>(value: "")
+  private let timeRelay = BehaviorRelay<Date?>(value: nil)
   
   /// 요일
   private let daysRelay = BehaviorRelay<[String]>(value: [])
@@ -124,7 +124,7 @@ final class CreateMeetingViewModel {
       goal: goalRelay.value,
       introduce: introduceRelay.value,
       mainImage: nil,
-      time: timeRelay.value,
+      time: dateString(timeRelay.value, format: "hhmm"),
       days: daysRelay.value,
       onOff: onOffRelay.value,
       address: locationRelay.value?.address,
@@ -137,11 +137,22 @@ final class CreateMeetingViewModel {
     )
   }
   
+  func dateString(_ date: Date?, format: String) -> String {
+    return DateFormatter().then {
+      $0.dateFormat = format
+      $0.locale = Locale(identifier: "ko_KR")
+    }.string(from: date ?? Date())
+  }
+  
   func setupMeetingMainImage() -> UIImage? {
     return mainImageRelay.value
   }
   
   func setupCategoryNames() -> [String] {
     return categoryIDsRelay.value.map { $0.name }
+  }
+  
+  func setupTime() -> String {
+    return dateString(timeRelay.value, format: "a h시 m분")
   }
 }
