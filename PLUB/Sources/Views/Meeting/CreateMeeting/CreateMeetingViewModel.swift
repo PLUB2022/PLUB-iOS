@@ -21,7 +21,7 @@ final class CreateMeetingViewModel {
   let questionViewModel = MeetingQuestionViewModel()
   
   /// 선택한 카테고리 리스트
-  private let categoryIDsRelay = BehaviorRelay<[Int]>(value: [])
+  private let categoryIDsRelay = BehaviorRelay<[SubCategory]>(value: [])
   
   /// 플러빙 타이틀
   private let titleRelay = BehaviorRelay<String>(value: "")
@@ -118,7 +118,7 @@ final class CreateMeetingViewModel {
   
   func setupMeetingData() -> CreateMeetingRequest {
     CreateMeetingRequest(
-      categoryIDs: categoryIDsRelay.value,
+      categoryIDs: categoryIDsRelay.value.map { $0.id },
       title: titleRelay.value,
       name: nameRelay.value,
       goal: goalRelay.value,
@@ -139,5 +139,9 @@ final class CreateMeetingViewModel {
   
   func setupMeetingMainImage() -> UIImage? {
     return mainImageRelay.value
+  }
+  
+  func setupCategoryNames() -> [String] {
+    return categoryIDsRelay.value.map { $0.name }
   }
 }
