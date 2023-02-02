@@ -5,9 +5,10 @@
 //  Created by 김수빈 on 2023/02/01.
 //
 
+import UIKit
+
 import RxSwift
 import RxCocoa
-import UIKit
 
 final class MeetingSummaryViewModel {
   private let disposeBag = DisposeBag()
