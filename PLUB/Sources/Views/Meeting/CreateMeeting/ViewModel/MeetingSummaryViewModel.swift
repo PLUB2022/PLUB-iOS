@@ -30,15 +30,44 @@ final class MeetingSummaryViewModel {
   }
   
   func createMeeting() {
-    MeetingService.shared
-      .createMeeting(request: meetingData)
+    if let image = mainImage {
+      requestImageUpload(image: image)
+    } else {
+      requestCreateMeeting(with: meetingData)
+    }
+  }
+  
+  private func requestImageUpload(image: UIImage) {
+    ImageService.shared.uploadImage(
+      images: [image],
+      params: UploadImageRequest(type: .plubbingMain)
+    )
+    .withUnretained(self)
+    .subscribe(onNext: { owner, result in
+      switch result {
+      case .success(let model):
+        guard let data = model.data,
+              let fileUrl = data.files.first?.fileUrl else { return }
+        var request = owner.meetingData
+        request.mainImage = fileUrl
+        owner.requestCreateMeeting(with: request)
+        
+      default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
+      }
+    })
+      .disposed(by: disposeBag)
+  }
+  
+  private func requestCreateMeeting(with request: CreateMeetingRequest) {
+    MeetingService.shared.createMeeting(request: request)
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
         switch result {
-        case .success(let data):
-          print(data.data?.plubbingID)
-        default:
-          break
+        case .success(let model):
+          guard let data = model.data else { return }
+          print(data.plubbingID)
+          
+        default: break // TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })
       .disposed(by: disposeBag)
