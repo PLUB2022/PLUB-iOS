@@ -14,12 +14,18 @@ final class MeetingSummaryViewModel {
   
   let meetingData: CreateMeetingRequest
   let mainImage: UIImage?
+  let categoryNames: [String]
+  let time: String
   
   init(
     meetingData: CreateMeetingRequest,
-    mainImage: UIImage?
+    mainImage: UIImage?,
+    categoryNames: [String],
+    time: String
   ) {
     self.meetingData = meetingData
     self.mainImage = mainImage
+    self.categoryNames = categoryNames
+    self.time = time
   }
 }

@@ -170,7 +170,7 @@ extension MeetingSummaryViewController {
             .map { $0.fromENGToKOR() }
             .joined(separator: ",")
           + " | "
-          + "\(data.time)"
+          + "\(viewModel.time)"
         )
       )
     )
@@ -181,8 +181,6 @@ extension MeetingSummaryViewController {
         introduce: data.introduce
       )
     )
-    
-//    introduceTagCollectionView.configure
   }
 }
 
@@ -192,19 +190,19 @@ extension MeetingSummaryViewController: UICollectionViewDelegate, UICollectionVi
   }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return viewModel.meetingData.categoryIDs.count
+    return viewModel.categoryNames.count
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IntroduceTagCollectionViewCell.identifier, for: indexPath) as? IntroduceTagCollectionViewCell ?? IntroduceTagCollectionViewCell()
-    cell.configureUI(with: "\(viewModel.meetingData.categoryIDs[indexPath.row])")
+    cell.configureUI(with: viewModel.categoryNames[indexPath.row])
     return cell
   }
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
       let label = UILabel().then {
         $0.font = .caption
-        $0.text = "\(viewModel.meetingData.categoryIDs[indexPath.row])"
+        $0.text = viewModel.categoryNames[indexPath.row]
         $0.sizeToFit()
       }
       let size = label.frame.size

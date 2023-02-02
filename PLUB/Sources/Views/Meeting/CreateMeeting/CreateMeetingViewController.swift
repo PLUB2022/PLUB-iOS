@@ -187,7 +187,9 @@ final class CreateMeetingViewController: BaseViewController {
           let vc = MeetingSummaryViewController(
             viewModel: MeetingSummaryViewModel(
               meetingData: owner.viewModel.setupMeetingData(),
-              mainImage: owner.viewModel.setupMeetingMainImage()
+              mainImage: owner.viewModel.setupMeetingMainImage(),
+              categoryNames: owner.viewModel.setupCategoryNames(),
+              time: owner.viewModel.setupTime()
             )
           )
           owner.navigationController?.pushViewController(vc, animated: true)
