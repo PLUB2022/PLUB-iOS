@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-final class SortBottomSheetView: UIControl {
+class SortBottomSheetView: UIControl {
   
   private let type: SortType
   
@@ -72,7 +72,7 @@ protocol SortBottomSheetViewControllerDelegate: AnyObject {
   func didTappedSortButton(type: SortType)
 }
 
-final class SortBottomSheetViewController: BottomSheetViewController {
+class SortBottomSheetViewController: BottomSheetViewController {
   
   weak var delegate: SortBottomSheetViewControllerDelegate?
   
@@ -99,12 +99,6 @@ final class SortBottomSheetViewController: BottomSheetViewController {
   
   private let popularButton = SortBottomSheetView(type: .popular)
   private let newButton = SortBottomSheetView(type: .new)
-  
-  override func setupStyles() {
-    super.setupStyles()
-    
-    popularButton.isTapped = true
-  }
   
   override func setupLayouts() {
     super.setupLayouts()
@@ -148,5 +142,16 @@ final class SortBottomSheetViewController: BottomSheetViewController {
         owner.delegate?.didTappedSortButton(type: .new)
       })
       .disposed(by: disposeBag)
+  }
+  
+  public func configureUI(with type: SortType) {
+    switch type {
+    case .popular:
+      popularButton.isTapped = true
+      newButton.isTapped = false
+    case .new:
+      popularButton.isTapped = false
+      newButton.isTapped = true
+    }
   }
 }

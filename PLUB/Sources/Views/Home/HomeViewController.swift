@@ -33,7 +33,7 @@ enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
   case recommendedMeeting
 }
 
-final class HomeViewController: BaseViewController {
+class HomeViewController: BaseViewController {
   
   private let viewModel: HomeViewModelType
   private var mainCategoryList: [MainCategory] = [] {
@@ -42,13 +42,13 @@ final class HomeViewController: BaseViewController {
     }
   }
   
-  private var homeType: HomeType = .selected {
+  private var homeType: HomeType = .nonSelected {
     didSet {
-      self.homeCollectionView.reloadSections([1])
+      self.homeCollectionView.reloadData()
     }
   }
   
-  private var selectedCategoryCollectionViewCellModel: [SelectedCategoryCollectionViewCellModel] = [] {
+  private var recommendationList: [SelectedCategoryCollectionViewCellModel] = [] {
     didSet {
       self.homeCollectionView.reloadSections([2])
     }
@@ -128,14 +128,15 @@ final class HomeViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isSelectedInterest
+      .asObservable()
       .withUnretained(self)
-      .emit(onNext: { owner, isSelectedInterest in
+      .subscribe(onNext: { owner, isSelectedInterest in
         owner.homeType = isSelectedInterest ? .selected : .nonSelected
       })
       .disposed(by: disposeBag)
     
     viewModel.updatedRecommendationCellData
-      .drive(rx.selectedCategoryCollectionViewCellModel)
+      .drive(rx.recommendationList)
       .disposed(by: disposeBag)
     
     viewModel.isBookmarked.emit(onNext: { isBookmarked in
@@ -243,7 +244,7 @@ final class HomeViewController: BaseViewController {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return HomeSectionType.allCases.count
+      return HomeSectionType.allCases.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -258,7 +259,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return 0
       }
     case .recommendedMeeting:
-      return selectedCategoryCollectionViewCellModel.count
+      return recommendationList.count
     }
   }
   
@@ -281,7 +282,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       }
     case .recommendedMeeting:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-      cell.configureUI(with: selectedCategoryCollectionViewCellModel[indexPath.row])
+      cell.configureUI(with: recommendationList[indexPath.row])
       cell.delegate = self
       return cell
     }
@@ -315,7 +316,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     case .recommendedMeeting:
-      let vc = DetailRecruitmentViewController(plubbingID: selectedCategoryCollectionViewCellModel[indexPath.row].plubbingID)
+      let vc = DetailRecruitmentViewController(plubbingID: recommendationList[indexPath.row].plubbingID)
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     }
