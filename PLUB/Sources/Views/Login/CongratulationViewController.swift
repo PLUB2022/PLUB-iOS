@@ -67,7 +67,7 @@ final class CongratulationViewController: BaseViewController {
     nextButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.dismiss(animated: true)
+        owner.navigationController?.setViewControllers([HomeViewController(viewModel: HomeViewModel())], animated: true)
       }
       .disposed(by: disposeBag)
   }
