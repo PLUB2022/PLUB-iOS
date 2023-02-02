@@ -113,6 +113,13 @@ final class MeetingSummaryViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    viewModel.presentSuccessPage
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        let vc = MeetingCreateSuccessViewController()
+        owner.navigationController?.pushViewController(vc, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
 }
 

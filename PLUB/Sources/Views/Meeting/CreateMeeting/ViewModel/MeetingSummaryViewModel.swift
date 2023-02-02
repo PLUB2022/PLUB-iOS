@@ -13,10 +13,14 @@ import RxCocoa
 final class MeetingSummaryViewModel {
   private let disposeBag = DisposeBag()
   
+  // Data
   let meetingData: CreateMeetingRequest
   let mainImage: UIImage?
   let categoryNames: [String]
   let time: String
+  
+  // Output
+  let presentSuccessPage = PublishSubject<Void>()
   
   init(
     meetingData: CreateMeetingRequest,
@@ -65,8 +69,7 @@ final class MeetingSummaryViewModel {
       .subscribe(onNext: { owner, result in
         switch result {
         case .success(let model):
-          guard let data = model.data else { return }
-          print(data.plubbingID)
+          owner.presentSuccessPage.onNext(())
           
         default: break // TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
