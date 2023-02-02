@@ -17,8 +17,12 @@ final class MeetingSummaryViewController: BaseViewController {
     $0.alwaysBounceVertical = true
   }
   
-  private lazy var introduceTypeStackView = UIStackView(arrangedSubviews: [
-    introduceCategoryTitleView, introduceCategoryInfoView, meetingIntroduceView, introduceTagCollectionView, bottomStackView
+  private lazy var introduceTypeStackView = UIStackView(
+    arrangedSubviews: [
+      introduceCategoryTitleView,
+      introduceCategoryInfoView,
+      meetingIntroduceView,
+      introduceTagCollectionView
   ]).then {
     $0.axis = .vertical
     $0.alignment = .center
@@ -28,20 +32,8 @@ final class MeetingSummaryViewController: BaseViewController {
     $0.layoutMargins = UIEdgeInsets(top: Device.navigationBarHeight, left: 16.5, bottom: .zero, right: 16.5)
   }
   
-  private lazy var bottomStackView = UIStackView(arrangedSubviews: [surroundMeetingButton, applyButton]).then {
-    $0.axis = .horizontal
-    $0.alignment = .center
-    $0.distribution = .fillEqually
-    $0.spacing = 8
-  }
-  
-  private let surroundMeetingButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "모임 둘러보기")
-    $0.isEnabled = false
-  }
-  
-  private let applyButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "같이 할래요!")
+  private var nextButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
   
   private let introduceCategoryTitleView = IntroduceCategoryTitleView()
@@ -84,15 +76,24 @@ final class MeetingSummaryViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
+    [scrollView, nextButton].forEach {
+      view.addSubview($0)
+    }
     scrollView.addSubview(introduceTypeStackView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    nextButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+      $0.height.width.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
+    
     scrollView.snp.makeConstraints {
-      $0.edges.width.equalToSuperview() // 타이틀에 대한 너비까지 잡아줌으로써 Vertical Enabled한 UI를 구성
+      $0.top.leading.trailing.width.equalToSuperview() // 타이틀에 대한 너비까지 잡아줌으로써 Vertical Enabled한 UI를 구성
+      $0.bottom.equalTo(nextButton.snp.top).offset(24)
     }
     
     introduceTypeStackView.snp.makeConstraints {
@@ -102,11 +103,6 @@ final class MeetingSummaryViewController: BaseViewController {
     introduceTagCollectionView.snp.makeConstraints {
       $0.left.right.equalToSuperview().inset(16)
       $0.height.greaterThanOrEqualTo(48)
-    }
-    
-    bottomStackView.snp.makeConstraints {
-      $0.right.equalToSuperview().offset(-16.5)
-      $0.height.equalTo(46)
     }
   }
   
@@ -160,7 +156,7 @@ extension MeetingSummaryViewController {
     
     introduceCategoryInfoView.configureUI(
       with: IntroduceCategoryInfoViewModel(
-        recommendedText: data.goal,
+        recommendedText: "\"\(data.goal)\"",
         meetingImageUrl: nil,
         meetingImage: viewModel.mainImage,
         categortInfoListModel: CategoryInfoListModel(
@@ -178,9 +174,16 @@ extension MeetingSummaryViewController {
     meetingIntroduceView.configureUI(
       with: MeetingIntroduceModel(
         title: data.title,
-        introduce: data.introduce
+        introduce: "\(data.introduce)"
       )
     )
+    
+    nextButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+
+      })
+      .disposed(by: disposeBag)
   }
 }
 
