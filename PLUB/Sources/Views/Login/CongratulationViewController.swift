@@ -46,7 +46,7 @@ final class CongratulationViewController: BaseViewController {
     }
     
     congratuationLabel.snp.makeConstraints {
-      $0.centerY.equalToSuperview()
+      $0.centerY.equalToSuperview().multipliedBy(1.22)
       $0.centerX.equalToSuperview()
     }
     
