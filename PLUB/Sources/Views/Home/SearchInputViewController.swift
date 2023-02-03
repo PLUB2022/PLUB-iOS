@@ -23,6 +23,8 @@ final class SearchInputViewController: BaseViewController {
     $0.autocapitalizationType = .none
   }
   
+  private let recentSearchListView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+  
   private let searchAlertView = SearchAlertView()
   
   init(viewModel: SearchInputViewModelType = SearchInputViewModel()) {
