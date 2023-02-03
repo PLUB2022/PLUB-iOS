@@ -30,7 +30,7 @@ final class SearchOutputViewController: BaseViewController {
   }.then {
     $0.register(SelectedCategoryGridCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier)
     $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
-    $0.register(SelectedCategoryFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier)
+    $0.register(SearchOutputHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SearchOutputHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
   }
@@ -87,7 +87,7 @@ extension SearchOutputViewController: UICollectionViewDelegate, UICollectionView
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     if indexPath.section == 0 && kind == UICollectionView.elementKindSectionHeader {
-      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier, for: indexPath) as? SelectedCategoryFilterHeaderView ?? SelectedCategoryFilterHeaderView()
+      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchOutputHeaderView.identifier, for: indexPath) as? SearchOutputHeaderView ?? SearchOutputHeaderView()
       header.filterChanged = type
       header.delegate = self
       return header
@@ -129,17 +129,13 @@ extension SearchOutputViewController: UICollectionViewDelegate, UICollectionView
   }
 }
 
-extension SearchOutputViewController: SelectedCategoryFilterHeaderViewDelegate {
+extension SearchOutputViewController: SearchOutputHeaderViewDelegate {
   func didTappedSortControl() {
     let vc = SortBottomSheetViewController()
     vc.modalPresentationStyle = .overFullScreen
     vc.delegate = self
     vc.configureUI(with: type)
     present(vc, animated: false)
-  }
-  
-  func didTappedInterestListFilterButton() {
-    
   }
   
   func didTappedInterestListChartButton() {

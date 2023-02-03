@@ -8,6 +8,8 @@
 import UIKit
 
 import RxSwift
+import SnapKit
+import Then
 
 protocol SelectedCategoryFilterHeaderViewDelegate: AnyObject {
   func didTappedInterestListFilterButton()
@@ -57,8 +59,6 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   private func configureUI() {
     interestListChartButton.isSelected = true
     interestListFilterButton.addTarget(self, action: #selector(didTappedInterestListFilterButton), for: .touchUpInside)
-//    interestListChartButton.addTarget(self, action: #selector(didTappedInterestListChartButton), for: .touchUpInside)
-//    interesetListGridButton.addTarget(self, action: #selector(didTappedInterestListGridButton), for: .touchUpInside)
     
     [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton, sortButton].forEach { addSubview($0) }
     
@@ -131,12 +131,4 @@ final class SelectedCategoryFilterHeaderView: UICollectionReusableView {
   @objc private func didTappedInterestListFilterButton() {
     delegate?.didTappedInterestListFilterButton()
   }
-  
-//  @objc private func didTappedInterestListChartButton() {
-//    delegate?.didTappedInterestListChartButton()
-//  }
-//
-//  @objc private func didTappedInterestListGridButton() {
-//    delegate?.didTappedInterestListGridButton()
-//  }
 }
