@@ -16,6 +16,13 @@ final class SearchOutputViewController: BaseViewController {
   
   private var selectedCategoryType: SelectedCategoryType = .chart
   
+  private var type: SortType = .popular {
+    didSet {
+      interestListCollectionView.reloadSections([0])
+//      viewModel.whichSortType.onNext(type)
+    }
+  }
+  
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
     $0.scrollDirection = .vertical
   })).then {
@@ -52,29 +59,36 @@ final class SearchOutputViewController: BaseViewController {
 
 extension SearchOutputViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
+    return 2
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return model.count
+    if section == 1 {
+      return model.count
+    }
+    return 0
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    switch selectedCategoryType {
-    case .chart:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-      cell.configureUI(with: model[indexPath.row])
-      return cell
-    case .grid:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
-      cell.configureUI(with: model[indexPath.row])
-      return cell
+    if indexPath.section == 1 {
+      switch selectedCategoryType {
+      case .chart:
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
+        cell.configureUI(with: model[indexPath.row])
+        return cell
+      case .grid:
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
+        cell.configureUI(with: model[indexPath.row])
+        return cell
+      }
     }
+    return UICollectionViewCell()
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    if collectionView == self.interestListCollectionView && kind == UICollectionView.elementKindSectionHeader {
+    if indexPath.section == 0 && kind == UICollectionView.elementKindSectionHeader {
       let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier, for: indexPath) as? SelectedCategoryFilterHeaderView ?? SelectedCategoryFilterHeaderView()
+      header.filterChanged = type
       header.delegate = self
       return header
     }
@@ -82,16 +96,22 @@ extension SearchOutputViewController: UICollectionViewDelegate, UICollectionView
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: collectionView.frame.width, height: 50)
+    if section == 0 {
+      return CGSize(width: collectionView.frame.width, height: 50)
+    }
+    return .zero
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    switch selectedCategoryType {
-    case .chart:
-      return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
-    case .grid:
-      return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
+    if indexPath.section == 1 {
+      switch selectedCategoryType {
+      case .chart:
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
+      case .grid:
+        return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
+      }
     }
+    return .zero
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -111,7 +131,11 @@ extension SearchOutputViewController: UICollectionViewDelegate, UICollectionView
 
 extension SearchOutputViewController: SelectedCategoryFilterHeaderViewDelegate {
   func didTappedSortControl() {
-    
+    let vc = SortBottomSheetViewController()
+    vc.modalPresentationStyle = .overFullScreen
+    vc.delegate = self
+    vc.configureUI(with: type)
+    present(vc, animated: false)
   }
   
   func didTappedInterestListFilterButton() {
@@ -120,11 +144,17 @@ extension SearchOutputViewController: SelectedCategoryFilterHeaderViewDelegate {
   
   func didTappedInterestListChartButton() {
     self.selectedCategoryType = .chart
-    self.interestListCollectionView.reloadSections([0])
+    self.interestListCollectionView.reloadSections([1])
   }
   
   func didTappedInterestListGridButton() {
     self.selectedCategoryType = .grid
-    self.interestListCollectionView.reloadSections([0])
+    self.interestListCollectionView.reloadSections([1])
+  }
+}
+
+extension SearchOutputViewController: SortBottomSheetViewControllerDelegate {
+  func didTappedSortButton(type: SortType) {
+    self.type = type
   }
 }

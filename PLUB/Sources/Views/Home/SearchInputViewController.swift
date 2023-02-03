@@ -74,7 +74,6 @@ final class SearchInputViewController: BaseViewController {
     
     viewModel.fetchedSearchOutput
       .drive(onNext: { model in
-        print("콘텐츠 = \(model)")
         let vc = SearchOutputViewController(model: model)
         vc.navigationItem.largeTitleDisplayMode = .never
         self.navigationController?.pushViewController(vc, animated: true)
