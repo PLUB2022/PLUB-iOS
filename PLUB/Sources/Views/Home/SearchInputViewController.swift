@@ -23,7 +23,17 @@ final class SearchInputViewController: BaseViewController {
     $0.autocapitalizationType = .none
   }
   
-  private let recentSearchListView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+  private lazy var recentSearchListView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+    $0.minimumLineSpacing = 8
+    $0.minimumInteritemSpacing = 12
+    
+  }).then {
+    $0.backgroundColor = .background
+    $0.contentInset = UIEdgeInsets(top: 3, left: 16, bottom: .zero, right: 16)
+    $0.register(RecentSearchListCollectionViewCell.self, forCellWithReuseIdentifier: RecentSearchListCollectionViewCell.identifier)
+    $0.delegate = self
+    $0.dataSource = self
+  }
   
   private let searchAlertView = SearchAlertView()
   
@@ -49,13 +59,17 @@ final class SearchInputViewController: BaseViewController {
   
   override func setupConstraints() {
     searchAlertView.snp.makeConstraints {
-      $0.edges.equalTo(view.safeAreaLayoutGuide)
+      $0.edges.equalToSuperview()
+    }
+    
+    recentSearchListView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(searchAlertView)
+    [searchAlertView, recentSearchListView].forEach { view.addSubview($0) }
   }
   
   override func bind() {
@@ -88,3 +102,24 @@ final class SearchInputViewController: BaseViewController {
   }
 }
 
+extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchListCollectionViewCell.identifier, for: indexPath) as? RecentSearchListCollectionViewCell ?? RecentSearchListCollectionViewCell()
+    cell.configureUI(with: "운동")
+    return cell
+  }
+}
+
+extension SearchInputViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: collectionView.frame.width / 2 - 6 - 16, height: 32)
+  }
+}
