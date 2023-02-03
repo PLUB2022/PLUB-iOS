@@ -36,6 +36,7 @@ final class SearchInputViewController: BaseViewController {
     $0.backgroundColor = .background
     $0.contentInset = UIEdgeInsets(top: 3, left: 16, bottom: .zero, right: 16)
     $0.register(RecentSearchListCollectionViewCell.self, forCellWithReuseIdentifier: RecentSearchListCollectionViewCell.identifier)
+    $0.register(RecentSearchListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecentSearchListHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
   }
@@ -84,7 +85,7 @@ final class SearchInputViewController: BaseViewController {
         self?.searchBar.resignFirstResponder()
       })
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
-        .withLatestFrom(searchBar.rx.text.orEmpty)
+      .withLatestFrom(searchBar.rx.text.orEmpty)
         .filter { $0.count != 0 }
         .withUnretained(self)
         .subscribe(onNext: { owner, text in
@@ -121,6 +122,18 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return currentKeywordList.count
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    if kind == UICollectionView.elementKindSectionHeader {
+      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecentSearchListHeaderView.identifier, for: indexPath) as? RecentSearchListHeaderView ?? RecentSearchListHeaderView()
+      return header
+    }
+    return UICollectionReusableView()
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    return CGSize(width: collectionView.frame.width, height: 26)
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
