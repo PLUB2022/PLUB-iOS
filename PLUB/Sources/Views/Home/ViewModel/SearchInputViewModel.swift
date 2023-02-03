@@ -13,6 +13,7 @@ protocol SearchInputViewModelType {
   // Input
   var whichKeyword: AnyObserver<String> { get }
   var whichSortType: AnyObserver<SortType> { get }
+  var whichKeywordRemove: AnyObserver<Int> { get }
   
   // Output
   var fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
@@ -25,6 +26,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
   // Input
   let whichKeyword: AnyObserver<String>
   let whichSortType: AnyObserver<SortType>
+  let whichKeywordRemove: AnyObserver<Int>
   
   // Output
   let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]>
@@ -35,7 +37,9 @@ final class SearchInputViewModel: SearchInputViewModelType {
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let fetchingSearchOutput = PublishSubject<[SelectedCategoryCollectionViewCellModel]>()
     let recentKeywordList = BehaviorRelay<[String]>(value: [])
+    let removeKeyword = PublishSubject<Int>()
     
+    self.whichKeywordRemove = removeKeyword.asObserver()
     self.whichKeyword = searchKeyword.asObserver()
     self.whichSortType = searchSortType.asObserver()
     self.fetchedSearchOutput = fetchingSearchOutput.asDriver(onErrorDriveWith: .empty())
@@ -70,9 +74,15 @@ final class SearchInputViewModel: SearchInputViewModelType {
         + "(data.time)"))
       }
     }
+    
+    removeKeyword.subscribe(onNext: { index in
+      var list = recentKeywordList.value
+      list.remove(at: index)
+      recentKeywordList.accept(list)
+    })
+    .disposed(by: disposeBag)
       
     searchKeyword.subscribe(onNext: { keyword in
-      print("키워드 = \(keyword)")
       var list = recentKeywordList.value
       if list.contains(keyword) {
         guard let index = list.firstIndex(of: keyword) else { return }

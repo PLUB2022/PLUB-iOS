@@ -86,7 +86,6 @@ final class SearchInputViewController: BaseViewController {
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
         .withLatestFrom(searchBar.rx.text.orEmpty)
         .filter { $0.count != 0 }
-        .distinctUntilChanged()
         .withUnretained(self)
         .subscribe(onNext: { owner, text in
           owner.viewModel.whichKeyword.onNext(text)
@@ -140,6 +139,7 @@ extension SearchInputViewController: UICollectionViewDelegateFlowLayout {
 
 extension SearchInputViewController: RecentSearchListCollectionViewCellDelegate {
   func didTappedRemoveButton(cell: UICollectionViewCell) {
-    let indexPath = recentSearchListView.indexPath(for: cell)
+    guard let indexPath = recentSearchListView.indexPath(for: cell) else { return }
+    viewModel.whichKeywordRemove.onNext(indexPath.row)
   }
 }
