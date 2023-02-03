@@ -21,7 +21,7 @@ class NoSelectedCategoryView: UIView {
   }
   
   private let grayView = UIView().then {
-    $0.backgroundColor = .deepGray
+    $0.backgroundColor = .noDataBackgroundColor
   }
   
   private let alertLabel = UILabel().then {
