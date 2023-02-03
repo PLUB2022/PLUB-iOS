@@ -15,6 +15,12 @@ final class SearchInputViewController: BaseViewController {
   
   private let viewModel: SearchInputViewModelType
   
+  private var currentKeywordList: [String] = [] {
+    didSet {
+      recentSearchListView.reloadData()
+    }
+  }
+  
   private let searchBar = UISearchBar().then {
     $0.placeholder = "검색할 내용을 입력해주세요"
     $0.returnKeyType = .search
@@ -96,8 +102,10 @@ final class SearchInputViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.currentRecentKeyword
-      .drive(onNext: { list in
-        print("모델=\(list)")
+      .asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, list in
+        owner.currentKeywordList = list
       })
       .disposed(by: disposeBag)
   }
@@ -113,12 +121,12 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return currentKeywordList.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchListCollectionViewCell.identifier, for: indexPath) as? RecentSearchListCollectionViewCell ?? RecentSearchListCollectionViewCell()
-    cell.configureUI(with: "운동")
+    cell.configureUI(with: currentKeywordList[indexPath.row])
     cell.delegate = self
     return cell
   }

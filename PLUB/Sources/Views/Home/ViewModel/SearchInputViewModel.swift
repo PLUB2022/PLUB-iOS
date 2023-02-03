@@ -74,7 +74,11 @@ final class SearchInputViewModel: SearchInputViewModelType {
     searchKeyword.subscribe(onNext: { keyword in
       print("키워드 = \(keyword)")
       var list = recentKeywordList.value
-      list.append(keyword)
+      if list.contains(keyword) {
+        guard let index = list.firstIndex(of: keyword) else { return }
+        list.remove(at: index)
+      }
+      list.insert(keyword, at: 0)
       recentKeywordList.accept(list)
     })
     .disposed(by: disposeBag)
