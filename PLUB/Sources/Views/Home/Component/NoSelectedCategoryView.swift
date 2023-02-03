@@ -17,7 +17,7 @@ class NoSelectedCategoryView: UIView {
   ]).then {
     $0.spacing = 32
     $0.axis = .vertical
-    $0.distribution = .equalSpacing
+    $0.alignment = .center
   }
   
   private let grayView = UIView().then {
@@ -45,9 +45,20 @@ class NoSelectedCategoryView: UIView {
   }
   
   private func configureUI() {
+    alertLabel.text = "아직 등록된 모집글이 없어요\n직접 모집글을 올려 볼까요?"
     addSubview(stackView)
+    
     stackView.snp.makeConstraints {
       $0.edges.equalToSuperview()
+    }
+    
+    grayView.snp.makeConstraints {
+      $0.size.equalTo(140)
+    }
+    
+    createMeetingButton.snp.makeConstraints {
+      $0.left.right.equalToSuperview().inset(16)
+      $0.height.equalTo(46)
     }
   }
 }
