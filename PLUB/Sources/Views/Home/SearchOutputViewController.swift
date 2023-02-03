@@ -11,11 +11,8 @@ import SnapKit
 import Then
 
 final class SearchOutputViewController: BaseViewController {
-  private var model: [SelectedCategoryCollectionViewCellModel] = [] {
-    didSet {
-      interestListCollectionView.reloadData()
-    }
-  }
+  
+  private let model: [SelectedCategoryCollectionViewCellModel]
   
   private var selectedCategoryType: SelectedCategoryType = .chart
   
@@ -29,6 +26,16 @@ final class SearchOutputViewController: BaseViewController {
     $0.register(SelectedCategoryFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
+  }
+  
+  init(model: [SelectedCategoryCollectionViewCellModel]) {
+    print("검색아웃풋모델 = \(model)")
+    self.model = model
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setupConstraints() {

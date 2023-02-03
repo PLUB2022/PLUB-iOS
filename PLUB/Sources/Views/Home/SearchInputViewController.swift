@@ -73,8 +73,11 @@ final class SearchInputViewController: BaseViewController {
         .disposed(by: disposeBag)
     
     viewModel.fetchedSearchOutput
-      .drive(onNext: { content in
-        print("콘텐츠 = \(content)")
+      .drive(onNext: { model in
+        print("콘텐츠 = \(model)")
+        let vc = SearchOutputViewController(model: model)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        self.navigationController?.pushViewController(vc, animated: true)
       })
       .disposed(by: disposeBag)
   }
