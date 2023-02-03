@@ -184,7 +184,7 @@ final class SignUpViewController: BaseViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, succeed in
         if succeed {
-          owner.navigationController?.setViewControllers([HomeViewController(viewModel: HomeViewModel())], animated: true)
+          owner.navigationController?.setViewControllers([CongratulationViewController()], animated: true)
         } else {
           print("회원가입 실패")
         }
@@ -262,7 +262,7 @@ final class SignUpViewController: BaseViewController {
         self.viewModel.signUp()
           .subscribe(onNext: { succeed in
             if succeed {
-              self.navigationController?.setViewControllers([HomeViewController(viewModel: HomeViewModel())], animated: true)
+              self.navigationController?.setViewControllers([CongratulationViewController()], animated: true)
             } else {
               print("회원가입 실패")
             }

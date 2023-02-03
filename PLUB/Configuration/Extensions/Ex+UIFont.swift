@@ -1,7 +1,13 @@
 import UIKit
 
 extension UIFont {
-  private enum Pretendard: String {
+  
+  enum FontFamily {
+    case pretendard(option: Pretendard)
+    case nanum
+  }
+  
+  enum Pretendard: String {
     
     // black
     case black = "Pretendard-Black"
@@ -25,7 +31,9 @@ extension UIFont {
     case thin = "Pretendard-Thin"
   }
   
-  private static let nanumPen = "NanumPenOTF"
+  enum Nanum: String {
+    case `default` = "NanumPenOTF"
+  }
 }
 
 extension UIFont {
@@ -45,5 +53,18 @@ extension UIFont {
   static let caption3 = UIFont(name: Pretendard.medium.rawValue, size: 12)
   static let overLine = UIFont(name: Pretendard.regular.rawValue, size: 10)
   
-  static let onboarding = UIFont(name: nanumPen, size: 36)
+  static let onboarding = UIFont(name: Nanum.default.rawValue, size: 36)
+  
+  /// PLUB에서  사용되는 Font-Family를 Custom으로 설정합니다.
+  /// - Parameters:
+  ///   - family: PLUB에서 사용하는 font-family
+  ///   - size: font size
+  static func appFont(family: FontFamily, size: CGFloat) -> UIFont {
+    switch family {
+    case .pretendard(let option):
+      return UIFont(name: option.rawValue, size: size) ?? systemFont(ofSize: size)
+    case .nanum:
+      return UIFont(name: Nanum.default.rawValue, size: size) ?? systemFont(ofSize: size)
+    }
+  }
 }
