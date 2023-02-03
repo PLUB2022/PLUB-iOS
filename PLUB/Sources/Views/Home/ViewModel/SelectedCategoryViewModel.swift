@@ -72,7 +72,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
           isBookmarked: content.isBookmarked,
           selectedCategoryInfoModel: .init(
             placeName: content.placeName,
-            peopleCount: 5,
+            peopleCount: content.remainAccountNum,
             when: content.days
           .map { $0.fromENGToKOR() }
           .joined(separator: ",")

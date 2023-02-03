@@ -14,7 +14,7 @@ protocol SearchInputViewModelType {
   var whichSortType: AnyObserver<SortType> { get }
   
   // Output
-  var fetchedSearchOutput: Driver<[SearchContent]> { get }
+  var fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
 }
 
 final class SearchInputViewModel: SearchInputViewModelType {
@@ -25,12 +25,12 @@ final class SearchInputViewModel: SearchInputViewModelType {
   let whichSortType: AnyObserver<SortType>
   
   // Output
-  let fetchedSearchOutput: Driver<[SearchContent]>
+  let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]>
   
   init() {
     let searchKeyword = PublishSubject<String>()
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
-    let fetchingSearchOutput = PublishSubject<[SearchContent]>()
+    let fetchingSearchOutput = PublishSubject<[SelectedCategoryCollectionViewCellModel]>()
     
     self.whichKeyword = searchKeyword.asObserver()
     self.whichSortType = searchSortType.asObserver()
@@ -45,9 +45,29 @@ final class SearchInputViewModel: SearchInputViewModelType {
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }
+    
+    let fetchingSearchOutputModel = successSearch.map { contents in
+      contents.map { content in
+        return SelectedCategoryCollectionViewCellModel(
+          plubbingID: "\(content.plubbingID)",
+          name: content.name,
+          title: content.title,
+          mainImage: content.mainImage,
+          introduce: content.introduce,
+          isBookmarked: content.isBookmarked,
+          selectedCategoryInfoModel: .init(
+            placeName: content.placeName,
+            peopleCount: content.remainAccountNum,
+            when: content.days
+          .map { $0.fromENGToKOR() }
+          .joined(separator: ",")
+        + " | "
+        + "(data.time)"))
+      }
+    }
       
-    successSearch.subscribe(onNext: { content in
-      fetchingSearchOutput.onNext(content)
+    fetchingSearchOutputModel.subscribe(onNext: { model in
+      fetchingSearchOutput.onNext(model)
     })
     .disposed(by: disposeBag)
   }
