@@ -76,7 +76,11 @@ final class HomeViewModel: HomeViewModelType {
           selectedCategoryInfoModel: .init(
             placeName: content.placeName,
             peopleCount: content.remainAccountNum,
-            when: HomeViewModel.formatDays(days: content.days)
+            when: content.days
+              .map { $0.fromENGToKOR() }
+              .joined(separator: ",")
+            + " | "
+            + "(data.time)"
           )
         )
         return cellData
@@ -99,14 +103,5 @@ final class HomeViewModel: HomeViewModelType {
     self.isBookmarked = successRequestBookmark.distinctUntilChanged()
       .map { $0.isBookmarked }
       .asSignal(onErrorSignalWith: .empty())
-  }
-  
-  private static func formatDays(days: [String]) -> String {
-    var formatStr = ""
-    days.forEach { day in
-      formatStr.append(day.fromENGToKOR() + ",")
-    }
-    formatStr.removeLast()
-    return formatStr
   }
 }

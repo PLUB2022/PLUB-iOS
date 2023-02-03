@@ -48,6 +48,8 @@ final class SelectedCategoryViewController: BaseViewController {
     $0.dataSource = self
   }
   
+  private let noSelectedCategoryView = NoSelectedCategoryView()
+  
   init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryID: String) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -76,12 +78,18 @@ final class SelectedCategoryViewController: BaseViewController {
   }
   
   override func setupLayouts() {
-    view.addSubview(interestListCollectionView)
+    [interestListCollectionView, noSelectedCategoryView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     interestListCollectionView.snp.makeConstraints {
       $0.edges.equalToSuperview().inset(10)
+    }
+    
+    noSelectedCategoryView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(50 + 139)
+      $0.left.right.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
   }
   
@@ -93,9 +101,8 @@ final class SelectedCategoryViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isEmpty
-      .emit(onNext: { isEmpty in
-        
-      })
+      .map { !$0 }
+      .emit(to: noSelectedCategoryView.rx.isHidden)
       .disposed(by: disposeBag)
   }
   

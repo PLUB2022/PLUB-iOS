@@ -63,7 +63,21 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       .do(onNext: { dataIsEmpty.onNext($0.isEmpty) })
       .subscribe(onNext: { contents in
       let model = contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(plubbingID: "\(content.plubbingID)", name: content.name, title: content.title, mainImage: content.mainImage, introduce: content.introduce, isBookmarked: content.isBookmarked, selectedCategoryInfoModel: .init(placeName: content.placeName, peopleCount: 5, when: "서울 서초구 | 월, 화, 수"))
+        return SelectedCategoryCollectionViewCellModel(
+          plubbingID: "\(content.plubbingID)",
+          name: content.name,
+          title: content.title,
+          mainImage: content.mainImage,
+          introduce: content.introduce,
+          isBookmarked: content.isBookmarked,
+          selectedCategoryInfoModel: .init(
+            placeName: content.placeName,
+            peopleCount: 5,
+            when: content.days
+          .map { $0.fromENGToKOR() }
+          .joined(separator: ",")
+        + " | "
+        + "(data.time)"))
       }
       updatingCellData.onNext(model)
     })
