@@ -7,12 +7,19 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
+
+protocol RecentSearchListCollectionViewCellDelegate: AnyObject {
+  func didTappedRemoveButton(cell: UICollectionViewCell)
+}
 
 class RecentSearchListCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "RecentSearchListCollectionViewCell"
+  private let disposeBag = DisposeBag()
+  weak var delegate: RecentSearchListCollectionViewCellDelegate?
   
   private let recentSearchLabel = UILabel().then {
     $0.numberOfLines = 1
@@ -23,8 +30,8 @@ class RecentSearchListCollectionViewCell: UICollectionViewCell {
   }
   
   private let removeButton = UIButton().then {
-    $0.setImage(UIImage(named: "xMark"), for: .normal)
-    $0.contentMode = .scaleAspectFit
+    $0.setImage(UIImage(named: "xMarkBlack"), for: .normal)
+    $0.contentMode = .scaleAspectFill
   }
   
   private let borderView = UIView().then {
@@ -34,6 +41,7 @@ class RecentSearchListCollectionViewCell: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -59,6 +67,15 @@ class RecentSearchListCollectionViewCell: UICollectionViewCell {
       $0.height.equalTo(1)
       $0.left.right.bottom.equalToSuperview()
     }
+  }
+  
+  private func bind() {
+    removeButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.didTappedRemoveButton(cell: owner)
+      })
+      .disposed(by: disposeBag)
   }
   
   func configureUI(with model: String) {

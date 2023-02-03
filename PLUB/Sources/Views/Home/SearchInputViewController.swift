@@ -26,7 +26,6 @@ final class SearchInputViewController: BaseViewController {
   private lazy var recentSearchListView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.minimumLineSpacing = 8
     $0.minimumInteritemSpacing = 12
-    
   }).then {
     $0.backgroundColor = .background
     $0.contentInset = UIEdgeInsets(top: 3, left: 16, bottom: .zero, right: 16)
@@ -95,6 +94,12 @@ final class SearchInputViewController: BaseViewController {
         self.navigationController?.pushViewController(vc, animated: true)
       })
       .disposed(by: disposeBag)
+    
+    viewModel.currentRecentKeyword
+      .drive(onNext: { list in
+        print("모델=\(list)")
+      })
+      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
@@ -114,6 +119,7 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchListCollectionViewCell.identifier, for: indexPath) as? RecentSearchListCollectionViewCell ?? RecentSearchListCollectionViewCell()
     cell.configureUI(with: "운동")
+    cell.delegate = self
     return cell
   }
 }
@@ -121,5 +127,11 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
 extension SearchInputViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width / 2 - 6 - 16, height: 32)
+  }
+}
+
+extension SearchInputViewController: RecentSearchListCollectionViewCellDelegate {
+  func didTappedRemoveButton(cell: UICollectionViewCell) {
+    let indexPath = recentSearchListView.indexPath(for: cell)
   }
 }

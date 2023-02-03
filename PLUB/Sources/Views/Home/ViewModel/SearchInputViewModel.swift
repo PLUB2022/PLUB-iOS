@@ -7,6 +7,7 @@
 
 import RxSwift
 import RxCocoa
+import RxRelay
 
 protocol SearchInputViewModelType {
   // Input
@@ -15,6 +16,7 @@ protocol SearchInputViewModelType {
   
   // Output
   var fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
+  var currentRecentKeyword: Driver<[String]> { get }
 }
 
 final class SearchInputViewModel: SearchInputViewModelType {
@@ -26,15 +28,18 @@ final class SearchInputViewModel: SearchInputViewModelType {
   
   // Output
   let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]>
+  let currentRecentKeyword: Driver<[String]>
   
   init() {
     let searchKeyword = PublishSubject<String>()
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let fetchingSearchOutput = PublishSubject<[SelectedCategoryCollectionViewCellModel]>()
+    let recentKeywordList = BehaviorRelay<[String]>(value: [])
     
     self.whichKeyword = searchKeyword.asObserver()
     self.whichSortType = searchSortType.asObserver()
     self.fetchedSearchOutput = fetchingSearchOutput.asDriver(onErrorDriveWith: .empty())
+    self.currentRecentKeyword = recentKeywordList.asDriver(onErrorDriveWith: .empty())
     
     let requestSearch = Observable.combineLatest(searchKeyword, searchSortType) { ($0, $1) }
       .flatMapLatest { (keyword, sortType) in
@@ -66,6 +71,14 @@ final class SearchInputViewModel: SearchInputViewModelType {
       }
     }
       
+    searchKeyword.subscribe(onNext: { keyword in
+      print("키워드 = \(keyword)")
+      var list = recentKeywordList.value
+      list.append(keyword)
+      recentKeywordList.accept(list)
+    })
+    .disposed(by: disposeBag)
+    
     fetchingSearchOutputModel.subscribe(onNext: { model in
       fetchingSearchOutput.onNext(model)
     })
