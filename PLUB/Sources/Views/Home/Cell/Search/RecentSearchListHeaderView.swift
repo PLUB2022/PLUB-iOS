@@ -7,13 +7,20 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
+
+protocol RecentSearchListHeaderViewDelegate: AnyObject {
+  func didTappedRemoveAllButton()
+}
 
 class RecentSearchListHeaderView: UICollectionReusableView {
   
   static let identifier = "RecentSearchListHeaderView"
-  
+  private let disposeBag = DisposeBag()
+  weak var delegate: RecentSearchListHeaderViewDelegate?
+    
   private let titleLabel = UILabel().then {
     $0.textColor = .deepGray
     $0.font = .systemFont(ofSize: 16, weight: .semibold)
@@ -30,6 +37,7 @@ class RecentSearchListHeaderView: UICollectionReusableView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -47,5 +55,14 @@ class RecentSearchListHeaderView: UICollectionReusableView {
     removeAllButton.snp.makeConstraints {
       $0.right.centerY.equalToSuperview()
     }
+  }
+  
+  private func bind() {
+    removeAllButton.rx.tap
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.delegate?.didTappedRemoveAllButton()
+      })
+      .disposed(by: disposeBag)
   }
 }

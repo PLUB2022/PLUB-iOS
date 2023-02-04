@@ -14,6 +14,7 @@ protocol SearchInputViewModelType {
   var whichKeyword: AnyObserver<String> { get }
   var whichSortType: AnyObserver<SortType> { get }
   var whichKeywordRemove: AnyObserver<Int> { get }
+  var tappedRemoveAll: AnyObserver<Void> { get }
   
   // Output
   var fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
@@ -27,6 +28,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
   let whichKeyword: AnyObserver<String>
   let whichSortType: AnyObserver<SortType>
   let whichKeywordRemove: AnyObserver<Int>
+  let tappedRemoveAll: AnyObserver<Void>
   
   // Output
   let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]>
@@ -38,12 +40,14 @@ final class SearchInputViewModel: SearchInputViewModelType {
     let fetchingSearchOutput = PublishSubject<[SelectedCategoryCollectionViewCellModel]>()
     let recentKeywordList = BehaviorRelay<[String]>(value: [])
     let removeKeyword = PublishSubject<Int>()
+    let removeAllKeyword = PublishSubject<Void>()
     
     self.whichKeywordRemove = removeKeyword.asObserver()
     self.whichKeyword = searchKeyword.asObserver()
     self.whichSortType = searchSortType.asObserver()
     self.fetchedSearchOutput = fetchingSearchOutput.asDriver(onErrorDriveWith: .empty())
     self.currentRecentKeyword = recentKeywordList.asDriver(onErrorDriveWith: .empty())
+    self.tappedRemoveAll = removeAllKeyword.asObserver()
     
     let requestSearch = Observable.combineLatest(searchKeyword, searchSortType) { ($0, $1) }
       .flatMapLatest { (keyword, sortType) in
@@ -97,5 +101,11 @@ final class SearchInputViewModel: SearchInputViewModelType {
       fetchingSearchOutput.onNext(model)
     })
     .disposed(by: disposeBag)
+    
+    removeAllKeyword
+      .subscribe(onNext: { _ in
+        recentKeywordList.accept([])
+      })
+      .disposed(by: disposeBag)
   }
 }

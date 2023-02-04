@@ -127,6 +127,7 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     if kind == UICollectionView.elementKindSectionHeader {
       let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecentSearchListHeaderView.identifier, for: indexPath) as? RecentSearchListHeaderView ?? RecentSearchListHeaderView()
+      header.delegate = self
       return header
     }
     return UICollectionReusableView()
@@ -154,5 +155,11 @@ extension SearchInputViewController: RecentSearchListCollectionViewCellDelegate 
   func didTappedRemoveButton(cell: UICollectionViewCell) {
     guard let indexPath = recentSearchListView.indexPath(for: cell) else { return }
     viewModel.whichKeywordRemove.onNext(indexPath.row)
+  }
+}
+
+extension SearchInputViewController: RecentSearchListHeaderViewDelegate {
+  func didTappedRemoveAllButton() {
+    viewModel.tappedRemoveAll.onNext(())
   }
 }
