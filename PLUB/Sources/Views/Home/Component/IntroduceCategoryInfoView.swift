@@ -12,9 +12,9 @@ import Then
 
 struct IntroduceCategoryInfoViewModel {
   let recommendedText: String
-  let meetingImageUrl: String? // 이미지 URL
+  let meetingImageURL: String? // 이미지 URL
   let meetingImage: UIImage? // 원본 이미지
-  let categortInfoListModel: CategoryInfoListModel
+  let categoryInfoListModel: CategoryInfoListModel
 }
 
 final class IntroduceCategoryInfoView: UIView {
@@ -66,9 +66,9 @@ final class IntroduceCategoryInfoView: UIView {
   
   public func configureUI(with model: IntroduceCategoryInfoViewModel) {
     meetingRecommendedLabel.text = model.recommendedText
-    categoryInfoListView.configureUI(with: model.categortInfoListModel)
+    categoryInfoListView.configureUI(with: model.categoryInfoListModel)
     
-    if let urlStr = model.meetingImageUrl, let url = URL(string: urlStr) {
+    if let urlStr = model.meetingImageURL, let url = URL(string: urlStr) {
       meetingImageView.kf.setImage(with: url)
     } else if let image = model.meetingImage {
       meetingImageView.image = image

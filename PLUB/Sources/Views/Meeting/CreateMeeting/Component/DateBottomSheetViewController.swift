@@ -31,7 +31,7 @@ final class DateBottomSheetViewController: BottomSheetViewController {
     $0.locale = Locale(identifier: "ko-KR")
   }
   
-  private var nextButton = UIButton(configuration: .plain())
+  private let nextButton = UIButton(configuration: .plain())
   
   init(
     type: UIDatePicker.Mode,

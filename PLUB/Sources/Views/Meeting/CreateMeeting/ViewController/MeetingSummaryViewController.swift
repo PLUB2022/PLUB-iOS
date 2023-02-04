@@ -9,7 +9,7 @@ import UIKit
 
 final class MeetingSummaryViewController: BaseViewController {
   
-  private var viewModel: MeetingSummaryViewModel
+  private let viewModel: MeetingSummaryViewModel
   
   private let scrollView = UIScrollView().then {
     $0.showsVerticalScrollIndicator = true
@@ -17,13 +17,7 @@ final class MeetingSummaryViewController: BaseViewController {
     $0.alwaysBounceVertical = true
   }
   
-  private lazy var introduceTypeStackView = UIStackView(
-    arrangedSubviews: [
-      introduceCategoryTitleView,
-      introduceCategoryInfoView,
-      meetingIntroduceView,
-      introduceTagCollectionView
-  ]).then {
+  private lazy var introduceTypeStackView = UIStackView().then {
     $0.axis = .vertical
     $0.alignment = .center
     $0.distribution = .fill
@@ -32,7 +26,7 @@ final class MeetingSummaryViewController: BaseViewController {
     $0.layoutMargins = UIEdgeInsets(top: Device.navigationBarHeight, left: 16.5, bottom: .zero, right: 16.5)
   }
   
-  private var nextButton = UIButton(configuration: .plain()).then {
+  private let nextButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
   
@@ -80,6 +74,10 @@ final class MeetingSummaryViewController: BaseViewController {
       view.addSubview($0)
     }
     scrollView.addSubview(introduceTypeStackView)
+    
+    [introduceCategoryTitleView, introduceCategoryInfoView, meetingIntroduceView, introduceTagCollectionView].forEach {
+      introduceTypeStackView.addArrangedSubview($0)
+    }
   }
   
   override func setupConstraints() {
@@ -164,9 +162,9 @@ extension MeetingSummaryViewController {
     introduceCategoryInfoView.configureUI(
       with: IntroduceCategoryInfoViewModel(
         recommendedText: "\"\(data.goal)\"",
-        meetingImageUrl: nil,
+        meetingImageURL: nil,
         meetingImage: viewModel.mainImage,
-        categortInfoListModel: CategoryInfoListModel(
+        categoryInfoListModel: CategoryInfoListModel(
           placeName: data.placeName ?? "",
           peopleCount: data.peopleNumber,
           when: data.days
