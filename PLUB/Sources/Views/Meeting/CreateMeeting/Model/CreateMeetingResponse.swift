@@ -10,7 +10,7 @@ import Foundation
 struct CreateMeetingResponse: Codable {
   
   /// 플러빙 ID
-  let plubbingID: String
+  let plubbingID: Int
   
   enum CodingKeys: String, CodingKey {
     case plubbingID = "plubbingId"

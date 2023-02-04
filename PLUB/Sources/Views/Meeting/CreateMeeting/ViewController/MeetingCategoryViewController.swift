@@ -150,9 +150,9 @@ extension MeetingCategoryViewController: UITableViewDelegate, UITableViewDataSou
 extension MeetingCategoryViewController: RegisterInterestDetailTableViewCellDelegate {
   func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell, mainIndexPath: IndexPath, subIndexPath: IndexPath) {
     registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].isSelected.toggle()
-    let id = registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].id
+    let subCategory = registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row]
     cell.isTapped.toggle()
-    cell.isTapped ? viewModel.selectSubCategory.onNext(id) : viewModel.deselectSubCategory.onNext(id)
+    cell.isTapped ? viewModel.selectSubCategory.onNext(subCategory) : viewModel.deselectSubCategory.onNext(subCategory.id)
   }
 }
 

@@ -43,7 +43,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     $0.isHidden = true
   }
   
-  private var nextButton = UIButton(configuration: .plain()).then {
+  private let nextButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
     $0.isEnabled = false
   }

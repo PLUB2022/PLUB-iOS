@@ -48,7 +48,7 @@ final class CreateMeetingViewController: BaseViewController {
     $0.spacing = 0
   }
   
-  private var nextButton = UIButton(configuration: .plain()).then {
+  private let nextButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
   }
   
@@ -186,7 +186,10 @@ final class CreateMeetingViewController: BaseViewController {
         } else {
           let vc = MeetingSummaryViewController(
             viewModel: MeetingSummaryViewModel(
-              meetingData: owner.viewModel.setupMeetingData()
+              meetingData: owner.viewModel.setupMeetingData(),
+              mainImage: owner.viewModel.setupMeetingMainImage(),
+              categoryNames: owner.viewModel.setupCategoryNames(),
+              time: owner.viewModel.setupTime()
             )
           )
           owner.navigationController?.pushViewController(vc, animated: true)
