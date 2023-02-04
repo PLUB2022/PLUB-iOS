@@ -15,6 +15,33 @@ final class SearchInputViewController: BaseViewController {
   
   private let viewModel: SearchInputViewModelType
   
+  private var model: [SelectedCategoryCollectionViewCellModel] = [] {
+    didSet {
+      interestListCollectionView.reloadSections([1])
+    }
+  }
+  
+  private var selectedCategoryType: SelectedCategoryType = .chart
+  
+  private var type: SortType = .popular {
+    didSet {
+      interestListCollectionView.reloadSections([0])
+//      viewModel.whichSortType.onNext(type)
+    }
+  }
+  
+  private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
+    $0.scrollDirection = .vertical
+  })).then {
+    $0.backgroundColor = .background
+  }.then {
+    $0.register(SelectedCategoryGridCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier)
+    $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
+    $0.register(SearchOutputHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SearchOutputHeaderView.identifier)
+    $0.delegate = self
+    $0.dataSource = self
+  }
+  
   private var currentKeywordList: [String] = [] {
     didSet {
       recentSearchListView.reloadData()
@@ -61,10 +88,10 @@ final class SearchInputViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    interestListCollectionView.isHidden = true
   }
   
   override func setupConstraints() {
-    
     recentSearchListView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
@@ -72,11 +99,17 @@ final class SearchInputViewController: BaseViewController {
     searchAlertView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
+
+    interestListCollectionView.snp.makeConstraints {
+      $0.edges.equalToSuperview().inset(10)
+    }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [recentSearchListView, searchAlertView].forEach { view.addSubview($0) }
+    [recentSearchListView, searchAlertView, interestListCollectionView].forEach { view.addSubview($0) }
+//    view.addSubview(interestListCollectionView)
+//    view.bringSubviewToFront(recentSearchListView)
   }
   
   override func bind() {
@@ -91,14 +124,14 @@ final class SearchInputViewController: BaseViewController {
         .withUnretained(self)
         .subscribe(onNext: { owner, text in
           owner.viewModel.whichKeyword.onNext(text)
+          owner.interestListCollectionView.isHidden = false
+          
         })
         .disposed(by: disposeBag)
     
     viewModel.fetchedSearchOutput
       .drive(onNext: { model in
-        let vc = SearchOutputViewController(model: model)
-        vc.navigationItem.largeTitleDisplayMode = .never
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.model = model
       })
       .disposed(by: disposeBag)
     
@@ -110,10 +143,25 @@ final class SearchInputViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
+    searchBar.rx.text.orEmpty
+      .skip(1)
+      .filter { $0.isEmpty }
+      .subscribe(onNext: { [weak self] _ in
+        guard let `self` = self else { return }
+        self.recentSearchListView.isHidden = false
+        self.interestListCollectionView.isHidden = true
+      })
+      .disposed(by: disposeBag)
+    
     viewModel.keywordListIsEmpty
       .map { !$0 }
       .drive(searchAlertView.rx.isHidden)
       .disposed(by: disposeBag)
+    
+//    viewModel.searchOutputIsEmpty
+//      .do(onNext: { print("비어있니 = \($0)") })
+//      .drive(interestListCollectionView.rx.isHidden)
+//      .disposed(by: disposeBag)
       
   }
   
@@ -124,37 +172,116 @@ final class SearchInputViewController: BaseViewController {
 
 extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
+    if collectionView == recentSearchListView {
+      return 1
+    } 
+    return 2
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return currentKeywordList.count
+    if collectionView == recentSearchListView {
+      return currentKeywordList.count
+    }
+    else { // interestListCollectionView 일때
+      if section == 1 {
+        return model.count
+      }
+      return 0
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    if kind == UICollectionView.elementKindSectionHeader {
+    if kind == UICollectionView.elementKindSectionHeader && collectionView == recentSearchListView {
       let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecentSearchListHeaderView.identifier, for: indexPath) as? RecentSearchListHeaderView ?? RecentSearchListHeaderView()
       header.delegate = self
       return header
     }
-    return UICollectionReusableView()
+    else {
+      if indexPath.section == 0 && kind == UICollectionView.elementKindSectionHeader {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchOutputHeaderView.identifier, for: indexPath) as? SearchOutputHeaderView ?? SearchOutputHeaderView()
+        header.filterChanged = type
+        header.delegate = self
+        return header
+      }
+      else { return UICollectionReusableView() }
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    if collectionView == interestListCollectionView {
+      let vc = DetailRecruitmentViewController(plubbingID: model[indexPath.row].plubbingID)
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: collectionView.frame.width, height: 26)
+    if collectionView == recentSearchListView {
+      return CGSize(width: collectionView.frame.width, height: 26)
+    }
+    else {
+      if section == 0 {
+        return CGSize(width: collectionView.frame.width, height: 50)
+      }
+      return .zero
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchListCollectionViewCell.identifier, for: indexPath) as? RecentSearchListCollectionViewCell ?? RecentSearchListCollectionViewCell()
-    cell.configureUI(with: currentKeywordList[indexPath.row])
-    cell.delegate = self
-    return cell
+    if collectionView == recentSearchListView {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchListCollectionViewCell.identifier, for: indexPath) as? RecentSearchListCollectionViewCell ?? RecentSearchListCollectionViewCell()
+      cell.configureUI(with: currentKeywordList[indexPath.row])
+      cell.delegate = self
+      return cell
+    }
+    else {
+      if indexPath.section == 1 {
+        switch selectedCategoryType {
+        case .chart:
+          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
+          cell.configureUI(with: model[indexPath.row])
+          return cell
+        case .grid:
+          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
+          cell.configureUI(with: model[indexPath.row])
+          return cell
+        }
+      }
+      return UICollectionViewCell()
+    }
   }
 }
 
 extension SearchInputViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width / 2 - 6 - 16, height: 32)
+    if collectionView == recentSearchListView {
+      return CGSize(width: collectionView.frame.width / 2 - 6 - 16, height: 32)
+    }
+    else {
+      if indexPath.section == 1 {
+        switch selectedCategoryType {
+        case .chart:
+          return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
+        case .grid:
+          return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
+        }
+      }
+      return .zero
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    if collectionView == interestListCollectionView {
+      return 12
+    }
+    return .zero
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    if collectionView == interestListCollectionView {
+      return 12
+    }
+    return .zero
   }
 }
 
@@ -170,3 +297,30 @@ extension SearchInputViewController: RecentSearchListHeaderViewDelegate {
     viewModel.tappedRemoveAll.onNext(())
   }
 }
+
+extension SearchInputViewController: SearchOutputHeaderViewDelegate {
+  func didTappedSortControl() {
+    let vc = SortBottomSheetViewController()
+    vc.modalPresentationStyle = .overFullScreen
+    vc.delegate = self
+    vc.configureUI(with: type)
+    present(vc, animated: false)
+  }
+  
+  func didTappedInterestListChartButton() {
+    self.selectedCategoryType = .chart
+    self.interestListCollectionView.reloadSections([1])
+  }
+  
+  func didTappedInterestListGridButton() {
+    self.selectedCategoryType = .grid
+    self.interestListCollectionView.reloadSections([1])
+  }
+}
+
+extension SearchInputViewController: SortBottomSheetViewControllerDelegate {
+  func didTappedSortButton(type: SortType) {
+    self.type = type
+  }
+}
+

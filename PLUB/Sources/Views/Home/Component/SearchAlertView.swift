@@ -37,12 +37,12 @@ final class SearchAlertView: UIView {
     [emptyImageView, emptyLabel].forEach { addSubview($0) }
     emptyImageView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.bottom.equalTo(snp.centerY)
+      $0.bottom.equalTo(snp.centerY).offset(32)
     }
     
     emptyLabel.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalTo(snp.centerY).offset(32)
+      $0.top.equalTo(emptyImageView.snp.bottom).offset(32)
     }
   }
 }

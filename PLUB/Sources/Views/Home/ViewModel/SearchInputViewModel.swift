@@ -20,6 +20,7 @@ protocol SearchInputViewModelType {
   var fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
   var currentRecentKeyword: Driver<[String]> { get }
   var keywordListIsEmpty: Driver<Bool> { get }
+  var searchOutputIsEmpty: Driver<Bool> { get }
 }
 
 final class SearchInputViewModel: SearchInputViewModelType {
@@ -35,6 +36,8 @@ final class SearchInputViewModel: SearchInputViewModelType {
   let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]>
   let currentRecentKeyword: Driver<[String]>
   let keywordListIsEmpty: Driver<Bool>
+  let searchOutputIsEmpty: Driver<Bool>
+  
   
   init() {
     let searchKeyword = PublishSubject<String>()
@@ -111,5 +114,6 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .disposed(by: disposeBag)
     
     keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
+    searchOutputIsEmpty = fetchingSearchOutputModel.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
   }
 }
