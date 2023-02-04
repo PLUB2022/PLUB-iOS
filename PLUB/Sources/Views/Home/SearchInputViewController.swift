@@ -221,7 +221,7 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
     }
     else {
       if section == 0 {
-        return CGSize(width: collectionView.frame.width, height: 50)
+        return CGSize(width: collectionView.frame.width, height: 64)
       }
       return .zero
     }
