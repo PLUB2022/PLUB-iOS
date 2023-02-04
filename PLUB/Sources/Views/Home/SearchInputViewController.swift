@@ -64,18 +64,19 @@ final class SearchInputViewController: BaseViewController {
   }
   
   override func setupConstraints() {
-    searchAlertView.snp.makeConstraints {
+    
+    recentSearchListView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
     
-    recentSearchListView.snp.makeConstraints {
+    searchAlertView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [searchAlertView, recentSearchListView].forEach { view.addSubview($0) }
+    [recentSearchListView, searchAlertView].forEach { view.addSubview($0) }
   }
   
   override func bind() {
@@ -108,6 +109,12 @@ final class SearchInputViewController: BaseViewController {
         owner.currentKeywordList = list
       })
       .disposed(by: disposeBag)
+    
+    viewModel.keywordListIsEmpty
+      .map { !$0 }
+      .drive(searchAlertView.rx.isHidden)
+      .disposed(by: disposeBag)
+      
   }
   
   @objc private func didTappedBackButton() {

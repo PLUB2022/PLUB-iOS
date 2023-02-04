@@ -33,6 +33,7 @@ final class SearchAlertView: UIView {
   }
   
   private func configureUI() {
+    backgroundColor = .background
     [emptyImageView, emptyLabel].forEach { addSubview($0) }
     emptyImageView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
