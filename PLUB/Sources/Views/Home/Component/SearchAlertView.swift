@@ -13,7 +13,7 @@ import Then
 final class SearchAlertView: UIView {
   
   private let emptyImageView = UIImageView().then {
-    $0.image = UIImage(named: "magnifierWithQuestionMark")
+    $0.image = UIImage(named: "magnifier")
     $0.contentMode = .scaleAspectFill
   }
   
