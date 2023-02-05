@@ -146,12 +146,12 @@ final class MeetingPeopleNumberViewController: BaseViewController {
       .skip(1)
       .drive(onNext: { owner, value in
         owner.peopleNumberToolTip.setupCountLabelText(peopleCount: value)
-        owner.peopleNumberToolTip.center = owner.updateSliderToolTipCenter(slider: owner.slider)
+        owner.peopleNumberToolTip.center = owner.getSliderThumbCenter(slider: owner.slider)
       })
       .disposed(by: disposeBag)
   }
   
-  private func updateSliderToolTipCenter(slider: UISlider) -> CGPoint {
+  private func getSliderThumbCenter(slider: UISlider) -> CGPoint {
     let sliderTrack: CGRect = slider.trackRect(forBounds: slider.bounds) // slider 트랙 좌표
     let sliderThumb: CGRect = slider.thumbRect(forBounds: slider.bounds, trackRect: sliderTrack, value: slider.value) // slider 원 좌표
     
