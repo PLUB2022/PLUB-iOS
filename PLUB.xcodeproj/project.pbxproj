@@ -45,6 +45,7 @@
 		70A420A5298D01680026E9F9 /* SearchOutputHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420A4298D01680026E9F9 /* SearchOutputHeaderView.swift */; };
 		70A420A7298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420A6298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift */; };
 		70A420A9298D89A40026E9F9 /* RecentSearchListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420A8298D89A40026E9F9 /* RecentSearchListHeaderView.swift */; };
+		70A420AB298FAD000026E9F9 /* TopTabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420AA298FAD000026E9F9 /* TopTabCollectionViewCell.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
 		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
@@ -240,6 +241,7 @@
 		70A420A4298D01680026E9F9 /* SearchOutputHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOutputHeaderView.swift; sourceTree = "<group>"; };
 		70A420A6298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchListCollectionViewCell.swift; sourceTree = "<group>"; };
 		70A420A8298D89A40026E9F9 /* RecentSearchListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchListHeaderView.swift; sourceTree = "<group>"; };
+		70A420AA298FAD000026E9F9 /* TopTabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTabCollectionViewCell.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
@@ -582,6 +584,7 @@
 				70A420A4298D01680026E9F9 /* SearchOutputHeaderView.swift */,
 				70A420A6298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift */,
 				70A420A8298D89A40026E9F9 /* RecentSearchListHeaderView.swift */,
+				70A420AA298FAD000026E9F9 /* TopTabCollectionViewCell.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -1237,6 +1240,7 @@
 				C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */,
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
+				70A420AB298FAD000026E9F9 /* TopTabCollectionViewCell.swift in Sources */,
 				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
 				BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */,
 				70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */,
