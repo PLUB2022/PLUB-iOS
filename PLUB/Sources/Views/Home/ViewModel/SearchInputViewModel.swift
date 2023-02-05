@@ -27,16 +27,16 @@ final class SearchInputViewModel: SearchInputViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let whichKeyword: AnyObserver<String>
-  let whichSortType: AnyObserver<SortType>
-  let whichKeywordRemove: AnyObserver<Int>
-  let tappedRemoveAll: AnyObserver<Void>
+  let whichKeyword: AnyObserver<String> // 어떤 키워드로 검색할 것인지
+  let whichSortType: AnyObserver<SortType> // 어떤 분류타입으로 검색할 것인지
+  let whichKeywordRemove: AnyObserver<Int> // 어떤 인덱스에 해당하는 remove버튼을 눌렀는지
+  let tappedRemoveAll: AnyObserver<Void> // 모두 지우기 버튼을 눌렀는지
   
   // Output
-  let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]>
-  let currentRecentKeyword: Driver<[String]>
-  let keywordListIsEmpty: Driver<Bool>
-  let searchOutputIsEmpty: Driver<Bool>
+  let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> // 검색결과
+  let currentRecentKeyword: Driver<[String]> // 최근 검색어 목록
+  let keywordListIsEmpty: Driver<Bool> // 최근 검색어 목록이 비어있는지
+  let searchOutputIsEmpty: Driver<Bool> // 해당 키워드에 대한 검색결과가 존재하는지
   
   
   init() {
