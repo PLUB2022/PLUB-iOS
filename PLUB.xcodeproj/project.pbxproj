@@ -978,7 +978,6 @@
 			children = (
 				C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */,
 				C385D10E29894BF200EF88EC /* CreateMeetingViewModel.swift */,
-				C3ED8FB32989B15F002F689B /* Model */,
 				C3E98EAB29744DAF00E36C45 /* ViewModel */,
 				C3AB743B296B1EF4003DD5E2 /* ViewController */,
 				C34F71BF29798C11003DB376 /* Cell */,
@@ -1126,6 +1125,7 @@
 		C3C24CE2299008F700056313 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1147,6 +1147,7 @@
 		C3C24CE52990090D00056313 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1185,15 +1186,6 @@
 				C3ED8FB82989E13D002F689B /* MeetingSummaryViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		C3ED8FB32989B15F002F689B /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */,
-				C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
