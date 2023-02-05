@@ -17,6 +17,7 @@ class TopTabCollectionViewCell: UICollectionViewCell {
   private let titleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .body1
+    $0.textAlignment = .center
     $0.sizeToFit()
   }
   
@@ -46,7 +47,7 @@ class TopTabCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     contentView.addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
-      $0.center.left.right.equalToSuperview()
+      $0.center.equalToSuperview()
     }
   }
   
