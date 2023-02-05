@@ -48,6 +48,10 @@ class SearchOutputHeaderView: UICollectionReusableView {
     $0.showsHorizontalScrollIndicator = false
   }
   
+  private let highlightView = UIView().then {
+    $0.backgroundColor = .main
+  }
+  
   private let sortButton = SortControl()
   
   private let interestListChartButton = ToggleButton(type: .chart)
@@ -67,11 +71,18 @@ class SearchOutputHeaderView: UICollectionReusableView {
   
   private func configureUI() {
     interestListChartButton.isSelected = true
-    [topTabCollectionView, sortButton, interestListChartButton, interesetListGridButton].forEach { addSubview($0) }
+    [topTabCollectionView, highlightView, sortButton, interestListChartButton, interesetListGridButton].forEach { addSubview($0) }
     
     topTabCollectionView.snp.makeConstraints {
       $0.top.width.equalToSuperview()
       $0.height.equalTo(32)
+    }
+    
+    highlightView.snp.makeConstraints {
+      $0.height.equalTo(1)
+      $0.leading.equalTo(topTabCollectionView.snp.leading)
+      $0.bottom.equalTo(topTabCollectionView.snp.bottom)
+      $0.width.equalTo(self.frame.width / 3)
     }
     
     interesetListGridButton.snp.makeConstraints {
@@ -133,6 +144,7 @@ class SearchOutputHeaderView: UICollectionReusableView {
   private func setTabbar() {
     let firstIndexPath = IndexPath(item: 0, section: 0)
     topTabCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
+//    collectionView(topTabCollectionView, didSelectItemAt: firstIndexPath)
   }
 }
 
@@ -148,10 +160,24 @@ extension SearchOutputHeaderView: UICollectionViewDelegate, UICollectionViewData
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopTabCollectionViewCell.identifier, for: indexPath) as? TopTabCollectionViewCell ?? TopTabCollectionViewCell()
     cell.configureUI(with: tabModel[indexPath.row])
-    cell.backgroundColor = .red
     return cell
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let cell = collectionView.cellForItem(at: indexPath) as? TopTabCollectionViewCell ?? TopTabCollectionViewCell()
+    
+    UIView.animate(withDuration: 0.3) {
+      self.highlightView.snp.remakeConstraints {
+        $0.height.equalTo(1)
+        $0.bottom.equalTo(cell.snp.bottom)
+        $0.leading.equalTo(cell.snp.leading)
+        $0.trailing.equalTo(cell.snp.trailing)
+      }
+      self.layoutIfNeeded()
+    }
+  }
 }
+
 
 extension SearchOutputHeaderView: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
