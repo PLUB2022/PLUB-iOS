@@ -39,6 +39,8 @@ final class MeetingPeopleNumberViewController: BaseViewController {
     $0.maximumValue = 20
   }
   
+  private let peopleNumberToolTip = PeopleNumberToolTip()
+  
   private let countStactView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 0
@@ -80,11 +82,11 @@ final class MeetingPeopleNumberViewController: BaseViewController {
       state: true
     )
   }
-  
+
   override func setupLayouts() {
     super.setupLayouts()
     
-    [contentStackView].forEach {
+    [contentStackView, peopleNumberToolTip].forEach {
       view.addSubview($0)
     }
     
@@ -115,6 +117,13 @@ final class MeetingPeopleNumberViewController: BaseViewController {
     contentStackView.setCustomSpacing(40, after: subtitleLabel)
     
     contentStackView.setCustomSpacing(3, after: slider)
+    
+    peopleNumberToolTip.snp.makeConstraints {
+      $0.width.equalTo(58)
+      $0.height.equalTo(31)
+      $0.bottom.equalTo(slider.snp.top).offset(-2)
+      $0.leading.equalToSuperview().inset(8.5)
+    }
   }
   
   override func setupStyles() {
@@ -124,9 +133,31 @@ final class MeetingPeopleNumberViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    slider.rx.value
+    let sliderValue = slider.rx.value
       .map{ Int($0) }
+    
+    sliderValue
       .bind(to: viewModel.peopleNumber)
       .disposed(by: disposeBag)
+    
+    sliderValue
+      .withUnretained(self)
+      .asDriver(onErrorDriveWith: .empty())
+      .skip(1)
+      .drive(onNext: { owner, value in
+        owner.peopleNumberToolTip.setupCountLabelText(peopleCount: value)
+        owner.peopleNumberToolTip.center = owner.updateSliderToolTipCenter(slider: owner.slider)
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func updateSliderToolTipCenter(slider: UISlider) -> CGPoint {
+    let sliderTrack: CGRect = slider.trackRect(forBounds: slider.bounds) // slider 트랙 좌표
+    let sliderThumb: CGRect = slider.thumbRect(forBounds: slider.bounds, trackRect: sliderTrack, value: slider.value) // slider 원 좌표
+    
+    let centerX = slider.frame.origin.x + sliderThumb.origin.x + sliderThumb.size.width / 2 + 24 // slider x좌표 + slider 원 x좌표 + slider 너비 / 2 + contentStackView의 leading inset 값
+    let centerY = slider.frame.origin.y - 15.5 - 2 // slider y좌표 - peopleNumberToolTip 높이 / 2 - peopleNumberToolTip과 slider간 padding 값
+    
+    return CGPoint(x: centerX, y: centerY)
   }
 }
