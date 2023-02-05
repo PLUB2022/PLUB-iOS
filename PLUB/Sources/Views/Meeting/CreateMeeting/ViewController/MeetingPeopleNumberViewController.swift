@@ -134,7 +134,7 @@ final class MeetingPeopleNumberViewController: BaseViewController {
     super.bind()
     
     let sliderValue = slider.rx.value
-      .map{ Int($0) }
+      .map { Int($0) }
     
     sliderValue
       .bind(to: viewModel.peopleNumber)
