@@ -193,6 +193,7 @@
 		C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E4329816C7E00188E60 /* ImageService.swift */; };
 		C3B04E462981788800188E60 /* UploadImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E452981788800188E60 /* UploadImageRequest.swift */; };
 		C3B04E482981789A00188E60 /* UploadImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E472981789A00188E60 /* UploadImageResponse.swift */; };
+		C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */; };
 		C3D9807A297D982E00B8F5DF /* MeetingQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */; };
 		C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */; };
 		C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */; };
@@ -383,6 +384,7 @@
 		C3B04E4329816C7E00188E60 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		C3B04E452981788800188E60 /* UploadImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageRequest.swift; sourceTree = "<group>"; };
 		C3B04E472981789A00188E60 /* UploadImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageResponse.swift; sourceTree = "<group>"; };
+		C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleNumberToolTip.swift; sourceTree = "<group>"; };
 		C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingQuestionViewModel.swift; sourceTree = "<group>"; };
 		C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingNameViewModel.swift; sourceTree = "<group>"; };
@@ -984,6 +986,7 @@
 				C3FC1814298509C50083039A /* QuestionDeleteBottomSheetViewController.swift */,
 				C3FC181629852D370083039A /* QuestionHeaderView.swift */,
 				C38D65612987F0990052013F /* CategoryHeaderView.swift */,
+				C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1172,6 +1175,7 @@
 				BA340E2429782321002BAF2C /* ParticipantListView.swift in Sources */,
 				C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
+				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
 				BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */,
 				70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */,
