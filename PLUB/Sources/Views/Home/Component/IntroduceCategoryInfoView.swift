@@ -45,7 +45,6 @@ final class IntroduceCategoryInfoView: UIView {
   
   private func configureUI() {
     [meetingRecommendedLabel, categoryInfoListView, meetingImageView].forEach { addSubview($0) }
-
     meetingRecommendedLabel.snp.makeConstraints {
       $0.left.top.right.equalToSuperview()
       $0.height.equalTo(40)

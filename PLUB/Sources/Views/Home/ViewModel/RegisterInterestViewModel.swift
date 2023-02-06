@@ -22,11 +22,11 @@ final class RegisterInterestViewModel: RegisterInterestViewModelType {
   let disposeBag = DisposeBag()
 
   // Input
-  var selectDetailCell: AnyObserver<Void>
-  var deselectDetailCell: AnyObserver<Void>
+  var selectDetailCell: AnyObserver<Void> // 관심사 등록을 위한 셀을 클릭했는지
+  var deselectDetailCell: AnyObserver<Void> // 관심사 등록해제를 위한 셀을 클릭했는지
   
   // Output
-  var fetchedRegisterInterest: Driver<[RegisterInterestModel]>
+  var fetchedRegisterInterest: Driver<[RegisterInterestModel]> // 관심사 등록을 위한 데이터 방출
   var isEnabledFloatingButton: Driver<Bool> // 하나의 셀이라도 눌렸는지에 대한 값 방출
   
   init() {

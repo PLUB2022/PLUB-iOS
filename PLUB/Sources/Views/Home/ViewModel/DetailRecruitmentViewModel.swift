@@ -24,13 +24,13 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let selectPlubbingID: AnyObserver<String>
+  let selectPlubbingID: AnyObserver<String> // 세부정보를 보고싶은 모집글에 대한 ID
   
   // Output
-  let introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel>
-  let introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel>
-  let participantListViewModel: Driver<[AccountInfo]>
-  let meetingIntroduceModel: Driver<MeetingIntroduceModel>
+  let introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel> // 모집글 세부정보를 표시하기위한 UI 모델
+  let introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel> // 모집글 세부정보를 표시하기위한 UI 모델
+  let participantListViewModel: Driver<[AccountInfo]> // 모집글 세부정보를 표시하기위한 UI 모델
+  let meetingIntroduceModel: Driver<MeetingIntroduceModel> // 모집글 세부정보를 표시하기위한 UI 모델
   
   init() {
     let selectingPlubbingID = PublishSubject<String>()
@@ -54,7 +54,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     .asDriver(onErrorDriveWith: .empty())
     
     self.introduceCategoryInfoViewModel = successFetchingDetail.map { response -> IntroduceCategoryInfoViewModel in
-      return IntroduceCategoryInfoViewModel(recommendedText: response.goal, meetingImageURL: response.mainImage ?? "", meetingImage: nil, categoryInfoListModel: .init(placeName: response.placeName, peopleCount: response.remainAccountNum, when: ""))
+      return IntroduceCategoryInfoViewModel(recommendedText: response.goal, meetingImageURL: "", meetingImage: nil, categoryInfoListModel: .init(placeName: response.placeName, peopleCount: response.remainAccountNum, dateTime: ""))
     }
     .asDriver(onErrorDriveWith: .empty())
     
