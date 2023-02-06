@@ -36,18 +36,16 @@ final class HomeViewModel: HomeViewModelType {
     let whichBookmark = PublishSubject<String>()
     let isSelectingInterest = BehaviorSubject<Bool>(value: false)
     
-    self.isSelectedInterest = isSelectingInterest.asDriver(onErrorDriveWith: .empty())
-    self.tappedBookmark = whichBookmark.asObserver()
-    self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
+    isSelectedInterest = isSelectingInterest.asDriver(onErrorDriveWith: .empty())
+    tappedBookmark = whichBookmark.asObserver()
+    fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
     let inquireRecommendationMeeting = MeetingService.shared.inquireRecommendationMeeting().share()
     let inquireInterest = AccountService.shared.inquireInterest().share()
     
     let successFetchingMainCategoryList = inquireMainCategoryList.compactMap { result -> [MainCategory]? in
-      print("결과=\(result)")
       guard case .success(let mainCategoryListResponse) = result else { return nil }
-      print("결과123=\(mainCategoryListResponse)")
       return mainCategoryListResponse.data?.categories
     }
     
@@ -90,7 +88,6 @@ final class HomeViewModel: HomeViewModelType {
     }.asDriver(onErrorDriveWith: .empty())
     
     successFetchingMainCategoryList
-      .do(onNext: {print("뭐냐=\($0)")})
       .bind(to: fetchingMainCategoryList)
       .disposed(by: disposeBag)
     

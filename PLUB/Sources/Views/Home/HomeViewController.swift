@@ -124,7 +124,6 @@ class HomeViewController: BaseViewController {
   override func bind() {
     super.bind()
     viewModel.fetchedMainCategoryList
-      .do(onNext: { print("메인 =\($0)") })
       .drive(rx.mainCategoryList)
       .disposed(by: disposeBag)
     
