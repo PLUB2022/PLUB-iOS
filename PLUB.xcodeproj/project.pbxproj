@@ -33,10 +33,6 @@
 		70A420832982F0360026E9F9 /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420822982F0360026E9F9 /* SearchInputViewController.swift */; };
 		70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420852982F0920026E9F9 /* SearchAlertView.swift */; };
 		70A4208B298535D10026E9F9 /* SearchInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */; };
-		70A4208E298550240026E9F9 /* SearchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4208D298550240026E9F9 /* SearchParameter.swift */; };
-		70A42090298551850026E9F9 /* SearchRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */; };
-		70A42094298590B30026E9F9 /* InquireInterestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A42093298590B30026E9F9 /* InquireInterestResponse.swift */; };
-		70A42098298682080026E9F9 /* RequestBookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A42097298682080026E9F9 /* RequestBookmarkResponse.swift */; };
 		70A4209C2988B1DC0026E9F9 /* SortControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4209B2988B1DC0026E9F9 /* SortControl.swift */; };
 		70A4209E2988BB410026E9F9 /* SortBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4209D2988BB410026E9F9 /* SortBottomSheetViewController.swift */; };
 		70A420A0298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4209F298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift */; };
@@ -46,6 +42,16 @@
 		70A420A9298D89A40026E9F9 /* RecentSearchListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420A8298D89A40026E9F9 /* RecentSearchListHeaderView.swift */; };
 		70A420AB298FAD000026E9F9 /* TopTabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420AA298FAD000026E9F9 /* TopTabCollectionViewCell.swift */; };
 		70A420AD299002490026E9F9 /* NoResultSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420AC299002490026E9F9 /* NoResultSearchView.swift */; };
+		70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420AF29914B360026E9F9 /* MainCategoryListResponse.swift */; };
+		70A420B329914B370026E9F9 /* SubCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420B029914B360026E9F9 /* SubCategoryListResponse.swift */; };
+		70A420B429914B370026E9F9 /* AllCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420B129914B370026E9F9 /* AllCategoryListResponse.swift */; };
+		70A420B629914B4F0026E9F9 /* CategoryMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420B529914B4F0026E9F9 /* CategoryMeetingResponse.swift */; };
+		70A420B829914B5B0026E9F9 /* SearchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420B729914B5B0026E9F9 /* SearchParameter.swift */; };
+		70A420BD29914B690026E9F9 /* DetailRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420B929914B690026E9F9 /* DetailRecruitmentResponse.swift */; };
+		70A420BE29914B690026E9F9 /* RecruitmentQuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420BA29914B690026E9F9 /* RecruitmentQuestionResponse.swift */; };
+		70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */; };
+		70A420C029914B690026E9F9 /* SearchRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */; };
+		70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420C129914B890026E9F9 /* InquireInterestResponse.swift */; };
 		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
 		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
@@ -56,18 +62,12 @@
 		70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */; };
 		70F1DFD42979508000F9BC83 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD32979508000F9BC83 /* CategoryService.swift */; };
 		70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */; };
-		70F1DFD8297959A900F9BC83 /* MainCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD7297959A900F9BC83 /* MainCategoryListResponse.swift */; };
-		70F1DFDA29795AB900F9BC83 /* AllCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD929795AB900F9BC83 /* AllCategoryListResponse.swift */; };
-		70F1DFDC29795C9000F9BC83 /* SubCategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */; };
 		70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */; };
 		70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */; };
-		70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */; };
 		70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */; };
 		70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */; };
-		70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */; };
 		70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFEE297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift */; };
 		70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */; };
-		70F1DFF3297EB89600F9BC83 /* RecruitmentQuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
 		BA117A4E297444EE00B37E03 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A4D297444EE00B37E03 /* KakaoSDKAuth */; };
@@ -235,10 +235,6 @@
 		70A420822982F0360026E9F9 /* SearchInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputViewController.swift; sourceTree = "<group>"; };
 		70A420852982F0920026E9F9 /* SearchAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlertView.swift; sourceTree = "<group>"; };
 		70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputViewModel.swift; sourceTree = "<group>"; };
-		70A4208D298550240026E9F9 /* SearchParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParameter.swift; sourceTree = "<group>"; };
-		70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecruitmentResponse.swift; sourceTree = "<group>"; };
-		70A42093298590B30026E9F9 /* InquireInterestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireInterestResponse.swift; sourceTree = "<group>"; };
-		70A42097298682080026E9F9 /* RequestBookmarkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookmarkResponse.swift; sourceTree = "<group>"; };
 		70A4209B2988B1DC0026E9F9 /* SortControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortControl.swift; sourceTree = "<group>"; };
 		70A4209D2988BB410026E9F9 /* SortBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBottomSheetViewController.swift; sourceTree = "<group>"; };
 		70A4209F298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryEmptyCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -248,6 +244,16 @@
 		70A420A8298D89A40026E9F9 /* RecentSearchListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchListHeaderView.swift; sourceTree = "<group>"; };
 		70A420AA298FAD000026E9F9 /* TopTabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTabCollectionViewCell.swift; sourceTree = "<group>"; };
 		70A420AC299002490026E9F9 /* NoResultSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoResultSearchView.swift; sourceTree = "<group>"; };
+		70A420AF29914B360026E9F9 /* MainCategoryListResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCategoryListResponse.swift; sourceTree = "<group>"; };
+		70A420B029914B360026E9F9 /* SubCategoryListResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubCategoryListResponse.swift; sourceTree = "<group>"; };
+		70A420B129914B370026E9F9 /* AllCategoryListResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllCategoryListResponse.swift; sourceTree = "<group>"; };
+		70A420B529914B4F0026E9F9 /* CategoryMeetingResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryMeetingResponse.swift; sourceTree = "<group>"; };
+		70A420B729914B5B0026E9F9 /* SearchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchParameter.swift; sourceTree = "<group>"; };
+		70A420B929914B690026E9F9 /* DetailRecruitmentResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentResponse.swift; sourceTree = "<group>"; };
+		70A420BA29914B690026E9F9 /* RecruitmentQuestionResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruitmentQuestionResponse.swift; sourceTree = "<group>"; };
+		70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestBookmarkResponse.swift; sourceTree = "<group>"; };
+		70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecruitmentResponse.swift; sourceTree = "<group>"; };
+		70A420C129914B890026E9F9 /* InquireInterestResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InquireInterestResponse.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
@@ -258,18 +264,12 @@
 		70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainCollectionHeaderView.swift; sourceTree = "<group>"; };
 		70F1DFD32979508000F9BC83 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRouter.swift; sourceTree = "<group>"; };
-		70F1DFD7297959A900F9BC83 /* MainCategoryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCategoryListResponse.swift; sourceTree = "<group>"; };
-		70F1DFD929795AB900F9BC83 /* AllCategoryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoryListResponse.swift; sourceTree = "<group>"; };
-		70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategoryListResponse.swift; sourceTree = "<group>"; };
 		70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRouter.swift; sourceTree = "<group>"; };
 		70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingService.swift; sourceTree = "<group>"; };
-		70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingResponse.swift; sourceTree = "<group>"; };
 		70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentRouter.swift; sourceTree = "<group>"; };
 		70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentService.swift; sourceTree = "<group>"; };
-		70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70F1DFEE297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewModel.swift; sourceTree = "<group>"; };
 		70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentModel.swift; sourceTree = "<group>"; };
-		70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentQuestionResponse.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -531,11 +531,7 @@
 		704AC7932938E7EA008C3A88 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				70A42092298590A60026E9F9 /* Account */,
-				70A42091298564B10026E9F9 /* Search */,
 				70F1DFEB297D99A400F9BC83 /* Recruitment */,
-				70F1DFE2297A917D00F9BC83 /* Meeting */,
-				70F1DFE1297A917100F9BC83 /* Category */,
 				704AC7942938E800008C3A88 /* RegisterInterestModel.swift */,
 			);
 			path = Model;
@@ -574,23 +570,6 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
-		70A42091298564B10026E9F9 /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				70A4208D298550240026E9F9 /* SearchParameter.swift */,
-				70A4208F298551850026E9F9 /* SearchRecruitmentResponse.swift */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
-		70A42092298590A60026E9F9 /* Account */ = {
-			isa = PBXGroup;
-			children = (
-				70A42093298590B30026E9F9 /* InquireInterestResponse.swift */,
-			);
-			path = Account;
-			sourceTree = "<group>";
-		};
 		70A420A3298D015D0026E9F9 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,31 +598,10 @@
 			path = ApplyQuestion;
 			sourceTree = "<group>";
 		};
-		70F1DFE1297A917100F9BC83 /* Category */ = {
-			isa = PBXGroup;
-			children = (
-				70F1DFD7297959A900F9BC83 /* MainCategoryListResponse.swift */,
-				70F1DFD929795AB900F9BC83 /* AllCategoryListResponse.swift */,
-				70F1DFDB29795C9000F9BC83 /* SubCategoryListResponse.swift */,
-			);
-			path = Category;
-			sourceTree = "<group>";
-		};
-		70F1DFE2297A917D00F9BC83 /* Meeting */ = {
-			isa = PBXGroup;
-			children = (
-				70F1DFE3297A919900F9BC83 /* CategoryMeetingResponse.swift */,
-			);
-			path = Meeting;
-			sourceTree = "<group>";
-		};
 		70F1DFEB297D99A400F9BC83 /* Recruitment */ = {
 			isa = PBXGroup;
 			children = (
-				70F1DFEC297D99C200F9BC83 /* DetailRecruitmentResponse.swift */,
 				70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */,
-				70F1DFF2297EB89600F9BC83 /* RecruitmentQuestionResponse.swift */,
-				70A42097298682080026E9F9 /* RequestBookmarkResponse.swift */,
 			);
 			path = Recruitment;
 			sourceTree = "<group>";
@@ -1024,7 +982,6 @@
 		C3C24CD42990078700056313 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				C3C24CE72990098E00056313 /* Request */,
 				C3C24CE82990099400056313 /* Response */,
 			);
 			path = Account;
@@ -1051,7 +1008,6 @@
 		C3C24CD7299007DE00056313 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				C3C24CE62990091300056313 /* Request */,
 				C3C24CE1299008F300056313 /* Response */,
 			);
 			path = Category;
@@ -1138,6 +1094,9 @@
 		C3C24CE1299008F300056313 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				70A420B129914B370026E9F9 /* AllCategoryListResponse.swift */,
+				70A420AF29914B360026E9F9 /* MainCategoryListResponse.swift */,
+				70A420B029914B360026E9F9 /* SubCategoryListResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1145,6 +1104,7 @@
 		C3C24CE2299008F700056313 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				70A420B529914B4F0026E9F9 /* CategoryMeetingResponse.swift */,
 				C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */,
 			);
 			path = Response;
@@ -1153,6 +1113,10 @@
 		C3C24CE3299008FB00056313 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				70A420B929914B690026E9F9 /* DetailRecruitmentResponse.swift */,
+				70A420BA29914B690026E9F9 /* RecruitmentQuestionResponse.swift */,
+				70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */,
+				70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1160,6 +1124,7 @@
 		C3C24CE42990090600056313 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				70A420B729914B5B0026E9F9 /* SearchParameter.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1172,23 +1137,10 @@
 			path = Request;
 			sourceTree = "<group>";
 		};
-		C3C24CE62990091300056313 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		C3C24CE72990098E00056313 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
 		C3C24CE82990099400056313 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				70A420C129914B890026E9F9 /* InquireInterestResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1350,7 +1302,6 @@
 				70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */,
 				BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
-				70F1DFE4297A919900F9BC83 /* CategoryMeetingResponse.swift in Sources */,
 				BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */,
 				C38A5B9F297B022A00485355 /* SearchView.swift in Sources */,
 				C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */,
@@ -1359,12 +1310,12 @@
 				70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */,
 				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,
-				70F1DFED297D99C200F9BC83 /* DetailRecruitmentResponse.swift in Sources */,
 				70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
 				C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */,
+				70A420B429914B370026E9F9 /* AllCategoryListResponse.swift in Sources */,
 				BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */,
 				C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
@@ -1378,8 +1329,8 @@
 				BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */,
 				BA94E81C297E706A00DF23CE /* IntroductionViewModel.swift in Sources */,
 				70A420A9298D89A40026E9F9 /* RecentSearchListHeaderView.swift in Sources */,
+				70A420BD29914B690026E9F9 /* DetailRecruitmentResponse.swift in Sources */,
 				7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */,
-				70A42094298590B30026E9F9 /* InquireInterestResponse.swift in Sources */,
 				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
 				70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */,
 				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
@@ -1391,7 +1342,6 @@
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
 				C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */,
 				70A4209E2988BB410026E9F9 /* SortBottomSheetViewController.swift in Sources */,
-				70A42090298551850026E9F9 /* SearchRecruitmentResponse.swift in Sources */,
 				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
 				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
@@ -1399,7 +1349,7 @@
 				C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
-				70F1DFF3297EB89600F9BC83 /* RecruitmentQuestionResponse.swift in Sources */,
+				70A420B329914B370026E9F9 /* SubCategoryListResponse.swift in Sources */,
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
 				BA340E2529782356002BAF2C /* ProfileViewController.swift in Sources */,
 				70A4208B298535D10026E9F9 /* SearchInputViewModel.swift in Sources */,
@@ -1422,18 +1372,21 @@
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
 				70A420AB298FAD000026E9F9 /* TopTabCollectionViewCell.swift in Sources */,
+				70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */,
 				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
 				BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */,
+				70A420C029914B690026E9F9 /* SearchRecruitmentResponse.swift in Sources */,
 				70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */,
 				C34F71C329799B1C003DB376 /* TimeControl.swift in Sources */,
 				70A420A0298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,
-				70F1DFD8297959A900F9BC83 /* MainCategoryListResponse.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
+				70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */,
+				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
 				70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */,
 				C3ED8FB92989E13D002F689B /* MeetingSummaryViewModel.swift in Sources */,
@@ -1447,11 +1400,11 @@
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
 				BAC5EF31298B6F2D00F3955E /* CongratulationViewController.swift in Sources */,
-				70A4208E298550240026E9F9 /* SearchParameter.swift in Sources */,
 				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
 				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
 				C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */,
+				70A420BE29914B690026E9F9 /* RecruitmentQuestionResponse.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
 				70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */,
@@ -1460,15 +1413,14 @@
 				C3ED8FB72989B87E002F689B /* CreateMeetingResponse.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
 				C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */,
-				70F1DFDA29795AB900F9BC83 /* AllCategoryListResponse.swift in Sources */,
 				BAC5EF2F298AA23700F3955E /* SplashViewModel.swift in Sources */,
 				C38A5B95297AD5B000485355 /* KakaoLocationRouter.swift in Sources */,
+				70A420B629914B4F0026E9F9 /* CategoryMeetingResponse.swift in Sources */,
 				70F1DFD42979508000F9BC83 /* CategoryService.swift in Sources */,
 				BA780E1529714AAB0032C178 /* GeneralResponse.swift in Sources */,
 				C3AD265D296ACC0600C57370 /* MeetingNameViewController.swift in Sources */,
 				C38A5B99297ADE8500485355 /* KakaoLocationResponse.swift in Sources */,
 				0A81767F28F3105200C1E074 /* Preview.swift in Sources */,
-				70A42098298682080026E9F9 /* RequestBookmarkResponse.swift in Sources */,
 				C3B04E482981789A00188E60 /* UploadImageResponse.swift in Sources */,
 				C3AD265F296AD3C100C57370 /* InputTextView.swift in Sources */,
 				70A420A5298D01680026E9F9 /* SearchOutputHeaderView.swift in Sources */,
@@ -1478,6 +1430,7 @@
 				C3AB743D296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift in Sources */,
 				C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */,
 				BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */,
+				70A420B829914B5B0026E9F9 /* SearchParameter.swift in Sources */,
 				70A420AD299002490026E9F9 /* NoResultSearchView.swift in Sources */,
 				BA340E1A297822A8002BAF2C /* ParticipantListHeaderView.swift in Sources */,
 				BABB011A297ED415004178EC /* InterestViewController.swift in Sources */,
@@ -1486,7 +1439,6 @@
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,
 				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
-				70F1DFDC29795C9000F9BC83 /* SubCategoryListResponse.swift in Sources */,
 				70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
