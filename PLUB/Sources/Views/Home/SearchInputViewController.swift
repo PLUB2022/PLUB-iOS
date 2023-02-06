@@ -108,7 +108,7 @@ final class SearchInputViewController: BaseViewController {
     
     noResultSearchView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.left.right.equalToSuperview()
+      $0.leading.trailing.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
   }
@@ -152,7 +152,7 @@ final class SearchInputViewController: BaseViewController {
     searchBar.rx.text.orEmpty
       .skip(1)
       .filter { $0.isEmpty }
-      .subscribe(onNext: { [weak self] text in
+      .subscribe(onNext: { [weak self] _ in
         guard let `self` = self else { return }
         self.recentSearchListView.isHidden = false
         self.interestListCollectionView.isHidden = true
