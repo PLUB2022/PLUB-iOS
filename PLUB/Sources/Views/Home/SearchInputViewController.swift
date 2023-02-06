@@ -91,7 +91,7 @@ final class SearchInputViewController: BaseViewController {
     )
     interestListCollectionView.isHidden = true
     noResultSearchView.isHidden = true
-    noResultSearchView.configureUI(with: "안돼요")
+//    noResultSearchView.configureUI(with: "안돼요")
   }
   
   override func setupConstraints() {
@@ -133,7 +133,7 @@ final class SearchInputViewController: BaseViewController {
       .subscribe(onNext: { owner, text in
         owner.viewModel.whichKeyword.onNext(text)
         owner.interestListCollectionView.isHidden = false
-        
+        self.noResultSearchView.configureUI(with: text)
       })
       .disposed(by: disposeBag)
     
@@ -154,7 +154,7 @@ final class SearchInputViewController: BaseViewController {
     searchBar.rx.text.orEmpty
       .skip(1)
       .filter { $0.isEmpty }
-      .subscribe(onNext: { [weak self] _ in
+      .subscribe(onNext: { [weak self] text in
         guard let `self` = self else { return }
         self.recentSearchListView.isHidden = false
         self.interestListCollectionView.isHidden = true

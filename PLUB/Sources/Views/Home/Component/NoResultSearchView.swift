@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class NoResultSearchView: UIView {
+class NoResultSearchView: UIView {
   
   enum SearchNotice: CaseIterable {
     case first
