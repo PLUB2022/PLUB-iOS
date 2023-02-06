@@ -32,7 +32,7 @@ final class HomeViewModel: HomeViewModelType {
   let isBookmarked: Signal<Bool> // [북마크][북마크해제] 성공 유무
   
   init() {
-    let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
+    let fetchingMainCategoryList = BehaviorRelay<[MainCategory]>(value: [])
     let whichBookmark = PublishSubject<String>()
     let isSelectingInterest = BehaviorSubject<Bool>(value: false)
     
@@ -45,7 +45,9 @@ final class HomeViewModel: HomeViewModelType {
     let inquireInterest = AccountService.shared.inquireInterest().share()
     
     let successFetchingMainCategoryList = inquireMainCategoryList.compactMap { result -> [MainCategory]? in
+      print("결과=\(result)")
       guard case .success(let mainCategoryListResponse) = result else { return nil }
+      print("결과123=\(mainCategoryListResponse)")
       return mainCategoryListResponse.data?.categories
     }
     
@@ -88,6 +90,7 @@ final class HomeViewModel: HomeViewModelType {
     }.asDriver(onErrorDriveWith: .empty())
     
     successFetchingMainCategoryList
+      .do(onNext: {print("뭐냐=\($0)")})
       .bind(to: fetchingMainCategoryList)
       .disposed(by: disposeBag)
     
