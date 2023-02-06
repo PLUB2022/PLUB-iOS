@@ -101,10 +101,8 @@ final class SelectedCategoryViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isEmpty
-      .withUnretained(self)
-      .emit(onNext: { owner, isEmpty in
-        owner.noSelectedCategoryView.isHidden = !isEmpty
-      })
+      .map { !$0 }
+      .emit(to: noSelectedCategoryView.rx.isHidden)
       .disposed(by: disposeBag)
   }
   

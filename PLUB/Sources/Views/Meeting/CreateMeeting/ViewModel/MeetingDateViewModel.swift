@@ -63,7 +63,7 @@ final class MeetingDateViewModel {
   
   // Input
   let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
-  let timeInputRelay = BehaviorRelay<String>.init(value: .init())
+  let timeInputRelay = BehaviorRelay<Date?>.init(value: nil)
   let onOffInputRelay = BehaviorRelay<OnOff>.init(value: .on)
   let locationInputRelay = BehaviorRelay<Location?>.init(value: nil)
   
@@ -100,7 +100,7 @@ final class MeetingDateViewModel {
       whereInput
     ).map {
       return !$0.0.isEmpty &&
-      !$0.1.isEmpty &&
+      $0.1 != nil  &&
       $0.2
     }
   }

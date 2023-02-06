@@ -21,7 +21,7 @@ final class CreateMeetingViewModel {
   let questionViewModel = MeetingQuestionViewModel()
   
   /// 선택한 카테고리 리스트
-  private let categoryIDsRelay = BehaviorRelay<[Int]>(value: [])
+  private let categoryIDsRelay = BehaviorRelay<[SubCategory]>(value: [])
   
   /// 플러빙 타이틀
   private let titleRelay = BehaviorRelay<String>(value: "")
@@ -39,7 +39,7 @@ final class CreateMeetingViewModel {
   private let mainImageRelay = BehaviorRelay<UIImage?>(value: nil)
   
   /// 시간
-  private let timeRelay = BehaviorRelay<String>(value: "")
+  private let timeRelay = BehaviorRelay<Date?>(value: nil)
   
   /// 요일
   private let daysRelay = BehaviorRelay<[String]>(value: [])
@@ -118,13 +118,13 @@ final class CreateMeetingViewModel {
   
   func setupMeetingData() -> CreateMeetingRequest {
     CreateMeetingRequest(
-      categoryIDs: categoryIDsRelay.value,
+      categoryIDs: categoryIDsRelay.value.map { $0.id },
       title: titleRelay.value,
       name: nameRelay.value,
       goal: goalRelay.value,
       introduce: introduceRelay.value,
       mainImage: nil,
-      time: timeRelay.value,
+      time: dateString(timeRelay.value, format: "hhmm"),
       days: daysRelay.value,
       onOff: onOffRelay.value,
       address: locationRelay.value?.address,
@@ -133,7 +133,26 @@ final class CreateMeetingViewModel {
       positionX: locationRelay.value?.positionX,
       positionY: locationRelay.value?.positionY,
       peopleNumber: peopleNumberRelay.value,
-      questions: questionOnOffRelay.value ? questionsRelay.value : nil
+      questions: questionOnOffRelay.value ? questionsRelay.value : []
     )
+  }
+  
+  func dateString(_ date: Date?, format: String) -> String {
+    return DateFormatter().then {
+      $0.dateFormat = format
+      $0.locale = Locale(identifier: "ko_KR")
+    }.string(from: date ?? Date())
+  }
+  
+  func setupMeetingMainImage() -> UIImage? {
+    return mainImageRelay.value
+  }
+  
+  func setupCategoryNames() -> [String] {
+    return categoryIDsRelay.value.map { $0.name }
+  }
+  
+  func setupTime() -> String {
+    return dateString(timeRelay.value, format: "a h시 m분")
   }
 }

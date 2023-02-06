@@ -248,10 +248,7 @@ extension MeetingDateViewController: DateBottomSheetDelegate {
     timeControl.date = date
     timeControl.isSelected = true
 
-    viewModel.timeInputRelay.accept(DateFormatter().then {
-      $0.dateFormat = "hhmm"
-      $0.locale = Locale(identifier: "ko_KR")
-    }.string(from: date))
+    viewModel.timeInputRelay.accept(date)
   }
 }
 

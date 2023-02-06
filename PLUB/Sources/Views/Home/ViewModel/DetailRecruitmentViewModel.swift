@@ -54,7 +54,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     .asDriver(onErrorDriveWith: .empty())
     
     self.introduceCategoryInfoViewModel = successFetchingDetail.map { response -> IntroduceCategoryInfoViewModel in
-      return IntroduceCategoryInfoViewModel(recommendedText: response.goal, meetingImage: response.mainImage ?? "", categortInfoListModel: .init(placeName: response.placeName, peopleCount: response.remainAccountNum, dateTime: ""))
+      return IntroduceCategoryInfoViewModel(recommendedText: response.goal, meetingImageURL: "", meetingImage: nil, categoryInfoListModel: .init(placeName: response.placeName, peopleCount: response.remainAccountNum, dateTime: ""))
     }
     .asDriver(onErrorDriveWith: .empty())
     

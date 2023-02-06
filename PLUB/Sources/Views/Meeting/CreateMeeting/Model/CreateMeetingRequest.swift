@@ -59,7 +59,7 @@ struct CreateMeetingRequest: Codable {
   var peopleNumber: Int
   
   /// 질문 리스트
-  var questions: [String]?
+  var questions: [String]
 }
 
 extension CreateMeetingRequest {

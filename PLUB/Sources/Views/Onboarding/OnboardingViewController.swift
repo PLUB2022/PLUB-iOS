@@ -22,7 +22,7 @@ final class OnboardingViewController: BaseViewController {
   private let titleLabel = UILabel().then {
     $0.textAlignment = .center
     $0.text = "취향을 함께"
-    $0.font = .onboarding
+    $0.font = .appFont(family: .nanum, size: 36)
   }
   
   private let descriptionLabel = UILabel().then {

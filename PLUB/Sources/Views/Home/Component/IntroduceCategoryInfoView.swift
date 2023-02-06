@@ -12,8 +12,9 @@ import Then
 
 struct IntroduceCategoryInfoViewModel {
   let recommendedText: String
-  let meetingImage: String
-  let categortInfoListModel: CategoryInfoListModel
+  let meetingImageURL: String? // 이미지 URL
+  let meetingImage: UIImage? // 원본 이미지
+  let categoryInfoListModel: CategoryInfoListModel
 }
 
 final class IntroduceCategoryInfoView: UIView {
@@ -44,27 +45,38 @@ final class IntroduceCategoryInfoView: UIView {
   
   private func configureUI() {
     [meetingRecommendedLabel, categoryInfoListView, meetingImageView].forEach { addSubview($0) }
-    categoryInfoListView.configureUI(with: .init(placeName: "서울 서초구", peopleCount: 10, dateTime: "매주 금요일 | 오후 5시 30분"))
     meetingRecommendedLabel.snp.makeConstraints {
       $0.left.top.right.equalToSuperview()
+      $0.height.equalTo(40)
     }
     
     categoryInfoListView.snp.makeConstraints {
-      $0.top.equalTo(meetingRecommendedLabel.snp.bottom)
+      $0.top.equalTo(meetingRecommendedLabel.snp.bottom).offset(24)
       $0.left.equalToSuperview()
       $0.right.lessThanOrEqualToSuperview()
+      $0.height.equalTo(16)
     }
     
     meetingImageView.snp.makeConstraints {
-      $0.top.equalTo(categoryInfoListView.snp.bottom)
+      $0.top.equalTo(categoryInfoListView.snp.bottom).offset(24)
       $0.left.right.bottom.equalToSuperview()
     }
   }
   
   public func configureUI(with model: IntroduceCategoryInfoViewModel) {
-    guard let url = URL(string: model.meetingImage) else { return }
     meetingRecommendedLabel.text = model.recommendedText
-    categoryInfoListView.configureUI(with: model.categortInfoListModel)
-    meetingImageView.kf.setImage(with: url)
+    categoryInfoListView.configureUI(with: model.categoryInfoListModel)
+    
+    if let urlStr = model.meetingImageURL, let url = URL(string: urlStr) {
+      meetingImageView.kf.setImage(with: url)
+    } else if let image = model.meetingImage {
+      meetingImageView.image = image
+      let width = Device.width - 16 * 2
+      meetingImageView.snp.remakeConstraints {
+        $0.top.equalTo(categoryInfoListView.snp.bottom).offset(24)
+        $0.left.right.bottom.equalToSuperview()
+        $0.height.equalTo(width * image.size.height / image.size.width)
+      }
+    }
   }
 }

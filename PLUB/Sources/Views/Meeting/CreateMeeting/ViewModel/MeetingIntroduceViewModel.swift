@@ -15,7 +15,7 @@ final class MeetingIntroduceViewModel: ViewModelType {
   
   let goalInputRelay = BehaviorRelay<String>.init(value: .init())
   let introduceInputRelay = BehaviorRelay<String>.init(value: .init())
-  let imageInputRelay = BehaviorRelay<UIImage>.init(value: UIImage())
+  let imageInputRelay = BehaviorRelay<UIImage?>.init(value: nil)
   
   struct Input {
     let goalText: Observable<String>
