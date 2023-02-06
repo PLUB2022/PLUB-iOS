@@ -26,7 +26,7 @@ final class SearchInputViewController: BaseViewController {
   private var type: SortType = .popular {
     didSet {
       interestListCollectionView.reloadSections([0])
-//      viewModel.whichSortType.onNext(type)
+      //      viewModel.whichSortType.onNext(type)
     }
   }
   
@@ -69,6 +69,7 @@ final class SearchInputViewController: BaseViewController {
   }
   
   private let searchAlertView = SearchAlertView()
+  private let noResultSearchView = NoResultSearchView()
   
   init(viewModel: SearchInputViewModelType = SearchInputViewModel()) {
     self.viewModel = viewModel
@@ -89,6 +90,8 @@ final class SearchInputViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     interestListCollectionView.isHidden = true
+    noResultSearchView.isHidden = true
+    noResultSearchView.configureUI(with: "안돼요")
   }
   
   override func setupConstraints() {
@@ -99,17 +102,22 @@ final class SearchInputViewController: BaseViewController {
     searchAlertView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
-
+    
     interestListCollectionView.snp.makeConstraints {
       $0.edges.equalToSuperview().inset(10)
+    }
+    
+    noResultSearchView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.left.right.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [recentSearchListView, searchAlertView, interestListCollectionView].forEach { view.addSubview($0) }
-//    view.addSubview(interestListCollectionView)
-//    view.bringSubviewToFront(recentSearchListView)
+    [recentSearchListView, searchAlertView, interestListCollectionView, noResultSearchView].forEach { view.addSubview($0) }
+    //    interestListCollectionView.addSubview(noResultSearchView)
   }
   
   override func bind() {
@@ -120,14 +128,14 @@ final class SearchInputViewController: BaseViewController {
       })
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .withLatestFrom(searchBar.rx.text.orEmpty)
-        .filter { $0.count != 0 }
-        .withUnretained(self)
-        .subscribe(onNext: { owner, text in
-          owner.viewModel.whichKeyword.onNext(text)
-          owner.interestListCollectionView.isHidden = false
-          
-        })
-        .disposed(by: disposeBag)
+      .filter { $0.count != 0 }
+      .withUnretained(self)
+      .subscribe(onNext: { owner, text in
+        owner.viewModel.whichKeyword.onNext(text)
+        owner.interestListCollectionView.isHidden = false
+        
+      })
+      .disposed(by: disposeBag)
     
     viewModel.fetchedSearchOutput
       .drive(onNext: { model in
@@ -150,6 +158,7 @@ final class SearchInputViewController: BaseViewController {
         guard let `self` = self else { return }
         self.recentSearchListView.isHidden = false
         self.interestListCollectionView.isHidden = true
+        self.noResultSearchView.isHidden = true
       })
       .disposed(by: disposeBag)
     
@@ -158,11 +167,12 @@ final class SearchInputViewController: BaseViewController {
       .drive(searchAlertView.rx.isHidden)
       .disposed(by: disposeBag)
     
-//    viewModel.searchOutputIsEmpty
-//      .do(onNext: { print("비어있니 = \($0)") })
-//      .drive(interestListCollectionView.rx.isHidden)
-//      .disposed(by: disposeBag)
-      
+    viewModel.searchOutputIsEmpty
+      .do(onNext: { print("비어있니 = \($0)") })
+      .map { !$0 }
+      .drive(noResultSearchView.rx.isHidden)
+      .disposed(by: disposeBag)
+    
   }
   
   @objc private func didTappedBackButton() {
@@ -174,7 +184,7 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     if collectionView == recentSearchListView {
       return 1
-    } 
+    }
     return 2
   }
   

@@ -114,6 +114,6 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .disposed(by: disposeBag)
     
     keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
-    searchOutputIsEmpty = fetchingSearchOutputModel.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
+    searchOutputIsEmpty = fetchingSearchOutput.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
   }
 }
