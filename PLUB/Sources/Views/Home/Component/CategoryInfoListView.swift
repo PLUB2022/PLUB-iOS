@@ -10,7 +10,7 @@ import UIKit
 struct CategoryInfoListModel {
   let placeName: String
   let peopleCount: Int
-  let when: String
+  let dateTime: String
 }
 
 enum CategoryAlignment {
@@ -21,7 +21,7 @@ enum CategoryAlignment {
 enum CategoryType {
   case location
   case people
-  case when
+  case dateTime
 }
 
 enum CategoryListType {
@@ -40,7 +40,7 @@ final class CategoryInfoListView: UIView {
   
   private lazy var locationInfoView = CategoryInfoView(categoryType: .location)
   private lazy var peopleInfoView = CategoryInfoView(categoryType: .people)
-  private lazy var whenInfoView = CategoryInfoView(categoryType: .when)
+  private lazy var whenInfoView = CategoryInfoView(categoryType: .dateTime)
   
   init(categoryAlignment: CategoryAlignment, categoryListType: CategoryListType) {
     self.categoryAlignment = categoryAlignment
@@ -86,7 +86,7 @@ final class CategoryInfoListView: UIView {
   public func configureUI(with model: CategoryInfoListModel) {
     locationInfoView.configureUI(with: model.placeName, categoryListType: categoryListType)
     peopleInfoView.configureUI(with: "\(model.peopleCount)", categoryListType: categoryListType)
-    whenInfoView.configureUI(with: model.when, categoryListType: categoryListType)
+    whenInfoView.configureUI(with: model.dateTime, categoryListType: categoryListType)
   }
 }
 
@@ -131,7 +131,7 @@ final class CategoryInfoView: UIView {
       infoImageView.image = UIImage(named: "whiteLocation")
       infoImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
       infoLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    case .when:
+    case .dateTime:
       infoImageView.image = UIImage(named: "calendarWhite")
     case .people:
       infoImageView.image = UIImage(named: "whitePeople")
@@ -149,7 +149,7 @@ final class CategoryInfoView: UIView {
       infoLabel.text = model
     case .people:
       infoLabel.text = "모집 인원 \(model)명"
-    case .when:
+    case .dateTime:
       infoLabel.text = model
     }
     
@@ -158,7 +158,7 @@ final class CategoryInfoView: UIView {
       infoLabel.textColor = .black
       if categoryType == .people {
         infoImageView.image = UIImage(named: "blackPeople")
-      } else if categoryType == .when {
+      } else if categoryType == .dateTime {
         infoImageView.image = UIImage(named: "calendarBlack")
       }
     case .onlyLocation:

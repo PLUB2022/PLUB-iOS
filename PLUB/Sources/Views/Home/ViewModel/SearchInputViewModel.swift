@@ -76,7 +76,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
           selectedCategoryInfoModel: .init(
             placeName: content.placeName,
             peopleCount: content.remainAccountNum,
-            when: content.days
+            dateTime: content.days
           .map { $0.fromENGToKOR() }
           .joined(separator: ",")
         + " | "
