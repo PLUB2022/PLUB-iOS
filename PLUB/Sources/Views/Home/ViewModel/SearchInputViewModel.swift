@@ -47,12 +47,12 @@ final class SearchInputViewModel: SearchInputViewModelType {
     let removeKeyword = PublishSubject<Int>()
     let removeAllKeyword = PublishSubject<Void>()
     
-    self.whichKeywordRemove = removeKeyword.asObserver()
-    self.whichKeyword = searchKeyword.asObserver()
-    self.whichSortType = searchSortType.asObserver()
-    self.fetchedSearchOutput = fetchingSearchOutput.asDriver(onErrorDriveWith: .empty())
-    self.currentRecentKeyword = recentKeywordList.asDriver(onErrorDriveWith: .empty())
-    self.tappedRemoveAll = removeAllKeyword.asObserver()
+    whichKeywordRemove = removeKeyword.asObserver()
+    whichKeyword = searchKeyword.asObserver()
+    whichSortType = searchSortType.asObserver()
+    fetchedSearchOutput = fetchingSearchOutput.asDriver(onErrorDriveWith: .empty())
+    currentRecentKeyword = recentKeywordList.asDriver(onErrorDriveWith: .empty())
+    tappedRemoveAll = removeAllKeyword.asObserver()
     
     let requestSearch = Observable.combineLatest(searchKeyword, searchSortType) { ($0, $1) }
       .flatMapLatest { (keyword, sortType) in

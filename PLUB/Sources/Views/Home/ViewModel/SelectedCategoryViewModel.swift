@@ -36,10 +36,10 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let dataIsEmpty = PublishSubject<Bool>()
     
-    self.isEmpty = dataIsEmpty.asSignal(onErrorSignalWith: .empty())
-    self.whichSortType = searchSortType.asObserver()
-    self.selectCategoryID = selectingCategoryID.asObserver()
-    self.updatedCellData = updatingCellData.asDriver(onErrorDriveWith: .empty())
+    isEmpty = dataIsEmpty.asSignal(onErrorSignalWith: .empty())
+    whichSortType = searchSortType.asObserver()
+    selectCategoryID = selectingCategoryID.asObserver()
+    updatedCellData = updatingCellData.asDriver(onErrorDriveWith: .empty())
     
     let fetchingSelectedCategory = Observable.combineLatest(
       selectingCategoryID,
