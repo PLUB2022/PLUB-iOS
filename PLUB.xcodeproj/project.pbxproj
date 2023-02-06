@@ -693,9 +693,14 @@
 		BA36EED5295463AA00D30169 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				BA8E2B3D297461C8009DDF32 /* Request */,
-				BA8E2B3E297461D5009DDF32 /* Response */,
 				BA780E1429714AAB0032C178 /* GeneralResponse.swift */,
+				C3C24CD42990078700056313 /* Account */,
+				C3C24CD52990079900056313 /* Auth */,
+				C3C24CD6299007BE00056313 /* KakaoLocation */,
+				C3C24CD7299007DE00056313 /* Category */,
+				C3C24CD8299007F000056313 /* Meeting */,
+				C3C24CD92990080100056313 /* Recruitment */,
+				C3C24CDA2990081300056313 /* Image */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -897,29 +902,6 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
-		BA8E2B3D297461C8009DDF32 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */,
-				BAC8930829755B87000D44E2 /* SignUpRequest.swift */,
-				BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */,
-				C38A5B9A297AE05100485355 /* KakaoLocationRequest.swift */,
-				C3B04E452981788800188E60 /* UploadImageRequest.swift */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		BA8E2B3E297461D5009DDF32 /* Response */ = {
-			isa = PBXGroup;
-			children = (
-				BA8E2B4729746881009DDF32 /* SignInResponse.swift */,
-				BAE5D3362975B20000268D44 /* TokenResponse.swift */,
-				C38A5B98297ADE8500485355 /* KakaoLocationResponse.swift */,
-				C3B04E472981789A00188E60 /* UploadImageResponse.swift */,
-			);
-			path = Response;
-			sourceTree = "<group>";
-		};
 		BABB0118297ED405004178EC /* Interest */ = {
 			isa = PBXGroup;
 			children = (
@@ -1016,7 +998,6 @@
 			children = (
 				C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */,
 				C385D10E29894BF200EF88EC /* CreateMeetingViewModel.swift */,
-				C3ED8FB32989B15F002F689B /* Model */,
 				C3E98EAB29744DAF00E36C45 /* ViewModel */,
 				C3AB743B296B1EF4003DD5E2 /* ViewController */,
 				C34F71BF29798C11003DB376 /* Cell */,
@@ -1040,6 +1021,178 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		C3C24CD42990078700056313 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				C3C24CE72990098E00056313 /* Request */,
+				C3C24CE82990099400056313 /* Response */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		C3C24CD52990079900056313 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C3C24CDB2990084D00056313 /* Request */,
+				C3C24CDC2990085600056313 /* Response */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		C3C24CD6299007BE00056313 /* KakaoLocation */ = {
+			isa = PBXGroup;
+			children = (
+				C3C24CDD2990089900056313 /* Request */,
+				C3C24CDE299008A300056313 /* Response */,
+			);
+			path = KakaoLocation;
+			sourceTree = "<group>";
+		};
+		C3C24CD7299007DE00056313 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				C3C24CE62990091300056313 /* Request */,
+				C3C24CE1299008F300056313 /* Response */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		C3C24CD8299007F000056313 /* Meeting */ = {
+			isa = PBXGroup;
+			children = (
+				C3C24CE52990090D00056313 /* Request */,
+				C3C24CE2299008F700056313 /* Response */,
+			);
+			path = Meeting;
+			sourceTree = "<group>";
+		};
+		C3C24CD92990080100056313 /* Recruitment */ = {
+			isa = PBXGroup;
+			children = (
+				C3C24CE42990090600056313 /* Request */,
+				C3C24CE3299008FB00056313 /* Response */,
+			);
+			path = Recruitment;
+			sourceTree = "<group>";
+		};
+		C3C24CDA2990081300056313 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				C3C24CDF299008E400056313 /* Request */,
+				C3C24CE0299008EB00056313 /* Response */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		C3C24CDB2990084D00056313 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */,
+				BAC8930829755B87000D44E2 /* SignUpRequest.swift */,
+				BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C3C24CDC2990085600056313 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				BA8E2B4729746881009DDF32 /* SignInResponse.swift */,
+				BAE5D3362975B20000268D44 /* TokenResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		C3C24CDD2990089900056313 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				C38A5B9A297AE05100485355 /* KakaoLocationRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C3C24CDE299008A300056313 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				C38A5B98297ADE8500485355 /* KakaoLocationResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		C3C24CDF299008E400056313 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				C3B04E452981788800188E60 /* UploadImageRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C3C24CE0299008EB00056313 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				C3B04E472981789A00188E60 /* UploadImageResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		C3C24CE1299008F300056313 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		C3C24CE2299008F700056313 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		C3C24CE3299008FB00056313 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		C3C24CE42990090600056313 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C3C24CE52990090D00056313 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C3C24CE62990091300056313 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C3C24CE72990098E00056313 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C3C24CE82990099400056313 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
 		C3E98EAB29744DAF00E36C45 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1053,15 +1206,6 @@
 				C3ED8FB82989E13D002F689B /* MeetingSummaryViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		C3ED8FB32989B15F002F689B /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */,
-				C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
