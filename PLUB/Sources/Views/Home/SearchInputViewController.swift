@@ -91,7 +91,6 @@ final class SearchInputViewController: BaseViewController {
     )
     interestListCollectionView.isHidden = true
     noResultSearchView.isHidden = true
-//    noResultSearchView.configureUI(with: "안돼요")
   }
   
   override func setupConstraints() {
@@ -117,7 +116,6 @@ final class SearchInputViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     [recentSearchListView, searchAlertView, interestListCollectionView, noResultSearchView].forEach { view.addSubview($0) }
-    //    interestListCollectionView.addSubview(noResultSearchView)
   }
   
   override func bind() {
@@ -168,7 +166,6 @@ final class SearchInputViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.searchOutputIsEmpty
-      .do(onNext: { print("비어있니 = \($0)") })
       .map { !$0 }
       .drive(noResultSearchView.rx.isHidden)
       .disposed(by: disposeBag)
