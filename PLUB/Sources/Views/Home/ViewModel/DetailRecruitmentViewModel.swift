@@ -48,22 +48,22 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     .bind(to: successFetchingDetail)
     .disposed(by: disposeBag)
     
-    self.introduceCategoryTitleViewModel = successFetchingDetail.map { response -> IntroduceCategoryTitleViewModel in
+    introduceCategoryTitleViewModel = successFetchingDetail.map { response -> IntroduceCategoryTitleViewModel in
       return IntroduceCategoryTitleViewModel(title: response.title, name: response.name, infoText: response.placeName)
     }
     .asDriver(onErrorDriveWith: .empty())
     
-    self.introduceCategoryInfoViewModel = successFetchingDetail.map { response -> IntroduceCategoryInfoViewModel in
+    introduceCategoryInfoViewModel = successFetchingDetail.map { response -> IntroduceCategoryInfoViewModel in
       return IntroduceCategoryInfoViewModel(recommendedText: response.goal, meetingImageURL: "", meetingImage: nil, categoryInfoListModel: .init(placeName: response.placeName, peopleCount: response.remainAccountNum, dateTime: ""))
     }
     .asDriver(onErrorDriveWith: .empty())
     
-    self.participantListViewModel = successFetchingDetail.map { response -> [AccountInfo] in
+    participantListViewModel = successFetchingDetail.map { response -> [AccountInfo] in
       return response.joinedAccounts
     }
     .asDriver(onErrorDriveWith: .empty())
     
-    self.meetingIntroduceModel = successFetchingDetail.map { response -> MeetingIntroduceModel in
+    meetingIntroduceModel = successFetchingDetail.map { response -> MeetingIntroduceModel in
       return MeetingIntroduceModel(title: response.title, introduce: response.introduce)
     }
     .asDriver(onErrorDriveWith: .empty())

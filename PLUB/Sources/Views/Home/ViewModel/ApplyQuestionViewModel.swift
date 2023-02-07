@@ -36,10 +36,10 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
     let isActivating = BehaviorSubject<Bool>(value: false)
     let entireQuestionStatus = PublishSubject<[QuestionStatus]>()
     
-    self.whichRecruitment = currentPlubbing.asObserver()
-    self.allQuestion = questions.asDriver(onErrorJustReturn: [])
-    self.whichQuestion = currentQuestion.asObserver()
-    self.isActivated = isActivating.asDriver(onErrorJustReturn: false)
+    whichRecruitment = currentPlubbing.asObserver()
+    allQuestion = questions.asDriver(onErrorJustReturn: [])
+    whichQuestion = currentQuestion.asObserver()
+    isActivated = isActivating.asDriver(onErrorJustReturn: false)
     
     /// 받아온 질문들을 초기화된 각각의 textView에 대한 상태값을 저장
     questions.map { questionModels in

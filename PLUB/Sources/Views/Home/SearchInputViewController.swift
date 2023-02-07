@@ -107,7 +107,7 @@ final class SearchInputViewController: BaseViewController {
     }
     
     noResultSearchView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(64)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
@@ -129,34 +129,28 @@ final class SearchInputViewController: BaseViewController {
       .filter { $0.count != 0 }
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
+        owner.noResultSearchView.configureUI(with: text)
         owner.viewModel.whichKeyword.onNext(text)
         owner.interestListCollectionView.isHidden = false
-        self.noResultSearchView.configureUI(with: text)
       })
       .disposed(by: disposeBag)
     
     viewModel.fetchedSearchOutput
-      .drive(onNext: { model in
-        self.model = model
-      })
+      .drive(rx.model)
       .disposed(by: disposeBag)
     
     viewModel.currentRecentKeyword
-      .asObservable()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, list in
-        owner.currentKeywordList = list
-      })
+      .drive(rx.currentKeywordList)
       .disposed(by: disposeBag)
     
     searchBar.rx.text.orEmpty
       .skip(1)
       .filter { $0.isEmpty }
-      .subscribe(onNext: { [weak self] _ in
-        guard let `self` = self else { return }
-        self.recentSearchListView.isHidden = false
-        self.interestListCollectionView.isHidden = true
-        self.noResultSearchView.isHidden = true
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.recentSearchListView.isHidden = false
+        owner.interestListCollectionView.isHidden = true
+        owner.noResultSearchView.isHidden = true
       })
       .disposed(by: disposeBag)
     
@@ -173,7 +167,13 @@ final class SearchInputViewController: BaseViewController {
   }
   
   @objc private func didTappedBackButton() {
-    self.navigationController?.popViewController(animated: true)
+    if interestListCollectionView.isHidden == false || noResultSearchView.isHidden == false {
+      interestListCollectionView.isHidden = true
+      noResultSearchView.isHidden = true
+    }
+    else {
+      self.navigationController?.popViewController(animated: true)
+    }
   }
 }
 

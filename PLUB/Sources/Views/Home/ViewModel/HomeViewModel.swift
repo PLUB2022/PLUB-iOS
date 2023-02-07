@@ -32,13 +32,13 @@ final class HomeViewModel: HomeViewModelType {
   let isBookmarked: Signal<Bool> // [북마크][북마크해제] 성공 유무
   
   init() {
-    let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
+    let fetchingMainCategoryList = BehaviorRelay<[MainCategory]>(value: [])
     let whichBookmark = PublishSubject<String>()
     let isSelectingInterest = BehaviorSubject<Bool>(value: false)
     
-    self.isSelectedInterest = isSelectingInterest.asDriver(onErrorDriveWith: .empty())
-    self.tappedBookmark = whichBookmark.asObserver()
-    self.fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
+    isSelectedInterest = isSelectingInterest.asDriver(onErrorDriveWith: .empty())
+    tappedBookmark = whichBookmark.asObserver()
+    fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
     let inquireRecommendationMeeting = MeetingService.shared.inquireRecommendationMeeting().share()
