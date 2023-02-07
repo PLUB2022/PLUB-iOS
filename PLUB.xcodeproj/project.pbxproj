@@ -606,15 +606,6 @@
 			path = Recruitment;
 			sourceTree = "<group>";
 		};
-		BA1BEDC12964548300C6BD41 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */,
-				BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */,
-			);
-			path = Profile;
-			sourceTree = "<group>";
-		};
 		BA340E14297821C8002BAF2C /* IntroduceCategory */ = {
 			isa = PBXGroup;
 			children = (
@@ -684,15 +675,10 @@
 		BA42D1EF28EDE05A00C20061 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				BAC923DD29546BF000385841 /* Birth */,
-				BAE1AD932944770000CE36B9 /* Policy */,
-				BA1BEDC12964548300C6BD41 /* Profile */,
-				BA876BA2296528E60029CF34 /* Introduction */,
-				BABB0118297ED405004178EC /* Interest */,
-				BA42D1F228EDE10F00C20061 /* LoginViewController.swift */,
-				BAC5EF30298B6F2D00F3955E /* CongratulationViewController.swift */,
-				BA784FA72978EB9100E8B06F /* SignUpViewController.swift */,
-				BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */,
+				BAD32EEB29921D6800EBF230 /* Cell */,
+				BAD32EEC29921D7300EBF230 /* Component */,
+				BAD32EED29921D8500EBF230 /* ViewController */,
+				BAD32EEA29921D3800EBF230 /* ViewModel */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -802,15 +788,6 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		BA876BA2296528E60029CF34 /* Introduction */ = {
-			isa = PBXGroup;
-			children = (
-				BA876BA3296529100029CF34 /* IntroductionViewController.swift */,
-				BA94E81B297E706A00DF23CE /* IntroductionViewModel.swift */,
-			);
-			path = Introduction;
-			sourceTree = "<group>";
-		};
 		BA88124128E48A2F00BD832A = {
 			isa = PBXGroup;
 			children = (
@@ -860,6 +837,29 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
+		BA8E2B3D297461C8009DDF32 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */,
+				BAC8930829755B87000D44E2 /* SignUpRequest.swift */,
+				BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */,
+				C38A5B9A297AE05100485355 /* KakaoLocationRequest.swift */,
+				C3B04E452981788800188E60 /* UploadImageRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		BA8E2B3E297461D5009DDF32 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				BA8E2B4729746881009DDF32 /* SignInResponse.swift */,
+				BAE5D3362975B20000268D44 /* TokenResponse.swift */,
+				C38A5B98297ADE8500485355 /* KakaoLocationResponse.swift */,
+				C3B04E472981789A00188E60 /* UploadImageResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
 		BABB0118297ED405004178EC /* Interest */ = {
 			isa = PBXGroup;
 			children = (
@@ -896,25 +896,49 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		BAC923DD29546BF000385841 /* Birth */ = {
+		BAD32EEA29921D3800EBF230 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BA7AD73D297D6720000E7D5D /* BirthViewModel.swift */,
+				BABB011B297ED74C004178EC /* InterestViewModel.swift */,
+				BA94E81B297E706A00DF23CE /* IntroductionViewModel.swift */,
+				BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */,
+				BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */,
+				BA784FA92978EB9900E8B06F /* SignUpViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BAD32EEB29921D6800EBF230 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */,
+				BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		BAD32EEC29921D7300EBF230 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				BA784FAD297937D600E8B06F /* CalendarControl.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		BAD32EED29921D8500EBF230 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				BAC923DE29546BF500385841 /* BirthViewController.swift */,
-				BA7AD73D297D6720000E7D5D /* BirthViewModel.swift */,
-				BA784FAD297937D600E8B06F /* CalendarControl.swift */,
-			);
-			path = Birth;
-			sourceTree = "<group>";
-		};
-		BAE1AD932944770000CE36B9 /* Policy */ = {
-			isa = PBXGroup;
-			children = (
-				BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */,
-				BAE1AD982944C75F00CE36B9 /* PolicyBodyTableViewCell.swift */,
+				BAC5EF30298B6F2D00F3955E /* CongratulationViewController.swift */,
+				BABB0119297ED415004178EC /* InterestViewController.swift */,
+				BA876BA3296529100029CF34 /* IntroductionViewController.swift */,
+				BA42D1F228EDE10F00C20061 /* LoginViewController.swift */,
 				BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */,
-				BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */,
+				BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */,
+				BA784FA72978EB9100E8B06F /* SignUpViewController.swift */,
 			);
-			path = Policy;
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		C34F71BF29798C11003DB376 /* Cell */ = {
