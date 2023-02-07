@@ -13,7 +13,7 @@ import Then
 final class SearchAlertView: UIView {
   
   private let emptyImageView = UIImageView().then {
-    $0.image = UIImage(named: "magnifierWithQuestionMark")
+    $0.image = UIImage(named: "magnifier")
     $0.contentMode = .scaleAspectFill
   }
   
@@ -33,15 +33,16 @@ final class SearchAlertView: UIView {
   }
   
   private func configureUI() {
+    backgroundColor = .background
     [emptyImageView, emptyLabel].forEach { addSubview($0) }
     emptyImageView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.bottom.equalTo(snp.centerY)
+      $0.bottom.equalTo(snp.centerY).offset(32)
     }
     
     emptyLabel.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalTo(snp.centerY).offset(32)
+      $0.top.equalTo(emptyImageView.snp.bottom).offset(32)
     }
   }
 }

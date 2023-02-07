@@ -22,12 +22,12 @@ protocol ApplyQuestionViewModelType {
 final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   private let disposeBag = DisposeBag()
   // Input
-  let whichQuestion: AnyObserver<QuestionStatus>
-  let whichRecruitment: AnyObserver<String>
+  let whichQuestion: AnyObserver<QuestionStatus> // 어떤 질문에 대한 상태값이 변경됬는지
+  let whichRecruitment: AnyObserver<String> // 지원질문조회를 위한 어떤 모집에 대한 ID인지
   
   // Output
-  let allQuestion: Driver<[ApplyQuestionTableViewCellModel]>
-  let isActivated: Driver<Bool>
+  let allQuestion: Driver<[ApplyQuestionTableViewCellModel]> // 특정 ID에 해당하는 모집에 관련된 질문 데이터
+  let isActivated: Driver<Bool> // [지원하기]버튼의 사용가능 유무
   
   init() {
     let currentPlubbing = PublishSubject<String>()
@@ -41,7 +41,7 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
     self.whichQuestion = currentQuestion.asObserver()
     self.isActivated = isActivating.asDriver(onErrorJustReturn: false)
     
-    // 받아온 질문들을 초기화된 각각의 textView에 대한 상태값을 저장
+    /// 받아온 질문들을 초기화된 각각의 textView에 대한 상태값을 저장
     questions.map { questionModels in
       questionModels.map { questionModel -> QuestionStatus in
         return QuestionStatus(id: questionModel.id, isFilled: false)
@@ -50,6 +50,7 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
     .bind(to: entireQuestionStatus)
     .disposed(by: disposeBag)
     
+    /// 특정 질문에 관련된 상태값이 변경될때마다 해당 질문에 대한 정보를 변경
     currentQuestion.distinctUntilChanged().withLatestFrom(entireQuestionStatus) { ($0, $1) }
       .subscribe(onNext: { (currentStatus, entireStatus) in
         let entireStatus = entireStatus.map { status -> QuestionStatus in

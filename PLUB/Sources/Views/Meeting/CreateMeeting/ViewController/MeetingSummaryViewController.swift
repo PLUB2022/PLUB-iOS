@@ -167,7 +167,7 @@ extension MeetingSummaryViewController {
         categoryInfoListModel: CategoryInfoListModel(
           placeName: data.placeName ?? "",
           peopleCount: data.peopleNumber,
-          when: data.days
+          dateTime: data.days
             .map { $0.fromENGToKOR() }
             .joined(separator: ",")
           + " | "

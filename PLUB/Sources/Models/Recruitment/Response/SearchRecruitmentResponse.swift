@@ -28,7 +28,7 @@ struct SearchRecruitmentResponse: Codable {
 }
 
 struct SearchContent: Codable {
-  let plubbingId: Int
+  let plubbingID: Int
   let title: String
   let introduce: String
   let name: String
@@ -44,4 +44,9 @@ struct SearchContent: Codable {
   let curAccountNum: Int
   let isBookmarked: Bool
   let views: Int
+  
+  enum CodingKeys: String, CodingKey {
+    case plubbingID = "plubbingId"
+    case title, introduce, name, days, mainImage, address, roadAddress, placeName, placePositionX, placePositionY, remainAccountNum, time, curAccountNum, isBookmarked, views
+  }
 }

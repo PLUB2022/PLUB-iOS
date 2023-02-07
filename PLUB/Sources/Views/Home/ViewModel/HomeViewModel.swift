@@ -23,13 +23,13 @@ final class HomeViewModel: HomeViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let tappedBookmark: AnyObserver<String>
+  let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
   
   // Output
-  let fetchedMainCategoryList: Driver<[MainCategory]>
-  let updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
-  let isSelectedInterest: Driver<Bool>
-  let isBookmarked: Signal<Bool>
+  let fetchedMainCategoryList: Driver<[MainCategory]> // 메인 카테고리에 대한 데이터
+  let updatedRecommendationCellData: Driver<[SelectedCategoryCollectionViewCellModel]> // 추천 모임에 대한 데이터
+  let isSelectedInterest: Driver<Bool> // 해당 사용자가 관심사 선택 유무
+  let isBookmarked: Signal<Bool> // [북마크][북마크해제] 성공 유무
   
   init() {
     let fetchingMainCategoryList = BehaviorSubject<[MainCategory]>(value: [])
@@ -76,7 +76,7 @@ final class HomeViewModel: HomeViewModelType {
           selectedCategoryInfoModel: .init(
             placeName: content.placeName,
             peopleCount: content.remainAccountNum,
-            when: content.days
+            dateTime: content.days
               .map { $0.fromENGToKOR() }
               .joined(separator: ",")
             + " | "

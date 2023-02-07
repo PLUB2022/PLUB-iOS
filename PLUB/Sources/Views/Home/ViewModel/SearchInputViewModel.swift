@@ -7,34 +7,52 @@
 
 import RxSwift
 import RxCocoa
+import RxRelay
 
 protocol SearchInputViewModelType {
   // Input
   var whichKeyword: AnyObserver<String> { get }
   var whichSortType: AnyObserver<SortType> { get }
+  var whichKeywordRemove: AnyObserver<Int> { get }
+  var tappedRemoveAll: AnyObserver<Void> { get }
   
   // Output
-  var fetchedSearchOutput: Driver<[SearchContent]> { get }
+  var fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
+  var currentRecentKeyword: Driver<[String]> { get }
+  var keywordListIsEmpty: Driver<Bool> { get }
+  var searchOutputIsEmpty: Driver<Bool> { get }
 }
 
 final class SearchInputViewModel: SearchInputViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let whichKeyword: AnyObserver<String>
-  let whichSortType: AnyObserver<SortType>
+  let whichKeyword: AnyObserver<String> // 어떤 키워드로 검색할 것인지
+  let whichSortType: AnyObserver<SortType> // 어떤 분류타입으로 검색할 것인지
+  let whichKeywordRemove: AnyObserver<Int> // 어떤 인덱스에 해당하는 remove버튼을 눌렀는지
+  let tappedRemoveAll: AnyObserver<Void> // 모두 지우기 버튼을 눌렀는지
   
   // Output
-  let fetchedSearchOutput: Driver<[SearchContent]>
+  let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> // 검색결과
+  let currentRecentKeyword: Driver<[String]> // 최근 검색어 목록
+  let keywordListIsEmpty: Driver<Bool> // 최근 검색어 목록이 비어있는지
+  let searchOutputIsEmpty: Driver<Bool> // 해당 키워드에 대한 검색결과가 존재하는지
+  
   
   init() {
     let searchKeyword = PublishSubject<String>()
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
-    let fetchingSearchOutput = PublishSubject<[SearchContent]>()
+    let fetchingSearchOutput = PublishSubject<[SelectedCategoryCollectionViewCellModel]>()
+    let recentKeywordList = BehaviorRelay<[String]>(value: [])
+    let removeKeyword = PublishSubject<Int>()
+    let removeAllKeyword = PublishSubject<Void>()
     
+    self.whichKeywordRemove = removeKeyword.asObserver()
     self.whichKeyword = searchKeyword.asObserver()
     self.whichSortType = searchSortType.asObserver()
     self.fetchedSearchOutput = fetchingSearchOutput.asDriver(onErrorDriveWith: .empty())
+    self.currentRecentKeyword = recentKeywordList.asDriver(onErrorDriveWith: .empty())
+    self.tappedRemoveAll = removeAllKeyword.asObserver()
     
     let requestSearch = Observable.combineLatest(searchKeyword, searchSortType) { ($0, $1) }
       .flatMapLatest { (keyword, sortType) in
@@ -45,10 +63,57 @@ final class SearchInputViewModel: SearchInputViewModelType {
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }
-      
-    successSearch.subscribe(onNext: { content in
-      fetchingSearchOutput.onNext(content)
+    
+    let fetchingSearchOutputModel = successSearch.map { contents in
+      contents.map { content in
+        return SelectedCategoryCollectionViewCellModel(
+          plubbingID: "\(content.plubbingID)",
+          name: content.name,
+          title: content.title,
+          mainImage: content.mainImage,
+          introduce: content.introduce,
+          isBookmarked: content.isBookmarked,
+          selectedCategoryInfoModel: .init(
+            placeName: content.placeName,
+            peopleCount: content.remainAccountNum,
+            dateTime: content.days
+          .map { $0.fromENGToKOR() }
+          .joined(separator: ",")
+        + " | "
+        + "(data.time)"))
+      }
+    }
+    
+    removeKeyword.subscribe(onNext: { index in
+      var list = recentKeywordList.value
+      list.remove(at: index)
+      recentKeywordList.accept(list)
     })
     .disposed(by: disposeBag)
+      
+    searchKeyword.subscribe(onNext: { keyword in
+      var list = recentKeywordList.value
+      if list.contains(keyword) {
+        guard let index = list.firstIndex(of: keyword) else { return }
+        list.remove(at: index)
+      }
+      list.insert(keyword, at: 0)
+      recentKeywordList.accept(list)
+    })
+    .disposed(by: disposeBag)
+    
+    fetchingSearchOutputModel.subscribe(onNext: { model in
+      fetchingSearchOutput.onNext(model)
+    })
+    .disposed(by: disposeBag)
+    
+    removeAllKeyword
+      .subscribe(onNext: { _ in
+        recentKeywordList.accept([])
+      })
+      .disposed(by: disposeBag)
+    
+    keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
+    searchOutputIsEmpty = fetchingSearchOutput.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
   }
 }

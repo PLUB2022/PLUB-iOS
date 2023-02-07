@@ -23,12 +23,12 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let selectCategoryID: AnyObserver<String>
-  let whichSortType: AnyObserver<SortType>
+  let selectCategoryID: AnyObserver<String> // 어떤 카테고리에 대한 것인지에 대한 ID
+  let whichSortType: AnyObserver<SortType> // 해당 카테고리에 대한 어떤 분류타입으로 설정하고싶은지
   
   // Output
-  let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]>
-  let isEmpty: Signal<Bool>
+  let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> // 해당 ID와 분류타입에 대한 카테고리 데이터
+  let isEmpty: Signal<Bool> // 해당 ID와 분류타입에 대한 카테고리 데이터 유무
   
   init() {
     let selectingCategoryID = PublishSubject<String>()
@@ -72,8 +72,8 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
           isBookmarked: content.isBookmarked,
           selectedCategoryInfoModel: .init(
             placeName: content.placeName,
-            peopleCount: 5,
-            when: content.days
+            peopleCount: content.remainAccountNum,
+            dateTime: content.days
           .map { $0.fromENGToKOR() }
           .joined(separator: ",")
         + " | "
