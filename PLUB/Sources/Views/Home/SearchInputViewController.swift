@@ -167,7 +167,13 @@ final class SearchInputViewController: BaseViewController {
   }
   
   @objc private func didTappedBackButton() {
-    self.navigationController?.popViewController(animated: true)
+    if interestListCollectionView.isHidden == false || noResultSearchView.isHidden == false {
+      interestListCollectionView.isHidden = true
+      noResultSearchView.isHidden = true
+    }
+    else {
+      self.navigationController?.popViewController(animated: true)
+    }
   }
 }
 
