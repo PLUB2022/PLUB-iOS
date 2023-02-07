@@ -107,7 +107,7 @@ final class SearchInputViewController: BaseViewController {
     }
     
     noResultSearchView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(64)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
@@ -129,9 +129,9 @@ final class SearchInputViewController: BaseViewController {
       .filter { $0.count != 0 }
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
+        owner.noResultSearchView.configureUI(with: text)
         owner.viewModel.whichKeyword.onNext(text)
         owner.interestListCollectionView.isHidden = false
-        owner.noResultSearchView.configureUI(with: text)
       })
       .disposed(by: disposeBag)
     
