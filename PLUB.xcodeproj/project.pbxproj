@@ -158,6 +158,8 @@
 		C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */; };
 		C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
+		C33FB0722993F84A00BEB15B /* EditMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33FB0712993F84A00BEB15B /* EditMeetingViewController.swift */; };
+		C33FB0742993FAC600BEB15B /* EditMeetingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33FB0732993FAC600BEB15B /* EditMeetingRequest.swift */; };
 		C344E53F2986B938009F73A9 /* MeetingCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C344E53E2986B938009F73A9 /* MeetingCategoryViewController.swift */; };
 		C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */; };
 		C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */; };
@@ -353,6 +355,8 @@
 		C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewModel.swift; sourceTree = "<group>"; };
 		C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCreateSuccessViewController.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
+		C33FB0712993F84A00BEB15B /* EditMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingViewController.swift; sourceTree = "<group>"; };
+		C33FB0732993FAC600BEB15B /* EditMeetingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingRequest.swift; sourceTree = "<group>"; };
 		C344E53E2986B938009F73A9 /* MeetingCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewController.swift; sourceTree = "<group>"; };
 		C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewModel.swift; sourceTree = "<group>"; };
 		C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -688,6 +692,7 @@
 			children = (
 				BA42D1F428EDE11900C20061 /* MeetingViewController.swift */,
 				C3AB743A296B1EC3003DD5E2 /* CreateMeeting */,
+				C33FB0702993F81800BEB15B /* EditMeeting */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -837,38 +842,6 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
-		BA8E2B3D297461C8009DDF32 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */,
-				BAC8930829755B87000D44E2 /* SignUpRequest.swift */,
-				BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */,
-				C38A5B9A297AE05100485355 /* KakaoLocationRequest.swift */,
-				C3B04E452981788800188E60 /* UploadImageRequest.swift */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		BA8E2B3E297461D5009DDF32 /* Response */ = {
-			isa = PBXGroup;
-			children = (
-				BA8E2B4729746881009DDF32 /* SignInResponse.swift */,
-				BAE5D3362975B20000268D44 /* TokenResponse.swift */,
-				C38A5B98297ADE8500485355 /* KakaoLocationResponse.swift */,
-				C3B04E472981789A00188E60 /* UploadImageResponse.swift */,
-			);
-			path = Response;
-			sourceTree = "<group>";
-		};
-		BABB0118297ED405004178EC /* Interest */ = {
-			isa = PBXGroup;
-			children = (
-				BABB0119297ED415004178EC /* InterestViewController.swift */,
-				BABB011B297ED74C004178EC /* InterestViewModel.swift */,
-			);
-			path = Interest;
-			sourceTree = "<group>";
-		};
 		BAC5EF2A2989F58900F3955E /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -939,6 +912,14 @@
 				BA784FA72978EB9100E8B06F /* SignUpViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		C33FB0702993F81800BEB15B /* EditMeeting */ = {
+			isa = PBXGroup;
+			children = (
+				C33FB0712993F84A00BEB15B /* EditMeetingViewController.swift */,
+			);
+			path = EditMeeting;
 			sourceTree = "<group>";
 		};
 		C34F71BF29798C11003DB376 /* Cell */ = {
@@ -1157,6 +1138,7 @@
 			isa = PBXGroup;
 			children = (
 				C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */,
+				C33FB0732993FAC600BEB15B /* EditMeetingRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1331,6 +1313,7 @@
 				C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */,
 				BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
+				C33FB0722993F84A00BEB15B /* EditMeetingViewController.swift in Sources */,
 				70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */,
 				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,
@@ -1464,6 +1447,7 @@
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,
 				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
 				70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */,
+				C33FB0742993FAC600BEB15B /* EditMeetingRequest.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 			);
