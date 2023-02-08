@@ -9,10 +9,16 @@ import UIKit
 
 import RxSwift
 
+protocol SelectedCategoryGridCollectionViewCellDelegate: AnyObject {
+  func didTappedBookmarkButton(plubbingID: String)
+}
+
 final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "SelectedCategoryGridCollectionViewCell"
   private let disposeBag = DisposeBag()
+  private var plubbingID: String?
+  weak var delegate: SelectedCategoryGridCollectionViewCellDelegate?
   
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
@@ -87,14 +93,18 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   private func bind() {
     bookmarkButton.buttonTapObservable
-      .subscribe(onNext: {
-        
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        guard let plubbingID = owner.plubbingID else { return }
+        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
-    
+      
     bookmarkButton.buttonUnTapObservable
-      .subscribe(onNext: {
-        
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        guard let plubbingID = owner.plubbingID else { return }
+        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
   }
@@ -104,5 +114,6 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)
+    plubbingID = model.plubbingID
   }
 }
