@@ -104,6 +104,11 @@ final class SelectedCategoryViewController: BaseViewController {
       .map { !$0 }
       .emit(to: noSelectedCategoryView.rx.isHidden)
       .disposed(by: disposeBag)
+    
+    viewModel.isBookmarked.emit(onNext: { isBookmarked in
+      print("해당 모집글을 북마크 \(isBookmarked)")
+    })
+    .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
