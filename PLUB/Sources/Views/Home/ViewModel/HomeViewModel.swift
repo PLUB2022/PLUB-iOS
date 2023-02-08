@@ -92,7 +92,6 @@ final class HomeViewModel: HomeViewModelType {
       .disposed(by: disposeBag)
     
     let requestBookmark = whichBookmark
-      .debounce(.seconds(3), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
     
     let successRequestBookmark = requestBookmark.compactMap { result -> RequestBookmarkResponse? in

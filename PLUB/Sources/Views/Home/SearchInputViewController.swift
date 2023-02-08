@@ -26,7 +26,7 @@ final class SearchInputViewController: BaseViewController {
   private var type: SortType = .popular {
     didSet {
       interestListCollectionView.reloadSections([0])
-      //      viewModel.whichSortType.onNext(type)
+      viewModel.whichSortType.onNext(type)
     }
   }
   
@@ -163,6 +163,11 @@ final class SearchInputViewController: BaseViewController {
       .map { !$0 }
       .drive(noResultSearchView.rx.isHidden)
       .disposed(by: disposeBag)
+    
+    viewModel.isBookmarked.emit(onNext: { isBookmarked in
+      print("해당 모집글을 북마크 \(isBookmarked)")
+    })
+    .disposed(by: disposeBag)
     
   }
   
