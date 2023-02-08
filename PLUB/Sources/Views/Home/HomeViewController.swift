@@ -335,4 +335,9 @@ extension HomeViewController: SelectedCategoryChartCollectionViewCellDelegate {
   func didTappedChartBookmarkButton(plubbingID: String) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
+  
+  func updateBookmarkState(isBookmarked: Bool, cell: UICollectionViewCell) {
+    guard let indexPath = homeCollectionView.indexPath(for: cell) else { return }
+    recommendationList[indexPath.row].isBookmarked = isBookmarked
+  }
 }

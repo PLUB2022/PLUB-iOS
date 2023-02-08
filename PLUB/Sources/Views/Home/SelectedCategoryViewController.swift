@@ -222,6 +222,11 @@ extension SelectedCategoryViewController: SortBottomSheetViewControllerDelegate 
 }
 
 extension SelectedCategoryViewController: SelectedCategoryChartCollectionViewCellDelegate, SelectedCategoryGridCollectionViewCellDelegate {
+  func updateBookmarkState(isBookmarked: Bool, cell: UICollectionViewCell) {
+    guard let indexPath = interestListCollectionView.indexPath(for: cell) else { return }
+    model[indexPath.row].isBookmarked = isBookmarked
+  }
+  
   func didTappedChartBookmarkButton(plubbingID: String) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
