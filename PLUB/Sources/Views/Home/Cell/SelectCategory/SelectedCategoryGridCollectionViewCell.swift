@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 protocol SelectedCategoryGridCollectionViewCellDelegate: AnyObject {
-  func didTappedBookmarkButton(plubbingID: String)
+  func didTappedGridBookmarkButton(plubbingID: String)
 }
 
 final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
@@ -96,7 +96,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedGridBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
       
@@ -104,7 +104,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedGridBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
   }

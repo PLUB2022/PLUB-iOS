@@ -134,7 +134,7 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
       case .grid:
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
         cell.configureUI(with: model[indexPath.row])
-        
+        cell.delegate = self
         return cell
       }
     }
@@ -216,7 +216,13 @@ extension SelectedCategoryViewController: SortBottomSheetViewControllerDelegate 
 }
 
 extension SelectedCategoryViewController: SelectedCategoryChartCollectionViewCellDelegate {
-  func didTappedBookmarkButton(plubbingID: String) {
+  func didTappedChartBookmarkButton(plubbingID: String) {
+    viewModel.tappedBookmark.onNext(plubbingID)
+  }
+}
+
+extension SelectedCategoryViewController: SelectedCategoryGridCollectionViewCellDelegate {
+  func didTappedGridBookmarkButton(plubbingID: String) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
 }

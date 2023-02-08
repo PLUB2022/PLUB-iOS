@@ -22,7 +22,7 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
 }
 
 protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
-  func didTappedBookmarkButton(plubbingID: String)
+  func didTappedChartBookmarkButton(plubbingID: String)
 }
 
 final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
@@ -110,7 +110,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedChartBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
       
@@ -118,7 +118,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedChartBookmarkButton(plubbingID: "\(plubbingID)")
       })
       .disposed(by: disposeBag)
   }

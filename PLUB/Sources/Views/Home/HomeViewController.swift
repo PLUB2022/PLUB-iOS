@@ -332,7 +332,7 @@ extension HomeViewController: InterestSelectCollectionViewCellDelegate {
 }
 
 extension HomeViewController: SelectedCategoryChartCollectionViewCellDelegate {
-  func didTappedBookmarkButton(plubbingID: String) {
+  func didTappedChartBookmarkButton(plubbingID: String) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
 }
