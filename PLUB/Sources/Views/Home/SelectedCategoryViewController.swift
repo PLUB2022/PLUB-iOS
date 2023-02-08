@@ -217,6 +217,7 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
 extension SelectedCategoryViewController: SortBottomSheetViewControllerDelegate {
   func didTappedSortButton(type: SortType) {
     self.type = type
+    dismiss(animated: false)
   }
 }
 

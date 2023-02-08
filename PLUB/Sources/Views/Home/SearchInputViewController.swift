@@ -335,6 +335,7 @@ extension SearchInputViewController: SearchOutputHeaderViewDelegate {
 extension SearchInputViewController: SortBottomSheetViewControllerDelegate {
   func didTappedSortButton(type: SortType) {
     self.type = type
+    dismiss(animated: false)
   }
 }
 
