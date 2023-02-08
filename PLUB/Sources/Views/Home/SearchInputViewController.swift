@@ -247,10 +247,12 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
         case .chart:
           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
           cell.configureUI(with: model[indexPath.row])
+          cell.delegate = self
           return cell
         case .grid:
           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
           cell.configureUI(with: model[indexPath.row])
+          cell.delegate = self
           return cell
         }
       }
@@ -331,3 +333,12 @@ extension SearchInputViewController: SortBottomSheetViewControllerDelegate {
   }
 }
 
+extension SearchInputViewController: SelectedCategoryChartCollectionViewCellDelegate, SelectedCategoryGridCollectionViewCellDelegate {
+  func didTappedChartBookmarkButton(plubbingID: String) {
+    viewModel.tappedBookmark.onNext(plubbingID)
+  }
+  
+  func didTappedGridBookmarkButton(plubbingID: String) {
+    viewModel.tappedBookmark.onNext(plubbingID)
+  }
+}

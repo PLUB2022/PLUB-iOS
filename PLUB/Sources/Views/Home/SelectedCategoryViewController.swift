@@ -220,14 +220,13 @@ extension SelectedCategoryViewController: SortBottomSheetViewControllerDelegate 
   }
 }
 
-extension SelectedCategoryViewController: SelectedCategoryChartCollectionViewCellDelegate {
+extension SelectedCategoryViewController: SelectedCategoryChartCollectionViewCellDelegate, SelectedCategoryGridCollectionViewCellDelegate {
   func didTappedChartBookmarkButton(plubbingID: String) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
-}
-
-extension SelectedCategoryViewController: SelectedCategoryGridCollectionViewCellDelegate {
+  
   func didTappedGridBookmarkButton(plubbingID: String) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
 }
+
