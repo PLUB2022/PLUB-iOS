@@ -321,6 +321,10 @@ extension SearchInputViewController: RecentSearchListHeaderViewDelegate {
 }
 
 extension SearchInputViewController: SearchOutputHeaderViewDelegate {
+  func didTappedTopBar(which: IndexPath) {
+    
+  }
+  
   func didTappedSortControl() {
     let vc = SortBottomSheetViewController()
     vc.modalPresentationStyle = .overFullScreen

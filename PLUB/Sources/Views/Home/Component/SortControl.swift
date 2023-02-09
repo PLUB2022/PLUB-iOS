@@ -26,13 +26,14 @@ enum SortType {
   }
 }
 
-final class SortControl: UIControl {
+class SortControl: UIControl {
   
   private let type: SortType
   
   var sortChanged: SortType = .popular {
     didSet {
       sortLabel.text = sortChanged.text
+      sortLabel.layoutIfNeeded()
     }
   }
   

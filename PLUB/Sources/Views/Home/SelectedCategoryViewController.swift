@@ -28,22 +28,25 @@ final class SelectedCategoryViewController: BaseViewController {
   
   private var type: SortType = .popular {
     didSet {
-      interestListCollectionView.reloadSections([0])
+      interestListCollectionView.reloadData()
       viewModel.whichSortType.onNext(type)
+      selectedCategoryFilterHeaderView.filterChanged = type
     }
   }
   
   private var selectedCategoryType: SelectedCategoryType = .chart
   
-  private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
+  private lazy var selectedCategoryFilterHeaderView = SelectedCategoryFilterHeaderView().then {
+    $0.delegate = self
+  }
+  
+  private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.scrollDirection = .vertical
-    $0.sectionHeadersPinToVisibleBounds = true
-  })).then {
+  }).then {
     $0.backgroundColor = .background
   }.then {
     $0.register(SelectedCategoryGridCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier)
     $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
-    $0.register(SelectedCategoryFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
   }
@@ -78,17 +81,24 @@ final class SelectedCategoryViewController: BaseViewController {
   }
   
   override func setupLayouts() {
-    [interestListCollectionView, noSelectedCategoryView].forEach { view.addSubview($0) }
+    [selectedCategoryFilterHeaderView, interestListCollectionView, noSelectedCategoryView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
+    selectedCategoryFilterHeaderView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
+      $0.leading.trailing.equalToSuperview().inset(10)
+      $0.height.equalTo(50)
+    }
+    
     interestListCollectionView.snp.makeConstraints {
-      $0.edges.equalToSuperview().inset(10)
+      $0.top.equalTo(selectedCategoryFilterHeaderView.snp.bottom)
+      $0.leading.trailing.bottom.equalToSuperview().inset(10)
     }
     
     noSelectedCategoryView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(50 + 139)
-      $0.left.right.equalToSuperview()
+      $0.leading.trailing.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
   }
@@ -118,18 +128,14 @@ final class SelectedCategoryViewController: BaseViewController {
 
 extension SelectedCategoryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if section == 1 {
-      return model.count
-    }
-    return 0
+    return model.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    if indexPath.section == 1 {
       switch selectedCategoryType {
       case .chart:
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
@@ -142,37 +148,15 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
         cell.delegate = self
         return cell
       }
-    }
-    return UICollectionViewCell()
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    if indexPath.section == 0 && kind == UICollectionView.elementKindSectionHeader {
-      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SelectedCategoryFilterHeaderView.identifier, for: indexPath) as? SelectedCategoryFilterHeaderView ?? SelectedCategoryFilterHeaderView()
-      header.filterChanged = type
-      header.delegate = self
-      return header
-    }
-    else { return UICollectionReusableView() }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    if section == 0 {
-      return CGSize(width: collectionView.frame.width, height: 50)
-    }
-    return .zero
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    if indexPath.section == 1 {
       switch selectedCategoryType {
       case .chart:
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
       case .grid:
         return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
       }
-    }
-    return .zero
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -205,12 +189,12 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   
   func didTappedInterestListChartButton() {
     self.selectedCategoryType = .chart
-    self.interestListCollectionView.reloadSections([1])
+    self.interestListCollectionView.reloadData()
   }
   
   func didTappedInterestListGridButton() {
     self.selectedCategoryType = .grid
-    self.interestListCollectionView.reloadSections([1])
+    self.interestListCollectionView.reloadData()
   }
 }
 
