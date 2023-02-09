@@ -18,9 +18,8 @@ protocol SearchOutputHeaderViewDelegate: AnyObject {
   func didTappedTopBar(which: IndexPath)
 }
 
-class SearchOutputHeaderView: UICollectionReusableView {
+class SearchOutputHeaderView: UIView {
   
-  static let identifier = "SearchOutputHeaderView"
   private let disposeBag = DisposeBag()
   private let tabModel = [
     "제목",

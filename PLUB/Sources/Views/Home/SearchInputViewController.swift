@@ -17,7 +17,7 @@ final class SearchInputViewController: BaseViewController {
   
   private var model: [SelectedCategoryCollectionViewCellModel] = [] {
     didSet {
-      interestListCollectionView.reloadSections([1])
+      interestListCollectionView.reloadData()
     }
   }
   
@@ -25,9 +25,14 @@ final class SearchInputViewController: BaseViewController {
   
   private var type: SortType = .popular {
     didSet {
-      interestListCollectionView.reloadSections([0])
+      interestListCollectionView.reloadData()
       viewModel.whichSortType.onNext(type)
+      searchOutputHeaderView.filterChanged = type
     }
+  }
+  
+  private lazy var searchOutputHeaderView = SearchOutputHeaderView().then {
+    $0.delegate = self
   }
   
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
@@ -38,7 +43,6 @@ final class SearchInputViewController: BaseViewController {
   }.then {
     $0.register(SelectedCategoryGridCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier)
     $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
-    $0.register(SearchOutputHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SearchOutputHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
   }
@@ -91,10 +95,12 @@ final class SearchInputViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     interestListCollectionView.isHidden = true
+    searchOutputHeaderView.isHidden = true
     noResultSearchView.isHidden = true
   }
   
   override func setupConstraints() {
+    
     recentSearchListView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
@@ -103,12 +109,19 @@ final class SearchInputViewController: BaseViewController {
       $0.edges.equalToSuperview()
     }
     
+    searchOutputHeaderView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(64)
+    }
+    
     interestListCollectionView.snp.makeConstraints {
-      $0.edges.equalToSuperview().inset(10)
+      $0.top.equalTo(searchOutputHeaderView.snp.bottom)
+      $0.leading.trailing.bottom.equalToSuperview().inset(10)
     }
     
     noResultSearchView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(64)
+      $0.top.equalTo(searchOutputHeaderView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
@@ -116,7 +129,7 @@ final class SearchInputViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [recentSearchListView, searchAlertView, interestListCollectionView, noResultSearchView].forEach { view.addSubview($0) }
+    [recentSearchListView, searchAlertView, searchOutputHeaderView, interestListCollectionView, noResultSearchView].forEach { view.addSubview($0) }
   }
   
   override func bind() {
@@ -132,7 +145,9 @@ final class SearchInputViewController: BaseViewController {
       .subscribe(onNext: { owner, text in
         owner.noResultSearchView.configureUI(with: text)
         owner.viewModel.whichKeyword.onNext(text)
+        owner.recentSearchListView.isHidden = true
         owner.interestListCollectionView.isHidden = false
+        owner.searchOutputHeaderView.isHidden = false
       })
       .disposed(by: disposeBag)
     
@@ -151,6 +166,7 @@ final class SearchInputViewController: BaseViewController {
       .subscribe(onNext: { owner, _ in
         owner.recentSearchListView.isHidden = false
         owner.interestListCollectionView.isHidden = true
+        owner.searchOutputHeaderView.isHidden = true
         owner.noResultSearchView.isHidden = true
       })
       .disposed(by: disposeBag)
@@ -175,7 +191,9 @@ final class SearchInputViewController: BaseViewController {
   @objc private func didTappedBackButton() {
     if interestListCollectionView.isHidden == false || noResultSearchView.isHidden == false {
       interestListCollectionView.isHidden = true
+      searchOutputHeaderView.isHidden = true
       noResultSearchView.isHidden = true
+      recentSearchListView.isHidden = false
     }
     else {
       self.navigationController?.popViewController(animated: true)
@@ -209,15 +227,7 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
       header.delegate = self
       return header
     }
-    else {
-      if indexPath.section == 0 && kind == UICollectionView.elementKindSectionHeader {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchOutputHeaderView.identifier, for: indexPath) as? SearchOutputHeaderView ?? SearchOutputHeaderView()
-        header.filterChanged = type
-        header.delegate = self
-        return header
-      }
-      else { return UICollectionReusableView() }
-    }
+     return UICollectionReusableView()
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -232,6 +242,8 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
       self.noResultSearchView.configureUI(with: keyword)
       self.viewModel.whichKeyword.onNext(keyword)
       self.interestListCollectionView.isHidden = false
+      self.searchOutputHeaderView.isHidden = false
+      self.recentSearchListView.isHidden = true
     }
   }
   
@@ -239,12 +251,7 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
     if collectionView == recentSearchListView {
       return CGSize(width: collectionView.frame.width, height: 26)
     }
-    else {
-      if section == 0 {
-        return CGSize(width: collectionView.frame.width, height: 64)
-      }
       return .zero
-    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -335,12 +342,12 @@ extension SearchInputViewController: SearchOutputHeaderViewDelegate {
   
   func didTappedInterestListChartButton() {
     self.selectedCategoryType = .chart
-    self.interestListCollectionView.reloadSections([1])
+    self.interestListCollectionView.reloadData()
   }
   
   func didTappedInterestListGridButton() {
     self.selectedCategoryType = .grid
-    self.interestListCollectionView.reloadSections([1])
+    self.interestListCollectionView.reloadData()
   }
 }
 
