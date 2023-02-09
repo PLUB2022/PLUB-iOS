@@ -837,38 +837,6 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
-		BA8E2B3D297461C8009DDF32 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				BA8E2B3F297461E6009DDF32 /* SignInRequest.swift */,
-				BAC8930829755B87000D44E2 /* SignUpRequest.swift */,
-				BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */,
-				C38A5B9A297AE05100485355 /* KakaoLocationRequest.swift */,
-				C3B04E452981788800188E60 /* UploadImageRequest.swift */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		BA8E2B3E297461D5009DDF32 /* Response */ = {
-			isa = PBXGroup;
-			children = (
-				BA8E2B4729746881009DDF32 /* SignInResponse.swift */,
-				BAE5D3362975B20000268D44 /* TokenResponse.swift */,
-				C38A5B98297ADE8500485355 /* KakaoLocationResponse.swift */,
-				C3B04E472981789A00188E60 /* UploadImageResponse.swift */,
-			);
-			path = Response;
-			sourceTree = "<group>";
-		};
-		BABB0118297ED405004178EC /* Interest */ = {
-			isa = PBXGroup;
-			children = (
-				BABB0119297ED415004178EC /* InterestViewController.swift */,
-				BABB011B297ED74C004178EC /* InterestViewModel.swift */,
-			);
-			path = Interest;
-			sourceTree = "<group>";
-		};
 		BAC5EF2A2989F58900F3955E /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (

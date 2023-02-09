@@ -14,7 +14,6 @@ import Then
 enum SelectedCategoryType {
   case chart
   case grid
-//  case emp
 }
 
 final class SelectedCategoryViewController: BaseViewController {
@@ -38,6 +37,7 @@ final class SelectedCategoryViewController: BaseViewController {
   
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
     $0.scrollDirection = .vertical
+    $0.sectionHeadersPinToVisibleBounds = true
   })).then {
     $0.backgroundColor = .background
   }.then {

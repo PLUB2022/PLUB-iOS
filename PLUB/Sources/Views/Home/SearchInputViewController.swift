@@ -32,6 +32,7 @@ final class SearchInputViewController: BaseViewController {
   
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then({
     $0.scrollDirection = .vertical
+    $0.sectionHeadersPinToVisibleBounds = true
   })).then {
     $0.backgroundColor = .background
   }.then {
@@ -224,6 +225,13 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
       let vc = DetailRecruitmentViewController(plubbingID: model[indexPath.row].plubbingID)
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
+    } else if collectionView == recentSearchListView {
+      guard let cell = collectionView.cellForItem(at: indexPath) as? RecentSearchListCollectionViewCell,
+            let keyword = cell.searchkeyword else { return }
+      self.searchBar.text = keyword
+      self.noResultSearchView.configureUI(with: keyword)
+      self.viewModel.whichKeyword.onNext(keyword)
+      self.interestListCollectionView.isHidden = false
     }
   }
   
