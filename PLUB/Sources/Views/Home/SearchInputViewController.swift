@@ -25,9 +25,9 @@ final class SearchInputViewController: BaseViewController {
   
   private var type: SortType = .popular {
     didSet {
-      interestListCollectionView.reloadData()
       viewModel.whichSortType.onNext(type)
       searchOutputHeaderView.filterChanged = type
+      interestListCollectionView.reloadData()
     }
   }
   

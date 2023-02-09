@@ -28,9 +28,9 @@ final class SelectedCategoryViewController: BaseViewController {
   
   private var type: SortType = .popular {
     didSet {
-      interestListCollectionView.reloadData()
       viewModel.whichSortType.onNext(type)
       selectedCategoryFilterHeaderView.filterChanged = type
+      interestListCollectionView.reloadData()
     }
   }
   

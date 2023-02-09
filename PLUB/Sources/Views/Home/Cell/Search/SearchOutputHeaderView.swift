@@ -82,7 +82,7 @@ class SearchOutputHeaderView: UIView {
       $0.height.equalTo(1)
       $0.leading.equalTo(topTabCollectionView.snp.leading)
       $0.bottom.equalTo(topTabCollectionView.snp.bottom)
-      $0.width.equalTo(self.frame.width / 3)
+      $0.width.equalTo((Device.width - 20) / 3)
     }
     
     interesetListGridButton.snp.makeConstraints {
