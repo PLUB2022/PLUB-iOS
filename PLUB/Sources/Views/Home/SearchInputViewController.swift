@@ -111,7 +111,7 @@ final class SearchInputViewController: BaseViewController {
     
     searchOutputHeaderView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.leading.trailing.equalToSuperview()
+      $0.leading.trailing.equalToSuperview().inset(10)
       $0.height.equalTo(64)
     }
     
