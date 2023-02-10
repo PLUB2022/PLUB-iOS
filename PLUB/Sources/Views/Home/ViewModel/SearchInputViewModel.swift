@@ -13,6 +13,7 @@ protocol SearchInputViewModelType {
   // Input
   var whichKeyword: AnyObserver<String> { get }
   var whichSortType: AnyObserver<SortType> { get }
+  var whichFilterType: AnyObserver<FilterType> { get }
   var whichKeywordRemove: AnyObserver<Int> { get }
   var tappedRemoveAll: AnyObserver<Void> { get }
   var tappedBookmark: AnyObserver<String> { get }
@@ -31,6 +32,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
   // Input
   let whichKeyword: AnyObserver<String> // 어떤 키워드로 검색할 것인지
   let whichSortType: AnyObserver<SortType> // 어떤 분류타입으로 검색할 것인지
+  let whichFilterType: AnyObserver<FilterType> // 어떤 필터타입으로 검색할 것인지
   let whichKeywordRemove: AnyObserver<Int> // 어떤 인덱스에 해당하는 remove버튼을 눌렀는지
   let tappedRemoveAll: AnyObserver<Void> // 모두 지우기 버튼을 눌렀는지
   let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
@@ -46,7 +48,8 @@ final class SearchInputViewModel: SearchInputViewModelType {
   init() {
     let searchKeyword = PublishSubject<String>()
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
-    let fetchingSearchOutput = PublishSubject<[SelectedCategoryCollectionViewCellModel]>()
+    let searchFilterType = BehaviorSubject<FilterType>(value: .mix)
+    let fetchingSearchOutput = PublishRelay<[SelectedCategoryCollectionViewCellModel]>()
     let recentKeywordList = BehaviorRelay<[String]>(value: [])
     let removeKeyword = PublishSubject<Int>()
     let removeAllKeyword = PublishSubject<Void>()
@@ -54,15 +57,16 @@ final class SearchInputViewModel: SearchInputViewModelType {
     
     whichKeywordRemove = removeKeyword.asObserver()
     whichKeyword = searchKeyword.asObserver()
+    whichFilterType = searchFilterType.asObserver()
     whichSortType = searchSortType.asObserver()
     fetchedSearchOutput = fetchingSearchOutput.asDriver(onErrorDriveWith: .empty())
     currentRecentKeyword = recentKeywordList.asDriver(onErrorDriveWith: .empty())
     tappedRemoveAll = removeAllKeyword.asObserver()
     tappedBookmark = whichBookmark.asObserver()
     
-    let requestSearch = Observable.combineLatest(searchKeyword, searchSortType) { ($0, $1) }
-      .flatMapLatest { (keyword, sortType) in
-        return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, sort: sortType.text))
+    let requestSearch = Observable.combineLatest(searchKeyword, searchFilterType, searchSortType) { ($0, $1, $2) }
+      .flatMapLatest { (keyword, filterType, sortType) in
+        return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, type: filterType.text, sort: sortType.text))
       }
     
     let successSearch = requestSearch.compactMap { result -> [SearchContent]? in
@@ -109,7 +113,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
     .disposed(by: disposeBag)
     
     fetchingSearchOutputModel.subscribe(onNext: { model in
-      fetchingSearchOutput.onNext(model)
+      fetchingSearchOutput.accept(model)
     })
     .disposed(by: disposeBag)
     
