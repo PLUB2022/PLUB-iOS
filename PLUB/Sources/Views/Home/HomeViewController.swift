@@ -102,7 +102,7 @@ class HomeViewController: BaseViewController {
         image: UIImage(named: "blackBookmark"),
         style: .done,
         target: self,
-        action: #selector(didTappedSearchButton)
+        action: #selector(didTappedBookmarkButton)
       ),
       UIBarButtonItem(
         image: UIImage(named: "search"),
@@ -152,6 +152,10 @@ class HomeViewController: BaseViewController {
     let vc = SearchInputViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
+  }
+  
+  @objc private func didTappedBookmarkButton() {
+    
   }
   
   private func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
