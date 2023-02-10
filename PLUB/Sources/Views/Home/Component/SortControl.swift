@@ -26,7 +26,7 @@ enum SortType {
   }
 }
 
-final class SortControl: UIControl {
+class SortControl: UIControl {
   
   private let type: SortType
   

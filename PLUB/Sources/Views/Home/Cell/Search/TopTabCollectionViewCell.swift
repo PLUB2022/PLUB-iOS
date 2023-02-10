@@ -10,6 +10,23 @@ import UIKit
 import SnapKit
 import Then
 
+enum FilterType { // 모집글 검색을 위한 필터타입
+  case title // 제목
+  case name // 모임이름
+  case mix // 제목 + 글
+  
+  var text: String {
+    switch self {
+    case .title:
+      return "title"
+    case .name:
+      return "name"
+    case .mix:
+      return "mix"
+    }
+  }
+}
+
 class TopTabCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "TopTabCollectionViewCell"

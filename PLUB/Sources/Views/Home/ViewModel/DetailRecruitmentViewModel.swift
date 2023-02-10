@@ -34,7 +34,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   
   init() {
     let selectingPlubbingID = PublishSubject<String>()
-    let successFetchingDetail = PublishSubject<DetailRecruitmentResponse>()
+    let successFetchingDetail = PublishRelay<DetailRecruitmentResponse>()
     self.selectPlubbingID = selectingPlubbingID.asObserver()
     
     let fetchingDetail = selectingPlubbingID

@@ -15,11 +15,11 @@ protocol SearchOutputHeaderViewDelegate: AnyObject {
   func didTappedInterestListChartButton()
   func didTappedInterestListGridButton()
   func didTappedSortControl()
+  func didTappedTopBar(which: IndexPath)
 }
 
-class SearchOutputHeaderView: UICollectionReusableView {
+class SearchOutputHeaderView: UIView {
   
-  static let identifier = "SearchOutputHeaderView"
   private let disposeBag = DisposeBag()
   private let tabModel = [
     "제목",
@@ -82,7 +82,7 @@ class SearchOutputHeaderView: UICollectionReusableView {
       $0.height.equalTo(1)
       $0.leading.equalTo(topTabCollectionView.snp.leading)
       $0.bottom.equalTo(topTabCollectionView.snp.bottom)
-      $0.width.equalTo(self.frame.width / 3)
+      $0.width.equalTo((Device.width - 20) / 3)
     }
     
     interesetListGridButton.snp.makeConstraints {
@@ -144,7 +144,6 @@ class SearchOutputHeaderView: UICollectionReusableView {
   private func setTabbar() {
     let firstIndexPath = IndexPath(item: 0, section: 0)
     topTabCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
-//    collectionView(topTabCollectionView, didSelectItemAt: firstIndexPath)
   }
 }
 
@@ -165,6 +164,8 @@ extension SearchOutputHeaderView: UICollectionViewDelegate, UICollectionViewData
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let cell = collectionView.cellForItem(at: indexPath) as? TopTabCollectionViewCell ?? TopTabCollectionViewCell()
+    
+    delegate?.didTappedTopBar(which: indexPath)
     
     UIView.animate(withDuration: 0.3) {
       self.highlightView.snp.remakeConstraints {

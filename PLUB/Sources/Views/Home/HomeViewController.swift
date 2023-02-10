@@ -102,7 +102,7 @@ class HomeViewController: BaseViewController {
         image: UIImage(named: "blackBookmark"),
         style: .done,
         target: self,
-        action: #selector(didTappedSearchButton)
+        action: #selector(didTappedBookmarkButton)
       ),
       UIBarButtonItem(
         image: UIImage(named: "search"),
@@ -152,6 +152,10 @@ class HomeViewController: BaseViewController {
     let vc = SearchInputViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
+  }
+  
+  @objc private func didTappedBookmarkButton() {
+    
   }
   
   private func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {
@@ -332,7 +336,12 @@ extension HomeViewController: InterestSelectCollectionViewCellDelegate {
 }
 
 extension HomeViewController: SelectedCategoryChartCollectionViewCellDelegate {
-  func didTappedBookmarkButton(plubbingID: String) {
+  func didTappedChartBookmarkButton(plubbingID: String) {
     viewModel.tappedBookmark.onNext(plubbingID)
+  }
+  
+  func updateBookmarkState(isBookmarked: Bool, cell: UICollectionViewCell) {
+    guard let indexPath = homeCollectionView.indexPath(for: cell) else { return }
+    recommendationList[indexPath.row].isBookmarked = isBookmarked
   }
 }

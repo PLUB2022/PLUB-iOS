@@ -20,6 +20,7 @@ class RecentSearchListCollectionViewCell: UICollectionViewCell {
   static let identifier = "RecentSearchListCollectionViewCell"
   private let disposeBag = DisposeBag()
   weak var delegate: RecentSearchListCollectionViewCellDelegate?
+  var searchkeyword: String?
   
   private let recentSearchLabel = UILabel().then {
     $0.numberOfLines = 1
@@ -80,5 +81,6 @@ class RecentSearchListCollectionViewCell: UICollectionViewCell {
   
   func configureUI(with model: String) {
     recentSearchLabel.text = model
+    searchkeyword = model
   }
 }

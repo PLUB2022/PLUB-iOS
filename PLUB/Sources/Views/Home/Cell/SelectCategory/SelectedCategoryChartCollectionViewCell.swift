@@ -17,12 +17,13 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
   let title: String
   let mainImage: String?
   let introduce: String
-  let isBookmarked: Bool
+  var isBookmarked: Bool
   let selectedCategoryInfoModel: CategoryInfoListModel
 }
 
 protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
-  func didTappedBookmarkButton(plubbingID: String)
+  func didTappedChartBookmarkButton(plubbingID: String)
+  func updateBookmarkState(isBookmarked: Bool, cell: UICollectionViewCell)
 }
 
 final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
@@ -110,7 +111,8 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedChartBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.updateBookmarkState(isBookmarked: true, cell: owner)
       })
       .disposed(by: disposeBag)
       
@@ -118,7 +120,8 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedChartBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.updateBookmarkState(isBookmarked: false, cell: owner)
       })
       .disposed(by: disposeBag)
   }
