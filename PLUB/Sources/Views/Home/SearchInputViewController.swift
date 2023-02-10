@@ -143,11 +143,7 @@ final class SearchInputViewController: BaseViewController {
       .filter { $0.count != 0 }
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
-        owner.noResultSearchView.configureUI(with: text)
-        owner.viewModel.whichKeyword.onNext(text)
-        owner.recentSearchListView.isHidden = true
-        owner.interestListCollectionView.isHidden = false
-        owner.searchOutputHeaderView.isHidden = false
+        owner.presentSearchOutput(keyword: text)
       })
       .disposed(by: disposeBag)
     
@@ -164,10 +160,7 @@ final class SearchInputViewController: BaseViewController {
       .filter { $0.isEmpty }
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.recentSearchListView.isHidden = false
-        owner.interestListCollectionView.isHidden = true
-        owner.searchOutputHeaderView.isHidden = true
-        owner.noResultSearchView.isHidden = true
+        owner.dismissSearchOutput()
       })
       .disposed(by: disposeBag)
     
@@ -188,12 +181,24 @@ final class SearchInputViewController: BaseViewController {
     
   }
   
+  private func presentSearchOutput(keyword: String) {
+    noResultSearchView.configureUI(with: keyword)
+    viewModel.whichKeyword.onNext(keyword)
+    recentSearchListView.isHidden = true
+    interestListCollectionView.isHidden = false
+    searchOutputHeaderView.isHidden = false
+  }
+  
+  private func dismissSearchOutput() {
+    recentSearchListView.isHidden = false
+    interestListCollectionView.isHidden = true
+    searchOutputHeaderView.isHidden = true
+    noResultSearchView.isHidden = true
+  }
+  
   @objc private func didTappedBackButton() {
     if interestListCollectionView.isHidden == false || noResultSearchView.isHidden == false {
-      interestListCollectionView.isHidden = true
-      searchOutputHeaderView.isHidden = true
-      noResultSearchView.isHidden = true
-      recentSearchListView.isHidden = false
+      dismissSearchOutput()
     }
     else {
       self.navigationController?.popViewController(animated: true)
@@ -239,11 +244,7 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
       guard let cell = collectionView.cellForItem(at: indexPath) as? RecentSearchListCollectionViewCell,
             let keyword = cell.searchkeyword else { return }
       self.searchBar.text = keyword
-      self.noResultSearchView.configureUI(with: keyword)
-      self.viewModel.whichKeyword.onNext(keyword)
-      self.interestListCollectionView.isHidden = false
-      self.searchOutputHeaderView.isHidden = false
-      self.recentSearchListView.isHidden = true
+      self.presentSearchOutput(keyword: keyword)
     }
   }
   
