@@ -13,14 +13,16 @@ import Then
 class NoSelectedCategoryView: UIView {
   
   private lazy var stackView = UIStackView(arrangedSubviews: [
-    grayView, alertLabel, createMeetingButton
+    alertImageView, alertLabel, createMeetingButton
   ]).then {
     $0.spacing = 32
     $0.axis = .vertical
     $0.alignment = .center
   }
   
-  private let grayView = UIView().then {
+  private let alertImageView = UIImageView().then {
+    $0.image = UIImage(named: "speaker")
+    $0.contentMode = .scaleAspectFill
     $0.backgroundColor = .noDataBackgroundColor
   }
   
