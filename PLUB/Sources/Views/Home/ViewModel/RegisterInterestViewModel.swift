@@ -30,7 +30,7 @@ final class RegisterInterestViewModel: RegisterInterestViewModelType {
   let isEnabledFloatingButton: Driver<Bool> // 하나의 셀이라도 눌렸는지에 대한 값 방출
   
   init() {
-    let fetchingRegisterInterest = BehaviorSubject<[RegisterInterestModel]>(value: [])
+    let fetchingRegisterInterest = BehaviorRelay<[RegisterInterestModel]>(value: [])
     let selectingDetailCellCount = BehaviorSubject<Int>(value: 0)
     let selectingDetailCell = PublishSubject<Void>()
     let deselectingDetailCell = PublishSubject<Void>()
@@ -49,7 +49,7 @@ final class RegisterInterestViewModel: RegisterInterestViewModelType {
       let models = categories.map { category in
         return RegisterInterestModel(category: category)
       }
-      fetchingRegisterInterest.onNext(models)
+      fetchingRegisterInterest.accept(models)
     })
     .disposed(by: disposeBag)
     

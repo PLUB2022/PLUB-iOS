@@ -31,7 +31,7 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   
   init() {
     let currentPlubbing = PublishSubject<String>()
-    let questions = BehaviorSubject<[ApplyQuestionTableViewCellModel]>(value: [])
+    let questions = BehaviorRelay<[ApplyQuestionTableViewCellModel]>(value: [])
     let currentQuestion = PublishSubject<QuestionStatus>()
     let isActivating = BehaviorSubject<Bool>(value: false)
     let entireQuestionStatus = PublishSubject<[QuestionStatus]>()

@@ -36,7 +36,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   
   init() {
     let selectingCategoryID = PublishSubject<String>()
-    let updatingCellData = BehaviorSubject<[SelectedCategoryCollectionViewCellModel]>(value: [])
+    let updatingCellData = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let dataIsEmpty = PublishSubject<Bool>()
     let whichBookmark = PublishSubject<String>()
@@ -85,7 +85,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
               + " | "
               + "(data.time)"))
         }
-        updatingCellData.onNext(model)
+        updatingCellData.accept(model)
       })
         .disposed(by: disposeBag)
         
