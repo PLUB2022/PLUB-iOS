@@ -165,9 +165,10 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
 
 extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDelegate {
   func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell, mainIndexPath: IndexPath, subIndexPath: IndexPath) {
-    registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].isSelected.toggle()
+    var category = registerInterestModels[mainIndexPath.section].category
+    category.subCategories[subIndexPath.row].isSelected.toggle()
     cell.isTapped.toggle()
-    cell.isTapped ? viewModel.selectDetailCell.onNext(()) : viewModel.deselectDetailCell.onNext(())
+    cell.isTapped ? viewModel.selectDetailCell.onNext(category.id) : viewModel.deselectDetailCell.onNext(category.id)
   }
 }
 
