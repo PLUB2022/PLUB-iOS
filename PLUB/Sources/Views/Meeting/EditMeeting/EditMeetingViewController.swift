@@ -8,7 +8,7 @@
 import UIKit
 
 final class EditMeetingViewController: BaseViewController {
-  
+  private let viewModel = EditMeetingViewModel()
   private let segmentedControl = UnderlineSegmentedControl(
     items: ["모집글", "모임 정보", "게스트 질문"]
   ).then {
@@ -26,10 +26,10 @@ final class EditMeetingViewController: BaseViewController {
       $0.delegate = self
       $0.dataSource = self
   }
-  
-  private let recruitPostViewController = RecruitPostViewController()
-  private let meetingInfoViewController = MeetingInfoViewController()
-  private let guestQuestionViewController = GuestQuestionViewController()
+  private let plubbingID: String
+  private lazy var recruitPostViewController = RecruitPostViewController(plubbingID: plubbingID)
+  private lazy var meetingInfoViewController = MeetingInfoViewController(plubbingID: plubbingID)
+  private lazy var guestQuestionViewController = GuestQuestionViewController(plubbingID: plubbingID)
   
   private var viewControllers: [UIViewController] {
       [recruitPostViewController, meetingInfoViewController, guestQuestionViewController]
@@ -42,6 +42,15 @@ final class EditMeetingViewController: BaseViewController {
           [viewControllers[currentPage]], direction: direction, animated: true
       )
     }
+  }
+  
+  init(plubbingID: String) {
+    self.plubbingID = plubbingID
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewDidLoad() {
@@ -77,6 +86,7 @@ final class EditMeetingViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
     segmentedControl.rx.value
       .asDriver()
       .drive(with: self) { owner, index in
