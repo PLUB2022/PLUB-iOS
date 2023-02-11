@@ -97,9 +97,9 @@ final class SelectedCategoryViewController: BaseViewController {
     }
     
     noSelectedCategoryView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(50 + 139)
+      $0.top.equalTo(selectedCategoryFilterHeaderView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
   }
   

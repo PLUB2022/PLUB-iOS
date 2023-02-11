@@ -13,17 +13,16 @@ import Then
 class NoSelectedCategoryView: UIView {
   
   private lazy var stackView = UIStackView(arrangedSubviews: [
-    alertImageView, alertLabel, createMeetingButton
+    alertImageView, alertLabel
   ]).then {
-    $0.spacing = 32
+    $0.spacing = 16
     $0.axis = .vertical
     $0.alignment = .center
   }
   
   private let alertImageView = UIImageView().then {
     $0.image = UIImage(named: "speaker")
-    $0.contentMode = .scaleAspectFill
-    $0.backgroundColor = .noDataBackgroundColor
+    $0.contentMode = .scaleAspectFit
   }
   
   private let alertLabel = UILabel().then {
@@ -48,19 +47,21 @@ class NoSelectedCategoryView: UIView {
   
   private func configureUI() {
     alertLabel.text = "아직 등록된 모집글이 없어요\n직접 모집글을 올려 볼까요?"
-    addSubview(stackView)
+    [stackView, createMeetingButton].forEach { addSubview($0) }
     
     stackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.centerY.equalToSuperview().offset(-46)
+      $0.centerX.equalToSuperview()
     }
     
-    grayView.snp.makeConstraints {
-      $0.size.equalTo(140)
+    alertImageView.snp.makeConstraints {
+      $0.size.equalTo(160)
     }
     
     createMeetingButton.snp.makeConstraints {
-      $0.left.right.equalToSuperview().inset(16)
+      $0.leading.trailing.equalToSuperview().inset(16)
       $0.height.equalTo(46)
+      $0.bottom.equalToSuperview()
     }
   }
 }
