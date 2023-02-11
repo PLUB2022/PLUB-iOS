@@ -29,7 +29,8 @@ class NoSelectedCategoryView: UIView {
     $0.numberOfLines = 0
     $0.font = .subtitle
     $0.textColor = .black
-    $0.sizeToFit()
+    $0.textAlignment = .center
+    $0.text = "아직 등록된 모집글이 없어요\n직접 모집글을 올려 볼까요?"
   }
   
   private let createMeetingButton = UIButton(configuration: .plain()).then {
@@ -46,7 +47,6 @@ class NoSelectedCategoryView: UIView {
   }
   
   private func configureUI() {
-    alertLabel.text = "아직 등록된 모집글이 없어요\n직접 모집글을 올려 볼까요?"
     [stackView, createMeetingButton].forEach { addSubview($0) }
     
     stackView.snp.makeConstraints {

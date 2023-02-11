@@ -10,6 +10,7 @@ import Alamofire
 enum AccountRouter {
   case validateNickname(String)
   case inquireInterest
+  case registerInterest
 }
 
 extension AccountRouter: Router {
@@ -17,6 +18,8 @@ extension AccountRouter: Router {
     switch self {
     case .validateNickname, .inquireInterest:
       return .get
+    case .registerInterest:
+      return .post
     }
   }
   
@@ -26,6 +29,8 @@ extension AccountRouter: Router {
       return "/accounts/check/nickname/\(nickname)"
     case .inquireInterest:
       return "/accounts/me/interest"
+    case .registerInterest:
+      return "/accounts/interest"
     }
   }
   
@@ -33,8 +38,17 @@ extension AccountRouter: Router {
     switch self {
     case .validateNickname:
       return .default
-    case .inquireInterest:
+    case .inquireInterest, .registerInterest:
       return .withAccessToken
+    }
+  }
+  
+  var parameters: ParameterType {
+    switch self {
+    case .inquireInterest, .validateNickname:
+      return .plain
+    case .registerInterest:
+      return .body(<#Encodable#>)
     }
   }
 }
