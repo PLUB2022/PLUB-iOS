@@ -100,6 +100,7 @@
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
 		BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5DEB2F2974D8E200650788 /* NetworkResult.swift */; };
 		BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA5DEB3229751E5F00650788 /* GoogleSignIn */; };
+		BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */; };
 		BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA771651296FBF4400762362 /* KeyChainWrapper.swift */; };
 		BA780E09297133220032C178 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E08297133220032C178 /* Config.swift */; };
 		BA780E0D297133F80032C178 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA780E0C297133F80032C178 /* Router.swift */; };
@@ -298,6 +299,7 @@
 		BA52778328EECDC50036B825 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
 		BA5DEB2F2974D8E200650788 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
+		BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLUBTabBarController.swift; sourceTree = "<group>"; };
 		BA771651296FBF4400762362 /* KeyChainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainWrapper.swift; sourceTree = "<group>"; };
 		BA780E08297133220032C178 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		BA780E0C297133F80032C178 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -624,6 +626,7 @@
 				BA42D1EE28EDE05000C20061 /* Home */,
 				BA42D1EF28EDE05A00C20061 /* Login */,
 				BA42D1F028EDE08000C20061 /* Meeting */,
+				BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1410,6 +1413,7 @@
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */,
+				BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */,
 				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
 				70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */,
