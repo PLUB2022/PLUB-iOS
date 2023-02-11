@@ -31,6 +31,12 @@ struct EditMeetingRequest: Codable {
   
   /// y 좌표
   var positionY: Double?
+  
+  init() {
+    days = []
+    onOff = .on
+    peopleNumber = 0
+  }
 }
 
 extension EditMeetingRequest {

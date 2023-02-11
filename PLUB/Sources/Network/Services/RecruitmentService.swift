@@ -29,4 +29,12 @@ extension RecruitmentService {
   func requestBookmark(plubbingID: String) -> Observable<NetworkResult<GeneralResponse<RequestBookmarkResponse>>> {
     return sendRequest(RecruitmentRouter.requestBookmark(plubbingID), type: RequestBookmarkResponse.self)
   }
+  
+  func editMeetingPost(plubbingID: String, request: EditMeetingPostRequest) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+    return sendRequest(RecruitmentRouter.editMeetingPost(plubbingID, request))
+  }
+  
+  func editMeetingQuestion(plubbingID: String, request: EditMeetingQuestionRequest) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+    return sendRequest(RecruitmentRouter.editMeetingQuestion(plubbingID, request))
+  }
 }
