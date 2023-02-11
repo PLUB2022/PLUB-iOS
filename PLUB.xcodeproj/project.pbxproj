@@ -60,6 +60,7 @@
 		70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */; };
 		70BD5F3929684EAC002CBA89 /* HomeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3829684EAC002CBA89 /* HomeAlert.swift */; };
 		70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */; };
+		70CF3330299793220077FF47 /* RegisterInterestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF332F299793220077FF47 /* RegisterInterestRequest.swift */; };
 		70F1DFD42979508000F9BC83 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD32979508000F9BC83 /* CategoryService.swift */; };
 		70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */; };
 		70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */; };
@@ -268,6 +269,7 @@
 		70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewModel.swift; sourceTree = "<group>"; };
 		70BD5F3829684EAC002CBA89 /* HomeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAlert.swift; sourceTree = "<group>"; };
 		70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainCollectionHeaderView.swift; sourceTree = "<group>"; };
+		70CF332F299793220077FF47 /* RegisterInterestRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestRequest.swift; sourceTree = "<group>"; };
 		70F1DFD32979508000F9BC83 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRouter.swift; sourceTree = "<group>"; };
 		70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRouter.swift; sourceTree = "<group>"; };
@@ -609,6 +611,14 @@
 				70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */,
 			);
 			path = ApplyQuestion;
+			sourceTree = "<group>";
+		};
+		70CF332E299793160077FF47 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				70CF332F299793220077FF47 /* RegisterInterestRequest.swift */,
+			);
+			path = Request;
 			sourceTree = "<group>";
 		};
 		70F1DFEB297D99A400F9BC83 /* Recruitment */ = {
@@ -1007,6 +1017,7 @@
 		C3C24CD42990078700056313 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				70CF332E299793160077FF47 /* Request */,
 				C3C24CE82990099400056313 /* Response */,
 			);
 			path = Account;
@@ -1293,6 +1304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70CF3330299793220077FF47 /* RegisterInterestRequest.swift in Sources */,
 				C385D10D2989462300EF88EC /* MeetingSummaryViewController.swift in Sources */,
 				C38A5BA5297B234100485355 /* LocationTableViewCell.swift in Sources */,
 				C3B04E462981788800188E60 /* UploadImageRequest.swift in Sources */,

@@ -10,7 +10,7 @@ import Alamofire
 enum AccountRouter {
   case validateNickname(String)
   case inquireInterest
-  case registerInterest
+  case registerInterest(RegisterInterestRequest)
 }
 
 extension AccountRouter: Router {
@@ -47,8 +47,8 @@ extension AccountRouter: Router {
     switch self {
     case .inquireInterest, .validateNickname:
       return .plain
-    case .registerInterest:
-      return .body(<#Encodable#>)
+    case .registerInterest(let request):
+      return .body(request)
     }
   }
 }
