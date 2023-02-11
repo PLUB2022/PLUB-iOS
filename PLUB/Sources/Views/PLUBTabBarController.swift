@@ -49,6 +49,19 @@ final class PLUBTabBarController: UITabBarController {
   }
   
   private func setupStyles() {
+    tabBar.tintColor = .main
+    tabBar.backgroundColor = .white
     
+    tabBar.roundCorners(corners: [.topLeft, .topRight], radius: 20)
+    
+    tabBar.standardAppearance = UITabBarAppearance().then {
+      $0.stackedLayoutAppearance = UITabBarItemAppearance().then {
+        // Deselected state
+        $0.normal.titleTextAttributes = [.font: UIFont.appFont(family: .pretendard(option: .regular), size: 10)]
+        
+        // Selected State
+        $0.selected.titleTextAttributes = [.font: UIFont.appFont(family: .pretendard(option: .bold), size: 10)]
+      }
+    }
   }
 }
