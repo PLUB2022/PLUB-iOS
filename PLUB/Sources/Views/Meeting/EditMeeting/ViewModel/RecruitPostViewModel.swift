@@ -19,7 +19,7 @@ final class RecruitPostViewModel {
   let nameTitleText: AnyObserver<String>
   let goalText: AnyObserver<String>
   let introduceText: AnyObserver<String>
-  let meetingImage: Driver<UIImage?>
+  let meetingImage: AnyObserver<UIImage?>
   
   // Output
   let isBtnEnabled: Driver<Bool>
@@ -29,7 +29,7 @@ final class RecruitPostViewModel {
   private let nameTitleSubject = PublishSubject<String>()
   private let goalInputSubject = PublishSubject<String>()
   private let introduceSubject = PublishSubject<String>()
-  private let imageInputRelay = BehaviorRelay<UIImage?>(value: nil)
+  private let imageInputRelay = BehaviorSubject<UIImage?>(value: nil)
   
   private let editMeetingRelay = BehaviorRelay(value: EditMeetingPostRequest())
   
@@ -40,7 +40,7 @@ final class RecruitPostViewModel {
     nameTitleText = nameTitleSubject.asObserver()
     goalText = goalInputSubject.asObserver()
     introduceText = introduceSubject.asObserver()
-    meetingImage = imageInputRelay.asDriver()
+    meetingImage = imageInputRelay.asObserver()
    
     isBtnEnabled = Driver.combineLatest(
       introduceTitleSubject.asDriver(onErrorDriveWith: .empty()),
@@ -131,7 +131,7 @@ final class RecruitPostViewModel {
   }
   
   func editMeetingPost() {
-    if let image = imageInputRelay.value {
+    if let image = try? imageInputRelay.value() {
       requestImageUpload(image: image)
     } else {
       requestEditMeeting(with: editMeetingRelay.value)

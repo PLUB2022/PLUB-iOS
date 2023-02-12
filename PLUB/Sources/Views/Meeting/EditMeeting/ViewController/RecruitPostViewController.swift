@@ -151,6 +151,17 @@ final class RecruitPostViewController: BaseViewController {
       .bind(to: viewModel.introduceText)
       .disposed(by: disposeBag)
     
+    photoSelectView.selectButton.rx.tap
+     .asDriver()
+      .drive(onNext: {[weak self] in
+        guard let self = self else { return }
+        let vc = PhotoBottomSheetViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.delegate = self
+        self.parent?.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
+    
     viewModel.isBtnEnabled
       .distinctUntilChanged()
       .drive(with: self){ owner, state in
@@ -179,5 +190,17 @@ final class RecruitPostViewController: BaseViewController {
     goalView.setText(text: data.goal)
     guard let image = data.mainImage, let imageURL = URL(string: image)else { return }
     photoSelectView.selectedImage.kf.setImage(with: imageURL)
+  }
+}
+
+extension RecruitPostViewController: PhotoBottomSheetDelegate {
+  func selectImage(image: UIImage) {
+    photoSelectView.selectedImage.image = image
+    let width = photoSelectView.frame.width
+    photoSelectView.snp.updateConstraints {
+      $0.height.equalTo(width * image.size.height / image.size.width)
+    }
+    
+    viewModel.meetingImage.onNext(image)
   }
 }
