@@ -28,7 +28,7 @@ final class RecruitmentFilterViewController: BaseViewController {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .systemFont(ofSize: 24)
+    $0.font = .systemFont(ofSize: 24, weight: .semibold)
     $0.sizeToFit()
   }
   
@@ -58,6 +58,7 @@ final class RecruitmentFilterViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     
+    self.navigationItem.title = nil
     titleLabel.text = title
   }
   

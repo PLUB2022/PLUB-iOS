@@ -182,7 +182,10 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   }
   
   func didTappedInterestListFilterButton() {
-    
+    let vc = RecruitmentFilterViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    vc.title = title
+    self.navigationController?.pushViewController(vc, animated: true)
   }
   
   func didTappedInterestListChartButton() {

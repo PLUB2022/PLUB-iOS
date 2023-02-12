@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     window = UIWindow(windowScene: windowScene)
     window?.rootViewController = UINavigationController(rootViewController: SplashViewController())
-    window?.rootViewController = UINavigationController(rootViewController: RecruitmentFilterViewController())
+//    window?.rootViewController = UINavigationController(rootViewController: RecruitmentFilterViewController())
     window?.makeKeyAndVisible()
   }
   
