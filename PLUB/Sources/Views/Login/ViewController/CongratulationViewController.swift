@@ -67,7 +67,7 @@ final class CongratulationViewController: BaseViewController {
     nextButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.navigationController?.setViewControllers([HomeViewController(viewModel: HomeViewModel())], animated: true)
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = PLUBTabBarController()
       }
       .disposed(by: disposeBag)
   }

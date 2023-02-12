@@ -42,8 +42,18 @@ final class SplashViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.shouldMoveToVC
+    let driver = viewModel.shouldMoveToVC
       .delay(.milliseconds(700)) // 어느정도 Splash화면이 보여지도록 0.7초 딜레이
+    
+    driver
+      .filter { $0 is HomeViewController }
+      .drive(with: self) { owner, vc in
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = PLUBTabBarController()
+      }
+      .disposed(by: disposeBag)
+    
+    driver
+      .filter { !($0 is HomeViewController) }
       .drive(with: self) { owner, vc in
         owner.navigationController?.setViewControllers([vc], animated: true)
       }
