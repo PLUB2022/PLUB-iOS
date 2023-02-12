@@ -7,8 +7,18 @@
 
 import UIKit
 
+protocol EditMeetingChildViewControllerDelegate : AnyObject {
+  func checkValidation(index:Int, state : Bool)
+}
+
+enum EditMeetingType: CaseIterable {
+  case meetingPost
+  case meetingInfo
+  case meetingQuestion
+}
+
 final class EditMeetingViewController: BaseViewController {
-  private let viewModel = EditMeetingViewModel()
+  private let viewModel: EditMeetingViewModel
   private let segmentedControl = UnderlineSegmentedControl(
     items: ["모집글", "모임 정보", "게스트 질문"]
   ).then {
@@ -26,10 +36,20 @@ final class EditMeetingViewController: BaseViewController {
       $0.delegate = self
       $0.dataSource = self
   }
-  private let plubbingID: String
-  private lazy var recruitPostViewController = RecruitPostViewController(plubbingID: plubbingID)
-  private lazy var meetingInfoViewController = MeetingInfoViewController(plubbingID: plubbingID)
-  private lazy var guestQuestionViewController = GuestQuestionViewController(plubbingID: plubbingID)
+  
+  private let saveButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "저장")
+  }
+  
+  private lazy var recruitPostViewController = RecruitPostViewController(viewModel: viewModel.recruitPostViewModel).then {
+    $0.delegate = self
+  }
+  private lazy var meetingInfoViewController = MeetingInfoViewController(viewModel: viewModel.meetingInfoViewModel).then {
+    $0.delegate = self
+  }
+  private lazy var guestQuestionViewController = GuestQuestionViewController(viewModel: viewModel.guestQuestionViewModel).then {
+    $0.delegate = self
+  }
   
   private var viewControllers: [UIViewController] {
       [recruitPostViewController, meetingInfoViewController, guestQuestionViewController]
@@ -41,11 +61,14 @@ final class EditMeetingViewController: BaseViewController {
       pageViewController.setViewControllers(
           [viewControllers[currentPage]], direction: direction, animated: true
       )
+      saveButton.isEnabled = isSaveButtonEnable[currentPage]
     }
   }
   
+  private var isSaveButtonEnable = [true, true, true]
+  
   init(plubbingID: String) {
-    self.plubbingID = plubbingID
+    viewModel = EditMeetingViewModel(plubbingID: plubbingID)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -57,10 +80,20 @@ final class EditMeetingViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
 
-    [segmentedControl, pageViewController.view].forEach {
+    [segmentedControl, pageViewController.view, saveButton].forEach {
       view.addSubview($0)
     }
   }
@@ -78,6 +111,12 @@ final class EditMeetingViewController: BaseViewController {
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
     }
+    
+    saveButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+      $0.height.width.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
   }
   
   override func setupStyles() {
@@ -93,6 +132,27 @@ final class EditMeetingViewController: BaseViewController {
         owner.currentPage = index
       }
       .disposed(by: disposeBag)
+    
+    saveButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        switch EditMeetingType.allCases[owner.currentPage] {
+        case .meetingPost:
+          owner.viewModel.recruitPostViewModel.editMeetingPost()
+        case .meetingInfo:
+          break
+        case .meetingQuestion:
+          break
+        }
+      }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension EditMeetingViewController: EditMeetingChildViewControllerDelegate {
+  func checkValidation(index:Int, state: Bool) {
+    isSaveButtonEnable[index] = state
+    saveButton.isEnabled = isSaveButtonEnable[currentPage]
   }
 }
 
@@ -114,5 +174,37 @@ extension EditMeetingViewController: UIPageViewControllerDataSource, UIPageViewC
           let index = viewControllers.firstIndex(of: viewController) else { return }
     currentPage = index
     segmentedControl.selectedSegmentIndex = index
+  }
+}
+
+extension EditMeetingViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                             name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+      let keyboardHeight: CGFloat = keyboardSize.height
+      saveButton.snp.updateConstraints {
+        $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
+      }
+      view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    saveButton.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+    }
+    view.layoutIfNeeded()
   }
 }

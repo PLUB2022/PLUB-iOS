@@ -9,7 +9,7 @@ import UIKit
 
 final class RecruitPostViewController: BaseViewController {
   private let viewModel: RecruitPostViewModel
-  
+  weak var delegate: EditMeetingChildViewControllerDelegate?
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -57,9 +57,6 @@ final class RecruitPostViewController: BaseViewController {
   }
 
   private let photoSelectView = PhotoSelectView()
-  override func viewDidLoad() {
-    super.viewDidLoad()
-  }
   
   private let tapGesture = UITapGestureRecognizer(
     target: RecruitPostViewController.self,
@@ -70,13 +67,18 @@ final class RecruitPostViewController: BaseViewController {
     $0.isEnabled = true
   }
 
-  init(plubbingID: String) {
-    viewModel = RecruitPostViewModel(plubbingID: plubbingID)
+  init(viewModel: RecruitPostViewModel) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    viewModel.fetchMeetingData()
   }
   
   override func setupLayouts() {
@@ -122,12 +124,12 @@ final class RecruitPostViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-//    viewModel.fetchedMeetingData
-//      .withUnretained(self)
-//      .subscribe(onNext: { owner, data in
-//        owner.setupMeetingData(data: data)
-//      })
-//      .disposed(by: disposeBag)
+    viewModel.fetchedMeetingData
+      .withUnretained(self)
+      .subscribe(onNext: { owner, data in
+        owner.setupMeetingData(data: data)
+      })
+      .disposed(by: disposeBag)
     
     introduceTitleView.rx.text.orEmpty
       .distinctUntilChanged()
@@ -150,33 +152,15 @@ final class RecruitPostViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isBtnEnabled
-      .do{print($0)}
+      .distinctUntilChanged()
       .drive(with: self){ owner, state in
-        
+        self.delegate?.checkValidation(
+          index: 0,
+          state: state
+        )
       }
       .disposed(by: disposeBag)
-//    let input = RecruitPostViewModel.Input(
-//      introduceTitleText: introduceTitleView.rx.text.orEmpty.asObservable(),
-//      nameTitleText: nameTitleView.rx.text.orEmpty.asObservable(),
-//      goalText: goalView.rx.text.orEmpty.asObservable(),
-//      introduceText: introduceView.rx.text.orEmpty.asObservable(),
-//      meetingImage: photoSelectView.selectedImage.image.
-//        
-//    )
-//            
-//    let output = viewModel.transform(input: input)
-//    
-//    output.isBtnEnabled
-//      .distinctUntilChanged()
-//      .drive(onNext: { [weak self] in
-//        guard let self = self else { return }
-//        self.delegate?.checkValidation(
-//          index: self.childIndex,
-//          state: $0
-//        )
-//      })
-//      .disposed(by: disposeBag)
-//    
+
     tapGesture.rx.event
       .asDriver()
       .drive(onNext: { [weak self] _ in
@@ -188,7 +172,12 @@ final class RecruitPostViewController: BaseViewController {
     scrollView.addGestureRecognizer(tapGesture)
   }
   
-  private func setupMeetingData(data: EditMeetingRequest) {
-    
+  private func setupMeetingData(data: EditMeetingPostRequest) {
+    introduceTitleView.setText(text: data.title)
+    nameTitleView.setText(text: data.name)
+    introduceView.setText(text: data.introduce)
+    goalView.setText(text: data.goal)
+    guard let image = data.mainImage, let imageURL = URL(string: image)else { return }
+    photoSelectView.selectedImage.kf.setImage(with: imageURL)
   }
 }

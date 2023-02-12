@@ -11,35 +11,36 @@ import RxSwift
 import RxCocoa
 
 final class RecruitPostViewModel {
-  
   private lazy var disposeBag = DisposeBag()
+  private let plubbingID: String
   
-  private let introduceTitleSubject = PublishSubject<String>()
-  private let nameTitleSubject = PublishSubject<String>()
-  private let goalInputSubject = PublishSubject<String>()
-  private let introduceSubject = PublishSubject<String>()
-  private let imageInputSubject = PublishSubject<UIImage?>()
-
   // Input
   let introduceTitleText: AnyObserver<String>
   let nameTitleText: AnyObserver<String>
   let goalText: AnyObserver<String>
   let introduceText: AnyObserver<String>
-  let meetingImage: AnyObserver<UIImage?>
+  let meetingImage: Driver<UIImage?>
   
   // Output
   let isBtnEnabled: Driver<Bool>
-  let fetchedMeetingData = PublishSubject<EditMeetingRequest>()
+  let fetchedMeetingData = PublishSubject<EditMeetingPostRequest>()
   
-  private var request = EditMeetingRequest()
+  private let introduceTitleSubject = PublishSubject<String>()
+  private let nameTitleSubject = PublishSubject<String>()
+  private let goalInputSubject = PublishSubject<String>()
+  private let introduceSubject = PublishSubject<String>()
+  private let imageInputRelay = BehaviorRelay<UIImage?>(value: nil)
+  
+  private let editMeetingRelay = BehaviorRelay(value: EditMeetingPostRequest())
   
   init(plubbingID: String) {
+    self.plubbingID = plubbingID
     
     introduceTitleText = introduceTitleSubject.asObserver()
     nameTitleText = nameTitleSubject.asObserver()
     goalText = goalInputSubject.asObserver()
     introduceText = introduceSubject.asObserver()
-    meetingImage = imageInputSubject.asObserver()
+    meetingImage = imageInputRelay.asDriver()
    
     isBtnEnabled = Driver.combineLatest(
       introduceTitleSubject.asDriver(onErrorDriveWith: .empty()),
@@ -57,10 +58,52 @@ final class RecruitPostViewModel {
       $3 != "우리동네 사진모임"
     }
     
-    fetchMeetingData(plubbingID: plubbingID)
+    bind()
   }
   
-  private func fetchMeetingData(plubbingID: String) {
+  private func bind() {
+    introduceTitleSubject
+      .withUnretained(self)
+      .compactMap { owner, title in
+        owner.editMeetingRelay.value.with {
+          $0.title = title
+        }
+      }
+      .bind(to: editMeetingRelay)
+      .disposed(by: disposeBag)
+    
+    nameTitleSubject
+      .withUnretained(self)
+      .compactMap { owner, name in
+        owner.editMeetingRelay.value.with {
+          $0.name = name
+        }
+      }
+      .bind(to: editMeetingRelay)
+      .disposed(by: disposeBag)
+    
+    goalInputSubject
+      .withUnretained(self)
+      .compactMap { owner, goal in
+        owner.editMeetingRelay.value.with {
+          $0.goal = goal
+        }
+      }
+      .bind(to: editMeetingRelay)
+      .disposed(by: disposeBag)
+    
+    introduceSubject
+      .withUnretained(self)
+      .compactMap { owner, introduce in
+        owner.editMeetingRelay.value.with {
+          $0.introduce = introduce
+        }
+      }
+      .bind(to: editMeetingRelay)
+      .disposed(by: disposeBag)
+  }
+  
+  func fetchMeetingData() {
     RecruitmentService.shared.inquireDetailRecruitment(plubbingID: plubbingID)
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
@@ -68,7 +111,6 @@ final class RecruitPostViewModel {
         case .success(let model):
           guard let data = model.data else { return }
           owner.setupMeetingData(data: data)
-          owner.fetchedMeetingData.onNext(owner.request)
         default:
           break
         }
@@ -77,17 +119,61 @@ final class RecruitPostViewModel {
   }
   
   private func setupMeetingData(data: DetailRecruitmentResponse) {
-    request.days = data.days
-    if data.address.isEmpty {
-      request.onOff = .on
+    let request = EditMeetingPostRequest(
+      title: data.title,
+      name: data.name,
+      goal: data.goal,
+      introduce: data.introduce,
+      mainImage: data.mainImage
+    )
+    editMeetingRelay.accept(request)
+    fetchedMeetingData.onNext(request)
+  }
+  
+  func editMeetingPost() {
+    if let image = imageInputRelay.value {
+      requestImageUpload(image: image)
     } else {
-      request.onOff = .off
-      request.placeName = data.placeName
-      request.address = data.address
-      request.roadAddress = data.roadAddress
-      request.positionX = data.placePositionX
-      request.positionY = data.placePositionY
+      requestEditMeeting(with: editMeetingRelay.value)
     }
-    request.peopleNumber = data.curAccountNum
+  }
+  
+  private func requestImageUpload(image: UIImage) {
+    ImageService.shared.uploadImage(
+      images: [image],
+      params: UploadImageRequest(type: .plubbingMain)
+    )
+    .withUnretained(self)
+    .subscribe(onNext: { owner, result in
+      switch result {
+      case .success(let model):
+        guard let data = model.data,
+              let fileUrl = data.files.first?.fileUrl else { return }
+        let request = owner.editMeetingRelay.value.with {
+          $0.mainImage = fileUrl
+        }
+        owner.requestEditMeeting(with: request)
+        
+      default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
+      }
+    })
+    .disposed(by: disposeBag)
+  }
+  
+  private func requestEditMeeting(with request: EditMeetingPostRequest) {
+    RecruitmentService.shared
+      .editMeetingPost(
+        plubbingID: plubbingID,
+        request: request
+      )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let model):
+          print(model)
+        default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
+        }
+      })
+      .disposed(by: disposeBag)
   }
 }

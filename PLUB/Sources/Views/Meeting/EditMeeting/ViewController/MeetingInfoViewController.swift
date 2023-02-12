@@ -9,6 +9,7 @@ import UIKit
 
 final class MeetingInfoViewController: BaseViewController {
   private let viewModel: MeetingInfoViewModel
+  weak var delegate: EditMeetingChildViewControllerDelegate?
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -120,8 +121,8 @@ final class MeetingInfoViewController: BaseViewController {
     $0.textAlignment = .right
   }
   
-  init(plubbingID: String) {
-    viewModel = MeetingInfoViewModel(plubbingID: plubbingID)
+  init(viewModel: MeetingInfoViewModel) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   

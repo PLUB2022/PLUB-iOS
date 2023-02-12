@@ -8,7 +8,8 @@
 import UIKit
 
 final class GuestQuestionViewController: BaseViewController {
-  private let viewModel: RecruitPostViewModel
+  private let viewModel: GuestQuestionViewModel
+  weak var delegate: EditMeetingChildViewControllerDelegate?
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -29,8 +30,8 @@ final class GuestQuestionViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  init(plubbingID: String) {
-    viewModel = RecruitPostViewModel(plubbingID: plubbingID)
+  init(viewModel: GuestQuestionViewModel) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -59,12 +60,12 @@ final class GuestQuestionViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.fetchedMeetingData
-      .withUnretained(self)
-      .subscribe(onNext: { owner, data in
-        owner.setupMeetingData(data: data)
-      })
-      .disposed(by: disposeBag)
+//    viewModel.fetchedMeetingData
+//      .withUnretained(self)
+//      .subscribe(onNext: { owner, data in
+//        owner.setupMeetingData(data: data)
+//      })
+//      .disposed(by: disposeBag)
     
     tapGesture.rx.event
       .asDriver()

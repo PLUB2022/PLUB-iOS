@@ -7,6 +7,8 @@
 
 import Foundation
 
+import Then
+
 struct EditMeetingPostRequest: Codable {
   /// 플러빙 타이틀
   var title: String
@@ -29,6 +31,14 @@ struct EditMeetingPostRequest: Codable {
     goal = ""
     introduce = ""
   }
+  
+  init(title: String, name: String, goal: String, introduce: String, mainImage: String? = nil) {
+    self.title = title
+    self.name = name
+    self.goal = goal
+    self.introduce = introduce
+    self.mainImage = mainImage
+  }
 }
 
 extension EditMeetingPostRequest {
@@ -36,3 +46,5 @@ extension EditMeetingPostRequest {
     case title, name, goal, introduce, mainImage
   }
 }
+
+extension EditMeetingPostRequest: Then { }
