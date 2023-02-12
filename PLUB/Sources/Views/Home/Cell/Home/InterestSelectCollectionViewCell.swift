@@ -77,7 +77,7 @@ final class InterestSelectCollectionViewCell: UICollectionViewCell {
     contentView.backgroundColor = .lightGray
     contentView.addSubview(registerInterestView)
     registerInterestView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     let gesture = UITapGestureRecognizer(target: self, action: #selector(didTappedRegisterButton))

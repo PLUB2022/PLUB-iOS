@@ -118,29 +118,29 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
     [questionLabel, questionTextView, countLabel, maxCountLabel].forEach { containerView.addSubview($0) }
     
     containerView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     questionLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
-      $0.left.right.equalToSuperview().inset(20)
+      $0.leading.trailing.equalToSuperview().inset(20)
       $0.height.equalTo(19)
     }
     
     questionTextView.snp.makeConstraints {
       $0.top.equalTo(questionLabel.snp.bottom)
-      $0.left.right.equalTo(questionLabel)
+      $0.leading.trailing.equalTo(questionLabel)
       $0.bottom.equalTo(containerView).offset(-50)
     }
     
     maxCountLabel.snp.makeConstraints {
-      $0.right.equalTo(questionTextView)
+      $0.trailing.equalTo(questionTextView)
       $0.top.equalTo(questionTextView.snp.bottom)
     }
     
     countLabel.snp.makeConstraints {
       $0.centerY.equalTo(maxCountLabel)
-      $0.right.equalTo(maxCountLabel.snp.left)
+      $0.trailing.equalTo(maxCountLabel.snp.leading)
     }
   }
   

@@ -48,13 +48,13 @@ class SortBottomSheetView: UIControl {
     [sortLabel, selectImageView].forEach { addSubview($0) }
     
     sortLabel.snp.makeConstraints {
-      $0.left.top.bottom.equalToSuperview()
+      $0.leading.top.bottom.equalToSuperview()
     }
     
     selectImageView.snp.makeConstraints {
-      $0.left.equalTo(sortLabel.snp.right)
+      $0.leading.equalTo(sortLabel.snp.trailing)
       $0.top.bottom.equalToSuperview()
-      $0.right.lessThanOrEqualToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     sortLabel.text = type.text
@@ -118,7 +118,7 @@ class SortBottomSheetViewController: BottomSheetViewController {
     
     stackView.snp.makeConstraints {
       $0.top.equalTo(grabber.snp.bottom).offset(8)
-      $0.left.right.bottom.equalToSuperview()
+      $0.leading.trailing.bottom.equalToSuperview()
     }
   }
   

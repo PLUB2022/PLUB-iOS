@@ -35,7 +35,7 @@ final class HomeMainCollectionHeaderView: UICollectionReusableView {
     backgroundColor = .background
     addSubview(headerTitleLabel)
     headerTitleLabel.snp.makeConstraints {
-      $0.left.equalToSuperview()
+      $0.leading.equalToSuperview()
       $0.bottom.equalToSuperview().offset(-24)
     }
   }

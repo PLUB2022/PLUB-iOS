@@ -63,12 +63,12 @@ class SortControl: UIControl {
     
     sortLabel.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.left.equalToSuperview().inset(10)
+      $0.leading.equalToSuperview().inset(10)
     }
     
     sortImageView.snp.makeConstraints {
-      $0.top.bottom.right.equalToSuperview()
-      $0.left.equalTo(sortLabel.snp.right)
+      $0.top.bottom.trailing.equalToSuperview()
+      $0.leading.equalTo(sortLabel.snp.trailing)
     }
     
     sortLabel.text = type.text

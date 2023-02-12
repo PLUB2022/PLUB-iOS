@@ -43,12 +43,12 @@ final class MeetingIntroduceView: UIView {
   private func configureUI() {
     [meetingIntroduceLabel, meetingDescriptionLabel].forEach { addSubview($0) }
     meetingIntroduceLabel.snp.makeConstraints {
-      $0.top.left.equalToSuperview()
+      $0.top.leading.equalToSuperview()
     }
     
     meetingDescriptionLabel.snp.makeConstraints {
       $0.top.equalTo(meetingIntroduceLabel.snp.bottom).offset(16)
-      $0.left.right.bottom.equalToSuperview()
+      $0.leading.trailing.bottom.equalToSuperview()
       $0.width.equalTo(Device.width)
     }
   }

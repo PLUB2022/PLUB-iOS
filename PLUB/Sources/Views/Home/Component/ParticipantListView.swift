@@ -62,13 +62,13 @@ final class ParticipantListView: UIView {
     [participantTitleLabel, participantListStackView].forEach { addSubview($0) }
     
     participantTitleLabel.snp.makeConstraints {
-      $0.top.left.equalToSuperview()
+      $0.top.leading.equalToSuperview()
     }
     
     participantListStackView.snp.makeConstraints {
       $0.top.equalTo(participantTitleLabel.snp.bottom).offset(7)
-      $0.left.bottom.equalToSuperview()
-      $0.right.lessThanOrEqualToSuperview()
+      $0.leading.bottom.equalToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     moreButton.snp.makeConstraints {

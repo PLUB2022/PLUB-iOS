@@ -49,7 +49,7 @@ class NoSelectedCategoryView: UIView {
     addSubview(stackView)
     
     stackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     grayView.snp.makeConstraints {
@@ -57,7 +57,7 @@ class NoSelectedCategoryView: UIView {
     }
     
     createMeetingButton.snp.makeConstraints {
-      $0.left.right.equalToSuperview().inset(16)
+      $0.leading.trailing.equalToSuperview().inset(16)
       $0.height.equalTo(46)
     }
   }

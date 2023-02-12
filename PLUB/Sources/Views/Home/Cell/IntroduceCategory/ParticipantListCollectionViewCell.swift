@@ -39,7 +39,7 @@ final class ParticipantListCollectionViewCell: UICollectionViewCell {
     contentView.layer.masksToBounds = true
     contentView.backgroundColor = .orange
     profileImageView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+      make.directionalEdges.equalToSuperview()
     }
   }
   

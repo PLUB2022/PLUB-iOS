@@ -47,17 +47,17 @@ final class IntroduceCategoryTitleView: UIView {
     [meetingTitleLabel, introduceTitleLabel, locationInfoView].forEach { addSubview($0) }
     
     meetingTitleLabel.snp.makeConstraints {
-      $0.top.left.right.equalToSuperview()
+      $0.top.leading.trailing.equalToSuperview()
       $0.width.equalTo(Device.width)
     }
     
     introduceTitleLabel.snp.makeConstraints {
       $0.top.equalTo(meetingTitleLabel.snp.bottom)
-      $0.left.equalToSuperview()
+      $0.leading.equalToSuperview()
     }
     
     locationInfoView.snp.makeConstraints {
-      $0.left.equalToSuperview()
+      $0.leading.equalToSuperview()
       $0.top.equalTo(introduceTitleLabel.snp.bottom)
       $0.height.equalTo(18)
       $0.bottom.equalToSuperview()

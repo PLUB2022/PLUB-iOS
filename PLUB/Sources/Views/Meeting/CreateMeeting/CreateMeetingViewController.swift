@@ -234,7 +234,7 @@ final class CreateMeetingViewController: BaseViewController {
     }
     
     viewControllers[index].view.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     viewControllers[index].didMove(toParent: self)

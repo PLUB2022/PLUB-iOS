@@ -36,11 +36,11 @@ final class RegisterInterestHeaderView: UIView {
     [titleLabel, descriptionLabel].forEach { addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
-      $0.left.equalToSuperview()
+      $0.leading.equalToSuperview()
     }
     
     descriptionLabel.snp.makeConstraints {
-      $0.left.equalTo(titleLabel.snp.left)
+      $0.leading.equalTo(titleLabel.snp.leading)
       $0.top.equalTo(titleLabel.snp.bottom).offset(4)
       $0.height.equalTo(self.snp.height).dividedBy(2)
     }
