@@ -76,7 +76,7 @@ final class GuestQuestionViewController: BaseViewController {
       .disposed(by: disposeBag)
   }
   
-  private func setupMeetingData(data: EditMeetingRequest) {
+  private func setupMeetingData(data: EditMeetingInfoRequest) {
     
   }
 }

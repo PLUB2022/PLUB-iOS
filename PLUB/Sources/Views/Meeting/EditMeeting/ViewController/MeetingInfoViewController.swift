@@ -76,15 +76,6 @@ final class MeetingInfoViewController: BaseViewController {
   
   private let locationControl = LocationControl()
   
-  private let tapGesture = UITapGestureRecognizer(
-    target: MeetingInfoViewController.self,
-      action: nil
-  ).then {
-    $0.numberOfTapsRequired = 1
-    $0.cancelsTouchesInView = false
-    $0.isEnabled = true
-  }
-  
   private let peopleCountLabel = UILabel().then {
     $0.text = "몇 명인가요?"
     $0.font = .subtitle
@@ -132,13 +123,13 @@ final class MeetingInfoViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    viewModel.fetchMeetingData()
   }
 
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
     [contentStackView, peopleNumberToolTip].forEach {
-      scrollView.addSubview($0)
+      view.addSubview($0)
     }
     
     [dateTitlelabel, dateCollectionView, locationTitlelabel, locationStackView, locationLabel, locationControl, peopleCountLabel, slider, countStactView].forEach {
@@ -156,18 +147,13 @@ final class MeetingInfoViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    scrollView.snp.makeConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.bottom.equalToSuperview()
-    }
-    
     contentStackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-      $0.width.equalTo(scrollView.snp.width)
+      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.top.equalToSuperview()
     }
     
     dateCollectionView.snp.makeConstraints {
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview()
       $0.height.equalTo(72)
     }
     
@@ -266,7 +252,7 @@ final class MeetingInfoViewController: BaseViewController {
       .map { Int($0) }
     
     sliderValue
-      .bind(to: viewModel.peopleNumber)
+      .bind(to: viewModel.peopleNumberRelay)
       .disposed(by: disposeBag)
     
     sliderValue
@@ -279,12 +265,14 @@ final class MeetingInfoViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
-    tapGesture.rx.event
-      .asDriver()
-      .drive(onNext: { [weak self] _ in
-        guard let self = self else { return }
-        self.view.endEditing(true)
-      })
+    viewModel.isBtnEnabled
+      .distinctUntilChanged()
+      .drive(with: self){ owner, state in
+        self.delegate?.checkValidation(
+          index: 1,
+          state: state
+        )
+      }
       .disposed(by: disposeBag)
   }
 }
@@ -298,8 +286,13 @@ extension MeetingInfoViewController: LocationBottomSheetDelegate {
 }
 
 extension MeetingInfoViewController {
-  private func setupMeetingData(data: EditMeetingRequest) {
-    
+  private func setupMeetingData(data: EditMeetingInfoRequest) {
+    changeOnOffButton(state: data.onOff == .on ? true : false)
+    peopleNumberToolTip.setupCountLabelText(peopleCount: data.peopleNumber)
+    peopleNumberToolTip.center = getSliderThumbCenter(slider: slider)
+    guard let placeName = data.placeName, !placeName.isEmpty else { return }
+    locationControl.setLocationLabelText(text: placeName)
+    locationControl.isSelected = true
   }
   
   private func changeOnOffButton(state: Bool) { // OnLine: true, OffLine: false

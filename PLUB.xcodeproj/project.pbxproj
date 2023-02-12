@@ -164,7 +164,7 @@
 		C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
 		C33FB0722993F84A00BEB15B /* EditMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33FB0712993F84A00BEB15B /* EditMeetingViewController.swift */; };
-		C33FB0742993FAC600BEB15B /* EditMeetingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33FB0732993FAC600BEB15B /* EditMeetingRequest.swift */; };
+		C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33FB0732993FAC600BEB15B /* EditMeetingInfoRequest.swift */; };
 		C3413E122995450B004B8DBD /* UnderlineSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3413E112995450B004B8DBD /* UnderlineSegmentedControl.swift */; };
 		C3413E15299548FB004B8DBD /* RecruitPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3413E14299548FB004B8DBD /* RecruitPostViewController.swift */; };
 		C3413E1729954910004B8DBD /* MeetingInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3413E1629954910004B8DBD /* MeetingInfoViewController.swift */; };
@@ -371,7 +371,7 @@
 		C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCreateSuccessViewController.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C33FB0712993F84A00BEB15B /* EditMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingViewController.swift; sourceTree = "<group>"; };
-		C33FB0732993FAC600BEB15B /* EditMeetingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingRequest.swift; sourceTree = "<group>"; };
+		C33FB0732993FAC600BEB15B /* EditMeetingInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingInfoRequest.swift; sourceTree = "<group>"; };
 		C3413E112995450B004B8DBD /* UnderlineSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentedControl.swift; sourceTree = "<group>"; };
 		C3413E14299548FB004B8DBD /* RecruitPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitPostViewController.swift; sourceTree = "<group>"; };
 		C3413E1629954910004B8DBD /* MeetingInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingInfoViewController.swift; sourceTree = "<group>"; };
@@ -1184,7 +1184,7 @@
 			isa = PBXGroup;
 			children = (
 				C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */,
-				C33FB0732993FAC600BEB15B /* EditMeetingRequest.swift */,
+				C33FB0732993FAC600BEB15B /* EditMeetingInfoRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1503,7 +1503,7 @@
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,
 				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
 				70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */,
-				C33FB0742993FAC600BEB15B /* EditMeetingRequest.swift in Sources */,
+				C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 			);

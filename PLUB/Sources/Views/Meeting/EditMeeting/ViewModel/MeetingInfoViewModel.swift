@@ -12,24 +12,27 @@ import RxCocoa
 
 final class MeetingInfoViewModel {
   
-  private lazy var disposeBag = DisposeBag()
+  private let disposeBag = DisposeBag()
+  private let plubbingID: String
   
   // CellData
   let dateCellData: BehaviorRelay<[MeetingDateCollectionViewCellModel]>
+  
   // Input
   let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
   let onOffInputRelay = BehaviorRelay<OnOff>.init(value: .on)
   let locationInputRelay = BehaviorRelay<Location?>.init(value: nil)
-  let peopleNumber = BehaviorRelay<Int>.init(value: .init())
+  let peopleNumberRelay = BehaviorRelay<Int>.init(value: .init())
   
   // Output
-  let fetchedMeetingData = PublishSubject<EditMeetingRequest>()
+  let fetchedMeetingData = PublishSubject<EditMeetingInfoRequest>()
+  let isBtnEnabled: Driver<Bool>
   
-  
-  
-  private var request = EditMeetingRequest()
+  private let editMeetingRelay = BehaviorRelay(value: EditMeetingInfoRequest())
   
   init(plubbingID: String) {
+    self.plubbingID = plubbingID
+    
     let dateList = Day.allCases
       .map { $0.kor }
       .map {
@@ -40,10 +43,12 @@ final class MeetingInfoViewModel {
       }
     dateCellData = .init(value: dateList)
     
-    fetchMeetingData(plubbingID: plubbingID)
+    isBtnEnabled = dateInputRelay.asDriver()
+      .map { !$0.isEmpty }
+
   }
   
-  private func fetchMeetingData(plubbingID: String) {
+  func fetchMeetingData() {
     RecruitmentService.shared.inquireDetailRecruitment(plubbingID: plubbingID)
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
@@ -51,7 +56,6 @@ final class MeetingInfoViewModel {
         case .success(let model):
           guard let data = model.data else { return }
           owner.setupMeetingData(data: data)
-          owner.fetchedMeetingData.onNext(owner.request)
         default:
           break
         }
@@ -60,18 +64,47 @@ final class MeetingInfoViewModel {
   }
   
   private func setupMeetingData(data: DetailRecruitmentResponse) {
-    request.days = data.days
-    if data.address.isEmpty {
-      request.onOff = .on
-    } else {
-      request.onOff = .off
-      request.placeName = data.placeName
-      request.address = data.address
-      request.roadAddress = data.roadAddress
-      request.positionX = data.placePositionX
-      request.positionY = data.placePositionY
-    }
-    request.peopleNumber = data.curAccountNum
+    let request = EditMeetingInfoRequest(
+      days: data.days,
+      onOff: data.address.isEmpty ? .on : .off,
+      peopleNumber: data.curAccountNum + data.remainAccountNum,
+      address: data.address,
+      roadAddress: data.roadAddress,
+      placeName: data.placeName,
+      positionX: data.placePositionX,
+      positionY: data.placePositionY
+    )
+    
+    editMeetingRelay.accept(request)
+
+    onOffInputRelay.accept(data.address.isEmpty ? .on : .off)
+    peopleNumberRelay.accept(data.curAccountNum + data.remainAccountNum)
+    
+    let dates = data.days.map { $0.fromKORToENG() }
+    dateInputRelay.accept(dates)
+    
+    let cellDatas = dateCellData.value
+    dateCellData.accept(
+      cellDatas.map {
+        MeetingDateCollectionViewCellModel(
+          date: $0.date,
+          isSelected: dates.contains($0.date.fromKORToENG())
+        )
+      }
+    )
+    
+    fetchedMeetingData.onNext(request)
+    
+    guard !data.address.isEmpty else { return }
+    locationInputRelay.accept(
+      Location(
+        address: data.address,
+        roadAddress: data.roadAddress,
+        placeName: data.placeName,
+        positionX: data.placePositionX,
+        positionY: data.placePositionY
+      )
+    )
   }
   
   func updateDate(data: MeetingDateCollectionViewCellModel) {
@@ -122,5 +155,45 @@ final class MeetingInfoViewModel {
         }
       )
     }
+  }
+  
+  func requestEditMeeting() {
+    MeetingService.shared
+      .editMeetingInfo(
+        plubbingID: plubbingID,
+        request: setupEditMeetingRequest()
+      )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let model):
+          print(model)
+        default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func setupEditMeetingRequest() -> EditMeetingInfoRequest{
+    print(EditMeetingInfoRequest(
+      days: dateInputRelay.value,
+      onOff: onOffInputRelay.value,
+      peopleNumber: peopleNumberRelay.value,
+      address: locationInputRelay.value?.address,
+      roadAddress: locationInputRelay.value?.roadAddress,
+      placeName: locationInputRelay.value?.placeName,
+      positionX: locationInputRelay.value?.positionX,
+      positionY: locationInputRelay.value?.positionY
+    ))
+    return EditMeetingInfoRequest(
+      days: dateInputRelay.value,
+      onOff: onOffInputRelay.value,
+      peopleNumber: peopleNumberRelay.value,
+      address: locationInputRelay.value?.address,
+      roadAddress: locationInputRelay.value?.roadAddress,
+      placeName: locationInputRelay.value?.placeName,
+      positionX: locationInputRelay.value?.positionX,
+      positionY: locationInputRelay.value?.positionY
+    )
   }
 }

@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 protocol EditMeetingChildViewControllerDelegate : AnyObject {
   func checkValidation(index:Int, state : Bool)
 }
@@ -52,7 +55,7 @@ final class EditMeetingViewController: BaseViewController {
   }
   
   private var viewControllers: [UIViewController] {
-      [recruitPostViewController, meetingInfoViewController, guestQuestionViewController]
+    [recruitPostViewController, meetingInfoViewController, guestQuestionViewController]
   }
   
   var currentPage = 0 {
@@ -140,7 +143,7 @@ final class EditMeetingViewController: BaseViewController {
         case .meetingPost:
           owner.viewModel.recruitPostViewModel.editMeetingPost()
         case .meetingInfo:
-          break
+          owner.viewModel.meetingInfoViewModel.requestEditMeeting()
         case .meetingQuestion:
           break
         }

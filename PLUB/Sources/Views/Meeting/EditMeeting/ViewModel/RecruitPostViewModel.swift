@@ -11,7 +11,8 @@ import RxSwift
 import RxCocoa
 
 final class RecruitPostViewModel {
-  private lazy var disposeBag = DisposeBag()
+  
+  private let disposeBag = DisposeBag()
   private let plubbingID: String
   
   // Input
