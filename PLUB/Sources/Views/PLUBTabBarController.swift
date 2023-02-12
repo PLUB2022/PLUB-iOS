@@ -52,8 +52,11 @@ final class PLUBTabBarController: UITabBarController {
     tabBar.tintColor = .main
     tabBar.backgroundColor = .white
     
-    tabBar.roundCorners(corners: [.topLeft, .topRight], radius: 20)
+    // tab bar corner radius
+    tabBar.layer.cornerRadius = 20
+    tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     
+    // tab bar appearance
     tabBar.standardAppearance = UITabBarAppearance().then {
       $0.stackedLayoutAppearance = UITabBarItemAppearance().then {
         // Deselected state
