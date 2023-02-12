@@ -46,13 +46,16 @@ class RecruitmentFilterSlider: UIView {
     countSlider.snp.makeConstraints {
       $0.top.equalTo(peopleCountLabel.snp.bottom).offset(8)
       $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(28)
     }
   }
   
   private func bind() {
     countSlider.rx.value
+      .map { Int($0) }
       .subscribe(onNext: { value in
         print("값 = \(value)")
+        self.updateWrittenCharactersLabel(count: value, pointColor: .main)
       })
       .disposed(by: disposeBag)
   }
@@ -68,7 +71,7 @@ class RecruitmentFilterSlider: UIView {
     
     let totalCharacters = NSAttributedString(
       string: "인원",
-      attributes: [.foregroundColor: UIColor.black, .font: UIFont.subtitle]
+      attributes: [.foregroundColor: UIColor.black, .font: UIFont.subtitle!]
     )
     
     peopleCountLabel.attributedText = NSMutableAttributedString(attributedString: totalCharacters).then {

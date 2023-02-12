@@ -43,6 +43,8 @@ final class RecruitmentFilterViewController: BaseViewController {
     $0.dataSource = self
   }
   
+  private let recruitmentFilterSlider = RecruitmentFilterSlider()
+  
   override func setupStyles() {
     super.setupStyles()
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -64,13 +66,20 @@ final class RecruitmentFilterViewController: BaseViewController {
     
     filterCollectionView.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(32)
-      $0.leading.trailing.bottom.equalToSuperview()
+      $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(139 + 32 + 99)
+    }
+    
+    recruitmentFilterSlider.snp.makeConstraints {
+      $0.top.equalTo(filterCollectionView.snp.bottom).offset(32)
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.height.equalTo(67)
     }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [titleLabel, filterCollectionView].forEach { view.addSubview($0) }
+    [titleLabel, filterCollectionView, recruitmentFilterSlider].forEach { view.addSubview($0) }
   }
   
   @objc private func didTappedBackButton() {
