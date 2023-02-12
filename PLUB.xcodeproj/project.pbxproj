@@ -62,7 +62,8 @@
 		70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */; };
 		70CF3330299793220077FF47 /* RegisterInterestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF332F299793220077FF47 /* RegisterInterestRequest.swift */; };
 		70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */; };
-		70CF3335299920CD0077FF47 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF3334299920CD0077FF47 /* FilterCollectionViewCell.swift */; };
+		70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */; };
+		70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF3336299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift */; };
 		70F1DFD42979508000F9BC83 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD32979508000F9BC83 /* CategoryService.swift */; };
 		70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */; };
 		70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */; };
@@ -273,7 +274,8 @@
 		70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainCollectionHeaderView.swift; sourceTree = "<group>"; };
 		70CF332F299793220077FF47 /* RegisterInterestRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestRequest.swift; sourceTree = "<group>"; };
 		70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterViewController.swift; sourceTree = "<group>"; };
-		70CF3334299920CD0077FF47 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		70CF3336299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterCollectionHeaderView.swift; sourceTree = "<group>"; };
 		70F1DFD32979508000F9BC83 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRouter.swift; sourceTree = "<group>"; };
 		70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRouter.swift; sourceTree = "<group>"; };
@@ -629,7 +631,8 @@
 		70CF3333299920C40077FF47 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				70CF3334299920CD0077FF47 /* FilterCollectionViewCell.swift */,
+				70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */,
+				70CF3336299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1438,6 +1441,7 @@
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,
+				70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
@@ -1492,7 +1496,7 @@
 				70A420AD299002490026E9F9 /* NoResultSearchView.swift in Sources */,
 				BA340E1A297822A8002BAF2C /* ParticipantListHeaderView.swift in Sources */,
 				BABB011A297ED415004178EC /* InterestViewController.swift in Sources */,
-				70CF3335299920CD0077FF47 /* FilterCollectionViewCell.swift in Sources */,
+				70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,

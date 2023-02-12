@@ -1,9 +1,8 @@
-
 //
-//  InterestTypeCollectionViewCell.swift
+//  FilterCollectionViewCell.swift
 //  PLUB
 //
-//  Created by 이건준 on 2022/11/24.
+//  Created by 이건준 on 2023/02/12.
 //
 
 import UIKit
@@ -11,9 +10,9 @@ import UIKit
 import SnapKit
 import Then
 
-final class InterestTypeCollectionViewCell: UICollectionViewCell {
+class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
   
-  static let identifier = "InterestTypeCollectionViewCell"
+  static let identifier = "RecruitmentFilterCollectionViewCell"
   
   var isTapped: Bool = false {
     didSet {
@@ -38,12 +37,6 @@ final class InterestTypeCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    interestTypeLabel.text = nil
-    isTapped = false
-  }
-  
   private func configureUI() {
     contentView.layer.borderWidth = 1
     contentView.layer.borderColor = UIColor.deepGray.cgColor
@@ -57,8 +50,8 @@ final class InterestTypeCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  public func configureUI(with model: SubCategory) {
-    interestTypeLabel.text = model.name
-    isTapped = model.isSelected
+  public func configureUI(with model: String) {
+    interestTypeLabel.text = model
+//    isTapped = model.isSelected
   }
 }

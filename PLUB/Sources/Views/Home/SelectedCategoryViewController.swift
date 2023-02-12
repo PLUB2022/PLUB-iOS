@@ -134,27 +134,27 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      switch selectedCategoryType {
-      case .chart:
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-        cell.configureUI(with: model[indexPath.row])
-        cell.delegate = self
-        return cell
-      case .grid:
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
-        cell.configureUI(with: model[indexPath.row])
-        cell.delegate = self
-        return cell
-      }
+    switch selectedCategoryType {
+    case .chart:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
+      cell.configureUI(with: model[indexPath.row])
+      cell.delegate = self
+      return cell
+    case .grid:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
+      cell.configureUI(with: model[indexPath.row])
+      cell.delegate = self
+      return cell
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      switch selectedCategoryType {
-      case .chart:
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
-      case .grid:
-        return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
-      }
+    switch selectedCategoryType {
+    case .chart:
+      return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
+    case .grid:
+      return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
