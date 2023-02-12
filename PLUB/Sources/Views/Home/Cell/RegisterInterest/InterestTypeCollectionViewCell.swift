@@ -25,7 +25,7 @@ final class InterestTypeCollectionViewCell: UICollectionViewCell {
   
   private let interestTypeLabel = UILabel().then {
     $0.textColor = .deepGray
-    $0.font = .systemFont(ofSize: 10)
+    $0.font = .caption
     $0.textAlignment = .center
   }
   
