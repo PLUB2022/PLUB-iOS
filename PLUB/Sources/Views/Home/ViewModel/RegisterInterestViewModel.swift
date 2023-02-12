@@ -17,6 +17,7 @@ protocol RegisterInterestViewModelType {
   // Output
   var fetchedRegisterInterest: Driver<[RegisterInterestModel]> { get }
   var isEnabledFloatingButton: Driver<Bool> { get }
+  var successRegisterInterest: Signal<Void> { get }
 }
 
 final class RegisterInterestViewModel: RegisterInterestViewModelType {
@@ -30,6 +31,7 @@ final class RegisterInterestViewModel: RegisterInterestViewModelType {
   // Output
   let fetchedRegisterInterest: Driver<[RegisterInterestModel]> // 관심사 등록을 위한 데이터 방출
   let isEnabledFloatingButton: Driver<Bool> // 하나의 셀이라도 눌렸는지에 대한 값 방출
+  let successRegisterInterest: Signal<Void> // 관심사 등록 성공여부
   
   init() {
     let fetchingRegisterInterest = BehaviorRelay<[RegisterInterestModel]>(value: [])
@@ -84,10 +86,11 @@ final class RegisterInterestViewModel: RegisterInterestViewModelType {
         return AccountService.shared.registerInterest(request: .init(subCategories: selectInterest))
       }
     
-    registerInterest.subscribe(onNext: { result in
-      print("결과 = \(result)")
-    })
-    .disposed(by: disposeBag)
+    successRegisterInterest = registerInterest.compactMap { result -> Void? in
+      guard case .success(_) = result else { return nil }
+      return ()
+    }
+    .asSignal(onErrorSignalWith: .empty())
     
     isEnabledFloatingButton = selectingDetailCellCount.map{ $0 != 0 }.asDriver(onErrorJustReturn: false)
   }

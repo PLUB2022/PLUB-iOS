@@ -98,6 +98,12 @@ final class RegisterInterestViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
+    viewModel.successRegisterInterest
+      .emit(onNext: { success in
+        print("관심사 등록성공")
+      })
+      .disposed(by: disposeBag)
+    
     floatingButton.rx.tap
       .bind(to: viewModel.tappedRegisterButton)
       .disposed(by: disposeBag)
