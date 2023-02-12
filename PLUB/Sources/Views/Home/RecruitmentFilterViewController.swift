@@ -45,6 +45,10 @@ final class RecruitmentFilterViewController: BaseViewController {
   
   private let recruitmentFilterSlider = RecruitmentFilterSlider()
   
+  private let confirmButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "확인")
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -75,11 +79,17 @@ final class RecruitmentFilterViewController: BaseViewController {
       $0.leading.trailing.equalToSuperview().inset(16)
       $0.height.equalTo(67)
     }
+    
+    confirmButton.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(26)
+      $0.height.equalTo(46)
+    }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [titleLabel, filterCollectionView, recruitmentFilterSlider].forEach { view.addSubview($0) }
+    [titleLabel, filterCollectionView, recruitmentFilterSlider, confirmButton].forEach { view.addSubview($0) }
   }
   
   @objc private func didTappedBackButton() {
@@ -106,6 +116,11 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecruitmentFilterCollectionHeaderView.identifier, for: indexPath) as? RecruitmentFilterCollectionHeaderView ?? RecruitmentFilterCollectionHeaderView()
     header.configureUI(with: RecruitmentFilterSection.allCases[indexPath.section].title)
     return header
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard let cell = collectionView.cellForItem(at: indexPath) as? RecruitmentFilterCollectionViewCell else { return }
+    cell.isTapped.toggle()
   }
 }
 
