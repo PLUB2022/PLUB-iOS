@@ -106,7 +106,6 @@ class HomeViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .background
     self.navigationController?.navigationBar.tintColor = .black
     self.navigationController?.navigationBar.backgroundColor = .background
     self.navigationItem.rightBarButtonItems = [

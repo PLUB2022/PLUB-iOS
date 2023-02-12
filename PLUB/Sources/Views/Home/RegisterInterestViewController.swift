@@ -75,7 +75,6 @@ final class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupStyles() {
-    view.backgroundColor = .background
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "back"),
       style: .done,
