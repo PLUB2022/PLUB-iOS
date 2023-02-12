@@ -27,6 +27,18 @@ class RecruitmentFilterSlider: UIView {
     $0.maximumValue = 20
   }
   
+  private let minCountLabel = UILabel().then {
+    $0.textColor = .black
+    $0.text = "4명"
+    $0.font = .caption
+  }
+  
+  private let maxCountLabel = UILabel().then {
+    $0.textColor = .black
+    $0.text = "20명"
+    $0.font = .caption
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -38,7 +50,7 @@ class RecruitmentFilterSlider: UIView {
   }
   
   private func configureUI() {
-    [peopleCountLabel, countSlider].forEach { addSubview($0) }
+    [peopleCountLabel, countSlider, minCountLabel, maxCountLabel].forEach { addSubview($0) }
     peopleCountLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
     }
@@ -47,6 +59,16 @@ class RecruitmentFilterSlider: UIView {
       $0.top.equalTo(peopleCountLabel.snp.bottom).offset(8)
       $0.leading.trailing.equalToSuperview()
       $0.height.equalTo(28)
+    }
+    
+    minCountLabel.snp.makeConstraints {
+      $0.top.equalTo(countSlider.snp.bottom)
+      $0.leading.equalToSuperview()
+    }
+    
+    maxCountLabel.snp.makeConstraints {
+      $0.top.equalTo(countSlider.snp.bottom)
+      $0.trailing.equalToSuperview()
     }
   }
   
