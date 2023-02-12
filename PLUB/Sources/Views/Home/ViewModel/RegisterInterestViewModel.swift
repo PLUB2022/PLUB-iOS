@@ -79,6 +79,16 @@ final class RegisterInterestViewModel: RegisterInterestViewModelType {
       })
       .disposed(by: disposeBag)
     
+    let registerInterest = registering.withLatestFrom(selectingInterest)
+      .flatMapLatest { selectInterest in
+        return AccountService.shared.registerInterest(request: .init(subCategories: selectInterest))
+      }
+    
+    registerInterest.subscribe(onNext: { result in
+      print("결과 = \(result)")
+    })
+    .disposed(by: disposeBag)
+    
     isEnabledFloatingButton = selectingDetailCellCount.map{ $0 != 0 }.asDriver(onErrorJustReturn: false)
   }
 }

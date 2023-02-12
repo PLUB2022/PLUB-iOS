@@ -99,9 +99,7 @@ final class RegisterInterestViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     floatingButton.rx.tap
-      .subscribe(onNext: { _ in
-        
-      })
+      .bind(to: viewModel.tappedRegisterButton)
       .disposed(by: disposeBag)
     
     
