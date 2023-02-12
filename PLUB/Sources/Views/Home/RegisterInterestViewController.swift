@@ -99,8 +99,10 @@ final class RegisterInterestViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.successRegisterInterest
-      .emit(onNext: { success in
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
         print("관심사 등록성공")
+        owner.navigationController?.popViewController(animated: true)
       })
       .disposed(by: disposeBag)
     

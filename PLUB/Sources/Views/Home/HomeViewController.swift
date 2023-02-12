@@ -79,6 +79,18 @@ class HomeViewController: BaseViewController {
       $0.register(HomeMainCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeMainCollectionHeaderView.identifier)
     }
   
+  // MARK: -Life Cycle
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.isSelectedInterest
+      .asObservable()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, isSelectedInterest in
+        owner.homeType = isSelectedInterest ? .selected : .nonSelected
+      })
+      .disposed(by: disposeBag)
+  }
+  
   // MARK: - Configuration
   override func setupLayouts() {
     super.setupLayouts()
