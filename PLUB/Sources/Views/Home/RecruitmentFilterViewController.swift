@@ -94,7 +94,7 @@ final class RecruitmentFilterViewController: BaseViewController {
   }
   
   @objc private func didTappedBackButton() {
-    
+    navigationController?.popViewController(animated: true)
   }
 }
 

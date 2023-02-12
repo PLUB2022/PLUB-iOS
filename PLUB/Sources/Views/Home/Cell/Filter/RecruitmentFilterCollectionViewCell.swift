@@ -52,6 +52,5 @@ class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
   
   public func configureUI(with model: String) {
     interestTypeLabel.text = model
-//    isTapped = model.isSelected
   }
 }
