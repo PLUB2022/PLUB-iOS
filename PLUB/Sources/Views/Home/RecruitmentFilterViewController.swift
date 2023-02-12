@@ -18,7 +18,9 @@ final class RecruitmentFilterViewController: BaseViewController {
     $0.sizeToFit()
   }
   
-  private lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+  private lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+    $0.sectionInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 32, right: .zero)
+  }).then {
     $0.backgroundColor = .background
     $0.register(RecruitmentFilterCollectionViewCell.self, forCellWithReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier)
     $0.register(RecruitmentFilterCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecruitmentFilterCollectionHeaderView.identifier)
