@@ -62,7 +62,7 @@ final class MeetingCategoryViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     tableView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
   }
   

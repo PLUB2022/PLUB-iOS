@@ -62,28 +62,28 @@ class SelectedCategoryFilterHeaderView: UIView {
     [interestListFilterLabel, interestListFilterButton, interestListChartButton, interesetListGridButton, sortButton].forEach { addSubview($0) }
     
     interestListFilterLabel.snp.makeConstraints {
-      $0.centerY.left.equalToSuperview()
+      $0.centerY.leading.equalToSuperview()
     }
     
     interestListFilterButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.left.equalTo(interestListFilterLabel.snp.right)
+      $0.leading.equalTo(interestListFilterLabel.snp.trailing)
       $0.size.equalTo(32)
     }
     
     sortButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.right.equalToSuperview()
+      $0.trailing.equalToSuperview()
     }
     
     interesetListGridButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.right.equalTo(sortButton.snp.left)
+      $0.trailing.equalTo(sortButton.snp.leading)
     }
     
     interestListChartButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.right.equalTo(interesetListGridButton.snp.left)
+      $0.trailing.equalTo(interesetListGridButton.snp.leading)
     }
   }
   

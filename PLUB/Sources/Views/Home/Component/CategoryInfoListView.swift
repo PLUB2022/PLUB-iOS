@@ -56,7 +56,7 @@ final class CategoryInfoListView: UIView {
   private func configureUI() {
     addSubview(categoryInfoListStackView)
     categoryInfoListStackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     switch categoryAlignment {
@@ -138,7 +138,7 @@ final class CategoryInfoView: UIView {
     }
     addSubview(stackView)
     stackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
       $0.height.equalTo(18)
     }
   }

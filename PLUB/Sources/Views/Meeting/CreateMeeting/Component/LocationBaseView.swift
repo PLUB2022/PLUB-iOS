@@ -53,7 +53,7 @@ final class LocationBaseView: UIView {
   
   private func setupConstraints() {
     contentView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     beforeSearchImage.snp.makeConstraints {

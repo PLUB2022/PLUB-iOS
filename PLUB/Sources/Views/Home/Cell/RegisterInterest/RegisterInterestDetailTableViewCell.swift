@@ -68,13 +68,13 @@ final class RegisterInterestDetailTableViewCell: UITableViewCell {
     contentView.backgroundColor = .background
     contentView.addSubview(containerView)
     containerView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
       $0.bottom.equalToSuperview().offset(-8)
     }
     
     containerView.addSubview(interestTypeCollectionView)
     interestTypeCollectionView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
   }
   

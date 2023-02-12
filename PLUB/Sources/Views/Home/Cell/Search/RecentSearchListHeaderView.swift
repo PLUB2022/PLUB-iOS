@@ -49,11 +49,11 @@ class RecentSearchListHeaderView: UICollectionReusableView {
     [titleLabel, removeAllButton].forEach { addSubview($0) }
     
     titleLabel.snp.makeConstraints {
-      $0.left.centerY.equalToSuperview()
+      $0.leading.centerY.equalToSuperview()
     }
     
     removeAllButton.snp.makeConstraints {
-      $0.right.centerY.equalToSuperview()
+      $0.trailing.centerY.equalToSuperview()
     }
   }
   

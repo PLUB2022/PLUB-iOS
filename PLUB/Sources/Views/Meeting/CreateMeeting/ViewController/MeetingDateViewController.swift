@@ -138,7 +138,7 @@ final class MeetingDateViewController: BaseViewController {
     }
     
     contentStackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
       $0.width.equalTo(scrollView.snp.width)
     }
     
@@ -147,20 +147,20 @@ final class MeetingDateViewController: BaseViewController {
       $0.height.equalTo(72)
     }
     
-    [dateTitlelabel, timeTitlelabel, locationTitlelabel, locationLabel].forEach{
+    [dateTitlelabel, timeTitlelabel, locationTitlelabel, locationLabel].forEach {
       $0.snp.makeConstraints {
         $0.height.equalTo(19)
       }
       contentStackView.setCustomSpacing(8, after: $0)
     }
     
-    [timeControl, onlineButton, offlineButton, locationControl].forEach{
+    [timeControl, onlineButton, offlineButton, locationControl].forEach {
       $0.snp.makeConstraints {
         $0.height.equalTo(46)
       }
     }
     
-    [dateCollectionView, timeControl, locationStackView].forEach{
+    [dateCollectionView, timeControl, locationStackView].forEach {
       contentStackView.setCustomSpacing(40, after: $0)
     }
   }

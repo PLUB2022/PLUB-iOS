@@ -54,29 +54,29 @@ final class InterestSelectCollectionHeaderView: UICollectionReusableView {
     case .selected:
       [titleLabel, settingButton].forEach { addSubview($0) }
       titleLabel.snp.makeConstraints {
-        $0.top.left.equalToSuperview()
+        $0.top.leading.equalToSuperview()
       }
       
       settingButton.snp.makeConstraints {
-        $0.right.equalToSuperview()
+        $0.trailing.equalToSuperview()
         $0.centerY.equalTo(titleLabel)
       }
       
     case .nonSelected:
       [titleLabel, descriptionLabel, settingButton].forEach { addSubview($0) }
       titleLabel.snp.makeConstraints {
-        $0.top.left.equalToSuperview()
+        $0.top.leading.equalToSuperview()
       }
       
       settingButton.snp.makeConstraints {
-        $0.right.equalToSuperview()
+        $0.trailing.equalToSuperview()
         $0.centerY.equalTo(titleLabel)
       }
       
       descriptionLabel.snp.makeConstraints {
-        $0.left.equalToSuperview()
+        $0.leading.equalToSuperview()
         $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-        $0.right.lessThanOrEqualToSuperview()
+        $0.trailing.lessThanOrEqualToSuperview()
       }
     }
     layoutIfNeeded()

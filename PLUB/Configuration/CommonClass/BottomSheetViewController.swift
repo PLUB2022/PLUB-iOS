@@ -37,7 +37,7 @@ class BottomSheetViewController: BaseViewController {
   
   override func setupConstraints() {
     backgroundView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     contentView.snp.makeConstraints {

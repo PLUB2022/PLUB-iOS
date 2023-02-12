@@ -46,20 +46,20 @@ final class IntroduceCategoryInfoView: UIView {
   private func configureUI() {
     [meetingRecommendedLabel, categoryInfoListView, meetingImageView].forEach { addSubview($0) }
     meetingRecommendedLabel.snp.makeConstraints {
-      $0.left.top.right.equalToSuperview()
+      $0.leading.trailing.top.equalToSuperview()
       $0.height.equalTo(40)
     }
     
     categoryInfoListView.snp.makeConstraints {
       $0.top.equalTo(meetingRecommendedLabel.snp.bottom).offset(24)
-      $0.left.equalToSuperview()
-      $0.right.lessThanOrEqualToSuperview()
+      $0.leading.equalToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
       $0.height.equalTo(16)
     }
     
     meetingImageView.snp.makeConstraints {
       $0.top.equalTo(categoryInfoListView.snp.bottom).offset(24)
-      $0.left.right.bottom.equalToSuperview()
+      $0.leading.trailing.bottom.equalToSuperview()
     }
   }
   
@@ -74,7 +74,7 @@ final class IntroduceCategoryInfoView: UIView {
       let width = Device.width - 16 * 2
       meetingImageView.snp.remakeConstraints {
         $0.top.equalTo(categoryInfoListView.snp.bottom).offset(24)
-        $0.left.right.bottom.equalToSuperview()
+        $0.leading.trailing.bottom.equalToSuperview()
         $0.height.equalTo(width * image.size.height / image.size.width)
       }
     }

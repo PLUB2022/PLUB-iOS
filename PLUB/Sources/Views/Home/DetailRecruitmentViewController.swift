@@ -98,26 +98,26 @@ final class DetailRecruitmentViewController: BaseViewController {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
-      $0.edges.width.equalToSuperview() // 타이틀에 대한 너비까지 잡아줌으로써 Vertical Enabled한 UI를 구성
+      $0.directionalEdges.width.equalToSuperview() // 타이틀에 대한 너비까지 잡아줌으로써 Vertical Enabled한 UI를 구성
     }
     
     introduceTypeStackView.snp.makeConstraints {
-      $0.edges.width.equalToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
     }
     
     introduceTagCollectionView.snp.makeConstraints {
-      $0.left.right.equalToSuperview().inset(16)
+      $0.leading.trailing.equalToSuperview().inset(16)
       $0.height.greaterThanOrEqualTo(48)
     }
     
     participantListView.snp.makeConstraints {
-      $0.left.equalToSuperview().offset(17.5)
-      $0.right.lessThanOrEqualToSuperview().offset(-14.14)
+      $0.leading.equalToSuperview().offset(17.5)
+      $0.trailing.lessThanOrEqualToSuperview().offset(-14.14)
       $0.height.equalTo(64)
     }
     
     bottomStackView.snp.makeConstraints {
-      $0.right.equalToSuperview().offset(-16.5)
+      $0.trailing.equalToSuperview().offset(-16.5)
       $0.height.equalTo(46)
     }
   }

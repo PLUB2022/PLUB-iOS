@@ -58,18 +58,18 @@ final class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupConstraints() {
-    registerInterestHeaderView.snp.makeConstraints { make in
-      make.top.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
-      make.height.equalTo(100)
+    registerInterestHeaderView.snp.makeConstraints {
+      $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+      $0.height.equalTo(100)
     }
     
     registerTableView.snp.makeConstraints {
       $0.top.equalTo(registerInterestHeaderView.snp.bottom).offset(20)
-      $0.left.right.bottom.equalToSuperview().inset(20)
+      $0.leading.trailing.bottom.equalToSuperview().inset(20)
     }
     
     floatingButton.snp.makeConstraints { 
-      $0.left.right.bottom.equalToSuperview().inset(20)
+      $0.leading.trailing.bottom.equalToSuperview().inset(20)
       $0.height.equalTo(60)
     }
   }

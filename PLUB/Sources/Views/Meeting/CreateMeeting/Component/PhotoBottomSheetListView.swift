@@ -56,7 +56,7 @@ final class PhotoBottomSheetListView: UIView {
     }
     
     button.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
   }
   

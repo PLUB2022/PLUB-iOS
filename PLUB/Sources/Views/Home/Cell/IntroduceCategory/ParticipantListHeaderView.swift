@@ -33,7 +33,7 @@ final class ParticipantListHeaderView: UICollectionReusableView {
   private func configureUI() {
     addSubview(headerLabel)
     headerLabel.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+      make.directionalEdges.equalToSuperview()
     }
   }
 }

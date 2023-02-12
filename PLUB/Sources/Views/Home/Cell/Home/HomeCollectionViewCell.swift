@@ -46,13 +46,13 @@ final class HomeCollectionViewCell: UICollectionViewCell {
     contentView.layer.masksToBounds = true
     [imageView, interestLabel].forEach { contentView.addSubview($0) }
     imageView.snp.makeConstraints {
-      $0.top.left.right.equalToSuperview()
+      $0.top.leading.trailing.equalToSuperview()
       $0.height.equalTo(64)
     }
     
     interestLabel.snp.makeConstraints {
       $0.top.equalTo(imageView.snp.bottom)
-      $0.left.right.equalToSuperview()
+      $0.leading.trailing.equalToSuperview()
     }
   }
   
