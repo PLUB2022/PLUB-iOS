@@ -64,6 +64,7 @@ final class SelectedCategoryViewController: BaseViewController {
   }
   
   override func setupStyles() {
+    super.setupStyles()
     self.navigationItem.title = nil
     self.navigationItem.leftBarButtonItems = [
       UIBarButtonItem(image: UIImage(named: "back"), style: .done, target: self, action: #selector(didTappedBackButton)),

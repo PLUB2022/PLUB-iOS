@@ -108,9 +108,17 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier, for: indexPath) as? RecruitmentFilterCollectionViewCell ?? RecruitmentFilterCollectionViewCell()
-    cell.configureUI(with: "헬스")
-    return cell
+    let section = RecruitmentFilterSection.allCases[indexPath.section]
+    switch section {
+    case .detailCategory:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier, for: indexPath) as? RecruitmentFilterCollectionViewCell ?? RecruitmentFilterCollectionViewCell()
+      cell.configureUI(with: "헬스")
+      return cell
+    case .day:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier, for: indexPath) as? RecruitmentFilterCollectionViewCell ?? RecruitmentFilterCollectionViewCell()
+      cell.configureUI(with: Day.allCases[indexPath.row].kor)
+      return cell
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
