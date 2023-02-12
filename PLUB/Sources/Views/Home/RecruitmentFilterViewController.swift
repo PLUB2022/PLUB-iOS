@@ -10,6 +10,20 @@ import UIKit
 import SnapKit
 import Then
 
+enum RecruitmentFilterSection: CaseIterable {
+  case detailCategory
+  case day
+  
+  var title: String {
+    switch self {
+    case .detailCategory:
+      return "세부 카테고리"
+    case .day:
+      return "모임 요일"
+    }
+  }
+}
+
 final class RecruitmentFilterViewController: BaseViewController {
   
   private let titleLabel = UILabel().then {
@@ -66,7 +80,7 @@ final class RecruitmentFilterViewController: BaseViewController {
 
 extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return RecruitmentFilterSection.allCases.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -81,7 +95,7 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecruitmentFilterCollectionHeaderView.identifier, for: indexPath) as? RecruitmentFilterCollectionHeaderView ?? RecruitmentFilterCollectionHeaderView()
-    header.configureUI(with: "세부 카테고리")
+    header.configureUI(with: RecruitmentFilterSection.allCases[indexPath.section].title)
     return header
   }
 }
