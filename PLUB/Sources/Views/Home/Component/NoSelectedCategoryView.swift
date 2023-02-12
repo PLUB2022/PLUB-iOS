@@ -7,10 +7,19 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
+protocol NoSelectedCategoryViewDelegate: AnyObject {
+  func didTappedCreateMeetingButton()
+}
+
 class NoSelectedCategoryView: UIView {
+  
+  weak var delegate: NoSelectedCategoryViewDelegate?
+  private let disposeBag = DisposeBag()
   
   private lazy var stackView = UIStackView(arrangedSubviews: [
     alertImageView, alertLabel
@@ -40,6 +49,7 @@ class NoSelectedCategoryView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -63,5 +73,13 @@ class NoSelectedCategoryView: UIView {
       $0.height.equalTo(46)
       $0.bottom.equalToSuperview()
     }
+  }
+  
+  private func bind() {
+    createMeetingButton.rx.tap
+      .subscribe(with: self, onNext: { owner, _ in
+        owner.delegate?.didTappedCreateMeetingButton()
+      })
+      .disposed(by: disposeBag)
   }
 }

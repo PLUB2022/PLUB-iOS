@@ -51,7 +51,9 @@ final class SelectedCategoryViewController: BaseViewController {
     $0.dataSource = self
   }
   
-  private let noSelectedCategoryView = NoSelectedCategoryView()
+  private lazy var noSelectedCategoryView = NoSelectedCategoryView().then {
+    $0.delegate = self
+  }
   
   init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryID: String) {
     self.viewModel = viewModel
@@ -222,3 +224,10 @@ extension SelectedCategoryViewController: SelectedCategoryChartCollectionViewCel
   }
 }
 
+extension SelectedCategoryViewController: NoSelectedCategoryViewDelegate {
+  func didTappedCreateMeetingButton() {
+    let vc = CreateMeetingViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
