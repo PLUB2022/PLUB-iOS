@@ -149,7 +149,7 @@ final class MeetingInfoViewController: BaseViewController {
     super.setupConstraints()
     contentStackView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview().inset(24)
-      $0.top.equalToSuperview()
+      $0.top.equalToSuperview().inset(40)
     }
     
     dateCollectionView.snp.makeConstraints {

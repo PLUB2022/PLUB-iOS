@@ -98,12 +98,13 @@ final class RecruitPostViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     scrollView.snp.makeConstraints {
-        $0.top.equalTo(view.safeAreaLayoutGuide)
-        $0.leading.trailing.bottom.equalToSuperview().inset(24)
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.bottom.equalToSuperview().inset(24)
     }
     
     contentStackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.top.equalToSuperview().inset(40)
+      $0.leading.trailing.bottom.equalToSuperview()
       $0.width.equalTo(scrollView.snp.width)
     }
     
@@ -188,7 +189,8 @@ final class RecruitPostViewController: BaseViewController {
     nameTitleView.setText(text: data.name)
     introduceView.setText(text: data.introduce)
     goalView.setText(text: data.goal)
-    guard let image = data.mainImage, let imageURL = URL(string: image)else { return }
+    guard let image = data.mainImage,
+          let imageURL = URL(string: image) else { return }
     photoSelectView.selectedImage.kf.setImage(with: imageURL)
   }
 }
