@@ -61,11 +61,11 @@ final class PhotoSelectView: UIView {
     }
     
     selectedImage.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     selectButton.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     selectImage.snp.makeConstraints {

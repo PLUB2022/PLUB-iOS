@@ -56,7 +56,7 @@ class NoResultSearchView: UIView {
     backgroundColor = .background
     addSubview(stackView)
     stackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     [noResultImageView, noResultLabel].forEach { stackView.addArrangedSubview($0) }

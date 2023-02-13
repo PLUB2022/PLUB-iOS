@@ -93,7 +93,7 @@ final class MeetingNameViewController: BaseViewController {
     }
     
     contentStackView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
       $0.width.equalTo(scrollView.snp.width)
     }
     

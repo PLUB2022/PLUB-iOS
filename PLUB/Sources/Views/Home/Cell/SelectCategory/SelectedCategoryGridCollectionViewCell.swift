@@ -72,22 +72,22 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
     contentView.layer.masksToBounds = true
     [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
     categoryInfoListView.snp.makeConstraints {
-      $0.left.equalToSuperview().offset(10)
+      $0.leading.equalToSuperview().offset(10)
       $0.bottom.equalToSuperview().offset(-10)
     }
     
     descriptionLabel.snp.makeConstraints {
-      $0.left.right.equalToSuperview().inset(10)
+      $0.leading.trailing.equalToSuperview().inset(10)
       $0.bottom.equalTo(categoryInfoListView.snp.top).offset(-10)
     }
     
     titleLabel.snp.makeConstraints {
-      $0.left.right.equalTo(descriptionLabel)
+      $0.leading.trailing.equalTo(descriptionLabel)
       $0.bottom.equalTo(descriptionLabel.snp.top).offset(-10)
     }
     
     bookmarkButton.snp.makeConstraints {
-      $0.top.right.equalToSuperview().inset(16)
+      $0.top.trailing.equalToSuperview().inset(16)
       $0.width.height.equalTo(32)
     }
   }

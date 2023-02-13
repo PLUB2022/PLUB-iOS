@@ -95,11 +95,11 @@ final class MeetingSummaryViewController: BaseViewController {
     }
     
     introduceTypeStackView.snp.makeConstraints {
-      $0.edges.width.equalToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
     }
     
     introduceTagCollectionView.snp.makeConstraints {
-      $0.left.right.equalToSuperview().inset(16)
+      $0.leading.trailing.equalToSuperview().inset(16)
       $0.height.greaterThanOrEqualTo(48)
     }
   }

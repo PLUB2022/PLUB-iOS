@@ -47,12 +47,12 @@ final class ApplyQuestionHeaderView: UIView {
     [mainLabel, subLabel].forEach { addSubview($0) }
     mainLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
-      $0.left.right.equalToSuperview().inset(20)
+      $0.leading.trailing.equalToSuperview().inset(20)
     }
     
     subLabel.snp.makeConstraints {
       $0.top.equalTo(mainLabel.snp.bottom)
-      $0.left.right.equalTo(mainLabel)
+      $0.leading.trailing.equalTo(mainLabel)
       $0.bottom.equalToSuperview()
     }
   }

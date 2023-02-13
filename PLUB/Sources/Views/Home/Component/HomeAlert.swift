@@ -102,12 +102,12 @@ final class HomeAlert {
     
     backButton.snp.makeConstraints {
       $0.width.height.equalTo(32)
-      $0.top.right.equalToSuperview().inset(10)
+      $0.top.trailing.equalToSuperview().inset(10)
     }
     
     stackView.snp.makeConstraints {
       $0.top.equalTo(backButton.snp.bottom).offset(0.5)
-      $0.left.right.bottom.equalToSuperview()
+      $0.leading.trailing.bottom.equalToSuperview()
     }
     
     stackView.setCustomSpacing(8, after: mainLabel)

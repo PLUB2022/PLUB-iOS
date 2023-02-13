@@ -53,20 +53,20 @@ class RecentSearchListCollectionViewCell: UICollectionViewCell {
     [recentSearchLabel, removeButton, borderView].forEach { contentView.addSubview($0) }
     
     removeButton.snp.makeConstraints {
-      $0.top.right.bottom.equalToSuperview()
+      $0.top.trailing.bottom.equalToSuperview()
       $0.size.equalTo(32)
     }
     
     recentSearchLabel.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.left.equalToSuperview().inset(8)
+      $0.leading.equalToSuperview().inset(8)
       $0.top.bottom.equalToSuperview().inset(7)
-      $0.right.lessThanOrEqualTo(removeButton.snp.left)
+      $0.trailing.lessThanOrEqualTo(removeButton.snp.leading)
     }
     
     borderView.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.left.right.bottom.equalToSuperview()
+      $0.leading.trailing.bottom.equalToSuperview()
     }
   }
   

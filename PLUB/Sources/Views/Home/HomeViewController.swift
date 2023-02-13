@@ -88,7 +88,7 @@ class HomeViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     homeCollectionView.snp.makeConstraints {
-      $0.edges.equalToSuperview().inset(16)
+      $0.directionalEdges.equalToSuperview().inset(16)
     }
   }
   

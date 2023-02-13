@@ -53,7 +53,7 @@ final class InterestTypeCollectionViewCell: UICollectionViewCell {
     
     contentView.addSubview(interestTypeLabel)
     interestTypeLabel.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
   }
   

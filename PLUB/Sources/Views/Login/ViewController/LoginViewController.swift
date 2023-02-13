@@ -210,7 +210,7 @@ extension LoginViewController {
           }
           // accessToken, refreshToken 업데이트
           UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
-          owner.navigationController?.pushViewController(HomeViewController(viewModel: HomeViewModel()), animated: true)
+          (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = PLUBTabBarController()
           
         case .requestError(let model):
           guard let signToken = model.data?.signToken else {

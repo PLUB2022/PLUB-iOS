@@ -74,17 +74,17 @@ final class ApplyQuestionViewController: BaseViewController {
     
     questionHeaderView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(Device.navigationBarHeight)
-      $0.left.right.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
       $0.height.lessThanOrEqualTo(120)
     }
     
     questionTableView.snp.makeConstraints {
       $0.top.equalTo(questionHeaderView.snp.bottom).offset(37.5)
-      $0.left.right.bottom.equalToSuperview()
+      $0.leading.trailing.bottom.equalToSuperview()
     }
     
     applyButton.snp.makeConstraints {
-      $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+      $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
       $0.bottom.equalToSuperview()
       $0.height.equalTo(46)
     }

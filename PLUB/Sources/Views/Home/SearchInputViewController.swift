@@ -102,11 +102,11 @@ final class SearchInputViewController: BaseViewController {
   override func setupConstraints() {
     
     recentSearchListView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     searchAlertView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     searchOutputHeaderView.snp.makeConstraints {
