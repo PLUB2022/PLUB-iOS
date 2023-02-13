@@ -11,6 +11,7 @@ import RxSwift
 
 protocol SelectedCategoryGridCollectionViewCellDelegate: AnyObject {
   func didTappedGridBookmarkButton(plubbingID: String)
+  func updateBookmarkState(isBookmarked: Bool, cell: UICollectionViewCell)
 }
 
 final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
@@ -97,6 +98,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
         owner.delegate?.didTappedGridBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.updateBookmarkState(isBookmarked: true, cell: owner)
       })
       .disposed(by: disposeBag)
       
@@ -105,6 +107,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
         owner.delegate?.didTappedGridBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.updateBookmarkState(isBookmarked: false, cell: owner)
       })
       .disposed(by: disposeBag)
   }
