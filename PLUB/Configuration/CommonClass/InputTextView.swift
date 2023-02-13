@@ -232,6 +232,11 @@ extension InputTextView {
   func setTitleText(text: String) {
     titleLabel.text = text
   }
+  
+  func setText(text: String) {
+    textView.text = text
+    textView.textColor = .black
+  }
 }
 
 // MARK: - RxSwift Custom Property

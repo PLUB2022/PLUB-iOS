@@ -12,6 +12,8 @@ enum RecruitmentRouter {
   case inquireRecruitmentQuestion(String)
   case searchRecruitment(SearchParameter)
   case requestBookmark(String)
+  case editMeetingPost(String, EditMeetingPostRequest)
+  case editMeetingQuestion(String, EditMeetingQuestionRequest)
 }
 
 extension RecruitmentRouter: Router {
@@ -21,6 +23,8 @@ extension RecruitmentRouter: Router {
       return .get
     case .requestBookmark:
       return .post
+    case .editMeetingPost, .editMeetingQuestion:
+      return .put
     }
   }
   
@@ -34,6 +38,10 @@ extension RecruitmentRouter: Router {
       return "/plubbings/recruit"
     case .requestBookmark(let plubbingID):
       return "/plubbings/\(plubbingID)/recruit/bookmarks"
+    case .editMeetingPost(let plubbingID, _):
+      return "/plubbings/\(plubbingID)/recruit"
+    case .editMeetingQuestion(let plubbingID, _):
+      return "/plubbings/\(plubbingID)/recruit/questions"
     }
   }
   
@@ -43,12 +51,16 @@ extension RecruitmentRouter: Router {
       return .plain
     case .searchRecruitment(let parameter):
       return .query(parameter)
+    case .editMeetingPost(_, let model):
+      return .body(model)
+    case .editMeetingQuestion(_, let model):
+      return .body(model)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment, .requestBookmark:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion:
       return .withAccessToken
     }
   }
