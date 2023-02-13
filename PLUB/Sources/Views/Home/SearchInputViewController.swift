@@ -148,7 +148,6 @@ final class SearchInputViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.fetchedSearchOutput
-      .do(onNext: {print("뭔데 \($0)")})
       .drive(rx.model)
       .disposed(by: disposeBag)
     
