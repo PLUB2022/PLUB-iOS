@@ -17,6 +17,7 @@ protocol SearchInputViewModelType {
   var whichKeywordRemove: AnyObserver<Int> { get }
   var tappedRemoveAll: AnyObserver<Void> { get }
   var tappedBookmark: AnyObserver<String> { get }
+  var fetchMoreDatas: AnyObserver<Void> { get }
   
   // Output
   var fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
@@ -36,6 +37,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
   let whichKeywordRemove: AnyObserver<Int> // 어떤 인덱스에 해당하는 remove버튼을 눌렀는지
   let tappedRemoveAll: AnyObserver<Void> // 모두 지우기 버튼을 눌렀는지
   let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
+  let fetchMoreDatas: AnyObserver<Void> // 더 많은 데이터를 받을 것인지
   
   // Output
   let fetchedSearchOutput: Driver<[SelectedCategoryCollectionViewCellModel]> // 검색결과
@@ -49,11 +51,15 @@ final class SearchInputViewModel: SearchInputViewModelType {
     let searchKeyword = PublishSubject<String>()
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let searchFilterType = BehaviorSubject<FilterType>(value: .mix)
-    let fetchingSearchOutput = PublishRelay<[SelectedCategoryCollectionViewCellModel]>()
+    let fetchingSearchOutput = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
     let recentKeywordList = BehaviorRelay<[String]>(value: [])
     let removeKeyword = PublishSubject<Int>()
     let removeAllKeyword = PublishSubject<Void>()
     let whichBookmark = PublishSubject<String>()
+    let fetchingDatas = PublishSubject<Void>()
+    let currentPage = BehaviorSubject<Int>(value: 1)
+    let isLastPage = BehaviorSubject<Bool>(value: false)
+    let isLoading = BehaviorSubject<Bool>(value: false)
     
     whichKeywordRemove = removeKeyword.asObserver()
     whichKeyword = searchKeyword.asObserver()
@@ -63,14 +69,21 @@ final class SearchInputViewModel: SearchInputViewModelType {
     currentRecentKeyword = recentKeywordList.asDriver(onErrorDriveWith: .empty())
     tappedRemoveAll = removeAllKeyword.asObserver()
     tappedBookmark = whichBookmark.asObserver()
+    fetchMoreDatas = fetchingDatas.asObserver()
     
-    let requestSearch = Observable.combineLatest(searchKeyword, searchFilterType, searchSortType) { ($0, $1, $2) }
-      .flatMapLatest { (keyword, filterType, sortType) in
-        return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, type: filterType.text, sort: sortType.text))
+    let requestSearch = Observable.combineLatest(searchKeyword, currentPage, searchFilterType, searchSortType)
+      .do(onNext: { _ in isLastPage.onNext(false) })
+      .flatMapLatest { (keyword, page, filterType, sortType) in
+        if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
+          isLoading.onNext(true)
+          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: page, type: filterType.text, sort: sortType.text))
+        }
+        return .empty()
       }
     
     let successSearch = requestSearch.compactMap { result -> [SearchContent]? in
       guard case .success(let response) = result else { return nil }
+      isLastPage.onNext(response.data?.last ?? false)
       return response.data?.content
     }
     
@@ -113,7 +126,10 @@ final class SearchInputViewModel: SearchInputViewModelType {
     .disposed(by: disposeBag)
     
     fetchingSearchOutputModel.subscribe(onNext: { model in
-      fetchingSearchOutput.accept(model)
+      var cellData = fetchingSearchOutput.value
+      cellData.append(contentsOf: model)
+      fetchingSearchOutput.accept(cellData)
+      isLoading.onNext(false)
     })
     .disposed(by: disposeBag)
     
@@ -134,6 +150,14 @@ final class SearchInputViewModel: SearchInputViewModelType {
     self.isBookmarked = successRequestBookmark.distinctUntilChanged()
     .map { $0.isBookmarked }
     .asSignal(onErrorSignalWith: .empty())
+    
+    fetchingDatas.withLatestFrom(currentPage)
+      .filter({ page in
+        try isLastPage.value() || isLoading.value() ? false : true
+      })
+      .map { $0 + 1 }
+      .bind(to: currentPage)
+      .disposed(by: disposeBag)
     
     keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
     searchOutputIsEmpty = fetchingSearchOutput.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)

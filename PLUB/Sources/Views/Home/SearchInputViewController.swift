@@ -148,6 +148,7 @@ final class SearchInputViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.fetchedSearchOutput
+      .do(onNext: {print("뭔데 \($0)")})
       .drive(rx.model)
       .disposed(by: disposeBag)
     
@@ -178,6 +179,17 @@ final class SearchInputViewController: BaseViewController {
       print("해당 모집글을 북마크 \(isBookmarked)")
     })
     .disposed(by: disposeBag)
+    
+    interestListCollectionView.rx.didScroll
+      .subscribe(with: self, onNext: { owner, _ in
+        let offSetY = owner.interestListCollectionView.contentOffset.y
+        let contentHeight = owner.interestListCollectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.interestListCollectionView.frame.size.height) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
+      })
+      .disposed(by: disposeBag)
     
   }
   
