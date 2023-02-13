@@ -13,6 +13,7 @@ protocol SelectedCategoryViewModelType {
   var selectCategoryID: AnyObserver<String> { get }
   var whichSortType: AnyObserver<SortType> { get }
   var tappedBookmark: AnyObserver<String> { get }
+  var fetchMoreDatas: AnyObserver<Void> { get }
   
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
@@ -28,6 +29,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   let selectCategoryID: AnyObserver<String> // 어떤 카테고리에 대한 것인지에 대한 ID
   let whichSortType: AnyObserver<SortType> // 해당 카테고리에 대한 어떤 분류타입으로 설정하고싶은지
   let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
+  let fetchMoreDatas: AnyObserver<Void> // 더 많은 데이터를 받을 것인지
   
   // Output
   let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> // 해당 ID와 분류타입에 대한 카테고리 데이터
@@ -40,12 +42,14 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let dataIsEmpty = PublishSubject<Bool>()
     let whichBookmark = PublishSubject<String>()
+    let fetchingDatas = PublishSubject<Void>()
     
     isEmpty = dataIsEmpty.asSignal(onErrorSignalWith: .empty())
     whichSortType = searchSortType.asObserver()
     selectCategoryID = selectingCategoryID.asObserver()
     updatedCellData = updatingCellData.asDriver(onErrorDriveWith: .empty())
     tappedBookmark = whichBookmark.asObserver()
+    fetchMoreDatas = fetchingDatas.asObserver()
     
     let fetchingSelectedCategory = Observable.combineLatest(
       selectingCategoryID,
