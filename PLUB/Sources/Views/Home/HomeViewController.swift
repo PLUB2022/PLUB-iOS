@@ -53,7 +53,7 @@ class HomeViewController: BaseViewController {
       self.homeCollectionView.reloadData()
     }
   }
-  
+ 
   init(viewModel: HomeViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -78,18 +78,6 @@ class HomeViewController: BaseViewController {
       $0.register(InterestSelectCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: InterestSelectCollectionHeaderView.identifier)
       $0.register(HomeMainCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeMainCollectionHeaderView.identifier)
     }
-  
-  // MARK: -Life Cycle
-//  override func viewWillAppear(_ animated: Bool) {
-//    super.viewWillAppear(animated)
-//    viewModel.isSelectedInterest
-//      .asObservable()
-//      .withUnretained(self)
-//      .subscribe(onNext: { owner, isSelectedInterest in
-//        owner.homeType = isSelectedInterest ? .selected : .nonSelected
-//      })
-//      .disposed(by: disposeBag)
-//  }
   
   // MARK: - Configuration
   override func setupLayouts() {
