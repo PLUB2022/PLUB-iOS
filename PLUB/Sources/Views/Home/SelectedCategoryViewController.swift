@@ -51,7 +51,9 @@ final class SelectedCategoryViewController: BaseViewController {
     $0.dataSource = self
   }
   
-  private let noSelectedCategoryView = NoSelectedCategoryView()
+  private lazy var noSelectedCategoryView = NoSelectedCategoryView().then {
+    $0.delegate = self
+  }
   
   init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryID: String) {
     self.viewModel = viewModel
@@ -64,8 +66,7 @@ final class SelectedCategoryViewController: BaseViewController {
   }
   
   override func setupStyles() {
-    view.backgroundColor = .background
-    
+    super.setupStyles()
     self.navigationItem.title = nil
     self.navigationItem.leftBarButtonItems = [
       UIBarButtonItem(image: UIImage(named: "back"), style: .done, target: self, action: #selector(didTappedBackButton)),
@@ -97,9 +98,9 @@ final class SelectedCategoryViewController: BaseViewController {
     }
     
     noSelectedCategoryView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(50 + 139)
+      $0.top.equalTo(selectedCategoryFilterHeaderView.snp.bottom)
       $0.leading.trailing.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
   }
   
@@ -119,6 +120,17 @@ final class SelectedCategoryViewController: BaseViewController {
       print("해당 모집글을 북마크 \(isBookmarked)")
     })
     .disposed(by: disposeBag)
+    
+    interestListCollectionView.rx.didScroll
+      .subscribe(with: self, onNext: { owner, _ in
+        let offSetY = owner.interestListCollectionView.contentOffset.y
+        let contentHeight = owner.interestListCollectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.interestListCollectionView.frame.size.height + 100) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
+      })
+      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
@@ -136,27 +148,27 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      switch selectedCategoryType {
-      case .chart:
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
-        cell.configureUI(with: model[indexPath.row])
-        cell.delegate = self
-        return cell
-      case .grid:
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
-        cell.configureUI(with: model[indexPath.row])
-        cell.delegate = self
-        return cell
-      }
+    switch selectedCategoryType {
+    case .chart:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryChartCollectionViewCell ?? SelectedCategoryChartCollectionViewCell()
+      cell.configureUI(with: model[indexPath.row])
+      cell.delegate = self
+      return cell
+    case .grid:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedCategoryGridCollectionViewCell.identifier, for: indexPath) as? SelectedCategoryGridCollectionViewCell ?? SelectedCategoryGridCollectionViewCell()
+      cell.configureUI(with: model[indexPath.row])
+      cell.delegate = self
+      return cell
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      switch selectedCategoryType {
-      case .chart:
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
-      case .grid:
-        return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
-      }
+    switch selectedCategoryType {
+    case .chart:
+      return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
+    case .grid:
+      return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -184,7 +196,10 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   }
   
   func didTappedInterestListFilterButton() {
-    
+    let vc = RecruitmentFilterViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    vc.title = title
+    self.navigationController?.pushViewController(vc, animated: true)
   }
   
   func didTappedInterestListChartButton() {
@@ -220,3 +235,10 @@ extension SelectedCategoryViewController: SelectedCategoryChartCollectionViewCel
   }
 }
 
+extension SelectedCategoryViewController: NoSelectedCategoryViewDelegate {
+  func didTappedCreateMeetingButton() {
+    let vc = CreateMeetingViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
+}

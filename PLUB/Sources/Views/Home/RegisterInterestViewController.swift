@@ -75,7 +75,6 @@ final class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupStyles() {
-    view.backgroundColor = .background
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "back"),
       style: .done,
@@ -98,10 +97,16 @@ final class RegisterInterestViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
-    floatingButton.rx.tap
-      .subscribe(onNext: { _ in
-        
+    viewModel.successRegisterInterest
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        print("관심사 등록성공")
+        owner.navigationController?.popViewController(animated: true)
       })
+      .disposed(by: disposeBag)
+    
+    floatingButton.rx.tap
+      .bind(to: viewModel.tappedRegisterButton)
       .disposed(by: disposeBag)
     
     
@@ -165,9 +170,10 @@ extension RegisterInterestViewController: UITableViewDelegate, UITableViewDataSo
 
 extension RegisterInterestViewController: RegisterInterestDetailTableViewCellDelegate {
   func didTappedInterestTypeCollectionViewCell(cell: InterestTypeCollectionViewCell, mainIndexPath: IndexPath, subIndexPath: IndexPath) {
-    registerInterestModels[mainIndexPath.section].category.subCategories[subIndexPath.row].isSelected.toggle()
+    var category = registerInterestModels[mainIndexPath.section].category
+    category.subCategories[subIndexPath.row].isSelected.toggle()
     cell.isTapped.toggle()
-    cell.isTapped ? viewModel.selectDetailCell.onNext(()) : viewModel.deselectDetailCell.onNext(())
+    cell.isTapped ? viewModel.selectDetailCell.onNext(category.id) : viewModel.deselectDetailCell.onNext(category.id)
   }
 }
 

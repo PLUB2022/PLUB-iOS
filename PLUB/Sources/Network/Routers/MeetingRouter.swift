@@ -11,7 +11,7 @@ enum MeetingRouter {
   case createMeeting(CreateMeetingRequest)
   case editMeeting(Int, EditMeetingRequest)
   case inquireCategoryMeeting(String, Int, String)
-  case inquireRecommendationMeeting
+  case inquireRecommendationMeeting(Int)
 }
 
 extension MeetingRouter: Router {
@@ -47,8 +47,8 @@ extension MeetingRouter: Router {
       return .body(model)
     case .inquireCategoryMeeting(_, let page, let sort):
       return .query(["page": "\(page)", "sort": sort])
-    case .inquireRecommendationMeeting:
-      return .plain
+    case .inquireRecommendationMeeting(let page):
+      return .query(["page": page])
     }
   }
   

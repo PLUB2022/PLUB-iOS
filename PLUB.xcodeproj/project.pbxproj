@@ -60,6 +60,11 @@
 		70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */; };
 		70BD5F3929684EAC002CBA89 /* HomeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3829684EAC002CBA89 /* HomeAlert.swift */; };
 		70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */; };
+		70CF3330299793220077FF47 /* RegisterInterestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF332F299793220077FF47 /* RegisterInterestRequest.swift */; };
+		70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */; };
+		70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */; };
+		70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF3336299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift */; };
+		70CF333929992FA60077FF47 /* RecruitmentFilterSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF333829992FA60077FF47 /* RecruitmentFilterSlider.swift */; };
 		70F1DFD42979508000F9BC83 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD32979508000F9BC83 /* CategoryService.swift */; };
 		70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */; };
 		70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */; };
@@ -269,6 +274,11 @@
 		70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewModel.swift; sourceTree = "<group>"; };
 		70BD5F3829684EAC002CBA89 /* HomeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAlert.swift; sourceTree = "<group>"; };
 		70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainCollectionHeaderView.swift; sourceTree = "<group>"; };
+		70CF332F299793220077FF47 /* RegisterInterestRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestRequest.swift; sourceTree = "<group>"; };
+		70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterViewController.swift; sourceTree = "<group>"; };
+		70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		70CF3336299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterCollectionHeaderView.swift; sourceTree = "<group>"; };
+		70CF333829992FA60077FF47 /* RecruitmentFilterSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterSlider.swift; sourceTree = "<group>"; };
 		70F1DFD32979508000F9BC83 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		70F1DFD5297950DD00F9BC83 /* CategoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRouter.swift; sourceTree = "<group>"; };
 		70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingRouter.swift; sourceTree = "<group>"; };
@@ -555,6 +565,7 @@
 		7085678428EE9A84008047DC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				70CF3333299920C40077FF47 /* Filter */,
 				70A420A3298D015D0026E9F9 /* Search */,
 				70BD5F3129648DA5002CBA89 /* ApplyQuestion */,
 				BA340E14297821C8002BAF2C /* IntroduceCategory */,
@@ -581,6 +592,7 @@
 				70A4209D2988BB410026E9F9 /* SortBottomSheetViewController.swift */,
 				70A420A1298CE4C30026E9F9 /* NoSelectedCategoryView.swift */,
 				70A420AC299002490026E9F9 /* NoResultSearchView.swift */,
+				70CF333829992FA60077FF47 /* RecruitmentFilterSlider.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -611,6 +623,23 @@
 				70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */,
 			);
 			path = ApplyQuestion;
+			sourceTree = "<group>";
+		};
+		70CF332E299793160077FF47 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				70CF332F299793220077FF47 /* RegisterInterestRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		70CF3333299920C40077FF47 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */,
+				70CF3336299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift */,
+			);
+			path = Filter;
 			sourceTree = "<group>";
 		};
 		70F1DFEB297D99A400F9BC83 /* Recruitment */ = {
@@ -684,6 +713,7 @@
 				70197B712953698F000503F6 /* SelectedCategoryViewController.swift */,
 				70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */,
 				70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */,
+				70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1010,6 +1040,7 @@
 		C3C24CD42990078700056313 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				70CF332E299793160077FF47 /* Request */,
 				C3C24CE82990099400056313 /* Response */,
 			);
 			path = Account;
@@ -1296,6 +1327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70CF3330299793220077FF47 /* RegisterInterestRequest.swift in Sources */,
 				C385D10D2989462300EF88EC /* MeetingSummaryViewController.swift in Sources */,
 				C38A5BA5297B234100485355 /* LocationTableViewCell.swift in Sources */,
 				C3B04E462981788800188E60 /* UploadImageRequest.swift in Sources */,
@@ -1330,6 +1362,7 @@
 				C385D10F29894BF200EF88EC /* CreateMeetingViewModel.swift in Sources */,
 				70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */,
 				BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */,
+				70CF333929992FA60077FF47 /* RecruitmentFilterSlider.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				C3413E122995450B004B8DBD /* UnderlineSegmentedControl.swift in Sources */,
 				BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */,
@@ -1376,6 +1409,7 @@
 				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
 				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
+				70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */,
 				70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */,
 				C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
@@ -1414,6 +1448,7 @@
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,
+				70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
@@ -1469,6 +1504,7 @@
 				70A420AD299002490026E9F9 /* NoResultSearchView.swift in Sources */,
 				BA340E1A297822A8002BAF2C /* ParticipantListHeaderView.swift in Sources */,
 				BABB011A297ED415004178EC /* InterestViewController.swift in Sources */,
+				70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,

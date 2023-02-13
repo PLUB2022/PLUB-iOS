@@ -50,10 +50,10 @@ class HomeViewController: BaseViewController {
   
   private var recommendationList: [SelectedCategoryCollectionViewCellModel] = [] {
     didSet {
-      self.homeCollectionView.reloadSections([2])
+      self.homeCollectionView.reloadData()
     }
   }
-  
+ 
   init(viewModel: HomeViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -94,7 +94,6 @@ class HomeViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .background
     self.navigationController?.navigationBar.tintColor = .black
     self.navigationController?.navigationBar.backgroundColor = .background
     self.navigationItem.rightBarButtonItems = [
@@ -143,6 +142,17 @@ class HomeViewController: BaseViewController {
       print("해당 모집글을 북마크 \(isBookmarked)")
     })
     .disposed(by: disposeBag)
+    
+    homeCollectionView.rx.didScroll
+      .subscribe(with: self, onNext: { owner, _ in
+        let offSetY = owner.homeCollectionView.contentOffset.y
+        let contentHeight = owner.homeCollectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.homeCollectionView.frame.size.height) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
+      })
+      .disposed(by: disposeBag)
     
     homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
     homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)
