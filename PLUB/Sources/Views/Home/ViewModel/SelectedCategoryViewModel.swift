@@ -59,7 +59,10 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       currentPage.distinctUntilChanged(),
       searchSortType.distinctUntilChanged()
     ) { ($0, $1, $2) }
-      .do(onNext: { _ in isLastPage.onNext(false) })
+      .do(onNext: { _ in
+        isLastPage.onNext(false)
+        currentPage.onNext(1)
+      })
       .flatMapLatest { (categoryId, page, sortType) in
         if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.onNext(true)

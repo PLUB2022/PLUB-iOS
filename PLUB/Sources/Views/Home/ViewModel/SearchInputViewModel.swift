@@ -72,7 +72,10 @@ final class SearchInputViewModel: SearchInputViewModelType {
     fetchMoreDatas = fetchingDatas.asObserver()
     
     let requestSearch = Observable.combineLatest(searchKeyword, currentPage, searchFilterType, searchSortType)
-      .do(onNext: { _ in isLastPage.onNext(false) })
+      .do(onNext: { _ in
+        isLastPage.onNext(false)
+        currentPage.onNext(1)
+      })
       .flatMapLatest { (keyword, page, filterType, sortType) in
         if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.onNext(true)
