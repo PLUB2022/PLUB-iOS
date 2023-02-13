@@ -50,7 +50,7 @@ class HomeViewController: BaseViewController {
   
   private var recommendationList: [SelectedCategoryCollectionViewCellModel] = [] {
     didSet {
-      self.homeCollectionView.reloadSections([2])
+      self.homeCollectionView.reloadData()
     }
   }
   
@@ -80,16 +80,16 @@ class HomeViewController: BaseViewController {
     }
   
   // MARK: -Life Cycle
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    viewModel.isSelectedInterest
-      .asObservable()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, isSelectedInterest in
-        owner.homeType = isSelectedInterest ? .selected : .nonSelected
-      })
-      .disposed(by: disposeBag)
-  }
+//  override func viewWillAppear(_ animated: Bool) {
+//    super.viewWillAppear(animated)
+//    viewModel.isSelectedInterest
+//      .asObservable()
+//      .withUnretained(self)
+//      .subscribe(onNext: { owner, isSelectedInterest in
+//        owner.homeType = isSelectedInterest ? .selected : .nonSelected
+//      })
+//      .disposed(by: disposeBag)
+//  }
   
   // MARK: - Configuration
   override func setupLayouts() {
@@ -154,6 +154,17 @@ class HomeViewController: BaseViewController {
       print("해당 모집글을 북마크 \(isBookmarked)")
     })
     .disposed(by: disposeBag)
+    
+    homeCollectionView.rx.didScroll
+      .subscribe(with: self, onNext: { owner, _ in
+        let offSetY = owner.homeCollectionView.contentOffset.y
+        let contentHeight = owner.homeCollectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.homeCollectionView.frame.size.height) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
+      })
+      .disposed(by: disposeBag)
     
     homeCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
     homeCollectionView.rx.setDataSource(self).disposed(by: disposeBag)

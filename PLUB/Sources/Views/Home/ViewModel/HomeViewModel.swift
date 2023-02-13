@@ -11,6 +11,7 @@ import RxCocoa
 protocol HomeViewModelType {
   // Input
   var tappedBookmark: AnyObserver<String> { get }
+  var fetchMoreDatas: AnyObserver<Void> { get }
   
   // Output
   var fetchedMainCategoryList: Driver<[MainCategory]> { get }
@@ -24,6 +25,7 @@ final class HomeViewModel: HomeViewModelType {
   
   // Input
   let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
+  let fetchMoreDatas: AnyObserver<Void> // 더 많은 데이터를 받을 것인지
   
   // Output
   let fetchedMainCategoryList: Driver<[MainCategory]> // 메인 카테고리에 대한 데이터
@@ -33,15 +35,22 @@ final class HomeViewModel: HomeViewModelType {
   
   init() {
     let fetchingMainCategoryList = BehaviorRelay<[MainCategory]>(value: [])
+    let fetchingRecommendation = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
     let whichBookmark = PublishSubject<String>()
     let isSelectingInterest = BehaviorSubject<Bool>(value: false)
+    let fetchingDatas = PublishSubject<Void>()
+    let currentPage = BehaviorRelay<Int>(value: 1)
+    let isLastPage = BehaviorSubject<Bool>(value: false)
+    let isLoading = BehaviorSubject<Bool>(value: false)
     
     isSelectedInterest = isSelectingInterest.asDriver(onErrorDriveWith: .empty())
     tappedBookmark = whichBookmark.asObserver()
     fetchedMainCategoryList = fetchingMainCategoryList.asDriver(onErrorDriveWith: .empty())
+    updatedRecommendationCellData = fetchingRecommendation.asDriver(onErrorDriveWith: .empty())
+    fetchMoreDatas = fetchingDatas.asObserver()
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
-    let inquireRecommendationMeeting = MeetingService.shared.inquireRecommendationMeeting().share()
+    //    let inquireRecommendationMeeting = MeetingService.shared.inquireRecommendationMeeting().share()
     let inquireInterest = AccountService.shared.inquireInterest().share()
     
     let successFetchingMainCategoryList = inquireMainCategoryList.compactMap { result -> [MainCategory]? in
@@ -54,8 +63,18 @@ final class HomeViewModel: HomeViewModelType {
       return interestResponse.data
     }
     
+    let inquireRecommendationMeeting = currentPage
+      .flatMapLatest { page in
+        if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
+          isLoading.onNext(true)
+          return MeetingService.shared.inquireRecommendationMeeting(page: page)
+        }
+        return .empty()
+      }
+    
     let successFetchingRecommendationMeeting = inquireRecommendationMeeting.compactMap { result -> [Content]? in
       guard case .success(let recommendationMeetingResponse) = result else { return nil }
+      isLastPage.onNext(recommendationMeetingResponse.data?.last ?? false)
       return recommendationMeetingResponse.data?.content
     }
     
@@ -64,9 +83,9 @@ final class HomeViewModel: HomeViewModelType {
     })
     .disposed(by: disposeBag)
     
-    updatedRecommendationCellData = successFetchingRecommendationMeeting.map { contents in
-      return contents.map { content in
-        let cellData = SelectedCategoryCollectionViewCellModel(
+    successFetchingRecommendationMeeting.subscribe(onNext: { contents in
+      let contents = contents.map { content in
+        return SelectedCategoryCollectionViewCellModel(
           plubbingID: "\(content.plubbingID)",
           name: content.name,
           title: content.title,
@@ -83,12 +102,24 @@ final class HomeViewModel: HomeViewModelType {
             + "(data.time)"
           )
         )
-        return cellData
       }
-    }.asDriver(onErrorDriveWith: .empty())
+      var cellData = fetchingRecommendation.value
+      cellData.append(contentsOf: contents)
+      fetchingRecommendation.accept(cellData)
+      isLoading.onNext(false)
+    })
+    .disposed(by: disposeBag)
     
     successFetchingMainCategoryList
       .bind(to: fetchingMainCategoryList)
+      .disposed(by: disposeBag)
+    
+    fetchingDatas.withLatestFrom(currentPage)
+      .filter({ page in
+        try isLastPage.value() || isLoading.value() ? false : true
+      })
+      .map { $0 + 1 }
+      .bind(to: currentPage)
       .disposed(by: disposeBag)
     
     let requestBookmark = whichBookmark

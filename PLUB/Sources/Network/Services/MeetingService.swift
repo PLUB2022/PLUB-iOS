@@ -33,7 +33,7 @@ extension MeetingService {
     return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryId, page, sort), type: CategoryMeetingResponse.self)
   }
   
-  func inquireRecommendationMeeting() -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>> {
-    return sendRequest(MeetingRouter.inquireRecommendationMeeting, type: CategoryMeetingResponse.self)
+  func inquireRecommendationMeeting(page: Int) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>> {
+    return sendRequest(MeetingRouter.inquireRecommendationMeeting(page), type: CategoryMeetingResponse.self)
   }
 }
