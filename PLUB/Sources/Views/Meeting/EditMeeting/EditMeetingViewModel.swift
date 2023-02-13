@@ -15,6 +15,6 @@ class EditMeetingViewModel {
   init(plubbingID: String) {
     recruitPostViewModel = RecruitPostViewModel(plubbingID: plubbingID)
     meetingInfoViewModel = MeetingInfoViewModel(plubbingID: plubbingID)
-    guestQuestionViewModel = GuestQuestionViewModel()
+    guestQuestionViewModel = GuestQuestionViewModel(plubbingID: plubbingID)
   }
 }

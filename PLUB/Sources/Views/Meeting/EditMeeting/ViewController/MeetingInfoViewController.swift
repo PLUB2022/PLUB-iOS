@@ -268,7 +268,7 @@ final class MeetingInfoViewController: BaseViewController {
     viewModel.isBtnEnabled
       .distinctUntilChanged()
       .drive(with: self){ owner, state in
-        self.delegate?.checkValidation(
+        owner.delegate?.checkValidation(
           index: 1,
           state: state
         )

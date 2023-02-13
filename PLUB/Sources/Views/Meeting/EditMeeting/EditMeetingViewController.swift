@@ -145,7 +145,7 @@ final class EditMeetingViewController: BaseViewController {
         case .meetingInfo:
           owner.viewModel.meetingInfoViewModel.requestEditMeeting()
         case .meetingQuestion:
-          break
+          owner.viewModel.guestQuestionViewModel.requestEditMeeting()
         }
       }
       .disposed(by: disposeBag)

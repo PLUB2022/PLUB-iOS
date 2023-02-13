@@ -14,6 +14,10 @@ struct EditMeetingQuestionRequest: Codable {
   init() {
     questions = []
   }
+  
+  init(questions: [String]) {
+    self.questions = questions
+  }
 }
 
 extension EditMeetingQuestionRequest {
