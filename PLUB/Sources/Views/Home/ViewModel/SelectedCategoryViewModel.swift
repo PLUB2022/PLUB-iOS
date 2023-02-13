@@ -44,6 +44,8 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let whichBookmark = PublishSubject<String>()
     let fetchingDatas = PublishSubject<Void>()
     let currentPage = BehaviorSubject<Int>(value: 1)
+    let isLastPage = BehaviorSubject<Bool>(value: false)
+    let isLoading = BehaviorSubject<Bool>(value: false)
     
     isEmpty = dataIsEmpty.asSignal(onErrorSignalWith: .empty())
     whichSortType = searchSortType.asObserver()
@@ -58,7 +60,11 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       searchSortType.distinctUntilChanged()
     ) { ($0, $1, $2) }
       .flatMapLatest { (categoryId, page, sortType) in
-        return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId, page: page, sort: sortType.text)
+        if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
+          isLoading.onNext(true)
+          return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId, page: page, sort: sortType.text)
+        }
+        return .empty()
       }
       .share()
     
@@ -67,19 +73,19 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       return response.data
     }
     
-    let selectingContents = successFetching.compactMap { response -> [Content]? in
-      return response.content
-    }
+    let selectingContents = successFetching
+      .do(onNext: { isLastPage.onNext($0.last) })
+      .compactMap { response -> [Content]? in
+        return response.content
+      }
     
     fetchingDatas.withLatestFrom(currentPage)
+      .filter({ page in
+        try isLastPage.value() || isLoading.value() ? false : true
+      })
       .map { $0 + 1 }
       .bind(to: currentPage)
       .disposed(by: disposeBag)
-    
-    currentPage.subscribe(onNext: { page in
-      print("지금 페이지 = \(page)")
-    })
-    .disposed(by: disposeBag)
     
     selectingContents
       .do(onNext: { dataIsEmpty.onNext($0.isEmpty) })
@@ -104,8 +110,9 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         var cellData = updatingCellData.value
         cellData.append(contentsOf: model)
         updatingCellData.accept(cellData)
+        isLoading.onNext(false)
       })
-        .disposed(by: disposeBag)
+      .disposed(by: disposeBag)
         
         let requestBookmark = whichBookmark
         .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
@@ -115,7 +122,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
           return response.data
         }
         
-        self.isBookmarked = successRequestBookmark.distinctUntilChanged()
+        isBookmarked = successRequestBookmark.distinctUntilChanged()
         .map { $0.isBookmarked }
         .asSignal(onErrorSignalWith: .empty())
   }

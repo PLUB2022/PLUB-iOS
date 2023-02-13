@@ -121,7 +121,7 @@ final class SelectedCategoryViewController: BaseViewController {
     })
     .disposed(by: disposeBag)
     
-    interestListCollectionView.rx.didEndDragging
+    interestListCollectionView.rx.didScroll
       .subscribe(with: self, onNext: { owner, _ in
         let offSetY = owner.interestListCollectionView.contentOffset.y
         let contentHeight = owner.interestListCollectionView.contentSize.height
