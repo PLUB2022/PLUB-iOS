@@ -121,12 +121,12 @@ final class SelectedCategoryViewController: BaseViewController {
     })
     .disposed(by: disposeBag)
     
-    interestListCollectionView.rx.didScroll
+    interestListCollectionView.rx.didEndDragging
       .subscribe(with: self, onNext: { owner, _ in
         let offSetY = owner.interestListCollectionView.contentOffset.y
         let contentHeight = owner.interestListCollectionView.contentSize.height
         
-        if offSetY > (contentHeight - owner.interestListCollectionView.frame.size.height) {
+        if offSetY > (contentHeight - owner.interestListCollectionView.frame.size.height + 100) {
           owner.viewModel.fetchMoreDatas.onNext(())
         }
       })

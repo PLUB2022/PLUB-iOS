@@ -43,6 +43,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let dataIsEmpty = PublishSubject<Bool>()
     let whichBookmark = PublishSubject<String>()
     let fetchingDatas = PublishSubject<Void>()
+    let currentPage = BehaviorSubject<Int>(value: 1)
     
     isEmpty = dataIsEmpty.asSignal(onErrorSignalWith: .empty())
     whichSortType = searchSortType.asObserver()
@@ -53,10 +54,11 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     
     let fetchingSelectedCategory = Observable.combineLatest(
       selectingCategoryID,
+      currentPage.distinctUntilChanged(),
       searchSortType.distinctUntilChanged()
-    ) { ($0, $1) }
-      .flatMapLatest { (categoryId, sortType) in
-        return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId, sort: sortType.text)
+    ) { ($0, $1, $2) }
+      .flatMapLatest { (categoryId, page, sortType) in
+        return MeetingService.shared.inquireCategoryMeeting(categoryId: categoryId, page: page, sort: sortType.text)
       }
       .share()
     
@@ -68,6 +70,16 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let selectingContents = successFetching.compactMap { response -> [Content]? in
       return response.content
     }
+    
+    fetchingDatas.withLatestFrom(currentPage)
+      .map { $0 + 1 }
+      .bind(to: currentPage)
+      .disposed(by: disposeBag)
+    
+    currentPage.subscribe(onNext: { page in
+      print("지금 페이지 = \(page)")
+    })
+    .disposed(by: disposeBag)
     
     selectingContents
       .do(onNext: { dataIsEmpty.onNext($0.isEmpty) })
@@ -89,7 +101,9 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
               + " | "
               + "(data.time)"))
         }
-        updatingCellData.accept(model)
+        var cellData = updatingCellData.value
+        cellData.append(contentsOf: model)
+        updatingCellData.accept(cellData)
       })
         .disposed(by: disposeBag)
         
