@@ -58,4 +58,5 @@ struct DetailRecruitmentResponse: Codable {
 struct AccountInfo: Codable {
   let accountId: Int
   let profileImage: String?
+  let nickname: String
 }
