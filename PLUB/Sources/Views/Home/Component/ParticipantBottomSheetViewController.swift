@@ -12,6 +12,18 @@ import Then
 
 class ParticipantBottomSheetViewController: BottomSheetViewController {
   
+  private let grabber = UIView().then {
+    $0.backgroundColor = .mediumGray
+    $0.layer.cornerRadius = 6
+    $0.layer.masksToBounds = true
+  }
+  
+  private let titleLabel = UILabel().then {
+    $0.textColor = .black
+    $0.font = .h5
+    $0.text = "With us!"
+  }
+  
   private lazy var participantCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout()
@@ -24,13 +36,28 @@ class ParticipantBottomSheetViewController: BottomSheetViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [participantCollectionView].forEach { contentView.addSubview($0) }
+    [grabber, titleLabel, participantCollectionView].forEach { contentView.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    grabber.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(8)
+      $0.centerX.equalToSuperview()
+      $0.width.equalTo(48)
+      $0.height.equalTo(4)
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.top.equalTo(grabber.snp.bottom).offset(16)
+      $0.leading.equalToSuperview().inset(16)
+    }
+    
     participantCollectionView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.top.equalTo(titleLabel.snp.bottom).offset(24)
+      $0.leading.trailing.bottom.equalToSuperview()
+      $0.height.equalTo(251)
     }
   }
   
