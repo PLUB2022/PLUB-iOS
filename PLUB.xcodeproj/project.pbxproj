@@ -19,6 +19,7 @@
 		70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */; };
 		70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B802955A68C000503F6 /* CategoryInfoListView.swift */; };
 		702876B1299B788400E57509 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B0299B788400E57509 /* NoticeViewController.swift */; };
+		702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
@@ -241,6 +242,7 @@
 		70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewModel.swift; sourceTree = "<group>"; };
 		70197B802955A68C000503F6 /* CategoryInfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfoListView.swift; sourceTree = "<group>"; };
 		702876B0299B788400E57509 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
+		702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantBottomSheetViewController.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -615,6 +617,7 @@
 				70A420A1298CE4C30026E9F9 /* NoSelectedCategoryView.swift */,
 				70A420AC299002490026E9F9 /* NoResultSearchView.swift */,
 				70CF333829992FA60077FF47 /* RecruitmentFilterSlider.swift */,
+				702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1550,6 +1553,7 @@
 				C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
+				702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
