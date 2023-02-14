@@ -24,4 +24,8 @@ extension AccountService {
   func inquireInterest() -> Observable<NetworkResult<GeneralResponse<InquireInterestResponse>>> {
     return sendRequest(AccountRouter.inquireInterest, type: InquireInterestResponse.self)
   }
+  
+  func registerInterest(request: RegisterInterestRequest) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+    return sendRequest(AccountRouter.registerInterest(request))
+  }
 }

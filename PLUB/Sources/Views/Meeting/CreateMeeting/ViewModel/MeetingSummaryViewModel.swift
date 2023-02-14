@@ -70,7 +70,7 @@ final class MeetingSummaryViewModel {
         switch result {
         case .success(let model):
           owner.presentSuccessPage.onNext(())
-          
+          print(model.data?.plubbingID)
         default: break // TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })

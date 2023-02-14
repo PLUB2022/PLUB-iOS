@@ -179,6 +179,17 @@ final class SearchInputViewController: BaseViewController {
     })
     .disposed(by: disposeBag)
     
+    interestListCollectionView.rx.didScroll
+      .subscribe(with: self, onNext: { owner, _ in
+        let offSetY = owner.interestListCollectionView.contentOffset.y
+        let contentHeight = owner.interestListCollectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.interestListCollectionView.frame.size.height) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
+      })
+      .disposed(by: disposeBag)
+    
   }
   
   private func presentSearchOutput(keyword: String) {

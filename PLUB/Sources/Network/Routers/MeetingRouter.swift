@@ -9,9 +9,9 @@ import Alamofire
 
 enum MeetingRouter {
   case createMeeting(CreateMeetingRequest)
-  case editMeeting(Int, EditMeetingRequest)
+  case editMeetingInfo(String, EditMeetingInfoRequest)
   case inquireCategoryMeeting(String, Int, String)
-  case inquireRecommendationMeeting
+  case inquireRecommendationMeeting(Int)
 }
 
 extension MeetingRouter: Router {
@@ -19,7 +19,7 @@ extension MeetingRouter: Router {
     switch self {
     case .createMeeting:
       return .post
-    case .editMeeting:
+    case .editMeetingInfo:
       return .put
     case .inquireCategoryMeeting, .inquireRecommendationMeeting:
       return .get
@@ -30,7 +30,7 @@ extension MeetingRouter: Router {
     switch self {
     case .createMeeting:
       return "/plubbings"
-    case .editMeeting(let plubbingId, _):
+    case .editMeetingInfo(let plubbingId, _):
       return "/plubbings/\(plubbingId)"
     case .inquireCategoryMeeting(let categoryId, _, _):
       return "/plubbings/categories/\(categoryId)"
@@ -43,18 +43,18 @@ extension MeetingRouter: Router {
     switch self {
     case let .createMeeting(model):
       return .body(model)
-    case let .editMeeting(_, model):
+    case let .editMeetingInfo(_, model):
       return .body(model)
     case .inquireCategoryMeeting(_, let page, let sort):
       return .query(["page": "\(page)", "sort": sort])
-    case .inquireRecommendationMeeting:
-      return .plain
+    case .inquireRecommendationMeeting(let page):
+      return .query(["page": page])
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .createMeeting, .editMeeting, .inquireCategoryMeeting, .inquireRecommendationMeeting:
+    case .createMeeting, .editMeetingInfo, .inquireCategoryMeeting, .inquireRecommendationMeeting:
       return .withAccessToken
     }
   }

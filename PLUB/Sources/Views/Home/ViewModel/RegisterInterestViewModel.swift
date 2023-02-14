@@ -10,33 +10,41 @@ import RxCocoa
 
 protocol RegisterInterestViewModelType {
   // Input
-  var selectDetailCell: AnyObserver<Void> { get }
-  var deselectDetailCell: AnyObserver<Void> { get }
+  var selectDetailCell: AnyObserver<Int> { get }
+  var deselectDetailCell: AnyObserver<Int> { get }
+  var tappedRegisterButton: AnyObserver<Void> { get }
   
   // Output
   var fetchedRegisterInterest: Driver<[RegisterInterestModel]> { get }
   var isEnabledFloatingButton: Driver<Bool> { get }
+  var successRegisterInterest: Observable<Void> { get }
 }
 
 final class RegisterInterestViewModel: RegisterInterestViewModelType {
   let disposeBag = DisposeBag()
 
   // Input
-  let selectDetailCell: AnyObserver<Void> // 관심사 등록을 위한 셀을 클릭했는지
-  let deselectDetailCell: AnyObserver<Void> // 관심사 등록해제를 위한 셀을 클릭했는지
+  let selectDetailCell: AnyObserver<Int> // 관심사 등록을 위한 셀을 클릭했는지
+  let deselectDetailCell: AnyObserver<Int> // 관심사 등록해제를 위한 셀을 클릭했는지
+  let tappedRegisterButton: AnyObserver<Void> // 관심사 등록 버튼을 탭했는지
   
   // Output
   let fetchedRegisterInterest: Driver<[RegisterInterestModel]> // 관심사 등록을 위한 데이터 방출
   let isEnabledFloatingButton: Driver<Bool> // 하나의 셀이라도 눌렸는지에 대한 값 방출
+  let successRegisterInterest: Observable<Void> // 관심사 등록 성공여부
   
   init() {
     let fetchingRegisterInterest = BehaviorRelay<[RegisterInterestModel]>(value: [])
     let selectingDetailCellCount = BehaviorSubject<Int>(value: 0)
-    let selectingDetailCell = PublishSubject<Void>()
-    let deselectingDetailCell = PublishSubject<Void>()
+    let selectingDetailCell = PublishSubject<Int>()
+    let deselectingDetailCell = PublishSubject<Int>()
+    let selectingInterest = BehaviorRelay<[Int]>(value: [])
+    let registering = PublishSubject<Void>()
+    
     fetchedRegisterInterest = fetchingRegisterInterest.asDriver(onErrorDriveWith: .empty())
     selectDetailCell = selectingDetailCell.asObserver()
     deselectDetailCell = deselectingDetailCell.asObserver()
+    tappedRegisterButton = registering.asObserver()
     
     let inquireAllCategoryList = CategoryService.shared.inquireAll().share()
     let successFetching = inquireAllCategoryList.map { result -> [Category]? in
@@ -53,15 +61,35 @@ final class RegisterInterestViewModel: RegisterInterestViewModelType {
     })
     .disposed(by: disposeBag)
     
-    selectingDetailCell.withLatestFrom(selectingDetailCellCount)
-      .map{ $0 + 1 }
-      .subscribe(onNext: selectingDetailCellCount.onNext(_:))
+    selectingDetailCell.withLatestFrom(selectingDetailCellCount) { ($0, $1) }
+      .map{ ($0, $1 + 1) }
+      .subscribe(onNext: { categoryID, count in
+        var selectInterest = selectingInterest.value
+        selectInterest.append(categoryID)
+        selectingInterest.accept(selectInterest)
+        selectingDetailCellCount.onNext(count)
+      })
       .disposed(by: disposeBag)
     
-    deselectingDetailCell.withLatestFrom(selectingDetailCellCount)
-      .map{ $0 - 1 }
-      .subscribe(onNext: selectingDetailCellCount.onNext(_:))
+    deselectingDetailCell.withLatestFrom(selectingDetailCellCount) { ($0, $1) }
+      .map{ ($0, $1 - 1) }
+      .subscribe(onNext: { categoryID, count in
+        var selectInterest = selectingInterest.value
+        selectInterest.append(categoryID)
+        selectingInterest.accept(selectInterest)
+        selectingDetailCellCount.onNext(count)
+      })
       .disposed(by: disposeBag)
+    
+    let registerInterest = registering.withLatestFrom(selectingInterest)
+      .flatMapLatest { selectInterest in
+        return AccountService.shared.registerInterest(request: .init(subCategories: selectInterest))
+      }
+    
+    successRegisterInterest = registerInterest.compactMap { result -> Void? in
+      guard case .success(_) = result else { return nil }
+      return ()
+    }
     
     isEnabledFloatingButton = selectingDetailCellCount.map{ $0 != 0 }.asDriver(onErrorJustReturn: false)
   }

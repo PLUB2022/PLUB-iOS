@@ -37,6 +37,26 @@ struct EditMeetingInfoRequest: Codable {
     onOff = .on
     peopleNumber = 0
   }
+  
+  init(
+    days: [String],
+    onOff: OnOff,
+    peopleNumber: Int,
+    address: String? = nil,
+    roadAddress: String? = nil,
+    placeName: String? = nil,
+    positionX: Double? = nil,
+    positionY: Double? = nil
+  ) {
+    self.days = days
+    self.onOff = onOff
+    self.peopleNumber = peopleNumber
+    self.address = address
+    self.roadAddress = roadAddress
+    self.placeName = placeName
+    self.positionX = positionX
+    self.positionY = positionY
+  }
 }
 
 extension EditMeetingInfoRequest {

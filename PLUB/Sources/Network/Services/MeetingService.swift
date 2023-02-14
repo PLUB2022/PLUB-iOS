@@ -22,18 +22,18 @@ extension MeetingService {
     )
   }
   
-  func editMeeting(plubbingId: Int, request: EditMeetingRequest) -> Observable<NetworkResult<GeneralResponse<CreateMeetingResponse>>> {
+  func editMeetingInfo(plubbingID: String, request: EditMeetingInfoRequest) -> Observable<NetworkResult<GeneralResponse<CreateMeetingResponse>>> {
     return sendRequest(
-      MeetingRouter.editMeeting(plubbingId, request),
+      MeetingRouter.editMeetingInfo(plubbingID, request),
       type: CreateMeetingResponse.self
     )
   }
   
-  func inquireCategoryMeeting(categoryId: String, page: Int = 1, sort: String) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>>  {
+  func inquireCategoryMeeting(categoryId: String, page: Int, sort: String) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>>  {
     return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryId, page, sort), type: CategoryMeetingResponse.self)
   }
   
-  func inquireRecommendationMeeting() -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>> {
-    return sendRequest(MeetingRouter.inquireRecommendationMeeting, type: CategoryMeetingResponse.self)
+  func inquireRecommendationMeeting(page: Int) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>> {
+    return sendRequest(MeetingRouter.inquireRecommendationMeeting(page), type: CategoryMeetingResponse.self)
   }
 }
