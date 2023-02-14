@@ -81,7 +81,6 @@
 		BA117A50297444EE00B37E03 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A4F297444EE00B37E03 /* KakaoSDKCommon */; };
 		BA117A52297444EE00B37E03 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A51297444EE00B37E03 /* KakaoSDKUser */; };
 		BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */; };
-		BA340E1829782280002BAF2C /* ParticipantListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1729782280002BAF2C /* ParticipantListCollectionViewCell.swift */; };
 		BA340E1A297822A8002BAF2C /* ParticipantListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E19297822A8002BAF2C /* ParticipantListHeaderView.swift */; };
 		BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */; };
 		BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */; };
@@ -301,7 +300,6 @@
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceTagCollectionViewCell.swift; sourceTree = "<group>"; };
-		BA340E1729782280002BAF2C /* ParticipantListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantListCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA340E19297822A8002BAF2C /* ParticipantListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantListHeaderView.swift; sourceTree = "<group>"; };
 		BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryInfoView.swift; sourceTree = "<group>"; };
 		BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryTitleView.swift; sourceTree = "<group>"; };
@@ -671,7 +669,6 @@
 			isa = PBXGroup;
 			children = (
 				BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */,
-				BA340E1729782280002BAF2C /* ParticipantListCollectionViewCell.swift */,
 				BA340E19297822A8002BAF2C /* ParticipantListHeaderView.swift */,
 			);
 			path = IntroduceCategory;
@@ -1531,7 +1528,6 @@
 				C3B04E482981789A00188E60 /* UploadImageResponse.swift in Sources */,
 				C3AD265F296AD3C100C57370 /* InputTextView.swift in Sources */,
 				70A420A5298D01680026E9F9 /* SearchOutputHeaderView.swift in Sources */,
-				BA340E1829782280002BAF2C /* ParticipantListCollectionViewCell.swift in Sources */,
 				70A420832982F0360026E9F9 /* SearchInputViewController.swift in Sources */,
 				BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */,
 				C3AB743D296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift in Sources */,
