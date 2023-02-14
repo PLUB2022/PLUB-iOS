@@ -52,7 +52,7 @@
 		70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */; };
 		70A420C029914B690026E9F9 /* SearchRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */; };
 		70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420C129914B890026E9F9 /* InquireInterestResponse.swift */; };
-		70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* UIView + extension.swift */; };
+		70BD5F272959F718002CBA89 /* Ex+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* Ex+UIView.swift */; };
 		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
 		70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */; };
 		70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */; };
@@ -261,7 +261,7 @@
 		70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestBookmarkResponse.swift; sourceTree = "<group>"; };
 		70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70A420C129914B890026E9F9 /* InquireInterestResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InquireInterestResponse.swift; sourceTree = "<group>"; };
-		70BD5F262959F718002CBA89 /* UIView + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + extension.swift"; sourceTree = "<group>"; };
+		70BD5F262959F718002CBA89 /* Ex+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIView.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
 		70BD5F2F2964823C002CBA89 /* ApplyQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewController.swift; sourceTree = "<group>"; };
 		70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionTableViewCell.swift; sourceTree = "<group>"; };
@@ -596,14 +596,6 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		70BD5F252959F706002CBA89 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				70BD5F262959F718002CBA89 /* UIView + extension.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
 		70BD5F3129648DA5002CBA89 /* ApplyQuestion */ = {
 			isa = PBXGroup;
 			children = (
@@ -673,7 +665,6 @@
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				70BD5F252959F706002CBA89 /* Extension */,
 				70197B6C29535BA2000503F6 /* ViewModel */,
 				704AC7932938E7EA008C3A88 /* Model */,
 				7095A588292E58EE002A52E6 /* Component */,
@@ -712,6 +703,7 @@
 		BA46CC9C28EC9AEA004953B1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				70BD5F262959F718002CBA89 /* Ex+UIView.swift */,
 				BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */,
 				BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */,
 				BA52778F28EECEB40036B825 /* Ex+UIFont.swift */,
@@ -1474,7 +1466,7 @@
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,
 				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
-				70BD5F272959F718002CBA89 /* UIView + extension.swift in Sources */,
+				70BD5F272959F718002CBA89 /* Ex+UIView.swift in Sources */,
 				C33FB0742993FAC600BEB15B /* EditMeetingRequest.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
