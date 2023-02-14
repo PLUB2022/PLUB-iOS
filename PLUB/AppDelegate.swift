@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       clientID: KeyConstants.googleID,
       serverClientID: KeyConstants.googleServerClientID
     )
+    
+    setupNavigationBarStyle()
+    
     return true
   }
   
@@ -31,6 +34,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+  }
+  
+  private func setupNavigationBarStyle() {
+    let appearance = UINavigationBarAppearance()
+    
+    appearance.configureWithOpaqueBackground()
+    appearance.backgroundColor = .background
+    
+    appearance.titleTextAttributes = [
+      NSAttributedString.Key.foregroundColor: UIColor.black,
+      NSAttributedString.Key.font: UIFont.h4!
+    ]
+    
+    appearance.shadowColor = .clear
+    appearance.shadowImage = UIImage()
+    
+    UINavigationBar.appearance().standardAppearance = appearance
+    UINavigationBar.appearance().scrollEdgeAppearance = appearance
   }
 }
 
