@@ -20,6 +20,7 @@
 		70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B802955A68C000503F6 /* CategoryInfoListView.swift */; };
 		702876B1299B788400E57509 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B0299B788400E57509 /* NoticeViewController.swift */; };
 		702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */; };
+		702876B5299BAD0A00E57509 /* ParticipantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B4299BAD0A00E57509 /* ParticipantCollectionViewCell.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
@@ -241,6 +242,7 @@
 		70197B802955A68C000503F6 /* CategoryInfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfoListView.swift; sourceTree = "<group>"; };
 		702876B0299B788400E57509 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantBottomSheetViewController.swift; sourceTree = "<group>"; };
+		702876B4299BAD0A00E57509 /* ParticipantCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantCollectionViewCell.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -667,6 +669,7 @@
 			isa = PBXGroup;
 			children = (
 				BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */,
+				702876B4299BAD0A00E57509 /* ParticipantCollectionViewCell.swift */,
 			);
 			path = DetailRecruitment;
 			sourceTree = "<group>";
@@ -1435,6 +1438,7 @@
 				70A4209E2988BB410026E9F9 /* SortBottomSheetViewController.swift in Sources */,
 				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
 				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
+				702876B5299BAD0A00E57509 /* ParticipantCollectionViewCell.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */,
 				70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */,
