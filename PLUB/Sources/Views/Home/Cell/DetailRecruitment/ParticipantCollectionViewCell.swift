@@ -21,8 +21,11 @@ class ParticipantCollectionViewCell: UICollectionViewCell {
   static let identifier = "ParticipantCollectionViewCell"
   
   private let participantImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
+    $0.clipsToBounds = true
+    $0.layer.cornerRadius = 24
+    $0.backgroundColor = .systemPink
   }
   
   private let pariticipantNameLabel = UILabel().then {
@@ -43,30 +46,23 @@ class ParticipantCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    let imageSize = participantImageView.bounds.size
-    participantImageView.layer.cornerRadius = imageSize.width / 2
-  }
-  
   private func configureUI() {
     contentView.backgroundColor = .background
     [participantImageView, pariticipantNameLabel].forEach { contentView.addSubview($0) }
     participantImageView.snp.makeConstraints {
-      $0.top.leading.trailing.equalToSuperview()
+      $0.top.centerX.equalToSuperview()
       $0.size.equalTo(48)
     }
     
     pariticipantNameLabel.snp.makeConstraints {
-      $0.top.equalTo(participantImageView.snp.bottom)
-      $0.leading.trailing.bottom.equalToSuperview()
+      $0.top.equalTo(participantImageView.snp.bottom).offset(4)
+      $0.leading.trailing.equalToSuperview()
     }
   }
   
   public func configureUI(with model: ParticipantCollectionViewCellModel) {
-//    guard let url = URL(string: model.imageName) else { return }
-//    participantImageView.kf.setImage(with: url)
+    guard let url = URL(string: model.imageName) else { return }
+    participantImageView.kf.setImage(with: url)
     pariticipantNameLabel.text = model.name
-    participantImageView.image = UIImage(systemName: "person.fill")
   }
 }

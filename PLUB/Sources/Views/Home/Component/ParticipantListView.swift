@@ -12,12 +12,13 @@ import SnapKit
 import Then
 
 protocol ParticipantListViewDelegate: AnyObject {
-  func didTappedMoreButton()
+  func didTappedMoreButton(accountInfos: [AccountInfo])
 }
 
 final class ParticipantListView: UIView {
   
   weak var delegate: ParticipantListViewDelegate?
+  var accountInfos: [AccountInfo]?
   
   private let participantTitleLabel = UILabel().then {
     $0.textColor = .black
@@ -85,6 +86,7 @@ final class ParticipantListView: UIView {
   }
   
   public func configureUI(with model: [AccountInfo]) {
+    accountInfos = model
     let model = model.compactMap { $0 }
     let joinedCount = model.count
     guard joinedCount > 0 else { return }
@@ -106,7 +108,8 @@ final class ParticipantListView: UIView {
   }
   
   @objc private func didTappedMoreButton() {
-    delegate?.didTappedMoreButton()
+    guard let accountInfos = accountInfos else { return }
+    delegate?.didTappedMoreButton(accountInfos: accountInfos)
   }
 }
 

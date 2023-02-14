@@ -12,6 +12,8 @@ import Then
 
 class ParticipantBottomSheetViewController: BottomSheetViewController {
   
+  private let model: [AccountInfo]
+  
   private let grabber = UIView().then {
     $0.backgroundColor = .mediumGray
     $0.layer.cornerRadius = 6
@@ -29,9 +31,19 @@ class ParticipantBottomSheetViewController: BottomSheetViewController {
     collectionViewLayout: UICollectionViewFlowLayout()
   ).then {
     $0.backgroundColor = .background
+    $0.contentInset = UIEdgeInsets(top: 24, left: 16, bottom: 24, right: 16)
     $0.register(ParticipantCollectionViewCell.self, forCellWithReuseIdentifier: ParticipantCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
+  }
+  
+  init(model: [AccountInfo]) {
+    self.model = model
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setupLayouts() {
@@ -55,9 +67,10 @@ class ParticipantBottomSheetViewController: BottomSheetViewController {
     }
     
     participantCollectionView.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom).offset(24)
-      $0.leading.trailing.bottom.equalToSuperview()
-      $0.height.equalTo(251)
+      $0.top.equalTo(titleLabel.snp.bottom)
+      $0.leading.trailing.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
+      $0.height.equalTo(275)
     }
   }
   
@@ -77,18 +90,26 @@ extension ParticipantBottomSheetViewController: UICollectionViewDelegate, UIColl
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return model.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ParticipantCollectionViewCell.identifier, for: indexPath) as? ParticipantCollectionViewCell ?? ParticipantCollectionViewCell()
-    cell.configureUI(with: .init(name: "이건준", imageName: ""))
+    cell.configureUI(with: .init(name: "이건준", imageName: model[indexPath.row].profileImage ?? ""))
     return cell
   }
 }
 
 extension ParticipantBottomSheetViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 100, height: 48 + 21)
+    return CGSize(width: collectionView.frame.width / 4 - 16 - 3, height: 48 + 21)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 16
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    return 12
   }
 }
