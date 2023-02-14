@@ -95,7 +95,8 @@ extension ParticipantBottomSheetViewController: UICollectionViewDelegate, UIColl
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ParticipantCollectionViewCell.identifier, for: indexPath) as? ParticipantCollectionViewCell ?? ParticipantCollectionViewCell()
-    cell.configureUI(with: .init(name: "이건준", imageName: model[indexPath.row].profileImage ?? ""))
+    let model = model[indexPath.row]
+    cell.configureUI(with: .init(name: model.nickname, imageName: model.profileImage ?? ""))
     return cell
   }
 }
