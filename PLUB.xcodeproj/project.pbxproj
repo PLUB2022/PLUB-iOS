@@ -81,7 +81,6 @@
 		BA117A50297444EE00B37E03 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A4F297444EE00B37E03 /* KakaoSDKCommon */; };
 		BA117A52297444EE00B37E03 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A51297444EE00B37E03 /* KakaoSDKUser */; };
 		BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */; };
-		BA340E1A297822A8002BAF2C /* ParticipantListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E19297822A8002BAF2C /* ParticipantListHeaderView.swift */; };
 		BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */; };
 		BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */; };
 		BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1F29782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift */; };
@@ -300,7 +299,6 @@
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceTagCollectionViewCell.swift; sourceTree = "<group>"; };
-		BA340E19297822A8002BAF2C /* ParticipantListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantListHeaderView.swift; sourceTree = "<group>"; };
 		BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryInfoView.swift; sourceTree = "<group>"; };
 		BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryTitleView.swift; sourceTree = "<group>"; };
 		BA340E1F29782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -669,7 +667,6 @@
 			isa = PBXGroup;
 			children = (
 				BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */,
-				BA340E19297822A8002BAF2C /* ParticipantListHeaderView.swift */,
 			);
 			path = IntroduceCategory;
 			sourceTree = "<group>";
@@ -1536,7 +1533,6 @@
 				C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */,
 				70A420B829914B5B0026E9F9 /* SearchParameter.swift in Sources */,
 				70A420AD299002490026E9F9 /* NoResultSearchView.swift in Sources */,
-				BA340E1A297822A8002BAF2C /* ParticipantListHeaderView.swift in Sources */,
 				BABB011A297ED415004178EC /* InterestViewController.swift in Sources */,
 				70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
