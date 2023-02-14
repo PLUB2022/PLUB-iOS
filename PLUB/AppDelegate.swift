@@ -39,14 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   private func setupNavigationBarStyle() {
     let appearance = UINavigationBarAppearance()
     
-    appearance.configureWithOpaqueBackground()
-    appearance.backgroundColor = .background
+    appearance.configureWithOpaqueBackground() // 반투명 색상
+    appearance.backgroundColor = .background // 배경색
     
     appearance.titleTextAttributes = [
-      NSAttributedString.Key.foregroundColor: UIColor.black,
-      NSAttributedString.Key.font: UIFont.h4!
+      NSAttributedString.Key.foregroundColor: UIColor.black, // 텍스트 색상
+      NSAttributedString.Key.font: UIFont.h4! // 폰트
     ]
     
+    // 내비바 하단 회색선 제거
     appearance.shadowColor = .clear
     appearance.shadowImage = UIImage()
     
