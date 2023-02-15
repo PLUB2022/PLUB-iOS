@@ -25,7 +25,6 @@ class ParticipantCollectionViewCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
     $0.clipsToBounds = true
     $0.layer.cornerRadius = 24
-    $0.backgroundColor = .systemPink
   }
   
   private let pariticipantNameLabel = UILabel().then {

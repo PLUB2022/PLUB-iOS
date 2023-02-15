@@ -69,8 +69,8 @@ class ParticipantBottomSheetViewController: BottomSheetViewController {
     participantCollectionView.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom)
       $0.leading.trailing.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
-      $0.height.equalTo(275)
+      $0.bottom.equalToSuperview()
+      $0.height.equalTo(ceil(Double(model.count) / Double(4)) * (48 + 4 + 21) + (ceil(Double(model.count) / Double(4)) - 1) * 16 + Double(24 + 24))
     }
   }
   
@@ -103,7 +103,7 @@ extension ParticipantBottomSheetViewController: UICollectionViewDelegate, UIColl
 
 extension ParticipantBottomSheetViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width / 4 - 16 - 3, height: 48 + 21)
+    return CGSize(width: collectionView.frame.width / 4 - 16 - 3, height: 48 + 4 + 21)
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
