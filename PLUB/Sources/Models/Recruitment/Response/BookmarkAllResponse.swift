@@ -28,7 +28,7 @@ struct BookmarkAllResponse: Codable {
 }
 
 struct BookmarkContent: Codable {
-  let plubbingId: Int
+  let plubbingID: Int
   let title: String
   let introduce: String
   let name: String
@@ -44,5 +44,10 @@ struct BookmarkContent: Codable {
   let curAccountNum: Int
   let isBookmarked: Bool
   let views: Int
+  
+  enum CodingKeys: String, CodingKey {
+    case plubbingID = "plubbingId"
+    case title, introduce, name, days, mainImage, address, roadAddress, placeName, placePositionX, placePositionY, remainAccountNum, time, curAccountNum, isBookmarked, views
+  }
 }
 
