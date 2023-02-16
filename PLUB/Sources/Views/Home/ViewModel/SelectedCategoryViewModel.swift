@@ -117,7 +117,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         isLoading.onNext(false)
       })
       .disposed(by: disposeBag)
-        
+    
         let requestBookmark = whichBookmark
         .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
         
