@@ -8,6 +8,7 @@
 import Alamofire
 
 enum RecruitmentRouter {
+  case inquireAllBookmark
   case inquireDetailRecruitment(String)
   case inquireRecruitmentQuestion(String)
   case searchRecruitment(SearchParameter)
@@ -19,7 +20,7 @@ enum RecruitmentRouter {
 extension RecruitmentRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment:
       return .get
     case .requestBookmark:
       return .post
@@ -42,12 +43,14 @@ extension RecruitmentRouter: Router {
       return "/plubbings/\(plubbingID)/recruit"
     case .editMeetingQuestion(let plubbingID, _):
       return "/plubbings/\(plubbingID)/recruit/questions"
+    case .inquireAllBookmark:
+      return "/plubbings/recruit/bookmarks/me"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .requestBookmark:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .requestBookmark:
       return .plain
     case .searchRecruitment(let parameter):
       return .query(parameter)
@@ -60,7 +63,7 @@ extension RecruitmentRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion:
       return .withAccessToken
     }
   }
