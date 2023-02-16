@@ -22,6 +22,7 @@
 		702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */; };
 		702876B5299BAD0A00E57509 /* ParticipantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B4299BAD0A00E57509 /* ParticipantCollectionViewCell.swift */; };
 		702876B7299E429C00E57509 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B6299E429C00E57509 /* BookmarkViewController.swift */; };
+		702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B8299E459100E57509 /* BookmarkViewModel.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
@@ -245,6 +246,7 @@
 		702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantBottomSheetViewController.swift; sourceTree = "<group>"; };
 		702876B4299BAD0A00E57509 /* ParticipantCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantCollectionViewCell.swift; sourceTree = "<group>"; };
 		702876B6299E429C00E57509 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
+		702876B8299E459100E57509 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 				70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */,
 				70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */,
 				70F1DFEE297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift */,
+				702876B8299E459100E57509 /* BookmarkViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1551,6 +1554,7 @@
 				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
 				70BD5F272959F718002CBA89 /* Ex+UIView.swift in Sources */,
 				C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */,
+				702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 				702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */,
