@@ -14,7 +14,7 @@ protocol BookmarkViewModelType {
   
   // Output
   var isBookmarked: Signal<Bool> { get }
-  var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
+  var updatedCellData: Signal<[SelectedCategoryCollectionViewCellModel]> { get }
 }
 
 final class BookmarkViewModel: BookmarkViewModelType {
@@ -23,7 +23,7 @@ final class BookmarkViewModel: BookmarkViewModelType {
   
   // Output
   let isBookmarked: Signal<Bool> // [북마크][북마크해제] 성공 유무
-  let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> // 해당 ID와 분류타입에 대한 카테고리 데이터
+  let updatedCellData: Signal<[SelectedCategoryCollectionViewCellModel]> // 해당 ID와 분류타입에 대한 카테고리 데이터
   
   init() {
     let whichBookmark = PublishSubject<String>()
@@ -41,6 +41,7 @@ final class BookmarkViewModel: BookmarkViewModelType {
     let inquireBookmarkAll = RecruitmentService.shared.inquireBookmarkAll().share()
     
     let successBookmarkAll = inquireBookmarkAll.compactMap { result -> [BookmarkContent]? in
+      print("뭐야 \(result)")
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }
@@ -64,7 +65,7 @@ final class BookmarkViewModel: BookmarkViewModelType {
         + "(data.time)"))
 
       }
-    }.asDriver(onErrorDriveWith: .empty())
+    }.asSignal(onErrorSignalWith: .empty())
     
     isBookmarked = successRequestBookmark.distinctUntilChanged()
     .map { $0.isBookmarked }

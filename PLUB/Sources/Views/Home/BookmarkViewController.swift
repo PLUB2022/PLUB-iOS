@@ -51,6 +51,15 @@ final class BookmarkViewController: BaseViewController {
     ]
   }
   
+  override func bind() {
+    super.bind()
+    viewModel.updatedCellData
+      .emit(onNext: { data in
+        print("데이터 = \(data)")
+      })
+      .disposed(by: disposeBag)
+  }
+  
   @objc private func didTappedBackButton() {
     self.navigationController?.popViewController(animated: true)
   }
