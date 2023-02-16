@@ -74,8 +74,9 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.sizeToFit()
   }
   
-  private let participantListView = ParticipantListView().then {
+  private lazy var participantListView = ParticipantListView().then {
     $0.backgroundColor = .clear
+    $0.delegate = self
   }
   
   init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: String) {
@@ -219,5 +220,13 @@ extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectio
       }
       let size = label.frame.size
       return CGSize(width: size.width + 16, height: size.height + 4)
+  }
+}
+
+extension DetailRecruitmentViewController: ParticipantListViewDelegate {
+  func didTappedMoreButton(accountInfos: [AccountInfo]) {
+    let vc = ParticipantBottomSheetViewController(model: accountInfos)
+    vc.modalPresentationStyle = .overFullScreen
+    present(vc, animated: false)
   }
 }
