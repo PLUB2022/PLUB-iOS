@@ -41,7 +41,6 @@ final class BookmarkViewModel: BookmarkViewModelType {
     let inquireBookmarkAll = RecruitmentService.shared.inquireBookmarkAll().share()
     
     let successBookmarkAll = inquireBookmarkAll.compactMap { result -> [BookmarkContent]? in
-      print("뭐야 \(result)")
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }

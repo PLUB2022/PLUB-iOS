@@ -7,8 +7,69 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
+
+protocol BookmarkHeaderViewDelegate: AnyObject {
+  func didTappedInterestListChartButton()
+  func didTappedInterestListGridButton()
+}
+
+class BookmarkHeaderView: UIView {
+  
+  weak var delegate: BookmarkHeaderViewDelegate?
+  private let disposeBag = DisposeBag()
+  
+  private let interestListChartButton = ToggleButton(type: .chart)
+  
+  private let interesetListGridButton = ToggleButton(type: .grid)
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    configureUI()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func configureUI() {
+    
+  }
+  
+  private func bind() {
+    interestListChartButton.buttonTapObservable
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.interesetListGridButton.isSelected = false
+        owner.delegate?.didTappedInterestListChartButton()
+      })
+      .disposed(by: disposeBag)
+    
+    interestListChartButton.buttonUnTapObservable
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.interestListChartButton.isSelected = true
+      })
+      .disposed(by: disposeBag)
+    
+    interesetListGridButton.buttonTapObservable
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.interestListChartButton.isSelected = false
+        owner.delegate?.didTappedInterestListGridButton()
+      })
+      .disposed(by: disposeBag)
+    
+    interesetListGridButton.buttonUnTapObservable
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        owner.interesetListGridButton.isSelected = true
+      })
+      .disposed(by: disposeBag)
+  }
+}
 
 final class BookmarkViewController: BaseViewController {
   
