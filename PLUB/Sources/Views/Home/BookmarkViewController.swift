@@ -28,6 +28,7 @@ class BookmarkHeaderView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -35,7 +36,18 @@ class BookmarkHeaderView: UIView {
   }
   
   private func configureUI() {
+    [interestListChartButton, interesetListGridButton].forEach { addSubview($0) }
+    interesetListGridButton.snp.makeConstraints {
+      $0.trailing.equalToSuperview().inset(16)
+      $0.centerY.equalToSuperview()
+    }
     
+    interestListChartButton.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      $0.trailing.equalTo(interesetListGridButton.snp.leading)
+    }
+    
+    interestListChartButton.isSelected = true
   }
   
   private func bind() {
@@ -83,6 +95,10 @@ final class BookmarkViewController: BaseViewController {
   
   private var selectedCategoryType: SelectedCategoryType = .chart
   
+  private lazy var headerView = BookmarkHeaderView().then {
+    $0.delegate = self
+  }
+  
   private lazy var interestListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.scrollDirection = .vertical
   }).then {
@@ -101,6 +117,25 @@ final class BookmarkViewController: BaseViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func setupLayouts() {
+    super.setupLayouts()
+    [headerView, interestListCollectionView].forEach { view.addSubview($0) }
+    headerView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(32)
+    }
+    
+    interestListCollectionView.snp.makeConstraints {
+      $0.top.equalTo(headerView.snp.bottom)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+    }
+  }
+  
+  override func setupConstraints() {
+    super.setupConstraints()
   }
   
   override func setupStyles() {
@@ -186,5 +221,17 @@ extension BookmarkViewController: SelectedCategoryChartCollectionViewCellDelegat
   
   func didTappedGridBookmarkButton(plubbingID: String) {
     viewModel.tappedBookmark.onNext(plubbingID)
+  }
+}
+
+extension BookmarkViewController: BookmarkHeaderViewDelegate {
+  func didTappedInterestListChartButton() {
+    selectedCategoryType = .chart
+    interestListCollectionView.reloadData()
+  }
+  
+  func didTappedInterestListGridButton() {
+    selectedCategoryType = .grid
+    interestListCollectionView.reloadData()
   }
 }
