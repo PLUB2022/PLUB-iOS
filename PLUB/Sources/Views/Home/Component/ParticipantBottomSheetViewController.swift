@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class ParticipantBottomSheetViewController: BottomSheetViewController {
+final class ParticipantBottomSheetViewController: BottomSheetViewController {
   
   private let model: [AccountInfo]
   
@@ -71,6 +71,7 @@ class ParticipantBottomSheetViewController: BottomSheetViewController {
       $0.leading.trailing.equalToSuperview()
       $0.bottom.equalToSuperview()
       $0.height.equalTo(ceil(Double(model.count) / Double(4)) * (48 + 4 + 21) + (ceil(Double(model.count) / Double(4)) - 1) * 16 + Double(24 + 24))
+      // (총 참여자 수 / 행 최대 인원 수) * (참여자프로필높이 + 프로필, 라벨 offset + 라벨높이) + ((총 참여자 수 / 행 최대 인원 수) - 1) * minimumLine + (topInset + bottomInset)
     }
   }
   

@@ -16,7 +16,7 @@ struct ParticipantCollectionViewCellModel {
   let imageName: String
 }
 
-class ParticipantCollectionViewCell: UICollectionViewCell {
+final class ParticipantCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "ParticipantCollectionViewCell"
   
