@@ -227,11 +227,11 @@ extension BookmarkViewController: SelectedCategoryChartCollectionViewCellDelegat
 extension BookmarkViewController: BookmarkHeaderViewDelegate {
   func didTappedInterestListChartButton() {
     selectedCategoryType = .chart
-    interestListCollectionView.reloadData()
+    interestListCollectionView.collectionViewLayout.invalidateLayout()
   }
   
   func didTappedInterestListGridButton() {
     selectedCategoryType = .grid
-    interestListCollectionView.reloadData()
+    interestListCollectionView.collectionViewLayout.invalidateLayout()
   }
 }

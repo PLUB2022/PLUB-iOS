@@ -204,12 +204,12 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   
   func didTappedInterestListChartButton() {
     self.selectedCategoryType = .chart
-    self.interestListCollectionView.reloadData()
+    self.interestListCollectionView.collectionViewLayout.invalidateLayout()
   }
   
   func didTappedInterestListGridButton() {
     self.selectedCategoryType = .grid
-    self.interestListCollectionView.reloadData()
+    self.interestListCollectionView.collectionViewLayout.invalidateLayout()
   }
 }
 
