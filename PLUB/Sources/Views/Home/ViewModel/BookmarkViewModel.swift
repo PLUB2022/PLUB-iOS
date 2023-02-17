@@ -17,6 +17,7 @@ protocol BookmarkViewModelType {
   var updatedCellData: Signal<[SelectedCategoryCollectionViewCellModel]> { get }
 }
 
+// TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
 final class BookmarkViewModel: BookmarkViewModelType {
   // Input
   let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
