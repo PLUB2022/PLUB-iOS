@@ -18,7 +18,7 @@ protocol SelectedCategoryFilterHeaderViewDelegate: AnyObject {
   func didTappedSortControl()
 }
 
-class SelectedCategoryFilterHeaderView: UIView {
+final class SelectedCategoryFilterHeaderView: UIView {
   
   weak var delegate: SelectedCategoryFilterHeaderViewDelegate?
   private let disposeBag = DisposeBag()

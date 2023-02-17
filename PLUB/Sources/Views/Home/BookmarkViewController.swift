@@ -16,7 +16,7 @@ protocol BookmarkHeaderViewDelegate: AnyObject {
   func didTappedInterestListGridButton()
 }
 
-class BookmarkHeaderView: UIView {
+final class BookmarkHeaderView: UIView {
   
   weak var delegate: BookmarkHeaderViewDelegate?
   private let disposeBag = DisposeBag()
