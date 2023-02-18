@@ -88,13 +88,13 @@ final class SelectedCategoryViewController: BaseViewController {
   override func setupConstraints() {
     selectedCategoryFilterHeaderView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
-      $0.leading.trailing.equalToSuperview().inset(10)
+      $0.leading.trailing.equalToSuperview().inset(16)
       $0.height.equalTo(50)
     }
     
     interestListCollectionView.snp.makeConstraints {
       $0.top.equalTo(selectedCategoryFilterHeaderView.snp.bottom)
-      $0.leading.trailing.bottom.equalToSuperview().inset(10)
+      $0.leading.trailing.bottom.equalToSuperview().inset(16)
     }
     
     noSelectedCategoryView.snp.makeConstraints {

@@ -108,6 +108,7 @@ final class BookmarkViewController: BaseViewController {
     $0.register(SelectedCategoryChartCollectionViewCell.self, forCellWithReuseIdentifier: SelectedCategoryChartCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
+    $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
   }
   
   init(viewModel: BookmarkViewModelType = BookmarkViewModel()) {
@@ -150,9 +151,7 @@ final class BookmarkViewController: BaseViewController {
   override func bind() {
     super.bind()
     viewModel.updatedCellData
-      .emit(onNext: { data in
-        print("데이터 = \(data)")
-      })
+      .emit(to: rx.model)
       .disposed(by: disposeBag)
   }
   
@@ -188,9 +187,9 @@ extension BookmarkViewController: UICollectionViewDelegate, UICollectionViewData
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     switch selectedCategoryType {
     case .chart:
-      return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
+      return CGSize(width: collectionView.frame.width - 32, height: collectionView.frame.height / 4 - 6)
     case .grid:
-      return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
+      return CGSize(width: collectionView.frame.width / 2 - 6 - 16, height: collectionView.frame.height / 2.5)
     }
   }
   

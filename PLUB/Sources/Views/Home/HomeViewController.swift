@@ -90,7 +90,7 @@ class HomeViewController: BaseViewController {
     homeCollectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview().inset(16)
     }
-  }
+  } 
   
   override func setupStyles() {
     super.setupStyles()
