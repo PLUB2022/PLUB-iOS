@@ -22,6 +22,10 @@ extension RecruitmentService {
     return sendRequest(RecruitmentRouter.inquireRecruitmentQuestion(plubbingID), type: RecruitmentQuestionResponse.self)
   }
   
+  func inquireBookmarkAll() -> Observable<NetworkResult<GeneralResponse<BookmarkAllResponse>>> {
+    return sendRequest(RecruitmentRouter.inquireAllBookmark, type: BookmarkAllResponse.self)
+  }
+  
   func searchRecruitment(searchParameter: SearchParameter) -> Observable<NetworkResult<GeneralResponse<SearchRecruitmentResponse>>> {
     return sendRequest(RecruitmentRouter.searchRecruitment(searchParameter), type: SearchRecruitmentResponse.self)
   }

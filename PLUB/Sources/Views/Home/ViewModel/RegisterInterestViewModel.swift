@@ -20,6 +20,7 @@ protocol RegisterInterestViewModelType {
   var successRegisterInterest: Observable<Void> { get }
 }
 
+// TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
 final class RegisterInterestViewModel: RegisterInterestViewModelType {
   let disposeBag = DisposeBag()
 

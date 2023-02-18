@@ -90,7 +90,7 @@ class HomeViewController: BaseViewController {
     homeCollectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview().inset(16)
     }
-  }
+  } 
   
   override func setupStyles() {
     super.setupStyles()
@@ -165,7 +165,10 @@ class HomeViewController: BaseViewController {
   }
   
   @objc private func didTappedBookmarkButton() {
-    
+    let vc = BookmarkViewController()
+    vc.title = "북마크"
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
   }
   
   private func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {

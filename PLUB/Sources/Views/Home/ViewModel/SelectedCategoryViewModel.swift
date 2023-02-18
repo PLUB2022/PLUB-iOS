@@ -21,6 +21,7 @@ protocol SelectedCategoryViewModelType {
   var isBookmarked: Signal<Bool> { get }
 }
 
+// TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
 final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   
   private let disposeBag = DisposeBag()
@@ -117,7 +118,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         isLoading.onNext(false)
       })
       .disposed(by: disposeBag)
-        
+    
         let requestBookmark = whichBookmark
         .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
         
