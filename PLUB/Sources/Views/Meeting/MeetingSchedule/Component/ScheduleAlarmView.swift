@@ -38,9 +38,14 @@ enum ScheduleAlarmType: String, CaseIterable {
     }
   }
 }
- 
-final class ScheduleAlarmView: UIView {
 
+protocol ScheduleAlarmDelegate: AnyObject {
+  func selectAlarm(alarm: ScheduleAlarmType)
+}
+
+final class ScheduleAlarmView: UIView {
+  weak var delegate: ScheduleAlarmDelegate?
+  
   private let imageView = UIImageView().then {
     $0.image = UIImage(named: "arrowUpDownGray")
     $0.contentMode = .scaleAspectFit
@@ -49,7 +54,7 @@ final class ScheduleAlarmView: UIView {
   private let label = UILabel().then {
     $0.text = "없음"
     $0.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
-    $0.textColor = .lightGray
+    $0.textColor = .mediumGray
   }
   
   private lazy var button = UIButton().then {
@@ -99,16 +104,18 @@ final class ScheduleAlarmView: UIView {
 extension ScheduleAlarmView {
   private func setupButtonMenus() {
     let menuItems = ScheduleAlarmType.allCases
-      .map { $0.rawValue }
       .map {
         let alarm = $0
         return UIAction(
-          title: $0,
+          title: $0.rawValue,
           image: nil,
-          handler: { action in self.label.text = alarm }
+          handler: { [weak self] action in
+            guard let self = self else { return }
+            self.setupAlarmText(with: alarm)
+            self.delegate?.selectAlarm(alarm: alarm)
+          }
         )
       }
-    
     
     button.menu = UIMenu(
       title: "",
@@ -118,10 +125,13 @@ extension ScheduleAlarmView {
       children: menuItems
     )
   }
+  
+  private func setupAlarmText(with alarm: ScheduleAlarmType) {
+    label.text = alarm.rawValue
+    if alarm == .none {
+      label.textColor = .mediumGray
+    } else {
+      label.textColor = .black
+    }
+  }
 }
-//
-//extension Reactive where Base: ScheduleAlarmView {
-//  var tap: ControlEvent<Void> {
-//    return base.button.rx.tap
-//  }
-//}

@@ -106,10 +106,13 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.backgroundColor = .clear
   }
   
-  private let scheduleAlarmView = ScheduleAlarmView()
+  private lazy var scheduleAlarmView = ScheduleAlarmView().then {
+    $0.delegate = self
+  }
   
   private let registerButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "일정 등록")
+    $0.isEnabled = false
   }
   
   override func viewDidLoad() {
@@ -182,17 +185,25 @@ final class MeetingScheduleViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    titleTextField.rx.text.orEmpty
+      .distinctUntilChanged()
+      .bind(to: viewModel.title)
+      .disposed(by: disposeBag)
+    
     allDaySwitch.rx.value
       .asDriver()
       .drive(with: self) { owner, value in
-        if value {
-          owner.startDatePicker.datePickerMode = .date
-          owner.endDatePicker.datePickerMode = .date
-        } else {
-          owner.startDatePicker.datePickerMode = .dateAndTime
-          owner.endDatePicker.datePickerMode = .dateAndTime
-        }
+        owner.changeDatePickerMode(with: value)
+        owner.viewModel.allDay.onNext(value)
       }
+      .disposed(by: disposeBag)
+    
+    startDatePicker.rx.value
+      .bind(to: viewModel.startDate)
+      .disposed(by: disposeBag)
+    
+    endDatePicker.rx.value
+      .bind(to: viewModel.endDate)
       .disposed(by: disposeBag)
     
     locationButton.rx.tap
@@ -221,6 +232,15 @@ final class MeetingScheduleViewController: BaseViewController {
         owner.memoTextView.text = Constants.memoPlaceHolder
         owner.memoTextView.textColor = .lightGray
       }
+      .disposed(by: disposeBag)
+    
+    memoTextView.rx.text.orEmpty
+      .distinctUntilChanged()
+      .bind(to: viewModel.memo)
+      .disposed(by: disposeBag)
+    
+    viewModel.isButtonEnabled
+      .drive(registerButton.rx.isEnabled)
       .disposed(by: disposeBag)
   }
   
@@ -280,6 +300,16 @@ final class MeetingScheduleViewController: BaseViewController {
       memoTextView.snp.makeConstraints {
         $0.height.greaterThanOrEqualTo(45)
       }
+    }
+  }
+  
+  private func changeDatePickerMode(with value: Bool) {
+    if value {
+      startDatePicker.datePickerMode = .date
+      endDatePicker.datePickerMode = .date
+    } else {
+      startDatePicker.datePickerMode = .dateAndTime
+      endDatePicker.datePickerMode = .dateAndTime
     }
   }
 }
@@ -353,6 +383,12 @@ extension MeetingScheduleViewController: LocationBottomSheetDelegate {
     locationButton.configuration?.baseForegroundColor = .black
     locationButton.configuration?.title = location.placeName
     locationButton.configuration?.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
-//    viewModel로 전달
+    viewModel.location.onNext(location)
+  }
+}
+
+extension MeetingScheduleViewController: ScheduleAlarmDelegate {
+  func selectAlarm(alarm: ScheduleAlarmType) {
+    viewModel.alarm.onNext(alarm)
   }
 }
