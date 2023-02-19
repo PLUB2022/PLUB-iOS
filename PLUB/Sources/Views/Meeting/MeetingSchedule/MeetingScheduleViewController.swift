@@ -115,6 +115,15 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.isEnabled = false
   }
   
+  private let tapGesture = UITapGestureRecognizer(
+    target: MeetingScheduleViewController.self,
+      action: nil
+  ).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
   }
@@ -249,6 +258,15 @@ final class MeetingScheduleViewController: BaseViewController {
         owner.viewModel.createSchedule()
       }
       .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
+    scrollView.addGestureRecognizer(tapGesture)
   }
   
   private func setupNavigationBar() {
@@ -263,7 +281,7 @@ final class MeetingScheduleViewController: BaseViewController {
   
   @objc
   private func didTappedBackButton() {
-
+    navigationController?.popViewController(animated: true)
   }
   
   private func addSubViews(stackView: UIStackView, type: MeetingScheduleType) {
