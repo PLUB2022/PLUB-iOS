@@ -146,6 +146,19 @@ final class MeetingScheduleViewModel {
   }
   
   func createSchedule() {
-    
+    ScheduleService.shared
+      .createSchedule(
+        plubbingID: "21",
+        request: scheduleRelay.value
+      )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let model):
+          print(model)
+        default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
+        }
+      })
+      .disposed(by: disposeBag)
   }
 }
