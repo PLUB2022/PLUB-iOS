@@ -115,6 +115,8 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.font = UIFont.body2
   }
   
+  private let scheduleAlarmView = ScheduleAlarmView()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
   }
@@ -183,7 +185,7 @@ final class MeetingScheduleViewController: BaseViewController {
   
   private func addSubViews(stackView: UIStackView, type: MeetingScheduleType) {
     
-    let titleView = ScheduleTitleControl(type: type)
+    let titleView = ScheduleTitleView(type: type)
     stackView.addArrangedSubview(titleView)
     
     switch type {
@@ -219,7 +221,10 @@ final class MeetingScheduleViewController: BaseViewController {
         $0.height.equalTo(45)
       }
     case .alarm: // 알림
-      break
+      titleView.addSubview(scheduleAlarmView)
+      scheduleAlarmView.snp.makeConstraints {
+        $0.edges.equalToSuperview()
+      }
     case .memo: // 메모
       stackView.addArrangedSubview(memoTextField)
       memoTextField.snp.makeConstraints {

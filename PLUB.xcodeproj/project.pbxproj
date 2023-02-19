@@ -170,6 +170,7 @@
 		C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */; };
 		C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
+		C33EF37D29A1DFD100D7A5CA /* ScheduleAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */; };
 		C33FB0722993F84A00BEB15B /* EditMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33FB0712993F84A00BEB15B /* EditMeetingViewController.swift */; };
 		C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33FB0732993FAC600BEB15B /* EditMeetingInfoRequest.swift */; };
 		C3413E122995450B004B8DBD /* UnderlineSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3413E112995450B004B8DBD /* UnderlineSegmentedControl.swift */; };
@@ -185,7 +186,7 @@
 		C34F71C329799B1C003DB376 /* TimeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F71C229799B1C003DB376 /* TimeControl.swift */; };
 		C359FEA6299FDF2800B2F561 /* MeetingScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEA5299FDF2800B2F561 /* MeetingScheduleViewController.swift */; };
 		C359FEA8299FE3AB00B2F561 /* MeetingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEA7299FE3AB00B2F561 /* MeetingScheduleViewModel.swift */; };
-		C359FEAA29A08B7E00B2F561 /* ScheduleTitleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEA929A08B7E00B2F561 /* ScheduleTitleControl.swift */; };
+		C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */; };
 		C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */; };
 		C35AFD012998B0A500AB5CD3 /* EditMeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */; };
 		C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */; };
@@ -388,6 +389,7 @@
 		C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingQuestionRequest.swift; sourceTree = "<group>"; };
 		C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCreateSuccessViewController.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
+		C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAlarmView.swift; sourceTree = "<group>"; };
 		C33FB0712993F84A00BEB15B /* EditMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingViewController.swift; sourceTree = "<group>"; };
 		C33FB0732993FAC600BEB15B /* EditMeetingInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingInfoRequest.swift; sourceTree = "<group>"; };
 		C3413E112995450B004B8DBD /* UnderlineSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentedControl.swift; sourceTree = "<group>"; };
@@ -403,7 +405,7 @@
 		C34F71C229799B1C003DB376 /* TimeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeControl.swift; sourceTree = "<group>"; };
 		C359FEA5299FDF2800B2F561 /* MeetingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingScheduleViewController.swift; sourceTree = "<group>"; };
 		C359FEA7299FE3AB00B2F561 /* MeetingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingScheduleViewModel.swift; sourceTree = "<group>"; };
-		C359FEA929A08B7E00B2F561 /* ScheduleTitleControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTitleControl.swift; sourceTree = "<group>"; };
+		C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTitleView.swift; sourceTree = "<group>"; };
 		C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateSubView.swift; sourceTree = "<group>"; };
 		C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingViewModel.swift; sourceTree = "<group>"; };
 		C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingTitleView.swift; sourceTree = "<group>"; };
@@ -1027,8 +1029,9 @@
 			children = (
 				C359FEA5299FDF2800B2F561 /* MeetingScheduleViewController.swift */,
 				C359FEA7299FE3AB00B2F561 /* MeetingScheduleViewModel.swift */,
-				C359FEA929A08B7E00B2F561 /* ScheduleTitleControl.swift */,
+				C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */,
 				C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */,
+				C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */,
 			);
 			path = MeetingSchedule;
 			sourceTree = "<group>";
@@ -1439,6 +1442,7 @@
 				C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */,
 				C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */,
 				C38A5B9D297AFDCD00485355 /* LocationBottomSheetViewController.swift in Sources */,
+				C33EF37D29A1DFD100D7A5CA /* ScheduleAlarmView.swift in Sources */,
 				BAC5EF2D298A9E4300F3955E /* SplashViewController.swift in Sources */,
 				C3B04E4229816B9C00188E60 /* ImageRouter.swift in Sources */,
 				BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */,
@@ -1508,7 +1512,7 @@
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */,
-				C359FEAA29A08B7E00B2F561 /* ScheduleTitleControl.swift in Sources */,
+				C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */,
 				BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */,
 				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
