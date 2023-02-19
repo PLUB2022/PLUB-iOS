@@ -1,5 +1,5 @@
 //
-//  MeetingScheduleViewController.swift
+//  CreateScheduleViewController.swift
 //  PLUB
 //
 //  Created by 김수빈 on 2023/02/18.
@@ -27,8 +27,8 @@ enum MeetingScheduleType: String, CaseIterable {
   }
 }
 
-final class MeetingScheduleViewController: BaseViewController {
-  private let viewModel = MeetingScheduleViewModel()
+final class CreateScheduleViewController: BaseViewController {
+  private let viewModel = CreateScheduleViewModel()
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -116,7 +116,7 @@ final class MeetingScheduleViewController: BaseViewController {
   }
   
   private let tapGesture = UITapGestureRecognizer(
-    target: MeetingScheduleViewController.self,
+    target: CreateScheduleViewController.self,
       action: nil
   ).then {
     $0.numberOfTapsRequired = 1
@@ -339,7 +339,7 @@ final class MeetingScheduleViewController: BaseViewController {
   }
 }
 
-extension MeetingScheduleViewController {
+extension CreateScheduleViewController {
   func registerKeyboardNotification() {
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                              name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -395,7 +395,7 @@ extension MeetingScheduleViewController {
   }
 }
 
-extension MeetingScheduleViewController {
+extension CreateScheduleViewController {
   struct Constants {
     static let titlePlaceHolder = "일정 제목을 입력해 주세요."
     static let locationPlaceHolder = "장소를 입력해 주세요"
@@ -403,7 +403,7 @@ extension MeetingScheduleViewController {
   }
 }
 
-extension MeetingScheduleViewController: LocationBottomSheetDelegate {
+extension CreateScheduleViewController: LocationBottomSheetDelegate {
   func selectLocation(location: Location) {
     locationButton.configuration?.baseForegroundColor = .black
     locationButton.configuration?.title = location.placeName
@@ -412,7 +412,7 @@ extension MeetingScheduleViewController: LocationBottomSheetDelegate {
   }
 }
 
-extension MeetingScheduleViewController: ScheduleAlarmDelegate {
+extension CreateScheduleViewController: ScheduleAlarmDelegate {
   func selectAlarm(alarm: ScheduleAlarmType) {
     viewModel.alarm.onNext(alarm)
   }

@@ -1,5 +1,5 @@
 //
-//  MeetingScheduleViewModel.swift
+//  CreateScheduleViewModel.swift
 //  PLUB
 //
 //  Created by 김수빈 on 2023/02/18.
@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class MeetingScheduleViewModel {
+final class CreateScheduleViewModel {
   private let disposeBag = DisposeBag()
   
   let scheduleType = MeetingScheduleType.allCases
