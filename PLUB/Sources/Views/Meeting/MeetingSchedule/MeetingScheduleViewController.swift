@@ -226,38 +226,33 @@ final class MeetingScheduleViewController: BaseViewController {
     case .date: // 날짜/시간
       MeetingScheduleDateType.allCases.forEach {
         let dateSubView = ScheduleDateSubView(type: $0)
+        
         switch $0 {
         case .allDay: // 하루 종일
-          dateSubView.addSubview(allDaySwitch)
-          allDaySwitch.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(12)
-          }
+          dateSubView.addDateSubview(allDaySwitch)
+          
         case .start: // 시작
-          dateSubView.addSubview(startDatePicker)
-          startDatePicker.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(12)
-          }
+          dateSubView.addDateSubview(startDatePicker)
+          
         case .end: // 종료
-          dateSubView.addSubview(endDatePicker)
-          endDatePicker.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(12)
-          }
+          dateSubView.addDateSubview(endDatePicker)
         }
+        
         stackView.addArrangedSubview(dateSubView)
       }
+      
     case .location: // 장소
       stackView.addArrangedSubview(locationTextField)
       locationTextField.snp.makeConstraints {
         $0.height.equalTo(45)
       }
+      
     case .alarm: // 알림
       titleView.addSubview(scheduleAlarmView)
       scheduleAlarmView.snp.makeConstraints {
         $0.edges.equalToSuperview()
       }
+      
     case .memo: // 메모
       stackView.addArrangedSubview(memoTextView)
       memoTextView.snp.makeConstraints {

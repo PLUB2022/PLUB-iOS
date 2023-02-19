@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SnapKit
 import RxCocoa
 import RxSwift
 
@@ -87,6 +88,16 @@ final class ScheduleDateSubView: UIView {
 
   private func setupStyles() {
     
+  }
+}
+
+extension ScheduleDateSubView {
+  func addDateSubview(_ object: UIView) {
+    addSubview(object)
+    object.snp.makeConstraints {
+      $0.centerY.equalToSuperview()
+      $0.trailing.equalToSuperview().inset(12)
+    }
   }
 }
 
