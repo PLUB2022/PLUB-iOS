@@ -208,6 +208,13 @@ final class CreateScheduleViewController: BaseViewController {
       .bind(to: viewModel.title)
       .disposed(by: disposeBag)
     
+    titleTextField.rx.controlEvent([.editingDidEndOnExit])
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
     allDaySwitch.rx.value
       .asDriver()
       .drive(with: self) { owner, value in
@@ -227,6 +234,7 @@ final class CreateScheduleViewController: BaseViewController {
     locationButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
         let vc = LocationBottomSheetViewController()
         vc.modalPresentationStyle = .overFullScreen
         vc.delegate = owner
