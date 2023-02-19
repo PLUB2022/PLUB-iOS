@@ -115,13 +115,30 @@ final class MeetingScheduleViewController: BaseViewController {
   
   private let scheduleAlarmView = ScheduleAlarmView()
   
+  private let registerButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "일정 등록")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
+    [scrollView, registerButton].forEach {
+      view.addSubview($0)
+    }
+    
     scrollView.addSubview(contentStackView)
 
     contentStackView.addArrangedSubview(titleTextField)
@@ -144,7 +161,8 @@ final class MeetingScheduleViewController: BaseViewController {
     super.setupConstraints()
     scrollView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview().inset(16)
-      $0.top.bottom.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
     
     contentStackView.snp.makeConstraints {
@@ -154,6 +172,12 @@ final class MeetingScheduleViewController: BaseViewController {
     
     titleTextField.snp.makeConstraints {
       $0.height.equalTo(56)
+    }
+    
+    registerButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+      $0.height.width.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
     }
   }
   
@@ -227,6 +251,52 @@ final class MeetingScheduleViewController: BaseViewController {
       stackView.addArrangedSubview(memoTextView)
       memoTextView.snp.makeConstraints {
         $0.height.greaterThanOrEqualTo(45)
+      }
+    }
+  }
+}
+
+extension MeetingScheduleViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                             name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+        view.frame.origin.y == 0 {
+      let keyboardHeight: CGFloat = keyboardSize.height
+      
+      if UIResponder.getCurrentResponder() == titleTextField {
+        registerButton.snp.updateConstraints {
+          $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
+        }
+      } else {
+        view.frame.origin.y -= keyboardHeight
+        scrollView.snp.updateConstraints {
+          $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-72)
+        }
+      }
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    if UIResponder.getCurrentResponder() == titleTextField {
+      registerButton.snp.updateConstraints {
+        $0.bottom.equalToSuperview().inset(26)
+      }
+    } else {
+      view.frame.origin.y = 0
+      scrollView.snp.updateConstraints {
+        $0.bottom.equalTo(view.safeAreaLayoutGuide)
       }
     }
   }
