@@ -69,6 +69,7 @@ final class ScheduleDateSubView: UIView {
     label.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(12.5)
       $0.centerY.equalToSuperview()
+      $0.height.equalTo(22)
       $0.top.bottom.equalToSuperview().inset(12.5)
     }
     

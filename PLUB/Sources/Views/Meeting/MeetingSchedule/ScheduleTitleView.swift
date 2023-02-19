@@ -1,5 +1,5 @@
 //
-//  ScheduleTitleControl.swift
+//  ScheduleTitleView.swift
 //  PLUB
 //
 //  Created by 김수빈 on 2023/02/18.
@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class ScheduleTitleControl: UIControl {
+final class ScheduleTitleView: UIView {
   private let scheduleType: MeetingScheduleType
   private lazy var imageView = UIImageView().then {
     $0.image = UIImage(named: scheduleType.imageName)
@@ -31,7 +31,6 @@ final class ScheduleTitleControl: UIControl {
     super.init(frame: .zero)
     setupLayouts()
     setupConstraints()
-    setupStyles()
   }
   
   required init?(coder: NSCoder) {
@@ -73,16 +72,5 @@ final class ScheduleTitleControl: UIControl {
     case .alarm:
       break
     }
-  }
-
-  private func setupStyles() {
-  }
-}
-
-extension Reactive where Base: ScheduleTitleControl {
-
-  /// Reactive wrapper for `TouchUpInside` control event.
-  var tap: ControlEvent<Void> {
-    controlEvent(.touchUpInside)
   }
 }
