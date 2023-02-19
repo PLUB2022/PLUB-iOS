@@ -37,7 +37,7 @@ final class MeetingScheduleViewController: BaseViewController {
   
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
-    $0.spacing = 33.26
+    $0.spacing = 33
   }
   
   private let titleTextField = PaddingTextField().then {
@@ -97,22 +97,20 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.font = UIFont.body2
   }
   
-  private let memoTextField = PaddingTextField().then {
-    $0.leftView = UIView()
-    $0.rightView = UIView()
-    $0.leftViewMode = .always
-    $0.rightViewMode = .always
-    $0.leftViewPadding = 12.5
-    $0.rightViewPadding = 12.5
-    $0.attributedPlaceholder = NSAttributedString(
-      string: "장소를 입력해 주세요",
-      attributes: [
-        .foregroundColor : UIColor.mediumGray,
-        .font: UIFont.appFont(family: .pretendard(option: .regular), size: 14)
-      ]
-    )
+  private let memoTextView = UITextView().then {
+    $0.textContainerInset.left = 12.5
+    $0.textContainerInset.right = 12.5
+//    $0.attributedPlaceholder = NSAttributedString(
+//      string: "장소를 입력해 주세요",
+//      attributes: [
+//        .foregroundColor : UIColor.mediumGray,
+//        .font: UIFont.appFont(family: .pretendard(option: .regular), size: 14)
+//      ]
+//    )
+    $0.isScrollEnabled = false
     $0.textColor = .black
     $0.font = UIFont.body2
+    $0.backgroundColor = .clear
   }
   
   private let scheduleAlarmView = ScheduleAlarmView()
@@ -166,6 +164,7 @@ final class MeetingScheduleViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
   }
   
   private func setupNavigationBar() {
@@ -213,7 +212,6 @@ final class MeetingScheduleViewController: BaseViewController {
           }
         }
         stackView.addArrangedSubview(dateSubView)
-        
       }
     case .location: // 장소
       stackView.addArrangedSubview(locationTextField)
@@ -226,9 +224,9 @@ final class MeetingScheduleViewController: BaseViewController {
         $0.edges.equalToSuperview()
       }
     case .memo: // 메모
-      stackView.addArrangedSubview(memoTextField)
-      memoTextField.snp.makeConstraints {
-        $0.height.equalTo(45)
+      stackView.addArrangedSubview(memoTextView)
+      memoTextView.snp.makeConstraints {
+        $0.height.greaterThanOrEqualTo(45)
       }
     }
   }
