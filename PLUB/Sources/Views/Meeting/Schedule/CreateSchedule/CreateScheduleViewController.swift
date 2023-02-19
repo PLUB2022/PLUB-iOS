@@ -28,7 +28,7 @@ enum MeetingScheduleType: String, CaseIterable {
 }
 
 final class CreateScheduleViewController: BaseViewController {
-  private let viewModel = CreateScheduleViewModel()
+  private let viewModel: CreateScheduleViewModel
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -122,6 +122,15 @@ final class CreateScheduleViewController: BaseViewController {
     $0.numberOfTapsRequired = 1
     $0.cancelsTouchesInView = false
     $0.isEnabled = true
+  }
+  
+  init(plubbingID: String) {
+    viewModel = CreateScheduleViewModel(plubbingID: plubbingID)
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewDidLoad() {

@@ -12,6 +12,7 @@ import RxCocoa
 
 final class CreateScheduleViewModel {
   private let disposeBag = DisposeBag()
+  private let plubbingID: String
   
   let scheduleType = MeetingScheduleType.allCases
   
@@ -37,7 +38,9 @@ final class CreateScheduleViewModel {
   
   private let scheduleRelay = BehaviorRelay<CreateScheduleRequest>(value: CreateScheduleRequest())
   
-  init() {
+  init(plubbingID: String) {
+    self.plubbingID = plubbingID
+    
     title = titleSubject.asObserver()
     allDay = allDaySwitchSubject.asObserver()
     startDate = startDateSubject.asObserver()
@@ -148,7 +151,7 @@ final class CreateScheduleViewModel {
   func createSchedule() {
     ScheduleService.shared
       .createSchedule(
-        plubbingID: "21",
+        plubbingID: plubbingID,
         request: scheduleRelay.value
       )
       .withUnretained(self)
