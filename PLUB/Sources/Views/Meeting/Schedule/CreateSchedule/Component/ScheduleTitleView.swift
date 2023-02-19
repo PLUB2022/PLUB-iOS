@@ -12,6 +12,7 @@ import RxSwift
 
 final class ScheduleTitleView: UIView {
   private let scheduleType: MeetingScheduleType
+  
   private lazy var imageView = UIImageView().then {
     $0.image = UIImage(named: scheduleType.imageName)
     $0.contentMode = .scaleAspectFit
@@ -40,6 +41,7 @@ final class ScheduleTitleView: UIView {
   private func setupLayouts() {
     addSubview(label)
     addSubview(imageView)
+    
     switch scheduleType {
     case .date, .location, .memo:
       addSubview(lineView)

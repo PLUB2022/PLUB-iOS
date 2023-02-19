@@ -48,7 +48,6 @@ final class ScheduleDateSubView: UIView {
     super.init(frame: .zero)
     setupLayouts()
     setupConstraints()
-    setupStyles()
   }
   
   required init?(coder: NSCoder) {
@@ -85,10 +84,6 @@ final class ScheduleDateSubView: UIView {
       break
     }
   }
-
-  private func setupStyles() {
-    
-  }
 }
 
 extension ScheduleDateSubView {
@@ -99,8 +94,4 @@ extension ScheduleDateSubView {
       $0.trailing.equalToSuperview().inset(12)
     }
   }
-}
-
-extension Reactive where Base: ScheduleDateSubView {
-
 }
