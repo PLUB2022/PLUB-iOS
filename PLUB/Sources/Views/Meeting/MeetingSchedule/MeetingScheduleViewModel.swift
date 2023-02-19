@@ -11,6 +11,8 @@ import RxSwift
 import RxCocoa
 
 final class MeetingScheduleViewModel {
+  private let disposeBag = DisposeBag()
+  
   let scheduleType = MeetingScheduleType.allCases
   
   // Input
@@ -33,7 +35,7 @@ final class MeetingScheduleViewModel {
   private let alarmSubject = PublishSubject<ScheduleAlarmType>()
   private let memoSubject = PublishSubject<String>()
   
-//  private let scheduleRelay = BehaviorRelay<CreateScheduleRequest>(value: init())
+  private let scheduleRelay = BehaviorRelay<CreateScheduleRequest>(value: CreateScheduleRequest())
   
   init() {
     title = titleSubject.asObserver()
@@ -52,10 +54,98 @@ final class MeetingScheduleViewModel {
       !$1.isEmpty &&
       $1 != "메모 내용을 입력해주세요."
     }
+    
+    bind()
   }
   
   private func bind() {
     titleSubject
       .withUnretained(self)
+      .map { owner, title in
+        owner.scheduleRelay.value.with {
+          $0.title = title
+        }
+      }
+      .bind(to: scheduleRelay)
+      .disposed(by: disposeBag)
+    
+    allDaySwitchSubject
+      .withUnretained(self)
+      .map { owner, isAllDay in
+        owner.scheduleRelay.value.with {
+          $0.isAllDay = isAllDay
+        }
+      }
+      .bind(to: scheduleRelay)
+      .disposed(by: disposeBag)
+    
+    startDateSubject
+      .withUnretained(self)
+      .map { owner, date in
+        owner.scheduleRelay.value.with {
+          $0.startDay = owner.setupDay(date)
+          $0.startTime = owner.setupTime(date)
+        }
+      }
+      .bind(to: scheduleRelay)
+      .disposed(by: disposeBag)
+    
+    endDateSubject
+      .withUnretained(self)
+      .map { owner, date in
+        owner.scheduleRelay.value.with {
+          $0.endDay = owner.setupDay(date)
+          $0.endTime = owner.setupTime(date)
+        }
+      }
+      .bind(to: scheduleRelay)
+      .disposed(by: disposeBag)
+    
+    locationSubject
+      .withUnretained(self)
+      .map { owner, location in
+        owner.scheduleRelay.value.with {
+          $0.address = location.address ?? ""
+          $0.roadAddress = location.roadAddress ?? ""
+          $0.placeName = location.placeName ?? ""
+        }
+      }
+      .bind(to: scheduleRelay)
+      .disposed(by: disposeBag)
+    
+    alarmSubject
+      .withUnretained(self)
+      .map { owner, alarm in
+        owner.scheduleRelay.value
+          //TODO: 수빈 alarm 데이터 추가(alarm.value)
+      }
+      .bind(to: scheduleRelay)
+      .disposed(by: disposeBag)
+    
+    memoSubject
+      .withUnretained(self)
+      .map { owner, memo in
+        owner.scheduleRelay.value.with {
+          $0.memo = memo
+        }
+      }
+      .bind(to: scheduleRelay)
+      .disposed(by: disposeBag)
+  }
+  
+  private func setupDay(_ date: Date) -> String {
+    return DateFormatter().then {
+      $0.dateFormat = "yyyy-MM-dd"
+    }.string(from: date)
+  }
+  
+  private func setupTime(_ date: Date) -> String {
+    return DateFormatter().then {
+      $0.dateFormat = "hh:mm"
+    }.string(from: date)
+  }
+  
+  func createSchedule() {
+    
   }
 }

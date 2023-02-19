@@ -5,39 +5,54 @@
 //  Created by 김수빈 on 2023/02/19.
 //
 
+import Then
+
 struct CreateScheduleRequest: Codable {
   /// 제목
-  let title: String
+  var title: String
   
   /// 메모
-  let memo: String
+  var memo: String
   
   /// 시작일
-  let startDay: String
+  var startDay: String
   
   /// 종료일
-  let endDay: String
+  var endDay: String
   
   /// 시작 시간
-  let startTime: String
+  var startTime: String
   
   /// 종료 시간
-  let endTime: String
+  var endTime: String
   
   /// 하루 종일
-  let isAllDay: Bool
+  var isAllDay: Bool
   
   /// 주소
-  let address: String
+  var address: String
   
   /// 도로명 주소
-  let roadAddress: String
+  var roadAddress: String
   
   /// 장소 이름
-  let placeName: String
+  var placeName: String
   
   /// 알림
   //TODO: 수빈 - 알림 정보 추가
+  
+  init() {
+    title = ""
+    memo = ""
+    startDay = ""
+    startTime = ""
+    endDay = ""
+    endTime = ""
+    isAllDay = false
+    address = ""
+    roadAddress = ""
+    placeName = ""
+  }
 }
 
 extension CreateScheduleRequest {
@@ -47,3 +62,5 @@ extension CreateScheduleRequest {
     case endDay = "endedAt"
   }
 }
+
+extension CreateScheduleRequest: Then { }

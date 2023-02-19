@@ -242,6 +242,13 @@ final class MeetingScheduleViewController: BaseViewController {
     viewModel.isButtonEnabled
       .drive(registerButton.rx.isEnabled)
       .disposed(by: disposeBag)
+    
+    registerButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.viewModel.createSchedule()
+      }
+      .disposed(by: disposeBag)
   }
   
   private func setupNavigationBar() {
