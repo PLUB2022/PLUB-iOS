@@ -51,11 +51,10 @@ class BottomSheetViewController: BaseViewController {
   
   override func bind() {
     tapGesture.rx.event
-      .withUnretained(self)
       .asDriver(onErrorDriveWith: .empty())
-      .drive(onNext: { _ in
-        self.dismissBottomSheet()
-      })
+      .drive(with: self) { owner , _ in
+        owner.dismissBottomSheet()
+      }
       .disposed(by: disposeBag)
     backgroundView.addGestureRecognizer(tapGesture)
   }
