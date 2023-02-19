@@ -44,7 +44,7 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.backgroundColor = .white
     $0.layer.cornerRadius = 12.5
     $0.attributedPlaceholder = NSAttributedString(
-      string: "일정 제목을 입력해 주세요.",
+      string: Constants.titlePlaceHolder,
       attributes: [
         .foregroundColor : UIColor.mediumGray,
         .font: UIFont.h5!
@@ -87,7 +87,7 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.leftViewPadding = 12.5
     $0.rightViewPadding = 12.5
     $0.attributedPlaceholder = NSAttributedString(
-      string: "장소를 입력해 주세요",
+      string: Constants.locationPlaceHolder,
       attributes: [
         .foregroundColor : UIColor.mediumGray,
         .font: UIFont.appFont(family: .pretendard(option: .regular), size: 14)
@@ -100,16 +100,10 @@ final class MeetingScheduleViewController: BaseViewController {
   private let memoTextView = UITextView().then {
     $0.textContainerInset.left = 12.5
     $0.textContainerInset.right = 12.5
-//    $0.attributedPlaceholder = NSAttributedString(
-//      string: "장소를 입력해 주세요",
-//      attributes: [
-//        .foregroundColor : UIColor.mediumGray,
-//        .font: UIFont.appFont(family: .pretendard(option: .regular), size: 14)
-//      ]
-//    )
     $0.isScrollEnabled = false
-    $0.textColor = .black
-    $0.font = UIFont.body2
+    $0.textColor = .mediumGray
+    $0.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
+    $0.text = Constants.memoPlaceHolder
     $0.backgroundColor = .clear
   }
   
@@ -189,6 +183,23 @@ final class MeetingScheduleViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    memoTextView.rx.didBeginEditing
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        guard owner.memoTextView.text == Constants.memoPlaceHolder else { return }
+        owner.memoTextView.text = nil
+        owner.memoTextView.textColor = .black
+      }
+      .disposed(by: disposeBag)
+    
+    memoTextView.rx.didEndEditing
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        guard owner.memoTextView.text.isEmpty else { return }
+        owner.memoTextView.text = Constants.memoPlaceHolder
+        owner.memoTextView.textColor = .lightGray
+      }
+      .disposed(by: disposeBag)
   }
   
   private func setupNavigationBar() {
@@ -299,5 +310,13 @@ extension MeetingScheduleViewController {
         $0.bottom.equalTo(view.safeAreaLayoutGuide)
       }
     }
+  }
+}
+
+extension MeetingScheduleViewController {
+  struct Constants {
+    static let titlePlaceHolder = "일정 제목을 입력해 주세요."
+    static let locationPlaceHolder = "장소를 입력해 주세요"
+    static let memoPlaceHolder = "메모 내용을 입력해주세요."
   }
 }
