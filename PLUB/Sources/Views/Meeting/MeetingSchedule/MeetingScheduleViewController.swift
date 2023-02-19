@@ -79,27 +79,26 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.tintColor = .main
   }
   
-  private let locationTextField = PaddingTextField().then {
-    $0.leftView = UIView()
-    $0.rightView = UIView()
-    $0.leftViewMode = .always
-    $0.rightViewMode = .always
-    $0.leftViewPadding = 12.5
-    $0.rightViewPadding = 12.5
-    $0.attributedPlaceholder = NSAttributedString(
-      string: Constants.locationPlaceHolder,
-      attributes: [
-        .foregroundColor : UIColor.mediumGray,
-        .font: UIFont.appFont(family: .pretendard(option: .regular), size: 14)
-      ]
+  private let locationButton = UIButton(configuration: .plain()).then {
+    $0.configuration?.contentInsets = NSDirectionalEdgeInsets(
+      top: 12.5,
+      leading: 12.5,
+      bottom: 12.5,
+      trailing: 12.5
     )
-    $0.textColor = .black
-    $0.font = UIFont.body2
+    $0.contentHorizontalAlignment = .leading
+    $0.configuration?.baseForegroundColor = .mediumGray
+    $0.configuration?.title = Constants.locationPlaceHolder
+    $0.configuration?.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
   }
   
   private let memoTextView = UITextView().then {
-    $0.textContainerInset.left = 12.5
-    $0.textContainerInset.right = 12.5
+    $0.textContainerInset = UIEdgeInsets(
+      top: 12.5,
+      left: 12.5,
+      bottom: 12.5,
+      right: 12.5
+    )
     $0.isScrollEnabled = false
     $0.textColor = .mediumGray
     $0.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
@@ -183,6 +182,29 @@ final class MeetingScheduleViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    allDaySwitch.rx.value
+      .asDriver()
+      .drive(with: self) { owner, value in
+        if value {
+          owner.startDatePicker.datePickerMode = .date
+          owner.endDatePicker.datePickerMode = .date
+        } else {
+          owner.startDatePicker.datePickerMode = .dateAndTime
+          owner.endDatePicker.datePickerMode = .dateAndTime
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    locationButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        let vc = LocationBottomSheetViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.delegate = owner
+        owner.parent?.present(vc, animated: false)
+      }
+      .disposed(by: disposeBag)
+    
     memoTextView.rx.didBeginEditing
       .asDriver()
       .drive(with: self) { owner, _ in
@@ -242,8 +264,8 @@ final class MeetingScheduleViewController: BaseViewController {
       }
       
     case .location: // 장소
-      stackView.addArrangedSubview(locationTextField)
-      locationTextField.snp.makeConstraints {
+      stackView.addArrangedSubview(locationButton)
+      locationButton.snp.makeConstraints {
         $0.height.equalTo(45)
       }
       
@@ -276,11 +298,16 @@ extension MeetingScheduleViewController {
   
   @objc
   func keyboardWillShow(_ sender: Notification) {
+    let currentResponder = UIResponder.getCurrentResponder()
+    
+    guard (currentResponder == titleTextField) ||
+          (currentResponder == memoTextView) else { return }
+    
     if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
         view.frame.origin.y == 0 {
       let keyboardHeight: CGFloat = keyboardSize.height
       
-      if UIResponder.getCurrentResponder() == titleTextField {
+      if currentResponder == titleTextField {
         registerButton.snp.updateConstraints {
           $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
         }
@@ -295,7 +322,12 @@ extension MeetingScheduleViewController {
   
   @objc
   func keyboardWillHide(_ sender: Notification) {
-    if UIResponder.getCurrentResponder() == titleTextField {
+    let currentResponder = UIResponder.getCurrentResponder()
+    
+    guard (currentResponder == titleTextField) ||
+          (currentResponder == memoTextView) else { return }
+    
+    if currentResponder == titleTextField {
       registerButton.snp.updateConstraints {
         $0.bottom.equalToSuperview().inset(26)
       }
@@ -313,5 +345,14 @@ extension MeetingScheduleViewController {
     static let titlePlaceHolder = "일정 제목을 입력해 주세요."
     static let locationPlaceHolder = "장소를 입력해 주세요"
     static let memoPlaceHolder = "메모 내용을 입력해주세요."
+  }
+}
+
+extension MeetingScheduleViewController: LocationBottomSheetDelegate {
+  func selectLocation(location: Location) {
+    locationButton.configuration?.baseForegroundColor = .black
+    locationButton.configuration?.title = location.placeName
+    locationButton.configuration?.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
+//    viewModel로 전달
   }
 }
