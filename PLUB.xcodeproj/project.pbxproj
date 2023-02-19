@@ -196,6 +196,10 @@
 		C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */; };
 		C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
+		C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967529A25718005998A5 /* CreateScheduleRequest.swift */; };
+		C383967A29A25A16005998A5 /* ScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967929A25A16005998A5 /* ScheduleService.swift */; };
+		C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967B29A25A3E005998A5 /* ScheduleRouter.swift */; };
+		C383967E29A25D67005998A5 /* CreateScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */; };
 		C385D10D2989462300EF88EC /* MeetingSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C385D10C2989462300EF88EC /* MeetingSummaryViewController.swift */; };
 		C385D10F29894BF200EF88EC /* CreateMeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C385D10E29894BF200EF88EC /* CreateMeetingViewModel.swift */; };
 		C38A5B93297ACF5B00485355 /* LocationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B92297ACF5B00485355 /* LocationControl.swift */; };
@@ -415,6 +419,10 @@
 		C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetListView.swift; sourceTree = "<group>"; };
 		C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
+		C383967529A25718005998A5 /* CreateScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleRequest.swift; sourceTree = "<group>"; };
+		C383967929A25A16005998A5 /* ScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleService.swift; sourceTree = "<group>"; };
+		C383967B29A25A3E005998A5 /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
+		C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleResponse.swift; sourceTree = "<group>"; };
 		C385D10C2989462300EF88EC /* MeetingSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSummaryViewController.swift; sourceTree = "<group>"; };
 		C385D10E29894BF200EF88EC /* CreateMeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewModel.swift; sourceTree = "<group>"; };
 		C38A5B92297ACF5B00485355 /* LocationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationControl.swift; sourceTree = "<group>"; };
@@ -719,6 +727,7 @@
 				C3C24CD8299007F000056313 /* Meeting */,
 				C3C24CD92990080100056313 /* Recruitment */,
 				C3C24CDA2990081300056313 /* Image */,
+				C383967429A25701005998A5 /* Schedule */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -843,6 +852,7 @@
 				70F1DFDD297A8A6C00F9BC83 /* MeetingRouter.swift */,
 				70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */,
 				C3B04E4129816B9C00188E60 /* ImageRouter.swift */,
+				C383967B29A25A3E005998A5 /* ScheduleRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -857,6 +867,7 @@
 				70F1DFDF297A90AE00F9BC83 /* MeetingService.swift */,
 				70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */,
 				C3B04E4329816C7E00188E60 /* ImageService.swift */,
+				C383967929A25A16005998A5 /* ScheduleService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1057,6 +1068,31 @@
 				C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		C383967429A25701005998A5 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				C383967729A2572A005998A5 /* Request */,
+				C383967829A25780005998A5 /* Response */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
+		C383967729A2572A005998A5 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				C383967529A25718005998A5 /* CreateScheduleRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C383967829A25780005998A5 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		C3AB743A296B1EC3003DD5E2 /* CreateMeeting */ = {
@@ -1479,6 +1515,7 @@
 				C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */,
 				C34F07F3297DAFD900C91E90 /* AddQuestionTableViewCell.swift in Sources */,
 				7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */,
+				C383967E29A25D67005998A5 /* CreateScheduleResponse.swift in Sources */,
 				C3AB7441296B21E6003DD5E2 /* MeetingQuestionViewController.swift in Sources */,
 				BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */,
 				C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */,
@@ -1512,10 +1549,12 @@
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */,
+				C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */,
 				C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */,
 				BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */,
 				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
+				C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */,
 				70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */,
 				C3ED8FB92989E13D002F689B /* MeetingSummaryViewModel.swift in Sources */,
 				70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */,
@@ -1546,6 +1585,7 @@
 				C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */,
 				BAC5EF2F298AA23700F3955E /* SplashViewModel.swift in Sources */,
 				C38A5B95297AD5B000485355 /* KakaoLocationRouter.swift in Sources */,
+				C383967A29A25A16005998A5 /* ScheduleService.swift in Sources */,
 				70A420B629914B4F0026E9F9 /* CategoryMeetingResponse.swift in Sources */,
 				70F1DFD42979508000F9BC83 /* CategoryService.swift in Sources */,
 				C35AFD012998B0A500AB5CD3 /* EditMeetingViewModel.swift in Sources */,
