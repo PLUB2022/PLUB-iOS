@@ -1040,9 +1040,7 @@
 			children = (
 				C359FEA5299FDF2800B2F561 /* MeetingScheduleViewController.swift */,
 				C359FEA7299FE3AB00B2F561 /* MeetingScheduleViewModel.swift */,
-				C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */,
-				C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */,
-				C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */,
+				C383967F29A25E8C005998A5 /* Component */,
 			);
 			path = MeetingSchedule;
 			sourceTree = "<group>";
@@ -1093,6 +1091,16 @@
 				C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */,
 			);
 			path = Response;
+			sourceTree = "<group>";
+		};
+		C383967F29A25E8C005998A5 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */,
+				C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */,
+				C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		C3AB743A296B1EC3003DD5E2 /* CreateMeeting */ = {
