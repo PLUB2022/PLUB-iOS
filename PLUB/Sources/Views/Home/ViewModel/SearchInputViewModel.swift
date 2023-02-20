@@ -71,8 +71,9 @@ final class SearchInputViewModel: SearchInputViewModelType {
     tappedBookmark = whichBookmark.asObserver()
     fetchMoreDatas = fetchingDatas.asObserver()
     
-    let requestSearch = Observable.combineLatest(searchKeyword, searchFilterType, searchSortType)
+    let requestSearch = Observable.combineLatest(searchKeyword.distinctUntilChanged(), searchFilterType, searchSortType)
       .do(onNext: { _ in
+        fetchingSearchOutput.accept([])
         isLastPage.accept(false)
         currentPage.accept(1)
       })
@@ -94,7 +95,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
       return response.data?.content
     }
     
-    let fetchingSearchOutputModel = successSearch.map { contents in
+    successSearch.map { contents in
       contents.map { content in
         return SelectedCategoryCollectionViewCellModel(
           plubbingID: "\(content.plubbingID)",
@@ -113,6 +114,14 @@ final class SearchInputViewModel: SearchInputViewModelType {
             + "(data.time)"))
       }
     }
+    .subscribe(onNext: { model in
+      var cellData = fetchingSearchOutput.value
+      cellData.append(contentsOf: model)
+      fetchingSearchOutput.accept(cellData)
+//      fetchingSearchOutput.accept(model)
+      isLoading.accept(false)
+    })
+    .disposed(by: disposeBag)
     
     removeKeyword.subscribe(onNext: { index in
       var list = recentKeywordList.value
@@ -132,13 +141,13 @@ final class SearchInputViewModel: SearchInputViewModelType {
     })
     .disposed(by: disposeBag)
     
-    fetchingSearchOutputModel.subscribe(onNext: { model in
-      var cellData = fetchingSearchOutput.value
-      cellData.append(contentsOf: model)
-      fetchingSearchOutput.accept(cellData)
-      isLoading.accept(false)
-    })
-    .disposed(by: disposeBag)
+//    fetchingSearchOutputModel.subscribe(onNext: { model in
+//      var cellData = fetchingSearchOutput.value
+//      cellData.append(contentsOf: model)
+//      fetchingSearchOutput.accept(cellData)
+//      isLoading.accept(false)
+//    })
+//    .disposed(by: disposeBag)
     
     removeAllKeyword
       .subscribe(onNext: { _ in
@@ -167,7 +176,37 @@ final class SearchInputViewModel: SearchInputViewModelType {
         .flatMapLatest { page in
           return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: try searchKeyword.value(), page: currentPage.value, type: try searchFilterType.value().text, sort: try searchSortType.value().text))
         }
-    
+        .compactMap { result -> [SearchContent]? in
+          guard case .success(let response) = result else { return nil }
+          isLastPage.accept(response.data?.last ?? false)
+          return response.data?.content
+        }
+        .map { contents in
+          contents.map { content in
+            return SelectedCategoryCollectionViewCellModel(
+              plubbingID: "\(content.plubbingID)",
+              name: content.name,
+              title: content.title,
+              mainImage: content.mainImage,
+              introduce: content.introduce,
+              isBookmarked: content.isBookmarked,
+              selectedCategoryInfoModel: .init(
+                placeName: content.placeName,
+                peopleCount: content.remainAccountNum,
+                dateTime: content.days
+                  .map { $0.fromENGToKOR() }
+                  .joined(separator: ",")
+                + " | "
+                + "(data.time)"))
+          }
+        }
+        .subscribe(onNext: { model in
+          var cellData = fetchingSearchOutput.value
+          cellData.append(contentsOf: model)
+          fetchingSearchOutput.accept(cellData)
+          isLoading.accept(false)
+        })
+        .disposed(by: disposeBag)
     //      .subscribe(onNext: { page in
     //        currentPage.accept(page)
     //
