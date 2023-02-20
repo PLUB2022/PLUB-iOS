@@ -9,6 +9,7 @@ import Foundation
 
 import RxSwift
 import RxCocoa
+import Then
 
 final class CreateScheduleViewModel {
   private let disposeBag = DisposeBag()
@@ -52,7 +53,7 @@ final class CreateScheduleViewModel {
     isButtonEnabled = Driver.combineLatest(
       titleSubject.asDriver(onErrorDriveWith: .empty()),
       memoSubject.asDriver(onErrorDriveWith: .empty())
-    ){
+    ) {
       !$0.isEmpty &&
       !$1.isEmpty &&
       $1 != "메모 내용을 입력해주세요."

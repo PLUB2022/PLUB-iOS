@@ -53,11 +53,11 @@ final class ScheduleAlarmView: UIView {
   
   private let label = UILabel().then {
     $0.text = "없음"
-    $0.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
+    $0.font = .appFont(family: .pretendard(option: .regular), size: 14)
     $0.textColor = .mediumGray
   }
   
-  private lazy var button = UIButton().then {
+  private let button = UIButton().then {
     $0.showsMenuAsPrimaryAction = true
   }
   
@@ -104,17 +104,12 @@ final class ScheduleAlarmView: UIView {
 extension ScheduleAlarmView {
   private func setupButtonMenus() {
     let menuItems = ScheduleAlarmType.allCases
-      .map {
-        let alarm = $0
-        return UIAction(
-          title: $0.rawValue,
-          image: nil,
-          handler: { [weak self] action in
-            guard let self = self else { return }
-            self.setupAlarmText(with: alarm)
-            self.delegate?.selectAlarm(alarm: alarm)
-          }
-        )
+      .map { alarm in
+        return UIAction(title: alarm.rawValue, image: nil) { [weak self] _ in
+          guard let self else { return }
+          self.setupAlarmText(with: alarm)
+          self.delegate?.selectAlarm(alarm: alarm)
+        }
       }
     
     button.menu = UIMenu(

@@ -117,7 +117,7 @@ final class CreateScheduleViewController: BaseViewController {
   
   private let tapGesture = UITapGestureRecognizer(
     target: CreateScheduleViewController.self,
-      action: nil
+    action: nil
   ).then {
     $0.numberOfTapsRequired = 1
     $0.cancelsTouchesInView = false
@@ -358,10 +358,18 @@ final class CreateScheduleViewController: BaseViewController {
 
 extension CreateScheduleViewController {
   func registerKeyboardNotification() {
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
-                                             name: UIResponder.keyboardWillShowNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
-                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillHide(_:)),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
   }
   
   func removeKeyboardNotification() {
@@ -376,7 +384,7 @@ extension CreateScheduleViewController {
           (currentResponder == memoTextView) else { return }
     
     if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-        view.frame.origin.y == 0 {
+      view.frame.origin.y == 0 {
       let keyboardHeight: CGFloat = keyboardSize.height
       
       if currentResponder == titleTextField {

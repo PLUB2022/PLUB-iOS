@@ -51,7 +51,7 @@ class BottomSheetViewController: BaseViewController {
   
   override func bind() {
     tapGesture.rx.event
-      .asDriver(onErrorDriveWith: .empty())
+      .asDriver()
       .drive(with: self) { owner , _ in
         owner.dismissBottomSheet()
       }
