@@ -170,7 +170,6 @@ final class SearchInputViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.searchOutputIsEmpty
-      .do(onNext: { print("앙 \($0)") })
       .map { !$0 }
       .drive(noResultSearchView.rx.isHidden)
       .disposed(by: disposeBag)

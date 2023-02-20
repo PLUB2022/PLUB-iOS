@@ -81,15 +81,12 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .flatMapLatest { (keyword, filterType, sortType) in
         if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.accept(true)
-          print("엥")
           return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: currentPage.value, type: filterType.text, sort: sortType.text))
         }
-        print("오잉")
         return .empty()
       }
     
     let successSearch = requestSearch.compactMap { result -> [SearchContent]? in
-      print("결과 \(result)")
       guard case .success(let response) = result else { return nil }
       isLastPage.accept(response.data?.last ?? false)
       return response.data?.content
@@ -118,7 +115,6 @@ final class SearchInputViewModel: SearchInputViewModelType {
       var cellData = fetchingSearchOutput.value
       cellData.append(contentsOf: model)
       fetchingSearchOutput.accept(cellData)
-//      fetchingSearchOutput.accept(model)
       isLoading.accept(false)
     })
     .disposed(by: disposeBag)
@@ -141,14 +137,6 @@ final class SearchInputViewModel: SearchInputViewModelType {
     })
     .disposed(by: disposeBag)
     
-//    fetchingSearchOutputModel.subscribe(onNext: { model in
-//      var cellData = fetchingSearchOutput.value
-//      cellData.append(contentsOf: model)
-//      fetchingSearchOutput.accept(cellData)
-//      isLoading.accept(false)
-//    })
-//    .disposed(by: disposeBag)
-    
     removeAllKeyword
       .subscribe(onNext: { _ in
         recentKeywordList.accept([])
@@ -168,15 +156,17 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .asSignal(onErrorSignalWith: .empty())
     
     fetchingDatas.withLatestFrom(currentPage)
-      .filter({ page in
-        isLastPage.value || isLoading.value ? false : true
-      })
+      .filter { _ in isLastPage.value || isLoading.value }
       .map { $0 + 1 }
-      .do(onNext: { currentPage.accept($0) })
+      .do(onNext: { page in
+        currentPage.accept(page)
+        print("페이지 \(page)")
+      })
         .flatMapLatest { page in
           return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: try searchKeyword.value(), page: currentPage.value, type: try searchFilterType.value().text, sort: try searchSortType.value().text))
         }
         .compactMap { result -> [SearchContent]? in
+          print("결과 \(result)")
           guard case .success(let response) = result else { return nil }
           isLastPage.accept(response.data?.last ?? false)
           return response.data?.content
@@ -207,11 +197,6 @@ final class SearchInputViewModel: SearchInputViewModelType {
           isLoading.accept(false)
         })
         .disposed(by: disposeBag)
-    //      .subscribe(onNext: { page in
-    //        currentPage.accept(page)
-    //
-    //      })
-    //      .disposed(by: disposeBag)
     
     keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
     searchOutputIsEmpty = fetchingSearchOutput.skip(1).map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
