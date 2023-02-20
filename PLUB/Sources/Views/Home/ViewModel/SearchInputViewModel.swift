@@ -47,9 +47,8 @@ final class SearchInputViewModel: SearchInputViewModelType {
   let searchOutputIsEmpty: Driver<Bool> // 해당 키워드에 대한 검색결과가 존재하는지
   let isBookmarked: Signal<Bool> // [북마크][북마크해제] 성공 유무
   
-  
   init() {
-    let searchKeyword = PublishSubject<String>()
+    let searchKeyword = BehaviorSubject<String>(value: "")
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let searchFilterType = BehaviorSubject<FilterType>(value: .mix)
     let fetchingSearchOutput = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
@@ -58,9 +57,9 @@ final class SearchInputViewModel: SearchInputViewModelType {
     let removeAllKeyword = PublishSubject<Void>()
     let whichBookmark = PublishSubject<String>()
     let fetchingDatas = PublishSubject<Void>()
-    let currentPage = BehaviorSubject<Int>(value: 1)
-    let isLastPage = BehaviorSubject<Bool>(value: false)
-    let isLoading = BehaviorSubject<Bool>(value: false)
+    let currentPage = BehaviorRelay<Int>(value: 1)
+    let isLastPage = BehaviorRelay<Bool>(value: false)
+    let isLoading = BehaviorRelay<Bool>(value: false)
     
     whichKeywordRemove = removeKeyword.asObserver()
     whichKeyword = searchKeyword.asObserver()
@@ -72,22 +71,26 @@ final class SearchInputViewModel: SearchInputViewModelType {
     tappedBookmark = whichBookmark.asObserver()
     fetchMoreDatas = fetchingDatas.asObserver()
     
-    let requestSearch = Observable.combineLatest(searchKeyword, currentPage, searchFilterType, searchSortType)
+    let requestSearch = Observable.combineLatest(searchKeyword, searchFilterType, searchSortType)
       .do(onNext: { _ in
-        isLastPage.onNext(false)
-        currentPage.onNext(1)
+        isLastPage.accept(false)
+        currentPage.accept(1)
       })
-      .flatMapLatest { (keyword, page, filterType, sortType) in
-        if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
-          isLoading.onNext(true)
-          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: page, type: filterType.text, sort: sortType.text))
+      .skip(1)
+      .flatMapLatest { (keyword, filterType, sortType) in
+        if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
+          isLoading.accept(true)
+          print("엥")
+          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: currentPage.value, type: filterType.text, sort: sortType.text))
         }
+        print("오잉")
         return .empty()
       }
     
     let successSearch = requestSearch.compactMap { result -> [SearchContent]? in
+      print("결과 \(result)")
       guard case .success(let response) = result else { return nil }
-      isLastPage.onNext(response.data?.last ?? false)
+      isLastPage.accept(response.data?.last ?? false)
       return response.data?.content
     }
     
@@ -104,10 +107,10 @@ final class SearchInputViewModel: SearchInputViewModelType {
             placeName: content.placeName,
             peopleCount: content.remainAccountNum,
             dateTime: content.days
-          .map { $0.fromENGToKOR() }
-          .joined(separator: ",")
-        + " | "
-        + "(data.time)"))
+              .map { $0.fromENGToKOR() }
+              .joined(separator: ",")
+            + " | "
+            + "(data.time)"))
       }
     }
     
@@ -117,8 +120,8 @@ final class SearchInputViewModel: SearchInputViewModelType {
       recentKeywordList.accept(list)
     })
     .disposed(by: disposeBag)
-      
-    searchKeyword.subscribe(onNext: { keyword in
+    
+    searchKeyword.skip(1).subscribe(onNext: { keyword in
       var list = recentKeywordList.value
       if list.contains(keyword) {
         guard let index = list.firstIndex(of: keyword) else { return }
@@ -133,7 +136,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
       var cellData = fetchingSearchOutput.value
       cellData.append(contentsOf: model)
       fetchingSearchOutput.accept(cellData)
-      isLoading.onNext(false)
+      isLoading.accept(false)
     })
     .disposed(by: disposeBag)
     
@@ -144,26 +147,34 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .disposed(by: disposeBag)
     
     let requestBookmark = whichBookmark
-    .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
+      .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
     
     let successRequestBookmark = requestBookmark.compactMap { result -> RequestBookmarkResponse? in
       guard case .success(let response) = result else { return nil }
       return response.data
     }
     
-    self.isBookmarked = successRequestBookmark.distinctUntilChanged()
-    .map { $0.isBookmarked }
-    .asSignal(onErrorSignalWith: .empty())
+    isBookmarked = successRequestBookmark.distinctUntilChanged()
+      .map { $0.isBookmarked }
+      .asSignal(onErrorSignalWith: .empty())
     
     fetchingDatas.withLatestFrom(currentPage)
       .filter({ page in
-        try isLastPage.value() || isLoading.value() ? false : true
+        isLastPage.value || isLoading.value ? false : true
       })
       .map { $0 + 1 }
-      .bind(to: currentPage)
-      .disposed(by: disposeBag)
+      .do(onNext: { currentPage.accept($0) })
+        .flatMapLatest { page in
+          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: try searchKeyword.value(), page: currentPage.value, type: try searchFilterType.value().text, sort: try searchSortType.value().text))
+        }
+    
+    //      .subscribe(onNext: { page in
+    //        currentPage.accept(page)
+    //
+    //      })
+    //      .disposed(by: disposeBag)
     
     keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
-    searchOutputIsEmpty = fetchingSearchOutput.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
+    searchOutputIsEmpty = fetchingSearchOutput.skip(1).map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
   }
 }
