@@ -20,6 +20,7 @@ protocol HomeViewModelType {
   var isBookmarked: Signal<Bool> { get }
 }
 
+// TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
 final class HomeViewModel: HomeViewModelType {
   private let disposeBag = DisposeBag()
   

@@ -8,7 +8,6 @@
 import RxSwift
 import RxCocoa
 
-// 모든 질문에 관련된 상태값을 저장해서 이걸 확인하고 같지않으면 내보내는 방식으로 해야할듯
 protocol ApplyQuestionViewModelType {
   // Input
   var whichQuestion: AnyObserver<QuestionStatus> { get }
@@ -19,6 +18,7 @@ protocol ApplyQuestionViewModelType {
   var isActivated: Driver<Bool> { get }
 }
 
+// TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
 final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   private let disposeBag = DisposeBag()
   // Input
