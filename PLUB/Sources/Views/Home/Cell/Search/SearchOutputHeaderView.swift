@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
@@ -15,7 +16,7 @@ protocol SearchOutputHeaderViewDelegate: AnyObject {
   func didTappedInterestListChartButton()
   func didTappedInterestListGridButton()
   func didTappedSortControl()
-  func didTappedTopBar(which: IndexPath)
+  func whichTappedSegmentControl(index: Int)
 }
 
 class SearchOutputHeaderView: UIView {
@@ -31,7 +32,7 @@ class SearchOutputHeaderView: UIView {
   }
   
   private let segmentedControl = UnderlineSegmentedControl(
-    items: ["제목", "모임이름", "제목+글"]
+    items: [FilterType.title.toKor, FilterType.mix.toKor, FilterType.name.toKor]
   ).then {
     $0.setTitleTextAttributes([.foregroundColor: UIColor.black, .font: UIFont.body1!], for: .normal)
     $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.body1!], for: .selected)
@@ -80,6 +81,14 @@ class SearchOutputHeaderView: UIView {
   }
   
   private func bind() {
+    
+    segmentedControl.rx.value
+      .subscribe(with: self) { owner, index in
+        owner.delegate?.whichTappedSegmentControl(index: index)
+      }
+      .disposed(by: disposeBag)
+      
+    
     sortButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in

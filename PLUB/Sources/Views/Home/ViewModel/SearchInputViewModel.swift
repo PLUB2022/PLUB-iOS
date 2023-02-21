@@ -81,7 +81,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .flatMapLatest { (keyword, filterType, sortType) in
         if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.accept(true)
-          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: currentPage.value, type: filterType.text, sort: sortType.text))
+          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: currentPage.value, type: filterType.toEng, sort: sortType.text))
         }
         return .empty()
       }
@@ -163,7 +163,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
         print("페이지 \(page)")
       })
         .flatMapLatest { page in
-          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: try searchKeyword.value(), page: currentPage.value, type: try searchFilterType.value().text, sort: try searchSortType.value().text))
+          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: try searchKeyword.value(), page: currentPage.value, type: try searchFilterType.value().toEng, sort: try searchSortType.value().text))
         }
         .compactMap { result -> [SearchContent]? in
           print("결과 \(result)")
