@@ -16,7 +16,7 @@ protocol SearchOutputHeaderViewDelegate: AnyObject {
   func didTappedInterestListChartButton()
   func didTappedInterestListGridButton()
   func didTappedSortControl()
-  func whichTappedSegmentControl(index: Int)
+  func whichTappedSegmentControl(type: FilterType)
 }
 
 class SearchOutputHeaderView: UIView {
@@ -32,7 +32,7 @@ class SearchOutputHeaderView: UIView {
   }
   
   private let segmentedControl = UnderlineSegmentedControl(
-    items: [FilterType.title.toKor, FilterType.mix.toKor, FilterType.name.toKor]
+    items: [FilterType.title.toKor, FilterType.name.toKor, FilterType.mix.toKor]
   ).then {
     $0.setTitleTextAttributes([.foregroundColor: UIColor.black, .font: UIFont.body1!], for: .normal)
     $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.body1!], for: .selected)
@@ -84,7 +84,7 @@ class SearchOutputHeaderView: UIView {
     
     segmentedControl.rx.value
       .subscribe(with: self) { owner, index in
-        owner.delegate?.whichTappedSegmentControl(index: index)
+        owner.delegate?.whichTappedSegmentControl(type: FilterType.allCases[index])
       }
       .disposed(by: disposeBag)
       

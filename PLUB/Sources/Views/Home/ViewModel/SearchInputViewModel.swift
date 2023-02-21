@@ -27,7 +27,8 @@ protocol SearchInputViewModelType {
   var isBookmarked: Signal<Bool> { get }
 }
 
-// TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
+// TODO: 이건준 - 추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
+// TODO: 이건준 - 검색 Output화면 첫번째 인덱스 UI에 따라서 초기값달라져야함
 final class SearchInputViewModel: SearchInputViewModelType {
   private let disposeBag = DisposeBag()
   
@@ -50,7 +51,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
   init() {
     let searchKeyword = BehaviorSubject<String>(value: "")
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
-    let searchFilterType = BehaviorSubject<FilterType>(value: .mix)
+    let searchFilterType = BehaviorSubject<FilterType>(value: .title)
     let fetchingSearchOutput = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
     let recentKeywordList = BehaviorRelay<[String]>(value: [])
     let removeKeyword = PublishSubject<Int>()
@@ -79,6 +80,9 @@ final class SearchInputViewModel: SearchInputViewModelType {
       })
       .skip(1)
       .flatMapLatest { (keyword, filterType, sortType) in
+        print("키워드 \(keyword)")
+        print("필터 \(filterType)")
+        print("분류 \(sortType)")
         if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.accept(true)
           return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: currentPage.value, type: filterType.toEng, sort: sortType.text))
