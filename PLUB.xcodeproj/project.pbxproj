@@ -24,6 +24,9 @@
 		702876B7299E429C00E57509 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B6299E429C00E57509 /* BookmarkViewController.swift */; };
 		702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B8299E459100E57509 /* BookmarkViewModel.swift */; };
 		702876BB299E4DBA00E57509 /* BookmarkAllResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876BA299E4DBA00E57509 /* BookmarkAllResponse.swift */; };
+		702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876BF29A374FE00E57509 /* ClipboardViewController.swift */; };
+		702876C229A3751400E57509 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876C129A3751400E57509 /* ArchiveViewController.swift */; };
+		702876C429A3752A00E57509 /* MeetingScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876C329A3752A00E57509 /* MeetingScheduleViewController.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
@@ -259,6 +262,9 @@
 		702876B6299E429C00E57509 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		702876B8299E459100E57509 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
 		702876BA299E4DBA00E57509 /* BookmarkAllResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkAllResponse.swift; sourceTree = "<group>"; };
+		702876BF29A374FE00E57509 /* ClipboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardViewController.swift; sourceTree = "<group>"; };
+		702876C129A3751400E57509 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
+		702876C329A3752A00E57509 /* MeetingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingScheduleViewController.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -602,6 +608,30 @@
 			path = Notice;
 			sourceTree = "<group>";
 		};
+		702876BC29A374B100E57509 /* MeetingSchedule */ = {
+			isa = PBXGroup;
+			children = (
+				702876C329A3752A00E57509 /* MeetingScheduleViewController.swift */,
+			);
+			path = MeetingSchedule;
+			sourceTree = "<group>";
+		};
+		702876BD29A374C500E57509 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				702876C129A3751400E57509 /* ArchiveViewController.swift */,
+			);
+			path = Archive;
+			sourceTree = "<group>";
+		};
+		702876BE29A374E900E57509 /* Clipboard */ = {
+			isa = PBXGroup;
+			children = (
+				702876BF29A374FE00E57509 /* ClipboardViewController.swift */,
+			);
+			path = Clipboard;
+			sourceTree = "<group>";
+		};
 		704AC7932938E7EA008C3A88 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +774,9 @@
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				702876BE29A374E900E57509 /* Clipboard */,
+				702876BD29A374C500E57509 /* Archive */,
+				702876BC29A374B100E57509 /* MeetingSchedule */,
 				702876AF299B787700E57509 /* Notice */,
 				70197B6C29535BA2000503F6 /* ViewModel */,
 				704AC7932938E7EA008C3A88 /* Model */,
@@ -1559,6 +1592,7 @@
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
 				BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */,
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
+				702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */,
 				C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */,
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
@@ -1578,6 +1612,7 @@
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
+				702876C429A3752A00E57509 /* MeetingScheduleViewController.swift in Sources */,
 				70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */,
 				C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */,
 				C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */,
@@ -1601,6 +1636,7 @@
 				BAC5EF31298B6F2D00F3955E /* CongratulationViewController.swift in Sources */,
 				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
 				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
+				702876C229A3751400E57509 /* ArchiveViewController.swift in Sources */,
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
 				C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */,
 				70A420BE29914B690026E9F9 /* RecruitmentQuestionResponse.swift in Sources */,
