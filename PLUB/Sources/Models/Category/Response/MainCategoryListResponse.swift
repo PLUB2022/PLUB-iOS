@@ -16,7 +16,7 @@ struct MainCategoryListResponse: Codable {
   
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
-    self.categories = try values.decodeIfPresent([MainCategory].self, forKey: .categories) ?? []
+    categories = try values.decodeIfPresent([MainCategory].self, forKey: .categories) ?? []
   }
 }
 

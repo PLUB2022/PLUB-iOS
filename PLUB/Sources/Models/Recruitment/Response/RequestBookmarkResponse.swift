@@ -19,8 +19,8 @@ struct RequestBookmarkResponse: Codable, Equatable {
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    self.plubbingID = try values.decodeIfPresent(Int.self, forKey: .plubbingID) ?? -1
-    self.isBookmarked = try values.decodeIfPresent(Bool.self, forKey: .isBookmarked) ?? false
+    plubbingID = try values.decodeIfPresent(Int.self, forKey: .plubbingID) ?? -1
+    isBookmarked = try values.decodeIfPresent(Bool.self, forKey: .isBookmarked) ?? false
   }
   
   static func == (lhs: Self, rhs: Self) -> Bool {

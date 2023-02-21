@@ -13,7 +13,7 @@ struct RegisterInterestModel {
   
   init(category: Category) {
     self.category = category
-    self.isExpanded = false
+    isExpanded = false
   }
 }
 

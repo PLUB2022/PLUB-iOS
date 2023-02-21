@@ -17,7 +17,7 @@ struct AllCategoryListResponse: Codable {
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    self.categories = try values.decodeIfPresent([Category].self, forKey: .categories) ?? []
+    categories = try values.decodeIfPresent([Category].self, forKey: .categories) ?? []
   }
 }
 
@@ -42,10 +42,10 @@ struct SubCategory: Codable {
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    self.id = try values.decodeIfPresent(Int.self, forKey: .id) ?? 0
-    self.name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
-    self.categoryName = try values.decodeIfPresent(String.self, forKey: .categoryName) ?? ""
-    self.parentId = try values.decodeIfPresent(String.self, forKey: .parentId) ?? ""
-    self.isSelected = try values.decodeIfPresent(Bool.self, forKey: .isSelected) ?? false
+    id = try values.decodeIfPresent(Int.self, forKey: .id) ?? 0
+    name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
+    categoryName = try values.decodeIfPresent(String.self, forKey: .categoryName) ?? ""
+    parentId = try values.decodeIfPresent(String.self, forKey: .parentId) ?? ""
+    isSelected = try values.decodeIfPresent(Bool.self, forKey: .isSelected) ?? false
   }
 }

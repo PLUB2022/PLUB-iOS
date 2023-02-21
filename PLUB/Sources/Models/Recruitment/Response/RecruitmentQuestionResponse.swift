@@ -17,7 +17,7 @@ struct RecruitmentQuestionResponse: Codable {
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    self.questions = try values.decodeIfPresent([Question].self, forKey: .questions) ?? []
+    questions = try values.decodeIfPresent([Question].self, forKey: .questions) ?? []
   }
 }
 
