@@ -79,15 +79,10 @@ final class SearchInputViewModel: SearchInputViewModelType {
         currentPage.accept(1)
       })
       .skip(1)
+      .filter { _ in !isLastPage.value && !isLoading.value } // 마지막 페이지가 아니고 로딩중이 아닐때
       .flatMapLatest { (keyword, filterType, sortType) in
-        print("키워드 \(keyword)")
-        print("필터 \(filterType)")
-        print("분류 \(sortType)")
-        if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
-          isLoading.accept(true)
-          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: currentPage.value, type: filterType.toEng, sort: sortType.text))
-        }
-        return .empty()
+        isLoading.accept(true)
+        return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: currentPage.value, type: filterType.toEng, sort: sortType.text))
       }
     
     let successSearch = requestSearch.compactMap { result -> [SearchContent]? in
@@ -160,47 +155,45 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .asSignal(onErrorSignalWith: .empty())
     
     fetchingDatas.withLatestFrom(currentPage)
-      .filter { _ in isLastPage.value || isLoading.value }
+      .filter { _ in !isLastPage.value && !isLoading.value }
       .map { $0 + 1 }
       .do(onNext: { page in
         currentPage.accept(page)
-        print("페이지 \(page)")
       })
-        .flatMapLatest { page in
-          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: try searchKeyword.value(), page: currentPage.value, type: try searchFilterType.value().toEng, sort: try searchSortType.value().text))
+      .flatMapLatest { page in
+        return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: try searchKeyword.value(), page: currentPage.value, type: try searchFilterType.value().toEng, sort: try searchSortType.value().text))
+      }
+      .compactMap { result -> [SearchContent]? in
+        guard case .success(let response) = result else { return nil }
+        isLastPage.accept(response.data?.last ?? false)
+        return response.data?.content
+      }
+      .map { contents in
+        contents.map { content in
+          return SelectedCategoryCollectionViewCellModel(
+            plubbingID: "\(content.plubbingID)",
+            name: content.name,
+            title: content.title,
+            mainImage: content.mainImage,
+            introduce: content.introduce,
+            isBookmarked: content.isBookmarked,
+            selectedCategoryInfoModel: .init(
+              placeName: content.placeName,
+              peopleCount: content.remainAccountNum,
+              dateTime: content.days
+                .map { $0.fromENGToKOR() }
+                .joined(separator: ",")
+              + " | "
+              + "(data.time)"))
         }
-        .compactMap { result -> [SearchContent]? in
-          print("결과 \(result)")
-          guard case .success(let response) = result else { return nil }
-          isLastPage.accept(response.data?.last ?? false)
-          return response.data?.content
-        }
-        .map { contents in
-          contents.map { content in
-            return SelectedCategoryCollectionViewCellModel(
-              plubbingID: "\(content.plubbingID)",
-              name: content.name,
-              title: content.title,
-              mainImage: content.mainImage,
-              introduce: content.introduce,
-              isBookmarked: content.isBookmarked,
-              selectedCategoryInfoModel: .init(
-                placeName: content.placeName,
-                peopleCount: content.remainAccountNum,
-                dateTime: content.days
-                  .map { $0.fromENGToKOR() }
-                  .joined(separator: ",")
-                + " | "
-                + "(data.time)"))
-          }
-        }
-        .subscribe(onNext: { model in
-          var cellData = fetchingSearchOutput.value
-          cellData.append(contentsOf: model)
-          fetchingSearchOutput.accept(cellData)
-          isLoading.accept(false)
-        })
-        .disposed(by: disposeBag)
+      }
+      .subscribe(onNext: { model in
+        var cellData = fetchingSearchOutput.value
+        cellData.append(contentsOf: model)
+        fetchingSearchOutput.accept(cellData)
+        isLoading.accept(false)
+      })
+      .disposed(by: disposeBag)
     
     keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
     searchOutputIsEmpty = fetchingSearchOutput.skip(1).map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
