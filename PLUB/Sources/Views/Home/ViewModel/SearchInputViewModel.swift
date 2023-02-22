@@ -163,13 +163,10 @@ final class SearchInputViewModel: SearchInputViewModelType {
     .disposed(by: disposeBag)
     
     searchKeyword.skip(1).subscribe(onNext: { keyword in
-      var list = recentKeywordList.value
-      if list.contains(keyword) {
-        guard let index = list.firstIndex(of: keyword) else { return }
-        list.remove(at: index)
-      }
-      list.insert(keyword, at: 0)
-      recentKeywordList.accept(list)
+      let list = recentKeywordList.value
+      var filterList = list.filter { $0 != keyword }
+      filterList.insert(keyword, at: 0)
+      recentKeywordList.accept(filterList)
     })
     .disposed(by: disposeBag)
     
