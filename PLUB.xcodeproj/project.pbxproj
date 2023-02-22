@@ -87,6 +87,8 @@
 		BA117A4E297444EE00B37E03 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A4D297444EE00B37E03 /* KakaoSDKAuth */; };
 		BA117A50297444EE00B37E03 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A4F297444EE00B37E03 /* KakaoSDKCommon */; };
 		BA117A52297444EE00B37E03 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A51297444EE00B37E03 /* KakaoSDKUser */; };
+		BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC11F29A5E0DF00AB3F91 /* FeedsRouter.swift */; };
+		BA1FC12229A5E0DF00AB3F91 /* FeedsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC12029A5E0DF00AB3F91 /* FeedsService.swift */; };
 		BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */; };
 		BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */; };
 		BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */; };
@@ -322,6 +324,8 @@
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		BA1FC11F29A5E0DF00AB3F91 /* FeedsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsRouter.swift; sourceTree = "<group>"; };
+		BA1FC12029A5E0DF00AB3F91 /* FeedsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsService.swift; sourceTree = "<group>"; };
 		BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryInfoView.swift; sourceTree = "<group>"; };
 		BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryTitleView.swift; sourceTree = "<group>"; };
@@ -897,6 +901,7 @@
 				70F1DFE7297D969000F9BC83 /* RecruitmentRouter.swift */,
 				C3B04E4129816B9C00188E60 /* ImageRouter.swift */,
 				C383967B29A25A3E005998A5 /* ScheduleRouter.swift */,
+				BA1FC11F29A5E0DF00AB3F91 /* FeedsRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -912,6 +917,7 @@
 				70F1DFE9297D992100F9BC83 /* RecruitmentService.swift */,
 				C3B04E4329816C7E00188E60 /* ImageService.swift */,
 				C383967929A25A16005998A5 /* ScheduleService.swift */,
+				BA1FC12029A5E0DF00AB3F91 /* FeedsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1681,10 +1687,12 @@
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,
 				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
 				70BD5F272959F718002CBA89 /* Ex+UIView.swift in Sources */,
+				BA1FC12229A5E0DF00AB3F91 /* FeedsService.swift in Sources */,
 				C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */,
 				702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
+				BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */,
 				702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
