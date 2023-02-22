@@ -8,7 +8,7 @@
 import Alamofire
 
 enum FeedsRouter {
-  
+  case fetchBoard(plubID: String, page: Int)
 }
 
 extension FeedsRouter: Router {
@@ -18,11 +18,18 @@ extension FeedsRouter: Router {
   }
   
   var path: String {
-    return "/<#Path#>"
+    let prefixPath = "plubbings"
+    switch self {
+    case .fetchBoard(let plubID, _):
+      return "/\(prefixPath)/\(plubID)/feeds"
+    }
   }
   
   var parameters: ParameterType {
-    return .plain
+    switch self {
+    case .fetchBoard(_, let page):
+      return .query(["page": page])
+    }
   }
   
   var headers: HeaderType {

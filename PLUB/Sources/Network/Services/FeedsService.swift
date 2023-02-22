@@ -17,5 +17,16 @@ final class FeedsService: BaseService {
 }
 
 extension FeedsService {
-  // service codes here
+  
+  /// 게시판 조회 API
+  /// - Parameters:
+  ///   - plubIdentifier: plub ID
+  ///   - page: 페이지 위치, 기본값은 1입니다.
+  func getBoards(plubIdentifier: String, page: Int = 1) -> Observable<NetworkResult<GeneralResponse<FeedsPaginatedDataResponse<FeedsContent>>>> {
+    sendRequest(
+      FeedsRouter.fetchBoard(plubID: plubIdentifier, page: page),
+      type: FeedsPaginatedDataResponse<FeedsContent>.self
+    )
+  }
+  
 }
