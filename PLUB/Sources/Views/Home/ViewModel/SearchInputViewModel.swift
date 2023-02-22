@@ -73,7 +73,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
     fetchMoreDatas = fetchingDatas.asObserver()
     
     let searchRecruitment = Observable.combineLatest(
-      searchKeyword.distinctUntilChanged(),
+      searchKeyword,
       searchFilterType,
       searchSortType
     )
