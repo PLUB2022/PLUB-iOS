@@ -84,7 +84,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
         isLastPage.accept(false)
         currentPage.accept(1)
       })
-      .flatMapLatest { (keyword, filterType, sortType) in
+      .flatMapLatest { keyword, filterType, sortType in
         isLoading.accept(true)
         return RecruitmentService.shared.searchRecruitment(
           searchParameter: .init(
@@ -193,8 +193,13 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .asSignal(onErrorSignalWith: .empty())
     
     // 검색 아웃풋관련 상태값
-    keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
-    searchOutputIsEmpty = fetchingSearchOutput.skip(1).map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
+    keywordListIsEmpty = recentKeywordList
+      .map { $0.isEmpty }
+      .asDriver(onErrorJustReturn: true)
+    
+    searchOutputIsEmpty = fetchingSearchOutput.skip(1)
+      .map { $0.isEmpty }
+      .asDriver(onErrorJustReturn: true)
   }
 }
 
