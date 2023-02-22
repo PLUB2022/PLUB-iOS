@@ -77,13 +77,13 @@ final class SearchInputViewModel: SearchInputViewModelType {
       searchFilterType,
       searchSortType
     )
+      .skip(1)
+      .filter { _ in !isLoading.value } // 마지막 페이지가 아니고 로딩중이 아닐때
       .do(onNext: { _ in
         fetchingSearchOutput.accept([])
         isLastPage.accept(false)
         currentPage.accept(1)
       })
-      .skip(1)
-      .filter { _ in !isLastPage.value && !isLoading.value } // 마지막 페이지가 아니고 로딩중이 아닐때
       .flatMapLatest { (keyword, filterType, sortType) in
         isLoading.accept(true)
         return RecruitmentService.shared.searchRecruitment(
@@ -100,22 +100,19 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .filter { _ in !isLastPage.value && !isLoading.value }
       .map { $0 + 1 }
       .do(onNext: { page in
-        print("페이지 \(page)")
-        print("마지막페이지 \(isLastPage.value)")
-        print("로딩중 \(isLoading.value)")
         currentPage.accept(page)
+        isLoading.accept(true)
       })
-        .flatMapLatest { page in
-          isLoading.accept(true)
-          return RecruitmentService.shared.searchRecruitment(
-            searchParameter: .init(
-              keyword: try searchKeyword.value(),
-              page: currentPage.value,
-              type: try searchFilterType.value().toEng,
-              sort: try searchSortType.value().text
-            )
+      .flatMapLatest { _ in
+        return RecruitmentService.shared.searchRecruitment(
+          searchParameter: .init(
+            keyword: try searchKeyword.value(),
+            page: currentPage.value,
+            type: try searchFilterType.value().toEng,
+            sort: try searchSortType.value().text
           )
-        }
+        )
+      }
     
     let successSearch = Observable.merge(
       searchRecruitment,
@@ -195,7 +192,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .map { $0.isBookmarked }
       .asSignal(onErrorSignalWith: .empty())
     
-    
+    // 검색 아웃풋관련 상태값
     keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
     searchOutputIsEmpty = fetchingSearchOutput.skip(1).map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
   }
