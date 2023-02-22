@@ -100,9 +100,13 @@ final class SearchInputViewModel: SearchInputViewModelType {
       .filter { _ in !isLastPage.value && !isLoading.value }
       .map { $0 + 1 }
       .do(onNext: { page in
+        print("페이지 \(page)")
+        print("마지막페이지 \(isLastPage.value)")
+        print("로딩중 \(isLoading.value)")
         currentPage.accept(page)
       })
         .flatMapLatest { page in
+          isLoading.accept(true)
           return RecruitmentService.shared.searchRecruitment(
             searchParameter: .init(
               keyword: try searchKeyword.value(),
