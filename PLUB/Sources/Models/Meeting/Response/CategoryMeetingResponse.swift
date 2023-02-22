@@ -20,10 +20,10 @@ struct CategoryMeetingResponse: Codable {
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    self.totalPages = try values.decodeIfPresent(Int.self, forKey: .totalPages) ?? 0
-    self.totalElements = try values.decodeIfPresent(Int.self, forKey: .totalElements) ?? 0
-    self.last = try values.decodeIfPresent(Bool.self, forKey: .last) ?? false
-    self.content = try values.decodeIfPresent([Content].self, forKey: .content) ?? []
+    totalPages = try values.decodeIfPresent(Int.self, forKey: .totalPages) ?? 0
+    totalElements = try values.decodeIfPresent(Int.self, forKey: .totalElements) ?? 0
+    last = try values.decodeIfPresent(Bool.self, forKey: .last) ?? false
+    content = try values.decodeIfPresent([Content].self, forKey: .content) ?? []
   }
 }
 

@@ -340,8 +340,8 @@ extension SearchInputViewController: RecentSearchListHeaderViewDelegate {
 }
 
 extension SearchInputViewController: SearchOutputHeaderViewDelegate {
-  func didTappedTopBar(which: IndexPath) {
-    
+  func whichTappedSegmentControl(type: FilterType) {
+    viewModel.whichFilterType.onNext(type)
   }
   
   func didTappedSortControl() {

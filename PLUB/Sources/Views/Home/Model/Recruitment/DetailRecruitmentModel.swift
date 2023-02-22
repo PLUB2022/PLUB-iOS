@@ -22,17 +22,17 @@ struct DetailRecruitmentModel {
   let joinedAccounts: [AccountInfo]
   
   init(response: DetailRecruitmentResponse) {
-    self.title = response.title
-    self.introduce = response.introduce
-    self.categories = response.categories
-    self.name = response.name
-    self.goal = response.goal
-    self.mainImage = response.mainImage
-    self.days = response.days
-    self.placeName = response.placeName
-    self.isBookmarked = response.isBookmarked
-    self.isApplied = response.isApplied
-    self.remainAccountNum = response.remainAccountNum
-    self.joinedAccounts = response.joinedAccounts
+    title = response.title
+    introduce = response.introduce
+    categories = response.categories
+    name = response.name
+    goal = response.goal
+    mainImage = response.mainImage
+    days = response.days
+    placeName = response.placeName
+    isBookmarked = response.isBookmarked
+    isApplied = response.isApplied
+    remainAccountNum = response.remainAccountNum
+    joinedAccounts = response.joinedAccounts
   }
 }

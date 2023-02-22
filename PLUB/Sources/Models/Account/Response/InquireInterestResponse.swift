@@ -19,7 +19,7 @@ struct InquireInterestResponse: Codable {
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    self.accountID = try values.decodeIfPresent(Int.self, forKey: .accountID) ?? 0
-    self.categoryID = try values.decodeIfPresent([Int].self, forKey: .categoryID) ?? []
+    accountID = try values.decodeIfPresent(Int.self, forKey: .accountID) ?? 0
+    categoryID = try values.decodeIfPresent([Int].self, forKey: .categoryID) ?? []
   }
 }

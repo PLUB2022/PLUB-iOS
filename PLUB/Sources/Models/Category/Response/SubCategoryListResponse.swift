@@ -17,6 +17,6 @@ struct SubCategoryListResponse: Codable {
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    self.categories = try values.decodeIfPresent([SubCategory].self, forKey: .categories) ?? []
+    categories = try values.decodeIfPresent([SubCategory].self, forKey: .categories) ?? []
   }
 }

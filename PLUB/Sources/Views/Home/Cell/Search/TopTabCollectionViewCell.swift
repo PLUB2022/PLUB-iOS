@@ -10,12 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
-enum FilterType { // 모집글 검색을 위한 필터타입
+enum FilterType: CaseIterable { // 모집글 검색을 위한 필터타입
   case title // 제목
   case name // 모임이름
   case mix // 제목 + 글
   
-  var text: String {
+  var toEng: String {
     switch self {
     case .title:
       return "title"
@@ -23,6 +23,17 @@ enum FilterType { // 모집글 검색을 위한 필터타입
       return "name"
     case .mix:
       return "mix"
+    }
+  }
+  
+  var toKor: String {
+    switch self {
+    case .title:
+      return "제목"
+    case .name:
+      return "모임이름"
+    case .mix:
+      return "제목+글"
     }
   }
 }

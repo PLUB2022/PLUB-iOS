@@ -27,7 +27,8 @@ protocol SearchInputViewModelType {
   var isBookmarked: Signal<Bool> { get }
 }
 
-// TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
+// TODO: 이건준 - 추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
+// TODO: 이건준 - 검색 Output화면 첫번째 인덱스 UI에 따라서 초기값달라져야함
 final class SearchInputViewModel: SearchInputViewModelType {
   private let disposeBag = DisposeBag()
   
@@ -47,20 +48,19 @@ final class SearchInputViewModel: SearchInputViewModelType {
   let searchOutputIsEmpty: Driver<Bool> // 해당 키워드에 대한 검색결과가 존재하는지
   let isBookmarked: Signal<Bool> // [북마크][북마크해제] 성공 유무
   
-  
   init() {
-    let searchKeyword = PublishSubject<String>()
+    let searchKeyword = BehaviorSubject<String>(value: "")
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
-    let searchFilterType = BehaviorSubject<FilterType>(value: .mix)
+    let searchFilterType = BehaviorSubject<FilterType>(value: .title)
     let fetchingSearchOutput = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
     let recentKeywordList = BehaviorRelay<[String]>(value: [])
     let removeKeyword = PublishSubject<Int>()
     let removeAllKeyword = PublishSubject<Void>()
     let whichBookmark = PublishSubject<String>()
     let fetchingDatas = PublishSubject<Void>()
-    let currentPage = BehaviorSubject<Int>(value: 1)
-    let isLastPage = BehaviorSubject<Bool>(value: false)
-    let isLoading = BehaviorSubject<Bool>(value: false)
+    let currentPage = BehaviorRelay<Int>(value: 1)
+    let isLastPage = BehaviorRelay<Bool>(value: false)
+    let isLoading = BehaviorRelay<Bool>(value: false)
     
     whichKeywordRemove = removeKeyword.asObserver()
     whichKeyword = searchKeyword.asObserver()
@@ -72,26 +72,60 @@ final class SearchInputViewModel: SearchInputViewModelType {
     tappedBookmark = whichBookmark.asObserver()
     fetchMoreDatas = fetchingDatas.asObserver()
     
-    let requestSearch = Observable.combineLatest(searchKeyword, currentPage, searchFilterType, searchSortType)
+    let searchRecruitment = Observable.combineLatest(
+      searchKeyword,
+      searchFilterType,
+      searchSortType
+    )
+      .skip(1)
+      .filter { _ in !isLoading.value } // 마지막 페이지가 아니고 로딩중이 아닐때
       .do(onNext: { _ in
-        isLastPage.onNext(false)
-        currentPage.onNext(1)
+        fetchingSearchOutput.accept([])
+        isLastPage.accept(false)
+        currentPage.accept(1)
       })
-      .flatMapLatest { (keyword, page, filterType, sortType) in
-        if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
-          isLoading.onNext(true)
-          return RecruitmentService.shared.searchRecruitment(searchParameter: .init(keyword: keyword, page: page, type: filterType.text, sort: sortType.text))
-        }
-        return .empty()
+      .flatMapLatest { keyword, filterType, sortType in
+        isLoading.accept(true)
+        return RecruitmentService.shared.searchRecruitment(
+          searchParameter: .init(
+            keyword: keyword,
+            page: currentPage.value,
+            type: filterType.toEng,
+            sort: sortType.text
+          )
+        )
       }
     
-    let successSearch = requestSearch.compactMap { result -> [SearchContent]? in
-      guard case .success(let response) = result else { return nil }
-      isLastPage.onNext(response.data?.last ?? false)
-      return response.data?.content
-    }
+    let fetchMore = fetchingDatas.withLatestFrom(currentPage)
+      .filter { _ in !isLastPage.value && !isLoading.value }
+      .map { $0 + 1 }
+      .do(onNext: { page in
+        currentPage.accept(page)
+        isLoading.accept(true)
+      })
+      .flatMapLatest { _ in
+        return RecruitmentService.shared.searchRecruitment(
+          searchParameter: .init(
+            keyword: try searchKeyword.value(),
+            page: currentPage.value,
+            type: try searchFilterType.value().toEng,
+            sort: try searchSortType.value().text
+          )
+        )
+      }
     
-    let fetchingSearchOutputModel = successSearch.map { contents in
+    let successSearch = Observable.merge(
+      searchRecruitment,
+      fetchMore
+    )
+      .compactMap { result -> [SearchContent]? in
+        guard case .success(let response) = result else { return nil }
+        isLastPage.accept(response.data?.last ?? false)
+        return response.data?.content
+      }
+    
+    
+    let fetchSelectedCategoryCollectionViewCellModel = successSearch.map { contents in
       contents.map { content in
         return SelectedCategoryCollectionViewCellModel(
           plubbingID: "\(content.plubbingID)",
@@ -104,36 +138,35 @@ final class SearchInputViewModel: SearchInputViewModelType {
             placeName: content.placeName,
             peopleCount: content.remainAccountNum,
             dateTime: content.days
-          .map { $0.fromENGToKOR() }
-          .joined(separator: ",")
-        + " | "
-        + "(data.time)"))
+              .map { $0.fromENGToKOR() }
+              .joined(separator: ",")
+            + " | "
+            + "(data.time)"))
       }
     }
     
+    fetchSelectedCategoryCollectionViewCellModel
+      .subscribe(onNext: { model in
+        var cellData = fetchingSearchOutput.value
+        cellData.append(contentsOf: model)
+        fetchingSearchOutput.accept(cellData)
+        isLoading.accept(false)
+      })
+      .disposed(by: disposeBag)
+    
+    // 최근 검색어 목록 관련 로직
     removeKeyword.subscribe(onNext: { index in
       var list = recentKeywordList.value
       list.remove(at: index)
       recentKeywordList.accept(list)
     })
     .disposed(by: disposeBag)
-      
-    searchKeyword.subscribe(onNext: { keyword in
-      var list = recentKeywordList.value
-      if list.contains(keyword) {
-        guard let index = list.firstIndex(of: keyword) else { return }
-        list.remove(at: index)
-      }
-      list.insert(keyword, at: 0)
-      recentKeywordList.accept(list)
-    })
-    .disposed(by: disposeBag)
     
-    fetchingSearchOutputModel.subscribe(onNext: { model in
-      var cellData = fetchingSearchOutput.value
-      cellData.append(contentsOf: model)
-      fetchingSearchOutput.accept(cellData)
-      isLoading.onNext(false)
+    searchKeyword.skip(1).subscribe(onNext: { keyword in
+      let list = recentKeywordList.value
+      var filterList = list.filter { $0 != keyword }
+      filterList.insert(keyword, at: 0)
+      recentKeywordList.accept(filterList)
     })
     .disposed(by: disposeBag)
     
@@ -143,27 +176,28 @@ final class SearchInputViewModel: SearchInputViewModelType {
       })
       .disposed(by: disposeBag)
     
+    // 북마크 요청/취소 로직
     let requestBookmark = whichBookmark
-    .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
+      .flatMapLatest(RecruitmentService.shared.requestBookmark).share()
     
     let successRequestBookmark = requestBookmark.compactMap { result -> RequestBookmarkResponse? in
       guard case .success(let response) = result else { return nil }
       return response.data
     }
     
-    self.isBookmarked = successRequestBookmark.distinctUntilChanged()
-    .map { $0.isBookmarked }
-    .asSignal(onErrorSignalWith: .empty())
+    isBookmarked = successRequestBookmark.distinctUntilChanged()
+      .map { $0.isBookmarked }
+      .asSignal(onErrorSignalWith: .empty())
     
-    fetchingDatas.withLatestFrom(currentPage)
-      .filter({ page in
-        try isLastPage.value() || isLoading.value() ? false : true
-      })
-      .map { $0 + 1 }
-      .bind(to: currentPage)
-      .disposed(by: disposeBag)
+    // 검색 아웃풋관련 상태값
+    keywordListIsEmpty = recentKeywordList
+      .map { $0.isEmpty }
+      .asDriver(onErrorJustReturn: true)
     
-    keywordListIsEmpty = recentKeywordList.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
-    searchOutputIsEmpty = fetchingSearchOutput.map { $0.isEmpty }.asDriver(onErrorJustReturn: true)
+    searchOutputIsEmpty = fetchingSearchOutput.skip(1)
+      .map { $0.isEmpty }
+      .asDriver(onErrorJustReturn: true)
   }
 }
+
+
