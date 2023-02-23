@@ -87,8 +87,11 @@ struct FeedsContent: Codable {
   /// 닉네임
   let nickname: String
   
-  /// 플럽 모임 ID
-  let plubbingID: Int
+  /// 플럽 모임 ID, 게시글 상세 조회 API에서는 `nil`로 받습니다.
+  let plubbingID: Int?
+  
+  /// 플럽 이름, 게시글 상세 조회 API 요청 시 값을 받습니다. 그 외에는 전부 `nil`로 세팅됩니다.
+  let plubbingName: String?
   
   /// 작성자인지 아닌지를 나타냅니다.
   let isAuthor: Bool
@@ -103,6 +106,7 @@ struct FeedsContent: Codable {
     case likeCount
     case commentCount
     case nickname
+    case plubbingName
     case isAuthor
     case isHost
     case feedImageURL = "feedImage"
