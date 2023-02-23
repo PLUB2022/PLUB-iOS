@@ -17,11 +17,11 @@ enum MeetingRouter {
 extension MeetingRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .createMeeting:
+    case .createMeeting, .inquireCategoryMeeting:
       return .post
     case .editMeetingInfo:
       return .put
-    case .inquireCategoryMeeting, .inquireRecommendationMeeting:
+    case .inquireRecommendationMeeting:
       return .get
     }
   }
