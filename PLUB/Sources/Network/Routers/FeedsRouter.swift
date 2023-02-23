@@ -8,10 +8,11 @@
 import Alamofire
 
 enum FeedsRouter {
-  case createBoard(plubID: Int, model: CreateBoardsRequest)
+  case createBoard(plubID: Int, model: BoardsRequest)
   case fetchBoards(plubID: Int, page: Int)
   case fetchClipboards(plubID: Int)
   case fetchFeedDetails(plubID: Int, feedID: Int)
+  
 }
 
 extension FeedsRouter: Router {

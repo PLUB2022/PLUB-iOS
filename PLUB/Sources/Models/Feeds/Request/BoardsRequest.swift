@@ -1,5 +1,5 @@
 //
-//  CreateBoardsRequest.swift
+//  BoardsRequest.swift
 //  PLUB
 //
 //  Created by 홍승현 on 2023/02/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreateBoardsRequest: Codable {
+struct BoardsRequest: Codable {
   /// 게시글 제목
   let title: String
   

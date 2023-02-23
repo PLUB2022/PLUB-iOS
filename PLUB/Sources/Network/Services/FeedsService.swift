@@ -18,10 +18,10 @@ final class FeedsService: BaseService {
 
 extension FeedsService {
   
-  func createBoards(plubIdentifier: Int, model: CreateBoardsRequest) -> Observable<NetworkResult<GeneralResponse<CreateBoardsResponse>>> {
+  func createBoards(plubIdentifier: Int, model: BoardsRequest) -> Observable<NetworkResult<GeneralResponse<BoardsResponse>>> {
     sendRequest(
       FeedsRouter.createBoard(plubID: plubIdentifier, model: model),
-      type: CreateBoardsResponse.self
+      type: BoardsResponse.self
     )
   }
   
