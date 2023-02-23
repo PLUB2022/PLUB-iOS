@@ -29,16 +29,16 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubIdentifier: plub ID
   ///   - page: 페이지 위치, 기본값은 1입니다.
-  func getBoards(plubIdentifier: String, page: Int = 1) -> Observable<NetworkResult<GeneralResponse<FeedsPaginatedDataResponse<FeedsContent>>>> {
+  func fetchBoards(plubIdentifier: String, page: Int = 1) -> Observable<NetworkResult<GeneralResponse<FeedsPaginatedDataResponse<FeedsContent>>>> {
     sendRequest(
-      FeedsRouter.fetchBoard(plubID: plubIdentifier, page: page),
+      FeedsRouter.fetchBoards(plubID: plubIdentifier, page: page),
       type: FeedsPaginatedDataResponse<FeedsContent>.self
     )
   }
   
-  func getClipBoards(plubIdentifier: String) -> Observable<NetworkResult<GeneralResponse<FeedsClipboardResponse>>> {
+  func fetchClipboards(plubIdentifier: String) -> Observable<NetworkResult<GeneralResponse<FeedsClipboardResponse>>> {
     sendRequest(
-      FeedsRouter.fetchClipboard(plubID: plubIdentifier),
+      FeedsRouter.fetchClipboards(plubID: plubIdentifier),
       type: FeedsClipboardResponse.self
     )
   }
