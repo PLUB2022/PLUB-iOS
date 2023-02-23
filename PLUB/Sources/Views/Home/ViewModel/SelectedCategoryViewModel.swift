@@ -79,7 +79,6 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         }
         return .empty()
       }
-      .share()
     
     let fetchMore = fetchingDatas.withLatestFrom(currentPage)
       .filter { _ in !isLastPage.value && !isLoading.value }
@@ -103,8 +102,8 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       fetchingSelectedCategory,
       fetchMore
     )
+      .share()
       .compactMap { result -> CategoryMeetingResponse? in
-//      print("결과 \(result)")
       guard case .success(let response) = result else { return nil }
       return response.data
     }
