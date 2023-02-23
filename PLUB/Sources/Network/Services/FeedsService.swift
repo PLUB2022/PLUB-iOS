@@ -71,4 +71,13 @@ extension FeedsService {
   func likeFeed(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
     sendRequest(FeedsRouter.likeFeed(plubID: plubIdentifier, feedID: feedIdentifier))
   }
+  
+  func createComments(plubIdentifier: Int, feedIdentifier: Int, comment: String, commentParentIdentifier: Int? = nil) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+    sendRequest(
+      FeedsRouter.createComment(
+        plubID: plubIdentifier,
+        feedID: feedIdentifier,
+        model: CommentsRequest(content: comment, parentCommentID: commentParentIdentifier))
+    )
+  }
 }
