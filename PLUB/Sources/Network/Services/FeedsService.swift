@@ -60,4 +60,11 @@ extension FeedsService {
   func deleteFeed(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
     sendRequest(FeedsRouter.deleteFeed(plubID: plubIdentifier, feedID: feedIdentifier))
   }
+  
+  func pinFeed(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<BoardsResponse>>> {
+    sendRequest(
+      FeedsRouter.pinFeed(plubID: plubIdentifier, feedID: feedIdentifier),
+      type: BoardsResponse.self
+    )
+  }
 }
