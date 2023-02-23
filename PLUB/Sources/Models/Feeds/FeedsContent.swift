@@ -81,8 +81,8 @@ struct FeedsContent: Codable {
   /// 댓글 수
   let commentCount: Int
   
-  /// 프로필 이미지 문자열 값
-  let profileImageURL: String
+  /// 프로필 이미지 URL
+  let profileImageURL: String?
   
   /// 닉네임
   let nickname: String
