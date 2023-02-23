@@ -66,9 +66,6 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         updatingCellData.accept([])
       })
       .flatMapLatest { (categoryId, sortType) in
-        print("카테고리아이디 \(categoryId)")
-        print("분류 \(sortType)")
-        print("페이지 \(currentPage.value)")
         if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.accept(true)
           return MeetingService.shared.inquireCategoryMeeting(
@@ -88,9 +85,6 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         isLoading.accept(true)
       })
       .flatMapLatest { _ in
-        print("카테고리아이디 \(try selectingCategoryID.value())")
-        print("분류 \(try searchSortType.value().text)")
-        print("페이지 \(currentPage.value)")
         return MeetingService.shared.inquireCategoryMeeting(
           categoryId: try selectingCategoryID.value(),
           page: currentPage.value,
