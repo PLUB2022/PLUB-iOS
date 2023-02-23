@@ -18,6 +18,21 @@ enum PostType: String, Codable {
   
   /// 텍스트와 사진으로 이루어져 있음
   case photoAndText = "PHOTO_LINE"
+  
+  /// 내용과 이미지 값을 가지고 게시글 유형을 설정합니다.
+  /// 만약 게시글에 내용과 이미지가 없는 경우 기본값은 `PostType.text`가 됩니다.
+  /// - Parameters:
+  ///   - content: 게시글의 내용
+  ///   - imageLink: 게시글에 들어가있는 이미지
+  init(content: String?, imageLink: String?) {
+    if let _ = content, let _ = imageLink {
+      self = .photoAndText
+    } else if let _ = imageLink {
+      self = .photo
+    } else {
+      self = .text
+    }
+  }
 }
 
 /// 게시판 유형
