@@ -29,4 +29,10 @@ extension FeedsService {
     )
   }
   
+  func getClipBoards(plubIdentifier: String) -> Observable<NetworkResult<GeneralResponse<FeedsClipboardResponse>>> {
+    sendRequest(
+      FeedsRouter.fetchClipboard(plubID: plubIdentifier),
+      type: FeedsClipboardResponse.self
+    )
+  }
 }

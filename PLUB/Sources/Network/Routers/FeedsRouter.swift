@@ -9,6 +9,7 @@ import Alamofire
 
 enum FeedsRouter {
   case fetchBoard(plubID: String, page: Int)
+  case fetchClipboard(plubID: String)
 }
 
 extension FeedsRouter: Router {
@@ -22,6 +23,8 @@ extension FeedsRouter: Router {
     switch self {
     case .fetchBoard(let plubID, _):
       return "/\(prefixPath)/\(plubID)/feeds"
+    case .fetchClipboard(let plubID):
+      return "/\(prefixPath)/\(plubID)/pins"
     }
   }
   
@@ -29,6 +32,8 @@ extension FeedsRouter: Router {
     switch self {
     case .fetchBoard(_, let page):
       return .query(["page": page])
+    case .fetchClipboard:
+      return .plain
     }
   }
   
