@@ -52,7 +52,9 @@ extension FeedsRouter: Router {
       return .body(model)
     case .fetchBoards(_, let page):
       return .query(["page": page])
-    case .fetchClipboards, .fetchFeedDetails, .updateFeed, .deleteFeed:
+    case .updateFeed(_, _, let model):
+      return .body(model)
+    case .fetchClipboards, .fetchFeedDetails, .deleteFeed:
       return .plain
     }
   }
