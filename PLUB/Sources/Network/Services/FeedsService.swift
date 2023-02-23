@@ -18,6 +18,13 @@ final class FeedsService: BaseService {
 
 extension FeedsService {
   
+  func createBoards(plubIdentifier: String, model: CreateBoardsRequest) -> Observable<NetworkResult<GeneralResponse<CreateBoardsResponse>>> {
+    sendRequest(
+      FeedsRouter.createBoard(plubID: plubIdentifier, model: model),
+      type: CreateBoardsResponse.self
+    )
+  }
+  
   /// 게시판 조회 API
   /// - Parameters:
   ///   - plubIdentifier: plub ID
