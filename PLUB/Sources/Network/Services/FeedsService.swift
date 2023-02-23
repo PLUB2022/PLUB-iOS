@@ -43,10 +43,10 @@ extension FeedsService {
     )
   }
   
-  func fetchFeedDetails(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<FeedsDetailResponse>>> {
+  func fetchFeedDetails(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<FeedsContent>>> {
     sendRequest(
       FeedsRouter.fetchFeedDetails(plubID: plubIdentifier, feedID: feedIdentifier),
-      type: FeedsDetailResponse.self
+      type: FeedsContent.self
     )
   }
   
