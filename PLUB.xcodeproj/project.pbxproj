@@ -196,6 +196,8 @@
 		C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */; };
 		C35AFD012998B0A500AB5CD3 /* EditMeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */; };
 		C3622B4729A7C414005EF09C /* ScheduleListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3622B4629A7C414005EF09C /* ScheduleListResponse.swift */; };
+		C3622B4A29A7CFF0005EF09C /* AddScheduleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3622B4929A7CFF0005EF09C /* AddScheduleControl.swift */; };
+		C3622B4C29A7D209005EF09C /* ScheduleTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3622B4B29A7D209005EF09C /* ScheduleTopView.swift */; };
 		C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */; };
 		C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */; };
 		C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */; };
@@ -427,6 +429,8 @@
 		C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateSubView.swift; sourceTree = "<group>"; };
 		C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingViewModel.swift; sourceTree = "<group>"; };
 		C3622B4629A7C414005EF09C /* ScheduleListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListResponse.swift; sourceTree = "<group>"; };
+		C3622B4929A7CFF0005EF09C /* AddScheduleControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleControl.swift; sourceTree = "<group>"; };
+		C3622B4B29A7D209005EF09C /* ScheduleTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTopView.swift; sourceTree = "<group>"; };
 		C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingTitleView.swift; sourceTree = "<group>"; };
 		C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewController.swift; sourceTree = "<group>"; };
 		C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectView.swift; sourceTree = "<group>"; };
@@ -613,6 +617,7 @@
 		702876BC29A374B100E57509 /* MeetingSchedule */ = {
 			isa = PBXGroup;
 			children = (
+				C3622B4829A7CFCD005EF09C /* Component */,
 				702876C329A3752A00E57509 /* MeetingScheduleViewController.swift */,
 			);
 			path = MeetingSchedule;
@@ -1089,6 +1094,15 @@
 			path = Schedule;
 			sourceTree = "<group>";
 		};
+		C3622B4829A7CFCD005EF09C /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C3622B4929A7CFF0005EF09C /* AddScheduleControl.swift */,
+				C3622B4B29A7D209005EF09C /* ScheduleTopView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		C36CE39D29730B8C00E3A68C /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -1555,6 +1569,7 @@
 				70197B7929549B29000503F6 /* SelectedCategoryGridCollectionViewCell.swift in Sources */,
 				70BD5F302964823C002CBA89 /* ApplyQuestionViewController.swift in Sources */,
 				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
+				C3622B4C29A7D209005EF09C /* ScheduleTopView.swift in Sources */,
 				C38A5B93297ACF5B00485355 /* LocationControl.swift in Sources */,
 				C38A5BA3297B17EF00485355 /* MeetingLocationViewModel.swift in Sources */,
 				C359FEA6299FDF2800B2F561 /* CreateScheduleViewController.swift in Sources */,
@@ -1629,6 +1644,7 @@
 				BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */,
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BAE2B362297C1D6C0000D5B9 /* AccountRouter.swift in Sources */,
+				C3622B4A29A7CFF0005EF09C /* AddScheduleControl.swift in Sources */,
 				702876B7299E429C00E57509 /* BookmarkViewController.swift in Sources */,
 				BAE2B364297C1D720000D5B9 /* AccountService.swift in Sources */,
 				C3ED8FB52989B189002F689B /* CreateMeetingRequest.swift in Sources */,
