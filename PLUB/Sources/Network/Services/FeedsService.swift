@@ -67,4 +67,8 @@ extension FeedsService {
       type: BoardsResponse.self
     )
   }
+  
+  func likeFeed(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+    sendRequest(FeedsRouter.likeFeed(plubID: plubIdentifier, feedID: feedIdentifier))
+  }
 }
