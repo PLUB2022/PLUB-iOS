@@ -99,22 +99,3 @@ struct FeedsContent: Codable {
     case plubbingID = "plubbingId"
   }
 }
-
-/*
- 
- "feedId": 12,
- "feedType": "LINE",
- "viewType": "PIN",
- "title": "title12",
- "content": "줄글만 있는 게시글 ~~~ 즐거운 플러빙 ~~~ 저쩌구 게시글 12",
- "feedImage": "",
- "createdAt": "2023-02-09 04:40:53",
- "pin": true,
- "likeCount": 0,
- "commentCount": 0,
- "profileImage": "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png",
- "nickname": "admin",
- "plubbingId": 1,
- "isAuthor": false,
- "isHost": false
- */
