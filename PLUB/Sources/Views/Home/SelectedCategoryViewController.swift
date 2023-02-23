@@ -165,9 +165,9 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     switch selectedCategoryType {
     case .chart:
-      return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
+      return CGSize(width: collectionView.frame.width, height: 176)
     case .grid:
-      return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
+      return CGSize(width: collectionView.frame.width / 2 - 6, height: 252)
     }
   }
   
