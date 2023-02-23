@@ -12,7 +12,7 @@ enum FeedsRouter {
   case fetchBoards(plubID: Int, page: Int)
   case fetchClipboards(plubID: Int)
   case fetchFeedDetails(plubID: Int, feedID: Int)
-  
+  case updateFeed(plubID: Int, feedID: Int, model: BoardsRequest)
 }
 
 extension FeedsRouter: Router {
@@ -21,6 +21,8 @@ extension FeedsRouter: Router {
     switch self {
     case .createBoard:
       return .post
+    case .updateFeed:
+      return .put
     default:
       return .get
     }
@@ -34,7 +36,8 @@ extension FeedsRouter: Router {
       return "/\(prefixPath)/\(plubID)/feeds"
     case .fetchClipboards(let plubID):
       return "/\(prefixPath)/\(plubID)/pins"
-    case .fetchFeedDetails(let plubID, let feedID):
+    case .fetchFeedDetails(let plubID, let feedID),
+         .updateFeed(let plubID, let feedID, _):
       return "/\(prefixPath)/\(plubID)/feeds/\(feedID)"
     }
   }
@@ -45,7 +48,7 @@ extension FeedsRouter: Router {
       return .body(model)
     case .fetchBoards(_, let page):
       return .query(["page": page])
-    case .fetchClipboards, .fetchFeedDetails:
+    case .fetchClipboards, .fetchFeedDetails, .updateFeed:
       return .plain
     }
   }

@@ -49,4 +49,11 @@ extension FeedsService {
       type: FeedsDetailResponse.self
     )
   }
+  
+  func updateFeed(plubIdentifier: Int, feedIdentifier: Int, model: BoardsRequest) -> Observable<NetworkResult<GeneralResponse<BoardsResponse>>> {
+    sendRequest(
+      FeedsRouter.updateFeed(plubID: plubIdentifier, feedID: feedIdentifier, model: model),
+      type: BoardsResponse.self
+    )
+  }
 }
