@@ -17,6 +17,7 @@ protocol SelectedCategoryViewModelType {
   
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
+  var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> { get }
   var isEmpty: Signal<Bool> { get }
   var isBookmarked: Signal<Bool> { get }
 }

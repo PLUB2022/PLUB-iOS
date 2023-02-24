@@ -26,6 +26,8 @@ final class SelectedCategoryViewController: BaseViewController {
     }
   }
   
+  private lazy var subCategories: [RecruitmentFilterCollectionViewCellModel] = []
+  
   private var type: SortType = .popular {
     didSet {
       viewModel.whichSortType.onNext(type)
@@ -130,6 +132,10 @@ final class SelectedCategoryViewController: BaseViewController {
           owner.viewModel.fetchMoreDatas.onNext(())
         }
       })
+      .disposed(by: disposeBag)
+    
+    viewModel.selectedSubCategories
+      .emit(to: rx.subCategories)
       .disposed(by: disposeBag)
   }
   

@@ -26,6 +26,8 @@ enum RecruitmentFilterSection: CaseIterable {
 
 final class RecruitmentFilterViewController: BaseViewController {
   
+  private let subCategories: [RecruitmentFilterCollectionViewCellModel]
+  
   private let titleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .systemFont(ofSize: 24, weight: .semibold)
@@ -47,6 +49,14 @@ final class RecruitmentFilterViewController: BaseViewController {
   
   private let confirmButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "확인")
+  }
+  
+  init(subCategories: [RecruitmentFilterCollectionViewCellModel]) {
+    self.subCategories = subCategories
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setupStyles() {
