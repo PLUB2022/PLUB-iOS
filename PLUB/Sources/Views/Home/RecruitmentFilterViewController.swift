@@ -75,7 +75,12 @@ final class RecruitmentFilterViewController: BaseViewController {
     viewModel.selectedSubCategories
       .emit(to: rx.subCategories)
       .disposed(by: disposeBag)
-  }
+    
+    viewModel.isButtonEnabled
+      .do(onNext: {print("가능 \($0)")})
+        .drive(confirmButton.rx.isEnabled)
+        .disposed(by: disposeBag)
+        }
   
   override func setupStyles() {
     super.setupStyles()
@@ -163,6 +168,13 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let cell = collectionView.cellForItem(at: indexPath) as? RecruitmentFilterCollectionViewCell else { return }
+    let section = RecruitmentFilterSection.allCases[indexPath.section]
+    switch section {
+    case .detailCategory:
+      cell.isTapped ? viewModel.deselectSubCategory.onNext(()) : viewModel.selectSubCategory.onNext(())
+    case .day:
+      cell.isTapped ? viewModel.deselectDay.onNext(()) : viewModel.selectDay.onNext(())
+    }
     cell.isTapped.toggle()
   }
 }
