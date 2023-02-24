@@ -53,6 +53,7 @@ final class RecruitmentFilterViewController: BaseViewController {
   
   init(subCategories: [RecruitmentFilterCollectionViewCellModel]) {
     self.subCategories = subCategories
+    super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
@@ -114,7 +115,13 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 8
+    let section = RecruitmentFilterSection.allCases[section]
+    switch section {
+    case .detailCategory:
+      return subCategories.count
+    case .day:
+      return Day.allCases.count
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -122,7 +129,7 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
     switch section {
     case .detailCategory:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier, for: indexPath) as? RecruitmentFilterCollectionViewCell ?? RecruitmentFilterCollectionViewCell()
-      cell.configureUI(with: "헬스")
+      cell.configureUI(with: subCategories[indexPath.row])
       return cell
     case .day:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier, for: indexPath) as? RecruitmentFilterCollectionViewCell ?? RecruitmentFilterCollectionViewCell()

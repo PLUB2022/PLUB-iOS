@@ -26,7 +26,7 @@ final class SelectedCategoryViewController: BaseViewController {
     }
   }
   
-  private lazy var subCategories: [RecruitmentFilterCollectionViewCellModel] = []
+  private var subCategories: [RecruitmentFilterCollectionViewCellModel]?
   
   private var type: SortType = .popular {
     didSet {
@@ -202,7 +202,8 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   }
   
   func didTappedInterestListFilterButton() {
-    let vc = RecruitmentFilterViewController()
+    guard let subCategories = subCategories else { return }
+    let vc = RecruitmentFilterViewController(subCategories: subCategories)
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)
