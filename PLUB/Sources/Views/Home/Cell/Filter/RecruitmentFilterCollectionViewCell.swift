@@ -10,6 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
+struct RecruitmentFilterCollectionViewCellModel {
+  let subCategoryID: Int
+  let name: String
+}
+
 class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "RecruitmentFilterCollectionViewCell"
@@ -52,5 +57,9 @@ class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
   
   public func configureUI(with model: String) {
     interestTypeLabel.text = model
+  }
+  
+  public func configureUI(with model: RecruitmentFilterCollectionViewCellModel) {
+    interestTypeLabel.text = model.name
   }
 }
