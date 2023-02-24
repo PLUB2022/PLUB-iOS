@@ -17,7 +17,6 @@ protocol SelectedCategoryViewModelType {
   
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
-  var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> { get }
   var isEmpty: Signal<Bool> { get }
   var isBookmarked: Signal<Bool> { get }
 }
@@ -35,7 +34,6 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   
   // Output
   let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> // 해당 ID와 분류타입에 대한 카테고리 데이터
-  let selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> // 선택된 서브카테고리목록
   let isEmpty: Signal<Bool> // 해당 ID와 분류타입에 대한 카테고리 데이터 유무
   let isBookmarked: Signal<Bool> // [북마크][북마크해제] 성공 유무
   
@@ -136,22 +134,6 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         isLoading.accept(false)
       })
       .disposed(by: disposeBag)
-    
-        let requestSubCategory = selectingCategoryID
-        .compactMap { Int($0) }
-        .flatMapLatest(CategoryService.shared.inquireSubCategoryList(categoryId: ))
-    
-    let successRequestSubCategory = requestSubCategory.compactMap { result -> [SubCategory]? in
-      guard case .success(let response) = result else { return nil }
-      return response.data?.categories
-    }
-    
-    selectedSubCategories = successRequestSubCategory.map { categories in
-      return categories.map { category in
-        return RecruitmentFilterCollectionViewCellModel(subCategoryID: category.id, name: category.name)
-      }
-    }
-    .asSignal(onErrorSignalWith: .empty())
     
     let requestBookmark = whichBookmark
       .flatMapLatest(RecruitmentService.shared.requestBookmark).share()

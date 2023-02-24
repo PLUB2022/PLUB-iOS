@@ -20,13 +20,15 @@ final class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   
+  private let categoryID: String
+  
   private var model: [SelectedCategoryCollectionViewCellModel] = [] {
     didSet {
       interestListCollectionView.reloadData()
     }
   }
   
-  private var subCategories: [RecruitmentFilterCollectionViewCellModel]?
+//  private var subCategories: [RecruitmentFilterCollectionViewCellModel]?
   
   private var type: SortType = .popular {
     didSet {
@@ -59,6 +61,7 @@ final class SelectedCategoryViewController: BaseViewController {
   
   init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryID: String) {
     self.viewModel = viewModel
+    self.categoryID = categoryID
     super.init(nibName: nil, bundle: nil)
     bind(categoryID: categoryID)
   }
@@ -133,10 +136,6 @@ final class SelectedCategoryViewController: BaseViewController {
         }
       })
       .disposed(by: disposeBag)
-    
-    viewModel.selectedSubCategories
-      .emit(to: rx.subCategories)
-      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
@@ -202,8 +201,7 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   }
   
   func didTappedInterestListFilterButton() {
-    guard let subCategories = subCategories else { return }
-    let vc = RecruitmentFilterViewController(subCategories: subCategories)
+    let vc = RecruitmentFilterViewController(categoryID: categoryID)
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)
