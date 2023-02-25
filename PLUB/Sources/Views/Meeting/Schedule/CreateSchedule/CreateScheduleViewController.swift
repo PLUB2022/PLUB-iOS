@@ -40,7 +40,9 @@ final class CreateScheduleViewController: BaseViewController {
     $0.spacing = 33
   }
   
-  private let titleTextField = PaddingTextField().then {
+  private let titleTextField = PaddingTextField(
+    edgeInset: .init(top: 0, left: 12, bottom: 0, right: 12)
+  ).then {
     $0.backgroundColor = .white
     $0.layer.cornerRadius = 12.5
     $0.attributedPlaceholder = NSAttributedString(
@@ -52,13 +54,6 @@ final class CreateScheduleViewController: BaseViewController {
     )
     $0.textColor = .black
     $0.font = .h5
-    
-    $0.leftView = UIView()
-    $0.rightView = UIView()
-    $0.leftViewMode = .always
-    $0.rightViewMode = .always
-    $0.leftViewPadding = 12
-    $0.rightViewPadding = 12
   }
   
   private let allDaySwitch = UISwitch().then {
