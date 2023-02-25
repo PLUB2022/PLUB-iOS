@@ -8,5 +8,12 @@
 import Foundation
 
 struct CategoryMeetingRequest: Codable {
+  let days: [String]
+  let subCategoryID: [Int]
+  let accountNum: Int
   
+  enum CodingKeys: String, CodingKey {
+    case days, accountNum
+    case subCategoryID = "subCategoryId"
+  }
 }

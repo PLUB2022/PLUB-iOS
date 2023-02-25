@@ -24,7 +24,13 @@ enum RecruitmentFilterSection: CaseIterable {
   }
 }
 
+protocol RecruitmentFilterDelegate: AnyObject {
+  func didTappedConfirmButton()
+}
+
 final class RecruitmentFilterViewController: BaseViewController {
+  
+  weak var delegate: RecruitmentFilterDelegate?
   
   private let viewModel: RecruitmentFilterViewModelType
   
@@ -81,6 +87,12 @@ final class RecruitmentFilterViewController: BaseViewController {
     
     viewModel.isButtonEnabled
       .drive(confirmButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    confirmButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedConfirmButton()
+      }
       .disposed(by: disposeBag)
   }
   
