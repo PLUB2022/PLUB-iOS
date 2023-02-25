@@ -14,7 +14,7 @@ class ScheduleService: BaseService {
 }
 
 extension ScheduleService {
-  func createSchedule(plubbingID: String, request: CreateScheduleRequest) -> Observable<NetworkResult<GeneralResponse<CreateScheduleResponse>>> {
+  func createSchedule(plubbingID: String, request: CreateScheduleRequest) -> PLUBResult<CreateScheduleResponse> {
     return sendRequest(
       ScheduleRouter.createSchedule(plubbingID, request),
       type: CreateScheduleResponse.self

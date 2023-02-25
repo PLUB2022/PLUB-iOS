@@ -21,7 +21,7 @@ extension ImageService {
   func uploadImage(
     images: [UIImage],
     params: UploadImageRequest
-  ) -> Observable<NetworkResult<GeneralResponse<UploadImageResponse>>> {
+) -> PLUBResult<UploadImageResponse> {
     return sendRequestWithImage(
       setUpImageData(
         images: images,
