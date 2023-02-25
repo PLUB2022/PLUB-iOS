@@ -106,7 +106,24 @@ extension ClipboardViewController: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    collectionView.dequeueReusableCell(withReuseIdentifier: BoardsCollectionViewCell.identifier, for: indexPath)
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardsCollectionViewCell.identifier, for: indexPath) as? BoardsCollectionViewCell else {
+      fatalError()
+    }
+    // TODO: 승현 - Clipboard API 연동하기
+    
+    let testModel = BoardModel(
+      author: "홍승현",
+      authorProfileImageLink: "https://github.com/whitehyun.png",
+      date: Date(),
+      likeCount: 10,
+      commentCount: 24,
+      title: "테스트 제목입니다.",
+      imageLink: "https://github.com/whitehyun.png",
+      content: nil
+    )
+    
+    cell.configure(with: testModel)
+    return cell
   }
 }
 
