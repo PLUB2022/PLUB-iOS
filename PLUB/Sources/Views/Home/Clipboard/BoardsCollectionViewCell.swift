@@ -17,6 +17,7 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
   // MARK: - UI Components
   
   private let wholeStackView = UIStackView().then {
+    $0.alignment = .top
     $0.spacing = 8
   }
   
@@ -30,7 +31,10 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
     $0.alignment = .center
   }
   
-  private let contentImageView = UIImageView()
+  private let contentImageView = UIImageView().then {
+    $0.layer.cornerRadius = 8
+    $0.clipsToBounds = true
+  }
   
   // MARK: Boards Info
   
@@ -41,6 +45,8 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
   
   private let profileImageView = UIImageView(image: .init(named: "userDefaultImage")).then {
     $0.contentMode = .scaleAspectFit
+    $0.layer.cornerRadius = 12
+    $0.clipsToBounds = true
   }
   
   private let authorLabel = UILabel().then {
@@ -76,10 +82,6 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
   
   // MARK: Content Info
   
-  private let contentStackView = UIStackView().then {
-    $0.axis = .vertical
-  }
-  
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
     $0.text = "안녕하세요. 반갑습니다. 게시판 제목입니다."
@@ -113,8 +115,9 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
     wholeStackView.addArrangedSubview(containerStackView)
     wholeStackView.addArrangedSubview(contentImageView)
     
-    containerStackView.addArrangedSubview(headerStackView)
-    containerStackView.addArrangedSubview(contentStackView)
+    [headerStackView, titleLabel, contentLabel].forEach {
+      containerStackView.addArrangedSubview($0)
+    }
     
     headerStackView.addArrangedSubview(boardsInfoStackView)
     headerStackView.addArrangedSubview(likeCommentStackView)
@@ -126,9 +129,6 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
     [heartImageView, heartCountLabel, commentImageView, commentCountLabel].forEach {
       likeCommentStackView.addArrangedSubview($0)
     }
-    
-    contentStackView.addArrangedSubview(titleLabel)
-    contentStackView.addArrangedSubview(contentLabel)
   }
   private func setupConstraints() {
     wholeStackView.snp.makeConstraints {
@@ -138,6 +138,10 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
     
     profileImageView.snp.makeConstraints {
       $0.size.equalTo(24)
+    }
+    
+    contentImageView.snp.makeConstraints {
+      $0.size.equalTo(90)
     }
   }
   
