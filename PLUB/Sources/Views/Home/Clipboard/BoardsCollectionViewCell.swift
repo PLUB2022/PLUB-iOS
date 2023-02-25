@@ -34,6 +34,7 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
   private let contentImageView = UIImageView().then {
     $0.layer.cornerRadius = 8
     $0.clipsToBounds = true
+    $0.contentMode = .scaleAspectFill
   }
   
   // MARK: Boards Info
