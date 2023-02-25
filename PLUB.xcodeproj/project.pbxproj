@@ -88,7 +88,7 @@
 		BA117A50297444EE00B37E03 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A4F297444EE00B37E03 /* KakaoSDKCommon */; };
 		BA117A52297444EE00B37E03 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A51297444EE00B37E03 /* KakaoSDKUser */; };
 		BA1D4A7529A9D9EA00CBBCC6 /* ClipboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */; };
-		BA1D4A7B29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1D4A7A29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift */; };
+		BA1D4A7B29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1D4A7A29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift */; };
 		BA1D4A7D29A9EB0C00CBBCC6 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */; };
 		BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC11F29A5E0DF00AB3F91 /* FeedsRouter.swift */; };
 		BA1FC12229A5E0DF00AB3F91 /* FeedsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC12029A5E0DF00AB3F91 /* FeedsService.swift */; };
@@ -334,7 +334,7 @@
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardViewModel.swift; sourceTree = "<group>"; };
-		BA1D4A7A29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardsCollectionViewCell.swift; sourceTree = "<group>"; };
+		BA1D4A7A29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
 		BA1FC11F29A5E0DF00AB3F91 /* FeedsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsRouter.swift; sourceTree = "<group>"; };
 		BA1FC12029A5E0DF00AB3F91 /* FeedsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsService.swift; sourceTree = "<group>"; };
@@ -651,7 +651,7 @@
 			children = (
 				702876BF29A374FE00E57509 /* ClipboardViewController.swift */,
 				BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */,
-				BA1D4A7A29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift */,
+				BA1D4A7A29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift */,
 				BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */,
 			);
 			path = Clipboard;
@@ -1580,7 +1580,7 @@
 				BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
 				C33FB0722993F84A00BEB15B /* EditMeetingViewController.swift in Sources */,
-				BA1D4A7B29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift in Sources */,
+				BA1D4A7B29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift in Sources */,
 				70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */,
 				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  BoardsCollectionViewCell.swift
+//  BoardCollectionViewCell.swift
 //  PLUB
 //
 //  Created by 홍승현 on 2023/02/25.
@@ -11,7 +11,7 @@ import Kingfisher
 import SnapKit
 import Then
 
-final class BoardsCollectionViewCell: UICollectionViewCell {
+final class BoardCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "BoardsCollectionViewCell"
   

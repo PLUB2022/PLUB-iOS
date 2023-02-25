@@ -30,7 +30,7 @@ final class ClipboardViewController: BaseViewController {
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
     $0.showsVerticalScrollIndicator = false
-    $0.register(BoardsCollectionViewCell.self, forCellWithReuseIdentifier: BoardsCollectionViewCell.identifier)
+    $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
     $0.backgroundColor = .background
   }
   
@@ -107,7 +107,7 @@ extension ClipboardViewController: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardsCollectionViewCell.identifier, for: indexPath) as? BoardsCollectionViewCell else {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell else {
       fatalError()
     }
     // TODO: 승현 - Clipboard API 연동하기
