@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 
@@ -131,6 +132,7 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
       likeCommentStackView.addArrangedSubview($0)
     }
   }
+  
   private func setupConstraints() {
     wholeStackView.snp.makeConstraints {
       $0.directionalVerticalEdges.equalToSuperview().inset(12)
@@ -140,14 +142,39 @@ final class BoardsCollectionViewCell: UICollectionViewCell {
     profileImageView.snp.makeConstraints {
       $0.size.equalTo(24)
     }
-    
-    contentImageView.snp.makeConstraints {
-      $0.size.equalTo(90)
-    }
   }
   
   private func setupStyles() {
     contentView.backgroundColor = .white
     contentView.layer.cornerRadius = 10
+  }
+  
+  func configure(with model: BoardModel) {
+    if let profileImageLink = model.authorProfileImageLink {
+      profileImageView.kf.setImage(with: URL(string: profileImageLink))
+    }
+    authorLabel.text = model.author
+    dateLabel.text = DateFormatter().then { $0.dateFormat = "| yyyy. MM. dd" }.string(from: model.date)
+    heartCountLabel.text = String(model.likeCount)
+    commentCountLabel.text = String(model.commentCount)
+    
+    titleLabel.text = model.title
+    contentLabel.text = model.content
+    if let contentImageLink = model.imageLink {
+      contentImageView.kf.setImage(with: URL(string: contentImageLink))
+    }
+    
+    // change stackview's axis
+    wholeStackView.axis = model.type == .photoAndText ? .horizontal : .vertical
+    wholeStackView.alignment = model.type == .photoAndText ? .top : .fill
+    
+    // change constraints according to `model.type`
+    if model.type != .photo {
+      contentImageView.snp.remakeConstraints {
+        $0.size.lessThanOrEqualTo(90)
+      }
+    } else {
+      contentImageView.snp.removeConstraints()
+    }
   }
 }
