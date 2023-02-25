@@ -10,10 +10,11 @@ import Foundation
 /// 게시글 모델
 struct BoardModel {
   
-  let type: PostType
-  
   /// 글 작성자
   let author: String
+  
+  /// 글 작성자 프로필 이미지 링크
+  let authorProfileImageLink: String?
   
   /// 작성날짜
   let date: Date
@@ -32,4 +33,14 @@ struct BoardModel {
   
   /// 내용
   let content: String?
+}
+
+extension BoardModel {
+  /// 게시글 타입
+  var type: PostType {
+    if content != nil && imageLink != nil { return .photoAndText }
+    else if imageLink != nil { return .photo }
+    else { return .text }
+  }
+  
 }
