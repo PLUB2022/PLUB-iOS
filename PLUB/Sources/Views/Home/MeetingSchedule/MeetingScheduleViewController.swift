@@ -9,10 +9,19 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 final class MeetingScheduleViewController: BaseViewController {
+  private let viewModel = MeetingScheduleViewModel()
+  
   private let scheduleTopView = ScheduleTopView()
-  private let tableView = UITableView()
+  
+  private let tableView = UITableView().then {
+    $0.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
+    $0.separatorStyle = .none
+    $0.showsVerticalScrollIndicator = false
+    $0.backgroundColor = .background
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -46,6 +55,20 @@ final class MeetingScheduleViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    let data = Observable<[ScheduleTableViewCellModel]>.just([ScheduleTableViewCellModel(day: "f", time: "d", name: "s", location: "ddd", participants: [])])
+    data
+      .bind(to: tableView.rx.items) { tableView, row, item -> UITableViewCell in
+        guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: "ScheduleTableViewCell",
+          for: IndexPath(row: row, section: 0)
+        ) as? ScheduleTableViewCell
+        else { return UITableViewCell() }
+        cell.setupData(
+          with: item
+        )
+        return cell
+      }
+      .disposed(by: disposeBag)
   }
   
   private func setupNavigationBar() {
