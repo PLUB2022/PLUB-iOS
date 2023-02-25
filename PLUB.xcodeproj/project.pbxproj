@@ -89,6 +89,7 @@
 		BA117A52297444EE00B37E03 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = BA117A51297444EE00B37E03 /* KakaoSDKUser */; };
 		BA1D4A7529A9D9EA00CBBCC6 /* ClipboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */; };
 		BA1D4A7B29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1D4A7A29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift */; };
+		BA1D4A7D29A9EB0C00CBBCC6 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */; };
 		BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC11F29A5E0DF00AB3F91 /* FeedsRouter.swift */; };
 		BA1FC12229A5E0DF00AB3F91 /* FeedsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC12029A5E0DF00AB3F91 /* FeedsService.swift */; };
 		BA1FC12729A5E1D900AB3F91 /* FeedsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC12629A5E1D900AB3F91 /* FeedsContent.swift */; };
@@ -334,6 +335,7 @@
 		BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardViewModel.swift; sourceTree = "<group>"; };
 		BA1D4A7A29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardsCollectionViewCell.swift; sourceTree = "<group>"; };
+		BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
 		BA1FC11F29A5E0DF00AB3F91 /* FeedsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsRouter.swift; sourceTree = "<group>"; };
 		BA1FC12029A5E0DF00AB3F91 /* FeedsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsService.swift; sourceTree = "<group>"; };
 		BA1FC12629A5E1D900AB3F91 /* FeedsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsContent.swift; sourceTree = "<group>"; };
@@ -650,6 +652,7 @@
 				702876BF29A374FE00E57509 /* ClipboardViewController.swift */,
 				BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */,
 				BA1D4A7A29A9E88F00CBBCC6 /* BoardsCollectionViewCell.swift */,
+				BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */,
 			);
 			path = Clipboard;
 			sourceTree = "<group>";
@@ -1684,6 +1687,7 @@
 				BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */,
 				BAE2B362297C1D6C0000D5B9 /* AccountRouter.swift in Sources */,
 				702876B7299E429C00E57509 /* BookmarkViewController.swift in Sources */,
+				BA1D4A7D29A9EB0C00CBBCC6 /* BoardModel.swift in Sources */,
 				BAE2B364297C1D720000D5B9 /* AccountService.swift in Sources */,
 				C3ED8FB52989B189002F689B /* CreateMeetingRequest.swift in Sources */,
 				70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */,
