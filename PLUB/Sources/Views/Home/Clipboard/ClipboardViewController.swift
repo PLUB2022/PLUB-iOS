@@ -2,7 +2,7 @@
 //  ClipboardViewController.swift
 //  PLUB
 //
-//  Created by 이건준 on 2023/02/20.
+//  Created by 홍승현 on 2023/02/24.
 //
 
 import UIKit
@@ -80,11 +80,11 @@ final class ClipboardViewController: BaseViewController {
     
     wholeStackView.snp.makeConstraints {
       $0.directionalVerticalEdges.equalTo(view.safeAreaLayoutGuide)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(Metric.collectionViewLeftRight)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Metric.wholeStackViewLeftRight)
     }
     
     pinImageView.snp.makeConstraints {
-      $0.size.equalTo(24)
+      $0.size.equalTo(Metric.pinImageViewSize)
     }
   }
   
@@ -123,6 +123,7 @@ extension ClipboardViewController: UICollectionViewDelegateFlowLayout {
 
 extension ClipboardViewController {
   private enum Metric {
-    static let collectionViewLeftRight = 16
+    static let wholeStackViewLeftRight = 16
+    static let pinImageViewSize = 24
   }
 }
