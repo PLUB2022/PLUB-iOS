@@ -14,6 +14,30 @@ import Then
 
 final class ClipboardViewController: BaseViewController {
   
+  // MARK: - UI Components
+  
+  private let pinImageView = UIImageView(image: .init(named: "pin"))
+  
+  private let titleLabel = UILabel().then {
+    $0.text = "클립보드"
+    $0.font = .h3
+  }
+  
+  private let titleStackView = UIStackView().then {
+    $0.alignment = .center
+    $0.spacing = 8
+  }
+  
+  private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    $0.backgroundColor = .background
+  }
+  
+  private let wholeStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 16
+    
+  }
+  
   // MARK: - Properties
   
   private let viewModel: ClipboardViewModelType
@@ -40,10 +64,24 @@ final class ClipboardViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
+    view.addSubview(wholeStackView)
+    titleStackView.addArrangedSubview(pinImageView)
+    titleStackView.addArrangedSubview(titleLabel)
+    wholeStackView.addArrangedSubview(titleStackView)
+    wholeStackView.addArrangedSubview(collectionView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    wholeStackView.snp.makeConstraints {
+      $0.directionalVerticalEdges.equalTo(view.safeAreaLayoutGuide)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Metric.collectionViewLeftRight)
+    }
+    
+    pinImageView.snp.makeConstraints {
+      $0.size.equalTo(24)
+    }
   }
   
   override func setupStyles() {
@@ -52,5 +90,11 @@ final class ClipboardViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+  }
+}
+
+extension ClipboardViewController {
+  private enum Metric {
+    static let collectionViewLeftRight = 16
   }
 }
