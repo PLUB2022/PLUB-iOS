@@ -100,8 +100,11 @@ class BaseService {
   }
 }
 
-// MARK: - Empty Model
+// MARK: - Components
 
 extension BaseService {
+  /// 빈 모델입니다.
   struct EmptyModel: Codable { }
+  
+  typealias PLUBResult<T: Codable> = Observable<NetworkResult<GeneralResponse<T>>>
 }
