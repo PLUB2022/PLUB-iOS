@@ -31,6 +31,9 @@ final class RecruitmentFilterViewController: BaseViewController {
   private var subCategories: [RecruitmentFilterCollectionViewCellModel] = [] {
     didSet {
       filterCollectionView.reloadData()
+      filterCollectionView.snp.updateConstraints {
+        $0.height.equalTo(19 + 8 + 32 + 99 + ceil(Double(subCategories.count) / Double(4)) * 32 + (ceil(Double(subCategories.count) / Double(4)) - 1) * 8)
+      }
     }
   }
   
@@ -77,10 +80,9 @@ final class RecruitmentFilterViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isButtonEnabled
-      .do(onNext: {print("가능 \($0)")})
-        .drive(confirmButton.rx.isEnabled)
-        .disposed(by: disposeBag)
-        }
+      .drive(confirmButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+  }
   
   override func setupStyles() {
     super.setupStyles()
@@ -100,12 +102,13 @@ final class RecruitmentFilterViewController: BaseViewController {
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.leading.equalToSuperview().inset(16)
+      $0.height.equalTo(29)
     }
     
     filterCollectionView.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(32)
-      $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(139 + 32 + 99)
+      $0.leading.trailing.bottom.equalToSuperview()
+      $0.height.equalTo(19 + 8 + 32 + 99 + ceil(Double(subCategories.count) / Double(4)) * 32 + (ceil(Double(subCategories.count) / Double(4)) - 1) * 8) // 헤더라벨높이 + 헤더 셀 사이 + 섹션간 사이 + 요일섹션고정높이 + (서브카테고리 총수 / 한 행 데이터 수) * 셀 높이 + ((서브카테고리 총수 / 한 행 데이터 수) - 1) * miniLine값
     }
     
     recruitmentFilterSlider.snp.makeConstraints {
