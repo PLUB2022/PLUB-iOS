@@ -29,6 +29,7 @@ final class ClipboardViewController: BaseViewController {
   }
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    $0.showsVerticalScrollIndicator = false
     $0.register(BoardsCollectionViewCell.self, forCellWithReuseIdentifier: BoardsCollectionViewCell.identifier)
     $0.backgroundColor = .background
   }
@@ -113,8 +114,8 @@ extension ClipboardViewController: UICollectionViewDataSource {
 
 extension ClipboardViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    // 너비 양옆 inset 16을 제외, 높이 115 고정
-    return .init(width: view.bounds.width - 16 * 2, height: 115)
+    // 너비 양옆 inset 16을 제외, 높이 114 고정
+    return .init(width: view.bounds.width - 16 * 2, height: 114)
   }
 }
 
