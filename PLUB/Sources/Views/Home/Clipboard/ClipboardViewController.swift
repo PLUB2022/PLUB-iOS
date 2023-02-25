@@ -29,6 +29,7 @@ final class ClipboardViewController: BaseViewController {
   }
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    $0.register(BoardsCollectionViewCell.self, forCellWithReuseIdentifier: BoardsCollectionViewCell.identifier)
     $0.backgroundColor = .background
   }
   
@@ -58,6 +59,8 @@ final class ClipboardViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    collectionView.delegate = self
+    collectionView.dataSource = self
   }
   
   // MARK: - Configuration
@@ -92,6 +95,30 @@ final class ClipboardViewController: BaseViewController {
     super.bind()
   }
 }
+
+// MARK: - UICollectionViewDataSource
+
+extension ClipboardViewController: UICollectionViewDataSource {
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    collectionView.dequeueReusableCell(withReuseIdentifier: BoardsCollectionViewCell.identifier, for: indexPath)
+  }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension ClipboardViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    // 너비 양옆 inset 16을 제외, 높이 115 고정
+    return .init(width: view.bounds.width - 16 * 2, height: 115)
+  }
+}
+
+// MARK: - Constants
 
 extension ClipboardViewController {
   private enum Metric {
