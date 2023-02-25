@@ -102,6 +102,7 @@ final class ClipboardViewController: BaseViewController {
 extension ClipboardViewController: UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    // TODO: 승현 - Clipboard API 연동하기
     return 10
   }
   
@@ -131,8 +132,10 @@ extension ClipboardViewController: UICollectionViewDataSource {
 
 extension ClipboardViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    // 너비 양옆 inset 16을 제외, 높이 114 고정
-    return .init(width: view.bounds.width - 16 * 2, height: 114)
+    // TODO: 승현 - Clipboard API 연동해서 높이 설정
+    // 너비 양옆 inset 16을 제외, 높이 305 고정 (photo)
+    // 너비 양옆 inset 16을 제외, 높이 114 고정 (photoAndText, text)
+    return .init(width: view.bounds.width - 16 * 2, height: 305)
   }
 }
 
