@@ -25,7 +25,7 @@ enum RecruitmentFilterSection: CaseIterable {
 }
 
 protocol RecruitmentFilterDelegate: AnyObject {
-  func didTappedConfirmButton()
+  func didTappedConfirmButton(request: CategoryMeetingRequest)
 }
 
 final class RecruitmentFilterViewController: BaseViewController {
@@ -86,8 +86,13 @@ final class RecruitmentFilterViewController: BaseViewController {
     
     confirmButton.rx.tap
       .subscribe(with: self) { owner, _ in
-//        owner.viewModel.confirmAccountNum.onNext(<#T##element: Int##Int#>)
-        owner.delegate?.didTappedConfirmButton()
+        owner.viewModel.confirmAccountNum.onNext(owner.recruitmentFilterSlider.accountNum)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.confirmRequest
+      .emit(with: self) { owner, request in
+        owner.delegate?.didTappedConfirmButton(request: request)
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
@@ -118,7 +123,7 @@ final class RecruitmentFilterViewController: BaseViewController {
       $0.top.equalTo(titleLabel.snp.bottom).offset(32)
       $0.leading.trailing.equalToSuperview()
       $0.height.equalTo(270)
-//      $0.height.equalTo(Double(19 + 8 + 32 + 99) + ceil(Double(subCategories.count) / Double(4)) * 32 + (ceil(Double(subCategories.count) / Double(4)) - 1) * 8) // 헤더라벨높이 + 헤더 셀 사이 + 섹션간 사이 + 요일섹션고정높이 + (서브카테고리 총수 / 한 행 데이터 수) * 셀 높이 + ((서브카테고리 총수 / 한 행 데이터 수) - 1) * miniLine값
+      //      $0.height.equalTo(Double(19 + 8 + 32 + 99) + ceil(Double(subCategories.count) / Double(4)) * 32 + (ceil(Double(subCategories.count) / Double(4)) - 1) * 8) // 헤더라벨높이 + 헤더 셀 사이 + 섹션간 사이 + 요일섹션고정높이 + (서브카테고리 총수 / 한 행 데이터 수) * 셀 높이 + ((서브카테고리 총수 / 한 행 데이터 수) - 1) * miniLine값
     }
     
     recruitmentFilterSlider.snp.makeConstraints {
