@@ -11,10 +11,11 @@ import RxCocoa
 protocol RecruitmentFilterViewModelType {
   // Input
   var selectCategoryID: AnyObserver<String> { get }
-  var selectSubCategory: AnyObserver<Void> { get }
-  var selectDay: AnyObserver<Void> { get }
-  var deselectSubCategory: AnyObserver<Void> { get }
-  var deselectDay: AnyObserver<Void> { get }
+  var selectSubCategory: AnyObserver<Int> { get }
+  var selectDay: AnyObserver<Day> { get }
+  var deselectSubCategory: AnyObserver<Int> { get }
+  var deselectDay: AnyObserver<Day> { get }
+  var filterConfirm: AnyObserver<Void> { get }
   
   // Output
   var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> { get }
@@ -27,10 +28,11 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   
   // Input
   let selectCategoryID: AnyObserver<String> // 어떤 카테고리에 대한 것인지에 대한 ID
-  let selectSubCategory: AnyObserver<Void> // 세부카테고리 혹은 요일 셀을 선택할때
-  let selectDay: AnyObserver<Void>
-  let deselectSubCategory: AnyObserver<Void> // 세부카테고리 혹은 요일 셀을 선택하지않을때
-  let deselectDay: AnyObserver<Void>
+  let selectSubCategory: AnyObserver<Int> // 세부카테고리 혹은 요일 셀을 선택할때
+  let selectDay: AnyObserver<Day>
+  let deselectSubCategory: AnyObserver<Int> // 세부카테고리 혹은 요일 셀을 선택하지않을때
+  let deselectDay: AnyObserver<Day>
+  let filterConfirm: AnyObserver<Void>
   
   // Output
   var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> // 선택된 서브카테고리 목록
@@ -39,12 +41,15 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   init() {
     let selectingCategoryID = PublishSubject<String>()
     let selectingSubCategories = BehaviorRelay<[RecruitmentFilterCollectionViewCellModel]>(value: [])
-    let selectingSubCategory = PublishSubject<Void>()
-    let selectingDay = PublishSubject<Void>()
-    let deselectingSubCategory = PublishSubject<Void>()
-    let deselectingDay = PublishSubject<Void>()
+    let selectingSubCategory = PublishSubject<Int>()
+    let selectingDay = PublishSubject<Day>()
+    let deselectingSubCategory = PublishSubject<Int>()
+    let deselectingDay = PublishSubject<Day>()
     let subCategoryCount = BehaviorRelay<Int>(value: 0)
     let dayCount = BehaviorRelay<Int>(value: 0)
+    let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
+    let confirmDay = BehaviorRelay<[String]>(value: [])
+    let filterConfirming = PublishSubject<Void>()
     
     selectCategoryID = selectingCategoryID.asObserver()
     selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
@@ -52,6 +57,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     selectDay = selectingDay.asObserver()
     deselectSubCategory = deselectingSubCategory.asObserver()
     deselectDay = deselectingDay.asObserver()
+    filterConfirm = filterConfirming.asObserver()
     
     let requestSubCategory = selectingCategoryID
       .compactMap { Int($0) }
@@ -70,25 +76,33 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     .subscribe(onNext: selectingSubCategories.accept)
     .disposed(by: disposeBag)
     
-    selectingSubCategory.withLatestFrom(subCategoryCount)
-      .map { $0 + 1 }
-      .bind(to: subCategoryCount)
-      .disposed(by: disposeBag)
+    Observable.merge(
+      selectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1) }
+        .map { ($0, $1 + 1) },
+      deselectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1) }
+        .map { ($0, $1 - 1) }
+    )
+    .subscribe(onNext: { (categoryID, count) in
+      var list = confirmSubCategory.value
+      list.append(categoryID)
+      confirmSubCategory.accept(list)
+      subCategoryCount.accept(count)
+    })
+    .disposed(by: disposeBag)
     
-    selectingDay.withLatestFrom(dayCount)
-      .map { $0 + 1 }
-      .bind(to: dayCount)
-      .disposed(by: disposeBag)
-    
-    deselectingSubCategory.withLatestFrom(subCategoryCount)
-      .map { $0 - 1 }
-      .bind(to: subCategoryCount)
-      .disposed(by: disposeBag)
-    
-    deselectingDay.withLatestFrom(dayCount)
-      .map { $0 - 1 }
-      .bind(to: dayCount)
-      .disposed(by: disposeBag)
+    Observable.merge(
+      selectingDay.withLatestFrom(dayCount) { ($0, $1) }
+        .map { ($0, $1 + 1) },
+      deselectingDay.withLatestFrom(dayCount) { ($0, $1) }
+        .map { ($0, $1 - 1) }
+    )
+    .subscribe(onNext: { (day, count) in
+      var list = confirmDay.value
+      list.append(day.eng)
+      confirmDay.accept(list)
+      dayCount.accept(count)
+    })
+    .disposed(by: disposeBag)
     
     // Output
     selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())

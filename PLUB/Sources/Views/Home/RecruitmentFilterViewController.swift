@@ -37,9 +37,6 @@ final class RecruitmentFilterViewController: BaseViewController {
   private var subCategories: [RecruitmentFilterCollectionViewCellModel] = [] {
     didSet {
       filterCollectionView.reloadData()
-      filterCollectionView.snp.updateConstraints {
-        $0.height.equalTo(19 + 8 + 32 + 99 + ceil(Double(subCategories.count) / Double(4)) * 32 + (ceil(Double(subCategories.count) / Double(4)) - 1) * 8)
-      }
     }
   }
   
@@ -49,10 +46,8 @@ final class RecruitmentFilterViewController: BaseViewController {
     $0.sizeToFit()
   }
   
-  private lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
-    $0.sectionInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 32, right: .zero)
-  }).then {
-    $0.backgroundColor = .background
+  private lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    $0.backgroundColor = .red
     $0.register(RecruitmentFilterCollectionViewCell.self, forCellWithReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier)
     $0.register(RecruitmentFilterCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecruitmentFilterCollectionHeaderView.identifier)
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
@@ -92,6 +87,7 @@ final class RecruitmentFilterViewController: BaseViewController {
     confirmButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedConfirmButton()
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -119,8 +115,9 @@ final class RecruitmentFilterViewController: BaseViewController {
     
     filterCollectionView.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(32)
-      $0.leading.trailing.bottom.equalToSuperview()
-      $0.height.equalTo(19 + 8 + 32 + 99 + ceil(Double(subCategories.count) / Double(4)) * 32 + (ceil(Double(subCategories.count) / Double(4)) - 1) * 8) // 헤더라벨높이 + 헤더 셀 사이 + 섹션간 사이 + 요일섹션고정높이 + (서브카테고리 총수 / 한 행 데이터 수) * 셀 높이 + ((서브카테고리 총수 / 한 행 데이터 수) - 1) * miniLine값
+      $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(270)
+//      $0.height.equalTo(Double(19 + 8 + 32 + 99) + ceil(Double(subCategories.count) / Double(4)) * 32 + (ceil(Double(subCategories.count) / Double(4)) - 1) * 8) // 헤더라벨높이 + 헤더 셀 사이 + 섹션간 사이 + 요일섹션고정높이 + (서브카테고리 총수 / 한 행 데이터 수) * 셀 높이 + ((서브카테고리 총수 / 한 행 데이터 수) - 1) * miniLine값
     }
     
     recruitmentFilterSlider.snp.makeConstraints {
@@ -186,11 +183,21 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
     let section = RecruitmentFilterSection.allCases[indexPath.section]
     switch section {
     case .detailCategory:
-      cell.isTapped ? viewModel.deselectSubCategory.onNext(()) : viewModel.selectSubCategory.onNext(())
+      cell.isTapped ? viewModel.deselectSubCategory.onNext(subCategories[indexPath.row].subCategoryID) : viewModel.selectSubCategory.onNext(subCategories[indexPath.row].subCategoryID)
     case .day:
-      cell.isTapped ? viewModel.deselectDay.onNext(()) : viewModel.selectDay.onNext(())
+      cell.isTapped ? viewModel.deselectDay.onNext(Day.allCases[indexPath.row]) : viewModel.selectDay.onNext(Day.allCases[indexPath.row])
     }
     cell.isTapped.toggle()
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    let section = RecruitmentFilterSection.allCases[section]
+    switch section {
+    case .detailCategory:
+      return UIEdgeInsets.init(top: .zero, left: .zero, bottom: 16, right: .zero)
+    case .day:
+      return .zero
+    }
   }
 }
 
