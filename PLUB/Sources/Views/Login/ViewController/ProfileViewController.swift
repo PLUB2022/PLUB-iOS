@@ -64,9 +64,7 @@ final class ProfileViewController: BaseViewController {
     $0.font = .subtitle
   }
   
-  private lazy var nicknameTextField = PaddingTextField(
-    edgeInset: .init(top: 0, left: 8, bottom: 0, right: 8)
-  ).then {
+  private lazy var nicknameTextField = PaddingTextField(left: 8, right: 8).then {
     $0.layer.borderWidth = 1
     $0.layer.cornerRadius = 8
     

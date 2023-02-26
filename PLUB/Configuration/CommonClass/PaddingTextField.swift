@@ -29,17 +29,20 @@ final class PaddingTextField: UITextField {
   
   // MARK: - Initialization
   
+  
   /// Inset을 주어 좌우 패딩을 설정합니다.
-  /// - Parameter edgeInset: UIEdgeInset, `top inset`과 `bottom inset`은 동작하지 않습니다.
-  convenience init(edgeInset: UIEdgeInsets) {
+  /// - Parameters:
+  ///   - left: 왼쪽에 줄 패딩값
+  ///   - right: 오른쪽에 줄 패딩값
+  convenience init(left: CGFloat, right: CGFloat) {
     self.init(frame: .zero)
     let tempView = UIView()
     leftView = tempView
     rightView = tempView
     leftViewMode = .always
     rightViewMode = .always
-    leftViewPadding = edgeInset.left
-    rightViewPadding = edgeInset.right
+    leftViewPadding = left
+    rightViewPadding = right
   }
   
   // MARK: - Methods
