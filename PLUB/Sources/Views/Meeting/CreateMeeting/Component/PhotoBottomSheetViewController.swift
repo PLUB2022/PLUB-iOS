@@ -7,6 +7,11 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+import SnapKit
+import Then
+
 protocol PhotoBottomSheetDelegate: AnyObject {
   func selectImage(image: UIImage)
 }
@@ -82,21 +87,19 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
   override func bind() {
     super.bind()
     cameraView.button.rx.tap
-      .withUnretained(self)
-      .asDriver(onErrorDriveWith: .empty())
-      .drive(onNext: { _ in
-        self.photoPicker.sourceType = .camera
-        self.present(self.photoPicker, animated: true)
-      })
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.photoPicker.sourceType = .camera
+        owner.present(owner.photoPicker, animated: true)
+      }
       .disposed(by: disposeBag)
     
     albumView.button.rx.tap
-      .withUnretained(self)
-      .asDriver(onErrorDriveWith: .empty())
-      .drive(onNext: { _ in
-        self.photoPicker.sourceType = .photoLibrary
-        self.present(self.photoPicker, animated: true)
-      })
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.photoPicker.sourceType = .photoLibrary
+        owner.present(owner.photoPicker, animated: true)
+      }
       .disposed(by: disposeBag)
   }
 }
