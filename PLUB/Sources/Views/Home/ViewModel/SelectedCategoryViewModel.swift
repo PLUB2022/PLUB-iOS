@@ -98,12 +98,30 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         )
       }
     
-    searchFilterType
+    let fetchingFilter = searchFilterType
+      .do(onNext: { _ in
+        isLastPage.accept(false)
+        currentPage.accept(1)
+        updatingCellData.accept([])
+      })
+      .flatMapLatest { request in
+        if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
+          isLoading.accept(true)
+          return MeetingService.shared.inquireCategoryMeeting(
+            categoryId: try selectingCategoryID.value(),
+            page: currentPage.value,
+            sort: try searchSortType.value().text,
+            request: request
+          )
+        }
+        return .empty()
+      }
       
     
     let successFetching = Observable.merge(
       fetchingSelectedCategory,
-      fetchMore
+      fetchMore,
+      fetchingFilter
     )
       .share()
       .compactMap { result -> CategoryMeetingResponse? in
