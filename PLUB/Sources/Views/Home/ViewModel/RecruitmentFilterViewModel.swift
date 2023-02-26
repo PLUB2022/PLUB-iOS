@@ -84,8 +84,13 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     )
     .subscribe(onNext: { (categoryID, count) in
       var list = confirmSubCategory.value
-      list.append(categoryID)
-      confirmSubCategory.accept(list)
+      if list.contains(categoryID) {
+        let filterList = list.filter { $0 != categoryID }
+        confirmSubCategory.accept(filterList)
+      } else {
+        list.append(categoryID)
+        confirmSubCategory.accept(list)
+      }
       subCategoryCount.accept(count)
     })
     .disposed(by: disposeBag)
@@ -98,8 +103,13 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     )
     .subscribe(onNext: { (day, count) in
       var list = confirmDay.value
-      list.append(day.eng)
-      confirmDay.accept(list)
+      if list.contains(day.eng) {
+        let filterList = list.filter { $0 != day.eng }
+        confirmDay.accept(filterList)
+      } else {
+        list.append(day.eng)
+        confirmDay.accept(list)
+      }
       dayCount.accept(count)
     })
     .disposed(by: disposeBag)
