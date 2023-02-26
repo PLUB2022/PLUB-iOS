@@ -27,6 +27,26 @@ final class PaddingTextField: UITextField {
     }
   }
   
+  // MARK: - Initialization
+  
+  
+  /// Inset을 주어 좌우 패딩을 설정합니다.
+  /// - Parameters:
+  ///   - left: 왼쪽에 줄 패딩값
+  ///   - right: 오른쪽에 줄 패딩값
+  convenience init(left: CGFloat, right: CGFloat) {
+    self.init(frame: .zero)
+    let tempView = UIView()
+    leftView = tempView
+    rightView = tempView
+    leftViewMode = .always
+    rightViewMode = .always
+    leftViewPadding = left
+    rightViewPadding = right
+  }
+  
+  // MARK: - Methods
+  
   @discardableResult
   override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
     var leftViewRect = super.leftViewRect(forBounds: bounds)

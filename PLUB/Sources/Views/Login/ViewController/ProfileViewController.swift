@@ -64,20 +64,13 @@ final class ProfileViewController: BaseViewController {
     $0.font = .subtitle
   }
   
-  private lazy var nicknameTextField = PaddingTextField().then {
+  private lazy var nicknameTextField = PaddingTextField(left: 8, right: 8).then {
     $0.layer.borderWidth = 1
     $0.layer.cornerRadius = 8
     
-    $0.leftView = UIView()
     $0.rightView = UIButton().then {
       $0.setImage(UIImage(named: "xMark")?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
-    $0.leftViewMode = .always
-    $0.rightViewMode = .always
-    
-    $0.leftViewPadding = 8
-    $0.rightViewPadding = 8
-    
     $0.textColor = .black
     $0.font = .body1
     
