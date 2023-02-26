@@ -202,6 +202,7 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   
   func didTappedInterestListFilterButton() {
     let vc = RecruitmentFilterViewController(categoryID: categoryID)
+    vc.delegate = self
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)
@@ -245,5 +246,11 @@ extension SelectedCategoryViewController: NoSelectedCategoryViewDelegate {
     let vc = CreateMeetingViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension SelectedCategoryViewController: RecruitmentFilterDelegate {
+  func didTappedConfirmButton(request: CategoryMeetingRequest) {
+    print("요청 \(request)")
   }
 }

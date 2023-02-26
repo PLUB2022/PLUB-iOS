@@ -87,6 +87,7 @@ final class RecruitmentFilterViewController: BaseViewController {
     confirmButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.viewModel.confirmAccountNum.onNext(owner.recruitmentFilterSlider.accountNum)
+        owner.viewModel.filterConfirm.onNext(())
       }
       .disposed(by: disposeBag)
     

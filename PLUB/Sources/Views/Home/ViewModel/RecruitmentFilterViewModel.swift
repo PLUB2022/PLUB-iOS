@@ -55,7 +55,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     let confirmDay = BehaviorRelay<[String]>(value: [])
     let filterConfirming = PublishSubject<Void>()
     let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
-    
+     
     selectCategoryID = selectingCategoryID.asObserver()
     selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
     selectSubCategory = selectingSubCategory.asObserver()
@@ -132,10 +132,12 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     }
     .asDriver(onErrorDriveWith: .empty())
     
-    confirmRequest = Observable.zip(
-      confirmDay,
-      confirmSubCategory,
-      confirmingAccountNum
+    confirmRequest = filterConfirming.withLatestFrom(
+      Observable.zip(
+        confirmDay,
+        confirmSubCategory,
+        confirmingAccountNum
+      )
     )
     .map { (days, subCategoryID, accountNum) in
       return CategoryMeetingRequest(
