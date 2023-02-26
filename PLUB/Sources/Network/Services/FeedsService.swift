@@ -22,7 +22,7 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
   ///   - model: 게시판 요청 모델
-  func createBoards(plubIdentifier: Int, model: BoardsRequest) -> Observable<NetworkResult<GeneralResponse<BoardsResponse>>> {
+  func createBoards(plubIdentifier: Int, model: BoardsRequest) -> PLUBResult<BoardsResponse> {
     sendRequest(
       FeedsRouter.createBoard(plubID: plubIdentifier, model: model),
       type: BoardsResponse.self
@@ -33,7 +33,7 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
   ///   - page: 페이지 위치, 기본값은 1입니다.
-  func fetchBoards(plubIdentifier: Int, page: Int = 1) -> Observable<NetworkResult<GeneralResponse<FeedsPaginatedDataResponse<FeedsContent>>>> {
+  func fetchBoards(plubIdentifier: Int, page: Int = 1) -> PLUBResult<FeedsPaginatedDataResponse<FeedsContent>> {
     sendRequest(
       FeedsRouter.fetchBoards(plubID: plubIdentifier, page: page),
       type: FeedsPaginatedDataResponse<FeedsContent>.self
@@ -42,7 +42,7 @@ extension FeedsService {
   
   /// 클립보드를 조회합니다.
   /// - Parameter plubIdentifier: 플럽 모임 ID
-  func fetchClipboards(plubIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<FeedsClipboardResponse>>> {
+  func fetchClipboards(plubIdentifier: Int) -> PLUBResult<FeedsClipboardResponse> {
     sendRequest(
       FeedsRouter.fetchClipboards(plubID: plubIdentifier),
       type: FeedsClipboardResponse.self
@@ -53,7 +53,7 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
   ///   - feedIdentifier: 피드(게시글) ID
-  func fetchFeedDetails(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<FeedsContent>>> {
+  func fetchFeedDetails(plubIdentifier: Int, feedIdentifier: Int) -> PLUBResult<FeedsContent> {
     sendRequest(
       FeedsRouter.fetchFeedDetails(plubID: plubIdentifier, feedID: feedIdentifier),
       type: FeedsContent.self
@@ -65,7 +65,7 @@ extension FeedsService {
   ///   - plubIdentifier: 플럽 모임 ID
   ///   - feedIdentifier: 피드(게시글) ID
   ///   - model: 게시글 요청 모델(`BoardsRequest`)
-  func updateFeed(plubIdentifier: Int, feedIdentifier: Int, model: BoardsRequest) -> Observable<NetworkResult<GeneralResponse<BoardsResponse>>> {
+  func updateFeed(plubIdentifier: Int, feedIdentifier: Int, model: BoardsRequest) -> PLUBResult<BoardsResponse> {
     sendRequest(
       FeedsRouter.updateFeed(plubID: plubIdentifier, feedID: feedIdentifier, model: model),
       type: BoardsResponse.self
@@ -76,7 +76,7 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
   ///   - feedIdentifier: 피드(게시글) ID
-  func deleteFeed(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+  func deleteFeed(plubIdentifier: Int, feedIdentifier: Int) -> PLUBResult<EmptyModel> {
     sendRequest(FeedsRouter.deleteFeed(plubID: plubIdentifier, feedID: feedIdentifier))
   }
   
@@ -84,7 +84,7 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
   ///   - feedIdentifier: 피드(게시글) ID
-  func pinFeed(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<BoardsResponse>>> {
+  func pinFeed(plubIdentifier: Int, feedIdentifier: Int) -> PLUBResult<BoardsResponse> {
     sendRequest(
       FeedsRouter.pinFeed(plubID: plubIdentifier, feedID: feedIdentifier),
       type: BoardsResponse.self
@@ -95,7 +95,7 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
   ///   - feedIdentifier: 피드(게시글) ID
-  func likeFeed(plubIdentifier: Int, feedIdentifier: Int) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+  func likeFeed(plubIdentifier: Int, feedIdentifier: Int) -> PLUBResult<EmptyModel> {
     sendRequest(FeedsRouter.likeFeed(plubID: plubIdentifier, feedID: feedIdentifier))
   }
   
@@ -106,7 +106,7 @@ extension FeedsService {
   ///   - comment: 댓글 내용
   ///   - commentParentIdentifier: 대댓글인 경우, 해당 부모 댓글 ID를 요청으로 보내야합니다.
   ///   만약 일반 댓글인 경우 해당 값은 nil로 처리하면 됩니다. 기본값은 `nil`입니다.
-  func createComments(plubIdentifier: Int, feedIdentifier: Int, comment: String, commentParentIdentifier: Int? = nil) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+  func createComments(plubIdentifier: Int, feedIdentifier: Int, comment: String, commentParentIdentifier: Int? = nil) -> PLUBResult<EmptyModel> {
     sendRequest(
       FeedsRouter.createComment(
         plubID: plubIdentifier,

@@ -14,15 +14,15 @@ class CategoryService: BaseService {
 }
 
 extension CategoryService {
-  func inquireMainCategoryList() -> Observable<NetworkResult<GeneralResponse<MainCategoryListResponse>>> {
+  func inquireMainCategoryList() -> PLUBResult<MainCategoryListResponse> {
     return sendRequest(CategoryRouter.inquireMainCategoryList, type: MainCategoryListResponse.self)
   }
   
-  func inquireAll() -> Observable<NetworkResult<GeneralResponse<AllCategoryListResponse>>> {
+  func inquireAll() -> PLUBResult<AllCategoryListResponse> {
     return sendRequest(CategoryRouter.inquireAll, type: AllCategoryListResponse.self)
   }
   
-  func inquireSubCategoryList(categoryId: Int) -> Observable<NetworkResult<GeneralResponse<SubCategoryListResponse>>> {
+  func inquireSubCategoryList(categoryId: Int) -> PLUBResult<SubCategoryListResponse> {
     return sendRequest(CategoryRouter.inquireSubCategoryList(categoryId), type: SubCategoryListResponse.self)
   }
 }

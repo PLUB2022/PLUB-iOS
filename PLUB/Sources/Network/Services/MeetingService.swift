@@ -15,25 +15,25 @@ class MeetingService: BaseService {
 }
 
 extension MeetingService {
-  func createMeeting(request: CreateMeetingRequest) -> Observable<NetworkResult<GeneralResponse<CreateMeetingResponse>>> {
+  func createMeeting(request: CreateMeetingRequest) -> PLUBResult<CreateMeetingResponse> {
     return sendRequest(
       MeetingRouter.createMeeting(request),
       type: CreateMeetingResponse.self
     )
   }
   
-  func editMeetingInfo(plubbingID: String, request: EditMeetingInfoRequest) -> Observable<NetworkResult<GeneralResponse<CreateMeetingResponse>>> {
+  func editMeetingInfo(plubbingID: String, request: EditMeetingInfoRequest) -> PLUBResult<CreateMeetingResponse> {
     return sendRequest(
       MeetingRouter.editMeetingInfo(plubbingID, request),
       type: CreateMeetingResponse.self
     )
   }
   
-  func inquireCategoryMeeting(categoryId: String, page: Int, sort: String) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>>  {
+  func inquireCategoryMeeting(categoryId: String, page: Int, sort: String) -> PLUBResult<CategoryMeetingResponse>  {
     return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryId, page, sort), type: CategoryMeetingResponse.self)
   }
   
-  func inquireRecommendationMeeting(page: Int) -> Observable<NetworkResult<GeneralResponse<CategoryMeetingResponse>>> {
+  func inquireRecommendationMeeting(page: Int) -> PLUBResult<CategoryMeetingResponse> {
     return sendRequest(MeetingRouter.inquireRecommendationMeeting(page), type: CategoryMeetingResponse.self)
   }
 }

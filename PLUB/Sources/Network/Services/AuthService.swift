@@ -21,22 +21,22 @@ extension AuthService {
     socialType: SignInType,
     token: String?,
     authorizationCode: String?
-  ) -> Observable<NetworkResult<GeneralResponse<SignInResponse>>> {
+  ) -> PLUBResult<SignInResponse> {
     return sendRequest(
       AuthRouter.socialLogin(SignInRequest(accessToken: token, authorizationCode: authorizationCode, socialType: socialType)),
       type: SignInResponse.self
     )
   }
   
-  func signUpToPLUB(request: SignUpRequest) -> Observable<NetworkResult<GeneralResponse<TokenResponse>>> {
+  func signUpToPLUB(request: SignUpRequest) -> PLUBResult<TokenResponse> {
     return sendRequest(AuthRouter.signUpPLUB(request), type: TokenResponse.self)
   }
   
-  func reissuanceAccessToken() -> Observable<NetworkResult<GeneralResponse<TokenResponse>>> {
+  func reissuanceAccessToken() -> PLUBResult<TokenResponse> {
     return sendRequest(AuthRouter.reissuanceAccessToken, type: TokenResponse.self)
   }
   
-  func logout() -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+  func logout() -> PLUBResult<EmptyModel> {
     return sendRequest(AuthRouter.logout)
   }
 }
