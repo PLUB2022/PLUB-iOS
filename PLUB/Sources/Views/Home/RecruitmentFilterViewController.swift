@@ -86,6 +86,7 @@ final class RecruitmentFilterViewController: BaseViewController {
     
     confirmButton.rx.tap
       .subscribe(with: self) { owner, _ in
+//        owner.viewModel.confirmAccountNum.onNext(<#T##element: Int##Int#>)
         owner.delegate?.didTappedConfirmButton()
         owner.navigationController?.popViewController(animated: true)
       }
