@@ -15,11 +15,13 @@ protocol RecruitmentFilterViewModelType {
   var selectDay: AnyObserver<Day> { get }
   var deselectSubCategory: AnyObserver<Int> { get }
   var deselectDay: AnyObserver<Day> { get }
+  var confirmAccountNum: AnyObserver<Int> { get }
   var filterConfirm: AnyObserver<Void> { get }
   
   // Output
   var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> { get }
   var isButtonEnabled: Driver<Bool> { get }
+  var confirmRequest: Signal<CategoryMeetingRequest> { get }
 }
 
 final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
@@ -33,10 +35,12 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   let deselectSubCategory: AnyObserver<Int> // 세부카테고리 혹은 요일 셀을 선택하지않을때
   let deselectDay: AnyObserver<Day>
   let filterConfirm: AnyObserver<Void>
+  let confirmAccountNum: AnyObserver<Int>
   
   // Output
   var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> // 선택된 서브카테고리 목록
-  var isButtonEnabled: Driver<Bool> // 필터버튼 활성화 여부
+  let isButtonEnabled: Driver<Bool> // 필터버튼 활성화 여부
+  let confirmRequest: Signal<CategoryMeetingRequest>
   
   init() {
     let selectingCategoryID = PublishSubject<String>()
@@ -50,6 +54,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
     let confirmDay = BehaviorRelay<[String]>(value: [])
     let filterConfirming = PublishSubject<Void>()
+    let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
     
     selectCategoryID = selectingCategoryID.asObserver()
     selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
@@ -58,6 +63,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     deselectSubCategory = deselectingSubCategory.asObserver()
     deselectDay = deselectingDay.asObserver()
     filterConfirm = filterConfirming.asObserver()
+    confirmAccountNum = confirmingAccountNum.asObserver()
     
     let requestSubCategory = selectingCategoryID
       .compactMap { Int($0) }
@@ -126,5 +132,18 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     }
     .asDriver(onErrorDriveWith: .empty())
     
+    confirmRequest = Observable.zip(
+      confirmDay,
+      confirmSubCategory,
+      confirmingAccountNum
+    )
+    .map { (days, subCategoryID, accountNum) in
+      return CategoryMeetingRequest(
+        days: days,
+        subCategoryID: subCategoryID,
+        accountNum: accountNum
+      )
+    }
+    .asSignal(onErrorSignalWith: .empty())
   }
 }
