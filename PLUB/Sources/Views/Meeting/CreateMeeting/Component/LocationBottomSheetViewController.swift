@@ -118,25 +118,24 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     
     searchView.textField.rx
       .controlEvent([.editingDidEndOnExit])
-      .subscribe { _ in
-        self.viewModel.refreshPagingData()
-        self.viewModel.fetchLocationList(page: 1)
+      .subscribe(with: self) { owner, _ in
+        owner.viewModel.refreshPagingData()
+        owner.viewModel.fetchLocationList(page: 1)
       }
       .disposed(by: disposeBag)
     
     searchView.textField.rx
       .controlEvent([.editingDidBegin])
-      .subscribe { _ in
-        self.searchView.setupStyles(state: true)
+      .subscribe(with: self) { owner, _ in
+        owner.searchView.setupStyles(state: true)
       }
       .disposed(by: disposeBag)
     
     searchView.textField.rx
       .controlEvent([.editingDidEnd])
-      .subscribe { _ in
-        if (self.searchView.textField.text ?? "").isEmpty {
-          self.searchView.setupStyles(state: false)
-        }
+      .filter { [weak self] in self?.searchView.textField.text?.isEmpty ?? false }
+      .subscribe(with: self) { owner, _ in
+        owner.searchView.setupStyles(state: false)
       }
       .disposed(by: disposeBag)
     
@@ -154,9 +153,9 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
     
     viewModel.totalCount
-      .map({ count -> NSMutableAttributedString in
-        return self.setSearchAttributeText(count: count)
-      })
+      .compactMap { [weak self] in
+        return self?.setSearchAttributeText(count: $0)
+      }
       .bind(to: searchCountLabel.rx.attributedText)
       .disposed(by: disposeBag)
     
@@ -195,22 +194,22 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     
     viewModel.nextButtonEnabled
       .distinctUntilChanged()
-      .subscribe{ [weak self] state in
+      .subscribe { [weak self] state in
         guard let self = self else { return }
         self.nextButton.isEnabled = state
       }
       .disposed(by: disposeBag)
     
     nextButton.rx.tap
-      .asDriver(onErrorDriveWith: .empty())
-      .drive(onNext: { _ in
-        guard let data = self.viewModel.selectedLocation.value,
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        guard let data = owner.viewModel.selectedLocation.value,
               let address = data.address,
               let roadAddress = data.roadAddress,
               let placeName = data.placeName,
               let positionX = data.placePositionX,
               let positionY = data.placePositionY else { return }
-        self.delegate?.selectLocation(
+        owner.delegate?.selectLocation(
           location: Location(
             address: address,
             roadAddress: roadAddress,
@@ -219,8 +218,8 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
             positionY: Double(positionY) ?? 0
           )
         )
-        self.dismiss(animated: false)
-      })
+        owner.dismiss(animated: false)
+      }
       .disposed(by: disposeBag)
   }
   
