@@ -10,7 +10,7 @@ import Alamofire
 enum MeetingRouter {
   case createMeeting(CreateMeetingRequest)
   case editMeetingInfo(String, EditMeetingInfoRequest)
-  case inquireCategoryMeeting(String, Int, String)
+  case inquireCategoryMeeting(String, Int, String, CategoryMeetingRequest?)
   case inquireRecommendationMeeting(Int)
 }
 
@@ -32,8 +32,8 @@ extension MeetingRouter: Router {
       return "/plubbings"
     case .editMeetingInfo(let plubbingId, _):
       return "/plubbings/\(plubbingId)"
-    case .inquireCategoryMeeting(let categoryId, _, _):
-      return "/plubbings/categories/\(categoryId)"
+    case .inquireCategoryMeeting(let categoryId, let page, let sort, _):
+      return "/plubbings/categories/\(categoryId)?page=\(page)&sort=\(sort)"
     case .inquireRecommendationMeeting:
       return "/plubbings/recommendation"
     }
@@ -45,8 +45,8 @@ extension MeetingRouter: Router {
       return .body(model)
     case let .editMeetingInfo(_, model):
       return .body(model)
-    case .inquireCategoryMeeting(_, let page, let sort):
-      return .query(["page": "\(page)", "sort": sort])
+    case .inquireCategoryMeeting(_, _, _, let model):
+      return .body(model)
     case .inquireRecommendationMeeting(let page):
       return .query(["page": page])
     }

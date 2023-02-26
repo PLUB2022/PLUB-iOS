@@ -14,6 +14,7 @@ protocol SelectedCategoryViewModelType {
   var whichSortType: AnyObserver<SortType> { get }
   var tappedBookmark: AnyObserver<String> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
+  var whichFilterRequest: AnyObserver<CategoryMeetingRequest> { get }
   
   // Output
   var updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> { get }
@@ -31,6 +32,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   let whichSortType: AnyObserver<SortType> // 해당 카테고리에 대한 어떤 분류타입으로 설정하고싶은지
   let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
   let fetchMoreDatas: AnyObserver<Void> // 더 많은 데이터를 받을 것인지
+  let whichFilterRequest: AnyObserver<CategoryMeetingRequest>
   
   // Output
   let updatedCellData: Driver<[SelectedCategoryCollectionViewCellModel]> // 해당 ID와 분류타입에 대한 카테고리 데이터
@@ -41,6 +43,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let selectingCategoryID = BehaviorSubject<String>(value: "")
     let updatingCellData = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
+    let searchFilterType = PublishSubject<CategoryMeetingRequest>()
     let dataIsEmpty = PublishSubject<Bool>()
     let whichBookmark = PublishSubject<String>()
     let fetchingDatas = PublishSubject<Void>()
@@ -50,6 +53,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     
     isEmpty = dataIsEmpty.asSignal(onErrorSignalWith: .empty())
     whichSortType = searchSortType.asObserver()
+    whichFilterRequest = searchFilterType.asObserver()
     selectCategoryID = selectingCategoryID.asObserver()
     updatedCellData = updatingCellData.asDriver(onErrorDriveWith: .empty())
     tappedBookmark = whichBookmark.asObserver()
@@ -71,7 +75,8 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
           return MeetingService.shared.inquireCategoryMeeting(
             categoryId: categoryId,
             page: currentPage.value,
-            sort: sortType.text
+            sort: sortType.text,
+            request: nil
           )
         }
         return .empty()
@@ -88,9 +93,13 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         return MeetingService.shared.inquireCategoryMeeting(
           categoryId: try selectingCategoryID.value(),
           page: currentPage.value,
-          sort: try searchSortType.value().text
+          sort: try searchSortType.value().text,
+          request: nil
         )
       }
+    
+    searchFilterType
+      
     
     let successFetching = Observable.merge(
       fetchingSelectedCategory,
