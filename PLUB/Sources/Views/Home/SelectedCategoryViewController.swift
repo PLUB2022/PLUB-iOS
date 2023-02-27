@@ -28,8 +28,6 @@ final class SelectedCategoryViewController: BaseViewController {
     }
   }
   
-//  private var subCategories: [RecruitmentFilterCollectionViewCellModel]?
-  
   private var type: SortType = .popular {
     didSet {
       viewModel.whichSortType.onNext(type)

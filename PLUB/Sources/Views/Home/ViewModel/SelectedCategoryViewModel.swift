@@ -69,11 +69,11 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         currentPage.accept(1)
         updatingCellData.accept([])
       })
-      .flatMapLatest { (categoryId, sortType) in
+      .flatMapLatest { (categoryID, sortType) in
         if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.accept(true)
           return MeetingService.shared.inquireCategoryMeeting(
-            categoryId: categoryId,
+            categoryID: categoryID,
             page: currentPage.value,
             sort: sortType.text,
             request: nil
@@ -91,7 +91,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       })
       .flatMapLatest { _ in
         return MeetingService.shared.inquireCategoryMeeting(
-          categoryId: try selectingCategoryID.value(),
+          categoryID: try selectingCategoryID.value(),
           page: currentPage.value,
           sort: try searchSortType.value().text,
           request: nil
@@ -108,7 +108,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         if !isLastPage.value && !isLoading.value { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.accept(true)
           return MeetingService.shared.inquireCategoryMeeting(
-            categoryId: try selectingCategoryID.value(),
+            categoryID: try selectingCategoryID.value(),
             page: currentPage.value,
             sort: try searchSortType.value().text,
             request: request
@@ -125,6 +125,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     )
       .share()
       .compactMap { result -> CategoryMeetingResponse? in
+        print("결과 \(result)")
         guard case .success(let response) = result else { return nil }
         return response.data
       }

@@ -32,8 +32,8 @@ extension MeetingRouter: Router {
       return "/plubbings"
     case .editMeetingInfo(let plubbingId, _):
       return "/plubbings/\(plubbingId)"
-    case .inquireCategoryMeeting(let categoryId, let page, let sort, _):
-      return "/plubbings/categories/\(categoryId)?page=\(page)&sort=\(sort)"
+    case .inquireCategoryMeeting(let categoryID, let page, let sort, _):
+      return "/plubbings/categories/\(categoryID)?page=\(page)&sort=\(sort)"
     case .inquireRecommendationMeeting:
       return "/plubbings/recommendation"
     }
@@ -46,6 +46,7 @@ extension MeetingRouter: Router {
     case let .editMeetingInfo(_, model):
       return .body(model)
     case .inquireCategoryMeeting(_, _, _, let model):
+      guard let model = model else { return .plain }
       return .body(model)
     case .inquireRecommendationMeeting(let page):
       return .query(["page": page])
