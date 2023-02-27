@@ -125,7 +125,6 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     )
       .share()
       .compactMap { result -> CategoryMeetingResponse? in
-        print("결과 \(result)")
         guard case .success(let response) = result else { return nil }
         return response.data
       }
