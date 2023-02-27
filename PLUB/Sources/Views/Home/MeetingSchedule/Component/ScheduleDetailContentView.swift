@@ -77,7 +77,8 @@ final class ScheduleDetailContentView: UIView {
     }
   }
   
-  func setText(_ text: String?) {
+  func setText(_ text: String?, _ isPasted: Bool) {
     label.text = text
+    label.textColor = isPasted ? .deepGray : .black
   }
 }

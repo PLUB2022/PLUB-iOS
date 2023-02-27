@@ -10,12 +10,20 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+enum ScheduleCellIndexType {
+  case first // 첫 셀
+  case middle // 나머지 셀
+  case last // 마지막 셀
+}
+
 struct ScheduleTableViewCellModel {
-  let day: String
-  let time: String
-  let name: String
-  let location: String?
-  let participants: [String]
+  let day: String // 날짜
+  let time: String // 시간
+  let name: String // 일정 이름
+  let location: String? // 장소
+  let participants: [String] // 참여자 목록
+  var indexType: ScheduleCellIndexType // 셀 인덱스 타입
+  let isPasted: Bool // 지난 일정인지 여부
 }
 
 final class ScheduleTableViewCell: UITableViewCell {
@@ -106,7 +114,8 @@ final class ScheduleTableViewCell: UITableViewCell {
     }
     
     lineView.snp.makeConstraints {
-      $0.top.bottom.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.bottom.equalToSuperview()
       $0.width.equalTo(1)
       $0.centerX.equalTo(pointImageView.snp.centerX)
     }
@@ -148,18 +157,40 @@ final class ScheduleTableViewCell: UITableViewCell {
   }
   
   func setupData(with data: ScheduleTableViewCellModel) {
-    dateView.setText(data.day)
+    
+    switch data.indexType {
+    case .first:
+      lineView.snp.updateConstraints {
+        $0.top.equalToSuperview().inset(8)
+        $0.bottom.equalToSuperview()
+      }
+    case .middle:
+      lineView.snp.updateConstraints {
+        $0.top.bottom.equalToSuperview()
+      }
+    case .last:
+      lineView.snp.updateConstraints {
+        $0.top.equalToSuperview()
+        $0.bottom.equalToSuperview().inset(79)
+      }
+    }
+    
+    pointImageView.isHighlighted = data.isPasted ? false : true
+    
+    dateView.setText(data.day, data.isPasted)
     
     titleLabel.text = data.name
-    timeView.setText(data.time)
+    titleLabel.textColor = data.isPasted ? .deepGray : .black
+    
+    timeView.setText(data.time, data.isPasted)
     
     if let location = data.location {
-      locationView.setText(location)
+      locationView.setText(location, data.isPasted)
       locationView.snp.updateConstraints {
         $0.height.equalTo(21)
       }
     } else {
-      locationView.setText(nil)
+      locationView.setText(nil, data.isPasted)
       locationView.snp.updateConstraints {
         $0.height.equalTo(0)
       }

@@ -55,7 +55,40 @@ final class MeetingScheduleViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    let data = Observable<[ScheduleTableViewCellModel]>.just([ScheduleTableViewCellModel(day: "f", time: "d", name: "s", location: "ddd", participants: [])])
+    let imageURL = "https://img.insight.co.kr/static/2019/04/19/700/2j6xsl93c2fc7c5td0bm.jpg"
+    let imageList = [String](repeating: imageURL, count: 10)
+    let model = ScheduleTableViewCellModel(
+      day: "9월 15일",
+      time: "오후 5:30 - 오후 8:00",
+      name: "프로젝트 기획",
+      location: "투썸 플레이스 강남역점",
+      participants: imageList,
+      indexType: .middle,
+      isPasted: false
+    )
+    var modelList = [ScheduleTableViewCellModel](repeating: model, count: 10)
+    
+    
+    modelList[0] = ScheduleTableViewCellModel(
+      day: "9월 15일",
+      time: "오후 5:30 - 오후 8:00",
+      name: "프로젝트 기획",
+      location: "투썸 플레이스 강남역점",
+      participants: imageList,
+      indexType: .first,
+      isPasted: false
+    )
+    modelList[modelList.count - 1] = ScheduleTableViewCellModel(
+      day: "9월 15일",
+      time: "오후 5:30 - 오후 8:00",
+      name: "프로젝트 기획",
+      location: "투썸 플레이스 강남역점",
+      participants: imageList,
+      indexType: .last,
+      isPasted: true
+    )
+    
+    let data = Observable<[ScheduleTableViewCellModel]>.just(modelList)
     data
       .bind(to: tableView.rx.items) { tableView, row, item -> UITableViewCell in
         guard let cell = tableView.dequeueReusableCell(
