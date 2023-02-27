@@ -167,6 +167,7 @@
 		BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */; };
 		BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE5D3362975B20000268D44 /* TokenResponse.swift */; };
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
+		C305B67C29AC9FE700BD5C6A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = C305B67B29AC9FE700BD5C6A /* RxDataSources */; };
 		C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */; };
 		C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */; };
 		C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605162997934100D27488 /* RecruitPostViewModel.swift */; };
@@ -504,6 +505,7 @@
 				BA8AA4302988FDCC004E9403 /* Lottie in Frameworks */,
 				BA88126D28E48AB700BD832A /* SnapKit in Frameworks */,
 				BA88126A28E48A8D00BD832A /* Then in Frameworks */,
+				C305B67C29AC9FE700BD5C6A /* RxDataSources in Frameworks */,
 				BA88126528E48A7A00BD832A /* RxCocoa in Frameworks */,
 				BA117A52297444EE00B37E03 /* KakaoSDKUser in Frameworks */,
 			);
@@ -1437,6 +1439,7 @@
 				BA117A51297444EE00B37E03 /* KakaoSDKUser */,
 				BA5DEB3229751E5F00650788 /* GoogleSignIn */,
 				BA8AA42F2988FDCC004E9403 /* Lottie */,
+				C305B67B29AC9FE700BD5C6A /* RxDataSources */,
 			);
 			productName = PLUB;
 			productReference = BA88124A28E48A2F00BD832A /* PLUB.app */;
@@ -1475,6 +1478,7 @@
 				BA117A4C297444EE00B37E03 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				BA5DEB3129751E5F00650788 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				C305B67A29AC9FE700BD5C6A /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = BA88124B28E48A2F00BD832A /* Products */;
 			projectDirPath = "";
@@ -2021,6 +2025,14 @@
 				kind = branch;
 			};
 		};
+		C305B67A29AC9FE700BD5C6A /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2078,6 +2090,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		C305B67B29AC9FE700BD5C6A /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C305B67A29AC9FE700BD5C6A /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
