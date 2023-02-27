@@ -249,6 +249,6 @@ extension SelectedCategoryViewController: NoSelectedCategoryViewDelegate {
 
 extension SelectedCategoryViewController: RecruitmentFilterDelegate {
   func didTappedConfirmButton(request: CategoryMeetingRequest) {
-    print("요청 \(request)")
+    viewModel.whichFilterRequest.onNext(request)
   }
 }
