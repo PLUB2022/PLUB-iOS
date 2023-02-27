@@ -77,7 +77,7 @@ final class ScheduleDetailContentView: UIView {
     }
   }
   
-  func setText(_ text: String) {
+  func setText(_ text: String?) {
     label.text = text
   }
 }

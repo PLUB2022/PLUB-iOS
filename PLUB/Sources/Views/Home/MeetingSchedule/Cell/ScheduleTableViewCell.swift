@@ -56,6 +56,19 @@ final class ScheduleTableViewCell: UITableViewCell {
     $0.alignment = .leading
   }
   
+  private let moreParticipantView = UIView().then {
+    $0.layer.cornerRadius = 12
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.white.cgColor
+    $0.clipsToBounds = true
+    $0.backgroundColor = .mediumGray
+  }
+  
+  private let moreParticipantLabel = UILabel().then {
+    $0.font = .overLine
+    $0.textColor = .black
+  }
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     setupLayouts()
@@ -81,6 +94,8 @@ final class ScheduleTableViewCell: UITableViewCell {
     }
     
     contentStackView.setCustomSpacing(0, after: timeView)
+    
+    moreParticipantView.addSubview(moreParticipantLabel)
   }
   
   private func setupConstraints() {
@@ -122,6 +137,10 @@ final class ScheduleTableViewCell: UITableViewCell {
       $0.trailing.equalToSuperview().inset(16)
       $0.top.equalToSuperview()
     }
+    
+    moreParticipantLabel.snp.makeConstraints {
+      $0.center.equalToSuperview()
+    }
   }
   
   private func setupStyles() {
@@ -140,15 +159,26 @@ final class ScheduleTableViewCell: UITableViewCell {
         $0.height.equalTo(21)
       }
     } else {
-      locationView.setText("")
+      locationView.setText(nil)
       locationView.snp.updateConstraints {
         $0.height.equalTo(0)
       }
     }
     
+    participantStackView.subviews.forEach {
+      $0.removeFromSuperview()
+    }
+    
     let totalParticipant = data.participants.count
     
-    for participant in data.participants {
+    for (index, participant) in data.participants.enumerated() {
+
+      if index == 3, totalParticipant > 4 { // 참석자수 4명 초과 시, (+) 뷰 추가
+        moreParticipantLabel.text = "+\(totalParticipant - 3)"
+        addParticipantView(moreParticipantView)
+        break
+      }
+      
       guard let url = URL(string: participant) else { break }
       
       let imageView = UIImageView().then {
@@ -159,12 +189,15 @@ final class ScheduleTableViewCell: UITableViewCell {
         $0.kf.setImage(with: url)
       }
       
-      participantStackView.addArrangedSubview(imageView)
-      
-      imageView.snp.makeConstraints {
-        $0.size.equalTo(24)
-      }
+      addParticipantView(imageView)
     }
+  }
+  
+  private func addParticipantView(_ object: UIView) {
+    participantStackView.addArrangedSubview(object)
     
+    object.snp.makeConstraints {
+      $0.size.equalTo(24)
+    }
   }
 }
