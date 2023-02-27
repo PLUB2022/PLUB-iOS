@@ -126,6 +126,7 @@ final class OnboardingViewController: BaseViewController {
   
   @objc
   private func moveToLoginViewController() {
+    UserManager.shared.set(isLaunchedBefore: true) // 로그인 뷰로 넘어가면서 최초실행 유무 설정
     navigationController?.setViewControllers([LoginViewController()], animated: true)
   }
 }

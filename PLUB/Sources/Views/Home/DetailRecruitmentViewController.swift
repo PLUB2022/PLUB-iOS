@@ -177,11 +177,11 @@ final class DetailRecruitmentViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     applyButton.rx.tap
-      .subscribe(onNext: { _ in
+      .subscribe(with: self) { owner, _ in
         let vc = ApplyQuestionViewController(plubbingID: plubbingID)
         vc.navigationItem.largeTitleDisplayMode = .never
-        self.navigationController?.pushViewController(vc, animated: true)
-      })
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
       .disposed(by: disposeBag)
   }
   

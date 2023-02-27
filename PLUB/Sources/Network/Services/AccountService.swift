@@ -17,15 +17,15 @@ final class AccountService: BaseService {
 }
 
 extension AccountService {
-  func validateNickname(_ nickname: String) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+  func validateNickname(_ nickname: String) -> PLUBResult<EmptyModel> {
     return sendRequest(AccountRouter.validateNickname(nickname))
   }
   
-  func inquireInterest() -> Observable<NetworkResult<GeneralResponse<InquireInterestResponse>>> {
+  func inquireInterest() -> PLUBResult<InquireInterestResponse> {
     return sendRequest(AccountRouter.inquireInterest, type: InquireInterestResponse.self)
   }
   
-  func registerInterest(request: RegisterInterestRequest) -> Observable<NetworkResult<GeneralResponse<EmptyModel>>> {
+  func registerInterest(request: RegisterInterestRequest) -> PLUBResult<EmptyModel> {
     return sendRequest(AccountRouter.registerInterest(request))
   }
 }

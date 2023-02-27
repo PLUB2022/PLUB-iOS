@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 enum MeetingScheduleType: String, CaseIterable {
   case date = "날짜/시간"
   case location = "장소"
@@ -40,7 +43,7 @@ final class CreateScheduleViewController: BaseViewController {
     $0.spacing = 33
   }
   
-  private let titleTextField = PaddingTextField().then {
+  private let titleTextField = PaddingTextField(left: 12, right: 12).then {
     $0.backgroundColor = .white
     $0.layer.cornerRadius = 12.5
     $0.attributedPlaceholder = NSAttributedString(
@@ -52,13 +55,6 @@ final class CreateScheduleViewController: BaseViewController {
     )
     $0.textColor = .black
     $0.font = .h5
-    
-    $0.leftView = UIView()
-    $0.rightView = UIView()
-    $0.leftViewMode = .always
-    $0.rightViewMode = .always
-    $0.leftViewPadding = 12
-    $0.rightViewPadding = 12
   }
   
   private let allDaySwitch = UISwitch().then {
@@ -154,7 +150,7 @@ final class CreateScheduleViewController: BaseViewController {
     }
     
     scrollView.addSubview(contentStackView)
-
+    
     contentStackView.addArrangedSubview(titleTextField)
     
     viewModel.scheduleType.forEach {
