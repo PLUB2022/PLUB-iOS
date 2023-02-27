@@ -45,7 +45,7 @@ extension MeetingRouter: Router {
       return .body(model)
     case let .editMeetingInfo(_, model):
       return .body(model)
-    case .inquireCategoryMeeting(_, _, _, let model):
+    case .inquireCategoryMeeting(_, let page, let sort, let model):
       guard let model = model else { return .plain }
       return .body(model)
     case .inquireRecommendationMeeting(let page):

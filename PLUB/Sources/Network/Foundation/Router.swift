@@ -72,7 +72,6 @@ extension Router {
       components?.queryItems = query.map { URLQueryItem(name: $0, value: "\($1)") }
       request.url = components?.url
     }
-    
     return request
   }
 }
