@@ -21,7 +21,7 @@ struct ScheduleTableViewCellModel {
   let time: String // 시간
   let name: String // 일정 이름
   let location: String? // 장소
-  let participants: [String] // 참여자 목록
+  let participants: [String?] // 참여자 목록
   var indexType: ScheduleCellIndexType // 셀 인덱스 타입
   let isPasted: Bool // 지난 일정인지 여부
 }
@@ -154,6 +154,7 @@ final class ScheduleTableViewCell: UITableViewCell {
   
   private func setupStyles() {
     backgroundColor = .background
+    selectionStyle = .none
   }
   
   func setupData(with data: ScheduleTableViewCellModel) {
@@ -210,7 +211,7 @@ final class ScheduleTableViewCell: UITableViewCell {
         break
       }
       
-      guard let url = URL(string: participant) else { break }
+      guard let url = URL(string: participant ?? "") else { break }
       
       let imageView = UIImageView().then {
         $0.layer.cornerRadius = 12

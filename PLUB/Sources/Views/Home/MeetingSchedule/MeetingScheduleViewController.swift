@@ -14,7 +14,7 @@ import RxCocoa
 import RxDataSources
 
 final class MeetingScheduleViewController: BaseViewController {
-  private let viewModel = MeetingScheduleViewModel()
+  private let viewModel: MeetingScheduleViewModel
   
   private let scheduleTopView = ScheduleTopView()
   
@@ -24,6 +24,15 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
     $0.sectionHeaderTopPadding = 0
+  }
+  
+  init(viewModel: MeetingScheduleViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewDidLoad() {

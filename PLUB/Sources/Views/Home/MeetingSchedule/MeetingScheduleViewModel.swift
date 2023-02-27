@@ -26,46 +26,16 @@ extension MeetingScheduleData: SectionModelType {
 }
 
 final class MeetingScheduleViewModel {
+  private let disposeBag = DisposeBag()
+  private let plubbingID: String
+  
+  private var monthList = [String]()
   var datas = BehaviorRelay<[MeetingScheduleData]>(value: [])
-  init() {
-    let imageURL = "https://img.insight.co.kr/static/2019/04/19/700/2j6xsl93c2fc7c5td0bm.jpg"
-    let imageList = [String](repeating: imageURL, count: 10)
-    let model = ScheduleTableViewCellModel(
-      day: "9월 15일",
-      time: "오후 5:30 - 오후 8:00",
-      name: "프로젝트 기획",
-      location: "투썸 플레이스 강남역점",
-      participants: imageList,
-      indexType: .middle,
-      isPasted: false
-    )
-    var modelList = [ScheduleTableViewCellModel](repeating: model, count: 10)
-    
-    
-    modelList[0] = ScheduleTableViewCellModel(
-      day: "9월 15일",
-      time: "오후 5:30 - 오후 8:00",
-      name: "프로젝트 기획",
-      location: "투썸 플레이스 강남역점",
-      participants: imageList,
-      indexType: .first,
-      isPasted: false
-    )
-    modelList[modelList.count - 1] = ScheduleTableViewCellModel(
-      day: "9월 15일",
-      time: "오후 5:30 - 오후 8:00",
-      name: "프로젝트 기획",
-      location: "투썸 플레이스 강남역점",
-      participants: imageList,
-      indexType: .last,
-      isPasted: true
-    )
-    
-    datas = BehaviorRelay<[MeetingScheduleData]>(value: [
-      MeetingScheduleData(header:"섹션 1 header", items: modelList),
-      MeetingScheduleData(header:"섹션 2 header", items: modelList),
-      MeetingScheduleData(items: modelList)
-    ])
+  
+  init(plubbingID: String) {
+    self.plubbingID = plubbingID
+
+    fetchScheduleList()
   }
   
   func dataSource() -> RxTableViewSectionedReloadDataSource<MeetingScheduleData> {
@@ -86,5 +56,78 @@ final class MeetingScheduleViewModel {
       })
     
       return dataSource
+  }
+  
+  private func fetchScheduleList() {
+    ScheduleService.shared
+      .inquireScheduleList(
+        plubbingID: plubbingID
+      )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let model):
+          guard let data = model.data else { return }
+          owner.handleScheduleList(data: data.scheduleList.schedules)
+        default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func handleScheduleList(data: [Schedule]) {
+    var oldData = datas.value
+    
+    data.enumerated().forEach { (index, schedule) in
+      let date = DateFormatter().then {
+        $0.dateFormat = "yyyy-MM-dd"
+      }.date(from: schedule.startDay) ?? Date()
+      
+      let dateArr = schedule.startDay.components(separatedBy: "-")
+      let year = dateArr[0]
+      let month = dateArr[1]
+      let day = dateArr[2]
+      
+      if (oldData.filter { $0.header == year }.count == 0) { // 섹션 생성
+        oldData.append(
+          MeetingScheduleData(
+            header: year,
+            items: [
+                ScheduleTableViewCellModel(
+                  day: month,
+                  time: "\(schedule.startTime) - \(schedule.endTime)",
+                  name: schedule.title,
+                  location: schedule.placeName,
+                  participants: (schedule.participantList?.participants.map{
+                    $0.profileImage
+                  }) ?? [],
+                  indexType: .first,
+                  isPasted: (date.compare(Date()) == .orderedDescending) ? true : false
+              )
+            ]
+          )
+        )
+      } else { // 기존 섹션에 추가
+        
+        oldData.enumerated().forEach { (index, data) in
+          if(data.header == year) {
+            oldData[index].items.append(
+              ScheduleTableViewCellModel(
+                day: month,
+                time: "\(schedule.startTime) - \(schedule.endTime)",
+                name: schedule.title,
+                location: schedule.placeName,
+                participants: (schedule.participantList?.participants.map{
+                  $0.profileImage
+                }) ?? [],
+                indexType: .middle,
+                isPasted: (date.compare(Date()) == .orderedDescending) ? true : false
+              )
+            )
+          }
+        }
+      }
+    }
+    datas.accept(oldData)
   }
 }
