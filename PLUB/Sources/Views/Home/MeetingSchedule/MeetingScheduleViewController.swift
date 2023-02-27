@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
+import RxCocoa
+import RxDataSources
 
 final class MeetingScheduleViewController: BaseViewController {
   private let viewModel = MeetingScheduleViewModel()
@@ -21,6 +23,7 @@ final class MeetingScheduleViewController: BaseViewController {
     $0.separatorStyle = .none
     $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
+    $0.sectionHeaderTopPadding = 0
   }
   
   override func viewDidLoad() {
@@ -55,52 +58,14 @@ final class MeetingScheduleViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    let imageURL = "https://img.insight.co.kr/static/2019/04/19/700/2j6xsl93c2fc7c5td0bm.jpg"
-    let imageList = [String](repeating: imageURL, count: 10)
-    let model = ScheduleTableViewCellModel(
-      day: "9월 15일",
-      time: "오후 5:30 - 오후 8:00",
-      name: "프로젝트 기획",
-      location: "투썸 플레이스 강남역점",
-      participants: imageList,
-      indexType: .middle,
-      isPasted: false
-    )
-    var modelList = [ScheduleTableViewCellModel](repeating: model, count: 10)
+
+    let datasource = viewModel.dataSource()
+    viewModel.datas
+      .bind(to: tableView.rx.items(dataSource: datasource))
+      .disposed(by: disposeBag)
     
-    
-    modelList[0] = ScheduleTableViewCellModel(
-      day: "9월 15일",
-      time: "오후 5:30 - 오후 8:00",
-      name: "프로젝트 기획",
-      location: "투썸 플레이스 강남역점",
-      participants: imageList,
-      indexType: .first,
-      isPasted: false
-    )
-    modelList[modelList.count - 1] = ScheduleTableViewCellModel(
-      day: "9월 15일",
-      time: "오후 5:30 - 오후 8:00",
-      name: "프로젝트 기획",
-      location: "투썸 플레이스 강남역점",
-      participants: imageList,
-      indexType: .last,
-      isPasted: true
-    )
-    
-    let data = Observable<[ScheduleTableViewCellModel]>.just(modelList)
-    data
-      .bind(to: tableView.rx.items) { tableView, row, item -> UITableViewCell in
-        guard let cell = tableView.dequeueReusableCell(
-          withIdentifier: "ScheduleTableViewCell",
-          for: IndexPath(row: row, section: 0)
-        ) as? ScheduleTableViewCell
-        else { return UITableViewCell() }
-        cell.setupData(
-          with: item
-        )
-        return cell
-      }
+    tableView
+      .rx.setDelegate(self)
       .disposed(by: disposeBag)
   }
   
@@ -117,5 +82,28 @@ final class MeetingScheduleViewController: BaseViewController {
   @objc
   private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
+  }
+}
+
+extension MeetingScheduleViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    if let header = view as? UITableViewHeaderFooterView {
+      header.textLabel?.font = .h5
+      header.textLabel?.textColor = .black
+      header.contentView.backgroundColor = .background
+      header.textLabel?.frame = CGRect(x: 16, y: 4, width: tableView.frame.width, height: 31)
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 31
+  }
+  
+  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    return 0
+  }
+  
+  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    return UIView()
   }
 }
