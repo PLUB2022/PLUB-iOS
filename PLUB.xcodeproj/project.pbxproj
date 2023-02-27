@@ -27,6 +27,8 @@
 		702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876BF29A374FE00E57509 /* ClipboardViewController.swift */; };
 		702876C229A3751400E57509 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876C129A3751400E57509 /* ArchiveViewController.swift */; };
 		702876C429A3752A00E57509 /* MeetingScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876C329A3752A00E57509 /* MeetingScheduleViewController.swift */; };
+		7028770729A8C9A100E57509 /* RecruitmentFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7028770629A8C9A100E57509 /* RecruitmentFilterViewModel.swift */; };
+		7028770929AA6B3D00E57509 /* CategoryMeetingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
@@ -276,6 +278,8 @@
 		702876BF29A374FE00E57509 /* ClipboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardViewController.swift; sourceTree = "<group>"; };
 		702876C129A3751400E57509 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
 		702876C329A3752A00E57509 /* MeetingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingScheduleViewController.swift; sourceTree = "<group>"; };
+		7028770629A8C9A100E57509 /* RecruitmentFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterViewModel.swift; sourceTree = "<group>"; };
+		7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingRequest.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -585,6 +589,7 @@
 				70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */,
 				70F1DFEE297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift */,
 				702876B8299E459100E57509 /* BookmarkViewModel.swift */,
+				7028770629A8C9A100E57509 /* RecruitmentFilterViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1399,6 +1404,7 @@
 			children = (
 				C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */,
 				C33FB0732993FAC600BEB15B /* EditMeetingInfoRequest.swift */,
+				7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1693,6 +1699,7 @@
 				70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */,
 				BA6D7C5329A7D46900D8E928 /* CommentsRequest.swift in Sources */,
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
+				7028770729A8C9A100E57509 /* RecruitmentFilterViewModel.swift in Sources */,
 				C3413E1729954910004B8DBD /* MeetingInfoViewController.swift in Sources */,
 				BA1FC12929A5FD3C00AB3F91 /* FeedsPaginatedDataResponse.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
@@ -1713,6 +1720,7 @@
 				C3ED8FB72989B87E002F689B /* CreateMeetingResponse.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
 				C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */,
+				7028770929AA6B3D00E57509 /* CategoryMeetingRequest.swift in Sources */,
 				BAC5EF2F298AA23700F3955E /* SplashViewModel.swift in Sources */,
 				C38A5B95297AD5B000485355 /* KakaoLocationRouter.swift in Sources */,
 				C383967A29A25A16005998A5 /* ScheduleService.swift in Sources */,

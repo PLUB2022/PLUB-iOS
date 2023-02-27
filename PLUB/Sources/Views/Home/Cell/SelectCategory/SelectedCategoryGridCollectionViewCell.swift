@@ -21,6 +21,10 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   private var plubbingID: String?
   weak var delegate: SelectedCategoryGridCollectionViewCellDelegate?
   
+  private let backgroundImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+  }
+  
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
     $0.numberOfLines = 0
@@ -53,6 +57,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    backgroundImageView.image = nil
     titleLabel.text = nil
     descriptionLabel.text = nil
     categoryInfoListView.backgroundColor = nil
@@ -67,10 +72,16 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
-    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
+    
+    contentView.addSubview(backgroundImageView)
+    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { backgroundImageView.addSubview($0) }
+    
+    backgroundImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
     categoryInfoListView.snp.makeConstraints {
       $0.leading.equalToSuperview().offset(10)
       $0.bottom.equalToSuperview().offset(-10)
@@ -101,7 +112,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
         owner.delegate?.updateBookmarkState(isBookmarked: true, cell: owner)
       })
       .disposed(by: disposeBag)
-      
+    
     bookmarkButton.buttonUnTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
@@ -112,7 +123,10 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       .disposed(by: disposeBag)
   }
   
-  public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {    
+  public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
+    guard let mainImage = model.mainImage,
+          let url = URL(string: mainImage) else { return }
+    backgroundImageView.kf.setImage(with: url)
     bookmarkButton.isSelected = model.isBookmarked
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce

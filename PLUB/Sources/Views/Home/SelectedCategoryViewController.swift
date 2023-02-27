@@ -20,6 +20,8 @@ final class SelectedCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryViewModelType
   
+  private let categoryID: String
+  
   private var model: [SelectedCategoryCollectionViewCellModel] = [] {
     didSet {
       interestListCollectionView.reloadData()
@@ -57,6 +59,7 @@ final class SelectedCategoryViewController: BaseViewController {
   
   init(viewModel: SelectedCategoryViewModelType = SelectedCategoryViewModel(), categoryID: String) {
     self.viewModel = viewModel
+    self.categoryID = categoryID
     super.init(nibName: nil, bundle: nil)
     bind(categoryID: categoryID)
   }
@@ -165,9 +168,9 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     switch selectedCategoryType {
     case .chart:
-      return CGSize(width: collectionView.frame.width, height: collectionView.frame.height / 4 - 6)
+      return CGSize(width: collectionView.frame.width, height: 176)
     case .grid:
-      return CGSize(width: collectionView.frame.width / 2 - 6, height: collectionView.frame.height / 2.5)
+      return CGSize(width: collectionView.frame.width / 2 - 6, height: 252)
     }
   }
   
@@ -196,7 +199,8 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   }
   
   func didTappedInterestListFilterButton() {
-    let vc = RecruitmentFilterViewController()
+    let vc = RecruitmentFilterViewController(categoryID: categoryID)
+    vc.delegate = self
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)
@@ -204,12 +208,12 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   
   func didTappedInterestListChartButton() {
     self.selectedCategoryType = .chart
-    self.interestListCollectionView.collectionViewLayout.invalidateLayout()
+    self.interestListCollectionView.reloadData()
   }
   
   func didTappedInterestListGridButton() {
     self.selectedCategoryType = .grid
-    self.interestListCollectionView.collectionViewLayout.invalidateLayout()
+    self.interestListCollectionView.reloadData()
   }
 }
 
@@ -240,5 +244,11 @@ extension SelectedCategoryViewController: NoSelectedCategoryViewDelegate {
     let vc = CreateMeetingViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension SelectedCategoryViewController: RecruitmentFilterDelegate {
+  func didTappedConfirmButton(request: CategoryMeetingRequest) {
+    viewModel.whichFilterRequest.onNext(request)
   }
 }

@@ -23,6 +23,8 @@ enum ParameterType {
   ///
   /// `post`요청과 같이 body-field에 무언가를 담아 보내야하는 경우 사용됩니다.
   case body(Encodable)
+  
+  case queryBody(Encodable, Encodable)
 }
 
 extension Encodable {

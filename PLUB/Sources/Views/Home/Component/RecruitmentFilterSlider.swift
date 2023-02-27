@@ -16,6 +16,12 @@ class RecruitmentFilterSlider: UIView {
   
   private let disposeBag = DisposeBag()
   
+  var accountNum: Int = 4 {
+    didSet {
+      updateWrittenCharactersLabel(count: accountNum, pointColor: .main)
+    }
+  }
+  
   private let peopleCountLabel = UILabel().then {
     $0.sizeToFit()
   }
@@ -76,7 +82,7 @@ class RecruitmentFilterSlider: UIView {
     countSlider.rx.value
       .map { Int($0) }
       .subscribe(with: self, onNext: { owner, value in
-        owner.updateWrittenCharactersLabel(count: value, pointColor: .main)
+        owner.accountNum = value
       })
       .disposed(by: disposeBag)
   }

@@ -33,6 +33,10 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   private let disposeBag = DisposeBag()
   private var plubbingID: String?
   
+  private let backgroundImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+  }
+  
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
     $0.numberOfLines = 0
@@ -65,6 +69,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    backgroundImageView.image = nil
     titleLabel.text = nil
     descriptionLabel.text = nil
     categoryInfoListView.backgroundColor = nil
@@ -79,11 +84,14 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
+    contentView.addSubview(backgroundImageView)
+    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { backgroundImageView.addSubview($0) }
     
-    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
+    backgroundImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
     
     categoryInfoListView.snp.makeConstraints {
       $0.leading.equalToSuperview().offset(10)
@@ -115,7 +123,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
         owner.delegate?.updateBookmarkState(isBookmarked: true, cell: owner)
       })
       .disposed(by: disposeBag)
-      
+    
     bookmarkButton.buttonUnTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
@@ -127,6 +135,9 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
+    guard let mainImage = model.mainImage,
+          let url = URL(string: mainImage) else { return }
+    backgroundImageView.kf.setImage(with: url)
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
     categoryInfoListView.configureUI(with: model.selectedCategoryInfoModel)

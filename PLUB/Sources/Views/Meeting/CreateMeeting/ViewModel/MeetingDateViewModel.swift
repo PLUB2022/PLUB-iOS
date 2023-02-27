@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 
 enum Day: String, CaseIterable {
+  case all
   case monday
   case tuesday
   case wednesday
@@ -18,7 +19,6 @@ enum Day: String, CaseIterable {
   case friday
   case saturday
   case sunday
-  case all
   
   var kor: String {
     switch self {
