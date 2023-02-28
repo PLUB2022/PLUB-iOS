@@ -79,20 +79,22 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
+    
     let gradientLayer = CAGradientLayer()
     gradientLayer.locations = [0, 1]
     gradientLayer.startPoint = CGPoint(x: 0.25, y: 0.5)
     gradientLayer.endPoint = CGPoint(x: 0.75, y: 0.5)
     gradientLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 0.75, c: -0.75, d: 0.01, tx: 0.87, ty: -0.06))
     gradientLayer.bounds = contentView.bounds.insetBy(dx: -0.5*contentView.bounds.size.width, dy: -1*contentView.bounds.size.height)
-
+    
     gradientLayer.position = contentView.center
     let colors: [CGColor] = [
       UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor,
-        UIColor(red: 0, green: 0, blue: 0, alpha: 0.84).cgColor
+      UIColor(red: 0, green: 0, blue: 0, alpha: 0.84).cgColor
     ]
     gradientLayer.colors = colors
     backgroundImageView.layer.addSublayer(gradientLayer)
+    
     contentView.addSubview(backgroundImageView)
     
     [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { backgroundImageView.addSubview($0) }
@@ -145,8 +147,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
-    guard let mainImage = model.mainImage,
-          let url = URL(string: mainImage) else { return }
+    let url = URL(string: model.mainImage ?? "")
     backgroundImageView.kf.setImage(with: url)
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
