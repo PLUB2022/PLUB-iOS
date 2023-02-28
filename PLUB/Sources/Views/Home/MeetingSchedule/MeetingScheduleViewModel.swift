@@ -27,7 +27,7 @@ extension MeetingScheduleData: SectionModelType {
 
 final class MeetingScheduleViewModel {
   private let disposeBag = DisposeBag()
-  private let plubbingID: String
+  private(set) var plubbingID: String
   
   let datas = BehaviorRelay<[MeetingScheduleData]>(value: [])
   

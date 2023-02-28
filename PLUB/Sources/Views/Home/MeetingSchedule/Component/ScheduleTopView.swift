@@ -17,7 +17,7 @@ final class ScheduleTopView: UIView {
     $0.font = .h3
   }
   
-  private let addScheduleControl = AddScheduleControl()
+  let addScheduleControl = AddScheduleControl()
   
   init() {
     super.init(frame: .zero)

@@ -68,6 +68,15 @@ final class MeetingScheduleViewController: BaseViewController {
   override func bind() {
     super.bind()
 
+    scheduleTopView.addScheduleControl
+      .rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        let vc = CreateScheduleViewController(plubbingID: owner.viewModel.plubbingID)
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
     let datasource = viewModel.dataSource()
     viewModel.datas
       .bind(to: tableView.rx.items(dataSource: datasource))
