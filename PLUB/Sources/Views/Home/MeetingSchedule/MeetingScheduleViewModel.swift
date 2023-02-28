@@ -29,11 +29,14 @@ final class MeetingScheduleViewModel {
   private let disposeBag = DisposeBag()
   private(set) var plubbingID: String
   
-  let datas = BehaviorRelay<[MeetingScheduleData]>(value: [])
+  // Output
+  let scheduleList: Driver<[MeetingScheduleData]>
+  
+  private let scheduleListRelay = BehaviorRelay<[MeetingScheduleData]>(value: [])
   
   init(plubbingID: String) {
     self.plubbingID = plubbingID
-
+    scheduleList = scheduleListRelay.asDriver()
     fetchScheduleList()
   }
   
@@ -76,7 +79,7 @@ final class MeetingScheduleViewModel {
   }
   
   private func handleScheduleList(data: [Schedule]) {
-    var oldData = datas.value
+    var oldData = scheduleListRelay.value
     
     data.enumerated().forEach { (index, schedule) in
       let date = DateFormatter().then {
@@ -140,7 +143,7 @@ final class MeetingScheduleViewModel {
       oldData[index].items[lastIndex] = lastItem
     }
     
-    datas.accept(oldData)
+    scheduleListRelay.accept(oldData)
   }
 
   private func setupTime(_ time: String) -> String {

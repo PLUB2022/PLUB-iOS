@@ -78,8 +78,8 @@ final class MeetingScheduleViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     let datasource = viewModel.dataSource()
-    viewModel.datas
-      .bind(to: tableView.rx.items(dataSource: datasource))
+    viewModel.scheduleList
+      .drive(tableView.rx.items(dataSource: datasource))
       .disposed(by: disposeBag)
     
     tableView
