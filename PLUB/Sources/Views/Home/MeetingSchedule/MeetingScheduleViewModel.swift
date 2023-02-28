@@ -12,8 +12,8 @@ import RxCocoa
 import RxDataSources
 
 struct MeetingScheduleData {
-    var header: String?
-    var items: [Item]
+  var header: String?
+  var items: [Item]
 }
 
 extension MeetingScheduleData: SectionModelType {
@@ -42,23 +42,23 @@ final class MeetingScheduleViewModel {
   
   func dataSource() -> RxTableViewSectionedReloadDataSource<MeetingScheduleData> {
     
-      // Cell
-      let dataSource = RxTableViewSectionedReloadDataSource<MeetingScheduleData>(
-        configureCell: { dataSource, tableView, indexPath, item in
-          
-          guard let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleTableViewCell", for: indexPath) as? ScheduleTableViewCell else {return UITableViewCell()}
-          cell.setupData(with: item)
-          
-          return cell
-          
-      // Header
-      }, titleForHeaderInSection: { dataSource, index in
+    // Cell
+    let dataSource = RxTableViewSectionedReloadDataSource<MeetingScheduleData>(
+      configureCell: { dataSource, tableView, indexPath, item in
         
-        return dataSource.sectionModels[index].header
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleTableViewCell", for: indexPath) as? ScheduleTableViewCell else {return UITableViewCell()}
+      cell.setupData(with: item)
         
-      })
+      return cell
+        
+    // Header
+    }, titleForHeaderInSection: { dataSource, index in
+      
+      return dataSource.sectionModels[index].header
+      
+    })
     
-      return dataSource
+    return dataSource
   }
   
   private func fetchScheduleList() {
