@@ -29,8 +29,7 @@ final class MeetingScheduleViewModel {
   private let disposeBag = DisposeBag()
   private let plubbingID: String
   
-  private var monthList = [String]()
-  var datas = BehaviorRelay<[MeetingScheduleData]>(value: [])
+  let datas = BehaviorRelay<[MeetingScheduleData]>(value: [])
   
   init(plubbingID: String) {
     self.plubbingID = plubbingID
@@ -51,8 +50,9 @@ final class MeetingScheduleViewModel {
           
       // Header
       }, titleForHeaderInSection: { dataSource, index in
-
+        
         return dataSource.sectionModels[index].header
+        
       })
     
       return dataSource
@@ -89,20 +89,22 @@ final class MeetingScheduleViewModel {
       let day = dateArr[2]
       
       if (oldData.filter { $0.header == year }.count == 0) { // 섹션 생성
+        
         oldData.append(
           MeetingScheduleData(
             header: year,
             items: [
                 ScheduleTableViewCellModel(
-                  day: month,
-                  time: "\(schedule.startTime) - \(schedule.endTime)",
+                  month: month,
+                  day: day,
+                  time: "\(setupTime(schedule.startTime)) - \(setupTime(schedule.endTime))",
                   name: schedule.title,
                   location: schedule.placeName,
                   participants: (schedule.participantList?.participants.map{
                     $0.profileImage
                   }) ?? [],
                   indexType: .first,
-                  isPasted: (date.compare(Date()) == .orderedDescending) ? true : false
+                  isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
               )
             ]
           )
@@ -113,21 +115,43 @@ final class MeetingScheduleViewModel {
           if(data.header == year) {
             oldData[index].items.append(
               ScheduleTableViewCellModel(
-                day: month,
-                time: "\(schedule.startTime) - \(schedule.endTime)",
+                month: month,
+                day: day,
+                time: "\(setupTime(schedule.startTime)) - \(setupTime(schedule.endTime))",
                 name: schedule.title,
                 location: schedule.placeName,
                 participants: (schedule.participantList?.participants.map{
                   $0.profileImage
                 }) ?? [],
                 indexType: .middle,
-                isPasted: (date.compare(Date()) == .orderedDescending) ? true : false
+                isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
               )
             )
           }
         }
       }
     }
+    
+    // 섹션의 마지막 셀이면 indexType last로 변경
+    oldData.enumerated().forEach { (index, data) in
+      let lastIndex = data.items.count - 1
+      var lastItem = data.items[lastIndex]
+      lastItem.indexType = .last
+      oldData[index].items[lastIndex] = lastItem
+    }
+    
     datas.accept(oldData)
+  }
+
+  private func setupTime(_ time: String) -> String {
+    let date = DateFormatter().then {
+      $0.dateFormat = "hh:mm"
+      $0.locale = Locale(identifier: "ko_KR")
+    }.date(from: time) ?? Date()
+    
+    return DateFormatter().then {
+      $0.dateFormat = "a h시 m분"
+      $0.locale = Locale(identifier: "ko_KR")
+    }.string(from: date)
   }
 }

@@ -17,6 +17,7 @@ enum ScheduleCellIndexType {
 }
 
 struct ScheduleTableViewCellModel {
+  let month: String // 날짜
   let day: String // 날짜
   let time: String // 시간
   let name: String // 일정 이름
@@ -178,7 +179,12 @@ final class ScheduleTableViewCell: UITableViewCell {
     
     pointImageView.isHighlighted = data.isPasted ? false : true
     
-    dateView.setText(data.day, data.isPasted)
+    dateView.setText(
+      month: data.month,
+      day: data.day,
+      indexType: data.indexType,
+      isPasted: data.isPasted
+    )
     
     titleLabel.text = data.name
     titleLabel.textColor = data.isPasted ? .deepGray : .black

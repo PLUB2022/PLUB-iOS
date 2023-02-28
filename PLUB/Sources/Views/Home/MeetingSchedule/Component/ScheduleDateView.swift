@@ -59,9 +59,20 @@ final class ScheduleDateView: UIView {
     }
   }
   
-  func setText(_ text: String, _ isPasted: Bool) {
-    monthLabel.text = text
-    dateLabel.text = text
+  func setText(
+    month: String,
+    day: String,
+    indexType: ScheduleCellIndexType,
+    isPasted: Bool
+  ) {
+    monthLabel.snp.updateConstraints {
+      $0.height.equalTo(indexType == .first ? 16 : 0)
+    }
+    monthLabel.isHidden = indexType == .first ? false : true
+   
+    monthLabel.text = month
+    dateLabel.text = day
+    
     monthLabel.textColor = isPasted ? .deepGray : .black
     dateLabel.textColor = isPasted ? .deepGray : .black
   }

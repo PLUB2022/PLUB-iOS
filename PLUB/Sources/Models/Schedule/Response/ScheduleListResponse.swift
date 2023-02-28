@@ -34,8 +34,8 @@ struct Schedule: Codable {
   let memo: String
   let startDay: String
   let endDay: String
-  let startTime: String?
-  let endTime: String?
+  let startTime: String
+  let endTime: String
   let isAllDay: Bool
   let address: String?
   let roadAddress: String?
