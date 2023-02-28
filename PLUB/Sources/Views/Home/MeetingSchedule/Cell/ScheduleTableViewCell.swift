@@ -159,7 +159,7 @@ final class ScheduleTableViewCell: UITableViewCell {
   }
   
   func setupData(with data: ScheduleTableViewCellModel) {
-    
+    // 선
     switch data.indexType {
     case .first:
       lineView.snp.updateConstraints {
@@ -177,8 +177,10 @@ final class ScheduleTableViewCell: UITableViewCell {
       }
     }
     
+    // 점
     pointImageView.isHighlighted = data.isPasted ? false : true
     
+    // 날짜
     dateView.setText(
       month: data.month,
       day: data.day,
@@ -186,11 +188,14 @@ final class ScheduleTableViewCell: UITableViewCell {
       isPasted: data.isPasted
     )
     
+    // 이름
     titleLabel.text = data.name
     titleLabel.textColor = data.isPasted ? .deepGray : .black
     
+    // 시간
     timeView.setText(data.time, data.isPasted)
     
+    // 장소
     if let location = data.location {
       locationView.setText(location, data.isPasted)
       locationView.snp.updateConstraints {
@@ -203,6 +208,7 @@ final class ScheduleTableViewCell: UITableViewCell {
       }
     }
     
+    // 참석자
     participantStackView.subviews.forEach {
       $0.removeFromSuperview()
     }
