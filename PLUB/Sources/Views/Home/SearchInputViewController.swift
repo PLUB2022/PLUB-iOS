@@ -100,6 +100,7 @@ final class SearchInputViewController: BaseViewController {
   }
   
   override func setupConstraints() {
+    super.setupConstraints()
     
     recentSearchListView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()

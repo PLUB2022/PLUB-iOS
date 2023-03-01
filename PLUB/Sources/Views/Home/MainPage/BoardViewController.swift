@@ -14,114 +14,29 @@ final class BoardViewController: BaseViewController {
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout()).then {
+    collectionViewLayout: UICollectionViewFlowLayout()
+  ).then {
       $0.backgroundColor = .background
       $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
+      $0.register(BoardCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardCollectionHeaderView.identifier)
       $0.delegate = self
       $0.dataSource = self
+      $0.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
   
   override func setupStyles() {
     super.setupStyles()
   }
   
-  private static func createLayoutSection(viewType: ViewType) -> NSCollectionLayoutSection {
-    switch viewType {
-    case .normal:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1)
-        )
-      )
-      
-      let group = NSCollectionLayoutGroup.horizontal(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)),
-        subitem: item,
-        count: 4
-      )
-      
-      let header = NSCollectionLayoutBoundarySupplementaryItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(120)
-        ),
-        elementKind: UICollectionView.elementKindSectionHeader,
-        alignment: .top
-      )
-      
-      let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .none
-      section.boundarySupplementaryItems = [header]
-      section.contentInsets = .init(top: .zero, leading: .zero, bottom: 37, trailing: .zero)
-      return section
-    case .pin:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1)
-        )
-      )
-      
-      let verticalItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(85)))
-      
-      let verticalGroup = NSCollectionLayoutGroup.vertical(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)
-        ),
-        subitem: verticalItem,
-        count: 2
-      )
-      
-      let group = NSCollectionLayoutGroup.horizontal(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)
-        ), subitems: [
-          item,
-          verticalGroup
-        ]
-      )
-      
-      let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .none
-      return section
-      
-    case .system:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1)
-        )
-      )
-      
-      let group = NSCollectionLayoutGroup.horizontal(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)),
-        subitem: item,
-        count: 4
-      )
-      
-      let header = NSCollectionLayoutBoundarySupplementaryItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(120)
-        ),
-        elementKind: UICollectionView.elementKindSectionHeader,
-        alignment: .top
-      )
-      
-      let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .none
-      section.boundarySupplementaryItems = [header]
-      section.contentInsets = .init(top: .zero, leading: .zero, bottom: 37, trailing: .zero)
-      return section
+  override func setupLayouts() {
+    super.setupLayouts()
+    view.addSubview(collectionView)
+  }
+  
+  override func setupConstraints() {
+    super.setupConstraints()
+    collectionView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
   }
 }
@@ -137,15 +52,29 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
+    cell.configure(with: BoardModel(author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    
+    if indexPath.section == 0 {
+      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardCollectionHeaderView.identifier, for: indexPath) as? BoardCollectionHeaderView ?? BoardCollectionHeaderView()
+      return header
+    }
+    return UICollectionReusableView()
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
   }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    return CGSize(width: collectionView.frame.width, height: 260)
+  }
 }
+
+extension BoardViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: collectionView.frame.width - 32, height: 107)
+  }
 }

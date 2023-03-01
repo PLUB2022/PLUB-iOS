@@ -15,11 +15,12 @@ final class BoardCollectionHeaderView: UICollectionReusableView {
   
   private let topStackView = UIStackView().then {
     $0.axis = .horizontal
+    $0.spacing = 4
   }
   
   private let clipImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
-    $0.image = UIImage(systemName: "person.fill")
+    $0.image = UIImage(named: "pin")
   }
   
   private let clipLabel = UILabel().then {
@@ -29,7 +30,7 @@ final class BoardCollectionHeaderView: UICollectionReusableView {
   }
   
   private let clipButton = UIButton().then {
-    $0.setImage(UIImage(named: ""))
+    $0.setImage(UIImage(named: "rightIndicatorGray"), for: .normal)
   }
   
   override init(frame: CGRect) {
@@ -42,6 +43,13 @@ final class BoardCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    backgroundColor = .white
+    [topStackView].forEach { addSubview($0) }
+    topStackView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.equalTo(19.81)
+    }
     
+    [clipImageView, clipLabel, clipButton].forEach { topStackView.addArrangedSubview($0) }
   }
 }
