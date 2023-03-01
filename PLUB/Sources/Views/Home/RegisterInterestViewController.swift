@@ -54,10 +54,12 @@ final class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupLayouts() {
+    super.setupLayouts()
     [registerInterestHeaderView, registerTableView, floatingButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
+    super.setupConstraints()
     registerInterestHeaderView.snp.makeConstraints {
       $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
       $0.height.equalTo(100)
@@ -75,6 +77,7 @@ final class RegisterInterestViewController: BaseViewController {
   }
   
   override func setupStyles() {
+    super.setupStyles()
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "back"),
       style: .done,
@@ -84,6 +87,7 @@ final class RegisterInterestViewController: BaseViewController {
   }
   
   override func bind() {
+    super.bind()
     viewModel.fetchedRegisterInterest
       .drive(rx.registerInterestModels)
       .disposed(by: disposeBag)

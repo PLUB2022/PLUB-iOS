@@ -57,6 +57,32 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   
   private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .horizontal, categoryListType: .all)
   
+  private lazy var gradientLayer = CAGradientLayer().then {
+    $0.locations = [0, 1]
+    $0.startPoint = CGPoint(x: 0.25, y: 0.5)
+    $0.endPoint = CGPoint(x: 0.75, y: 0.5)
+    $0.transform = CATransform3DMakeAffineTransform(
+      CGAffineTransform(
+        a: 0,
+        b: 0.75,
+        c: -0.75,
+        d: 0.01,
+        tx: 0.87,
+        ty: -0.06)
+    )
+    $0.bounds = contentView.bounds.insetBy(
+      dx: -0.5*contentView.bounds.size.width,
+      dy: -1*contentView.bounds.size.height
+    )
+    
+    $0.position = contentView.center
+    let colors: [CGColor] = [
+      UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor,
+      UIColor(red: 0, green: 0, blue: 0, alpha: 0.84).cgColor
+    ]
+    $0.colors = colors
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -76,17 +102,13 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     bookmarkButton.setImage(nil, for: .normal)
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    categoryInfoListView.snp.makeConstraints {
-      $0.width.lessThanOrEqualTo(self.frame.width - 20)
-    }
-  }
-  
   private func configureUI() {
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
+    
+    backgroundImageView.layer.addSublayer(gradientLayer)
     contentView.addSubview(backgroundImageView)
+    
     [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { backgroundImageView.addSubview($0) }
     
     backgroundImageView.snp.makeConstraints {
@@ -96,6 +118,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
     categoryInfoListView.snp.makeConstraints {
       $0.leading.equalToSuperview().offset(10)
       $0.bottom.equalToSuperview().offset(-10)
+      $0.width.lessThanOrEqualTo(Device.width - 32 - 20)
     }
     
     descriptionLabel.snp.makeConstraints {
@@ -112,6 +135,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       $0.top.trailing.equalToSuperview().inset(16)
       $0.size.equalTo(32)
     }
+    
   }
   
   private func bind() {
@@ -135,8 +159,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
-    guard let mainImage = model.mainImage,
-          let url = URL(string: mainImage) else { return }
+    let url = URL(string: model.mainImage ?? "")
     backgroundImageView.kf.setImage(with: url)
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce
