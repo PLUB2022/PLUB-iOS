@@ -52,7 +52,6 @@ final class MainPageViewController: BaseViewController {
     $0.setViewControllers([viewControllers[0]], direction: .forward, animated: true)
     $0.delegate = self
     $0.dataSource = self
-    
   }
   
   private let boardViewController = BoardViewController()
@@ -66,6 +65,15 @@ final class MainPageViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "+ 새 글 작성")
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    let scrollView = pageViewController.view.subviews
+      .compactMap { $0 as? UIScrollView }
+      .first
+    
+    scrollView?.delegate = self
   }
   
   override func setupLayouts() {
@@ -109,16 +117,16 @@ final class MainPageViewController: BaseViewController {
 
 extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
   func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-//    guard let index = viewControllers.firstIndex(of: viewController),
-//          index - 1 >= 0 else { return nil }
-//    return viewControllers[index - 1]
+    //    guard let index = viewControllers.firstIndex(of: viewController),
+    //          index - 1 >= 0 else { return nil }
+    //    return viewControllers[index - 1]
     return nil
   }
   
   func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-//    guard let index = viewControllers.firstIndex(of: viewController),
-//          index + 1 < viewControllers.count else { return nil }
-//    return viewControllers[index + 1]
+    //    guard let index = viewControllers.firstIndex(of: viewController),
+    //          index + 1 < viewControllers.count else { return nil }
+    //    return viewControllers[index + 1]
     return nil
   }
   
@@ -127,5 +135,20 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
           let index = viewControllers.firstIndex(of: viewController) else { return }
     currentPage = index
     segmentedControl.selectedSegmentIndex = index
+  }
+}
+
+extension MainPageViewController: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    
+    let currentPageIndex = viewControllers
+      .enumerated()
+      .first(where: { _, vc in vc == pageViewController.viewControllers?.first })
+      .map(\.0) ?? 0
+    
+    let isFirstable = currentPageIndex == 0
+    let isLastable = currentPageIndex == viewControllers.count - 1
+    let shouldDisableBounces = isFirstable || isLastable
+    scrollView.bounces = !shouldDisableBounces
   }
 }
