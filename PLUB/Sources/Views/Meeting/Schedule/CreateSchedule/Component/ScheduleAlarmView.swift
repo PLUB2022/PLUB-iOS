@@ -24,17 +24,17 @@ enum ScheduleAlarmType: String, CaseIterable {
     case .none:
       return "NONE"
     case .before5Minute:
-      return "5MIN"
+      return "FIVE_MINUTES"
     case .before15Minute:
-      return "10MIN"
+      return "TEN_MINUTES"
     case .before30Minute:
-      return "30MIN"
+      return "THIRTY_MINUTES"
     case .before1Hour:
-      return "1HOUR"
+      return "ONE_HOUR"
     case .before1Day:
-      return "1DAY"
+      return "ONE_DAY"
     case .before1Week:
-      return "1WEEK"
+      return "ONE_WEEK"
     }
   }
 }
