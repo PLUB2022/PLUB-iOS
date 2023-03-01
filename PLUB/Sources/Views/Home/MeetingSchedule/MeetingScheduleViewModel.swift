@@ -81,7 +81,7 @@ final class MeetingScheduleViewModel {
   private func handleScheduleList(data: [Schedule]) {
     var oldData = scheduleListRelay.value
     
-    data.enumerated().forEach { (index, schedule) in
+    data.forEach { schedule in
       let date = DateFormatter().then {
         $0.dateFormat = "yyyy-MM-dd"
       }.date(from: schedule.startDay) ?? Date()
@@ -92,7 +92,6 @@ final class MeetingScheduleViewModel {
       let day = dateArr[2]
       
       if (oldData.filter { $0.header == year }.count == 0) { // 섹션 생성
-        
         oldData.append(
           MeetingScheduleData(
             header: year,
@@ -113,8 +112,7 @@ final class MeetingScheduleViewModel {
           )
         )
       } else { // 기존 섹션에 추가
-        
-        oldData.enumerated().forEach { (index, data) in
+        for (index, data) in oldData.enumerated() {
           if(data.header == year) {
             oldData[index].items.append(
               ScheduleTableViewCellModel(
@@ -130,6 +128,7 @@ final class MeetingScheduleViewModel {
                 isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
               )
             )
+            break
           }
         }
       }
