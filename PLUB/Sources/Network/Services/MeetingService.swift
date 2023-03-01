@@ -36,4 +36,8 @@ extension MeetingService {
   func inquireRecommendationMeeting(page: Int) -> PLUBResult<CategoryMeetingResponse> {
     return sendRequest(MeetingRouter.inquireRecommendationMeeting(page), type: CategoryMeetingResponse.self)
   }
+  
+  func inquireMyMeeting(isHost: Bool) -> PLUBResult<MyMeetingResponse> {
+    return sendRequest(MeetingRouter.inquireMyMeeting(isHost), type: MyMeetingResponse.self)
+  }
 }

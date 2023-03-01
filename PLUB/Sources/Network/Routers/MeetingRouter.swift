@@ -12,6 +12,7 @@ enum MeetingRouter {
   case editMeetingInfo(String, EditMeetingInfoRequest)
   case inquireCategoryMeeting(String, Int, String, CategoryMeetingRequest?)
   case inquireRecommendationMeeting(Int)
+  case inquireMyMeeting(Bool)
 }
 
 extension MeetingRouter: Router {
@@ -21,7 +22,7 @@ extension MeetingRouter: Router {
       return .post
     case .editMeetingInfo:
       return .put
-    case .inquireRecommendationMeeting:
+    case .inquireRecommendationMeeting, .inquireMyMeeting:
       return .get
     }
   }
@@ -36,6 +37,8 @@ extension MeetingRouter: Router {
       return "/plubbings/categories/\(categoryID)"
     case .inquireRecommendationMeeting:
       return "/plubbings/recommendation"
+    case .inquireMyMeeting:
+      return "/plubbings/my"
     }
   }
   
@@ -50,12 +53,14 @@ extension MeetingRouter: Router {
       return .queryBody(["page": "\(page)", "sort": sort], model)
     case .inquireRecommendationMeeting(let page):
       return .query(["page": page])
+    case .inquireMyMeeting(let isHost):
+      return .query(["isHost": isHost])
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .createMeeting, .editMeetingInfo, .inquireCategoryMeeting, .inquireRecommendationMeeting:
+    case .createMeeting, .editMeetingInfo, .inquireCategoryMeeting, .inquireRecommendationMeeting, .inquireMyMeeting:
       return .withAccessToken
     }
   }
