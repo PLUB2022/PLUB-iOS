@@ -13,13 +13,19 @@ import Then
 final class BoardCollectionHeaderView: UICollectionReusableView {
   static let identifier = "BoardCollectionHeaderView"
   
+  private let containerView = UIView().then {
+    $0.backgroundColor = .white
+    $0.layer.cornerRadius = 10
+    $0.layer.masksToBounds = true
+  }
+  
   private let topStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 4
   }
   
   private let clipImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleAspectFit
     $0.image = UIImage(named: "pin")
   }
   
@@ -43,10 +49,17 @@ final class BoardCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
-    backgroundColor = .white
-    [topStackView].forEach { addSubview($0) }
+    backgroundColor = .background
+    [containerView].forEach { addSubview($0) }
+    [topStackView].forEach { containerView.addSubview($0) }
+    
+    containerView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(22)
+    }
+    
     topStackView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(19.81)
     }
     
