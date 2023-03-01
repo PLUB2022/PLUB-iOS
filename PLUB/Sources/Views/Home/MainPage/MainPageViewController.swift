@@ -26,6 +26,16 @@ enum MainPageFilterType {
 
 final class MainPageViewController: BaseViewController {
   
+  var currentPage = 0 {
+    didSet {
+      let direction: UIPageViewController.NavigationDirection = oldValue <= currentPage ? .forward : .reverse
+      pageViewController.setViewControllers(
+        [viewControllers[currentPage]], direction: direction, animated: true
+      )
+      //      saveButton.isEnabled = isSaveButtonEnable[currentPage]
+    }
+  }
+  
   private let segmentedControl = UnderlineSegmentedControl(
     items: [MainPageFilterType.board.title, MainPageFilterType.todoList.title]
   ).then {
@@ -34,13 +44,22 @@ final class MainPageViewController: BaseViewController {
     $0.selectedSegmentIndex = 0
   }
   
-  private lazy var collectionView = UICollectionView(
-    frame: .zero,
-    collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-    guard let self = self else { return nil }
-      return type(of: self).createLayoutSection(viewType: .normal)
-  }).then {
-    $0.backgroundColor = .background
+  private lazy var pageViewController = UIPageViewController(
+    transitionStyle: .scroll,
+    navigationOrientation: .horizontal,
+    options: nil
+  ).then {
+    $0.setViewControllers([viewControllers[0]], direction: .forward, animated: true)
+    $0.delegate = self
+    $0.dataSource = self
+    
+  }
+  
+  private let boardViewController = BoardViewController()
+  private let todolistViewController = TodolistViewController()
+  
+  private var viewControllers: [UIViewController] {
+    [boardViewController, todolistViewController]
   }
   
   private let writeButton = UIButton(configuration: .plain()).then {
@@ -51,7 +70,7 @@ final class MainPageViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [segmentedControl, writeButton].forEach { view.addSubview($0) }
+    [segmentedControl, pageViewController.view, writeButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -63,6 +82,12 @@ final class MainPageViewController: BaseViewController {
       $0.height.equalTo(32)
     }
     
+    pageViewController.view.snp.makeConstraints {
+      $0.top.equalTo(segmentedControl.snp.bottom)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalToSuperview()
+    }
+    
     writeButton.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(24)
       $0.centerX.equalToSuperview()
@@ -71,103 +96,36 @@ final class MainPageViewController: BaseViewController {
     }
   }
   
-  private static func createLayoutSection(viewType: ViewType) -> NSCollectionLayoutSection {
-    switch viewType {
-    case .normal:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1)
-        )
-      )
-      
-      let group = NSCollectionLayoutGroup.horizontal(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)),
-        subitem: item,
-        count: 4
-      )
-      
-      let header = NSCollectionLayoutBoundarySupplementaryItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(120)
-        ),
-        elementKind: UICollectionView.elementKindSectionHeader,
-        alignment: .top
-      )
-      
-      let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .none
-      section.boundarySupplementaryItems = [header]
-      section.contentInsets = .init(top: .zero, leading: .zero, bottom: 37, trailing: .zero)
-      return section
-    case .pin:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1)
-        )
-      )
-      
-      let verticalItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(85)))
-      
-      let verticalGroup = NSCollectionLayoutGroup.vertical(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)
-        ),
-        subitem: verticalItem,
-        count: 2
-      )
-      
-      let group = NSCollectionLayoutGroup.horizontal(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)
-        ), subitems: [
-          item,
-          verticalGroup
-        ]
-      )
-      
-      let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .none
-      return section
-      
-    case .system:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1)
-        )
-      )
-      
-      let group = NSCollectionLayoutGroup.horizontal(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)),
-        subitem: item,
-        count: 4
-      )
-      
-      let header = NSCollectionLayoutBoundarySupplementaryItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(120)
-        ),
-        elementKind: UICollectionView.elementKindSectionHeader,
-        alignment: .top
-      )
-      
-      let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .none
-      section.boundarySupplementaryItems = [header]
-      section.contentInsets = .init(top: .zero, leading: .zero, bottom: 37, trailing: .zero)
-      return section
-    }
+  override func bind() {
+    super.bind()
+    segmentedControl.rx.value
+      .asDriver()
+      .drive(with: self) { owner, index in
+        owner.currentPage = index
+      }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+  func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+//    guard let index = viewControllers.firstIndex(of: viewController),
+//          index - 1 >= 0 else { return nil }
+//    return viewControllers[index - 1]
+    return nil
+  }
+  
+  func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+//    guard let index = viewControllers.firstIndex(of: viewController),
+//          index + 1 < viewControllers.count else { return nil }
+//    return viewControllers[index + 1]
+    return nil
+  }
+  
+  func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    guard let viewController = pageViewController.viewControllers?[0],
+          let index = viewControllers.firstIndex(of: viewController) else { return }
+    currentPage = index
+    segmentedControl.selectedSegmentIndex = index
   }
 }
