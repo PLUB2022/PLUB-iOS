@@ -2,14 +2,11 @@ import UIKit
 
 final class MeetingViewController: BaseViewController {
   
-  
-  // MARK: - Life Cycle
+  private let viewModel = MeetingViewModel()
   
   override func viewDidLoad() {
     super.viewDidLoad()
   }
-  
-  // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
