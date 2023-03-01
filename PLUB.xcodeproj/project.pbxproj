@@ -35,6 +35,7 @@
 		705F81C129AF8E7300830C4F /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C029AF8E7300830C4F /* MainPageViewModel.swift */; };
 		705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C229AFAA3B00830C4F /* BoardViewController.swift */; };
 		705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C429AFAA5200830C4F /* TodolistViewController.swift */; };
+		705F81C829AFB1DC00830C4F /* BoardCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C729AFB1DC00830C4F /* BoardCollectionHeaderView.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -290,6 +291,7 @@
 		705F81C029AF8E7300830C4F /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
 		705F81C229AFAA3B00830C4F /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		705F81C429AFAA5200830C4F /* TodolistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodolistViewController.swift; sourceTree = "<group>"; };
+		705F81C729AFB1DC00830C4F /* BoardCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCollectionHeaderView.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -682,12 +684,21 @@
 		705F81BD29AF35A500830C4F /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
+				705F81C629AFB1B600830C4F /* Cell */,
 				705F81BE29AF35B700830C4F /* MainPageViewController.swift */,
 				705F81C029AF8E7300830C4F /* MainPageViewModel.swift */,
 				705F81C229AFAA3B00830C4F /* BoardViewController.swift */,
 				705F81C429AFAA5200830C4F /* TodolistViewController.swift */,
 			);
 			path = MainPage;
+			sourceTree = "<group>";
+		};
+		705F81C629AFB1B600830C4F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				705F81C729AFB1DC00830C4F /* BoardCollectionHeaderView.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		7085678428EE9A84008047DC /* Cell */ = {
@@ -1585,6 +1596,7 @@
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70A4209C2988B1DC0026E9F9 /* SortControl.swift in Sources */,
 				70A420A7298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift in Sources */,
+				705F81C829AFB1DC00830C4F /* BoardCollectionHeaderView.swift in Sources */,
 				BA340E2429782321002BAF2C /* ParticipantListView.swift in Sources */,
 				C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,

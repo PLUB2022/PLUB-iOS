@@ -32,7 +32,6 @@ final class MainPageViewController: BaseViewController {
       pageViewController.setViewControllers(
         [viewControllers[currentPage]], direction: direction, animated: true
       )
-      //      saveButton.isEnabled = isSaveButtonEnable[currentPage]
     }
   }
   
