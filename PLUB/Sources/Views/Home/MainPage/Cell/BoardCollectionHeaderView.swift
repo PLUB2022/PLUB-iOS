@@ -22,6 +22,7 @@ final class BoardCollectionHeaderView: UICollectionReusableView {
   private let topStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 4
+    $0.alignment = .leading
   }
   
   private let clipImageView = UIImageView().then {
@@ -59,7 +60,8 @@ final class BoardCollectionHeaderView: UICollectionReusableView {
     }
     
     topStackView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.equalToSuperview().inset(9)
+      $0.directionalHorizontalEdges.lessThanOrEqualToSuperview().inset(10)
       $0.height.equalTo(19.81)
     }
     
