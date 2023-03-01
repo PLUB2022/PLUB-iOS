@@ -31,6 +31,7 @@
 		7028770929AA6B3D00E57509 /* CategoryMeetingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
+		705F81BF29AF35B700830C4F /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81BE29AF35B700830C4F /* MainPageViewController.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -282,6 +283,7 @@
 		7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingRequest.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
+		705F81BE29AF35B700830C4F /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -671,6 +673,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		705F81BD29AF35A500830C4F /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				705F81BE29AF35B700830C4F /* MainPageViewController.swift */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
 		7085678428EE9A84008047DC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -834,6 +844,7 @@
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				705F81BD29AF35A500830C4F /* MainPage */,
 				702876BE29A374E900E57509 /* Clipboard */,
 				702876BD29A374C500E57509 /* Archive */,
 				702876BC29A374B100E57509 /* MeetingSchedule */,
@@ -1659,6 +1670,7 @@
 				BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */,
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
 				702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */,
+				705F81BF29AF35B700830C4F /* MainPageViewController.swift in Sources */,
 				C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */,
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
