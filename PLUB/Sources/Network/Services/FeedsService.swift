@@ -99,6 +99,18 @@ extension FeedsService {
     sendRequest(FeedsRouter.likeFeed(plubID: plubIdentifier, feedID: feedIdentifier))
   }
   
+  /// 피드(게시글)의 댓글을 조회합니다.
+  /// - Parameters:
+  ///   - plubIdentifier: 플럽 모임 ID
+  ///   - feedIdentifier: 피드(게시글) ID
+  ///   - page: 페이지 위치, 기본값은 1입니다.
+  func fetchComments(plubIdentifier: Int, feedIdentifier: Int, page: Int = 1) -> PLUBResult<FeedsPaginatedDataResponse<CommentContent>> {
+    sendRequest(
+      FeedsRouter.fetchComments(plubID: plubIdentifier, feedID: feedIdentifier, page: page),
+      type: FeedsPaginatedDataResponse<CommentContent>.self
+    )
+  }
+  
   /// 피드(게시글)에 댓글을 생성합니다.
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
