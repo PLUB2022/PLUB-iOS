@@ -78,8 +78,19 @@ final class MainPageViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .done, target: self, action: nil)
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .done,
+      target: self,
+      action: nil
+    )
     
+    self.navigationItem.rightBarButtonItems = [
+      UIBarButtonItem(image: UIImage(named: "speakerBlack"), style: .done, target: self, action: nil),
+      UIBarButtonItem(image: UIImage(named: "photoStackBlack"), style: .done, target: self, action: nil),
+      UIBarButtonItem(image: UIImage(named: "verticalEllipsisBlack"), style: .done, target: self, action: nil)
+    ]
+    title = "요란한 밧줄"
     let scrollView = pageViewController.view.subviews
       .compactMap { $0 as? UIScrollView }
       .first
