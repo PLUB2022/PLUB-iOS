@@ -21,6 +21,7 @@ enum FeedsRouter {
   // === 댓글 파트 ===
   case fetchComments(plubID: Int, feedID: Int, page: Int)
   case createComment(plubID: Int, feedID: Int, model: CommentsRequest)
+  case updateComment(plubID: Int, feedID: Int, commentID: Int, content: String)
 }
 
 extension FeedsRouter: Router {
@@ -29,7 +30,7 @@ extension FeedsRouter: Router {
     switch self {
     case .createBoard, .createComment:
       return .post
-    case .updateFeed, .pinFeed, .likeFeed:
+    case .updateFeed, .pinFeed, .likeFeed, .updateComment:
       return .put
     case .deleteFeed:
       return .delete
@@ -58,6 +59,8 @@ extension FeedsRouter: Router {
     case .fetchComments(let plubID, let feedID, _),
          .createComment(let plubID, let feedID, _):
       return "/\(prefixPath)/\(plubID)/feeds/\(feedID)/comments"
+    case .updateComment(let plubID, let feedID, let commentID, _):
+      return "/\(prefixPath)/\(plubID)/feeds/\(feedID)/comments/\(commentID)"
     }
   }
   
@@ -74,6 +77,8 @@ extension FeedsRouter: Router {
       return .plain
     case .createComment(_, _, let model):
       return .body(model)
+    case .updateComment(_, _, _, let content):
+      return .body(["content": content])
     }
   }
   

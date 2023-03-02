@@ -126,4 +126,17 @@ extension FeedsService {
         model: CommentsRequest(content: comment, parentCommentID: commentParentIdentifier))
     )
   }
+  
+  /// 댓글을 수정합니다.
+  /// - Parameters:
+  ///   - plubIdentifier: 플럽 모임 ID
+  ///   - feedIdentifier: 피드(게시글) ID
+  ///   - commentIdentifier: 댓글 ID
+  ///   - comment: 수정할 댓글 내용
+  func updateComment(plubIdentifier: Int, feedIdentifier: Int, commentIdentifier: Int, comment: String) -> PLUBResult<CommentContent> {
+    sendRequest(
+      FeedsRouter.updateComment(plubID: plubIdentifier, feedID: feedIdentifier, commentID: commentIdentifier, content: comment),
+      type: CommentContent.self
+    )
+  }
 }
