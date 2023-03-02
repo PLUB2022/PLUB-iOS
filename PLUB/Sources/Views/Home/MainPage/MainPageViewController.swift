@@ -37,6 +37,8 @@ final class MainPageViewController: BaseViewController {
   
   private let headerView = UIView().then {
     $0.backgroundColor = .red
+    $0.layer.masksToBounds = true
+    $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
   }
   
   private let segmentedControl = UnderlineSegmentedControl(
@@ -91,7 +93,7 @@ final class MainPageViewController: BaseViewController {
     super.setupConstraints()
     
     headerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.height.equalTo(292)
     }
     
