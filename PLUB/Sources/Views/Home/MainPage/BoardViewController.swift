@@ -12,7 +12,7 @@ import Then
 
 final class BoardViewController: BaseViewController {
   
-  private var type: BoardCollectionHeaderViewType = .noClipboard {
+  private var type: BoardCollectionHeaderViewType = .clipboard {
     didSet {
       collectionView.reloadSections([0])
     }
