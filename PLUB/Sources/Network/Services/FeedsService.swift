@@ -139,4 +139,13 @@ extension FeedsService {
       type: CommentContent.self
     )
   }
+  
+  /// 댓글을 삭제합니다. 만약 부모 댓글이 삭제되는 경우, 자식 댓글도 전부 삭제됩니다.
+  /// - Parameters:
+  ///   - plubIdentifier: 플럽 모임 ID
+  ///   - feedIdentifier: 피드(게시글) ID
+  ///   - commentIdentifier: 댓글 ID
+  func deleteComment(plubIdentifier: Int, feedIdentifier: Int, commentIdentifier: Int) -> PLUBResult<EmptyModel> {
+    sendRequest(FeedsRouter.deleteComment(plubID: plubIdentifier, feedID: feedIdentifier, commentID: commentIdentifier))
+  }
 }

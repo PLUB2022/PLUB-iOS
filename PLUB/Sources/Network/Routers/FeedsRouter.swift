@@ -22,6 +22,7 @@ enum FeedsRouter {
   case fetchComments(plubID: Int, feedID: Int, page: Int)
   case createComment(plubID: Int, feedID: Int, model: CommentsRequest)
   case updateComment(plubID: Int, feedID: Int, commentID: Int, content: String)
+  case deleteComment(plubID: Int, feedID: Int, commentID: Int)
 }
 
 extension FeedsRouter: Router {
@@ -32,7 +33,7 @@ extension FeedsRouter: Router {
       return .post
     case .updateFeed, .pinFeed, .likeFeed, .updateComment:
       return .put
-    case .deleteFeed:
+    case .deleteFeed, .deleteComment:
       return .delete
     default:
       return .get
@@ -59,7 +60,8 @@ extension FeedsRouter: Router {
     case .fetchComments(let plubID, let feedID, _),
          .createComment(let plubID, let feedID, _):
       return "/\(prefixPath)/\(plubID)/feeds/\(feedID)/comments"
-    case .updateComment(let plubID, let feedID, let commentID, _):
+    case .updateComment(let plubID, let feedID, let commentID, _),
+         .deleteComment(let plubID, let feedID, let commentID):
       return "/\(prefixPath)/\(plubID)/feeds/\(feedID)/comments/\(commentID)"
     }
   }
@@ -73,12 +75,12 @@ extension FeedsRouter: Router {
       return .query(["page": page])
     case .updateFeed(_, _, let model):
       return .body(model)
-    case .fetchClipboards, .fetchFeedDetails, .deleteFeed, .pinFeed, .likeFeed:
-      return .plain
     case .createComment(_, _, let model):
       return .body(model)
     case .updateComment(_, _, _, let content):
       return .body(["content": content])
+    default:
+      return .plain
     }
   }
   
