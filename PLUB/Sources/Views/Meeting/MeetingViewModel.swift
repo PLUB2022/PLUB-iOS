@@ -13,12 +13,13 @@ import RxCocoa
 final class MeetingViewModel {
   private let disposeBag = DisposeBag()
 
-  // Input
-
-  
   // Output
+  let meetingList: Driver<[MyPlubbing]>
+
+  private let meetingListRelay = BehaviorRelay<[MyPlubbing]>(value: [])
   
   init() {
+    meetingList = meetingListRelay.asDriver()
     fetchMyMeeting()
   }
   
@@ -32,7 +33,7 @@ final class MeetingViewModel {
         switch result {
         case .success(let model):
           guard let data = model.data else { return }
-          print(data)
+          owner.meetingListRelay.accept(data.myPlubbing)
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })
