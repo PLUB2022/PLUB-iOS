@@ -66,7 +66,7 @@ struct FeedsContent: Codable {
   let content: String
   
   /// 게시글 이미지
-  let feedImageURL: String
+  let feedImageURL: String?
   
   /// 글 작성(수정)시간
   let postDate: String
