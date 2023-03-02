@@ -63,6 +63,11 @@ final class MeetingViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.fetchMyMeeting()
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [meetingTypeStackView, pageControl, collectionView].forEach {

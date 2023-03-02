@@ -20,10 +20,9 @@ final class MeetingViewModel {
   
   init() {
     meetingList = meetingListRelay.asDriver()
-    fetchMyMeeting()
   }
   
-  private func fetchMyMeeting() {
+  func fetchMyMeeting() {
     MeetingService.shared
       .inquireMyMeeting(
         isHost: true
