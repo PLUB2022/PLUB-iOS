@@ -10,6 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
+enum BoardCollectionHeaderViewType {
+  case clipboard
+  case noClipboard
+}
+
 final class BoardCollectionHeaderView: UICollectionReusableView {
   static let identifier = "BoardCollectionHeaderView"
   
@@ -22,7 +27,6 @@ final class BoardCollectionHeaderView: UICollectionReusableView {
   private let topStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 4
-    $0.alignment = .leading
   }
   
   private let clipImageView = UIImageView().then {
@@ -61,10 +65,18 @@ final class BoardCollectionHeaderView: UICollectionReusableView {
     
     topStackView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(9)
-      $0.directionalHorizontalEdges.lessThanOrEqualToSuperview().inset(10)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(10)
       $0.height.equalTo(19.81)
     }
     
     [clipImageView, clipLabel, clipButton].forEach { topStackView.addArrangedSubview($0) }
+    
+    clipImageView.snp.makeConstraints {
+      $0.size.equalTo(24)
+    }
+    
+    clipButton.snp.makeConstraints {
+      $0.size.equalTo(32)
+    }
   }
 }

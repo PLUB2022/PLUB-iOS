@@ -12,6 +12,12 @@ import Then
 
 final class BoardViewController: BaseViewController {
   
+  private var type: BoardCollectionHeaderViewType = .noClipboard {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
   private lazy var collectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout()
@@ -58,8 +64,13 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     if indexPath.section == 0 {
-      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardCollectionHeaderView.identifier, for: indexPath) as? BoardCollectionHeaderView ?? BoardCollectionHeaderView()
-      return header
+      switch type {
+      case .clipboard:
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardCollectionHeaderView.identifier, for: indexPath) as? BoardCollectionHeaderView ?? BoardCollectionHeaderView()
+        return header
+      case .noClipboard:
+        return UICollectionReusableView()
+      }
     }
     return UICollectionReusableView()
   }
@@ -69,7 +80,12 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: collectionView.frame.width, height: 260 + 22)
+    switch type {
+    case .clipboard:
+      return CGSize(width: collectionView.frame.width, height: 260 + 22)
+    case .noClipboard:
+      return .zero
+    }
   }
 }
 
