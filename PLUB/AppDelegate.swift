@@ -9,6 +9,7 @@ import UIKit
 
 import GoogleSignIn
 import KakaoSDKCommon
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       clientID: KeyConstants.googleID,
       serverClientID: KeyConstants.googleServerClientID
     )
+    
+    FirebaseApp.configure()
     
     setupNavigationBarStyle()
     
