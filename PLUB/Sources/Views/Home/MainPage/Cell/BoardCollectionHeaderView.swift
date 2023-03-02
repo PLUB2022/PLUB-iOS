@@ -10,9 +10,20 @@ import UIKit
 import SnapKit
 import Then
 
-enum BoardCollectionHeaderViewType {
-  case clipboard
-  case noClipboard
+enum BoardCollectionHeaderViewType { // 메인페이지 게시판 클립보드 헤더타입
+  case clipboard // 고정된 게시글이 존재하는 경우
+  case noClipboard // 고정된 게시글이 존재하지않는 경우
+}
+
+enum ClipboardType {
+  case onlyText // 게시글 타입이 글ONLY인 경우
+  case image // 게시글 타입이 사진ONLY 혹은 사진+글 인 경우
+}
+
+enum ClipboardListType {
+  case one // 클립보드한 내역이 하나인 경우
+  case two // 클립보드한 내역이 2개인 경우
+  case moreThanThree // 클립보드한 내역이 3개이상인 경우
 }
 
 final class BoardCollectionHeaderView: UICollectionReusableView {

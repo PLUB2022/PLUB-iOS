@@ -35,6 +35,10 @@ final class MainPageViewController: BaseViewController {
     }
   }
   
+  private let headerView = UIView().then {
+    $0.backgroundColor = .red
+  }
+  
   private let segmentedControl = UnderlineSegmentedControl(
     items: [MainPageFilterType.board.title, MainPageFilterType.todoList.title]
   ).then {
@@ -53,7 +57,9 @@ final class MainPageViewController: BaseViewController {
     $0.dataSource = self
   }
   
-  private let boardViewController = BoardViewController()
+  private lazy var boardViewController = BoardViewController().then {
+    $0.delegate = self
+  }
   private let todolistViewController = TodolistViewController()
   
   private var viewControllers: [UIViewController] {
@@ -77,14 +83,20 @@ final class MainPageViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [segmentedControl, pageViewController.view, writeButton].forEach { view.addSubview($0) }
+    self.navigationController?.navigationBar.isHidden = true
+    [headerView, segmentedControl, pageViewController.view, writeButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    headerView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(292)
+    }
+    
     segmentedControl.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(16)
+      $0.top.equalTo(headerView.snp.bottom).offset(16)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(32)
     }
@@ -149,5 +161,13 @@ extension MainPageViewController: UIScrollViewDelegate {
     let isLastable = currentPageIndex == viewControllers.count - 1
     let shouldDisableBounces = isFirstable || isLastable
     scrollView.bounces = !shouldDisableBounces
+  }
+}
+
+extension MainPageViewController: BoardViewControllerDelegate {
+  func calculateHeight(_ height: CGFloat) {
+    headerView.snp.updateConstraints {
+      $0.height.equalTo(height)
+    }
   }
 }
