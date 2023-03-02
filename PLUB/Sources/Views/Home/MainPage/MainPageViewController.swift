@@ -75,6 +75,11 @@ final class MainPageViewController: BaseViewController {
     $0.layer.masksToBounds = true
   }
   
+  private lazy var mainpageNavigationView = MainPageNavigationView().then {
+    $0.axis = .horizontal
+    $0.spacing = 4
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     
@@ -85,12 +90,9 @@ final class MainPageViewController: BaseViewController {
       action: nil
     )
     
-    self.navigationItem.rightBarButtonItems = [
-      UIBarButtonItem(image: UIImage(named: "speakerBlack"), style: .done, target: self, action: nil),
-      UIBarButtonItem(image: UIImage(named: "photoStackBlack"), style: .done, target: self, action: nil),
-      UIBarButtonItem(image: UIImage(named: "verticalEllipsisBlack"), style: .done, target: self, action: nil)
-    ]
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
     title = "요란한 밧줄"
+    
     let scrollView = pageViewController.view.subviews
       .compactMap { $0 as? UIScrollView }
       .first
