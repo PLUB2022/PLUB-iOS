@@ -38,6 +38,7 @@ final class MainPageViewController: BaseViewController {
   private let headerView = UIView().then {
     $0.backgroundColor = .red
     $0.layer.masksToBounds = true
+    $0.clipsToBounds = true
     $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
   }
   
@@ -76,6 +77,9 @@ final class MainPageViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .done, target: self, action: nil)
+    
     let scrollView = pageViewController.view.subviews
       .compactMap { $0 as? UIScrollView }
       .first
@@ -85,7 +89,6 @@ final class MainPageViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    self.navigationController?.navigationBar.isHidden = true
     [headerView, segmentedControl, pageViewController.view, writeButton].forEach { view.addSubview($0) }
   }
   
@@ -170,6 +173,16 @@ extension MainPageViewController: BoardViewControllerDelegate {
   func calculateHeight(_ height: CGFloat) {
     headerView.snp.updateConstraints {
       $0.height.equalTo(height)
+    }
+    if height == Device.navigationBarHeight {
+      self.navigationController?.navigationBar.isHidden = false
+      self.headerView.isHidden = true
+      headerView.snp.updateConstraints {
+        $0.height.equalTo(0)
+      }
+    } else {
+      self.navigationController?.navigationBar.isHidden = true
+      self.headerView.isHidden = false
     }
   }
 }
