@@ -19,7 +19,7 @@ enum MeetingScheduleType: String, CaseIterable {
   var imageName: String {
     switch self {
     case .date:
-      return "calendarBlack"
+      return "scheduleBlack"
     case .location:
       return "locationBlack"
     case .alarm:

@@ -21,6 +21,10 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   private var plubbingID: String?
   weak var delegate: SelectedCategoryGridCollectionViewCellDelegate?
   
+  private let backgroundImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+  }
+  
   private let titleLabel = UILabel().then {
     $0.font = .subtitle
     $0.numberOfLines = 0
@@ -41,6 +45,32 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .vertical, categoryListType: .all)
   
+  private lazy var gradientLayer = CAGradientLayer().then {
+    $0.locations = [0, 1]
+    $0.startPoint = CGPoint(x: 0.25, y: 0.5)
+    $0.endPoint = CGPoint(x: 0.75, y: 0.5)
+    $0.transform = CATransform3DMakeAffineTransform(
+      CGAffineTransform(
+        a: 0,
+        b: 0.75,
+        c: -0.75,
+        d: 0.01,
+        tx: 0.87,
+        ty: -0.06)
+    )
+    $0.bounds = contentView.bounds.insetBy(
+      dx: -0.5*contentView.bounds.size.width,
+      dy: -1*contentView.bounds.size.height
+    )
+    
+    $0.position = contentView.center
+    let colors: [CGColor] = [
+      UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor,
+      UIColor(red: 0, green: 0, blue: 0, alpha: 0.84).cgColor
+    ]
+    $0.colors = colors
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -53,27 +83,30 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    backgroundImageView.image = nil
     titleLabel.text = nil
     descriptionLabel.text = nil
     categoryInfoListView.backgroundColor = nil
     bookmarkButton.setImage(nil, for: .normal)
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    categoryInfoListView.snp.makeConstraints {
-      $0.width.lessThanOrEqualTo(self.frame.width - 20)
-    }
-  }
-  
   private func configureUI() {
-    contentView.backgroundColor = .orange
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
-    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { contentView.addSubview($0) }
+    
+    backgroundImageView.layer.addSublayer(gradientLayer)
+    contentView.addSubview(backgroundImageView)
+    
+    [titleLabel, descriptionLabel, categoryInfoListView, bookmarkButton].forEach { backgroundImageView.addSubview($0) }
+    
+    backgroundImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
     categoryInfoListView.snp.makeConstraints {
       $0.leading.equalToSuperview().offset(10)
       $0.bottom.equalToSuperview().offset(-10)
+      $0.width.lessThanOrEqualTo(Device.width - 32 - 20)
     }
     
     descriptionLabel.snp.makeConstraints {
@@ -101,7 +134,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
         owner.delegate?.updateBookmarkState(isBookmarked: true, cell: owner)
       })
       .disposed(by: disposeBag)
-      
+    
     bookmarkButton.buttonUnTapObservable
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
@@ -112,7 +145,9 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       .disposed(by: disposeBag)
   }
   
-  public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {    
+  public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
+    let url = URL(string: model.mainImage ?? "")
+    backgroundImageView.kf.setImage(with: url)
     bookmarkButton.isSelected = model.isBookmarked
     titleLabel.text = model.title
     descriptionLabel.text = model.introduce

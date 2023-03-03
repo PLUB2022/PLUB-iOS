@@ -10,18 +10,18 @@ import Alamofire
 enum MeetingRouter {
   case createMeeting(CreateMeetingRequest)
   case editMeetingInfo(String, EditMeetingInfoRequest)
-  case inquireCategoryMeeting(String, Int, String)
+  case inquireCategoryMeeting(String, Int, String, CategoryMeetingRequest?)
   case inquireRecommendationMeeting(Int)
 }
 
 extension MeetingRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .createMeeting:
+    case .createMeeting, .inquireCategoryMeeting:
       return .post
     case .editMeetingInfo:
       return .put
-    case .inquireCategoryMeeting, .inquireRecommendationMeeting:
+    case .inquireRecommendationMeeting:
       return .get
     }
   }
@@ -32,8 +32,8 @@ extension MeetingRouter: Router {
       return "/plubbings"
     case .editMeetingInfo(let plubbingId, _):
       return "/plubbings/\(plubbingId)"
-    case .inquireCategoryMeeting(let categoryId, _, _):
-      return "/plubbings/categories/\(categoryId)"
+    case .inquireCategoryMeeting(let categoryID, _, _, _):
+      return "/plubbings/categories/\(categoryID)"
     case .inquireRecommendationMeeting:
       return "/plubbings/recommendation"
     }
@@ -45,8 +45,9 @@ extension MeetingRouter: Router {
       return .body(model)
     case let .editMeetingInfo(_, model):
       return .body(model)
-    case .inquireCategoryMeeting(_, let page, let sort):
-      return .query(["page": "\(page)", "sort": sort])
+    case .inquireCategoryMeeting(_, let page, let sort, let model):
+      guard let model = model else { return .query(["page": "\(page)", "sort": sort]) }
+      return .queryBody(["page": "\(page)", "sort": sort], model)
     case .inquireRecommendationMeeting(let page):
       return .query(["page": page])
     }

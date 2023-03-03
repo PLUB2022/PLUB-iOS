@@ -20,4 +20,11 @@ extension ScheduleService {
       type: CreateScheduleResponse.self
     )
   }
+  
+  func inquireScheduleList(plubbingID: String) -> Observable<NetworkResult<GeneralResponse<ScheduleListResponse>>> {
+    return sendRequest(
+      ScheduleRouter.inquireScheduleList(plubbingID),
+      type: ScheduleListResponse.self
+    )
+  }
 }

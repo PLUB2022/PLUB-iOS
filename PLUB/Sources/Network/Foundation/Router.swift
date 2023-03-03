@@ -71,6 +71,14 @@ extension Router {
       var components = URLComponents(string: url.appendingPathComponent(path).absoluteString)
       components?.queryItems = query.map { URLQueryItem(name: $0, value: "\($1)") }
       request.url = components?.url
+      
+    case .queryBody(let queryData, let bodyData):
+      let query = queryData.toDictionary
+      let body = bodyData.toDictionary
+      var components = URLComponents(string: url.appendingPathComponent(path).absoluteString)
+      components?.queryItems = query.map { URLQueryItem(name: $0, value: "\($1)") }
+      request.url = components?.url
+      request.httpBody = try JSONSerialization.data(withJSONObject: body)
     }
     
     return request

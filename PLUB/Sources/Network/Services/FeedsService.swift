@@ -32,10 +32,10 @@ extension FeedsService {
   /// 게시판을 조회합니다.
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
-  ///   - page: 페이지 위치, 기본값은 1입니다.
-  func fetchBoards(plubIdentifier: Int, page: Int = 1) -> PLUBResult<FeedsPaginatedDataResponse<FeedsContent>> {
+  ///   - nextCursorID: 다음에 요청할 커서 위치, 기본값은 0입니다.
+  func fetchBoards(plubIdentifier: Int, nextCursorID: Int = 0) -> PLUBResult<FeedsPaginatedDataResponse<FeedsContent>> {
     sendRequest(
-      FeedsRouter.fetchBoards(plubID: plubIdentifier, page: page),
+      FeedsRouter.fetchBoards(plubID: plubIdentifier, cursorID: nextCursorID),
       type: FeedsPaginatedDataResponse<FeedsContent>.self
     )
   }

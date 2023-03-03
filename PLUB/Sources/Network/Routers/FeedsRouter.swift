@@ -10,7 +10,7 @@ import Alamofire
 enum FeedsRouter {
   // === 게시판, 게시글 파트 ===
   case createBoard(plubID: Int, model: BoardsRequest)
-  case fetchBoards(plubID: Int, page: Int)
+  case fetchBoards(plubID: Int, cursorID: Int)
   case fetchClipboards(plubID: Int)
   case fetchFeedDetails(plubID: Int, feedID: Int)
   case updateFeed(plubID: Int, feedID: Int, model: BoardsRequest)
@@ -70,9 +70,8 @@ extension FeedsRouter: Router {
     switch self {
     case .createBoard(_, let model):
       return .body(model)
-    case .fetchBoards(_, let page),
-         .fetchComments(_, _, let page):
-      return .query(["page": page])
+    case .fetchBoards(_, let cursorID):
+      return .query(["cursorId": cursorID])
     case .updateFeed(_, _, let model):
       return .body(model)
     case .createComment(_, _, let model):
