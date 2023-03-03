@@ -16,6 +16,9 @@ struct FeedsPaginatedDataResponse<FeedsModel: Codable>: Codable {
   /// 총 데이터 개수
   let totalElements: Int
   
+  /// 다음에 보내야할 `Cursor ID`
+  let nextCursorID: Int
+  
   /// 마지막 페이지 여부
   let isLast: Bool
   
@@ -26,6 +29,7 @@ struct FeedsPaginatedDataResponse<FeedsModel: Codable>: Codable {
     case totalPages
     case totalElements
     case content
+    case nextCursorID = "nextCursorId"
     case isLast = "last"
   }
 }
