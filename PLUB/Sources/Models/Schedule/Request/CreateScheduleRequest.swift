@@ -62,7 +62,7 @@ struct CreateScheduleRequest: Codable {
 extension CreateScheduleRequest {
   enum CodingKeys: String, CodingKey {
     case title, memo, startTime, endTime, isAllDay, address, roadAddress, placeName, alarmType
-    case startDay = "staredAt"
+    case startDay = "startedAt"
     case endDay = "endedAt"
   }
 }
