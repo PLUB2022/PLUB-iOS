@@ -87,7 +87,7 @@ final class MainPageViewController: BaseViewController {
       image: UIImage(named: "back"),
       style: .done,
       target: self,
-      action: nil
+      action: #selector(didTappedBackButton)
     )
     
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
@@ -141,6 +141,10 @@ final class MainPageViewController: BaseViewController {
         owner.currentPage = index
       }
       .disposed(by: disposeBag)
+  }
+  
+  @objc func didTappedBackButton() {
+    self.navigationController?.popViewController(animated: true)
   }
 }
 
