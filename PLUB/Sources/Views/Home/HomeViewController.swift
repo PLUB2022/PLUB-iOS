@@ -165,10 +165,13 @@ class HomeViewController: BaseViewController {
   }
   
   @objc private func didTappedBookmarkButton() {
-    let vc = BookmarkViewController()
-    vc.title = "북마크"
+    let vc = MainPageViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
+//    let vc = BookmarkViewController()
+//    vc.title = "북마크"
+//    vc.navigationItem.largeTitleDisplayMode = .never
+//    self.navigationController?.pushViewController(vc, animated: true)
   }
   
   private func createCompositionalSection(homeCollectionType: HomeSectionType) -> NSCollectionLayoutSection {

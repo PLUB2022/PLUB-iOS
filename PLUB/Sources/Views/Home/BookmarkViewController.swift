@@ -123,6 +123,11 @@ final class BookmarkViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     [headerView, interestListCollectionView].forEach { view.addSubview($0) }
+  }
+  
+  override func setupConstraints() {
+    super.setupConstraints()
+    
     headerView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.leading.trailing.equalToSuperview()
@@ -133,10 +138,6 @@ final class BookmarkViewController: BaseViewController {
       $0.top.equalTo(headerView.snp.bottom)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
-  }
-  
-  override func setupConstraints() {
-    super.setupConstraints()
   }
   
   override func setupStyles() {

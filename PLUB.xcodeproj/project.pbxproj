@@ -31,6 +31,15 @@
 		7028770929AA6B3D00E57509 /* CategoryMeetingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
+		705F81BF29AF35B700830C4F /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81BE29AF35B700830C4F /* MainPageViewController.swift */; };
+		705F81C129AF8E7300830C4F /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C029AF8E7300830C4F /* MainPageViewModel.swift */; };
+		705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C229AFAA3B00830C4F /* BoardViewController.swift */; };
+		705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C429AFAA5200830C4F /* TodolistViewController.swift */; };
+		705F81C829AFB1DC00830C4F /* BoardCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C729AFB1DC00830C4F /* BoardCollectionHeaderView.swift */; };
+		705F820929B0EE6600830C4F /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820829B0EE6600830C4F /* BoardViewModel.swift */; };
+		705F820C29B0F1C100830C4F /* ClipboardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820B29B0F1C100830C4F /* ClipboardListView.swift */; };
+		705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820D29B1142800830C4F /* MainPageHeaderView.swift */; };
+		705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820F29B127DF00830C4F /* MainPageNavigationView.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -297,6 +306,15 @@
 		7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingRequest.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
+		705F81BE29AF35B700830C4F /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
+		705F81C029AF8E7300830C4F /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
+		705F81C229AFAA3B00830C4F /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
+		705F81C429AFAA5200830C4F /* TodolistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodolistViewController.swift; sourceTree = "<group>"; };
+		705F81C729AFB1DC00830C4F /* BoardCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCollectionHeaderView.swift; sourceTree = "<group>"; };
+		705F820829B0EE6600830C4F /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
+		705F820B29B0F1C100830C4F /* ClipboardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardListView.swift; sourceTree = "<group>"; };
+		705F820D29B1142800830C4F /* MainPageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageHeaderView.swift; sourceTree = "<group>"; };
+		705F820F29B127DF00830C4F /* MainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageNavigationView.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -704,6 +722,46 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		705F81BD29AF35A500830C4F /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				705F820A29B0F1B800830C4F /* Component */,
+				705F820729B0EE5900830C4F /* ViewModel */,
+				705F81C629AFB1B600830C4F /* Cell */,
+				705F81BE29AF35B700830C4F /* MainPageViewController.swift */,
+				705F81C029AF8E7300830C4F /* MainPageViewModel.swift */,
+				705F81C229AFAA3B00830C4F /* BoardViewController.swift */,
+				705F81C429AFAA5200830C4F /* TodolistViewController.swift */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
+		705F81C629AFB1B600830C4F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				705F81C729AFB1DC00830C4F /* BoardCollectionHeaderView.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		705F820729B0EE5900830C4F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				705F820829B0EE6600830C4F /* BoardViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		705F820A29B0F1B800830C4F /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				705F820B29B0F1C100830C4F /* ClipboardListView.swift */,
+				705F820D29B1142800830C4F /* MainPageHeaderView.swift */,
+				705F820F29B127DF00830C4F /* MainPageNavigationView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		7085678428EE9A84008047DC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -867,6 +925,7 @@
 		BA42D1EE28EDE05000C20061 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				705F81BD29AF35A500830C4F /* MainPage */,
 				702876BE29A374E900E57509 /* Clipboard */,
 				702876BD29A374C500E57509 /* Archive */,
 				702876BC29A374B100E57509 /* MeetingSchedule */,
@@ -1618,6 +1677,7 @@
 				C3B04E462981788800188E60 /* UploadImageRequest.swift in Sources */,
 				C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */,
 				70BD5F35296491C8002CBA89 /* ApplyQuestionHeaderView.swift in Sources */,
+				705F820929B0EE6600830C4F /* BoardViewModel.swift in Sources */,
 				C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */,
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
@@ -1638,6 +1698,7 @@
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70A4209C2988B1DC0026E9F9 /* SortControl.swift in Sources */,
 				70A420A7298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift in Sources */,
+				705F81C829AFB1DC00830C4F /* BoardCollectionHeaderView.swift in Sources */,
 				BA340E2429782321002BAF2C /* ParticipantListView.swift in Sources */,
 				C3EB29C829A9040600615B6B /* ScheduleTableViewCell.swift in Sources */,
 				C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */,
@@ -1679,6 +1740,7 @@
 				C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */,
 				C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */,
 				C38A5B9D297AFDCD00485355 /* LocationBottomSheetViewController.swift in Sources */,
+				705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */,
 				C33EF37D29A1DFD100D7A5CA /* ScheduleAlarmView.swift in Sources */,
 				BAC5EF2D298A9E4300F3955E /* SplashViewController.swift in Sources */,
 				C3B04E4229816B9C00188E60 /* ImageRouter.swift in Sources */,
@@ -1701,6 +1763,7 @@
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
 				C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */,
 				70A4209E2988BB410026E9F9 /* SortBottomSheetViewController.swift in Sources */,
+				705F81C129AF8E7300830C4F /* MainPageViewModel.swift in Sources */,
 				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
 				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
 				702876B5299BAD0A00E57509 /* ParticipantCollectionViewCell.swift in Sources */,
@@ -1728,6 +1791,7 @@
 				BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */,
 				702876B1299B788400E57509 /* NoticeViewController.swift in Sources */,
 				C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */,
+				705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */,
 				BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */,
 				C3413E15299548FB004B8DBD /* RecruitPostViewController.swift in Sources */,
@@ -1735,6 +1799,7 @@
 				BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */,
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
 				702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */,
+				705F81BF29AF35B700830C4F /* MainPageViewController.swift in Sources */,
 				C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */,
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
@@ -1745,10 +1810,12 @@
 				BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */,
 				70A420C029914B690026E9F9 /* SearchRecruitmentResponse.swift in Sources */,
 				70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */,
+				705F820C29B0F1C100830C4F /* ClipboardListView.swift in Sources */,
 				C34F71C329799B1C003DB376 /* TimeControl.swift in Sources */,
 				70A420A0298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
+				705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */,
 				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,
 				70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
@@ -1790,6 +1857,7 @@
 				C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */,
 				C3EB29CB29A91CC600615B6B /* MeetingScheduleViewModel.swift in Sources */,
 				70A420BE29914B690026E9F9 /* RecruitmentQuestionResponse.swift in Sources */,
+				705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
 				70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */,
