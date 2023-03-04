@@ -7,10 +7,12 @@
 
 import UIKit
 
+import SnapKit
+
 final class MeetingCollectionViewCell: UICollectionViewCell {
   static let identifier = "MeetingCollectionViewCell"
   
-  private var label = UILabel().then {
+  private let label = UILabel().then {
     $0.font = .h3
     $0.textColor = .deepGray
     $0.textAlignment = .center

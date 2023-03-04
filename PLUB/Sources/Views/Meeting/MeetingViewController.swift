@@ -1,5 +1,10 @@
 import UIKit
 
+import RxSwift
+import RxCocoa
+import SnapKit
+import Then
+
 final class MeetingViewController: BaseViewController {
   
   private let viewModel = MeetingViewModel()
@@ -32,7 +37,7 @@ final class MeetingViewController: BaseViewController {
     $0.titleLabel?.font = .h4
   }
   
-  private lazy var pageControl = PageControl().then {
+  private let pageControl = PageControl().then {
     $0.numberOfPages = 1
     $0.isHidden = true
   }
@@ -113,7 +118,7 @@ final class MeetingViewController: BaseViewController {
     super.bind()
     
     viewModel.meetingList
-      .drive(with: self){ owner, data in
+      .drive(with: self) { owner, data in
         owner.meetingList = data
         owner.pageControl.numberOfPages = data.count
       }
@@ -121,14 +126,14 @@ final class MeetingViewController: BaseViewController {
     
     myMeetingButton.rx.tap
       .asDriver()
-      .drive(with: self){ owner, _ in
+      .drive(with: self) { owner, _ in
         //
       }
       .disposed(by: disposeBag)
     
     hostButton.rx.tap
       .asDriver()
-      .drive(with: self){ owner, _ in
+      .drive(with: self) { owner, _ in
        //
       }
       .disposed(by: disposeBag)
@@ -150,13 +155,13 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
     
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: "MeetingCollectionViewCell",
+      withReuseIdentifier: MeetingCollectionViewCell.identifier,
       for: indexPath
     ) as? MeetingCollectionViewCell else { return UICollectionViewCell() }
     
     if indexPath.row < meetingList.count {
       cell.setupData(with: meetingList[indexPath.row])
-    } else{
+    } else {
       cell.setupCreateCell()
     }
     return cell
