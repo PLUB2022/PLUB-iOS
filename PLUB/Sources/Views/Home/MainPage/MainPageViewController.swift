@@ -35,11 +35,12 @@ final class MainPageViewController: BaseViewController {
     }
   }
   
-  private let headerView = UIView().then {
+  private lazy var headerView = MainPageHeaderView().then {
     $0.backgroundColor = .red
     $0.layer.masksToBounds = true
     $0.clipsToBounds = true
     $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
+    $0.delegate = self
   }
   
   private let segmentedControl = UnderlineSegmentedControl(
@@ -201,5 +202,11 @@ extension MainPageViewController: BoardViewControllerDelegate {
       self.navigationController?.navigationBar.isHidden = true
       self.headerView.isHidden = false
     }
+  }
+}
+
+extension MainPageViewController: MainPageHeaderViewDelegate {
+  func didTappedMainPageBackButton() {
+    self.navigationController?.popViewController(animated: true)
   }
 }
