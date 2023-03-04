@@ -49,6 +49,15 @@ final class MeetingQuestionViewController: BaseViewController {
     $0.register(AddQuestionTableViewCell.self, forCellReuseIdentifier: AddQuestionTableViewCell.identifier)
   }
   
+  private let tapGesture = UITapGestureRecognizer(
+    target: MeetingQuestionViewController.self,
+    action: nil
+  ).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
   init(
     viewModel: MeetingQuestionViewModel,
     childIndex: Int
@@ -110,6 +119,15 @@ final class MeetingQuestionViewController: BaseViewController {
         )
       })
       .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
+    tableView.addGestureRecognizer(tapGesture)
   }
 }
 

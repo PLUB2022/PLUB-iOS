@@ -81,5 +81,18 @@ final class MeetingCreateSuccessViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    myPostButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        //TODO: 수빈 - 내가 쓴 글 보기 화면 이동 추가
+      }
+      .disposed(by: disposeBag)
+    
+    mainPageButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.navigationController?.popToRootViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }

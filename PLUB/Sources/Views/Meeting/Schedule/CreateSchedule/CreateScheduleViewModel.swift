@@ -120,8 +120,9 @@ final class CreateScheduleViewModel {
     alarmSubject
       .withUnretained(self)
       .map { owner, alarm in
-        owner.scheduleRelay.value
-          //TODO: 수빈 alarm 데이터 추가(alarm.value)
+        owner.scheduleRelay.value.with {
+          $0.alarmType = alarm.value
+        }
       }
       .bind(to: scheduleRelay)
       .disposed(by: disposeBag)

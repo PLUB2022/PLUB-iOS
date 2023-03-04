@@ -213,6 +213,9 @@
 		C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */; };
 		C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */; };
 		C35AFD012998B0A500AB5CD3 /* EditMeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */; };
+		C361743129AF95E2006AEAB1 /* MyMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C361743029AF95E2006AEAB1 /* MyMeetingResponse.swift */; };
+		C361743329AF9B2D006AEAB1 /* MeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C361743229AF9B2D006AEAB1 /* MeetingViewModel.swift */; };
+		C361743629AFB875006AEAB1 /* MeetingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C361743529AFB875006AEAB1 /* MeetingCollectionViewCell.swift */; };
 		C3622B4729A7C414005EF09C /* ScheduleListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3622B4629A7C414005EF09C /* ScheduleListResponse.swift */; };
 		C3622B4A29A7CFF0005EF09C /* AddScheduleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3622B4929A7CFF0005EF09C /* AddScheduleControl.swift */; };
 		C3622B4C29A7D209005EF09C /* ScheduleTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3622B4B29A7D209005EF09C /* ScheduleTopView.swift */; };
@@ -464,6 +467,9 @@
 		C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTitleView.swift; sourceTree = "<group>"; };
 		C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateSubView.swift; sourceTree = "<group>"; };
 		C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingViewModel.swift; sourceTree = "<group>"; };
+		C361743029AF95E2006AEAB1 /* MyMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMeetingResponse.swift; sourceTree = "<group>"; };
+		C361743229AF9B2D006AEAB1 /* MeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewModel.swift; sourceTree = "<group>"; };
+		C361743529AFB875006AEAB1 /* MeetingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3622B4629A7C414005EF09C /* ScheduleListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListResponse.swift; sourceTree = "<group>"; };
 		C3622B4929A7CFF0005EF09C /* AddScheduleControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleControl.swift; sourceTree = "<group>"; };
 		C3622B4B29A7D209005EF09C /* ScheduleTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTopView.swift; sourceTree = "<group>"; };
@@ -895,7 +901,9 @@
 		BA42D1F028EDE08000C20061 /* Meeting */ = {
 			isa = PBXGroup;
 			children = (
+				C361743429AFB83E006AEAB1 /* Cell */,
 				BA42D1F428EDE11900C20061 /* MeetingViewController.swift */,
+				C361743229AF9B2D006AEAB1 /* MeetingViewModel.swift */,
 				C3AB743A296B1EC3003DD5E2 /* CreateMeeting */,
 				C33FB0702993F81800BEB15B /* EditMeeting */,
 				C359FEA4299FDE6400B2F561 /* Schedule */,
@@ -1177,6 +1185,14 @@
 			path = Schedule;
 			sourceTree = "<group>";
 		};
+		C361743429AFB83E006AEAB1 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C361743529AFB875006AEAB1 /* MeetingCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		C3622B4829A7CFCD005EF09C /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -1413,6 +1429,7 @@
 			children = (
 				70A420B529914B4F0026E9F9 /* CategoryMeetingResponse.swift */,
 				C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */,
+				C361743029AF95E2006AEAB1 /* MyMeetingResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1616,6 +1633,7 @@
 				C38A5B9B297AE05100485355 /* KakaoLocationRequest.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				BA876BA1296514DA0029CF34 /* PaddingTextField.swift in Sources */,
+				C361743329AF9B2D006AEAB1 /* MeetingViewModel.swift in Sources */,
 				C38D6566298852F80052013F /* PaddingLabel.swift in Sources */,
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70A4209C2988B1DC0026E9F9 /* SortControl.swift in Sources */,
@@ -1736,9 +1754,11 @@
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
+				C361743129AF95E2006AEAB1 /* MyMeetingResponse.swift in Sources */,
 				702876C429A3752A00E57509 /* MeetingScheduleViewController.swift in Sources */,
 				70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */,
 				C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */,
+				C361743629AFB875006AEAB1 /* MeetingCollectionViewCell.swift in Sources */,
 				C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */,
 				BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */,
 				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,

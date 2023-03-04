@@ -38,6 +38,9 @@ struct CreateScheduleRequest: Codable {
   /// 장소 이름
   var placeName: String
   
+  /// 알람
+  var alarmType: String
+  
   /// 알림
   //TODO: 수빈 - 알림 정보 추가
   
@@ -52,13 +55,14 @@ struct CreateScheduleRequest: Codable {
     address = ""
     roadAddress = ""
     placeName = ""
+    alarmType = ""
   }
 }
 
 extension CreateScheduleRequest {
   enum CodingKeys: String, CodingKey {
-    case title, memo, startTime, endTime, isAllDay, address, roadAddress, placeName
-    case startDay = "staredAt"
+    case title, memo, startTime, endTime, isAllDay, address, roadAddress, placeName, alarmType
+    case startDay = "startedAt"
     case endDay = "endedAt"
   }
 }
