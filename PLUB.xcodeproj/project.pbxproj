@@ -267,6 +267,8 @@
 		C3B04E482981789A00188E60 /* UploadImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E472981789A00188E60 /* UploadImageResponse.swift */; };
 		C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */; };
 		C3CD674A29B4B37C0052087E /* ScheduleParticipantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */; };
+		C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */; };
+		C3CD675029B4E5970052087E /* ScheduleParticipantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */; };
 		C3D9807A297D982E00B8F5DF /* MeetingQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */; };
 		C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */; };
 		C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */; };
@@ -531,6 +533,8 @@
 		C3B04E472981789A00188E60 /* UploadImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageResponse.swift; sourceTree = "<group>"; };
 		C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleNumberToolTip.swift; sourceTree = "<group>"; };
 		C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewController.swift; sourceTree = "<group>"; };
+		C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantTopView.swift; sourceTree = "<group>"; };
+		C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewModel.swift; sourceTree = "<group>"; };
 		C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingQuestionViewModel.swift; sourceTree = "<group>"; };
 		C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingNameViewModel.swift; sourceTree = "<group>"; };
@@ -688,10 +692,11 @@
 		702876BC29A374B100E57509 /* MeetingSchedule */ = {
 			isa = PBXGroup;
 			children = (
-				C3EB29C929A90F6500615B6B /* Cell */,
-				C3622B4829A7CFCD005EF09C /* Component */,
 				702876C329A3752A00E57509 /* MeetingScheduleViewController.swift */,
 				C3EB29CA29A91CC600615B6B /* MeetingScheduleViewModel.swift */,
+				C3EB29C929A90F6500615B6B /* Cell */,
+				C3622B4829A7CFCD005EF09C /* Component */,
+				C3CD675229B4FB3E0052087E /* ScheduleParticipant */,
 			);
 			path = MeetingSchedule;
 			sourceTree = "<group>";
@@ -1328,7 +1333,6 @@
 			isa = PBXGroup;
 			children = (
 				C359FEA5299FDF2800B2F561 /* CreateScheduleViewController.swift */,
-				C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */,
 				C359FEA7299FE3AB00B2F561 /* CreateScheduleViewModel.swift */,
 				C383967F29A25E8C005998A5 /* Component */,
 			);
@@ -1534,6 +1538,24 @@
 				70A420C129914B890026E9F9 /* InquireInterestResponse.swift */,
 			);
 			path = Response;
+			sourceTree = "<group>";
+		};
+		C3CD675229B4FB3E0052087E /* ScheduleParticipant */ = {
+			isa = PBXGroup;
+			children = (
+				C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */,
+				C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */,
+				C3CD675329B4FB910052087E /* Component */,
+			);
+			path = ScheduleParticipant;
+			sourceTree = "<group>";
+		};
+		C3CD675329B4FB910052087E /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		C3E98EAB29744DAF00E36C45 /* ViewModel */ = {
@@ -1795,10 +1817,12 @@
 				702876B1299B788400E57509 /* NoticeViewController.swift in Sources */,
 				C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */,
 				705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */,
+				C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */,
 				BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */,
 				C3413E15299548FB004B8DBD /* RecruitPostViewController.swift in Sources */,
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
+				C3CD675029B4E5970052087E /* ScheduleParticipantViewModel.swift in Sources */,
 				BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */,
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
 				702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */,
