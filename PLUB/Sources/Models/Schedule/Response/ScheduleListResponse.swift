@@ -45,7 +45,7 @@ struct Schedule: Codable {
   enum CodingKeys: String, CodingKey {
     case title, memo, startTime, endTime, isAllDay, address, roadAddress, placeName
     case scheduleID = "calendarId"
-    case startDay = "staredAt"
+    case startDay = "startedAt"
     case endDay = "endedAt"
     case participantList = "calendarAttendList"
   }
