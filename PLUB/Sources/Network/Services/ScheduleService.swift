@@ -14,16 +14,16 @@ class ScheduleService: BaseService {
 }
 
 extension ScheduleService {
-  func createSchedule(plubbingID: String, request: CreateScheduleRequest) -> PLUBResult<CreateScheduleResponse> {
+  func createSchedule(plubbingID: Int, request: CreateScheduleRequest) -> PLUBResult<CreateScheduleResponse> {
     return sendRequest(
       ScheduleRouter.createSchedule(plubbingID, request),
       type: CreateScheduleResponse.self
     )
   }
   
-  func inquireScheduleList(plubbingID: String) -> Observable<NetworkResult<GeneralResponse<ScheduleListResponse>>> {
+  func inquireScheduleList(plubbingID: Int, cursorId: Int = 0) -> Observable<NetworkResult<GeneralResponse<ScheduleListResponse>>> {
     return sendRequest(
-      ScheduleRouter.inquireScheduleList(plubbingID),
+      ScheduleRouter.inquireScheduleList(plubbingID, cursorId),
       type: ScheduleListResponse.self
     )
   }

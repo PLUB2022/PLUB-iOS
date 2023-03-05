@@ -13,7 +13,7 @@ import Then
 
 final class CreateScheduleViewModel {
   private let disposeBag = DisposeBag()
-  private let plubbingID: String
+  private let plubbingID: Int
   
   let scheduleType = MeetingScheduleType.allCases
   
@@ -39,7 +39,7 @@ final class CreateScheduleViewModel {
   
   private let scheduleRelay = BehaviorRelay<CreateScheduleRequest>(value: CreateScheduleRequest())
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     self.plubbingID = plubbingID
     
     title = titleSubject.asObserver()

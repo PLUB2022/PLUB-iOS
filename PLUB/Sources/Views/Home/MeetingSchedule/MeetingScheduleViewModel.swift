@@ -27,14 +27,14 @@ extension MeetingScheduleData: SectionModelType {
 
 final class MeetingScheduleViewModel {
   private let disposeBag = DisposeBag()
-  private(set) var plubbingID: String
+  private(set) var plubbingID: Int
   
   // Output
   let scheduleList: Driver<[MeetingScheduleData]>
   
   private let scheduleListRelay = BehaviorRelay<[MeetingScheduleData]>(value: [])
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     self.plubbingID = plubbingID
     scheduleList = scheduleListRelay.asDriver()
     fetchScheduleList()
