@@ -40,6 +40,7 @@
 		705F820C29B0F1C100830C4F /* ClipboardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820B29B0F1C100830C4F /* ClipboardListView.swift */; };
 		705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820D29B1142800830C4F /* MainPageHeaderView.swift */; };
 		705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820F29B127DF00830C4F /* MainPageNavigationView.swift */; };
+		705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 705F821129B2FCEC00830C4F /* GoogleService-Info.plist */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -208,7 +209,6 @@
 		C3413E192995492D004B8DBD /* GuestQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3413E182995492D004B8DBD /* GuestQuestionViewController.swift */; };
 		C344E53F2986B938009F73A9 /* MeetingCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C344E53E2986B938009F73A9 /* MeetingCategoryViewController.swift */; };
 		C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */; };
-		C346B49B29B1040A00884E4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C346B49A29B1040A00884E4F /* GoogleService-Info.plist */; };
 		C346B4A829B1079900884E4F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C346B4A729B1079900884E4F /* FirebaseAnalytics */; };
 		C346B4AA29B1079900884E4F /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = C346B4A929B1079900884E4F /* FirebaseCrashlytics */; };
 		C346B4AC29B1079900884E4F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = C346B4AB29B1079900884E4F /* FirebaseMessaging */; };
@@ -315,6 +315,7 @@
 		705F820B29B0F1C100830C4F /* ClipboardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardListView.swift; sourceTree = "<group>"; };
 		705F820D29B1142800830C4F /* MainPageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageHeaderView.swift; sourceTree = "<group>"; };
 		705F820F29B127DF00830C4F /* MainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageNavigationView.swift; sourceTree = "<group>"; };
+		705F821129B2FCEC00830C4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -474,7 +475,6 @@
 		C3413E182995492D004B8DBD /* GuestQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestQuestionViewController.swift; sourceTree = "<group>"; };
 		C344E53E2986B938009F73A9 /* MeetingCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewController.swift; sourceTree = "<group>"; };
 		C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewModel.swift; sourceTree = "<group>"; };
-		C346B49A29B1040A00884E4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C34F07F2297DAFD900C91E90 /* AddQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionControl.swift; sourceTree = "<group>"; };
@@ -1099,7 +1099,7 @@
 				BA88125628E48A3000BD832A /* Assets.xcassets */,
 				BA88125828E48A3000BD832A /* LaunchScreen.storyboard */,
 				BA88125B28E48A3000BD832A /* Info.plist */,
-				C346B49A29B1040A00884E4F /* GoogleService-Info.plist */,
+				705F821129B2FCEC00830C4F /* GoogleService-Info.plist */,
 			);
 			path = PLUB;
 			sourceTree = "<group>";
@@ -1655,7 +1655,7 @@
 				BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */,
 				BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */,
 				BA8AA43229890083004E9403 /* NanumPen.otf in Resources */,
-				C346B49B29B1040A00884E4F /* GoogleService-Info.plist in Resources */,
+				705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */,
 				BA52778A28EECDC50036B825 /* Pretendard-Bold.otf in Resources */,
 				BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */,
 				BA8AA439298901B9004E9403 /* Onboarding3.json in Resources */,

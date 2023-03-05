@@ -81,6 +81,11 @@ final class MainPageViewController: BaseViewController {
     $0.spacing = 4
   }
   
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    self.navigationController?.navigationBar.isHidden = false
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     
