@@ -41,7 +41,6 @@ final class MeetingScheduleViewModel {
   }
   
   func dataSource() -> RxTableViewSectionedReloadDataSource<MeetingScheduleData> {
-    
     // Cell
     let dataSource = RxTableViewSectionedReloadDataSource<MeetingScheduleData>(
       configureCell: { dataSource, tableView, indexPath, item in
@@ -53,9 +52,7 @@ final class MeetingScheduleViewModel {
         
     // Header
     }, titleForHeaderInSection: { dataSource, index in
-      
       return dataSource.sectionModels[index].header
-      
     })
     
     return dataSource
@@ -102,9 +99,7 @@ final class MeetingScheduleViewModel {
                   time: "\(setupTime(schedule.startTime)) - \(setupTime(schedule.endTime))",
                   name: schedule.title,
                   location: schedule.placeName,
-                  participants: (schedule.participantList?.participants.map{
-                    $0.profileImage
-                  }) ?? [],
+                  participants: Constants.list,
                   indexType: .first,
                   isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
               )
@@ -121,9 +116,7 @@ final class MeetingScheduleViewModel {
                 time: "\(setupTime(schedule.startTime)) - \(setupTime(schedule.endTime))",
                 name: schedule.title,
                 location: schedule.placeName,
-                participants: (schedule.participantList?.participants.map{
-                  $0.profileImage
-                }) ?? [],
+                participants: Constants.list,
                 indexType: .middle,
                 isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
               )
@@ -156,4 +149,9 @@ final class MeetingScheduleViewModel {
       $0.locale = Locale(identifier: "ko_KR")
     }.string(from: date)
   }
+  
+  struct Constants {
+    static let list = [Participant](repeating: Participant(scheduleAttendID: 0, nickname: "수빈", profileImage: "https://t1.daumcdn.net/cfile/tistory/99E6034F5A3320E72A", attendStatus: "YES"), count: 10)
+  }
 }
+
