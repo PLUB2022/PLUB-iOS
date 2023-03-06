@@ -715,14 +715,12 @@
 		702876BE29A374E900E57509 /* Clipboard */ = {
 			isa = PBXGroup;
 			children = (
+				BAE0AC7829B5D6DF00F46F3D /* Cell */,
+				BAE0AC7B29B5D71B00F46F3D /* Component */,
+				BAE0AC7A29B5D71300F46F3D /* Model */,
+				BAE0AC7929B5D6FB00F46F3D /* ViewModel */,
 				702876BF29A374FE00E57509 /* ClipboardViewController.swift */,
 				BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */,
-				BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */,
-				BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */,
-				BA1D4A7A29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift */,
-				BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */,
-				BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */,
-				BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */,
 			);
 			path = Clipboard;
 			sourceTree = "<group>";
@@ -1207,6 +1205,40 @@
 				BA784FA72978EB9100E8B06F /* SignUpViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		BAE0AC7829B5D6DF00F46F3D /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BA1D4A7A29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift */,
+				BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		BAE0AC7929B5D6FB00F46F3D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */,
+				BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BAE0AC7A29B5D71300F46F3D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BAE0AC7B29B5D71B00F46F3D /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		C3160515299770BF00D27488 /* ViewModel */ = {
