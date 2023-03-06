@@ -9,10 +9,17 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
+
+enum ParticipantListType: CaseIterable {
+  case oneLine
+  case multiLine
+}
 
 final class ScheduleParticipantViewController: BottomSheetViewController {
   
   private let data: ScheduleTableViewCellModel
+  private var participantListType: ParticipantListType = .oneLine
   
   private let lineView = UIView().then {
     $0.backgroundColor = .mediumGray
@@ -20,6 +27,48 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
   }
   
   private lazy var topScheduleView = ScheduleParticipantTopView(data: data)
+  
+  private let collectionViewLayout = UICollectionViewFlowLayout().then {
+    $0.minimumLineSpacing = 8
+    $0.minimumInteritemSpacing = 16
+    $0.itemSize = CGSize(
+      width: 40,
+      height: 40
+    )
+  }
+  
+  private lazy var participantCollectionView = UICollectionView(
+    frame: .zero,
+    collectionViewLayout: UICollectionViewFlowLayout()
+  ).then {
+    $0.register(
+      ScheduleParticipantCollectionViewCell.self,
+      forCellWithReuseIdentifier: ScheduleParticipantCollectionViewCell.identifier
+    )
+    $0.register(
+      ParticipantCollectionViewCell.self,
+      forCellWithReuseIdentifier: ParticipantCollectionViewCell.identifier
+    )
+    $0.isScrollEnabled = false
+    $0.backgroundColor = .clear
+    $0.delegate = self
+    $0.dataSource = self
+  }
+  
+  private let buttonStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.spacing = 16
+    $0.distribution = .fillEqually
+  }
+  
+  private let noAttendButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "🙅🏻 불참합니다")
+    $0.isEnabled = false
+  }
+  
+  private let attendButton =  UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "🙆🏻 참여합니다!")
+  }
   
   private let viewModel = ScheduleParticipantViewModel()
   
@@ -34,8 +83,12 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [lineView, topScheduleView].forEach {
+    [lineView, topScheduleView, participantCollectionView, buttonStackView].forEach {
       contentView.addSubview($0)
+    }
+    
+    [noAttendButton, attendButton].forEach {
+      buttonStackView.addArrangedSubview($0)
     }
   }
   
@@ -53,7 +106,19 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
     topScheduleView.snp.makeConstraints {
       $0.top.equalTo(lineView.snp.bottom).offset(16)
       $0.leading.trailing.equalToSuperview().inset(16)
-      $0.bottom.equalToSuperview().inset(8)
+    }
+    
+    participantCollectionView.snp.makeConstraints {
+      $0.top.equalTo(topScheduleView.snp.bottom).offset(16)
+      $0.height.equalTo(40)
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
+    
+    buttonStackView.snp.makeConstraints {
+      $0.top.equalTo(participantCollectionView.snp.bottom).offset(16)
+      $0.height.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.bottom.equalToSuperview().inset(20)
     }
   }
   
@@ -63,5 +128,96 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
   
   override func bind() {
     super.bind()
+  }
+}
+
+
+extension ScheduleParticipantViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    switch participantListType {
+    case .oneLine:
+      return data.participants.count //+ 1
+    case .multiLine:
+      return data.participants.count
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+     return UICollectionReusableView()
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    switch participantListType {
+    case .oneLine:
+      participantListType = .multiLine
+      collectionView.reloadData()
+      let collectionViewHeight = ceil(Double(data.participants.count) / 4.0) * (16 + 73) - 16
+      collectionView.snp.updateConstraints {
+        $0.height.equalTo(collectionViewHeight)
+      }
+    case .multiLine: break
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+      return .zero
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    switch participantListType {
+    case .oneLine:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleParticipantCollectionViewCell.identifier, for: indexPath) as? ScheduleParticipantCollectionViewCell ?? ScheduleParticipantCollectionViewCell()
+      let model = data.participants[indexPath.row]
+      cell.configureUI(with:
+          .init(
+            name: model.nickname,
+            imageName: model.profileImage
+          )
+      )
+      return cell
+    case .multiLine:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ParticipantCollectionViewCell.identifier, for: indexPath) as? ParticipantCollectionViewCell ?? ParticipantCollectionViewCell()
+      let model = data.participants[indexPath.row]
+      cell.configureUI(with:
+          .init(
+            name: model.nickname,
+            imageName: model.profileImage
+          )
+      )
+      return cell
+    }
+  }
+}
+
+extension ScheduleParticipantViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    switch participantListType {
+    case .oneLine:
+      return CGSize(width: 40, height: 40)
+    case .multiLine:
+      return CGSize(width: 73, height: 73)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    switch participantListType {
+    case .oneLine:
+      return 8
+    case .multiLine:
+      return 12
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    switch participantListType {
+    case .oneLine:
+      return 8
+    case .multiLine:
+      return 16
+    }
   }
 }
