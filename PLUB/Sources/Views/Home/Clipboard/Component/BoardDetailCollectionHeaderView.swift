@@ -12,6 +12,10 @@ import Then
 
 final class BoardDetailCollectionHeaderView: UICollectionReusableView {
   
+  // MARK: - Properties
+  
+  static let identifier = "\(BoardDetailCollectionHeaderView.self)"
+  
   // MARK: - UI Components
   
   // MARK: - Initializations

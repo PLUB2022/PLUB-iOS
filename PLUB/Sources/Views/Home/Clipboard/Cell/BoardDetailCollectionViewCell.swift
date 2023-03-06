@@ -12,6 +12,8 @@ import Then
 
 final class BoardDetailCollectionViewCell: UICollectionViewCell {
   
+  static let identifier = "\(BoardDetailCollectionViewCell.self)"
+  
   // MARK: - UI Components
   
   // MARK: - Initializations
