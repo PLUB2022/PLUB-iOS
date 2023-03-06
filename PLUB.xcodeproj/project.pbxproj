@@ -183,6 +183,8 @@
 		BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC8930829755B87000D44E2 /* SignUpRequest.swift */; };
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */; };
+		BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */; };
+		BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */; };
 		BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE16028292221ED00D595FF /* CheckBoxButton.swift */; };
 		BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */; };
 		BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */; };
@@ -453,6 +455,8 @@
 		BAC923DE29546BF500385841 /* BirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
 		BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
+		BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		BAE16028292221ED00D595FF /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
 		BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -712,6 +716,8 @@
 			isa = PBXGroup;
 			children = (
 				702876BF29A374FE00E57509 /* ClipboardViewController.swift */,
+				BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */,
+				BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */,
 				BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */,
 				BA1D4A7A29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift */,
 				BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */,
@@ -1735,6 +1741,7 @@
 				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,
 				70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */,
+				BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
@@ -1840,6 +1847,7 @@
 				BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */,
 				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
+				BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */,
 				C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */,
 				70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */,
 				C3ED8FB92989E13D002F689B /* MeetingSummaryViewModel.swift in Sources */,
