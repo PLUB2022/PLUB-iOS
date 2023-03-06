@@ -82,6 +82,15 @@ final class MeetingScheduleViewController: BaseViewController {
       .drive(tableView.rx.items(dataSource: datasource))
       .disposed(by: disposeBag)
     
+    tableView.rx.modelSelected(ScheduleTableViewCellModel.self)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, data in
+        let vc = ScheduleParticipantViewController(data: data)
+        vc.modalPresentationStyle = .overFullScreen
+        owner.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
+    
     tableView
       .rx.setDelegate(self)
       .disposed(by: disposeBag)
