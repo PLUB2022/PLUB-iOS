@@ -172,6 +172,7 @@
 		BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B45297467A2009DDF32 /* AuthService.swift */; };
 		BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4729746881009DDF32 /* SignInResponse.swift */; };
 		BA94E81C297E706A00DF23CE /* IntroductionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA94E81B297E706A00DF23CE /* IntroductionViewModel.swift */; };
+		BA98B34929AC956A00307073 /* CommentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA98B34829AC956A00307073 /* CommentContent.swift */; };
 		BABB011A297ED415004178EC /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB0119297ED415004178EC /* InterestViewController.swift */; };
 		BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB011B297ED74C004178EC /* InterestViewModel.swift */; };
 		BAC5EF2D298A9E4300F3955E /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5EF2C298A9E4300F3955E /* SplashViewController.swift */; };
@@ -438,6 +439,7 @@
 		BA8E2B45297467A2009DDF32 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		BA8E2B4729746881009DDF32 /* SignInResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInResponse.swift; sourceTree = "<group>"; };
 		BA94E81B297E706A00DF23CE /* IntroductionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewModel.swift; sourceTree = "<group>"; };
+		BA98B34829AC956A00307073 /* CommentContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentContent.swift; sourceTree = "<group>"; };
 		BABB0119297ED415004178EC /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		BABB011B297ED74C004178EC /* InterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewModel.swift; sourceTree = "<group>"; };
 		BAC5EF2C298A9E4300F3955E /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -848,6 +850,7 @@
 			children = (
 				BA1FC12429A5E14B00AB3F91 /* Request */,
 				BA1FC12529A5E15200AB3F91 /* Response */,
+				BA98B34829AC956A00307073 /* CommentContent.swift */,
 				BA1FC12629A5E1D900AB3F91 /* FeedsContent.swift */,
 			);
 			path = Feeds;
@@ -1892,6 +1895,7 @@
 				BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */,
 				C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */,
 				70A420B829914B5B0026E9F9 /* SearchParameter.swift in Sources */,
+				BA98B34929AC956A00307073 /* CommentContent.swift in Sources */,
 				70A420AD299002490026E9F9 /* NoResultSearchView.swift in Sources */,
 				BABB011A297ED415004178EC /* InterestViewController.swift in Sources */,
 				70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */,

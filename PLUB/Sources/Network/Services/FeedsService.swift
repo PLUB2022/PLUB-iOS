@@ -99,6 +99,18 @@ extension FeedsService {
     sendRequest(FeedsRouter.likeFeed(plubID: plubIdentifier, feedID: feedIdentifier))
   }
   
+  /// 피드(게시글)의 댓글을 조회합니다.
+  /// - Parameters:
+  ///   - plubIdentifier: 플럽 모임 ID
+  ///   - feedIdentifier: 피드(게시글) ID
+  ///   - page: 페이지 위치, 기본값은 1입니다.
+  func fetchComments(plubIdentifier: Int, feedIdentifier: Int, page: Int = 1) -> PLUBResult<FeedsPaginatedDataResponse<CommentContent>> {
+    sendRequest(
+      FeedsRouter.fetchComments(plubID: plubIdentifier, feedID: feedIdentifier, page: page),
+      type: FeedsPaginatedDataResponse<CommentContent>.self
+    )
+  }
+  
   /// 피드(게시글)에 댓글을 생성합니다.
   /// - Parameters:
   ///   - plubIdentifier: 플럽 모임 ID
@@ -113,5 +125,27 @@ extension FeedsService {
         feedID: feedIdentifier,
         model: CommentsRequest(content: comment, parentCommentID: commentParentIdentifier))
     )
+  }
+  
+  /// 댓글을 수정합니다.
+  /// - Parameters:
+  ///   - plubIdentifier: 플럽 모임 ID
+  ///   - feedIdentifier: 피드(게시글) ID
+  ///   - commentIdentifier: 댓글 ID
+  ///   - comment: 수정할 댓글 내용
+  func updateComment(plubIdentifier: Int, feedIdentifier: Int, commentIdentifier: Int, comment: String) -> PLUBResult<CommentContent> {
+    sendRequest(
+      FeedsRouter.updateComment(plubID: plubIdentifier, feedID: feedIdentifier, commentID: commentIdentifier, content: comment),
+      type: CommentContent.self
+    )
+  }
+  
+  /// 댓글을 삭제합니다. 만약 부모 댓글이 삭제되는 경우, 자식 댓글도 전부 삭제됩니다.
+  /// - Parameters:
+  ///   - plubIdentifier: 플럽 모임 ID
+  ///   - feedIdentifier: 피드(게시글) ID
+  ///   - commentIdentifier: 댓글 ID
+  func deleteComment(plubIdentifier: Int, feedIdentifier: Int, commentIdentifier: Int) -> PLUBResult<EmptyModel> {
+    sendRequest(FeedsRouter.deleteComment(plubID: plubIdentifier, feedID: feedIdentifier, commentID: commentIdentifier))
   }
 }
