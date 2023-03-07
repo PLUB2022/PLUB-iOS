@@ -87,6 +87,7 @@ final class BoardViewController: BaseViewController {
             heightDimension: .fractionalHeight(1)
           )
         )
+        horizontalItem.contentInsets = .init(top: .zero, leading: .zero, bottom: .zero, trailing: 11.87)
         
         let verticalItem = NSCollectionLayoutItem(
           layoutSize: NSCollectionLayoutSize(
@@ -113,7 +114,6 @@ final class BoardViewController: BaseViewController {
             verticalGroup
           ]
         )
-//        horizontalGroup.interItemSpacing = .flexible(11.87)
         
         let section = NSCollectionLayoutSection(group: horizontalGroup)
         section.orthogonalScrollingBehavior = .none
