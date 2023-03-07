@@ -44,10 +44,10 @@ final class BoardViewController: BaseViewController {
   ).then {
     $0.backgroundColor = .background
     $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
+    $0.register(ClipboardCollectionViewCell.self, forCellWithReuseIdentifier: ClipboardCollectionViewCell.identifier)
     $0.register(BoardCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardCollectionHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-    //    $0.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     $0.bounces = false
   }
   
@@ -62,6 +62,11 @@ final class BoardViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+//    var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+//    configuration.backgroundColor = .background
+//    configuration.showsSeparators = false
+//    let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+//    collectionView.collectionViewLayout = layout
   }
   
   override func setupLayouts() {
@@ -195,8 +200,8 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     let section = BoardViewType.allCases[indexPath.section]
     switch section {
     case .clipboard:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
-      cell.configure(with: BoardModel(author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClipboardCollectionViewCell.identifier, for: indexPath) as? ClipboardCollectionViewCell ?? ClipboardCollectionViewCell()
+      cell.type = .photo
       return cell
     case .normalSystem:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
