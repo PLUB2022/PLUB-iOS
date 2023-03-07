@@ -25,6 +25,12 @@ final class BoardViewController: BaseViewController {
   
   private let viewModel: BoardViewModelType
   
+  private var clipboardModel: [MockModel] = [] {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
   /// 스크롤 영역에 따른 헤더 뷰 높이변경을 위한 프로퍼티
   private let min: CGFloat = Device.navigationBarHeight
   private let max: CGFloat = 292
@@ -79,6 +85,13 @@ final class BoardViewController: BaseViewController {
     collectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+  }
+  
+  override func bind() {
+    super.bind()
+    viewModel.createMockData()
+      .subscribe(rx.clipboardModel)
+      .disposed(by: disposeBag)
   }
   
   private func createCollectionViewSection(viewType: BoardViewType) -> NSCollectionLayoutSection? {
@@ -186,7 +199,7 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     case .clipboard:
       switch type {
       case .clipboard:
-        return 3 // 현재 클립보드에 올려져있는 글 갯수
+        return clipboardModel.count // 현재 클립보드에 올려져있는 글 갯수
       case .noClipboard:
         return 0
       }
@@ -201,7 +214,10 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     switch section {
     case .clipboard:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClipboardCollectionViewCell.identifier, for: indexPath) as? ClipboardCollectionViewCell ?? ClipboardCollectionViewCell()
-      cell.type = .photo
+      cell.configureUI(with: clipboardModel.map({ model in
+        return ClipboardCollectionViewCellModel(type: model.type, contentImageString: model.feedImageURL, contentText: model.content)
+      })[indexPath.row]
+      )
       return cell
     case .normalSystem:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()

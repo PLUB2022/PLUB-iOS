@@ -11,6 +11,7 @@ import SnapKit
 import Then
 
 struct ClipboardCollectionViewCellModel {
+  let type: PostType
   let contentImageString: String?
   let contentText: String?
 }
@@ -19,7 +20,7 @@ class ClipboardCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "ClipboardCollectionViewCell"
   
-  var type: PostType? {
+  private var type: PostType? {
     didSet {
       guard oldValue != type else { return }
       configureUI()
@@ -65,7 +66,7 @@ class ClipboardCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: ClipboardCollectionViewCellModel) {
-    guard let type = type else { return }
+    self.type = model.type
     switch type {
     case .text:
       guard let contentText = model.contentText else { return }
