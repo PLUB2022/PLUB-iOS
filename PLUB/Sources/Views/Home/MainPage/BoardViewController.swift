@@ -102,8 +102,8 @@ final class BoardViewController: BaseViewController {
       
       let horizontalGroup = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1/2),
-          heightDimension: .fractionalHeight(1)
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(260)
         ), subitems: [
           horizontalItem,
           verticalGroup
@@ -163,7 +163,7 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     let section = BoardViewType.allCases[section]
     switch section {
     case .clipboard:
-      return 1
+      return 3 // 현재 클립보드에 올려져있는 글 갯수
     case .normalSystem:
       return 10
     }
