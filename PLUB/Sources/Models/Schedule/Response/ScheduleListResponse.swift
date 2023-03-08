@@ -16,13 +16,12 @@ struct ScheduleListResponse: Codable {
 }
 
 struct ScheduleList: Codable {
-  let totalPages: Int
   let totalSchedules: Int
   let last: Bool
   let schedules: [Schedule]
   
   enum CodingKeys: String, CodingKey {
-    case totalPages, last
+    case last
     case totalSchedules = "totalElements"
     case schedules = "content"
   }
