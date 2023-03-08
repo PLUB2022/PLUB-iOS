@@ -94,6 +94,7 @@ final class MeetingScheduleViewController: BaseViewController {
           plubbingID: owner.viewModel.plubbingID,
           data: data
         )
+        vc.delegate = self
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: false)
       })
@@ -140,5 +141,11 @@ extension MeetingScheduleViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     return UIView()
+  }
+}
+
+extension MeetingScheduleViewController: ScheduleParticipantDelegate {
+  func updateAttendStatus() {
+    viewModel.fetchScheduleList()
   }
 }

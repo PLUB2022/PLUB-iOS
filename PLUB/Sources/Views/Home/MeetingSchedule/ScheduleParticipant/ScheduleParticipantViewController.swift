@@ -16,8 +16,12 @@ enum ParticipantListType: CaseIterable {
   case multiLine
 }
 
+protocol ScheduleParticipantDelegate: AnyObject {
+  func updateAttendStatus()
+}
+
 final class ScheduleParticipantViewController: BottomSheetViewController {
-  
+  weak var delegate: ScheduleParticipantDelegate?
   private let data: ScheduleTableViewCellModel
   private var participantListType: ParticipantListType = .oneLine
   
@@ -146,6 +150,13 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
       .asDriver()
       .drive(with: self) { owner, _ in
         owner.viewModel.attendSchedule(type: .yes)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successResult
+      .drive(with: self) { owner, _ in
+        owner.delegate?.updateAttendStatus()
+        owner.dismiss(animated: false)
       }
       .disposed(by: disposeBag)
   }

@@ -15,12 +15,19 @@ final class ScheduleParticipantViewModel {
   private let plubbingID: Int
   private let calendarID: Int
   
+  // Output
+  let successResult: Driver<Void>
+  
+  private let successResultSubject = PublishSubject<Void>()
+  
   init(
     plubbingID: Int,
     calendarID: Int
   ) {
     self.plubbingID = plubbingID
     self.calendarID = calendarID
+    
+    successResult = successResultSubject.asDriver(onErrorDriveWith: .empty())
   }
   
   func attendSchedule(type: AttendScheduleType) {
@@ -34,6 +41,7 @@ final class ScheduleParticipantViewModel {
         switch result {
         case .success(let model):
           print(model)
+          owner.successResultSubject.onNext(())
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       }
