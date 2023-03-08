@@ -47,12 +47,6 @@ final class ScheduleParticipantCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    participantImageView.image = nil
-    moreParticipantLabel.text = nil
-  }
-  
   private func configureUI() {
     contentView.backgroundColor = .background
     [participantImageView, moreParticipantView].forEach {
@@ -76,8 +70,12 @@ final class ScheduleParticipantCollectionViewCell: UICollectionViewCell {
     switch type {
     case .participant:
       moreParticipantView.isHidden = true
-      guard let url = URL(string: model.imageName) else { return }
-      participantImageView.kf.setImage(with: url)
+      if let imageName = model.imageName,
+         let url = URL(string: imageName) {
+        participantImageView.kf.setImage(with: url)
+      } else {
+        participantImageView.image = UIImage(named: "userDefaultImage")
+      }
       
     case .moreParticipant(let count):
       moreParticipantView.isHidden = false

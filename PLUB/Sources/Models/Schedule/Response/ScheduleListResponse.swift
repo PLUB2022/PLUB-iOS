@@ -61,7 +61,7 @@ struct ParticipantList: Codable {
 struct Participant: Codable {
   let scheduleAttendID: Int
   let nickname: String
-  let profileImage: String
+  let profileImage: String?
   let attendStatus: String
   
   enum CodingKeys: String, CodingKey {

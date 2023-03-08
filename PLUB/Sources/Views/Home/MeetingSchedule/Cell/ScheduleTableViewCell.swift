@@ -236,7 +236,7 @@ final class ScheduleTableViewCell: UITableViewCell {
         break
       }
       
-      guard let url = URL(string: participant.profileImage) else { break }
+      guard let profileImage = participant.profileImage, let url = URL(string: profileImage) else { break }
       
       let imageView = UIImageView().then {
         $0.layer.cornerRadius = 12
