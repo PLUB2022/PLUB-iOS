@@ -153,7 +153,8 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     
     wholeStackView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
-      $0.directionalVerticalEdges.equalToSuperview().inset(8)
+      $0.top.equalToSuperview().inset(8)
+      $0.bottom.equalToSuperview().inset(4)
     }
     
     replyImageView.snp.makeConstraints {
