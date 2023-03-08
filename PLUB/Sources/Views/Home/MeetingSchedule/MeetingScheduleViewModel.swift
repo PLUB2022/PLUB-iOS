@@ -128,12 +128,26 @@ final class MeetingScheduleViewModel {
       }
     }
     
-    // 섹션의 마지막 셀이면 indexType last로 변경
     oldData.enumerated().forEach { (index, data) in
+      let firstIndex = 0
+      var firstItem = data.items[firstIndex]
+      
       let lastIndex = data.items.count - 1
       var lastItem = data.items[lastIndex]
-      lastItem.indexType = .last
-      oldData[index].items[lastIndex] = lastItem
+      
+      if data.items.count == 1 {
+        // 섹션의 처음이자 마지막 셀이면 indexType firstAndLast로 변경
+        firstItem.indexType = .firstAndLast
+      } else {
+        // 섹션의 첫번째 셀이면 indexType first로 변경
+        firstItem.indexType = .first
+        // 섹션의 마지막 셀이면 indexType last로 변경
+        lastItem.indexType = .last
+        
+        oldData[index].items[lastIndex] = lastItem
+      }
+      
+      oldData[index].items[firstIndex] = firstItem
     }
     
     scheduleListRelay.accept(oldData)

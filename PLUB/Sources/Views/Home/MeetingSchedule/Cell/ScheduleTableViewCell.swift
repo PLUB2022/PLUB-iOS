@@ -14,6 +14,7 @@ enum ScheduleCellIndexType {
   case first // 첫 셀
   case middle // 나머지 셀
   case last // 마지막 셀
+  case firstAndLast // 처음이자 마지막 셀
 }
 
 struct ScheduleTableViewCellModel {
@@ -173,6 +174,11 @@ final class ScheduleTableViewCell: UITableViewCell {
     case .last:
       lineView.snp.updateConstraints {
         $0.top.equalToSuperview()
+        $0.bottom.equalToSuperview().inset(79)
+      }
+    case .firstAndLast:
+      lineView.snp.updateConstraints {
+        $0.top.equalToSuperview().inset(8)
         $0.bottom.equalToSuperview().inset(79)
       }
     }
