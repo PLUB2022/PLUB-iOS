@@ -22,6 +22,7 @@ protocol ScheduleParticipantDelegate: AnyObject {
 
 final class ScheduleParticipantViewController: BottomSheetViewController {
   weak var delegate: ScheduleParticipantDelegate?
+  private let viewModel: ScheduleParticipantViewModel
   private let data: ScheduleTableViewCellModel
   private var participantListType: ParticipantListType = .oneLine
   
@@ -76,8 +77,6 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
   private let attendButton =  UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "🙆🏻 참여합니다!")
   }
-  
-  private let viewModel: ScheduleParticipantViewModel
   
   init(plubbingID: Int, data: ScheduleTableViewCellModel) {
     self.data = data
