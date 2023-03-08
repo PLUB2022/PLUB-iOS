@@ -104,8 +104,6 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-
-    
     lineView.snp.makeConstraints {
       $0.top.equalToSuperview().offset(8)
       $0.height.equalTo(4)
