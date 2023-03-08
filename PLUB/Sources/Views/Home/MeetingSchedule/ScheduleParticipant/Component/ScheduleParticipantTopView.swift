@@ -20,7 +20,6 @@ final class ScheduleParticipantTopView: UIView {
   }
   
   // 날짜
-  
   private let dateView = UIView().then {
     $0.backgroundColor = .main2
     $0.layer.cornerRadius = 10
@@ -146,7 +145,7 @@ final class ScheduleParticipantTopView: UIView {
     timeView.setText(data.time, data.isPasted)
     
     // 장소
-    if let location = data.location {
+    if let location = data.location, !location.isEmpty {
       locationView.setText(location, data.isPasted)
       locationView.snp.updateConstraints {
         $0.height.equalTo(21)
