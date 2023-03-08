@@ -35,7 +35,7 @@ final class CreateScheduleViewModel {
   private let startDateSubject = PublishSubject<Date>()
   private let endDateSubject = PublishSubject<Date>()
   private let locationSubject = PublishSubject<Location>()
-  private let alarmSubject = PublishSubject<ScheduleAlarmType>()
+  private let alarmSubject = BehaviorSubject<ScheduleAlarmType>(value: .none)
   private let memoSubject = PublishSubject<String>()
   
   private let successResultSubject = PublishSubject<Void>()
