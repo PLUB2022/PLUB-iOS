@@ -21,7 +21,7 @@ extension ScheduleService {
     )
   }
   
-  func inquireScheduleList(plubbingID: Int, cursorId: Int = 0) -> PLUBResult<ScheduleListResponse> {
+  func inquireScheduleList(plubbingID: Int, cursorId: Int?) -> PLUBResult<ScheduleListResponse> {
     return sendRequest(
       ScheduleRouter.inquireScheduleList(plubbingID, cursorId),
       type: ScheduleListResponse.self

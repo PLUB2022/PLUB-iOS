@@ -61,7 +61,8 @@ final class MeetingScheduleViewModel {
   private func fetchScheduleList() {
     ScheduleService.shared
       .inquireScheduleList(
-        plubbingID: plubbingID
+        plubbingID: plubbingID,
+        cursorId: nil
       )
       .withUnretained(self)
       .subscribe(onNext: { owner, result in

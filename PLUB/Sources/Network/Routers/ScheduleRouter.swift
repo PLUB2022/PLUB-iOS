@@ -9,7 +9,7 @@ import Alamofire
 
 enum ScheduleRouter {
   case createSchedule(Int, CreateScheduleRequest)
-  case inquireScheduleList(Int, Int)
+  case inquireScheduleList(Int, Int?)
 }
 
 extension ScheduleRouter: Router {
@@ -36,6 +36,7 @@ extension ScheduleRouter: Router {
     case .createSchedule(_, let model):
       return .body(model)
     case .inquireScheduleList(_, let cursorID):
+      guard let cursorID = cursorID else { return .plain }
       return .query(["cursorId": cursorID])
     }
   }
