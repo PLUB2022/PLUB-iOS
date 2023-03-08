@@ -202,7 +202,7 @@ final class ScheduleTableViewCell: UITableViewCell {
     timeView.setText(data.time, data.isPasted)
     
     // 장소
-    if let location = data.location {
+    if let location = data.location, !location.isEmpty {
       locationView.setText(location, data.isPasted)
       locationView.snp.updateConstraints {
         $0.height.equalTo(21)
