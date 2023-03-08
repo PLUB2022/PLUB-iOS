@@ -90,7 +90,10 @@ final class MeetingScheduleViewController: BaseViewController {
     tableView.rx.modelSelected(ScheduleTableViewCellModel.self)
       .withUnretained(self)
       .subscribe(onNext: { owner, data in
-        let vc = ScheduleParticipantViewController(data: data)
+        let vc = ScheduleParticipantViewController(
+          plubbingID: owner.viewModel.plubbingID,
+          data: data
+        )
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: false)
       })

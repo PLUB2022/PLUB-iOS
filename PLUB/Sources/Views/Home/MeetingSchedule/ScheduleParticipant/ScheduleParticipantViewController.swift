@@ -62,18 +62,25 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
   }
   
   private let noAttendButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "🙅🏻 불참합니다")
-    $0.isEnabled = false
+    $0.configuration?.title = "🙅🏻 불참합니다"
+    $0.configuration?.font = .button
+    $0.configuration?.background.backgroundColor = .lightGray
+    $0.configuration?.background.cornerRadius = 10
+    $0.configuration?.baseForegroundColor = .deepGray
   }
   
   private let attendButton =  UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "🙆🏻 참여합니다!")
   }
   
-  private let viewModel = ScheduleParticipantViewModel()
+  private let viewModel: ScheduleParticipantViewModel
   
-  init(data: ScheduleTableViewCellModel) {
+  init(plubbingID: Int, data: ScheduleTableViewCellModel) {
     self.data = data
+    self.viewModel = ScheduleParticipantViewModel(
+      plubbingID: plubbingID,
+      calendarID: data.calendarID
+    )
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -128,6 +135,19 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
   
   override func bind() {
     super.bind()
+    noAttendButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.viewModel.attendSchedule(type: .no)
+      }
+      .disposed(by: disposeBag)
+    
+    attendButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.viewModel.attendSchedule(type: .yes)
+      }
+      .disposed(by: disposeBag)
   }
 }
 
