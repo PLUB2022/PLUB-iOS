@@ -11,9 +11,9 @@ import SnapKit
 import Then
 
 enum ClipboardType {
-  case one
-  case two
-  case three
+  case one // 클립보드한 내역이 하나인 경우
+  case two // 클립보드한 내역이 2개인 경우
+  case moreThanThree // 클립보드한 내역이 3개이상인 경우
 }
 
 struct ClipboardCollectionViewCellModel {
@@ -75,9 +75,11 @@ class ClipboardCollectionViewCell: UICollectionViewCell {
     self.type = model.type
     switch type {
     case .text:
+      print("텍스트 \(model)")
       guard let contentText = model.contentText else { return }
       contentLabel.text = contentText
     default:
+      print("모델 \(model)")
       guard let contentImage = model.contentImageString,
             let imageURL = URL(string: contentImage) else { return }
       contentImageView.kf.setImage(with: imageURL)
