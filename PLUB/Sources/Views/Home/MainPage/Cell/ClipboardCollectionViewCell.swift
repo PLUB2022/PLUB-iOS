@@ -10,6 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
+enum ClipboardType {
+  case one
+  case two
+  case three
+}
+
 struct ClipboardCollectionViewCellModel {
   let type: PostType
   let contentImageString: String?

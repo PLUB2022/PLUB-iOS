@@ -38,7 +38,6 @@
 		705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C429AFAA5200830C4F /* TodolistViewController.swift */; };
 		705F81C829AFB1DC00830C4F /* BoardCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C729AFB1DC00830C4F /* BoardCollectionHeaderView.swift */; };
 		705F820929B0EE6600830C4F /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820829B0EE6600830C4F /* BoardViewModel.swift */; };
-		705F820C29B0F1C100830C4F /* ClipboardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820B29B0F1C100830C4F /* ClipboardListView.swift */; };
 		705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820D29B1142800830C4F /* MainPageHeaderView.swift */; };
 		705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820F29B127DF00830C4F /* MainPageNavigationView.swift */; };
 		705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 705F821129B2FCEC00830C4F /* GoogleService-Info.plist */; };
@@ -314,7 +313,6 @@
 		705F81C429AFAA5200830C4F /* TodolistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodolistViewController.swift; sourceTree = "<group>"; };
 		705F81C729AFB1DC00830C4F /* BoardCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCollectionHeaderView.swift; sourceTree = "<group>"; };
 		705F820829B0EE6600830C4F /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
-		705F820B29B0F1C100830C4F /* ClipboardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardListView.swift; sourceTree = "<group>"; };
 		705F820D29B1142800830C4F /* MainPageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageHeaderView.swift; sourceTree = "<group>"; };
 		705F820F29B127DF00830C4F /* MainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageNavigationView.swift; sourceTree = "<group>"; };
 		705F821129B2FCEC00830C4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -758,7 +756,6 @@
 		705F820A29B0F1B800830C4F /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				705F820B29B0F1C100830C4F /* ClipboardListView.swift */,
 				705F820D29B1142800830C4F /* MainPageHeaderView.swift */,
 				705F820F29B127DF00830C4F /* MainPageNavigationView.swift */,
 			);
@@ -1814,7 +1811,6 @@
 				BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */,
 				70A420C029914B690026E9F9 /* SearchRecruitmentResponse.swift in Sources */,
 				70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */,
-				705F820C29B0F1C100830C4F /* ClipboardListView.swift in Sources */,
 				C34F71C329799B1C003DB376 /* TimeControl.swift in Sources */,
 				70A420A0298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
