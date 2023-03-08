@@ -242,6 +242,7 @@
 		C383967E29A25D67005998A5 /* CreateScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */; };
 		C383968129A26480005998A5 /* Ex+UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383968029A26480005998A5 /* Ex+UIResponder.swift */; };
 		C384590429B91ECC00944CB5 /* AttendScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384590329B91ECC00944CB5 /* AttendScheduleResponse.swift */; };
+		C384590629B9228200944CB5 /* AttendScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384590529B9228200944CB5 /* AttendScheduleRequest.swift */; };
 		C385D10D2989462300EF88EC /* MeetingSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C385D10C2989462300EF88EC /* MeetingSummaryViewController.swift */; };
 		C385D10F29894BF200EF88EC /* CreateMeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C385D10E29894BF200EF88EC /* CreateMeetingViewModel.swift */; };
 		C38A5B93297ACF5B00485355 /* LocationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B92297ACF5B00485355 /* LocationControl.swift */; };
@@ -510,6 +511,7 @@
 		C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleResponse.swift; sourceTree = "<group>"; };
 		C383968029A26480005998A5 /* Ex+UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIResponder.swift"; sourceTree = "<group>"; };
 		C384590329B91ECC00944CB5 /* AttendScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendScheduleResponse.swift; sourceTree = "<group>"; };
+		C384590529B9228200944CB5 /* AttendScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendScheduleRequest.swift; sourceTree = "<group>"; };
 		C385D10C2989462300EF88EC /* MeetingSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSummaryViewController.swift; sourceTree = "<group>"; };
 		C385D10E29894BF200EF88EC /* CreateMeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewModel.swift; sourceTree = "<group>"; };
 		C38A5B92297ACF5B00485355 /* LocationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationControl.swift; sourceTree = "<group>"; };
@@ -1318,6 +1320,7 @@
 			isa = PBXGroup;
 			children = (
 				C383967529A25718005998A5 /* CreateScheduleRequest.swift */,
+				C384590529B9228200944CB5 /* AttendScheduleRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1857,6 +1860,7 @@
 				C34F71C329799B1C003DB376 /* TimeControl.swift in Sources */,
 				70A420A0298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
+				C384590629B9228200944CB5 /* AttendScheduleRequest.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */,
 				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,

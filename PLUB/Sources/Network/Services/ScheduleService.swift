@@ -30,10 +30,11 @@ extension ScheduleService {
   
   func attendSchedule(
     plubbingID: Int,
-    calendarID: Int
+    calendarID: Int,
+    request: AttendScheduleRequest
   ) -> PLUBResult<AttendScheduleResponse> {
     return sendRequest(
-      ScheduleRouter.attendSchedule(plubbingID, calendarID),
+      ScheduleRouter.attendSchedule(plubbingID, calendarID, request),
       type: AttendScheduleResponse.self
     )
   }

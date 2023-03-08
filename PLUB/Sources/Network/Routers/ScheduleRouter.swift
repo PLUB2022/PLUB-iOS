@@ -10,7 +10,7 @@ import Alamofire
 enum ScheduleRouter {
   case createSchedule(Int, CreateScheduleRequest)
   case inquireScheduleList(Int, Int?)
-  case attendSchedule(Int, Int)
+  case attendSchedule(Int, Int, AttendScheduleRequest)
 }
 
 extension ScheduleRouter: Router {
@@ -28,9 +28,10 @@ extension ScheduleRouter: Router {
   var path: String {
     switch self {
     case .createSchedule(let plubbingID, _),
-        .inquireScheduleList(let plubbingID, _),
-        .attendSchedule(let plubbingID, _):
+        .inquireScheduleList(let plubbingID, _):
       return "/plubbings/\(plubbingID)/calendar"
+    case .attendSchedule(let plubbingID, let calendarID, _):
+      return "/plubbings/\(plubbingID)/calendar/\(calendarID)/attend"
     }
   }
   
@@ -41,8 +42,8 @@ extension ScheduleRouter: Router {
     case .inquireScheduleList(_, let cursorID):
       guard let cursorID = cursorID else { return .plain }
       return .query(["cursorId": cursorID])
-    case .attendSchedule(_, let calendarID):
-      return .query(["calendarId": calendarID])
+    case .attendSchedule(_, _, let model):
+      return .body(model)
     }
   }
   
