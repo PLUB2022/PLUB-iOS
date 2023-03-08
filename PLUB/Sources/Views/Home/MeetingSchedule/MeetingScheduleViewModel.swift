@@ -167,11 +167,5 @@ final class MeetingScheduleViewModel {
       $0.locale = Locale(identifier: "ko_KR")
     }.string(from: date)
   }
-  
-  
-  
-  struct Constants {
-    static let list = [Participant](repeating: Participant(scheduleAttendID: 0, nickname: "수빈", profileImage: "https://t1.daumcdn.net/cfile/tistory/99E6034F5A3320E72A", attendStatus: "YES"), count: 10)
-  }
 }
 
