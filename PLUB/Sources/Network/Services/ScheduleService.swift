@@ -27,4 +27,14 @@ extension ScheduleService {
       type: ScheduleListResponse.self
     )
   }
+  
+  func attendSchedule(
+    plubbingID: Int,
+    calendarID: Int
+  ) -> PLUBResult<AttendScheduleResponse> {
+    return sendRequest(
+      ScheduleRouter.attendSchedule(plubbingID, calendarID),
+      type: AttendScheduleResponse.self
+    )
+  }
 }

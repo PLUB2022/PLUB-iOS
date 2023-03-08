@@ -101,9 +101,10 @@ final class MeetingScheduleViewModel {
                   time: "\(setupTime(schedule.startTime)) - \(setupTime(schedule.endTime))",
                   name: schedule.title,
                   location: schedule.placeName,
-                  participants: Constants.list,
+                  participants: schedule.participantList?.participants ?? [],
                   indexType: .first,
-                  isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
+                  isPasted: (date.compare(Date()) == .orderedAscending) ? true : false,
+                  calendarID: schedule.scheduleID
               )
             ]
           )
@@ -118,9 +119,10 @@ final class MeetingScheduleViewModel {
                 time: "\(setupTime(schedule.startTime)) - \(setupTime(schedule.endTime))",
                 name: schedule.title,
                 location: schedule.placeName,
-                participants: Constants.list,
+                participants: schedule.participantList?.participants ?? [],
                 indexType: .middle,
-                isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
+                isPasted: (date.compare(Date()) == .orderedAscending) ? true : false,
+                calendarID: schedule.scheduleID
               )
             )
             break

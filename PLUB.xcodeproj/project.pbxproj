@@ -241,6 +241,7 @@
 		C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967B29A25A3E005998A5 /* ScheduleRouter.swift */; };
 		C383967E29A25D67005998A5 /* CreateScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */; };
 		C383968129A26480005998A5 /* Ex+UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383968029A26480005998A5 /* Ex+UIResponder.swift */; };
+		C384590429B91ECC00944CB5 /* AttendScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384590329B91ECC00944CB5 /* AttendScheduleResponse.swift */; };
 		C385D10D2989462300EF88EC /* MeetingSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C385D10C2989462300EF88EC /* MeetingSummaryViewController.swift */; };
 		C385D10F29894BF200EF88EC /* CreateMeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C385D10E29894BF200EF88EC /* CreateMeetingViewModel.swift */; };
 		C38A5B93297ACF5B00485355 /* LocationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5B92297ACF5B00485355 /* LocationControl.swift */; };
@@ -508,6 +509,7 @@
 		C383967B29A25A3E005998A5 /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
 		C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleResponse.swift; sourceTree = "<group>"; };
 		C383968029A26480005998A5 /* Ex+UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIResponder.swift"; sourceTree = "<group>"; };
+		C384590329B91ECC00944CB5 /* AttendScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendScheduleResponse.swift; sourceTree = "<group>"; };
 		C385D10C2989462300EF88EC /* MeetingSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSummaryViewController.swift; sourceTree = "<group>"; };
 		C385D10E29894BF200EF88EC /* CreateMeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewModel.swift; sourceTree = "<group>"; };
 		C38A5B92297ACF5B00485355 /* LocationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationControl.swift; sourceTree = "<group>"; };
@@ -1325,6 +1327,7 @@
 			children = (
 				C383967D29A25D67005998A5 /* CreateScheduleResponse.swift */,
 				C3622B4629A7C414005EF09C /* ScheduleListResponse.swift */,
+				C384590329B91ECC00944CB5 /* AttendScheduleResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1756,6 +1759,7 @@
 				C38A5B9F297B022A00485355 /* SearchView.swift in Sources */,
 				C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */,
 				BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */,
+				C384590429B91ECC00944CB5 /* AttendScheduleResponse.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
 				C33FB0722993F84A00BEB15B /* EditMeetingViewController.swift in Sources */,
 				BA1D4A7B29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift in Sources */,

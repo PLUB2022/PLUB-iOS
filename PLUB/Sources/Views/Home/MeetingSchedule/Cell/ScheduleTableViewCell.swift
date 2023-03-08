@@ -26,6 +26,7 @@ struct ScheduleTableViewCellModel {
   let participants: [Participant] // 참여자 목록
   var indexType: ScheduleCellIndexType // 셀 인덱스 타입
   let isPasted: Bool // 지난 일정인지 여부
+  let calendarID: Int // 일정 ID
 }
 
 final class ScheduleTableViewCell: UITableViewCell {
