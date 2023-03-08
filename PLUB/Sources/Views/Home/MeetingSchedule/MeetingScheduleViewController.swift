@@ -39,6 +39,11 @@ final class MeetingScheduleViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.fetchScheduleList()
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [scheduleTopView, tableView].forEach {

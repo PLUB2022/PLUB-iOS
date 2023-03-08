@@ -28,6 +28,7 @@ extension MeetingScheduleData: SectionModelType {
 final class MeetingScheduleViewModel {
   private let disposeBag = DisposeBag()
   private(set) var plubbingID: Int
+  private(set) var cursorID: Int?
   
   // Output
   let scheduleList: Driver<[MeetingScheduleData]>
@@ -37,7 +38,6 @@ final class MeetingScheduleViewModel {
   init(plubbingID: Int) {
     self.plubbingID = plubbingID
     scheduleList = scheduleListRelay.asDriver()
-    fetchScheduleList()
   }
   
   func dataSource() -> RxTableViewSectionedReloadDataSource<MeetingScheduleData> {
@@ -58,11 +58,11 @@ final class MeetingScheduleViewModel {
     return dataSource
   }
   
-  private func fetchScheduleList() {
+  func fetchScheduleList() {
     ScheduleService.shared
       .inquireScheduleList(
         plubbingID: plubbingID,
-        cursorId: nil
+        cursorID: cursorID
       )
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
@@ -77,7 +77,8 @@ final class MeetingScheduleViewModel {
   }
   
   private func handleScheduleList(data: [Schedule]) {
-    var oldData = scheduleListRelay.value
+    
+    var oldData = cursorID == nil ? [] : scheduleListRelay.value
     
     data.forEach { schedule in
       let date = DateFormatter().then {
@@ -164,6 +165,8 @@ final class MeetingScheduleViewModel {
       $0.locale = Locale(identifier: "ko_KR")
     }.string(from: date)
   }
+  
+  
   
   struct Constants {
     static let list = [Participant](repeating: Participant(scheduleAttendID: 0, nickname: "수빈", profileImage: "https://t1.daumcdn.net/cfile/tistory/99E6034F5A3320E72A", attendStatus: "YES"), count: 10)

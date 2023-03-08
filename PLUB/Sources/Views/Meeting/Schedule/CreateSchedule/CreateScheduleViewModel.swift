@@ -28,6 +28,7 @@ final class CreateScheduleViewModel {
   
   // Output
   let isButtonEnabled: Driver<Bool>
+  let successResult: Driver<Void>
 
   private let titleSubject = PublishSubject<String>()
   private let allDaySwitchSubject = PublishSubject<Bool>()
@@ -36,6 +37,8 @@ final class CreateScheduleViewModel {
   private let locationSubject = PublishSubject<Location>()
   private let alarmSubject = PublishSubject<ScheduleAlarmType>()
   private let memoSubject = PublishSubject<String>()
+  
+  private let successResultSubject = PublishSubject<Void>()
   
   private let scheduleRelay = BehaviorRelay<CreateScheduleRequest>(value: CreateScheduleRequest())
   
@@ -58,6 +61,7 @@ final class CreateScheduleViewModel {
       !$1.isEmpty &&
       $1 != "메모 내용을 입력해주세요."
     }
+    successResult = successResultSubject.asDriver(onErrorDriveWith: .empty())
     
     bind()
   }
@@ -161,6 +165,7 @@ final class CreateScheduleViewModel {
         switch result {
         case .success(let model):
           print(model)
+          owner.successResultSubject.onNext(())
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })
