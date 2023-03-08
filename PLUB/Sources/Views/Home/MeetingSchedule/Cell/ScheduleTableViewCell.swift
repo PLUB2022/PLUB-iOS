@@ -38,7 +38,11 @@ final class ScheduleTableViewCell: UITableViewCell {
   }
   
   // 선
-  private let lineView = UIView().then {
+  private let topLineView = UIView().then {
+    $0.backgroundColor = .black
+  }
+  
+  private let bottomLineView = UIView().then {
     $0.backgroundColor = .black
   }
   
@@ -92,10 +96,13 @@ final class ScheduleTableViewCell: UITableViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    participantStackView.subviews.forEach {
+      $0.removeFromSuperview()
+    }
   }
   
   private func setupLayouts() {
-    [lineView, pointImageView, dateView, contentStackView, participantStackView].forEach {
+    [topLineView, bottomLineView, pointImageView, dateView, contentStackView, participantStackView].forEach {
       addSubview($0)
     }
     
@@ -115,8 +122,15 @@ final class ScheduleTableViewCell: UITableViewCell {
       $0.leading.equalToSuperview().inset(17)
     }
     
-    lineView.snp.makeConstraints {
+    topLineView.snp.makeConstraints {
       $0.top.equalToSuperview()
+      $0.bottom.equalTo(pointImageView.snp.top)
+      $0.width.equalTo(1)
+      $0.centerX.equalTo(pointImageView.snp.centerX)
+    }
+    
+    bottomLineView.snp.makeConstraints {
+      $0.top.equalTo(pointImageView.snp.bottom)
       $0.bottom.equalToSuperview()
       $0.width.equalTo(1)
       $0.centerX.equalTo(pointImageView.snp.centerX)
@@ -163,24 +177,20 @@ final class ScheduleTableViewCell: UITableViewCell {
     // 선
     switch data.indexType {
     case .first:
-      lineView.snp.updateConstraints {
-        $0.top.equalToSuperview().inset(8)
-        $0.bottom.equalToSuperview()
-      }
+      topLineView.isHidden = true
+      bottomLineView.isHidden = false
+      
     case .middle:
-      lineView.snp.updateConstraints {
-        $0.top.bottom.equalToSuperview()
-      }
+      topLineView.isHidden = false
+      bottomLineView.isHidden = false
+      
     case .last:
-      lineView.snp.updateConstraints {
-        $0.top.equalToSuperview()
-        $0.bottom.equalToSuperview().inset(79)
-      }
+      topLineView.isHidden = false
+      bottomLineView.isHidden = true
+      
     case .firstAndLast:
-      lineView.snp.updateConstraints {
-        $0.top.equalToSuperview().inset(8)
-        $0.bottom.equalToSuperview().inset(79)
-      }
+      topLineView.isHidden = true
+      bottomLineView.isHidden = true
     }
     
     // 점
@@ -215,10 +225,6 @@ final class ScheduleTableViewCell: UITableViewCell {
     }
     
     // 참석자
-    participantStackView.subviews.forEach {
-      $0.removeFromSuperview()
-    }
-    
     let totalParticipant = data.participants.count
     
     for (index, participant) in data.participants.enumerated() {
