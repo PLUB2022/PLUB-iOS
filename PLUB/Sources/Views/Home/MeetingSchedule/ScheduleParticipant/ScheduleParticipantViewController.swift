@@ -138,11 +138,12 @@ extension ScheduleParticipantViewController: UICollectionViewDelegate, UICollect
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    let participantCount = data.participants.count
     switch participantListType {
     case .oneLine:
-      return data.participants.count //+ 1
+      return participantCount > 7 ? 7 : participantCount
     case .multiLine:
-      return data.participants.count
+      return participantCount
     }
   }
   
@@ -171,12 +172,17 @@ extension ScheduleParticipantViewController: UICollectionViewDelegate, UICollect
     switch participantListType {
     case .oneLine:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScheduleParticipantCollectionViewCell.identifier, for: indexPath) as? ScheduleParticipantCollectionViewCell ?? ScheduleParticipantCollectionViewCell()
+      
       let model = data.participants[indexPath.row]
-      cell.configureUI(with:
-          .init(
-            name: model.nickname,
-            imageName: model.profileImage
-          )
+      let participantCount = data.participants.count
+      let isMoreCell = participantCount > 7 && indexPath.row == 6 ? true : false
+      
+      cell.configureUI(
+        with: .init(
+          name: model.nickname,
+          imageName: model.profileImage
+        ),
+        type: isMoreCell ? .moreParticipant(participantCount - 7) : .participant
       )
       return cell
     case .multiLine:
