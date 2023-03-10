@@ -75,11 +75,9 @@ class ClipboardCollectionViewCell: UICollectionViewCell {
     self.type = model.type
     switch type {
     case .text:
-      print("텍스트 \(model)")
       guard let contentText = model.contentText else { return }
       contentLabel.text = contentText
     default:
-      print("모델 \(model)")
       guard let contentImage = model.contentImageString,
             let imageURL = URL(string: contentImage) else { return }
       contentImageView.kf.setImage(with: imageURL)

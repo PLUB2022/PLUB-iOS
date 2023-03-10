@@ -729,7 +729,6 @@
 				705F820729B0EE5900830C4F /* ViewModel */,
 				705F81C629AFB1B600830C4F /* Cell */,
 				705F81BE29AF35B700830C4F /* MainPageViewController.swift */,
-				705F81C029AF8E7300830C4F /* MainPageViewModel.swift */,
 				705F81C229AFAA3B00830C4F /* BoardViewController.swift */,
 				705F81C429AFAA5200830C4F /* TodolistViewController.swift */,
 			);
@@ -748,6 +747,7 @@
 		705F820729B0EE5900830C4F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				705F81C029AF8E7300830C4F /* MainPageViewModel.swift */,
 				705F820829B0EE6600830C4F /* BoardViewModel.swift */,
 			);
 			path = ViewModel;
