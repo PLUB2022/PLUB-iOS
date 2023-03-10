@@ -11,5 +11,14 @@ class BaseNavigationController: UINavigationController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    interactivePopGestureRecognizer?.delegate = self
+  }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension BaseNavigationController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    viewControllers.count > 1
   }
 }
