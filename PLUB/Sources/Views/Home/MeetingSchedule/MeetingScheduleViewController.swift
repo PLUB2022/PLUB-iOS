@@ -39,6 +39,11 @@ final class MeetingScheduleViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.fetchScheduleList()
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [scheduleTopView, tableView].forEach {
@@ -82,6 +87,19 @@ final class MeetingScheduleViewController: BaseViewController {
       .drive(tableView.rx.items(dataSource: datasource))
       .disposed(by: disposeBag)
     
+    tableView.rx.modelSelected(ScheduleTableViewCellModel.self)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, data in
+        let vc = ScheduleParticipantViewController(
+          plubbingID: owner.viewModel.plubbingID,
+          data: data
+        )
+        vc.delegate = self
+        vc.modalPresentationStyle = .overFullScreen
+        owner.present(vc, animated: false)
+      })
+      .disposed(by: disposeBag)
+    
     tableView
       .rx.setDelegate(self)
       .disposed(by: disposeBag)
@@ -123,5 +141,11 @@ extension MeetingScheduleViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
     return UIView()
+  }
+}
+
+extension MeetingScheduleViewController: ScheduleParticipantDelegate {
+  func updateAttendStatus() {
+    viewModel.fetchScheduleList()
   }
 }
