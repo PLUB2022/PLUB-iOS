@@ -51,8 +51,6 @@ extension UIFont {
   static let caption2 = UIFont(name: Pretendard.bold.rawValue, size: 12)
   static let overLine = UIFont(name: Pretendard.regular.rawValue, size: 10)
   
-  static let onboarding = UIFont(name: Nanum.default.rawValue, size: 36)
-  
   /// PLUB에서  사용되는 Font-Family를 Custom으로 설정합니다.
   /// - Parameters:
   ///   - family: PLUB에서 사용하는 font-family
