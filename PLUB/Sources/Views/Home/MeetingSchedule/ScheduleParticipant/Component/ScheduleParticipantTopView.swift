@@ -21,7 +21,7 @@ final class ScheduleParticipantTopView: UIView {
   
   // 날짜
   private let dateView = UIView().then {
-    $0.backgroundColor = .main2
+    $0.backgroundColor = .subMain
     $0.layer.cornerRadius = 10
   }
   

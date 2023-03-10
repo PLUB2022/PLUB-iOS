@@ -31,7 +31,7 @@ final class IntroduceTagCollectionViewCell: UICollectionViewCell {
   }
   
   private func configreUI() {
-    contentView.backgroundColor = .main2
+    contentView.backgroundColor = .subMain
     contentView.layer.masksToBounds = true
     contentView.layer.cornerRadius = 4
     
