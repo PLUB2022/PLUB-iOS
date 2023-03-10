@@ -29,7 +29,7 @@ final class NoLocationView: UIView {
       다시 검색해 보세요.
     """
     $0.textColor = .deepGray
-    $0.font = .caption3
+    $0.font = .caption
     $0.numberOfLines = 0
     $0.textAlignment = .left
     $0.addLineSpacing($0)
