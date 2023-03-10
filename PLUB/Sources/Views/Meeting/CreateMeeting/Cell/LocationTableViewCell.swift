@@ -35,7 +35,7 @@ final class LocationTableViewCell: UITableViewCell {
   
   private let subTitleLabel = UILabel().then {
     $0.textColor = .mediumGray
-    $0.font = .button2
+    $0.font = .caption
   }
     
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
