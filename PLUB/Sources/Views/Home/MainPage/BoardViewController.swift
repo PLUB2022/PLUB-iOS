@@ -57,6 +57,7 @@ final class BoardViewController: BaseViewController {
     $0.backgroundColor = .background
     $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
     $0.register(ClipboardCollectionViewCell.self, forCellWithReuseIdentifier: ClipboardCollectionViewCell.identifier)
+    $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
     $0.bounces = false
@@ -165,6 +166,16 @@ final class BoardViewController: BaseViewController {
           section = NSCollectionLayoutSection(group: horizontalGroup)
         }
         
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+          layoutSize: NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(19.81 + 11 + 12.19)
+          ),
+          elementKind: UICollectionView.elementKindSectionHeader,
+          alignment: .top
+        )
+        
+        section.boundarySupplementaryItems = [header]
         section.orthogonalScrollingBehavior = .none
         section.contentInsets = .init(top: 16, leading: 16, bottom: .zero, trailing: 16)
         return section
@@ -255,6 +266,13 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
       cell.configure(with: BoardModel(author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
       return cell
     }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    let boardSection = BoardViewType.allCases[indexPath.section]
+    guard boardSection == .clipboard else { return UICollectionReusableView() }
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardClipboardHeaderView.identifier, for: indexPath) as? BoardClipboardHeaderView ?? BoardClipboardHeaderView()
+    return header
   }
 }
 
