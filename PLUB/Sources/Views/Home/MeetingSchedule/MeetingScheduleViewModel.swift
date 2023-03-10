@@ -81,11 +81,16 @@ final class MeetingScheduleViewModel {
     var oldData = cursorID == nil ? [] : scheduleListRelay.value
     
     data.forEach { schedule in
-      let date = DateFormatter().then {
-        $0.dateFormat = "yyyy-MM-dd"
-      }.date(from: schedule.startDay) ?? Date()
+      let dateFormatter = DateFormatter().then {
+        $0.dateFormat = "yyyy-M-dd"
+      }
       
-      let dateArr = schedule.startDay.components(separatedBy: "-")
+      let date = dateFormatter
+        .date(from: schedule.startDay) ?? Date()
+      let dateArr = dateFormatter
+        .string(from: date)
+        .components(separatedBy: "-")
+      
       let year = dateArr[0]
       let month = dateArr[1]
       let day = dateArr[2]

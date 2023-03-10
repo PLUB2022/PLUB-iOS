@@ -17,11 +17,11 @@ struct ScheduleListResponse: Codable {
 
 struct ScheduleList: Codable {
   let totalSchedules: Int
-  let last: Bool
+  let isLast: Bool
   let schedules: [Schedule]
   
   enum CodingKeys: String, CodingKey {
-    case last
+    case isLast = "last"
     case totalSchedules = "totalElements"
     case schedules = "content"
   }

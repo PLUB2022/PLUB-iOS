@@ -120,7 +120,7 @@ final class ScheduleTableViewCell: UITableViewCell {
     pointImageView.snp.makeConstraints {
       $0.size.equalTo(9)
       $0.top.equalToSuperview().inset(8)
-      $0.leading.equalToSuperview().inset(17)
+      $0.leading.equalToSuperview().inset(16)
     }
     
     topLineView.snp.makeConstraints {
