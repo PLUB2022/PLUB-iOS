@@ -97,6 +97,7 @@ final class MainPageViewController: BaseViewController {
     )
     
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
+    self.navigationController?.navigationBar.isHidden = true
     title = "요란한 밧줄"
     
     let scrollView = pageViewController.view.subviews

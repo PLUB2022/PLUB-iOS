@@ -41,7 +41,7 @@ final class BoardViewController: BaseViewController {
   private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
-  private var type: BoardHeaderViewType = .clipboard(.one) {
+  private var type: BoardHeaderViewType = .clipboard(.moreThanThree) {
     didSet {
       collectionView.reloadSections([0])
     }
