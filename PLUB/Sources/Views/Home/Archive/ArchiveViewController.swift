@@ -18,6 +18,25 @@ final class ArchiveViewController: BaseViewController {
   
   private let viewModel: ArchiveViewModelType
   
+  // MARK: - UI Components
+  
+  // MARK: Header
+  
+  private let headerStackView = UIStackView().then {
+    $0.alignment = .center
+  }
+  
+  private let titleLabel = UILabel().then {
+    $0.text = "모임 아카이브"
+    $0.font = .h3
+  }
+  
+  private let uploadButton = UIButton(
+    configuration: .plubFilledButton(
+      title: "업로드",
+      contentInsets: .init(top: 5, leading: 8, bottom: 5, trailing: 8)
+    )
+  )
   
   // MARK: - Initializations
   
@@ -40,10 +59,19 @@ final class ArchiveViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
+    view.addSubview(headerStackView)
+    
+    [titleLabel, uploadButton].forEach {
+      headerStackView.addArrangedSubview($0)
+    }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    headerStackView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+    }
   }
   
   override func setupStyles() {
