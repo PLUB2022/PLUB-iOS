@@ -37,19 +37,19 @@ extension UIFont {
 }
 
 extension UIFont {
-  static let h1 = UIFont(name: Pretendard.bold.rawValue, size: 32)
-  static let h2 = UIFont(name: Pretendard.bold.rawValue, size: 28)
-  static let h3 = UIFont(name: Pretendard.semiBold.rawValue, size: 24)
-  static let h4 = UIFont(name: Pretendard.semiBold.rawValue, size: 20)
-  static let h5 = UIFont(name: Pretendard.semiBold.rawValue, size: 18)
-  static let subtitle = UIFont(name: Pretendard.semiBold.rawValue, size: 16)
-  static let body1 = UIFont(name: Pretendard.semiBold.rawValue, size: 16)
-  static let body2 = UIFont(name: Pretendard.regular.rawValue, size: 16)
-  static let body3 = UIFont(name: Pretendard.medium.rawValue, size: 16)
-  static let button = UIFont(name: Pretendard.bold.rawValue, size: 14)
-  static let caption = UIFont(name: Pretendard.medium.rawValue, size: 12)
-  static let caption2 = UIFont(name: Pretendard.bold.rawValue, size: 12)
-  static let overLine = UIFont(name: Pretendard.regular.rawValue, size: 10)
+  static let h1 = UIFont(name: Pretendard.bold.rawValue, size: 32)!
+  static let h2 = UIFont(name: Pretendard.bold.rawValue, size: 28)!
+  static let h3 = UIFont(name: Pretendard.semiBold.rawValue, size: 24)!
+  static let h4 = UIFont(name: Pretendard.semiBold.rawValue, size: 20)!
+  static let h5 = UIFont(name: Pretendard.semiBold.rawValue, size: 18)!
+  static let subtitle = UIFont(name: Pretendard.semiBold.rawValue, size: 16)!
+  static let body1 = UIFont(name: Pretendard.semiBold.rawValue, size: 16)!
+  static let body2 = UIFont(name: Pretendard.regular.rawValue, size: 16)!
+  static let body3 = UIFont(name: Pretendard.medium.rawValue, size: 16)!
+  static let button = UIFont(name: Pretendard.bold.rawValue, size: 14)!
+  static let caption = UIFont(name: Pretendard.medium.rawValue, size: 12)!
+  static let caption2 = UIFont(name: Pretendard.bold.rawValue, size: 12)!
+  static let overLine = UIFont(name: Pretendard.regular.rawValue, size: 10)!
   
   /// PLUB에서  사용되는 Font-Family를 Custom으로 설정합니다.
   /// - Parameters:
