@@ -41,7 +41,7 @@ final class BoardViewController: BaseViewController {
   private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
-  private var type: BoardHeaderViewType = .noClipboard {
+  private var type: BoardHeaderViewType = .clipboard(.moreThanThree) {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -111,7 +111,7 @@ final class BoardViewController: BaseViewController {
             heightDimension: .fractionalHeight(1)
           )
         )
-        horizontalItem.contentInsets = .init(top: .zero, leading: .zero, bottom: .zero, trailing: 11.87)
+        horizontalItem.contentInsets = .init(top: .zero, leading: .zero, bottom: .zero, trailing: 12)
         
         let verticalItem = NSCollectionLayoutItem(
           layoutSize: NSCollectionLayoutSize(

@@ -28,9 +28,9 @@ final class BoardViewModel: BoardViewModelType {
   
   func createMockData() -> Observable<[MockModel]> {
     return Observable.just([
-//      MockModel(type: .photo, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
-//      MockModel(type: .text, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
-//      MockModel(type: .photoAndText, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
+      MockModel(type: .photo, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
+      MockModel(type: .text, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
+      MockModel(type: .photoAndText, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
 //      MockModel(type: .photoAndText, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
 //      MockModel(type: .text, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
 //      MockModel(type: .text, viewType: .pin, content: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ", feedImageURL: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png"),
