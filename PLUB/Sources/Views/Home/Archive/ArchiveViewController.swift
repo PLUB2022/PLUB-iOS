@@ -26,6 +26,11 @@ final class ArchiveViewController: BaseViewController {
     $0.alignment = .center
   }
   
+  private let gradientLayer = CAGradientLayer().then {
+    $0.locations = [0.7]
+    $0.colors = [UIColor.background.cgColor, UIColor.background.withAlphaComponent(0).cgColor]
+  }
+  
   private let titleLabel = UILabel().then {
     $0.text = "모임 아카이브"
     $0.font = .h3
@@ -62,13 +67,21 @@ final class ArchiveViewController: BaseViewController {
     collectionView.delegate = self
   }
   
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    var frame = headerStackView.bounds
+    frame.size.height += 32
+    gradientLayer.frame = frame
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(headerStackView)
     view.addSubview(collectionView)
+    view.addSubview(headerStackView)
     
+    headerStackView.layer.addSublayer(gradientLayer)
     [titleLabel, uploadButton].forEach {
       headerStackView.addArrangedSubview($0)
     }
