@@ -41,7 +41,7 @@ final class BoardViewController: BaseViewController {
   private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
-  private var type: BoardHeaderViewType = .clipboard(.moreThanThree) {
+  private var type: BoardHeaderViewType = .noClipboard {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -226,12 +226,7 @@ extension BoardViewController: UIScrollViewDelegate {
 
 extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    switch type {
-    case .clipboard:
       return BoardViewType.allCases.count
-    case .noClipboard:
-      return BoardViewType.allCases.count - 1
-    }
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
