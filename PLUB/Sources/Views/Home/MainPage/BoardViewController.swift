@@ -15,7 +15,7 @@ enum BoardHeaderViewType {
   case noClipboard // 클립보드 목록이 하나도 존재하지않을 때
 }
 
-enum BoardViewType: CaseIterable { // 게시판관련 섹션타입
+enum BoardSectionType: CaseIterable { // 게시판관련 섹션타입
   case clipboard // 최상단 클립보드
   case normalSystem // ViewType이 Normal, System에 해당
 }
@@ -51,7 +51,7 @@ final class BoardViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
       guard let self = self else { return nil }
-      return self.createCollectionViewSection(viewType: BoardViewType.allCases[sec])
+      return self.createCollectionViewSection(viewType: BoardSectionType.allCases[sec])
     }
   ).then {
     $0.backgroundColor = .background
@@ -74,11 +74,11 @@ final class BoardViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    //    var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-    //    configuration.backgroundColor = .background
-    //    configuration.showsSeparators = false
-    //    let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-    //    collectionView.collectionViewLayout = layout
+//        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+//        configuration.backgroundColor = .background
+//        configuration.showsSeparators = false
+//        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+//    collectionView.setCollectionViewLayout(layout, animated: true)
   }
   
   override func setupLayouts() {
@@ -100,7 +100,7 @@ final class BoardViewController: BaseViewController {
       .disposed(by: disposeBag)
   }
   
-  private func createCollectionViewSection(viewType: BoardViewType) -> NSCollectionLayoutSection? {
+  private func createCollectionViewSection(viewType: BoardSectionType) -> NSCollectionLayoutSection? {
     switch viewType {
     case .clipboard:
       switch type {
@@ -226,11 +226,11 @@ extension BoardViewController: UIScrollViewDelegate {
 
 extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-      return BoardViewType.allCases.count
+      return BoardSectionType.allCases.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    let section = BoardViewType.allCases[section]
+    let section = BoardSectionType.allCases[section]
     
     switch section {
     case .clipboard:
@@ -247,7 +247,7 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let section = BoardViewType.allCases[indexPath.section]
+    let section = BoardSectionType.allCases[indexPath.section]
     switch section {
     case .clipboard:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPageClipboardCollectionViewCell.identifier, for: indexPath) as? MainPageClipboardCollectionViewCell ?? MainPageClipboardCollectionViewCell()
@@ -264,7 +264,7 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let boardSection = BoardViewType.allCases[indexPath.section]
+    let boardSection = BoardSectionType.allCases[indexPath.section]
     guard boardSection == .clipboard else { return UICollectionReusableView() }
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardClipboardHeaderView.identifier, for: indexPath) as? BoardClipboardHeaderView ?? BoardClipboardHeaderView()
     return header

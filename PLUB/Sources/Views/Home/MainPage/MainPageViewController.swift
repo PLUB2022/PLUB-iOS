@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+
 /// 메인페이지 탑 탭바 타입
 enum MainPageFilterType {
   case board

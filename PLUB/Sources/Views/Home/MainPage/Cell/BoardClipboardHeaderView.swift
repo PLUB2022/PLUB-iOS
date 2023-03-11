@@ -59,9 +59,8 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     }
     
     horizontalStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(11)
-      $0.bottom.equalToSuperview().inset(12.19)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.top.equalToSuperview().inset(9)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(10)
     }
     
   }
