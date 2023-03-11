@@ -37,6 +37,7 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
   
   // MARK: Content Part
   
+  /// 하얀 배경으로 여러 정보를 담고 있는 뷰(이미지, 타이틀, 날짜 등)
   private let containerView = UIView().then {
     $0.backgroundColor = .white
     $0.layer.cornerRadius = 10
@@ -55,6 +56,21 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     $0.backgroundColor = .deepGray
     $0.alpha = 0.1
     $0.layer.cornerRadius = 6
+  }
+  
+  private let photoCountInformationStackView = UIStackView().then {
+    $0.spacing = 2
+    $0.alignment = .center
+  }
+  
+  private let photoCountImageView = UIImageView(image: .init(named: "photoLibrary")).then {
+    $0.contentMode = .scaleAspectFit
+  }
+  
+  private let photoCountLabel = UILabel().then {
+    $0.text = "0"
+    $0.textColor = .white
+    $0.font = .caption2
   }
   
   // MARK: - Initializations
@@ -84,6 +100,9 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     [thirdContentImageView, secondContentImageView, firstContentImageView].forEach {
       containerView.addSubview($0)
     }
+    firstContentImageView.addSubview(photoCountInformationStackView)
+    photoCountInformationStackView.addArrangedSubview(photoCountImageView)
+    photoCountInformationStackView.addArrangedSubview(photoCountLabel)
   }
   
   private func setupConstraints() {
@@ -124,7 +143,14 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
       $0.size.equalTo(secondContentImageView.snp.size).offset(-8) // 두 번째 이미지에서 8을 뺀 크기
     }
     
+    // photo count
+    photoCountInformationStackView.snp.makeConstraints {
+      $0.leading.bottom.equalToSuperview().inset(6)
+    }
     
+    photoCountImageView.snp.makeConstraints {
+      $0.size.equalTo(16)
+    }
   }
   
   private func setupStyles() {
