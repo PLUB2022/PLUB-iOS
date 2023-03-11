@@ -10,21 +10,21 @@ import UIKit
 import SnapKit
 import Then
 
-enum ClipboardType {
+enum MainPageClipboardType {
   case one // 클립보드한 내역이 하나인 경우
   case two // 클립보드한 내역이 2개인 경우
   case moreThanThree // 클립보드한 내역이 3개이상인 경우
 }
 
-struct ClipboardCollectionViewCellModel {
+struct MainPageClipboardCollectionViewCellModel {
   let type: PostType
   let contentImageString: String?
   let contentText: String?
 }
 
-class ClipboardCollectionViewCell: UICollectionViewCell {
+final class MainPageClipboardCollectionViewCell: UICollectionViewCell {
   
-  static let identifier = "ClipboardCollectionViewCell"
+  static let identifier = "MainPageClipboardCollectionViewCell"
   
   private var type: PostType? {
     didSet {
@@ -71,7 +71,7 @@ class ClipboardCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  func configureUI(with model: ClipboardCollectionViewCellModel) {
+  func configureUI(with model: MainPageClipboardCollectionViewCellModel) {
     self.type = model.type
     switch type {
     case .text:

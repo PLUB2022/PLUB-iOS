@@ -18,7 +18,7 @@
 		70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */; };
 		70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */; };
 		70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B802955A68C000503F6 /* CategoryInfoListView.swift */; };
-		701A9C9C29B72656006F53C2 /* ClipboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701A9C9B29B72656006F53C2 /* ClipboardCollectionViewCell.swift */; };
+		701A9C9C29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701A9C9B29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift */; };
 		701A9C9E29BB2178006F53C2 /* BoardClipboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701A9C9D29BB2178006F53C2 /* BoardClipboardHeaderView.swift */; };
 		702876B1299B788400E57509 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B0299B788400E57509 /* NoticeViewController.swift */; };
 		702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */; };
@@ -293,7 +293,7 @@
 		70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryFilterHeaderView.swift; sourceTree = "<group>"; };
 		70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewModel.swift; sourceTree = "<group>"; };
 		70197B802955A68C000503F6 /* CategoryInfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfoListView.swift; sourceTree = "<group>"; };
-		701A9C9B29B72656006F53C2 /* ClipboardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardCollectionViewCell.swift; sourceTree = "<group>"; };
+		701A9C9B29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageClipboardCollectionViewCell.swift; sourceTree = "<group>"; };
 		701A9C9D29BB2178006F53C2 /* BoardClipboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardClipboardHeaderView.swift; sourceTree = "<group>"; };
 		702876B0299B788400E57509 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -738,7 +738,7 @@
 		705F81C629AFB1B600830C4F /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				701A9C9B29B72656006F53C2 /* ClipboardCollectionViewCell.swift */,
+				701A9C9B29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift */,
 				701A9C9D29BB2178006F53C2 /* BoardClipboardHeaderView.swift */,
 			);
 			path = Cell;
@@ -1730,7 +1730,7 @@
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
 				C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */,
-				701A9C9C29B72656006F53C2 /* ClipboardCollectionViewCell.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift in Sources */,
 				70A420B429914B370026E9F9 /* AllCategoryListResponse.swift in Sources */,
 				C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */,
 				BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */,

@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 enum BoardHeaderViewType {
-  case clipboard(ClipboardType) // 클립보드 목록이 하나 이상 존재할 때
+  case clipboard(MainPageClipboardType) // 클립보드 목록이 하나 이상 존재할 때
   case noClipboard // 클립보드 목록이 하나도 존재하지않을 때
 }
 
@@ -56,7 +56,7 @@ final class BoardViewController: BaseViewController {
   ).then {
     $0.backgroundColor = .background
     $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
-    $0.register(ClipboardCollectionViewCell.self, forCellWithReuseIdentifier: ClipboardCollectionViewCell.identifier)
+    $0.register(MainPageClipboardCollectionViewCell.self, forCellWithReuseIdentifier: MainPageClipboardCollectionViewCell.identifier)
     $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
@@ -250,9 +250,9 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     let section = BoardViewType.allCases[indexPath.section]
     switch section {
     case .clipboard:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClipboardCollectionViewCell.identifier, for: indexPath) as? ClipboardCollectionViewCell ?? ClipboardCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPageClipboardCollectionViewCell.identifier, for: indexPath) as? MainPageClipboardCollectionViewCell ?? MainPageClipboardCollectionViewCell()
       cell.configureUI(with: clipboardModel.map({ model in
-        return ClipboardCollectionViewCellModel(type: model.type, contentImageString: model.feedImageURL, contentText: model.content)
+        return MainPageClipboardCollectionViewCellModel(type: model.type, contentImageString: model.feedImageURL, contentText: model.content)
       })[indexPath.row]
       )
       return cell
