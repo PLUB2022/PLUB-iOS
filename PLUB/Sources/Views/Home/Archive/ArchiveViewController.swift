@@ -83,7 +83,7 @@ final class ArchiveViewController: BaseViewController {
     
     collectionView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
-      $0.top.equalTo(headerStackView.snp.bottom).offset(32)
+      $0.top.equalTo(headerStackView.snp.top)
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
   }
@@ -117,6 +117,12 @@ extension ArchiveViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension ArchiveViewController: UICollectionViewDelegateFlowLayout {
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    // top: 헤더뷰의 높이(30) + 헤더뷰와 첫 번째 셀 사이의 거리(32)
+    // 이렇게 처리한 이유: collectionView의 top constraint가 헤더뷰의 top과 같기 때문
+    return .init(top: 30 + 32, left: 0, bottom: 0, right: 0)
+  }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: view.frame.width - 32, height: 104)
