@@ -173,6 +173,7 @@
 		BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4729746881009DDF32 /* SignInResponse.swift */; };
 		BA94E81C297E706A00DF23CE /* IntroductionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA94E81B297E706A00DF23CE /* IntroductionViewModel.swift */; };
 		BA98B34929AC956A00307073 /* CommentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA98B34829AC956A00307073 /* CommentContent.swift */; };
+		BAB033FA29B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */; };
 		BABB011A297ED415004178EC /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB0119297ED415004178EC /* InterestViewController.swift */; };
 		BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB011B297ED74C004178EC /* InterestViewModel.swift */; };
 		BAC5EF2D298A9E4300F3955E /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5EF2C298A9E4300F3955E /* SplashViewController.swift */; };
@@ -181,6 +182,9 @@
 		BAC5EF35298B719A00F3955E /* Congratuation.json in Resources */ = {isa = PBXBuildFile; fileRef = BAC5EF34298B719A00F3955E /* Congratuation.json */; };
 		BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC8930829755B87000D44E2 /* SignUpRequest.swift */; };
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
+		BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */; };
+		BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */; };
+		BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */; };
 		BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE16028292221ED00D595FF /* CheckBoxButton.swift */; };
 		BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */; };
 		BAE1AD972944C16600CE36B9 /* PolicyHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */; };
@@ -446,6 +450,7 @@
 		BA8E2B4729746881009DDF32 /* SignInResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInResponse.swift; sourceTree = "<group>"; };
 		BA94E81B297E706A00DF23CE /* IntroductionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewModel.swift; sourceTree = "<group>"; };
 		BA98B34829AC956A00307073 /* CommentContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentContent.swift; sourceTree = "<group>"; };
+		BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionHeaderView.swift; sourceTree = "<group>"; };
 		BABB0119297ED415004178EC /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		BABB011B297ED74C004178EC /* InterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewModel.swift; sourceTree = "<group>"; };
 		BAC5EF2C298A9E4300F3955E /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -455,6 +460,9 @@
 		BAC8930829755B87000D44E2 /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		BAC923DE29546BF500385841 /* BirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
+		BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
+		BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		BAE16028292221ED00D595FF /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
 		BAE1AD942944775C00CE36B9 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		BAE1AD962944C16600CE36B9 /* PolicyHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -483,7 +491,7 @@
 		C3413E182995492D004B8DBD /* GuestQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestQuestionViewController.swift; sourceTree = "<group>"; };
 		C344E53E2986B938009F73A9 /* MeetingCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewController.swift; sourceTree = "<group>"; };
 		C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewModel.swift; sourceTree = "<group>"; };
-		C346B49A29B1040A00884E4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C346B49A29B1040A00884E4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C34F07F2297DAFD900C91E90 /* AddQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionControl.swift; sourceTree = "<group>"; };
@@ -720,10 +728,12 @@
 		702876BE29A374E900E57509 /* Clipboard */ = {
 			isa = PBXGroup;
 			children = (
+				BAE0AC7829B5D6DF00F46F3D /* Cell */,
+				BAE0AC7B29B5D71B00F46F3D /* Component */,
+				BAE0AC7A29B5D71300F46F3D /* Model */,
+				BAE0AC7929B5D6FB00F46F3D /* ViewModel */,
 				702876BF29A374FE00E57509 /* ClipboardViewController.swift */,
-				BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */,
-				BA1D4A7A29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift */,
-				BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */,
+				BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */,
 			);
 			path = Clipboard;
 			sourceTree = "<group>";
@@ -1208,6 +1218,40 @@
 				BA784FA72978EB9100E8B06F /* SignUpViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		BAE0AC7829B5D6DF00F46F3D /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BA1D4A7A29A9E88F00CBBCC6 /* BoardCollectionViewCell.swift */,
+				BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		BAE0AC7929B5D6FB00F46F3D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */,
+				BA1D4A7429A9D9EA00CBBCC6 /* ClipboardViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BAE0AC7A29B5D71300F46F3D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BA1D4A7C29A9EB0C00CBBCC6 /* BoardModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BAE0AC7B29B5D71B00F46F3D /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		C3160515299770BF00D27488 /* ViewModel */ = {
@@ -1773,6 +1817,7 @@
 				C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */,
 				70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */,
 				70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */,
+				BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
@@ -1846,6 +1891,7 @@
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
 				C3CD675029B4E5970052087E /* ScheduleParticipantViewModel.swift in Sources */,
 				BA7AD73E297D6720000E7D5D /* BirthViewModel.swift in Sources */,
+				BAB033FA29B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift in Sources */,
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
 				702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */,
 				705F81BF29AF35B700830C4F /* MainPageViewController.swift in Sources */,
@@ -1880,6 +1926,7 @@
 				BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */,
 				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
+				BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */,
 				C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */,
 				70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */,
 				C3ED8FB92989E13D002F689B /* MeetingSummaryViewModel.swift in Sources */,
@@ -1907,6 +1954,7 @@
 				C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */,
 				C3EB29CB29A91CC600615B6B /* MeetingScheduleViewModel.swift in Sources */,
 				70A420BE29914B690026E9F9 /* RecruitmentQuestionResponse.swift in Sources */,
+				BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */,
 				705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
