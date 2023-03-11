@@ -36,6 +36,15 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     $0.setImage(UIImage(named: "rightIndicatorGray"), for: .normal)
   }
   
+  private let entireStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.distribution = .fillEqually
+    $0.spacing = 12
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = .init(top: 2, left: 13, bottom: 21, right: 13)
+    $0.backgroundColor = .systemPink
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -55,7 +64,7 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
       $0.size.equalTo(24)
     }
     
-    [horizontalStackView].forEach { addSubview($0) }
+    [horizontalStackView, entireStackView].forEach { addSubview($0) }
     
     clipboardButton.snp.makeConstraints {
       $0.size.equalTo(32)
@@ -67,7 +76,15 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
       $0.height.equalTo(32)
     }
     
+    entireStackView.snp.makeConstraints {
+      $0.top.equalTo(horizontalStackView.snp.bottom)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+    }
   }
+  
+//  public func configureUI() {
+//    
+//  }
   
   private func bind() {
     clipboardButton.rx.tap

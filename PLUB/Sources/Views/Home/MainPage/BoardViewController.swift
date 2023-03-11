@@ -36,7 +36,7 @@ final class BoardViewController: BaseViewController {
   private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
-  private var type: BoardHeaderViewType = .noClipboard {
+  private var type: BoardHeaderViewType = .clipboard {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -82,6 +82,9 @@ final class BoardViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    viewModel.selectPlubbingID.onNext(1)
+    
     viewModel.createMockData()
       .subscribe(rx.clipboardModel)
       .disposed(by: disposeBag)

@@ -10,6 +10,9 @@ import RxCocoa
 import Foundation
 
 protocol BoardViewModelType {
+  // Intput
+  var selectPlubbingID: AnyObserver<Int> { get }
+  
   func createMockData() -> Observable<[MockModel]>
 }
 
@@ -17,13 +20,32 @@ protocol BoardViewModelType {
 ///  클립보드에 관련된 리스트가 몇개인지에 대한 ClipboardType Output 필요
 final class BoardViewModel: BoardViewModelType {
   
-  // Input
+  private let disposeBag = DisposeBag()
   
+  // Input
+  let selectPlubbingID: AnyObserver<Int>
   
   // Output
   
   init() {
+    let selectingPlubbingID = PublishSubject<Int>()
+    self.selectPlubbingID = selectingPlubbingID.asObserver()
     
+    // Input
+    let fetchingBoards = selectingPlubbingID
+      .flatMapLatest { plubbingID in
+        return FeedsService.shared.fetchBoards(plubIdentifier: plubbingID)
+      }
+    
+    let successFetchingBoards = fetchingBoards.compactMap { result -> [FeedsContent]? in
+      guard case .success(let response) = result else { return nil }
+      return response.data?.content
+    }
+    
+    successFetchingBoards.subscribe(onNext: { content in
+      print("콘텐츠 \(content)")
+    })
+    .disposed(by: disposeBag)
   }
   
   func createMockData() -> Observable<[MockModel]> {
