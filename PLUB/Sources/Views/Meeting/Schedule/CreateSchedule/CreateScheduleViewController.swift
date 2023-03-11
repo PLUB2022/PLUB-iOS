@@ -50,7 +50,7 @@ final class CreateScheduleViewController: BaseViewController {
       string: Constants.titlePlaceHolder,
       attributes: [
         .foregroundColor : UIColor.mediumGray,
-        .font: UIFont.h5!
+        .font: UIFont.h5
       ]
     )
     $0.textColor = .black

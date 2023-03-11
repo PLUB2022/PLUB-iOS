@@ -98,7 +98,7 @@ class RecruitmentFilterSlider: UIView {
     
     let totalCharacters = NSAttributedString(
       string: "인원 ",
-      attributes: [.foregroundColor: UIColor.black, .font: UIFont.subtitle!]
+      attributes: [.foregroundColor: UIColor.black, .font: UIFont.subtitle]
     )
     
     peopleCountLabel.attributedText = NSMutableAttributedString(attributedString: totalCharacters).then {

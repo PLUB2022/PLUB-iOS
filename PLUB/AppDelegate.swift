@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     appearance.titleTextAttributes = [
       NSAttributedString.Key.foregroundColor: UIColor.black, // 텍스트 색상
-      NSAttributedString.Key.font: UIFont.h4! // 폰트
+      NSAttributedString.Key.font: UIFont.h4 // 폰트
     ]
     
     // 내비바 하단 회색선 제거
