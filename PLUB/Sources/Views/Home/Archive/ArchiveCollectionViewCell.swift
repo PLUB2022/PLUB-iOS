@@ -78,6 +78,24 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     $0.imageView?.contentMode = .scaleAspectFit
   }
   
+  private let titleStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 8
+    $0.alignment = .leading
+  }
+  
+  private let datetimeLabel = UILabel().then {
+    $0.text = "XX번째 기록 | 2022. 03. 25"
+    $0.textColor = .mediumGray
+    $0.font = .overLine
+  }
+  
+  private let titleLabel = UILabel().then {
+    $0.text = "모임 아카이브 타이틀"
+    $0.textColor = .black
+    $0.font = .button
+  }
+  
   // MARK: - Initializations
   
   override init(frame: CGRect) {
@@ -109,9 +127,12 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     photoCountInformationStackView.addArrangedSubview(photoCountImageView)
     photoCountInformationStackView.addArrangedSubview(photoCountLabel)
     
-    [settingButton].forEach {
+    [titleStackView, settingButton].forEach {
       containerView.addSubview($0)
     }
+    
+    titleStackView.addArrangedSubview(datetimeLabel)
+    titleStackView.addArrangedSubview(titleLabel)
   }
   
   private func setupConstraints() {
@@ -159,6 +180,11 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     
     photoCountImageView.snp.makeConstraints {
       $0.size.equalTo(16)
+    }
+    
+    titleStackView.snp.makeConstraints {
+      $0.leading.equalTo(firstContentImageView.snp.trailing).offset(24)
+      $0.bottom.equalTo(firstContentImageView.snp.bottom).inset(2) // 첫 번째 이미지 bottom을 기준으로 함
     }
     
     settingButton.snp.makeConstraints {
