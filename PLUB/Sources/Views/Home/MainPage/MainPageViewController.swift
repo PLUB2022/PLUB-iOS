@@ -83,7 +83,7 @@ final class MainPageViewController: BaseViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.navigationController?.navigationBar.isHidden = false
+    navigationController?.navigationBar.isHidden = false
   }
   
   override func setupStyles() {
