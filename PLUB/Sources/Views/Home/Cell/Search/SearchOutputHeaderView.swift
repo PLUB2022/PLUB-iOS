@@ -34,8 +34,8 @@ class SearchOutputHeaderView: UIView {
   private let segmentedControl = UnderlineSegmentedControl(
     items: [FilterType.title.toKor, FilterType.name.toKor, FilterType.mix.toKor]
   ).then {
-    $0.setTitleTextAttributes([.foregroundColor: UIColor.black, .font: UIFont.body1!], for: .normal)
-    $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.body1!], for: .selected)
+    $0.setTitleTextAttributes([.foregroundColor: UIColor.black, .font: UIFont.body1], for: .normal)
+    $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.body1], for: .selected)
     $0.selectedSegmentIndex = 0
   }
   

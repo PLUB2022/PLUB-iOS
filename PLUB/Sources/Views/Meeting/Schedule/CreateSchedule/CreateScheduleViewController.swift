@@ -50,7 +50,7 @@ final class CreateScheduleViewController: BaseViewController {
       string: Constants.titlePlaceHolder,
       attributes: [
         .foregroundColor : UIColor.mediumGray,
-        .font: UIFont.h5!
+        .font: UIFont.h5
       ]
     )
     $0.textColor = .black
@@ -120,7 +120,7 @@ final class CreateScheduleViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     viewModel = CreateScheduleViewModel(plubbingID: plubbingID)
     super.init(nibName: nil, bundle: nil)
   }
@@ -261,14 +261,20 @@ final class CreateScheduleViewController: BaseViewController {
       .bind(to: viewModel.memo)
       .disposed(by: disposeBag)
     
-    viewModel.isButtonEnabled
-      .drive(registerButton.rx.isEnabled)
-      .disposed(by: disposeBag)
-    
     registerButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
         owner.viewModel.createSchedule()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isButtonEnabled
+      .drive(registerButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    viewModel.successResult
+      .drive(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
     

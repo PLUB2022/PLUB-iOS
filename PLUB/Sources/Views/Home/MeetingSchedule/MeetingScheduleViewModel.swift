@@ -27,21 +27,20 @@ extension MeetingScheduleData: SectionModelType {
 
 final class MeetingScheduleViewModel {
   private let disposeBag = DisposeBag()
-  private(set) var plubbingID: String
+  private(set) var plubbingID: Int
+  private(set) var cursorID: Int?
   
   // Output
   let scheduleList: Driver<[MeetingScheduleData]>
   
   private let scheduleListRelay = BehaviorRelay<[MeetingScheduleData]>(value: [])
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     self.plubbingID = plubbingID
     scheduleList = scheduleListRelay.asDriver()
-    fetchScheduleList()
   }
   
   func dataSource() -> RxTableViewSectionedReloadDataSource<MeetingScheduleData> {
-    
     // Cell
     let dataSource = RxTableViewSectionedReloadDataSource<MeetingScheduleData>(
       configureCell: { dataSource, tableView, indexPath, item in
@@ -53,18 +52,17 @@ final class MeetingScheduleViewModel {
         
     // Header
     }, titleForHeaderInSection: { dataSource, index in
-      
       return dataSource.sectionModels[index].header
-      
     })
     
     return dataSource
   }
   
-  private func fetchScheduleList() {
+  func fetchScheduleList() {
     ScheduleService.shared
       .inquireScheduleList(
-        plubbingID: plubbingID
+        plubbingID: plubbingID,
+        cursorID: cursorID
       )
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
@@ -79,14 +77,20 @@ final class MeetingScheduleViewModel {
   }
   
   private func handleScheduleList(data: [Schedule]) {
-    var oldData = scheduleListRelay.value
+    
+    var oldData = cursorID == nil ? [] : scheduleListRelay.value
     
     data.forEach { schedule in
-      let date = DateFormatter().then {
-        $0.dateFormat = "yyyy-MM-dd"
-      }.date(from: schedule.startDay) ?? Date()
+      let dateFormatter = DateFormatter().then {
+        $0.dateFormat = "yyyy-M-dd"
+      }
       
-      let dateArr = schedule.startDay.components(separatedBy: "-")
+      let date = dateFormatter
+        .date(from: schedule.startDay) ?? Date()
+      let dateArr = dateFormatter
+        .string(from: date)
+        .components(separatedBy: "-")
+      
       let year = dateArr[0]
       let month = dateArr[1]
       let day = dateArr[2]
@@ -102,11 +106,10 @@ final class MeetingScheduleViewModel {
                   time: "\(setupTime(schedule.startTime)) - \(setupTime(schedule.endTime))",
                   name: schedule.title,
                   location: schedule.placeName,
-                  participants: (schedule.participantList?.participants.map{
-                    $0.profileImage
-                  }) ?? [],
+                  participants: schedule.participantList?.participants ?? [],
                   indexType: .first,
-                  isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
+                  isPasted: (date.compare(Date()) == .orderedAscending) ? true : false,
+                  calendarID: schedule.scheduleID
               )
             ]
           )
@@ -121,11 +124,10 @@ final class MeetingScheduleViewModel {
                 time: "\(setupTime(schedule.startTime)) - \(setupTime(schedule.endTime))",
                 name: schedule.title,
                 location: schedule.placeName,
-                participants: (schedule.participantList?.participants.map{
-                  $0.profileImage
-                }) ?? [],
+                participants: schedule.participantList?.participants ?? [],
                 indexType: .middle,
-                isPasted: (date.compare(Date()) == .orderedAscending) ? true : false
+                isPasted: (date.compare(Date()) == .orderedAscending) ? true : false,
+                calendarID: schedule.scheduleID
               )
             )
             break
@@ -134,12 +136,26 @@ final class MeetingScheduleViewModel {
       }
     }
     
-    // 섹션의 마지막 셀이면 indexType last로 변경
     oldData.enumerated().forEach { (index, data) in
+      let firstIndex = 0
+      var firstItem = data.items[firstIndex]
+      
       let lastIndex = data.items.count - 1
       var lastItem = data.items[lastIndex]
-      lastItem.indexType = .last
-      oldData[index].items[lastIndex] = lastItem
+      
+      if data.items.count == 1 {
+        // 섹션의 처음이자 마지막 셀이면 indexType firstAndLast로 변경
+        firstItem.indexType = .firstAndLast
+      } else {
+        // 섹션의 첫번째 셀이면 indexType first로 변경
+        firstItem.indexType = .first
+        // 섹션의 마지막 셀이면 indexType last로 변경
+        lastItem.indexType = .last
+        
+        oldData[index].items[lastIndex] = lastItem
+      }
+      
+      oldData[index].items[firstIndex] = firstItem
     }
     
     scheduleListRelay.accept(oldData)
@@ -157,3 +173,4 @@ final class MeetingScheduleViewModel {
     }.string(from: date)
   }
 }
+

@@ -20,7 +20,7 @@ final class SearchView: UIView {
       string: "장소를 검색해주세요",
       attributes: [
         .foregroundColor : UIColor.deepGray,
-        .font : UIFont.body3!
+        .font : UIFont.body3
       ]
     )
     $0.textColor = .black

@@ -36,12 +36,12 @@ final class LoginViewController: BaseViewController {
     
     let generalAttributes: [NSAttributedString.Key: Any] = [
       .foregroundColor: UIColor.black,
-      .font: UIFont.caption!
+      .font: UIFont.caption
     ]
     let linkAttributes: [NSAttributedString.Key: Any] = [
       .underlineStyle: NSUnderlineStyle.single.rawValue,
       .foregroundColor: UIColor.main,
-      .font: UIFont.caption!
+      .font: UIFont.caption
     ]
     let mutableString = NSMutableAttributedString()
     

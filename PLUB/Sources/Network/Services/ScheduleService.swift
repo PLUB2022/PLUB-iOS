@@ -14,17 +14,28 @@ class ScheduleService: BaseService {
 }
 
 extension ScheduleService {
-  func createSchedule(plubbingID: String, request: CreateScheduleRequest) -> PLUBResult<CreateScheduleResponse> {
+  func createSchedule(plubbingID: Int, request: CreateScheduleRequest) -> PLUBResult<CreateScheduleResponse> {
     return sendRequest(
       ScheduleRouter.createSchedule(plubbingID, request),
       type: CreateScheduleResponse.self
     )
   }
   
-  func inquireScheduleList(plubbingID: String) -> Observable<NetworkResult<GeneralResponse<ScheduleListResponse>>> {
+  func inquireScheduleList(plubbingID: Int, cursorID: Int?) -> PLUBResult<ScheduleListResponse> {
     return sendRequest(
-      ScheduleRouter.inquireScheduleList(plubbingID),
+      ScheduleRouter.inquireScheduleList(plubbingID, cursorID),
       type: ScheduleListResponse.self
+    )
+  }
+  
+  func attendSchedule(
+    plubbingID: Int,
+    calendarID: Int,
+    request: AttendScheduleRequest
+  ) -> PLUBResult<AttendScheduleResponse> {
+    return sendRequest(
+      ScheduleRouter.attendSchedule(plubbingID, calendarID, request),
+      type: AttendScheduleResponse.self
     )
   }
 }

@@ -231,7 +231,7 @@ final class ProfileViewController: BaseViewController {
     // placeholder 폰트 설정
     nicknameTextField.attributedPlaceholder = NSAttributedString(
       string: Constants.placeholder,
-      attributes: [.font: UIFont.body2!]
+      attributes: [.font: UIFont.body2]
     )
     
     nicknameTextField.layer.borderColor = UIColor.mediumGray.cgColor
