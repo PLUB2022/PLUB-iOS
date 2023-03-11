@@ -11,14 +11,14 @@ import SnapKit
 import Then
 
 enum BoardHeaderViewType {
-  case clipboard(MainPageClipboardType) // 클립보드 목록이 하나 이상 존재할 때
+  case clipboard // 클립보드 목록이 하나 이상 존재할 때
   case noClipboard // 클립보드 목록이 하나도 존재하지않을 때
 }
 
-enum BoardSectionType: CaseIterable { // 게시판관련 섹션타입
-  case clipboard // 최상단 클립보드
-  case normalSystem // ViewType이 Normal, System에 해당
-}
+//enum BoardViewType: CaseIterable { // 게시판관련 섹션타입
+//  case clipboard // 최상단 클립보드
+//  case normalSystem // ViewType이 Normal, System에 해당
+//}
 
 protocol BoardViewControllerDelegate: AnyObject {
   func calculateHeight(_ height: CGFloat)
@@ -41,7 +41,7 @@ final class BoardViewController: BaseViewController {
   private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
-  private var type: BoardHeaderViewType = .clipboard(.moreThanThree) {
+  private var type: BoardHeaderViewType = .clipboard {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -51,7 +51,7 @@ final class BoardViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
       guard let self = self else { return nil }
-      return self.createCollectionViewSection(viewType: BoardSectionType.allCases[sec])
+      return self.createCollectionViewSection()
     }
   ).then {
     $0.backgroundColor = .background
@@ -74,11 +74,11 @@ final class BoardViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-//        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-//        configuration.backgroundColor = .background
-//        configuration.showsSeparators = false
-//        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-//    collectionView.setCollectionViewLayout(layout, animated: true)
+    var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+    configuration.backgroundColor = .background
+    configuration.showsSeparators = false
+    let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+    collectionView.setCollectionViewLayout(layout, animated: true)
   }
   
   override func setupLayouts() {
@@ -100,111 +100,40 @@ final class BoardViewController: BaseViewController {
       .disposed(by: disposeBag)
   }
   
-  private func createCollectionViewSection(viewType: BoardSectionType) -> NSCollectionLayoutSection? {
-    switch viewType {
+  private func createCollectionViewSection() -> NSCollectionLayoutSection? {
+    let item = NSCollectionLayoutItem(
+      layoutSize: NSCollectionLayoutSize(
+        widthDimension: .fractionalWidth(1),
+        heightDimension: .fractionalHeight(1)
+      )
+    )
+    
+    let group = NSCollectionLayoutGroup.horizontal(
+      layoutSize: NSCollectionLayoutSize(
+        widthDimension: .fractionalWidth(1),
+        heightDimension: .absolute(107)),
+      subitems: [item]
+    )
+    
+    let section = NSCollectionLayoutSection(group: group)
+    section.orthogonalScrollingBehavior = .none
+    section.contentInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
+    section.interGroupSpacing = 8
+    switch type {
     case .clipboard:
-      switch type {
-      case .clipboard(let clipboardType):
-        let horizontalItem = NSCollectionLayoutItem(
-          layoutSize: NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1/2),
-            heightDimension: .fractionalHeight(1)
-          )
-        )
-        horizontalItem.contentInsets = .init(top: .zero, leading: .zero, bottom: .zero, trailing: 12)
-        
-        let verticalItem = NSCollectionLayoutItem(
-          layoutSize: NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .fractionalHeight(1)
-          ))
-        
-        let verticalTwoGroup = NSCollectionLayoutGroup.vertical(
-          layoutSize: NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1/2),
-            heightDimension: .fractionalHeight(1)
-          ),
-          subitem: verticalItem,
-          count: 2
-        )
-        verticalTwoGroup.interItemSpacing = .fixed(9)
-        
-        let oneGroup = NSCollectionLayoutGroup.vertical(
-          layoutSize: NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(260)
-          ),
-          subitem: verticalItem,
-          count: 1
-        )
-        
-        let horizontalGroup = NSCollectionLayoutGroup.horizontal(
-          layoutSize: NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(260)
-          ), subitems: [
-            horizontalItem,
-            verticalTwoGroup
-          ]
-        )
-        
-        let section: NSCollectionLayoutSection
-        
-        switch clipboardType {
-        case .one:
-          section = NSCollectionLayoutSection(group: oneGroup)
-        case .two:
-          let horizontalGroup = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
-              widthDimension: .fractionalWidth(1),
-              heightDimension: .absolute(260)
-            ), subitems: [horizontalItem]
-          )
-          
-          section = NSCollectionLayoutSection(group: horizontalGroup)
-        case .moreThanThree:
-          section = NSCollectionLayoutSection(group: horizontalGroup)
-        }
-        
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-          layoutSize: NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(19.81 + 11 + 12.19)
-          ),
-          elementKind: UICollectionView.elementKindSectionHeader,
-          alignment: .top
-        )
-        
-        section.boundarySupplementaryItems = [header]
-        section.orthogonalScrollingBehavior = .none
-        section.contentInsets = .init(top: 16, leading: 16, bottom: .zero, trailing: 16)
-        return section
-        
-      case .noClipboard:
-        return nil
-      }
-      
-    case .normalSystem:
-      let item = NSCollectionLayoutItem(
+      let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
           heightDimension: .fractionalHeight(1)
-        )
+        ),
+        elementKind: UICollectionView.elementKindSectionHeader,
+        alignment: .top
       )
-      
-      let group = NSCollectionLayoutGroup.horizontal(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(107)),
-        subitems: [item]
-      )
-      
-      let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .none
-      section.contentInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
-      section.interGroupSpacing = 8
-      return section
+      section.boundarySupplementaryItems = [header]
+    case .noClipboard:
+      section.boundarySupplementaryItems = []
     }
+    return section
   }
 }
 
@@ -226,46 +155,20 @@ extension BoardViewController: UIScrollViewDelegate {
 
 extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-      return BoardSectionType.allCases.count
+    return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    let section = BoardSectionType.allCases[section]
-    
-    switch section {
-    case .clipboard:
-      switch type {
-      case .clipboard:
-        return clipboardModel.count // 현재 클립보드에 올려져있는 글 갯수
-      case .noClipboard:
-        return 0
-      }
-    case .normalSystem:
-      return 10
-    }
-    
+    return clipboardModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let section = BoardSectionType.allCases[indexPath.section]
-    switch section {
-    case .clipboard:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPageClipboardCollectionViewCell.identifier, for: indexPath) as? MainPageClipboardCollectionViewCell ?? MainPageClipboardCollectionViewCell()
-      cell.configureUI(with: clipboardModel.map({ model in
-        return MainPageClipboardCollectionViewCellModel(type: model.type, contentImageString: model.feedImageURL, contentText: model.content)
-      })[indexPath.row]
-      )
-      return cell
-    case .normalSystem:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
-      cell.configure(with: BoardModel(author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
-      return cell
-    }
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
+    cell.configure(with: BoardModel(author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
+    return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let boardSection = BoardSectionType.allCases[indexPath.section]
-    guard boardSection == .clipboard else { return UICollectionReusableView() }
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardClipboardHeaderView.identifier, for: indexPath) as? BoardClipboardHeaderView ?? BoardClipboardHeaderView()
     return header
   }
