@@ -73,6 +73,11 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     $0.font = .caption2
   }
   
+  private let settingButton = UIButton().then {
+    $0.setImage(.init(named: "meatballMenu"), for: .normal)
+    $0.imageView?.contentMode = .scaleAspectFit
+  }
+  
   // MARK: - Initializations
   
   override init(frame: CGRect) {
@@ -103,6 +108,10 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     firstContentImageView.addSubview(photoCountInformationStackView)
     photoCountInformationStackView.addArrangedSubview(photoCountImageView)
     photoCountInformationStackView.addArrangedSubview(photoCountLabel)
+    
+    [settingButton].forEach {
+      containerView.addSubview($0)
+    }
   }
   
   private func setupConstraints() {
@@ -150,6 +159,12 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     
     photoCountImageView.snp.makeConstraints {
       $0.size.equalTo(16)
+    }
+    
+    settingButton.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.trailing.equalToSuperview().inset(4)
+      $0.size.equalTo(32)
     }
   }
   
