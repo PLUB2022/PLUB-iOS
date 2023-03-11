@@ -47,6 +47,9 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    backgroundColor = .white
+    layer.masksToBounds = true
+    layer.cornerRadius = 10
     [pinImageView, clipboardLabel, clipboardButton].forEach { horizontalStackView.addArrangedSubview($0) }
     pinImageView.snp.makeConstraints {
       $0.size.equalTo(24)
@@ -60,7 +63,8 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     
     horizontalStackView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(9)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(10)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(10)
+      $0.height.equalTo(32)
     }
     
   }
