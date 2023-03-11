@@ -15,11 +15,6 @@ enum BoardHeaderViewType {
   case noClipboard // 클립보드 목록이 하나도 존재하지않을 때
 }
 
-//enum BoardViewType: CaseIterable { // 게시판관련 섹션타입
-//  case clipboard // 최상단 클립보드
-//  case normalSystem // ViewType이 Normal, System에 해당
-//}
-
 protocol BoardViewControllerDelegate: AnyObject {
   func calculateHeight(_ height: CGFloat)
 }
@@ -71,15 +66,6 @@ final class BoardViewController: BaseViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  override func setupStyles() {
-    super.setupStyles()
-//    var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-//    configuration.backgroundColor = .background
-//    configuration.showsSeparators = false
-//    let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-//    collectionView.setCollectionViewLayout(layout, animated: true)
   }
   
   override func setupLayouts() {
