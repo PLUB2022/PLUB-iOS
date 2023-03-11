@@ -38,6 +38,11 @@ final class ArchiveViewController: BaseViewController {
     )
   )
   
+  private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    $0.backgroundColor = .background
+    $0.register(ArchiveCollectionViewCell.self, forCellWithReuseIdentifier: ArchiveCollectionViewCell.identifier)
+  }
+  
   // MARK: - Initializations
   
   init(viewModel: ArchiveViewModelType) {
@@ -53,6 +58,8 @@ final class ArchiveViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    collectionView.dataSource = self
+    collectionView.delegate = self
   }
   
   // MARK: - Configuration
@@ -60,6 +67,7 @@ final class ArchiveViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(headerStackView)
+    view.addSubview(collectionView)
     
     [titleLabel, uploadButton].forEach {
       headerStackView.addArrangedSubview($0)
@@ -72,6 +80,12 @@ final class ArchiveViewController: BaseViewController {
       $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
     }
+    
+    collectionView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.top.equalTo(headerStackView.snp.bottom).offset(32)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
+    }
   }
   
   override func setupStyles() {
@@ -80,5 +94,35 @@ final class ArchiveViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+  }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension ArchiveViewController: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArchiveCollectionViewCell.identifier, for: indexPath) as? ArchiveCollectionViewCell
+    else {
+      fatalError()
+    }
+    
+    return cell
+  }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension ArchiveViewController: UICollectionViewDelegateFlowLayout {
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: view.frame.width - 32, height: 96)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 0
   }
 }
