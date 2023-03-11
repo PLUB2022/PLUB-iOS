@@ -42,6 +42,20 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     $0.layer.cornerRadius = 10
   }
   
+  private let firstContentImageView = UIImageView().then {
+    $0.backgroundColor = .deepGray
+    $0.layer.cornerRadius = 6
+  }
+  private let secondContentImageView = UIImageView().then {
+    $0.backgroundColor = .deepGray
+    $0.alpha = 0.5
+    $0.layer.cornerRadius = 6
+  }
+  private let thirdContentImageView = UIImageView().then {
+    $0.backgroundColor = .deepGray
+    $0.alpha = 0.1
+    $0.layer.cornerRadius = 6
+  }
   
   // MARK: - Initializations
   
@@ -65,6 +79,11 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     [circleImageView, verticalLineView].forEach {
       leadingIndicatorStackView.addArrangedSubview($0)
     }
+    
+    // add image Views to `containerView`
+    [thirdContentImageView, secondContentImageView, firstContentImageView].forEach {
+      containerView.addSubview($0)
+    }
   }
   
   private func setupConstraints() {
@@ -85,6 +104,27 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
       $0.leading.equalTo(leadingIndicatorStackView.snp.trailing).offset(8)
       $0.bottom.equalToSuperview().inset(8)
     }
+    
+    // images
+    firstContentImageView.snp.makeConstraints {
+      $0.leading.equalToSuperview().inset(8)
+      $0.centerY.equalToSuperview()
+      $0.size.equalTo(80)
+    }
+    
+    secondContentImageView.snp.makeConstraints {
+      $0.leading.equalTo(firstContentImageView.snp.leading).offset(12)
+      $0.centerY.equalTo(firstContentImageView)
+      $0.size.equalTo(firstContentImageView.snp.size).offset(-8) // 첫 번째 이미지에서 8을 뺀 크기
+    }
+    
+    thirdContentImageView.snp.makeConstraints {
+      $0.leading.equalTo(secondContentImageView.snp.leading).offset(12)
+      $0.centerY.equalTo(firstContentImageView)
+      $0.size.equalTo(secondContentImageView.snp.size).offset(-8) // 두 번째 이미지에서 8을 뺀 크기
+    }
+    
+    
   }
   
   private func setupStyles() {
