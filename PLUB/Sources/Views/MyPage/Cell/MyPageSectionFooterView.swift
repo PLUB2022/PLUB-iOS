@@ -25,6 +25,12 @@ final class MyPageSectionFooterView: UITableViewHeaderFooterView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    containerView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 15)
+    containerView.layer.addBorder([.bottom], color: .init(hex: 0xF2F3F4), width: 1)
+  }
+  
   private func setupLayouts() {
     addSubview(containerView)
   }
@@ -32,7 +38,8 @@ final class MyPageSectionFooterView: UITableViewHeaderFooterView {
   private func setupConstraints() {
     containerView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview().inset(16)
-      $0.top.bottom.equalToSuperview()
+      $0.top.equalToSuperview().offset(-8)
+      $0.bottom.equalToSuperview()
     }
   }
   

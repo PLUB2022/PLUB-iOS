@@ -56,6 +56,12 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    containerView.roundCorners(corners: [.topLeft, .topRight], radius: 15)
+    containerView.layer.addBorder([.top], color: .init(hex: 0xF2F3F4), width: 1)
+  }
+  
   private func setupLayouts() {
     [containerView, button].forEach {
       addSubview($0)
@@ -76,7 +82,6 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
     titlelabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(16)
       $0.height.equalTo(24)
-//      $0.bottom.equalToSuperview().inset(12)
       $0.leading.equalToSuperview().inset(16)
     }
     
@@ -92,7 +97,6 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
   }
   
   private func setupStyles() {
-    setupRoundCorners(isFoldered: true)
   }
   
   private func bind() {
@@ -103,9 +107,5 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
       }
       .disposed(by: disposeBag)
     
-  }
-  
-  func setupRoundCorners(isFoldered: Bool) {
-//    containerView.roundCorners(corners: isFoldered ? [.topLeft, .topRight] : [.allCorners], radius: 15)
   }
 }
