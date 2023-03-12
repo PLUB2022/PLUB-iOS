@@ -42,12 +42,12 @@ final class ClipboardViewController: BaseViewController {
   
   // MARK: - Properties
   
-  private let viewModel: ClipboardViewModelType
+  private let viewModel: ClipboardViewModelType & ClipboardCellDataStore
   
   
   // MARK: - Initializations
   
-  init(viewModel: ClipboardViewModelType) {
+  init(viewModel: ClipboardViewModelType & ClipboardCellDataStore) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }

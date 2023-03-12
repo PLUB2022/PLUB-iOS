@@ -17,13 +17,17 @@ protocol ClipboardViewModelType {
   var fetchClipboards: Driver<[FeedsContent]> { get }
 }
 
-final class ClipboardViewModel: ClipboardViewModelType {
+protocol ClipboardCellDataStore {
+  var cellHeights: [Int] { get } // IndexPath별 `ClipboardCollectionViewCell`의 높이
+}
+
+final class ClipboardViewModel: ClipboardViewModelType, ClipboardCellDataStore {
   
   // Input
   
   // Output
   let fetchClipboards: Driver<[FeedsContent]>
-  
+  private(set) var cellHeights: [Int] = []
   
   
   init(plubIdentifier: Int) {
