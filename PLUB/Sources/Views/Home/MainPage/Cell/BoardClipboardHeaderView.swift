@@ -82,9 +82,17 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     }
   }
   
-//  public func configureUI() {
-//    
-//  }
+  public func configureUI(with model: [MainPageClipboardViewModel]) {
+    guard let mainpageClipboardType = MainPageClipboardType.allCases.filter({ $0.rawValue == model.count }).first else { return }
+    switch mainpageClipboardType {
+    case .one:
+      print("")
+    case .two:
+      print("")
+    case .moreThanThree:
+      print("")
+    }
+  }
   
   private func bind() {
     clipboardButton.rx.tap
