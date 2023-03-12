@@ -123,16 +123,20 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     [thirdContentImageView, secondContentImageView, firstContentImageView].forEach {
       containerView.addSubview($0)
     }
+    // add photo's count view to firstContentImageView
     firstContentImageView.addSubview(photoCountInformationStackView)
-    photoCountInformationStackView.addArrangedSubview(photoCountImageView)
-    photoCountInformationStackView.addArrangedSubview(photoCountLabel)
+    
+    [photoCountImageView, photoCountLabel].forEach {
+      photoCountInformationStackView.addArrangedSubview($0)
+    }
     
     [titleStackView, settingButton].forEach {
       containerView.addSubview($0)
     }
     
-    titleStackView.addArrangedSubview(datetimeLabel)
-    titleStackView.addArrangedSubview(titleLabel)
+    [datetimeLabel, titleLabel].forEach {
+      titleStackView.addArrangedSubview($0)
+    }
   }
   
   private func setupConstraints() {
