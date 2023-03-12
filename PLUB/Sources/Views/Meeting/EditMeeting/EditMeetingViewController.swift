@@ -25,8 +25,8 @@ final class EditMeetingViewController: BaseViewController {
   private let segmentedControl = UnderlineSegmentedControl(
     items: ["모집글", "모임 정보", "게스트 질문"]
   ).then {
-    $0.setTitleTextAttributes([.foregroundColor: UIColor.black, .font: UIFont.h5!], for: .normal)
-    $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.h5!], for: .selected)
+    $0.setTitleTextAttributes([.foregroundColor: UIColor.black, .font: UIFont.h5], for: .normal)
+    $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.h5], for: .selected)
     $0.selectedSegmentIndex = 0
   }
   

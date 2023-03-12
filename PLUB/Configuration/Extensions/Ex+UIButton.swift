@@ -31,6 +31,25 @@ extension UIButton.Configuration {
   
   // MARK: Configuration Return Type
   
+  /// 메인 색으로 fill되어있는 PLUB 버튼
+  /// - Parameters:
+  ///   - title: 버튼 내부의 text
+  ///   - contentInsets: 버튼 내부 text와 버튼 테두리 사이의 inset
+  static func plubFilledButton(title: String, contentInsets: NSDirectionalEdgeInsets) -> UIButton.Configuration {
+    var style = UIButton.Configuration.filled()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 6
+      $0.backgroundColor = .subMain
+    }
+    
+    style.contentInsets = contentInsets
+    style.baseForegroundColor = .main
+    style.title = title
+    style.font = .button
+    return style
+  }
+  
   private static func listDeselected() -> UIButton.Configuration {
     var style = UIButton.Configuration.plain()
     

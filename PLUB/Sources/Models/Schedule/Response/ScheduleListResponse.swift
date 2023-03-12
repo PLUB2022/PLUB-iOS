@@ -16,13 +16,12 @@ struct ScheduleListResponse: Codable {
 }
 
 struct ScheduleList: Codable {
-  let totalPages: Int
   let totalSchedules: Int
-  let last: Bool
+  let isLast: Bool
   let schedules: [Schedule]
   
   enum CodingKeys: String, CodingKey {
-    case totalPages, last
+    case isLast = "last"
     case totalSchedules = "totalElements"
     case schedules = "content"
   }
@@ -45,7 +44,7 @@ struct Schedule: Codable {
   enum CodingKeys: String, CodingKey {
     case title, memo, startTime, endTime, isAllDay, address, roadAddress, placeName
     case scheduleID = "calendarId"
-    case startDay = "staredAt"
+    case startDay = "startedAt"
     case endDay = "endedAt"
     case participantList = "calendarAttendList"
   }
@@ -62,7 +61,7 @@ struct ParticipantList: Codable {
 struct Participant: Codable {
   let scheduleAttendID: Int
   let nickname: String
-  let profileImage: String
+  let profileImage: String?
   let attendStatus: String
   
   enum CodingKeys: String, CodingKey {

@@ -38,6 +38,7 @@ final class ScheduleDetailContentView: UIView {
   
   private lazy var imageView = UIImageView().then {
     $0.image = UIImage(named: scheduleType.imageName)
+    $0.contentMode = .scaleAspectFit
   }
   
   private let label = UILabel().then {
@@ -69,11 +70,7 @@ final class ScheduleDetailContentView: UIView {
     }
     
     imageView.snp.makeConstraints {
-      $0.size.equalTo(16)
-    }
-    
-    label.snp.makeConstraints {
-      $0.height.equalTo(21)
+      $0.width.equalTo(16)
     }
   }
   

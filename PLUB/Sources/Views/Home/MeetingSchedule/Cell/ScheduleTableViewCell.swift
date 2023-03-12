@@ -14,6 +14,7 @@ enum ScheduleCellIndexType {
   case first // 첫 셀
   case middle // 나머지 셀
   case last // 마지막 셀
+  case firstAndLast // 처음이자 마지막 셀
 }
 
 struct ScheduleTableViewCellModel {
@@ -22,9 +23,10 @@ struct ScheduleTableViewCellModel {
   let time: String // 시간
   let name: String // 일정 이름
   let location: String? // 장소
-  let participants: [String?] // 참여자 목록
+  let participants: [Participant] // 참여자 목록
   var indexType: ScheduleCellIndexType // 셀 인덱스 타입
   let isPasted: Bool // 지난 일정인지 여부
+  let calendarID: Int // 일정 ID
 }
 
 final class ScheduleTableViewCell: UITableViewCell {
@@ -37,7 +39,11 @@ final class ScheduleTableViewCell: UITableViewCell {
   }
   
   // 선
-  private let lineView = UIView().then {
+  private let topLineView = UIView().then {
+    $0.backgroundColor = .black
+  }
+  
+  private let bottomLineView = UIView().then {
     $0.backgroundColor = .black
   }
   
@@ -91,10 +97,13 @@ final class ScheduleTableViewCell: UITableViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    participantStackView.subviews.forEach {
+      $0.removeFromSuperview()
+    }
   }
   
   private func setupLayouts() {
-    [lineView, pointImageView, dateView, contentStackView, participantStackView].forEach {
+    [topLineView, bottomLineView, pointImageView, dateView, contentStackView, participantStackView].forEach {
       addSubview($0)
     }
     
@@ -111,11 +120,18 @@ final class ScheduleTableViewCell: UITableViewCell {
     pointImageView.snp.makeConstraints {
       $0.size.equalTo(9)
       $0.top.equalToSuperview().inset(8)
-      $0.leading.equalToSuperview().inset(17)
+      $0.leading.equalToSuperview().inset(16)
     }
     
-    lineView.snp.makeConstraints {
+    topLineView.snp.makeConstraints {
       $0.top.equalToSuperview()
+      $0.bottom.equalTo(pointImageView.snp.top)
+      $0.width.equalTo(1)
+      $0.centerX.equalTo(pointImageView.snp.centerX)
+    }
+    
+    bottomLineView.snp.makeConstraints {
+      $0.top.equalTo(pointImageView.snp.bottom)
       $0.bottom.equalToSuperview()
       $0.width.equalTo(1)
       $0.centerX.equalTo(pointImageView.snp.centerX)
@@ -162,19 +178,20 @@ final class ScheduleTableViewCell: UITableViewCell {
     // 선
     switch data.indexType {
     case .first:
-      lineView.snp.updateConstraints {
-        $0.top.equalToSuperview().inset(8)
-        $0.bottom.equalToSuperview()
-      }
+      topLineView.isHidden = true
+      bottomLineView.isHidden = false
+      
     case .middle:
-      lineView.snp.updateConstraints {
-        $0.top.bottom.equalToSuperview()
-      }
+      topLineView.isHidden = false
+      bottomLineView.isHidden = false
+      
     case .last:
-      lineView.snp.updateConstraints {
-        $0.top.equalToSuperview()
-        $0.bottom.equalToSuperview().inset(79)
-      }
+      topLineView.isHidden = false
+      bottomLineView.isHidden = true
+      
+    case .firstAndLast:
+      topLineView.isHidden = true
+      bottomLineView.isHidden = true
     }
     
     // 점
@@ -196,7 +213,7 @@ final class ScheduleTableViewCell: UITableViewCell {
     timeView.setText(data.time, data.isPasted)
     
     // 장소
-    if let location = data.location {
+    if let location = data.location, !location.isEmpty {
       locationView.setText(location, data.isPasted)
       locationView.snp.updateConstraints {
         $0.height.equalTo(21)
@@ -209,10 +226,6 @@ final class ScheduleTableViewCell: UITableViewCell {
     }
     
     // 참석자
-    participantStackView.subviews.forEach {
-      $0.removeFromSuperview()
-    }
-    
     let totalParticipant = data.participants.count
     
     for (index, participant) in data.participants.enumerated() {
@@ -223,7 +236,7 @@ final class ScheduleTableViewCell: UITableViewCell {
         break
       }
       
-      guard let url = URL(string: participant ?? "") else { break }
+      guard let profileImage = participant.profileImage, let url = URL(string: profileImage) else { break }
       
       let imageView = UIImageView().then {
         $0.layer.cornerRadius = 12
