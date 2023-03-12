@@ -170,8 +170,8 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if indexPath.row < meetingList.count {
       // 플러빙 메인
-      let vc = DetailRecruitmentViewController(plubbingID: "\(meetingList[indexPath.row].plubbingID)")
-      vc.hidesBottomBarWhenPushed = true
+      let vc = MainPageViewController()
+      vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     } else {
       // 모임 생성
