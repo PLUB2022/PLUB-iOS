@@ -42,7 +42,6 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     $0.spacing = 12
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 2, left: 13, bottom: 21, right: 13)
-    $0.backgroundColor = .systemPink
   }
   
   override init(frame: CGRect) {
@@ -86,7 +85,10 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     guard let mainpageClipboardType = MainPageClipboardType.allCases.filter({ $0.rawValue == model.count }).first else { return }
     switch mainpageClipboardType {
     case .one:
-      print("")
+      guard let model = model.first else { return }
+      let mainPageClipboardView = MainPageClipboardView()
+      mainPageClipboardView.configureUI(with: model)
+      entireStackView.addArrangedSubview(mainPageClipboardView)
     case .two:
       print("")
     case .moreThanThree:

@@ -67,6 +67,9 @@ final class MainPageClipboardView: UIView {
         $0.directionalEdges.equalToSuperview()
       }
     }
+    layer.masksToBounds = true
+    layer.cornerRadius = 10
+    backgroundColor = .blue
   }
   
   func configureUI(with model: MainPageClipboardViewModel) {
