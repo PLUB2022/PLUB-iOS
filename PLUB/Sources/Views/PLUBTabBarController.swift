@@ -37,7 +37,7 @@ final class PLUBTabBarController: UITabBarController {
         }
       ),
       BaseNavigationController(
-        rootViewController: UIViewController().then {
+        rootViewController: MyPageViewController().then {
           $0.tabBarItem = UITabBarItem(title: "프로필", image: UIImage(named: "personOutline24"), tag: 3)
         }
       )
