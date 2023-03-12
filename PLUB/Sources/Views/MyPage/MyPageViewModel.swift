@@ -37,4 +37,22 @@ final class MyPageViewModel {
       })
       .disposed(by: disposeBag)
   }
+  
+  func fetchMyPlubbing(status: PlubbingStatusType) {
+    MyPageService.shared.inquireMyMeeting(
+      status: status,
+      cursorID: 0
+    )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let model):
+          print(model)
+          guard let data = model.data else { return }
+        default:
+          break
+        }
+      })
+      .disposed(by: disposeBag)
+  }
 }

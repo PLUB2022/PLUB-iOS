@@ -11,11 +11,19 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-enum MyPageFoldCellType: String {
-  case recruiting = "모집 중인 모임"
-  case wait = "대기 중인 모임"
-  case active = "활동 중인 모임"
-  case end = "종료된 모임"
+extension PlubbingStatusType {
+  var title: String {
+    switch self {
+    case .recruiting:
+      return "모집 중인 모임"
+//    case .wait:
+//      return "대기 중인 모임"
+    case .active:
+      return "활동 중인 모임"
+    case .end:
+      return "종료된 모임"
+    }
+  }
 }
 
 protocol MyPageSectionHeaderViewDelegate: AnyObject {
