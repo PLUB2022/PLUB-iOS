@@ -51,7 +51,6 @@ final class BoardViewController: BaseViewController {
   ).then {
     $0.backgroundColor = .background
     $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
-    $0.register(MainPageClipboardCollectionViewCell.self, forCellWithReuseIdentifier: MainPageClipboardCollectionViewCell.identifier)
     $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self

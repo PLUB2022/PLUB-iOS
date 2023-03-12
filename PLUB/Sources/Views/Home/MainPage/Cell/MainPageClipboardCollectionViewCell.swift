@@ -16,15 +16,13 @@ enum MainPageClipboardType {
   case moreThanThree // 클립보드한 내역이 3개이상인 경우
 }
 
-struct MainPageClipboardCollectionViewCellModel {
+struct MainPageClipboardViewModel {
   let type: PostType
   let contentImageString: String?
   let contentText: String?
 }
 
-final class MainPageClipboardCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "MainPageClipboardCollectionViewCell"
+final class MainPageClipboardView: UIView {
   
   private var type: PostType? {
     didSet {
@@ -59,19 +57,19 @@ final class MainPageClipboardCollectionViewCell: UICollectionViewCell {
     guard let type = type else { return }
     switch type {
     case .text:
-      contentView.addSubview(contentLabel)
+      addSubview(contentLabel)
       contentLabel.snp.makeConstraints {
         $0.directionalEdges.equalToSuperview()
       }
     default:
-      contentView.addSubview(contentImageView)
+      addSubview(contentImageView)
       contentImageView.snp.makeConstraints {
         $0.directionalEdges.equalToSuperview()
       }
     }
   }
   
-  func configureUI(with model: MainPageClipboardCollectionViewCellModel) {
+  func configureUI(with model: MainPageClipboardViewModel) {
     self.type = model.type
     switch type {
     case .text:
