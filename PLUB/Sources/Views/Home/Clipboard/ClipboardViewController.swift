@@ -93,7 +93,15 @@ final class ClipboardViewController: BaseViewController {
         cell.configure(with: model.toBoardModel)
       }
       .disposed(by: disposeBag)
-    }
+    
+    collectionView.rx.modelSelected(FeedsContent.self)
+      .debug()
+      .subscribe(with: self) { owner, model in
+        print(model)
+        owner.navigationController?.pushViewController(BoardDetailViewController(viewModel: BoardDetailViewModel(content: model)), animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
