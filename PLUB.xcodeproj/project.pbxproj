@@ -197,6 +197,9 @@
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
 		C305B67C29AC9FE700BD5C6A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = C305B67B29AC9FE700BD5C6A /* RxDataSources */; };
 		C3100CB429BD8980005FCCAD /* MyInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */; };
+		C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */; };
+		C3100CB929BD8A7E005FCCAD /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */; };
+		C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */; };
 		C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */; };
 		C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */; };
 		C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605162997934100D27488 /* RecruitPostViewModel.swift */; };
@@ -476,6 +479,9 @@
 		BAE5D3362975B20000268D44 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
 		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
 		C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoResponse.swift; sourceTree = "<group>"; };
+		C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
+		C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileView.swift; sourceTree = "<group>"; };
 		C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewModel.swift; sourceTree = "<group>"; };
 		C31605162997934100D27488 /* RecruitPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitPostViewModel.swift; sourceTree = "<group>"; };
@@ -920,6 +926,7 @@
 				BA42D1EE28EDE05000C20061 /* Home */,
 				BA42D1EF28EDE05A00C20061 /* Login */,
 				BA42D1F028EDE08000C20061 /* Meeting */,
+				C3100CB529BD8A46005FCCAD /* MyPage */,
 				BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */,
 			);
 			path = Views;
@@ -1255,6 +1262,24 @@
 			isa = PBXGroup;
 			children = (
 				BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		C3100CB529BD8A46005FCCAD /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				C3100CBA29BD8A96005FCCAD /* Component */,
+				C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */,
+				C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		C3100CBA29BD8A96005FCCAD /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1783,6 +1808,7 @@
 				C316051B2997936200D27488 /* GuestQuestionViewModel.swift in Sources */,
 				BA117A3D297440D900B37E03 /* UserManager.swift in Sources */,
 				70A420A2298CE4C30026E9F9 /* NoSelectedCategoryView.swift in Sources */,
+				C3100CB929BD8A7E005FCCAD /* MyPageViewModel.swift in Sources */,
 				C38A5B97297AD5C300485355 /* KakaoLocationService.swift in Sources */,
 				BA784FA82978EB9100E8B06F /* SignUpViewController.swift in Sources */,
 				C38A5B9B297AE05100485355 /* KakaoLocationRequest.swift in Sources */,
@@ -1884,6 +1910,7 @@
 				7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */,
 				C383967E29A25D67005998A5 /* CreateScheduleResponse.swift in Sources */,
 				C3AB7441296B21E6003DD5E2 /* MeetingQuestionViewController.swift in Sources */,
+				C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */,
 				BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */,
 				C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */,
 				70BD5F3929684EAC002CBA89 /* HomeAlert.swift in Sources */,
@@ -1953,6 +1980,7 @@
 				7028770729A8C9A100E57509 /* RecruitmentFilterViewModel.swift in Sources */,
 				C3413E1729954910004B8DBD /* MeetingInfoViewController.swift in Sources */,
 				BA1FC12929A5FD3C00AB3F91 /* FeedsPaginatedDataResponse.swift in Sources */,
+				C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
 				BAC5EF31298B6F2D00F3955E /* CongratulationViewController.swift in Sources */,
 				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
