@@ -9,7 +9,16 @@ import UIKit
 final class MyPageSectionFooterView: UITableViewHeaderFooterView {
   static let identifier = "MyPageSectionFooterView"
 
-  private let containerView = UIView().then {
+  private let containerView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 0
+  }
+  
+  private let clearView = UIView().then {
+    $0.backgroundColor = .clear
+  }
+  
+  private let whiteView = UIView().then {
     $0.backgroundColor = .white
   }
  
@@ -33,6 +42,10 @@ final class MyPageSectionFooterView: UITableViewHeaderFooterView {
   
   private func setupLayouts() {
     addSubview(containerView)
+    
+    [clearView, whiteView].forEach {
+      containerView.addArrangedSubview($0)
+    }
   }
   
   private func setupConstraints() {
@@ -40,6 +53,10 @@ final class MyPageSectionFooterView: UITableViewHeaderFooterView {
       $0.leading.trailing.equalToSuperview().inset(16)
       $0.top.equalToSuperview().offset(-8)
       $0.bottom.equalToSuperview()
+    }
+    
+    clearView.snp.makeConstraints {
+      $0.height.equalTo(8)
     }
   }
   
