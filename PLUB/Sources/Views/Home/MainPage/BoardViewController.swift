@@ -10,6 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
+enum BoardHeaderViewType {
+  case clipboard // 클립보드 목록이 하나 이상 존재할 때
+  case noClipboard // 클립보드 목록이 하나도 존재하지않을 때
+}
+
 protocol BoardViewControllerDelegate: AnyObject {
   func calculateHeight(_ height: CGFloat)
 }
@@ -20,11 +25,18 @@ final class BoardViewController: BaseViewController {
   
   private let viewModel: BoardViewModelType
   
+  private var clipboardModel: [MockModel] = [] {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
   /// 스크롤 영역에 따른 헤더 뷰 높이변경을 위한 프로퍼티
   private let min: CGFloat = Device.navigationBarHeight
   private let max: CGFloat = 292
   
-  private var type: BoardCollectionHeaderViewType = .clipboard {
+  /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
+  private var type: BoardHeaderViewType = .clipboard {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -32,14 +44,19 @@ final class BoardViewController: BaseViewController {
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout()
+    collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
+      guard let self = self else { return nil }
+      return self.createCollectionViewSection()
+    }
   ).then {
     $0.backgroundColor = .background
     $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
-    $0.register(BoardCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardCollectionHeaderView.identifier)
+    $0.register(MainPageClipboardCollectionViewCell.self, forCellWithReuseIdentifier: MainPageClipboardCollectionViewCell.identifier)
+    $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    $0.bounces = false
+    $0.contentInset = .init(top: 16, left: .zero, bottom: .zero, right: .zero)
   }
   
   init(viewModel: BoardViewModelType = BoardViewModel()) {
@@ -49,10 +66,6 @@ final class BoardViewController: BaseViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  override func setupStyles() {
-    super.setupStyles()
   }
   
   override func setupLayouts() {
@@ -66,6 +79,55 @@ final class BoardViewController: BaseViewController {
       $0.directionalEdges.equalToSuperview()
     }
   }
+  
+  override func bind() {
+    super.bind()
+    
+    viewModel.selectPlubbingID.onNext(1)
+    
+    viewModel.createMockData()
+      .subscribe(rx.clipboardModel)
+      .disposed(by: disposeBag)
+  }
+  
+  private func createCollectionViewSection() -> NSCollectionLayoutSection? {
+    let item = NSCollectionLayoutItem(
+      layoutSize: NSCollectionLayoutSize(
+        widthDimension: .fractionalWidth(1),
+        heightDimension: .fractionalHeight(1)
+      )
+    )
+    
+    item.contentInsets = .init(top: .zero, leading: .zero, bottom: 8, trailing: .zero)
+    
+    let group = NSCollectionLayoutGroup.horizontal(
+      layoutSize: NSCollectionLayoutSize(
+        widthDimension: .fractionalWidth(1),
+        heightDimension: .absolute(107)),
+      subitems: [item]
+    )
+    
+    let section = NSCollectionLayoutSection(group: group)
+    section.orthogonalScrollingBehavior = .none
+    
+    switch type {
+    case .clipboard:
+      let header = NSCollectionLayoutBoundarySupplementaryItem(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(260)
+        ),
+        elementKind: UICollectionView.elementKindSectionHeader,
+        alignment: .top
+      )
+      section.boundarySupplementaryItems = [header]
+      section.contentInsets = .init(top: 16, leading: 16, bottom: .zero, trailing: 16)
+    case .noClipboard:
+      section.boundarySupplementaryItems = []
+      section.contentInsets = .init(top: .zero, leading: 16, bottom: 16, trailing: 16)
+    }
+    return section
+  }
 }
 
 extension BoardViewController: UIScrollViewDelegate {
@@ -74,7 +136,7 @@ extension BoardViewController: UIScrollViewDelegate {
     
     let heightTemp = max - scroll
     
-    if  heightTemp > max {
+    if heightTemp > max {
       delegate?.calculateHeight(max)
     } else if heightTemp < min {
       delegate?.calculateHeight(min)
@@ -100,38 +162,10 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    if indexPath.section == 0 {
-      switch type {
-      case .clipboard:
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardCollectionHeaderView.identifier, for: indexPath) as? BoardCollectionHeaderView ?? BoardCollectionHeaderView()
-        return header
-      case .noClipboard:
-        return UICollectionReusableView()
-      }
-    }
-    return UICollectionReusableView()
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    switch type {
-    case .clipboard:
-      return CGSize(width: collectionView.frame.width, height: 260 + 22)
-    case .noClipboard:
-      return .zero
-    }
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardClipboardHeaderView.identifier, for: indexPath) as? BoardClipboardHeaderView ?? BoardClipboardHeaderView()
+    return header
   }
 }
 
-extension BoardViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width - 32, height: 107)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    return 8
-  }
-}
+
+

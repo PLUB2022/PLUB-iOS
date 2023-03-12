@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+
 /// 메인페이지 탑 탭바 타입
 enum MainPageFilterType {
   case board
@@ -79,6 +80,16 @@ final class MainPageViewController: BaseViewController {
   private lazy var mainpageNavigationView = MainPageNavigationView().then {
     $0.axis = .horizontal
     $0.spacing = 4
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.navigationBar.isHidden = true
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.navigationBar.isHidden = false
   }
   
   override func setupStyles() {
