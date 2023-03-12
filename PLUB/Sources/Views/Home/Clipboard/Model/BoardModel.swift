@@ -38,11 +38,14 @@ struct BoardModel {
 extension BoardModel {
   /// 게시글 타입
   var type: PostType {
-    if content != nil && imageLink != nil { return .photoAndText }
-    else if imageLink != nil { return .photo }
+    if content != nil && imageLink != nil && content!.isEmpty == false && imageLink!.isEmpty == false {
+      return .photoAndText
+    }
+    else if imageLink != nil && imageLink!.isEmpty == false {
+      return .photo
+    }
     else { return .text }
   }
-  
 }
 
 // MARK: - Mapping to BoardModel
