@@ -174,6 +174,8 @@
 		BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E2B4729746881009DDF32 /* SignInResponse.swift */; };
 		BA94E81C297E706A00DF23CE /* IntroductionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA94E81B297E706A00DF23CE /* IntroductionViewModel.swift */; };
 		BA98B34929AC956A00307073 /* CommentContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA98B34829AC956A00307073 /* CommentContent.swift */; };
+		BAAD0AD529BB2E72007B33D9 /* ArchiveCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAD0AD429BB2E72007B33D9 /* ArchiveCollectionViewCell.swift */; };
+		BAB9DFD229BB17B90062807C /* ArchiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */; };
 		BAB033FA29B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */; };
 		BABB011A297ED415004178EC /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB0119297ED415004178EC /* InterestViewController.swift */; };
 		BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB011B297ED74C004178EC /* InterestViewModel.swift */; };
@@ -452,6 +454,8 @@
 		BA8E2B4729746881009DDF32 /* SignInResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInResponse.swift; sourceTree = "<group>"; };
 		BA94E81B297E706A00DF23CE /* IntroductionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewModel.swift; sourceTree = "<group>"; };
 		BA98B34829AC956A00307073 /* CommentContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentContent.swift; sourceTree = "<group>"; };
+		BAAD0AD429BB2E72007B33D9 /* ArchiveCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCollectionViewCell.swift; sourceTree = "<group>"; };
+		BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewModel.swift; sourceTree = "<group>"; };
 		BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionHeaderView.swift; sourceTree = "<group>"; };
 		BABB0119297ED415004178EC /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		BABB011B297ED74C004178EC /* InterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewModel.swift; sourceTree = "<group>"; };
@@ -723,6 +727,8 @@
 		702876BD29A374C500E57509 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */,
+				BAAD0AD429BB2E72007B33D9 /* ArchiveCollectionViewCell.swift */,
 				702876C129A3751400E57509 /* ArchiveViewController.swift */,
 			);
 			path = Archive;
@@ -1838,6 +1844,7 @@
 				C38A5B9D297AFDCD00485355 /* LocationBottomSheetViewController.swift in Sources */,
 				705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */,
 				C33EF37D29A1DFD100D7A5CA /* ScheduleAlarmView.swift in Sources */,
+				BAB9DFD229BB17B90062807C /* ArchiveViewModel.swift in Sources */,
 				BAC5EF2D298A9E4300F3955E /* SplashViewController.swift in Sources */,
 				C3B04E4229816B9C00188E60 /* ImageRouter.swift in Sources */,
 				BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */,
@@ -1964,6 +1971,7 @@
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
 				70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */,
 				BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */,
+				BAAD0AD529BB2E72007B33D9 /* ArchiveCollectionViewCell.swift in Sources */,
 				C3CD674A29B4B37C0052087E /* ScheduleParticipantViewController.swift in Sources */,
 				C316051F2997F92200D27488 /* EditMeetingPostRequest.swift in Sources */,
 				C3413E192995492D004B8DBD /* GuestQuestionViewController.swift in Sources */,
