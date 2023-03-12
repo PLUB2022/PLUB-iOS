@@ -108,7 +108,7 @@ extension ClipboardViewController: UICollectionViewDelegateFlowLayout {
     // TODO: 승현 - Clipboard API 연동해서 높이 설정
     // 너비 양옆 inset 16을 제외, 높이 305 고정 (photo)
     // 너비 양옆 inset 16을 제외, 높이 114 고정 (photoAndText, text)
-    return .init(width: view.bounds.width - 16 * 2, height: 305)
+    return .init(width: view.bounds.width - 16 * 2, height: CGFloat(viewModel.cellHeights[indexPath.row]))
   }
 }
 

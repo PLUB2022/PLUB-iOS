@@ -31,13 +31,25 @@ final class ClipboardViewModel: ClipboardViewModelType, ClipboardCellDataStore {
   
   
   init(plubIdentifier: Int) {
-    fetchClipboards = FeedsService.shared.fetchClipboards(plubIdentifier: plubIdentifier)
+    // API 여러번 호출 방지
+    let sharedClipboardsAPI = FeedsService.shared.fetchClipboards(plubIdentifier: plubIdentifier)
       .compactMap { response -> [FeedsContent]? in
         // TODO: 승현 - API failure 처리
         guard case let .success(data) = response else { return nil }
         return data.data?.pinnedFeedList
       }
-      .asDriver(onErrorJustReturn: [])
+      .share()
+    
+    fetchClipboards = sharedClipboardsAPI.asDriver(onErrorJustReturn: [])
+    
+    sharedClipboardsAPI
+      .compactMap {
+        $0.map { $0.type == .photo ? 305 : 114 }
+      }
+      .subscribe(onNext: { [weak self] in
+        self?.cellHeights = $0
+      })
+      .disposed(by: disposeBag)
   }
   
   private let disposeBag = DisposeBag()
