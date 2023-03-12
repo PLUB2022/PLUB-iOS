@@ -13,7 +13,7 @@ import Then
 
 struct ParticipantCollectionViewCellModel {
   let name: String
-  let imageName: String
+  let imageName: String?
 }
 
 final class ParticipantCollectionViewCell: UICollectionViewCell {
@@ -60,8 +60,12 @@ final class ParticipantCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: ParticipantCollectionViewCellModel) {
-    guard let url = URL(string: model.imageName) else { return }
-    participantImageView.kf.setImage(with: url)
     pariticipantNameLabel.text = model.name
+    if let imageName = model.imageName,
+       let url = URL(string: imageName) {
+      participantImageView.kf.setImage(with: url)
+    } else {
+      participantImageView.image = UIImage(named: "userDefaultImage")
+    }
   }
 }

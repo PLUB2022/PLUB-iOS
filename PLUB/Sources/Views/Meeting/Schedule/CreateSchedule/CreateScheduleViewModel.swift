@@ -13,7 +13,7 @@ import Then
 
 final class CreateScheduleViewModel {
   private let disposeBag = DisposeBag()
-  private let plubbingID: String
+  private let plubbingID: Int
   
   let scheduleType = MeetingScheduleType.allCases
   
@@ -28,18 +28,21 @@ final class CreateScheduleViewModel {
   
   // Output
   let isButtonEnabled: Driver<Bool>
+  let successResult: Driver<Void>
 
   private let titleSubject = PublishSubject<String>()
   private let allDaySwitchSubject = PublishSubject<Bool>()
   private let startDateSubject = PublishSubject<Date>()
   private let endDateSubject = PublishSubject<Date>()
   private let locationSubject = PublishSubject<Location>()
-  private let alarmSubject = PublishSubject<ScheduleAlarmType>()
+  private let alarmSubject = BehaviorSubject<ScheduleAlarmType>(value: .none)
   private let memoSubject = PublishSubject<String>()
+  
+  private let successResultSubject = PublishSubject<Void>()
   
   private let scheduleRelay = BehaviorRelay<CreateScheduleRequest>(value: CreateScheduleRequest())
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     self.plubbingID = plubbingID
     
     title = titleSubject.asObserver()
@@ -58,6 +61,7 @@ final class CreateScheduleViewModel {
       !$1.isEmpty &&
       $1 != "메모 내용을 입력해주세요."
     }
+    successResult = successResultSubject.asDriver(onErrorDriveWith: .empty())
     
     bind()
   }
@@ -161,6 +165,7 @@ final class CreateScheduleViewModel {
         switch result {
         case .success(let model):
           print(model)
+          owner.successResultSubject.onNext(())
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })

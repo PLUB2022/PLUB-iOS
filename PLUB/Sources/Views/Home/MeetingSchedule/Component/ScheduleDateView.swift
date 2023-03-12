@@ -70,8 +70,8 @@ final class ScheduleDateView: UIView {
     }
     monthLabel.isHidden = indexType == .first ? false : true
    
-    monthLabel.text = month
-    dateLabel.text = day
+    monthLabel.text = "\(month)월"
+    dateLabel.text = "\(day)일"
     
     monthLabel.textColor = isPasted ? .deepGray : .black
     dateLabel.textColor = isPasted ? .deepGray : .black

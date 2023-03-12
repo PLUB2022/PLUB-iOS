@@ -46,8 +46,8 @@ final class MainPageViewController: BaseViewController {
   private let segmentedControl = UnderlineSegmentedControl(
     items: [MainPageFilterType.board.title, MainPageFilterType.todoList.title]
   ).then {
-    $0.setTitleTextAttributes([.foregroundColor: UIColor.mediumGray, .font: UIFont.body1!], for: .normal)
-    $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.body1!], for: .selected)
+    $0.setTitleTextAttributes([.foregroundColor: UIColor.mediumGray, .font: UIFont.body1], for: .normal)
+    $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.body1], for: .selected)
     $0.selectedSegmentIndex = 0
   }
   
