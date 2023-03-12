@@ -44,6 +44,8 @@ final class ClipboardViewModel: ClipboardViewModelType, ClipboardCellDataStore {
     
     sharedClipboardsAPI
       .compactMap {
+        // 높이 305 고정 (photo)
+        // 높이 114 고정 (photoAndText, text)
         $0.map { $0.type == .photo ? 305 : 114 }
       }
       .subscribe(onNext: { [weak self] in
