@@ -44,3 +44,25 @@ extension BoardModel {
   }
   
 }
+
+// MARK: - Mapping to BoardModel
+
+extension FeedsContent {
+  var toBoardModel: BoardModel {
+    let dateFormatter = DateFormatter().then {
+      $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
+      $0.locale = Locale(identifier: "ko_KR") // locale 설정해야 date 생성 가능
+    }
+    
+    return BoardModel(
+      author: nickname,
+      authorProfileImageLink: profileImageURL,
+      date: dateFormatter.date(from: postDate)!,
+      likeCount: likeCount,
+      commentCount: commentCount,
+      title: title,
+      imageLink: feedImageURL,
+      content: content
+    )
+  }
+}
