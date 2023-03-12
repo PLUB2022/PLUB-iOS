@@ -61,7 +61,6 @@ final class ClipboardViewController: BaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     collectionView.delegate = self
-    collectionView.dataSource = self
   }
   
   // MARK: - Configuration
@@ -94,38 +93,12 @@ final class ClipboardViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-  }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension ClipboardViewController: UICollectionViewDataSource {
-  
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    // TODO: 승현 - Clipboard API 연동하기
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell else {
-      fatalError()
+    viewModel.fetchClipboards
+      .drive(collectionView.rx.items(cellIdentifier: BoardCollectionViewCell.identifier, cellType: BoardCollectionViewCell.self)) { index, model, cell in
+        cell.configure(with: model.toBoardModel)
+      }
+      .disposed(by: disposeBag)
     }
-    // TODO: 승현 - Clipboard API 연동하기
-    
-    let testModel = BoardModel(
-      author: "홍승현",
-      authorProfileImageLink: "https://github.com/whitehyun.png",
-      date: Date(),
-      likeCount: 10,
-      commentCount: 24,
-      title: "테스트 제목입니다.",
-      imageLink: "https://github.com/whitehyun.png",
-      content: nil
-    )
-    
-    cell.configure(with: testModel)
-    return cell
-  }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
