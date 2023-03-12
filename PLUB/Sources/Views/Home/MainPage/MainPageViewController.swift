@@ -82,6 +82,11 @@ final class MainPageViewController: BaseViewController {
     $0.spacing = 4
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.navigationBar.isHidden = true
+  }
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.isHidden = false
@@ -98,7 +103,6 @@ final class MainPageViewController: BaseViewController {
     )
     
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
-    self.navigationController?.navigationBar.isHidden = true
     title = "요란한 밧줄"
     
     let scrollView = pageViewController.view.subviews
