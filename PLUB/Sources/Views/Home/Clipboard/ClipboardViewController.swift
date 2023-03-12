@@ -56,13 +56,6 @@ final class ClipboardViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: - Life Cycles
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    collectionView.delegate = self
-  }
-  
   // MARK: - Configuration
   
   override func setupLayouts() {
@@ -93,6 +86,8 @@ final class ClipboardViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+    
     viewModel.fetchClipboards
       .drive(collectionView.rx.items(cellIdentifier: BoardCollectionViewCell.identifier, cellType: BoardCollectionViewCell.self)) { index, model, cell in
         cell.configure(with: model.toBoardModel)
@@ -108,7 +103,7 @@ extension ClipboardViewController: UICollectionViewDelegateFlowLayout {
     // TODO: 승현 - Clipboard API 연동해서 높이 설정
     // 너비 양옆 inset 16을 제외, 높이 305 고정 (photo)
     // 너비 양옆 inset 16을 제외, 높이 114 고정 (photoAndText, text)
-    return .init(width: view.bounds.width - 16 * 2, height: CGFloat(viewModel.cellHeights[indexPath.row]))
+    return .init(width: view.bounds.width - 16 * 2, height: CGFloat(viewModel.cellHeights[indexPath.item]))
   }
 }
 
