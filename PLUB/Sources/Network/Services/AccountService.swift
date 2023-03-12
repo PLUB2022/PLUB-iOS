@@ -17,6 +17,10 @@ final class AccountService: BaseService {
 }
 
 extension AccountService {
+  func inquireMyInfo() -> PLUBResult<MyInfoResponse> {
+    return sendRequest(AccountRouter.inquireMyInfo, type: MyInfoResponse.self)
+  }
+  
   func validateNickname(_ nickname: String) -> PLUBResult<EmptyModel> {
     return sendRequest(AccountRouter.validateNickname(nickname))
   }
