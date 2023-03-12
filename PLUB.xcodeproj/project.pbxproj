@@ -200,6 +200,8 @@
 		C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */; };
 		C3100CB929BD8A7E005FCCAD /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */; };
 		C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */; };
+		C3100CBF29BD94FF005FCCAD /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */; };
+		C3100CC329BD9ECD005FCCAD /* MyPageSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */; };
 		C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */; };
 		C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */; };
 		C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605162997934100D27488 /* RecruitPostViewModel.swift */; };
@@ -278,6 +280,7 @@
 		C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E4329816C7E00188E60 /* ImageService.swift */; };
 		C3B04E462981788800188E60 /* UploadImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E452981788800188E60 /* UploadImageRequest.swift */; };
 		C3B04E482981789A00188E60 /* UploadImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E472981789A00188E60 /* UploadImageResponse.swift */; };
+		C3B3435129BDEE5100935B73 /* MyPageSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435029BDEE5100935B73 /* MyPageSectionFooterView.swift */; };
 		C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */; };
 		C3CD674A29B4B37C0052087E /* ScheduleParticipantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */; };
 		C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */; };
@@ -482,6 +485,8 @@
 		C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileView.swift; sourceTree = "<group>"; };
+		C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
+		C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSectionHeaderView.swift; sourceTree = "<group>"; };
 		C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewModel.swift; sourceTree = "<group>"; };
 		C31605162997934100D27488 /* RecruitPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitPostViewModel.swift; sourceTree = "<group>"; };
@@ -557,6 +562,7 @@
 		C3B04E4329816C7E00188E60 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		C3B04E452981788800188E60 /* UploadImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageRequest.swift; sourceTree = "<group>"; };
 		C3B04E472981789A00188E60 /* UploadImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageResponse.swift; sourceTree = "<group>"; };
+		C3B3435029BDEE5100935B73 /* MyPageSectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSectionFooterView.swift; sourceTree = "<group>"; };
 		C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleNumberToolTip.swift; sourceTree = "<group>"; };
 		C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewController.swift; sourceTree = "<group>"; };
 		C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantTopView.swift; sourceTree = "<group>"; };
@@ -1269,6 +1275,7 @@
 		C3100CB529BD8A46005FCCAD /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				C3100CBD29BD94DC005FCCAD /* Cell */,
 				C3100CBA29BD8A96005FCCAD /* Component */,
 				C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */,
 				C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */,
@@ -1282,6 +1289,16 @@
 				C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		C3100CBD29BD94DC005FCCAD /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */,
+				C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */,
+				C3B3435029BDEE5100935B73 /* MyPageSectionFooterView.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		C3160515299770BF00D27488 /* ViewModel */ = {
@@ -1798,6 +1815,7 @@
 				C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */,
 				70BD5F35296491C8002CBA89 /* ApplyQuestionHeaderView.swift in Sources */,
 				705F820929B0EE6600830C4F /* BoardViewModel.swift in Sources */,
+				C3100CBF29BD94FF005FCCAD /* MyPageTableViewCell.swift in Sources */,
 				C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */,
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
@@ -1954,6 +1972,7 @@
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				C361743129AF95E2006AEAB1 /* MyMeetingResponse.swift in Sources */,
 				702876C429A3752A00E57509 /* MeetingScheduleViewController.swift in Sources */,
+				C3B3435129BDEE5100935B73 /* MyPageSectionFooterView.swift in Sources */,
 				70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */,
 				C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */,
 				C361743629AFB875006AEAB1 /* MeetingCollectionViewCell.swift in Sources */,
@@ -2037,6 +2056,7 @@
 				BA85BAA629A72D2400B4C59A /* BoardsRequest.swift in Sources */,
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,
+				C3100CC329BD9ECD005FCCAD /* MyPageSectionHeaderView.swift in Sources */,
 				C3622B4729A7C414005EF09C /* ScheduleListResponse.swift in Sources */,
 				C3EB29CD29A9A4D400615B6B /* ScheduleDetailContentView.swift in Sources */,
 				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
