@@ -164,6 +164,8 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardClipboardHeaderView.identifier, for: indexPath) as? BoardClipboardHeaderView ?? BoardClipboardHeaderView()
     header.configureUI(with: [
       MainPageClipboardViewModel(type: .text, contentImageString: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png", contentText: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ"),
+      MainPageClipboardViewModel(type: .photo, contentImageString: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png", contentText: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ"),
+      MainPageClipboardViewModel(type: .photo, contentImageString: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png", contentText: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ"),
     ])
     return header
   }

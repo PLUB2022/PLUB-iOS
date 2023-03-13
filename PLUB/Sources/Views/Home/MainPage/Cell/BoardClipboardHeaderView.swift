@@ -44,6 +44,12 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     $0.layoutMargins = .init(top: 2, left: 13, bottom: 21, right: 13)
   }
   
+  private lazy var verticalStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 9
+    $0.distribution = .fillEqually
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -81,18 +87,28 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     }
   }
   
+  private func addElement(which element: [MainPageClipboardViewModel], where at: UIStackView) {
+    element.forEach {
+      let mainPageClipboardView = MainPageClipboardView()
+      mainPageClipboardView.configureUI(with: $0)
+      at.addArrangedSubview(mainPageClipboardView)
+    }
+  }
+  
   public func configureUI(with model: [MainPageClipboardViewModel]) {
     guard let mainpageClipboardType = MainPageClipboardType.allCases.filter({ $0.rawValue == model.count }).first else { return }
+    var model = model
     switch mainpageClipboardType {
-    case .one:
-      guard let model = model.first else { return }
-      let mainPageClipboardView = MainPageClipboardView()
-      mainPageClipboardView.configureUI(with: model)
-      entireStackView.addArrangedSubview(mainPageClipboardView)
-    case .two:
-      print("")
     case .moreThanThree:
-      print("")
+      guard let firstModel = model.first else { return }
+      model.remove(at: 0)
+      let mainPageClipboardView = MainPageClipboardView()
+      mainPageClipboardView.configureUI(with: firstModel)
+      
+      [mainPageClipboardView, verticalStackView].forEach { entireStackView.addArrangedSubview($0) }
+      addElement(which: model, where: verticalStackView)
+    default:
+      addElement(which: model, where: entireStackView)
     }
   }
   
