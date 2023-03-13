@@ -24,7 +24,7 @@ extension FeedsService {
   ///   - model: 게시판 요청 모델
   func createBoards(plubbingID: Int, model: BoardsRequest) -> PLUBResult<BoardsResponse> {
     sendRequest(
-      FeedsRouter.createBoard(plubID: plubbingID, model: model),
+      FeedsRouter.createBoard(plubbingID: plubbingID, model: model),
       type: BoardsResponse.self
     )
   }
@@ -35,7 +35,7 @@ extension FeedsService {
   ///   - nextCursorID: 다음에 요청할 커서 위치, 기본값은 0입니다.
   func fetchBoards(plubbingID: Int, nextCursorID: Int = 0) -> PLUBResult<FeedsPaginatedDataResponse<FeedsContent>> {
     sendRequest(
-      FeedsRouter.fetchBoards(plubID: plubbingID, cursorID: nextCursorID),
+      FeedsRouter.fetchBoards(plubbingID: plubbingID, cursorID: nextCursorID),
       type: FeedsPaginatedDataResponse<FeedsContent>.self
     )
   }
@@ -44,7 +44,7 @@ extension FeedsService {
   /// - Parameter plubbingID: 플럽 모임 ID
   func fetchClipboards(plubbingID: Int) -> PLUBResult<FeedsClipboardResponse> {
     sendRequest(
-      FeedsRouter.fetchClipboards(plubID: plubbingID),
+      FeedsRouter.fetchClipboards(plubbingID: plubbingID),
       type: FeedsClipboardResponse.self
     )
   }
@@ -55,7 +55,7 @@ extension FeedsService {
   ///   - feedID: 피드(게시글) ID
   func fetchFeedDetails(plubbingID: Int, feedID: Int) -> PLUBResult<FeedsContent> {
     sendRequest(
-      FeedsRouter.fetchFeedDetails(plubID: plubbingID, feedID: feedID),
+      FeedsRouter.fetchFeedDetails(plubbingID: plubbingID, feedID: feedID),
       type: FeedsContent.self
     )
   }
@@ -67,7 +67,7 @@ extension FeedsService {
   ///   - model: 게시글 요청 모델(`BoardsRequest`)
   func updateFeed(plubbingID: Int, feedID: Int, model: BoardsRequest) -> PLUBResult<BoardsResponse> {
     sendRequest(
-      FeedsRouter.updateFeed(plubID: plubbingID, feedID: feedID, model: model),
+      FeedsRouter.updateFeed(plubbingID: plubbingID, feedID: feedID, model: model),
       type: BoardsResponse.self
     )
   }
@@ -77,7 +77,7 @@ extension FeedsService {
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
   func deleteFeed(plubbingID: Int, feedID: Int) -> PLUBResult<EmptyModel> {
-    sendRequest(FeedsRouter.deleteFeed(plubID: plubbingID, feedID: feedID))
+    sendRequest(FeedsRouter.deleteFeed(plubbingID: plubbingID, feedID: feedID))
   }
   
   /// 피드(게시글)을 클립보드에 고정합니다.
@@ -86,7 +86,7 @@ extension FeedsService {
   ///   - feedID: 피드(게시글) ID
   func pinFeed(plubbingID: Int, feedID: Int) -> PLUBResult<BoardsResponse> {
     sendRequest(
-      FeedsRouter.pinFeed(plubID: plubbingID, feedID: feedID),
+      FeedsRouter.pinFeed(plubbingID: plubbingID, feedID: feedID),
       type: BoardsResponse.self
     )
   }
@@ -96,7 +96,7 @@ extension FeedsService {
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
   func likeFeed(plubbingID: Int, feedID: Int) -> PLUBResult<EmptyModel> {
-    sendRequest(FeedsRouter.likeFeed(plubID: plubbingID, feedID: feedID))
+    sendRequest(FeedsRouter.likeFeed(plubbingID: plubbingID, feedID: feedID))
   }
   
   /// 피드(게시글)의 댓글을 조회합니다.
@@ -106,7 +106,7 @@ extension FeedsService {
   ///   - page: 페이지 위치, 기본값은 1입니다.
   func fetchComments(plubbingID: Int, feedID: Int, page: Int = 1) -> PLUBResult<FeedsPaginatedDataResponse<CommentContent>> {
     sendRequest(
-      FeedsRouter.fetchComments(plubID: plubbingID, feedID: feedID, page: page),
+      FeedsRouter.fetchComments(plubbingID: plubbingID, feedID: feedID, page: page),
       type: FeedsPaginatedDataResponse<CommentContent>.self
     )
   }
@@ -121,7 +121,7 @@ extension FeedsService {
   func createComments(plubbingID: Int, feedID: Int, comment: String, commentParentID: Int? = nil) -> PLUBResult<EmptyModel> {
     sendRequest(
       FeedsRouter.createComment(
-        plubID: plubbingID,
+        plubbingID: plubbingID,
         feedID: feedID,
         model: CommentsRequest(content: comment, parentCommentID: commentParentID))
     )
@@ -135,7 +135,7 @@ extension FeedsService {
   ///   - comment: 수정할 댓글 내용
   func updateComment(plubbingID: Int, feedID: Int, commentID: Int, comment: String) -> PLUBResult<CommentContent> {
     sendRequest(
-      FeedsRouter.updateComment(plubID: plubbingID, feedID: feedID, commentID: commentID, content: comment),
+      FeedsRouter.updateComment(plubbingID: plubbingID, feedID: feedID, commentID: commentID, content: comment),
       type: CommentContent.self
     )
   }
@@ -146,6 +146,6 @@ extension FeedsService {
   ///   - feedID: 피드(게시글) ID
   ///   - commentID: 댓글 ID
   func deleteComment(plubbingID: Int, feedID: Int, commentID: Int) -> PLUBResult<EmptyModel> {
-    sendRequest(FeedsRouter.deleteComment(plubID: plubbingID, feedID: feedID, commentID: commentID))
+    sendRequest(FeedsRouter.deleteComment(plubbingID: plubbingID, feedID: feedID, commentID: commentID))
   }
 }
