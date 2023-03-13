@@ -10,6 +10,12 @@ import Foundation
 /// 게시글 모델
 struct BoardModel {
   
+  /// 게시글 상세조회위한 피드아이디
+  let feedID: String = ""
+  
+  /// viewType 분기처리를 위한 타입
+  let viewType: ViewType = .normal
+  
   /// 글 작성자
   let author: String
   
