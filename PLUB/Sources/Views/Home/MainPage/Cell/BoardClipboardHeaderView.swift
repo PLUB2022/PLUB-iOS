@@ -96,7 +96,7 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   }
   
   public func configureUI(with model: [MainPageClipboardViewModel]) {
-    guard let mainpageClipboardType = MainPageClipboardType.allCases.filter({ $0.rawValue == model.count }).first else { return }
+    let mainpageClipboardType = MainPageClipboardType.getMainPageClipboardType(with: model) 
     var model = model
     switch mainpageClipboardType {
     case .moreThanThree:
