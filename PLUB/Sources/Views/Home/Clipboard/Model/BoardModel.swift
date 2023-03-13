@@ -11,10 +11,10 @@ import Foundation
 struct BoardModel {
   
   /// 게시글 상세조회위한 피드아이디
-  let feedID: Int = 0
+  let feedID: Int
   
   /// viewType 분기처리를 위한 타입
-  let viewType: ViewType = .normal
+  let viewType: ViewType
   
   /// 글 작성자
   let author: String
@@ -64,6 +64,8 @@ extension FeedsContent {
     }
     
     return BoardModel(
+      feedID: feedID,
+      viewType: viewType,
       author: nickname,
       authorProfileImageLink: profileImageURL,
       date: dateFormatter.date(from: postDate)!,

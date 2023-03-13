@@ -48,6 +48,8 @@ final class MainPageViewModel: MainPageViewModelType {
       .subscribe(onNext: { feedContents in
         let boardModels = feedContents.map { feedContent in
           BoardModel(
+            feedID: feedContent.feedID,
+            viewType: feedContent.viewType,
             author: feedContent.nickname,
             authorProfileImageLink: feedContent.profileImageURL,
             date: Date(),
