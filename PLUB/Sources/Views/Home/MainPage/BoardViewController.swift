@@ -93,6 +93,12 @@ final class BoardViewController: BaseViewController {
         owner.headerType = isEmpty ? .noClipboard : .clipboard
       }
       .disposed(by: disposeBag)
+    
+    viewModel.fetchedBoardModel
+      .drive(onNext: { model in
+        print("모델 \(model)")
+      })
+      .disposed(by: disposeBag)
   }
   
   private func createCollectionViewSection() -> NSCollectionLayoutSection? {

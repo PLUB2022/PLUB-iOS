@@ -15,6 +15,7 @@ protocol BoardViewModelType {
   
   // Output
   var fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]> { get }
+  var fetchedBoardModel: Driver<[BoardModel]> { get }
   var clipboardListIsEmpty: Driver<Bool> { get }
   
 }
@@ -30,11 +31,13 @@ final class BoardViewModel: BoardViewModelType {
   
   // Output
   let fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]>
+  let fetchedBoardModel: Driver<[BoardModel]>
   let clipboardListIsEmpty: Driver<Bool>
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
     let fetchingMainpageClipboardViewModel = BehaviorRelay<[MainPageClipboardViewModel]>(value: [])
+    let fetchingBoardModel = BehaviorRelay<[BoardModel]>(value: [])
     
     self.selectPlubbingID = selectingPlubbingID.asObserver()
     
@@ -50,12 +53,14 @@ final class BoardViewModel: BoardViewModelType {
       }
     
     let successFetchingBoards = fetchingBoards.compactMap { result -> [FeedsContent]? in
+      print("결과 \(result)")
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }
     
     successFetchingBoards.subscribe(onNext: { boards in
-      print("게시판 \(boards)")
+      let boardModels = boards.map { $0.toBoardModel }
+      fetchingBoardModel.accept(boardModels)
     })
     .disposed(by: disposeBag)
     
@@ -82,6 +87,8 @@ final class BoardViewModel: BoardViewModelType {
     clipboardListIsEmpty = fetchingMainpageClipboardViewModel
       .map { $0.isEmpty }
       .asDriver(onErrorDriveWith: .empty())
+    
+    fetchedBoardModel = fetchingBoardModel.asDriver(onErrorDriveWith: .empty())
   }
   
 }
