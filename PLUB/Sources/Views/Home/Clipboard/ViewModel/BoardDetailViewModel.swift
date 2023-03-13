@@ -5,7 +5,7 @@
 //  Created by 홍승현 on 2023/03/06.
 //
 
-import Foundation
+import UIKit
 
 import RxSwift
 import RxCocoa
@@ -14,6 +14,10 @@ protocol BoardDetailViewModelType {
   // Input
   
   // Output
+}
+
+protocol BoardDetailDataStore {
+  
 }
 
 final class BoardDetailViewModel: BoardDetailViewModelType {
@@ -27,4 +31,10 @@ final class BoardDetailViewModel: BoardDetailViewModelType {
   }
   
   private let disposeBag = DisposeBag()
+}
+
+// MARK: - Diffable Models & Types
+
+extension BoardDetailViewModel: BoardDetailDataStore {
+  
 }

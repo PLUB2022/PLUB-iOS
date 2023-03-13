@@ -16,7 +16,7 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - Properties
   
-  private let viewModel: BoardDetailViewModelType
+  private let viewModel: BoardDetailViewModelType & BoardDetailDataStore
   
   // MARK: - UI Components
   
@@ -28,7 +28,7 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(viewModel: BoardDetailViewModelType) {
+  init(viewModel: BoardDetailViewModelType & BoardDetailDataStore) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
