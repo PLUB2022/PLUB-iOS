@@ -27,6 +27,8 @@ enum MainPageFilterType {
 
 final class MainPageViewController: BaseViewController {
   
+  private let plubbingID: Int
+  
   var currentPage = 0 {
     didSet {
       let direction: UIPageViewController.NavigationDirection = oldValue <= currentPage ? .forward : .reverse
@@ -62,7 +64,7 @@ final class MainPageViewController: BaseViewController {
     $0.dataSource = self
   }
   
-  private lazy var boardViewController = BoardViewController().then {
+  private lazy var boardViewController = BoardViewController(plubbingID: plubbingID).then {
     $0.delegate = self
   }
   private let todolistViewController = TodolistViewController()
@@ -80,6 +82,15 @@ final class MainPageViewController: BaseViewController {
   private lazy var mainpageNavigationView = MainPageNavigationView().then {
     $0.axis = .horizontal
     $0.spacing = 4
+  }
+  
+  init(plubbingID: Int) {
+    self.plubbingID = plubbingID
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewWillAppear(_ animated: Bool) {

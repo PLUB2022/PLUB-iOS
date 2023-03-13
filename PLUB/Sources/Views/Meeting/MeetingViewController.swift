@@ -170,7 +170,7 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if indexPath.row < meetingList.count {
       // 플러빙 메인
-      let vc = MainPageViewController()
+      let vc = MainPageViewController(plubbingID: 0)
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     } else {

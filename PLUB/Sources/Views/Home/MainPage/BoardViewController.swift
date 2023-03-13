@@ -69,9 +69,10 @@ final class BoardViewController: BaseViewController {
     $0.contentInset = .init(top: 16, left: .zero, bottom: .zero, right: .zero)
   }
   
-  init(viewModel: BoardViewModelType = BoardViewModel()) {
+  init(viewModel: BoardViewModelType = BoardViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
@@ -90,10 +91,10 @@ final class BoardViewController: BaseViewController {
     }
   }
   
-  override func bind() {
+  func bind(plubbingID: Int) {
     super.bind()
     
-    viewModel.selectPlubbingID.onNext(1)
+    viewModel.selectPlubbingID.onNext(plubbingID)
     
     viewModel.fetchedMainpageClipboardViewModel
       .drive(rx.clipboardModel)

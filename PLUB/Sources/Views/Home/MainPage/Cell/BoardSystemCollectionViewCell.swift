@@ -111,6 +111,6 @@ final class BoardSystemCollectionViewCell: UICollectionViewCell {
     contentLabel.text = model.content
     heartCountLabel.text = "\(model.likeCount)"
     commentCountLabel.text = "\(model.commentCount)"
-//    dateLabel.text = model.date.
+    dateLabel.text = model.date.toString()
   }
 }
