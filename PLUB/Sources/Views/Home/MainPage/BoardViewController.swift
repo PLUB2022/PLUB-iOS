@@ -36,6 +36,12 @@ final class BoardViewController: BaseViewController {
     }
   }
   
+  private var boardModel: [BoardModel] = [] {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
   private var clipboardModel: [MainPageClipboardViewModel] = [] {
     didSet {
       collectionView.reloadSections([0])
@@ -51,6 +57,7 @@ final class BoardViewController: BaseViewController {
   ).then {
     $0.backgroundColor = .background
     $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
+    $0.register(BoardSystemCollectionViewCell.self, forCellWithReuseIdentifier: BoardSystemCollectionViewCell.identifier)
     $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
@@ -95,9 +102,10 @@ final class BoardViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.fetchedBoardModel
-      .drive(onNext: { model in
+      .drive(with: self) { owner, model in
         print("모델 \(model)")
-      })
+        owner.boardModel = model
+      }
       .disposed(by: disposeBag)
   }
   
@@ -163,13 +171,20 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return boardModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
-    cell.configure(with: BoardModel(feedID: 0, viewType: .normal, author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
-    return cell
+    let boardModel = boardModel[indexPath.row]
+    switch boardModel.viewType {
+    case .system:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardSystemCollectionViewCell.identifier, for: indexPath) as? BoardSystemCollectionViewCell ?? BoardSystemCollectionViewCell()
+      return cell
+    default:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
+      cell.configure(with: BoardModel(feedID: 0, viewType: .normal, author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
+      return cell
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
