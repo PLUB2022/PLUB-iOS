@@ -105,4 +105,12 @@ final class BoardSystemCollectionViewCell: UICollectionViewCell {
       $0.bottom.equalToSuperview().inset(13.81)
     }
   }
+  
+  public func configureUI(with model: BoardModel) {
+    titleLabel.text = model.title
+    contentLabel.text = model.content
+    heartCountLabel.text = "\(model.likeCount)"
+    commentCountLabel.text = "\(model.commentCount)"
+//    dateLabel.text = model.date.
+  }
 }
