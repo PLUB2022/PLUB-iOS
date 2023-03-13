@@ -9,20 +9,20 @@ import Alamofire
 
 enum FeedsRouter {
   // === 게시판, 게시글 파트 ===
-  case createBoard(plubID: Int, model: BoardsRequest)
-  case fetchBoards(plubID: Int, cursorID: Int)
-  case fetchClipboards(plubID: Int)
-  case fetchFeedDetails(plubID: Int, feedID: Int)
-  case updateFeed(plubID: Int, feedID: Int, model: BoardsRequest)
-  case deleteFeed(plubID: Int, feedID: Int)
-  case pinFeed(plubID: Int, feedID: Int)
-  case likeFeed(plubID: Int, feedID: Int)
+  case createBoard(plubbingID: Int, model: BoardsRequest)
+  case fetchBoards(plubbingID: Int, cursorID: Int)
+  case fetchClipboards(plubbingID: Int)
+  case fetchFeedDetails(plubbingID: Int, feedID: Int)
+  case updateFeed(plubbingID: Int, feedID: Int, model: BoardsRequest)
+  case deleteFeed(plubbingID: Int, feedID: Int)
+  case pinFeed(plubbingID: Int, feedID: Int)
+  case likeFeed(plubbingID: Int, feedID: Int)
   
   // === 댓글 파트 ===
-  case fetchComments(plubID: Int, feedID: Int, page: Int)
-  case createComment(plubID: Int, feedID: Int, model: CommentsRequest)
-  case updateComment(plubID: Int, feedID: Int, commentID: Int, content: String)
-  case deleteComment(plubID: Int, feedID: Int, commentID: Int)
+  case fetchComments(plubbingID: Int, feedID: Int, page: Int)
+  case createComment(plubbingID: Int, feedID: Int, model: CommentsRequest)
+  case updateComment(plubbingID: Int, feedID: Int, commentID: Int, content: String)
+  case deleteComment(plubbingID: Int, feedID: Int, commentID: Int)
 }
 
 extension FeedsRouter: Router {
@@ -43,26 +43,26 @@ extension FeedsRouter: Router {
   var path: String {
     let prefixPath = "plubbings"
     switch self {
-    case .fetchBoards(let plubID, _),
-         .createBoard(let plubID, _):
-      return "/\(prefixPath)/\(plubID)/feeds"
-    case .fetchClipboards(let plubID):
-      return "/\(prefixPath)/\(plubID)/pins"
-    case .fetchFeedDetails(let plubID, let feedID),
-         .updateFeed(let plubID, let feedID, _),
-         .deleteFeed(let plubID, let feedID):
-      return "/\(prefixPath)/\(plubID)/feeds/\(feedID)"
-    case .pinFeed(let plubID, let feedID):
-      return "/\(prefixPath)/\(plubID)/feeds/\(feedID)/pin"
-    case .likeFeed(let plubID, let feedID):
-      return "/\(prefixPath)/\(plubID)/feeds/\(feedID)/like"
+    case .fetchBoards(let plubbingID, _),
+         .createBoard(let plubbingID, _):
+      return "/\(prefixPath)/\(plubbingID)/feeds"
+    case .fetchClipboards(let plubbingID):
+      return "/\(prefixPath)/\(plubbingID)/pins"
+    case .fetchFeedDetails(let plubbingID, let feedID),
+         .updateFeed(let plubbingID, let feedID, _),
+         .deleteFeed(let plubbingID, let feedID):
+      return "/\(prefixPath)/\(plubbingID)/feeds/\(feedID)"
+    case .pinFeed(let plubbingID, let feedID):
+      return "/\(prefixPath)/\(plubbingID)/feeds/\(feedID)/pin"
+    case .likeFeed(let plubbingID, let feedID):
+      return "/\(prefixPath)/\(plubbingID)/feeds/\(feedID)/like"
       
-    case .fetchComments(let plubID, let feedID, _),
-         .createComment(let plubID, let feedID, _):
-      return "/\(prefixPath)/\(plubID)/feeds/\(feedID)/comments"
-    case .updateComment(let plubID, let feedID, let commentID, _),
-         .deleteComment(let plubID, let feedID, let commentID):
-      return "/\(prefixPath)/\(plubID)/feeds/\(feedID)/comments/\(commentID)"
+    case .fetchComments(let plubbingID, let feedID, _),
+         .createComment(let plubbingID, let feedID, _):
+      return "/\(prefixPath)/\(plubbingID)/feeds/\(feedID)/comments"
+    case .updateComment(let plubbingID, let feedID, let commentID, _),
+         .deleteComment(let plubbingID, let feedID, let commentID):
+      return "/\(prefixPath)/\(plubbingID)/feeds/\(feedID)/comments/\(commentID)"
     }
   }
   

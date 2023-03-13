@@ -36,7 +36,7 @@ final class MainPageViewModel: MainPageViewModelType {
     
     // Input
     let fetchingBoards = selectingPlubID
-      .flatMapLatest { FeedsService.shared.fetchBoards(plubIdentifier: $0) }
+      .flatMapLatest { FeedsService.shared.fetchBoards(plubbingID: $0) }
       .share()
     
     let successFetchingFeedContents = fetchingBoards.compactMap { result -> [FeedsContent]? in
