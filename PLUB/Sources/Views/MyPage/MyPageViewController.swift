@@ -7,25 +7,9 @@
 
 import UIKit
 
-enum MyPageTableViewCellType: Int, CaseIterable {
-  case foldCell = 0 // 접고 펴기 셀
-  case contentCell // 상세 내용 셀
-}
-
-enum MyPageTableViewFoldType: CaseIterable {
-  case fold // 접기
-  case unfold // 펴기
-}
-
 final class MyPageViewController: BaseViewController {
   private let viewModel = MyPageViewModel()
   private let profileView = MyProfileView()
-  
-  var isFolded: Bool = true {
-    didSet {
-      tableView.reloadSections([0], with: .automatic)
-    }
-  }
   
   private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
     $0.separatorStyle = .none
@@ -77,6 +61,18 @@ final class MyPageViewController: BaseViewController {
         owner.profileView.setupMyProfile(with: myInfo)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.reloadData
+      .drive(with: self) { owner, _ in
+        owner.tableView.reloadData()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.reloadSection
+      .drive(with: self) { owner, index in
+        owner.tableView.reloadSections([index], with: .automatic)
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -104,6 +100,7 @@ extension MyPageViewController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    let isFolded = viewModel.myPlubbing[section].isFolded
     return isFolded ? (16 + 24 + 12) : (16 + 24 + 16 + 12)
   }
   
@@ -111,11 +108,16 @@ extension MyPageViewController: UITableViewDelegate {
     guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyPageSectionHeaderView.identifier) as? MyPageSectionHeaderView else {
         return UIView()
     }
+    
+    let model = viewModel.myPlubbing[section]
+    headerView.setupData(with: model, sectionIndex: section)
     headerView.delegate = self
+    
     return headerView
   }
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    let isFolded = viewModel.myPlubbing[section].isFolded
     return isFolded ? 16 : 20
   }
   
@@ -131,7 +133,7 @@ extension MyPageViewController: UITableViewDelegate {
 
 extension MyPageViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
+    return viewModel.myPlubbing.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -139,16 +141,22 @@ extension MyPageViewController: UITableViewDataSource {
       withIdentifier: MyPageTableViewCell.identifier,
       for: indexPath
     ) as? MyPageTableViewCell else { return UITableViewCell() }
+    
+    let section = viewModel.myPlubbing[indexPath.section].section
+    let model = section.plubbings[indexPath.row]
+    cell.setupData(with: model)
+    
     return cell
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return isFolded ? 0 : 5
+    let model = viewModel.myPlubbing[section]
+    return model.isFolded ? 0 : model.section.plubbings.count
   }
 }
 
 extension MyPageViewController: MyPageSectionHeaderViewDelegate {
-  func foldHeaderView() {
-    isFolded.toggle()
+  func foldHeaderView(sectionIndex: Int) {
+    viewModel.sectionTapped.onNext(sectionIndex)
   }
 }

@@ -27,13 +27,14 @@ extension PlubbingStatusType {
 }
 
 protocol MyPageSectionHeaderViewDelegate: AnyObject {
-  func foldHeaderView()
+  func foldHeaderView(sectionIndex: Int)
 }
 
 final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
   static let identifier = "MyPageSectionHeaderView"
   weak var delegate: MyPageSectionHeaderViewDelegate?
   private let disposeBag = DisposeBag()
+  private var sectionIndex: Int? = nil
   
   private let containerView = UIView().then {
     $0.backgroundColor = .white
@@ -53,7 +54,7 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
   private let button = UIButton()
   
   override init(reuseIdentifier: String?) {
-      super.init(reuseIdentifier: reuseIdentifier)
+    super.init(reuseIdentifier: reuseIdentifier)
     setupLayouts()
     setupConstraints()
     setupStyles()
@@ -111,9 +112,21 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
     button.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.delegate?.foldHeaderView()
+        guard let sectionIndex = owner.sectionIndex else { return }
+        owner.delegate?.foldHeaderView(sectionIndex: sectionIndex)
       }
       .disposed(by: disposeBag)
+  }
+  
+  func setupData(
+    with data: MyPageTableViewCellModel,
+    sectionIndex: Int
+  ) {
+    guard let status = PlubbingStatusType(rawValue: data.section.plubbingStatus) else { return }
+    titlelabel.text = status.title
     
+    foldImageView.isHighlighted = !data.isFolded
+    
+    self.sectionIndex = sectionIndex
   }
 }

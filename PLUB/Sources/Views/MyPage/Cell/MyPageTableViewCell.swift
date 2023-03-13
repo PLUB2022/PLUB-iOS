@@ -12,13 +12,13 @@ import SnapKit
 final class MyPageTableViewCell: UITableViewCell {
   static let identifier = "MyPageTableViewCell"
   
-  //isFolded
-  
   private let contentStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 16
     $0.backgroundColor = .white
     $0.alignment = .center
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
   }
   
   private let meetingImageView = UIImageView().then {
@@ -72,12 +72,6 @@ final class MyPageTableViewCell: UITableViewCell {
       $0.size.equalTo(56)
     }
     
-//    textStackView.snp.makeConstraints {
-//      $0.centerY.equalTo(meetingImageView.snp.centerY)
-//      $0.leading.equalTo(meetingImageView.snp.trailing).offset(16)
-//      $0.trailing.equalToSuperview().inset(16)
-//    }
-    
     titleLabel.snp.makeConstraints {
       $0.height.equalTo(19)
     }
@@ -89,9 +83,13 @@ final class MyPageTableViewCell: UITableViewCell {
   
   private func setupStyles() {
     backgroundColor = .background
+    selectionStyle = .none
   }
   
-  func setupRoundCorners(isFoldered: Bool) {
-    contentView.roundCorners(corners: isFoldered ? [.topLeft, .topRight] : [.allCorners], radius: 15)
+  func setupData(with data: MyPagePlubbing) {
+    titleLabel.text = data.name
+    subTitleLabel.text = data.goal
+    guard let iconImageURL = URL(string: data.iconImage) else { return }
+    meetingImageView.kf.setImage(with: iconImageURL)
   }
 }

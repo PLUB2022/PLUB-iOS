@@ -10,22 +10,36 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+struct MyPageTableViewCellModel {
+  let section: MyPlubbingResponse
+  var isFolded: Bool
+}
+
 final class MyPageViewModel {
   private let disposeBag = DisposeBag()
   
+  // Input
+  let sectionTapped: AnyObserver<Int>
+  
   // Output
   let myInfo: Driver<MyInfoResponse>
-  let tableViewReload: Driver<Void>
+  let reloadData: Driver<Void>
+  let reloadSection: Driver<Int>
   
+  private let sectionTappedSubject = PublishSubject<Int>()
   private let myInfoSubject = PublishSubject<MyInfoResponse>()
-  private let tableViewReloadSubject = PublishSubject<Void>()
+  private let reloadDataSubject = PublishSubject<Void>()
+  private let reloadSectionSubject = PublishSubject<Int>()
   
   // Data
-  private(set) var myPlubbing: [MyPlubbingResponse] = []
+  private(set) var myPlubbing: [MyPageTableViewCellModel] = []
   
   init() {
+    sectionTapped = sectionTappedSubject.asObserver()
+    
     myInfo = myInfoSubject.asDriver(onErrorDriveWith: .empty())
-    tableViewReload = tableViewReloadSubject.asDriver(onErrorDriveWith: .empty())
+    reloadData = reloadDataSubject.asDriver(onErrorDriveWith: .empty())
+    reloadSection = reloadSectionSubject.asDriver(onErrorDriveWith: .empty())
     
     let plubbingStatusTypes = PlubbingStatusType.allCases.map {
       return MyPageService.shared.inquireMyMeeting(
@@ -49,13 +63,23 @@ final class MyPageViewModel {
         for response in responses {
           guard !response.plubbings.isEmpty else { break }
           // 플러빙이 비어있지 않을 때만 섹션 추가
-          owner.myPlubbing.append(response)
+          owner.myPlubbing.append(
+            .init(section: response, isFolded: true)
+          )
         }
         
         // 테이블 뷰 리로드
-        owner.tableViewReloadSubject.onNext(())
+        owner.reloadDataSubject.onNext(())
       }, onError: { error in
           print("")
+      })
+      .disposed(by: disposeBag)
+    
+    sectionTappedSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, index in
+        owner.myPlubbing[index].isFolded.toggle()
+        owner.reloadSectionSubject.onNext(index)
       })
       .disposed(by: disposeBag)
   }
