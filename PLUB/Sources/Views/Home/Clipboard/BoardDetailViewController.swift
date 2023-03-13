@@ -101,6 +101,8 @@ extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    // 첫 번째 section에만 게시글이 보이도록 설정
+    guard section == 0 else { return .zero }
     // 동적 높이 처리
     let indexPath = IndexPath(row: 0, section: section)
     let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
