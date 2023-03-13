@@ -176,7 +176,7 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 extension BoardViewController: BoardClipboardHeaderViewDelegate {
   func didTappedClipboardButton() {
-    let vc = ClipboardViewController(viewModel: ClipboardViewModel())
+    let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: 0))
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }

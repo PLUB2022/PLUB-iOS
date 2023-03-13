@@ -46,7 +46,7 @@ final class BoardViewModel: BoardViewModelType {
     
     let fetchingClipboards = selectingPlubbingID
       .flatMapLatest { plubbingID in
-        return FeedsService.shared.fetchClipboards(plubIdentifier: plubbingID)
+        return FeedsService.shared.fetchClipboards(plubbingID: plubbingID)
       }
     
     let successFetchingBoards = fetchingBoards.compactMap { result -> [FeedsContent]? in
