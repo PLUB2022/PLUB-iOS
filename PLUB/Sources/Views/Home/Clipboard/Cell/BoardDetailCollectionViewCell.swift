@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 
@@ -173,6 +174,27 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   
   private func setupStyles() {
     
+  }
+  
+  func configure(with model: CommentContent) {
+    if let imageLink = model.profileImageURL {
+      profileImageView.kf.setImage(with: URL(string: imageLink)!)
+    } else {
+      profileImageView.image = UIImage(named: "userDefaultImage")
+    }
+    commentLabel.text = model.content
+    authorLabel.text = model.nickname
+    // TODO: 승현 - 날짜 처리는 정확하게 정해지지 않음, 기획안 나오면 그 때 처리할 예정
+    datetimeLabel.text = "방금 전"
+    
+    
+    // reply process
+    replyImageView.isHidden = model.type == .normal
+    repliedAuthorLabel.isHidden = model.type == .normal
+    repliedAuthorLabel.text = model.parentCommentNickname
+    
+    // author process
+    authorIndicationView.isHidden = !model.isFeedAuthor
   }
 }
 
