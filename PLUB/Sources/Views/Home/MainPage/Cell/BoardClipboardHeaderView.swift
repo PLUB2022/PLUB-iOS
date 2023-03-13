@@ -11,10 +11,15 @@ import RxSwift
 import SnapKit
 import Then
 
+protocol BoardClipboardHeaderViewDelegate: AnyObject {
+  func didTappedClipboardButton()
+}
+
 final class BoardClipboardHeaderView: UICollectionReusableView {
   
   static let identifier = "BoardClipboardHeaderView"
   private let disposeBag = DisposeBag()
+  weak var delegate: BoardClipboardHeaderViewDelegate?
   
   private let horizontalStackView = UIStackView().then {
     $0.axis = .horizontal
@@ -96,10 +101,12 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   }
   
   public func configureUI(with model: [MainPageClipboardViewModel]) {
-    let mainpageClipboardType = MainPageClipboardType.getMainPageClipboardType(with: model) 
-    var model = model
+    guard !model.isEmpty else { return }
+    let mainpageClipboardType = MainPageClipboardType.getMainPageClipboardType(with: model)
+    
     switch mainpageClipboardType {
     case .moreThanThree:
+      var model = Array(model[0..<3])
       guard let firstModel = model.first else { return }
       model.remove(at: 0)
       let mainPageClipboardView = MainPageClipboardView()
@@ -114,9 +121,9 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   
   private func bind() {
     clipboardButton.rx.tap
-      .subscribe(onNext: {
-        
-      })
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedClipboardButton()
+      }
       .disposed(by: disposeBag)
   }
 }

@@ -25,18 +25,18 @@ final class BoardViewController: BaseViewController {
   
   private let viewModel: BoardViewModelType
   
-  private var clipboardModel: [MockModel] = [] {
-    didSet {
-      collectionView.reloadSections([0])
-    }
-  }
-  
   /// 스크롤 영역에 따른 헤더 뷰 높이변경을 위한 프로퍼티
   private let min: CGFloat = Device.navigationBarHeight
   private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
-  private var type: BoardHeaderViewType = .clipboard {
+  private var headerType: BoardHeaderViewType = .clipboard {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
+  private var clipboardModel: [MainPageClipboardViewModel] = [] {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -84,8 +84,14 @@ final class BoardViewController: BaseViewController {
     
     viewModel.selectPlubbingID.onNext(1)
     
-    viewModel.createMockData()
-      .subscribe(rx.clipboardModel)
+    viewModel.fetchedMainpageClipboardViewModel
+      .drive(rx.clipboardModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.clipboardListIsEmpty
+      .drive(with: self) { owner, isEmpty in
+        owner.headerType = isEmpty ? .noClipboard : .clipboard
+      }
       .disposed(by: disposeBag)
   }
   
@@ -109,7 +115,7 @@ final class BoardViewController: BaseViewController {
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .none
     
-    switch type {
+    switch headerType {
     case .clipboard:
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
@@ -162,14 +168,17 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardClipboardHeaderView.identifier, for: indexPath) as? BoardClipboardHeaderView ?? BoardClipboardHeaderView()
-    header.configureUI(with: [
-      MainPageClipboardViewModel(type: .text, contentImageString: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png", contentText: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ"),
-      MainPageClipboardViewModel(type: .photo, contentImageString: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png", contentText: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ"),
-      MainPageClipboardViewModel(type: .photo, contentImageString: "https://plub.s3.ap-northeast-2.amazonaws.com/plubbing/mainImage/sports1.png", contentText: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요ㅇ"),
-    ])
+    header.configureUI(with: clipboardModel)
+    header.delegate = self
     return header
   }
 }
 
-
+extension BoardViewController: BoardClipboardHeaderViewDelegate {
+  func didTappedClipboardButton() {
+    let vc = ClipboardViewController(viewModel: ClipboardViewModel())
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
 

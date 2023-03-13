@@ -22,7 +22,7 @@ enum MainPageClipboardType {
     else if model.count == 2 {
       return .two
     }
-    else { 
+    else {
       return .moreThanThree
     }
   }
@@ -44,16 +44,15 @@ final class MainPageClipboardView: UIView {
   }
   
   private lazy var contentImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFit
-    $0.image = UIImage(systemName: "heart.fill")
+    $0.contentMode = .scaleAspectFill
   }
   
   private lazy var contentLabel = UILabel().then {
     $0.font = .body2
     $0.textColor = .black
-    $0.text = "sdfsdfsafasfsdfsdafsdafasfsafsafdsadfasdfs"
     $0.numberOfLines = 3
     $0.lineBreakMode = .byTruncatingTail
+    $0.backgroundColor = .subMain
   }
   
   override init(frame: CGRect) {
@@ -81,7 +80,6 @@ final class MainPageClipboardView: UIView {
     }
     layer.masksToBounds = true
     layer.cornerRadius = 10
-    backgroundColor = .blue
   }
   
   func configureUI(with model: MainPageClipboardViewModel) {
