@@ -22,7 +22,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType {
   
   // Output
   
-  init() {
+  init(content: FeedsContent) {
     
   }
   

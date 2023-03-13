@@ -741,8 +741,8 @@
 				BAE0AC7B29B5D71B00F46F3D /* Component */,
 				BAE0AC7A29B5D71300F46F3D /* Model */,
 				BAE0AC7929B5D6FB00F46F3D /* ViewModel */,
-				702876BF29A374FE00E57509 /* ClipboardViewController.swift */,
 				BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */,
+				702876BF29A374FE00E57509 /* ClipboardViewController.swift */,
 			);
 			path = Clipboard;
 			sourceTree = "<group>";

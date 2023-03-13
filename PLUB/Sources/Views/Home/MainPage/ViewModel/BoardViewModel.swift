@@ -41,7 +41,7 @@ final class BoardViewModel: BoardViewModelType {
     // Input
     let fetchingBoards = selectingPlubbingID
       .flatMapLatest { plubbingID in
-        return FeedsService.shared.fetchBoards(plubIdentifier: plubbingID)
+        return FeedsService.shared.fetchBoards(plubbingID: plubbingID)
       }
     
     let fetchingClipboards = selectingPlubbingID
