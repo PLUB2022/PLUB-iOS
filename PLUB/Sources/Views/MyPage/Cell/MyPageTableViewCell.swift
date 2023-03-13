@@ -21,9 +21,7 @@ final class MyPageTableViewCell: UITableViewCell {
     $0.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
   }
   
-  private let meetingImageView = UIImageView().then {
-    $0.image = UIImage(named: "foldedArrow")
-  }
+  private let meetingImageView = UIImageView()
   
   private let textStackView = UIStackView().then {
     $0.axis = .vertical
@@ -32,12 +30,10 @@ final class MyPageTableViewCell: UITableViewCell {
   
   private let titleLabel = UILabel().then {
     $0.font = .appFont(family: .pretendard(option: .bold), size: 16)
-    $0.text = "당장 들어와"
   }
   
   private let subTitleLabel = UILabel().then {
     $0.font = .appFont(family: .pretendard(option: .regular), size: 12)
-    $0.text = "모임 목표"
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

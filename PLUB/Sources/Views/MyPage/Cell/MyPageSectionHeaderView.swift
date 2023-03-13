@@ -43,7 +43,6 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
   private let titlelabel = UILabel().then {
     $0.font = .h5
     $0.textColor = .black
-    $0.text = "모집 중인 모임"
   }
   
   private let foldImageView = UIImageView().then {
@@ -57,7 +56,6 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
     super.init(reuseIdentifier: reuseIdentifier)
     setupLayouts()
     setupConstraints()
-    setupStyles()
     bind()
   }
   
@@ -103,9 +101,6 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
     button.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
-  }
-  
-  private func setupStyles() {
   }
   
   private func bind() {
