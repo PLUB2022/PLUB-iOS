@@ -19,12 +19,12 @@ final class MyPageViewModel {
   private let disposeBag = DisposeBag()
   
   // Input
-  let sectionTapped: AnyObserver<Int>
+  let sectionTapped: AnyObserver<Int> // 섹션뷰 클릭 이벤트
   
   // Output
-  let myInfo: Driver<MyInfoResponse>
-  let reloadData: Driver<Void>
-  let reloadSection: Driver<Int>
+  let myInfo: Driver<MyInfoResponse> // 내 정보 데이터
+  let reloadData: Driver<Void> // 테이블 뷰 갱신
+  let reloadSection: Driver<Int> // 테이블 뷰 섹션 갱신
   
   private let sectionTappedSubject = PublishSubject<Int>()
   private let myInfoSubject = PublishSubject<MyInfoResponse>()
@@ -32,7 +32,7 @@ final class MyPageViewModel {
   private let reloadSectionSubject = PublishSubject<Int>()
   
   // Data
-  private(set) var myPlubbing: [MyPageTableViewCellModel] = []
+  private(set) var myPlubbing: [MyPageTableViewCellModel] = [] // 나의 플러빙 데이터
   
   init() {
     sectionTapped = sectionTappedSubject.asObserver()
@@ -83,7 +83,6 @@ final class MyPageViewModel {
       })
       .disposed(by: disposeBag)
   }
-  
   
   func fetchMyInfoData() {
     AccountService.shared.inquireMyInfo()
