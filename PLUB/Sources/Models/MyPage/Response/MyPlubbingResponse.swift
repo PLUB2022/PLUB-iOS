@@ -9,7 +9,7 @@ import Foundation
 
 enum PlubbingStatusType: String, CaseIterable {
   case recruiting = "RECRUITING"
-//  case wait = "WAIT"
+  case waiting = "WAITING"
   case active = "ACTIVE"
   case end = "END"
 }

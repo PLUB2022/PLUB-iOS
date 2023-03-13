@@ -16,8 +16,8 @@ extension PlubbingStatusType {
     switch self {
     case .recruiting:
       return "모집 중인 모임"
-//    case .wait:
-//      return "대기 중인 모임"
+    case .waiting:
+      return "대기 중인 모임"
     case .active:
       return "활동 중인 모임"
     case .end:
