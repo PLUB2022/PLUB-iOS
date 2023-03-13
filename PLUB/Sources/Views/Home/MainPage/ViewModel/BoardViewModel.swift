@@ -54,6 +54,11 @@ final class BoardViewModel: BoardViewModelType {
       return response.data?.content
     }
     
+    successFetchingBoards.subscribe(onNext: { boards in
+      print("게시판 \(boards)")
+    })
+    .disposed(by: disposeBag)
+    
     let successFetchingClipboards = fetchingClipboards.compactMap { result -> [FeedsContent]? in
       guard case .success(let response) = result else { return nil }
       return response.data?.pinnedFeedList
