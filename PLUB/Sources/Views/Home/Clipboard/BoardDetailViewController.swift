@@ -139,7 +139,7 @@ private extension BoardDetailViewController {
     var snapshot = Snapshot()
     
     var sections = [-1] // 최소한 하나의 Section이라도 존재해야 함
-    sections.append(contentsOf: Array(Set(viewModel.comments.map { $0.groupID })))
+    sections.append(contentsOf: Array(Set(viewModel.comments.map { $0.groupID })).sorted())
     snapshot.appendSections(sections)
     
     sections.forEach { sectionGroupID in
