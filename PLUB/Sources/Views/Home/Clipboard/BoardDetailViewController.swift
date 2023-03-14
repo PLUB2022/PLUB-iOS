@@ -42,7 +42,6 @@ final class BoardDetailViewController: BaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     collectionView.delegate = self
-    collectionView.dataSource = self
   }
   
   // MARK: - Configuration
@@ -65,30 +64,6 @@ final class BoardDetailViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-  }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension BoardDetailViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    // TODO: 승현 - Clipboard Comment API 연동하기
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell else {
-      fatalError()
-    }
-    
-    return cell
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardDetailCollectionHeaderView.identifier, for: indexPath) as? BoardDetailCollectionHeaderView else {
-      fatalError()
-    }
-    return headerView
   }
 }
 
