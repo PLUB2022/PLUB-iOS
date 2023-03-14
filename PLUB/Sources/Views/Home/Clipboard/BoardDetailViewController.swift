@@ -45,6 +45,7 @@ final class BoardDetailViewController: BaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setCollectionView()
+    applyInitialSnapshots()
     collectionView.delegate = self
   }
   
@@ -130,5 +131,20 @@ private extension BoardDetailViewController {
     dataSource?.supplementaryViewProvider = .init { collectionView, elementKind, indexPath in
       return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
     }
+  }
+  
+  /// 초기 Snapshot을 설정합니다. DataSource가 초기화될 시 해당 메서드가 실행됩니다.
+  /// 직접 이 메서드를 실행할 필요는 없습니다.
+  private func applyInitialSnapshots() {
+    var snapshot = Snapshot()
+    
+    var sections = [-1] // 최소한 하나의 Section이라도 존재해야 함
+    sections.append(contentsOf: Array(Set(viewModel.comments.map { $0.groupID })))
+    snapshot.appendSections(sections)
+    
+    sections.forEach { sectionGroupID in
+      snapshot.appendItems(viewModel.comments.filter { $0.groupID == sectionGroupID }, toSection: sectionGroupID)
+    }
+    dataSource?.apply(snapshot)
   }
 }
