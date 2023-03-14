@@ -84,3 +84,18 @@ extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
     return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
   }
 }
+
+// MARK: - Diffable DataSource & Types
+
+private extension BoardDetailViewController {
+  
+  // MARK: Type Alias
+  
+  typealias Section = Int
+  typealias Item = CommentContent
+  typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
+  typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+  
+  typealias CellRegistration = UICollectionView.CellRegistration<BoardDetailCollectionViewCell, CommentContent>
+  typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<BoardDetailCollectionHeaderView>
+}
