@@ -177,7 +177,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   }
   
   func configure(with model: CommentContent) {
-    if let imageLink = model.profileImageURL {
+    if let imageLink = model.profileImageURL, imageLink.isEmpty == false {
       profileImageView.kf.setImage(with: URL(string: imageLink)!)
     } else {
       profileImageView.image = UIImage(named: "userDefaultImage")
@@ -191,7 +191,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     // reply process
     replyImageView.isHidden = model.type == .normal
     repliedAuthorLabel.isHidden = model.type == .normal
-    repliedAuthorLabel.text = model.parentCommentNickname
+    repliedAuthorLabel.text = "\(model.parentCommentNickname ?? "") 님에게 쓴 답글"
     
     // author process
     authorIndicationView.isHidden = !model.isFeedAuthor
