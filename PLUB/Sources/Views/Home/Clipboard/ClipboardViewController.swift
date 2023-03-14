@@ -94,11 +94,23 @@ final class ClipboardViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    // 선택된 셀의 FeedContent와 댓글 정보를 가져오고
+    // BoardDetailViewController의 ViewModel에 전달하면서 navigation push 진행
     collectionView.rx.modelSelected(FeedsContent.self)
-      .debug()
+      .flatMap { content -> Observable<(content: FeedsContent, comments: [CommentContent])> in
+        // content를 가지고 댓글 정보 가져옴
+        return FeedsService.shared.fetchComments(plubbingID: content.plubbingID!, feedID: content.feedID)
+          .compactMap { result -> [CommentContent]? in
+            guard case let .success(response) = result else { return nil }
+            return response.data?.content
+          }
+          .map { (content, $0) } // 게시글 정보와 댓글 내역을 튜플로 감싸서 변환
+      }
       .subscribe(with: self) { owner, model in
-        print(model)
-        owner.navigationController?.pushViewController(BoardDetailViewController(viewModel: BoardDetailViewModel(content: model)), animated: true)
+        owner.navigationController?.pushViewController(
+          BoardDetailViewController(viewModel: BoardDetailViewModel(content: model.content, comments: model.comments)),
+          animated: true
+        )
       }
       .disposed(by: disposeBag)
   }

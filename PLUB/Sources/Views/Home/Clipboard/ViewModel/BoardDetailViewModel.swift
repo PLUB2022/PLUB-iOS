@@ -1,4 +1,4 @@
-// 
+//
 //  BoardDetailViewModel.swift
 //  PLUB
 //
@@ -17,24 +17,23 @@ protocol BoardDetailViewModelType {
 }
 
 protocol BoardDetailDataStore {
-  
+  var content: FeedsContent { get }
+  var comments: [CommentContent] { get }
 }
 
-final class BoardDetailViewModel: BoardDetailViewModelType {
+final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore {
   
-  // Input
+  // MARK: - Properties
   
-  // Output
+  let content: FeedsContent
+  let comments: [CommentContent]
   
-  init(content: FeedsContent) {
-    
+  // MARK: - Initializations
+  
+  init(content: FeedsContent, comments: [CommentContent]) {
+    self.content = content
+    self.comments = comments
   }
   
   private let disposeBag = DisposeBag()
-}
-
-// MARK: - Diffable Models & Types
-
-extension BoardDetailViewModel: BoardDetailDataStore {
-  
 }
