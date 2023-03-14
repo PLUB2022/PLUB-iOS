@@ -18,6 +18,9 @@ final class BoardDetailViewController: BaseViewController {
   
   private let viewModel: BoardDetailViewModelType & BoardDetailDataStore
   
+  /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
+  private var dataSource: DataSource?
+  
   // MARK: - UI Components
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
@@ -41,6 +44,7 @@ final class BoardDetailViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setCollectionView()
     collectionView.delegate = self
   }
   
@@ -79,8 +83,11 @@ extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
     // 첫 번째 section에만 게시글이 보이도록 설정
     guard section == 0 else { return .zero }
     // 동적 높이 처리
+    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
+      supplementaryView.configure(with: viewModel.content.toBoardModel)
+    }
     let indexPath = IndexPath(row: 0, section: section)
-    let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+    let headerView = collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
     return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
   }
 }
@@ -98,4 +105,30 @@ private extension BoardDetailViewController {
   
   typealias CellRegistration = UICollectionView.CellRegistration<BoardDetailCollectionViewCell, CommentContent>
   typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<BoardDetailCollectionHeaderView>
+  
+  // MARK: Snapshot & DataSource Part
+  
+  /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
+  func setCollectionView() {
+    
+    // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
+    let registration = CellRegistration { cell, _, item in
+      cell.configure(with: item)
+    }
+    
+    // Header View Registration, 헤더 뷰 후처리에 사용됨
+    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
+      supplementaryView.configure(with: viewModel.content.toBoardModel)
+    }
+    
+    // dataSource에 cell 등록
+    dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item in
+      return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
+    }
+    
+    // dataSource에 headerView도 등록
+    dataSource?.supplementaryViewProvider = .init { collectionView, elementKind, indexPath in
+      return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+    }
+  }
 }
