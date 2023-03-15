@@ -42,26 +42,18 @@ final class ClipboardViewController: BaseViewController {
   
   // MARK: - Properties
   
-  private let viewModel: ClipboardViewModelType
+  private let viewModel: ClipboardViewModelType & ClipboardCellDataStore
   
   
   // MARK: - Initializations
   
-  init(viewModel: ClipboardViewModelType) {
+  init(viewModel: ClipboardViewModelType & ClipboardCellDataStore) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  // MARK: - Life Cycles
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    collectionView.delegate = self
-    collectionView.dataSource = self
   }
   
   // MARK: - Configuration
@@ -94,37 +86,21 @@ final class ClipboardViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-  }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension ClipboardViewController: UICollectionViewDataSource {
-  
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    // TODO: 승현 - Clipboard API 연동하기
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell else {
-      fatalError()
-    }
-    // TODO: 승현 - Clipboard API 연동하기
+    collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
-    let testModel = BoardModel(
-      author: "홍승현",
-      authorProfileImageLink: "https://github.com/whitehyun.png",
-      date: Date(),
-      likeCount: 10,
-      commentCount: 24,
-      title: "테스트 제목입니다.",
-      imageLink: "https://github.com/whitehyun.png",
-      content: nil
-    )
+    viewModel.fetchClipboards
+      .drive(collectionView.rx.items(cellIdentifier: BoardCollectionViewCell.identifier, cellType: BoardCollectionViewCell.self)) { index, model, cell in
+        cell.configure(with: model.toBoardModel)
+      }
+      .disposed(by: disposeBag)
     
-    cell.configure(with: testModel)
-    return cell
+    collectionView.rx.modelSelected(FeedsContent.self)
+      .debug()
+      .subscribe(with: self) { owner, model in
+        print(model)
+        owner.navigationController?.pushViewController(BoardDetailViewController(viewModel: BoardDetailViewModel(content: model)), animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -132,10 +108,8 @@ extension ClipboardViewController: UICollectionViewDataSource {
 
 extension ClipboardViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    // TODO: 승현 - Clipboard API 연동해서 높이 설정
-    // 너비 양옆 inset 16을 제외, 높이 305 고정 (photo)
-    // 너비 양옆 inset 16을 제외, 높이 114 고정 (photoAndText, text)
-    return .init(width: view.bounds.width - 16 * 2, height: 305)
+    // 너비 양옆 inset 16을 제외
+    return .init(width: view.bounds.width - 16 * 2, height: CGFloat(viewModel.cellHeights[indexPath.item]))
   }
 }
 

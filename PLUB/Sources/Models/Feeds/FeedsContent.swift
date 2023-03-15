@@ -25,9 +25,11 @@ enum PostType: String, Codable {
   ///   - content: 게시글의 내용
   ///   - imageLink: 게시글에 들어가있는 이미지
   init(content: String?, imageLink: String?) {
-    if let _ = content, let _ = imageLink {
+    if let content = content, let imageLink = imageLink,
+       !content.isEmpty && !imageLink.isEmpty {
       self = .photoAndText
-    } else if let _ = imageLink {
+    } else if let imageLink = imageLink,
+              !imageLink.isEmpty {
       self = .photo
     } else {
       self = .text

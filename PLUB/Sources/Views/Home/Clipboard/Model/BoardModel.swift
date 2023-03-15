@@ -10,6 +10,12 @@ import Foundation
 /// 게시글 모델
 struct BoardModel {
   
+  /// 게시글 상세조회위한 피드아이디
+  let feedID: Int
+  
+  /// viewType 분기처리를 위한 타입
+  let viewType: ViewType
+  
   /// 글 작성자
   let author: String
   
@@ -38,9 +44,36 @@ struct BoardModel {
 extension BoardModel {
   /// 게시글 타입
   var type: PostType {
-    if content != nil && imageLink != nil { return .photoAndText }
-    else if imageLink != nil { return .photo }
+    if content != nil && imageLink != nil && content!.isEmpty == false && imageLink!.isEmpty == false {
+      return .photoAndText
+    }
+    else if imageLink != nil && imageLink!.isEmpty == false {
+      return .photo
+    }
     else { return .text }
   }
-  
+}
+
+// MARK: - Mapping to BoardModel
+
+extension FeedsContent {
+  var toBoardModel: BoardModel {
+    let dateFormatter = DateFormatter().then {
+      $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
+      $0.locale = Locale(identifier: "ko_KR") // locale 설정해야 date 생성 가능
+    }
+    
+    return BoardModel(
+      feedID: feedID,
+      viewType: viewType,
+      author: nickname,
+      authorProfileImageLink: profileImageURL,
+      date: dateFormatter.date(from: postDate)!,
+      likeCount: likeCount,
+      commentCount: commentCount,
+      title: title,
+      imageLink: feedImageURL,
+      content: content
+    )
+  }
 }
