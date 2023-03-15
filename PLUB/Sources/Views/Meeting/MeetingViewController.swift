@@ -172,6 +172,7 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
       // 플러빙 메인
       let vc = MainPageViewController()
       vc.navigationItem.largeTitleDisplayMode = .never
+      vc.hidesBottomBarWhenPushed = true
       self.navigationController?.pushViewController(vc, animated: true)
     } else {
       // 모임 생성

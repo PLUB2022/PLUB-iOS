@@ -8,6 +8,7 @@
 import Alamofire
 
 enum AccountRouter {
+  case inquireMyInfo
   case validateNickname(String)
   case inquireInterest
   case registerInterest(RegisterInterestRequest)
@@ -16,7 +17,7 @@ enum AccountRouter {
 extension AccountRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .validateNickname, .inquireInterest:
+    case .inquireMyInfo, .validateNickname, .inquireInterest:
       return .get
     case .registerInterest:
       return .post
@@ -25,6 +26,8 @@ extension AccountRouter: Router {
   
   var path: String {
     switch self {
+    case .inquireMyInfo:
+      return "/accounts/me"
     case let .validateNickname(nickname):
       return "/accounts/check/nickname/\(nickname)"
     case .inquireInterest:
@@ -38,14 +41,14 @@ extension AccountRouter: Router {
     switch self {
     case .validateNickname:
       return .default
-    case .inquireInterest, .registerInterest:
+    case .inquireMyInfo, .inquireInterest, .registerInterest:
       return .withAccessToken
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireInterest, .validateNickname:
+    case .inquireMyInfo, .inquireInterest, .validateNickname:
       return .plain
     case .registerInterest(let request):
       return .body(request)

@@ -199,6 +199,12 @@
 		BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE5D3362975B20000268D44 /* TokenResponse.swift */; };
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
 		C305B67C29AC9FE700BD5C6A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = C305B67B29AC9FE700BD5C6A /* RxDataSources */; };
+		C3100CB429BD8980005FCCAD /* MyInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */; };
+		C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */; };
+		C3100CB929BD8A7E005FCCAD /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */; };
+		C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */; };
+		C3100CBF29BD94FF005FCCAD /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */; };
+		C3100CC329BD9ECD005FCCAD /* MyPageSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */; };
 		C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */; };
 		C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */; };
 		C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605162997934100D27488 /* RecruitPostViewModel.swift */; };
@@ -276,6 +282,11 @@
 		C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E4329816C7E00188E60 /* ImageService.swift */; };
 		C3B04E462981788800188E60 /* UploadImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E452981788800188E60 /* UploadImageRequest.swift */; };
 		C3B04E482981789A00188E60 /* UploadImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B04E472981789A00188E60 /* UploadImageResponse.swift */; };
+		C3B3435129BDEE5100935B73 /* MyPageSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435029BDEE5100935B73 /* MyPageSectionFooterView.swift */; };
+		C3B3435429BE3A1400935B73 /* MyPageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435329BE3A1400935B73 /* MyPageRouter.swift */; };
+		C3B3435629BE3A2200935B73 /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435529BE3A2200935B73 /* MyPageService.swift */; };
+		C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435A29BE3E5100935B73 /* MyPlubbingResponse.swift */; };
+		C3B3435D29BE4A3000935B73 /* MyPlubbingParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435C29BE4A3000935B73 /* MyPlubbingParameter.swift */; };
 		C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */; };
 		C3CD674A29B4B37C0052087E /* ScheduleParticipantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */; };
 		C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */; };
@@ -479,6 +490,12 @@
 		BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceRequest.swift; sourceTree = "<group>"; };
 		BAE5D3362975B20000268D44 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
 		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
+		C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoResponse.swift; sourceTree = "<group>"; };
+		C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
+		C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileView.swift; sourceTree = "<group>"; };
+		C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
+		C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSectionHeaderView.swift; sourceTree = "<group>"; };
 		C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewModel.swift; sourceTree = "<group>"; };
 		C31605162997934100D27488 /* RecruitPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitPostViewModel.swift; sourceTree = "<group>"; };
@@ -553,6 +570,11 @@
 		C3B04E4329816C7E00188E60 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		C3B04E452981788800188E60 /* UploadImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageRequest.swift; sourceTree = "<group>"; };
 		C3B04E472981789A00188E60 /* UploadImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageResponse.swift; sourceTree = "<group>"; };
+		C3B3435029BDEE5100935B73 /* MyPageSectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSectionFooterView.swift; sourceTree = "<group>"; };
+		C3B3435329BE3A1400935B73 /* MyPageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRouter.swift; sourceTree = "<group>"; };
+		C3B3435529BE3A2200935B73 /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
+		C3B3435A29BE3E5100935B73 /* MyPlubbingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlubbingResponse.swift; sourceTree = "<group>"; };
+		C3B3435C29BE4A3000935B73 /* MyPlubbingParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlubbingParameter.swift; sourceTree = "<group>"; };
 		C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleNumberToolTip.swift; sourceTree = "<group>"; };
 		C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewController.swift; sourceTree = "<group>"; };
 		C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantTopView.swift; sourceTree = "<group>"; };
@@ -924,6 +946,7 @@
 				BA42D1EE28EDE05000C20061 /* Home */,
 				BA42D1EF28EDE05A00C20061 /* Login */,
 				BA42D1F028EDE08000C20061 /* Meeting */,
+				C3100CB529BD8A46005FCCAD /* MyPage */,
 				BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */,
 			);
 			path = Views;
@@ -953,6 +976,7 @@
 				C3C24CDA2990081300056313 /* Image */,
 				C383967429A25701005998A5 /* Schedule */,
 				BA1FC12329A5E13E00AB3F91 /* Feeds */,
+				C3B3435729BE3E0E00935B73 /* MyPage */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1087,6 +1111,7 @@
 				C3B04E4129816B9C00188E60 /* ImageRouter.swift */,
 				C383967B29A25A3E005998A5 /* ScheduleRouter.swift */,
 				BA1FC11F29A5E0DF00AB3F91 /* FeedsRouter.swift */,
+				C3B3435329BE3A1400935B73 /* MyPageRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -1103,6 +1128,7 @@
 				C3B04E4329816C7E00188E60 /* ImageService.swift */,
 				C383967929A25A16005998A5 /* ScheduleService.swift */,
 				BA1FC12029A5E0DF00AB3F91 /* FeedsService.swift */,
+				C3B3435529BE3A2200935B73 /* MyPageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1261,6 +1287,35 @@
 				BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		C3100CB529BD8A46005FCCAD /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				C3100CBD29BD94DC005FCCAD /* Cell */,
+				C3100CBA29BD8A96005FCCAD /* Component */,
+				C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */,
+				C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		C3100CBA29BD8A96005FCCAD /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		C3100CBD29BD94DC005FCCAD /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */,
+				C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */,
+				C3B3435029BDEE5100935B73 /* MyPageSectionFooterView.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		C3160515299770BF00D27488 /* ViewModel */ = {
@@ -1439,6 +1494,31 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		C3B3435729BE3E0E00935B73 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				C3B3435829BE3E2200935B73 /* Request */,
+				C3B3435929BE3E2D00935B73 /* Response */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		C3B3435829BE3E2200935B73 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				C3B3435C29BE4A3000935B73 /* MyPlubbingParameter.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		C3B3435929BE3E2D00935B73 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				C3B3435A29BE3E5100935B73 /* MyPlubbingResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
 		C3C24CD42990078700056313 /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -1608,6 +1688,7 @@
 			isa = PBXGroup;
 			children = (
 				70A420C129914B890026E9F9 /* InquireInterestResponse.swift */,
+				C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1776,6 +1857,7 @@
 				C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */,
 				70BD5F35296491C8002CBA89 /* ApplyQuestionHeaderView.swift in Sources */,
 				705F820929B0EE6600830C4F /* BoardViewModel.swift in Sources */,
+				C3100CBF29BD94FF005FCCAD /* MyPageTableViewCell.swift in Sources */,
 				C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */,
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
@@ -1786,6 +1868,7 @@
 				C316051B2997936200D27488 /* GuestQuestionViewModel.swift in Sources */,
 				BA117A3D297440D900B37E03 /* UserManager.swift in Sources */,
 				70A420A2298CE4C30026E9F9 /* NoSelectedCategoryView.swift in Sources */,
+				C3100CB929BD8A7E005FCCAD /* MyPageViewModel.swift in Sources */,
 				C38A5B97297AD5C300485355 /* KakaoLocationService.swift in Sources */,
 				BA784FA82978EB9100E8B06F /* SignUpViewController.swift in Sources */,
 				C38A5B9B297AE05100485355 /* KakaoLocationRequest.swift in Sources */,
@@ -1796,17 +1879,21 @@
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70A4209C2988B1DC0026E9F9 /* SortControl.swift in Sources */,
 				70A420A7298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift in Sources */,
+				C3B3435629BE3A2200935B73 /* MyPageService.swift in Sources */,
 				C33952EF29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift in Sources */,
 				BA340E2429782321002BAF2C /* ParticipantListView.swift in Sources */,
 				C3EB29C829A9040600615B6B /* ScheduleTableViewCell.swift in Sources */,
 				C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */,
+				C3B3435D29BE4A3000935B73 /* MyPlubbingParameter.swift in Sources */,
 				BA72BCF029BB03FF007165E5 /* BaseNavigationController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
+				C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */,
 				BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */,
 				70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */,
 				7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */,
+				C3B3435429BE3A1400935B73 /* MyPageRouter.swift in Sources */,
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
 				C385D10F29894BF200EF88EC /* CreateMeetingViewModel.swift in Sources */,
 				70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */,
@@ -1889,6 +1976,7 @@
 				7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */,
 				C383967E29A25D67005998A5 /* CreateScheduleResponse.swift in Sources */,
 				C3AB7441296B21E6003DD5E2 /* MeetingQuestionViewController.swift in Sources */,
+				C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */,
 				BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */,
 				C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */,
 				70BD5F3929684EAC002CBA89 /* HomeAlert.swift in Sources */,
@@ -1923,6 +2011,7 @@
 				C384590629B9228200944CB5 /* AttendScheduleRequest.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */,
+				C3100CB429BD8980005FCCAD /* MyInfoResponse.swift in Sources */,
 				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,
 				70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
@@ -1930,6 +2019,7 @@
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				C361743129AF95E2006AEAB1 /* MyMeetingResponse.swift in Sources */,
 				702876C429A3752A00E57509 /* MeetingScheduleViewController.swift in Sources */,
+				C3B3435129BDEE5100935B73 /* MyPageSectionFooterView.swift in Sources */,
 				70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */,
 				C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */,
 				C361743629AFB875006AEAB1 /* MeetingCollectionViewCell.swift in Sources */,
@@ -1956,6 +2046,7 @@
 				7028770729A8C9A100E57509 /* RecruitmentFilterViewModel.swift in Sources */,
 				C3413E1729954910004B8DBD /* MeetingInfoViewController.swift in Sources */,
 				BA1FC12929A5FD3C00AB3F91 /* FeedsPaginatedDataResponse.swift in Sources */,
+				C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
 				BAC5EF31298B6F2D00F3955E /* CongratulationViewController.swift in Sources */,
 				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
@@ -2013,6 +2104,7 @@
 				BA85BAA629A72D2400B4C59A /* BoardsRequest.swift in Sources */,
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,
+				C3100CC329BD9ECD005FCCAD /* MyPageSectionHeaderView.swift in Sources */,
 				C3622B4729A7C414005EF09C /* ScheduleListResponse.swift in Sources */,
 				C3EB29CD29A9A4D400615B6B /* ScheduleDetailContentView.swift in Sources */,
 				BA780E1329713F370032C178 /* BaseService.swift in Sources */,
