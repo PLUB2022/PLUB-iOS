@@ -15,12 +15,13 @@ enum RecruitmentRouter {
   case requestBookmark(String)
   case editMeetingPost(String, EditMeetingPostRequest)
   case editMeetingQuestion(String, EditMeetingQuestionRequest)
+  case inquireApplicant(String)
 }
 
 extension RecruitmentRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .inquireApplicant:
       return .get
     case .requestBookmark:
       return .post
@@ -45,12 +46,14 @@ extension RecruitmentRouter: Router {
       return "/plubbings/\(plubbingID)/recruit/questions"
     case .inquireAllBookmark:
       return "/plubbings/recruit/bookmarks/me"
+    case .inquireApplicant(let plubbingID):
+      return "/plubbings/\(plubbingID)/recruit/applicants"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .requestBookmark:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .requestBookmark, .inquireApplicant:
       return .plain
     case .searchRecruitment(let parameter):
       return .query(parameter)
@@ -63,7 +66,7 @@ extension RecruitmentRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion, .inquireApplicant:
       return .withAccessToken
     }
   }
