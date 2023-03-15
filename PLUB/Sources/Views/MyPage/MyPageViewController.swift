@@ -127,6 +127,20 @@ extension MyPageViewController: UITableViewDelegate {
     }
     return footerView
   }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let section = viewModel.myPlubbing[indexPath.section].section
+    let plubbingID = section.plubbings[indexPath.row].plubbingID
+    guard let status = PlubbingStatusType(rawValue: section.plubbingStatus) else { return }
+    switch status {
+    case .recruiting:
+      let vc = RecruitingViewController(viewModel: RecruitingViewModel(plubbingID: plubbingID))
+      navigationController?.pushViewController(vc, animated: true)
+    case .waiting: break
+    case .active: break
+    case .end: break
+    }
+  }
 }
 
 // MARK: - UITableViewDataSource
