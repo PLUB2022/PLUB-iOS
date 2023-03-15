@@ -21,14 +21,12 @@ final class BoardSystemCollectionViewCell: UICollectionViewCell {
   private let titleLabel = UILabel().then {
     $0.textColor = .main
     $0.font = .subtitle
-    $0.text = "8번째 멤버와 함께갑니다!"
     $0.numberOfLines = 0
   }
   
   private let contentLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .caption
-    $0.text = "김밥먹고싶다 님이 요란한 한줄 에 들어왔어요\n 멤버들과 함께 환영인사를 나눠보세요!"
     $0.numberOfLines = 2
     $0.lineBreakMode = .byTruncatingTail
   }
@@ -41,7 +39,6 @@ final class BoardSystemCollectionViewCell: UICollectionViewCell {
   private let heartCountLabel = UILabel().then {
     $0.textColor = .deepGray
     $0.font = .overLine
-    $0.text = "3"
   }
   
   private let commentImageView = UIImageView().then {
@@ -52,12 +49,10 @@ final class BoardSystemCollectionViewCell: UICollectionViewCell {
   private let commentCountLabel = UILabel().then {
     $0.textColor = .deepGray
     $0.font = .overLine
-    $0.text = "3"
   }
   
   private let dateLabel = UILabel().then {
     $0.font = .overLine
-    $0.text = "2022. 08. 10."
     $0.textColor = .deepGray
   }
   
@@ -68,6 +63,15 @@ final class BoardSystemCollectionViewCell: UICollectionViewCell {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    titleLabel.text = nil
+    contentLabel.text = nil
+    heartCountLabel.text = nil
+    commentCountLabel.text = nil
+    dateLabel.text = nil
   }
   
   private func configureUI() {
@@ -107,8 +111,9 @@ final class BoardSystemCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: BoardModel) {
+    guard let content = model.content else { return }
     titleLabel.text = model.title
-    contentLabel.text = model.content
+    contentLabel.text = content + "\n 멤버들과 함께 환영인사를 나눠보세요!"
     heartCountLabel.text = "\(model.likeCount)"
     commentCountLabel.text = "\(model.commentCount)"
     dateLabel.text = model.date.toString()

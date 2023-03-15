@@ -20,8 +20,6 @@ protocol BoardViewModelType {
   
 }
 
-/// 게시판에 관련된 클립보드리스트가 존재하는지에 대한 여부 BoardHeaderViewType Output 필요
-///  클립보드에 관련된 리스트가 몇개인지에 대한 ClipboardType Output 필요
 final class BoardViewModel: BoardViewModelType {
   
   private let disposeBag = DisposeBag()
@@ -53,7 +51,6 @@ final class BoardViewModel: BoardViewModelType {
       }
     
     let successFetchingBoards = fetchingBoards.compactMap { result -> [FeedsContent]? in
-      print("결과 \(result)")
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }

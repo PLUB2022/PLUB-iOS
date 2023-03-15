@@ -65,6 +65,11 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    entireStackView.subviews.forEach { $0.removeFromSuperview() }
+  }
+  
   private func configureUI() {
     backgroundColor = .white
     layer.masksToBounds = true

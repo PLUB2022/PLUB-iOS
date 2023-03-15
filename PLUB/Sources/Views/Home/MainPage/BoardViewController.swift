@@ -36,15 +36,11 @@ final class BoardViewController: BaseViewController {
     }
   }
   
-  private var boardModel: [BoardModel] = [
-    BoardModel(feedID: 1, viewType: .system, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 1, viewType: .system, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 1, viewType: .system, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: "")
-  ]
-//    didSet {
-//      collectionView.reloadSections([0])
-//    }
-  
+  private var boardModel: [BoardModel] = [] {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
   
   private var clipboardModel: [MainPageClipboardViewModel] = [] {
     didSet {
@@ -106,12 +102,12 @@ final class BoardViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-//    viewModel.fetchedBoardModel
-//      .drive(with: self) { owner, model in
-//        print("모델 \(model)")
-//        owner.boardModel = model
-//      }
-//      .disposed(by: disposeBag)
+    //    viewModel.fetchedBoardModel
+    //      .drive(with: self) { owner, model in
+    //        print("모델 \(model)")
+    //        owner.boardModel = model
+    //      }
+    //      .disposed(by: disposeBag)
   }
   
   private func createCollectionViewSection() -> NSCollectionLayoutSection? {
@@ -184,10 +180,11 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     switch boardModel.viewType {
     case .system:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardSystemCollectionViewCell.identifier, for: indexPath) as? BoardSystemCollectionViewCell ?? BoardSystemCollectionViewCell()
+      cell.configureUI(with: boardModel)
       return cell
     default:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
-      cell.configure(with: BoardModel(feedID: 0, viewType: .normal, author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
+      cell.configure(with: boardModel)
       return cell
     }
   }
