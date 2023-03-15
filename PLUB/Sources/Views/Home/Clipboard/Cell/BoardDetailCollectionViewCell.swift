@@ -207,9 +207,9 @@ extension BoardDetailCollectionViewCell {
   ///   - targetSize: 원하는 view의 크기,
   ///   - comment: 댓글 내용
   /// - Returns: 댓글 내용이 전부 보일 정도의 대략적인 view의 크기
-  static func estimatedCommentCellSize(_ targetSize: CGSize, comment: String) -> CGSize {
+  static func estimatedCommentCellSize(_ targetSize: CGSize, commentContent: CommentContent) -> CGSize {
     let view = BoardDetailCollectionViewCell()
-    view.commentLabel.text = comment
+    view.configure(with: commentContent)
     return view.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
   }
 }

@@ -77,7 +77,15 @@ final class BoardDetailViewController: BaseViewController {
 extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return BoardDetailCollectionViewCell.estimatedCommentCellSize(CGSize(width: view.bounds.width, height: 0), comment: viewModel.comments[indexPath.item].content)
+    // * section은 1부터 시작, section 순서는 groupID 순과 동일함
+    // * viewModel의 `comments`는 section, item과 상관없이 일차원 배열로 나열되어있음
+    // * 위 배열에서 section과 item의 맞는 모델을 찾아 사이즈를 구해야함
+    // * 따라서 section값에 따른 groupID를 먼저 구하고, groupID가 동일한 배열만을 빼냄
+    // * 빼낸 배열은 item을 인덱스로하여 모델을 가져오도록 구현
+    let groupID = Array(Set(viewModel.comments.map { $0.groupID })).sorted()[indexPath.section - 1]
+    let commentsModelsForSection = viewModel.comments.filter { $0.groupID == groupID }
+    let size = BoardDetailCollectionViewCell.estimatedCommentCellSize(CGSize(width: view.bounds.width, height: 0), commentContent: commentsModelsForSection[indexPath.item])
+    return size
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
