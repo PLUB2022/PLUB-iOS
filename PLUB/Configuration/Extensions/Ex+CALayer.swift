@@ -29,11 +29,11 @@ extension CALayer {
   }
 
   func addBorder(
-    _ arr_edge: [UIRectEdge],
+    _ edges: [UIRectEdge],
     color: UIColor,
     width: CGFloat
   ) {
-    for edge in arr_edge {
+    for edge in edges {
       let border = CALayer()
       switch edge {
       case UIRectEdge.top:
@@ -51,7 +51,7 @@ extension CALayer {
       default:
         break
       }
-      border.backgroundColor = color.cgColor;
+      border.backgroundColor = color.cgColor
       self.addSublayer(border)
     }
   }

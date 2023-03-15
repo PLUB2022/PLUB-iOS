@@ -7,7 +7,7 @@
 
 import RxSwift
 
-class MyPageService: BaseService {
+final class MyPageService: BaseService {
   static let shared = MyPageService()
   
   private override init() { }

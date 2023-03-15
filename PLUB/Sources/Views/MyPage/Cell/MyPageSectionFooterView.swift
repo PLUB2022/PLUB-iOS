@@ -23,7 +23,7 @@ final class MyPageSectionFooterView: UITableViewHeaderFooterView {
   }
  
   override init(reuseIdentifier: String?) {
-      super.init(reuseIdentifier: reuseIdentifier)
+    super.init(reuseIdentifier: reuseIdentifier)
     setupLayouts()
     setupConstraints()
     setupStyles()
@@ -37,7 +37,7 @@ final class MyPageSectionFooterView: UITableViewHeaderFooterView {
   override func layoutSubviews() {
     super.layoutSubviews()
     containerView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 15)
-    containerView.layer.addBorder([.bottom], color: .init(hex: 0xF2F3F4), width: 1)
+    containerView.layer.addBorder([.bottom], color: .lightGray, width: 1)
   }
   
   private func setupLayouts() {

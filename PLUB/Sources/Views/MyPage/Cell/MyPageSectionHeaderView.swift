@@ -7,9 +7,10 @@
 
 import UIKit
 
-import SnapKit
 import RxSwift
 import RxCocoa
+import SnapKit
+import Then
 
 extension PlubbingStatusType {
   var title: String {
@@ -66,7 +67,7 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
   override func layoutSubviews() {
     super.layoutSubviews()
     containerView.roundCorners(corners: [.topLeft, .topRight], radius: 15)
-    containerView.layer.addBorder([.top], color: .init(hex: 0xF2F3F4), width: 1)
+    containerView.layer.addBorder([.top], color: .lightGray, width: 1)
   }
   
   private func setupLayouts() {
