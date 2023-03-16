@@ -119,4 +119,12 @@ struct FeedsContent: Codable {
     case isPinned = "pin"
     case plubbingID = "plubbingId"
   }
+  
+  private let identifier = UUID()
+}
+
+extension FeedsContent: Hashable {
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(identifier)
+  }
 }

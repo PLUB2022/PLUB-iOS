@@ -16,7 +16,10 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - Properties
   
-  private let viewModel: BoardDetailViewModelType
+  private let viewModel: BoardDetailViewModelType & BoardDetailDataStore
+  
+  /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
+  private var dataSource: DataSource?
   
   // MARK: - UI Components
   
@@ -28,21 +31,13 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(viewModel: BoardDetailViewModelType) {
+  init(viewModel: BoardDetailViewModelType & BoardDetailDataStore) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  // MARK: - Life Cycles
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    collectionView.delegate = self
-    collectionView.dataSource = self
   }
   
   // MARK: - Configuration
@@ -65,30 +60,14 @@ final class BoardDetailViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-  }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension BoardDetailViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    // TODO: 승현 - Clipboard Comment API 연동하기
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell else {
-      fatalError()
-    }
+    collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
-    return cell
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardDetailCollectionHeaderView.identifier, for: indexPath) as? BoardDetailCollectionHeaderView else {
-      fatalError()
-    }
-    return headerView
+    viewModel.fetchAlertDriver
+      .drive(with: self) { owner, _ in
+        owner.setCollectionView()
+        owner.applyInitialSnapshots()
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -97,13 +76,82 @@ extension BoardDetailViewController: UICollectionViewDataSource {
 extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return BoardDetailCollectionViewCell.estimatedCommentCellSize(CGSize(width: view.bounds.width, height: 0), comment: "국가는 주택개발정책등을 통하여 모든 국민이 쾌적한 주거생활을 할 수 있도록 노력하여야 한다. 국가는 국민 모두의 생산 및 생활의 기반이 되는 국토의 효율적이고 균형있는 이용·개발과 보전을 위하여 법률이 정하는 바에 의하여 그에 관한 필요한 제한과 의무를 과할 수 있다. 모든 국민은 법률이 정하는 바에 의하여 공무담임권을 가진다. 모든 국민은 인간다운 생활을 할 권리를 가진다. 지방의회의 조직·권한·의원선거와 지방자치단체의 장의 선임방법 기타 지방자치단체의 조직과 운영에 관한 사항은 법률로 정한다. 이 헌법은 1988년 2월 25일부터 시행한다. 다만, 이 헌법을 시행하기 위하여 필요한 법률의 제정·개정과 이 헌법에 의한 대통령 및 국회의원의 선거 기타 이 헌법시행에 관한 준비는 이 헌법시행 전에 할 수 있다.")
+    // * section은 1부터 시작, section 순서는 groupID 순과 동일함
+    // * viewModel의 `comments`는 section, item과 상관없이 일차원 배열로 나열되어있음
+    // * 위 배열에서 section과 item의 맞는 모델을 찾아 사이즈를 구해야함
+    // * 따라서 section값에 따른 groupID를 먼저 구하고, groupID가 동일한 배열만을 빼냄
+    // * 빼낸 배열은 item을 인덱스로하여 모델을 가져오도록 구현
+    let groupID = Array(Set(viewModel.comments.map { $0.groupID })).sorted()[indexPath.section - 1]
+    let commentsModelsForSection = viewModel.comments.filter { $0.groupID == groupID }
+    let size = BoardDetailCollectionViewCell.estimatedCommentCellSize(CGSize(width: view.bounds.width, height: 0), commentContent: commentsModelsForSection[indexPath.item])
+    return size
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    // 첫 번째 section에만 게시글이 보이도록 설정
+    guard section == 0 else { return .zero }
     // 동적 높이 처리
+    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
+      supplementaryView.configure(with: viewModel.content.toBoardModel)
+    }
     let indexPath = IndexPath(row: 0, section: section)
-    let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+    let headerView = collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
     return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+  }
+}
+
+// MARK: - Diffable DataSource & Types
+
+private extension BoardDetailViewController {
+  
+  // MARK: Type Alias
+  
+  typealias Section = Int
+  typealias Item = CommentContent
+  typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
+  typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+  
+  typealias CellRegistration = UICollectionView.CellRegistration<BoardDetailCollectionViewCell, CommentContent>
+  typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<BoardDetailCollectionHeaderView>
+  
+  // MARK: Snapshot & DataSource Part
+  
+  /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
+  private func setCollectionView() {
+    
+    // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
+    let registration = CellRegistration { cell, _, item in
+      cell.configure(with: item)
+    }
+    
+    // Header View Registration, 헤더 뷰 후처리에 사용됨
+    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
+      supplementaryView.configure(with: viewModel.content.toBoardModel)
+    }
+    
+    // dataSource에 cell 등록
+    dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item in
+      return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
+    }
+    
+    // dataSource에 headerView도 등록
+    dataSource?.supplementaryViewProvider = .init { collectionView, elementKind, indexPath in
+      return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+    }
+  }
+  
+  /// 초기 Snapshot을 설정합니다. DataSource가 초기화될 시 해당 메서드가 실행됩니다.
+  /// 직접 이 메서드를 실행할 필요는 없습니다.
+  private func applyInitialSnapshots() {
+    var snapshot = Snapshot()
+    
+    var sections = [-1] // 최소한 하나의 Section이라도 존재해야 함
+    sections.append(contentsOf: Array(Set(viewModel.comments.map { $0.groupID })).sorted())
+    snapshot.appendSections(sections)
+    
+    sections.forEach { sectionGroupID in
+      snapshot.appendItems(viewModel.comments.filter { $0.groupID == sectionGroupID }, toSection: sectionGroupID)
+    }
+    dataSource?.apply(snapshot)
   }
 }

@@ -64,6 +64,14 @@ struct CommentContent: Codable {
     case postDate = "createdAt"
     case type = "commentType"
     case parentCommentID = "parentCommentId"
-    case groupID = "groupId"
+    case groupID = "commentGroupId"
+  }
+  
+  private let identifier = UUID()
+}
+
+extension CommentContent: Hashable {
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(identifier)
   }
 }
