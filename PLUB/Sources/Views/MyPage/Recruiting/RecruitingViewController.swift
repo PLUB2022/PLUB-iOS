@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class RecruitingViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class RecruitingViewController: BaseViewController {
   
   let viewModel: RecruitingViewModel
   
@@ -21,14 +21,6 @@ class RecruitingViewController: BaseViewController, UITableViewDelegate, UITable
     fatalError("init(coder:) has not been implemented")
   }
   
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
-  }
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    return UITableViewCell()
-  }
-  
   private lazy var recruitingHeaderView = RecruitingHeaderView()
   
   private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
@@ -38,9 +30,9 @@ class RecruitingViewController: BaseViewController, UITableViewDelegate, UITable
     $0.delegate = self
     $0.dataSource = self
     $0.tableHeaderView = recruitingHeaderView
-    $0.tableHeaderView?.frame.size.height = 194
-    $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.identifier)
-    $0.register(MyPageSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: MyPageSectionHeaderView.identifier)
+    $0.tableHeaderView?.frame.size.height = 190
+    $0.register(RecruitingTableViewCell.self, forCellReuseIdentifier: RecruitingTableViewCell.identifier)
+    $0.register(RecruitingSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: RecruitingSectionHeaderView.identifier)
     $0.register(MyPageSectionFooterView.self, forHeaderFooterViewReuseIdentifier: MyPageSectionFooterView.identifier)
   }
   
@@ -56,6 +48,7 @@ class RecruitingViewController: BaseViewController, UITableViewDelegate, UITable
       view.addSubview($0)
     }
   }
+  
   override func setupConstraints() {
     tableView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -67,5 +60,98 @@ class RecruitingViewController: BaseViewController, UITableViewDelegate, UITable
       $0.centerX.equalToSuperview()
       $0.bottom.equalToSuperview().inset(24)
     }
+  }
+  
+  override func bind() {
+    viewModel.meetingInfo
+      .drive(with: self) { owner, myInfo in
+        owner.recruitingHeaderView.setupData(with: myInfo)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.reloadData
+      .drive(with: self) { owner, _ in
+        owner.tableView.reloadData()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.reloadSection
+      .drive(with: self) { owner, index in
+        owner.tableView.reloadSections([index], with: .automatic)
+      }
+      .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - UITableViewDelegate
+
+extension RecruitingViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UITableView.automaticDimension
+  }
+  
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    let isFolded = viewModel.applications[section].isFolded
+    return isFolded ? (16 + 40 + 8) : (16 + 40 + 8 + 8)
+  }
+  
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: RecruitingSectionHeaderView.identifier) as? RecruitingSectionHeaderView else {
+        return UIView()
+    }
+    
+    let model = viewModel.applications[section]
+    headerView.setupData(with: model, sectionIndex: section)
+    headerView.delegate = self
+    
+    return headerView
+  }
+  
+  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    let isFolded = viewModel.applications[section].isFolded
+    return isFolded ? 18 : 14
+  }
+  
+  func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyPageSectionFooterView.identifier) as? MyPageSectionFooterView else {
+        return UIView()
+    }
+    return footerView
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+  }
+}
+
+// MARK: - UITableViewDataSource
+
+extension RecruitingViewController: UITableViewDataSource {
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return viewModel.applications.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cell = tableView.dequeueReusableCell(
+      withIdentifier: RecruitingTableViewCell.identifier,
+      for: indexPath
+    ) as? RecruitingTableViewCell else { return UITableViewCell() }
+    
+    let model = viewModel.applications[indexPath.section]
+    let answer = model.data.answers[indexPath.row]
+    cell.setupData(with: answer)
+    
+    return cell
+  }
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    let model = viewModel.applications[section]
+    return model.isFolded ? 0 : model.data.answers.count
+  }
+}
+
+extension RecruitingViewController: RecruitingSectionHeaderViewDelegate {
+  func foldHeaderView(sectionIndex: Int) {
+    viewModel.sectionTapped.onNext(sectionIndex)
   }
 }
