@@ -47,10 +47,10 @@ final class MainPageClipboardView: UIView {
     $0.contentMode = .scaleAspectFill
   }
   
-  private lazy var contentLabel = UILabel().then {
+  private lazy var contentLabel = PaddingLabel(withInsets: 10, 10, 8, 8).then {
     $0.font = .body2
     $0.textColor = .black
-    $0.numberOfLines = 3
+    $0.numberOfLines = 0
     $0.lineBreakMode = .byTruncatingTail
     $0.backgroundColor = .subMain
   }

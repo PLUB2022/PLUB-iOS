@@ -30,6 +30,8 @@ final class BoardViewController: BaseViewController {
   private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
+  private let plubbingID: Int
+  
   private var headerType: BoardHeaderViewType = .clipboard {
     didSet {
       collectionView.reloadSections([0])
@@ -67,6 +69,7 @@ final class BoardViewController: BaseViewController {
   
   init(viewModel: BoardViewModelType = BoardViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
+    self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
@@ -102,12 +105,9 @@ final class BoardViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    //    viewModel.fetchedBoardModel
-    //      .drive(with: self) { owner, model in
-    //        print("모델 \(model)")
-    //        owner.boardModel = model
-    //      }
-    //      .disposed(by: disposeBag)
+    viewModel.fetchedBoardModel
+      .drive(rx.boardModel)
+      .disposed(by: disposeBag)
   }
   
   private func createCollectionViewSection() -> NSCollectionLayoutSection? {
@@ -190,6 +190,7 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    guard headerType == .clipboard else { return UICollectionReusableView() }
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardClipboardHeaderView.identifier, for: indexPath) as? BoardClipboardHeaderView ?? BoardClipboardHeaderView()
     header.configureUI(with: clipboardModel)
     header.delegate = self
@@ -199,7 +200,7 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 extension BoardViewController: BoardClipboardHeaderViewDelegate {
   func didTappedClipboardButton() {
-    let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: 0))
+    let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: plubbingID))
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }

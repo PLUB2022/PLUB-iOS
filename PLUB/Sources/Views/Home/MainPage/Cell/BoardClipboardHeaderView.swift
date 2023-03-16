@@ -70,6 +70,14 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     entireStackView.subviews.forEach { $0.removeFromSuperview() }
   }
   
+  private func bind() {
+    clipboardButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedClipboardButton()
+      }
+      .disposed(by: disposeBag)
+  }
+  
   private func configureUI() {
     backgroundColor = .white
     layer.masksToBounds = true
@@ -122,13 +130,5 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     default:
       addElement(which: model, where: entireStackView)
     }
-  }
-  
-  private func bind() {
-    clipboardButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedClipboardButton()
-      }
-      .disposed(by: disposeBag)
   }
 }
