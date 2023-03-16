@@ -11,10 +11,15 @@ import RxSwift
 import SnapKit
 import Then
 
+protocol BoardClipboardHeaderViewDelegate: AnyObject {
+  func didTappedClipboardButton()
+}
+
 final class BoardClipboardHeaderView: UICollectionReusableView {
   
   static let identifier = "BoardClipboardHeaderView"
   private let disposeBag = DisposeBag()
+  weak var delegate: BoardClipboardHeaderViewDelegate?
   
   private let horizontalStackView = UIStackView().then {
     $0.axis = .horizontal
@@ -42,7 +47,12 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     $0.spacing = 12
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 2, left: 13, bottom: 21, right: 13)
-    $0.backgroundColor = .systemPink
+  }
+  
+  private lazy var verticalStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 9
+    $0.distribution = .fillEqually
   }
   
   override init(frame: CGRect) {
@@ -53,6 +63,19 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    entireStackView.subviews.forEach { $0.removeFromSuperview() }
+  }
+  
+  private func bind() {
+    clipboardButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedClipboardButton()
+      }
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -82,15 +105,30 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     }
   }
   
-//  public func configureUI() {
-//    
-//  }
+  private func addElement(which element: [MainPageClipboardViewModel], where at: UIStackView) {
+    element.forEach {
+      let mainPageClipboardView = MainPageClipboardView()
+      mainPageClipboardView.configureUI(with: $0)
+      at.addArrangedSubview(mainPageClipboardView)
+    }
+  }
   
-  private func bind() {
-    clipboardButton.rx.tap
-      .subscribe(onNext: {
-        
-      })
-      .disposed(by: disposeBag)
+  public func configureUI(with model: [MainPageClipboardViewModel]) {
+    guard !model.isEmpty else { return }
+    let mainpageClipboardType = MainPageClipboardType.getMainPageClipboardType(with: model)
+    
+    switch mainpageClipboardType {
+    case .moreThanThree:
+      var model = Array(model[0..<3])
+      guard let firstModel = model.first else { return }
+      model.remove(at: 0)
+      let mainPageClipboardView = MainPageClipboardView()
+      mainPageClipboardView.configureUI(with: firstModel)
+      
+      [mainPageClipboardView, verticalStackView].forEach { entireStackView.addArrangedSubview($0) }
+      addElement(which: model, where: verticalStackView)
+    default:
+      addElement(which: model, where: entireStackView)
+    }
   }
 }

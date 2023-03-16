@@ -25,18 +25,26 @@ final class BoardViewController: BaseViewController {
   
   private let viewModel: BoardViewModelType
   
-  private var clipboardModel: [MockModel] = [] {
-    didSet {
-      collectionView.reloadSections([0])
-    }
-  }
-  
   /// 스크롤 영역에 따른 헤더 뷰 높이변경을 위한 프로퍼티
   private let min: CGFloat = Device.navigationBarHeight
   private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
-  private var type: BoardHeaderViewType = .clipboard {
+  private let plubbingID: Int
+  
+  private var headerType: BoardHeaderViewType = .clipboard {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
+  private var boardModel: [BoardModel] = [] {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
+  private var clipboardModel: [MainPageClipboardViewModel] = [] {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -51,7 +59,7 @@ final class BoardViewController: BaseViewController {
   ).then {
     $0.backgroundColor = .background
     $0.register(BoardCollectionViewCell.self, forCellWithReuseIdentifier: BoardCollectionViewCell.identifier)
-    $0.register(MainPageClipboardCollectionViewCell.self, forCellWithReuseIdentifier: MainPageClipboardCollectionViewCell.identifier)
+    $0.register(BoardSystemCollectionViewCell.self, forCellWithReuseIdentifier: BoardSystemCollectionViewCell.identifier)
     $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
@@ -59,9 +67,11 @@ final class BoardViewController: BaseViewController {
     $0.contentInset = .init(top: 16, left: .zero, bottom: .zero, right: .zero)
   }
   
-  init(viewModel: BoardViewModelType = BoardViewModel()) {
+  init(viewModel: BoardViewModelType = BoardViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
+    self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
+    bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
@@ -80,13 +90,23 @@ final class BoardViewController: BaseViewController {
     }
   }
   
-  override func bind() {
+  func bind(plubbingID: Int) {
     super.bind()
     
-    viewModel.selectPlubbingID.onNext(1)
+    viewModel.selectPlubbingID.onNext(plubbingID)
     
-    viewModel.createMockData()
-      .subscribe(rx.clipboardModel)
+    viewModel.fetchedMainpageClipboardViewModel
+      .drive(rx.clipboardModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.clipboardListIsEmpty
+      .drive(with: self) { owner, isEmpty in
+        owner.headerType = isEmpty ? .noClipboard : .clipboard
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.fetchedBoardModel
+      .drive(rx.boardModel)
       .disposed(by: disposeBag)
   }
   
@@ -110,7 +130,7 @@ final class BoardViewController: BaseViewController {
     let section = NSCollectionLayoutSection(group: group)
     section.orthogonalScrollingBehavior = .none
     
-    switch type {
+    switch headerType {
     case .clipboard:
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
@@ -152,20 +172,37 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return boardModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
-    cell.configure(with: BoardModel(feedID: 0, viewType: .normal, author: "개나리", authorProfileImageLink: nil, date: .now, likeCount: 3, commentCount: 5, title: "게시판 제목", imageLink: nil, content: nil))
-    return cell
+    let boardModel = boardModel[indexPath.row]
+    switch boardModel.viewType {
+    case .system:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardSystemCollectionViewCell.identifier, for: indexPath) as? BoardSystemCollectionViewCell ?? BoardSystemCollectionViewCell()
+      cell.configureUI(with: boardModel)
+      return cell
+    default:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.identifier, for: indexPath) as? BoardCollectionViewCell ?? BoardCollectionViewCell()
+      cell.configure(with: boardModel)
+      return cell
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    guard headerType == .clipboard else { return UICollectionReusableView() }
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BoardClipboardHeaderView.identifier, for: indexPath) as? BoardClipboardHeaderView ?? BoardClipboardHeaderView()
+    header.configureUI(with: clipboardModel)
+    header.delegate = self
     return header
   }
 }
 
-
+extension BoardViewController: BoardClipboardHeaderViewDelegate {
+  func didTappedClipboardButton() {
+    let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: plubbingID))
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
 
