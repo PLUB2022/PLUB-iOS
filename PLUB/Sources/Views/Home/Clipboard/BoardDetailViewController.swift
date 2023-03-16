@@ -40,15 +40,6 @@ final class BoardDetailViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: - Life Cycles
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    setCollectionView()
-    applyInitialSnapshots()
-    collectionView.delegate = self
-  }
-  
   // MARK: - Configuration
   
   override func setupLayouts() {
@@ -69,6 +60,14 @@ final class BoardDetailViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+    
+    viewModel.fetchAlertDriver
+      .drive(with: self) { owner, _ in
+        owner.setCollectionView()
+        owner.applyInitialSnapshots()
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -118,7 +117,7 @@ private extension BoardDetailViewController {
   // MARK: Snapshot & DataSource Part
   
   /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
-  func setCollectionView() {
+  private func setCollectionView() {
     
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
     let registration = CellRegistration { cell, _, item in

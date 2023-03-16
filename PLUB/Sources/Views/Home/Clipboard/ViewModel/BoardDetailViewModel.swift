@@ -14,6 +14,7 @@ protocol BoardDetailViewModelType {
   // Input
   
   // Output
+  var fetchAlertDriver: Driver<Void> { get }
 }
 
 protocol BoardDetailDataStore {
@@ -23,16 +24,39 @@ protocol BoardDetailDataStore {
 
 final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore {
   
+  // Output
+  let fetchAlertDriver: Driver<Void>
+  
   // MARK: - Properties
   
   let content: FeedsContent
-  let comments: [CommentContent]
+  var comments: [CommentContent] = []
+  
+  private let requestCommentsSubject = PublishSubject<Void>()
   
   // MARK: - Initializations
   
-  init(content: FeedsContent, comments: [CommentContent]) {
+  init(content: FeedsContent) {
     self.content = content
-    self.comments = comments
+    
+    fetchAlertDriver = requestCommentsSubject.asDriver(onErrorDriveWith: .empty())
+    bind()
+  }
+  
+  private func bind() {
+    FeedsService.shared.fetchComments(plubbingID: content.plubbingID!, feedID: content.feedID, nextCursorID: comments.last?.commentID ?? 0)
+      .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
+        // TODO: 승현 - API 통신 에러 처리
+        guard case let .success(response) = result else { return nil }
+        return response.data
+      }
+      .filter { [weak self] in $0.isLast == false || self?.comments.count == 0 }
+      .map { $0.content }
+      .subscribe(with: self) { owner, model in
+        owner.comments.append(contentsOf: model)
+        owner.requestCommentsSubject.onNext(Void()) // content, comments가 전부 할당되었으므로 onNext로 알림
+      }
+      .disposed(by: disposeBag)
   }
   
   private let disposeBag = DisposeBag()
