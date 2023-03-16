@@ -43,7 +43,7 @@ final class RecruitingHeaderView: UIView {
   }
 }
 
-private extension RecruitingHeaderView {
+extension RecruitingHeaderView {
   private func setupLayouts() {
     addSubview(contentStackView)
     
@@ -79,5 +79,20 @@ private extension RecruitingHeaderView {
   }
   
   private func setupStyles() {
+  }
+  
+  func setupData(with data: RecruitingModel) {
+    titleLabel.text = data.title
+    if data.address.isEmpty {
+      locationView.isHidden = true
+      locationView.snp.updateConstraints {
+        $0.height.equalTo(0)
+      }
+      contentStackView.setCustomSpacing(41, after: scheduleView)
+    } else {
+      locationView.setText(data.address, false)
+    }
+    scheduleView.setText(data.schedule, false)
+    subtitleLabel.text = "나의 지원서"
   }
 }

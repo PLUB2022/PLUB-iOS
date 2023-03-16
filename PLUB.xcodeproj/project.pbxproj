@@ -205,6 +205,8 @@
 		C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */; };
 		C3100CBF29BD94FF005FCCAD /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */; };
 		C3100CC329BD9ECD005FCCAD /* MyPageSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */; };
+		C312AB5C29C367100020C475 /* RecruitingSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C312AB5B29C367100020C475 /* RecruitingSectionHeaderView.swift */; };
+		C312AB5E29C36E160020C475 /* RecruitingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C312AB5D29C36E160020C475 /* RecruitingTableViewCell.swift */; };
 		C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */; };
 		C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */; };
 		C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605162997934100D27488 /* RecruitPostViewModel.swift */; };
@@ -500,6 +502,8 @@
 		C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileView.swift; sourceTree = "<group>"; };
 		C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSectionHeaderView.swift; sourceTree = "<group>"; };
+		C312AB5B29C367100020C475 /* RecruitingSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingSectionHeaderView.swift; sourceTree = "<group>"; };
+		C312AB5D29C36E160020C475 /* RecruitingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingTableViewCell.swift; sourceTree = "<group>"; };
 		C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewModel.swift; sourceTree = "<group>"; };
 		C31605162997934100D27488 /* RecruitPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitPostViewModel.swift; sourceTree = "<group>"; };
@@ -1327,6 +1331,15 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		C312AB5A29C366E30020C475 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C312AB5B29C367100020C475 /* RecruitingSectionHeaderView.swift */,
+				C312AB5D29C36E160020C475 /* RecruitingTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		C3160515299770BF00D27488 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1727,6 +1740,7 @@
 			children = (
 				C3E0390729C208B700C4744C /* RecruitingViewController.swift */,
 				C3E0390B29C21F0C00C4744C /* RecruitingViewModel.swift */,
+				C312AB5A29C366E30020C475 /* Cell */,
 				C3E0390D29C230D900C4744C /* Component */,
 			);
 			path = Recruiting;
@@ -1992,6 +2006,7 @@
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */,
 				70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */,
+				C312AB5C29C367100020C475 /* RecruitingSectionHeaderView.swift in Sources */,
 				C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
@@ -2071,6 +2086,7 @@
 				BA1D4A7D29A9EB0C00CBBCC6 /* BoardModel.swift in Sources */,
 				BAE2B364297C1D720000D5B9 /* AccountService.swift in Sources */,
 				C3ED8FB52989B189002F689B /* CreateMeetingRequest.swift in Sources */,
+				C312AB5E29C36E160020C475 /* RecruitingTableViewCell.swift in Sources */,
 				70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */,
 				C3E0390C29C21F0C00C4744C /* RecruitingViewModel.swift in Sources */,
 				BA6D7C5329A7D46900D8E928 /* CommentsRequest.swift in Sources */,
