@@ -49,7 +49,12 @@ final class CreateBoardViewController: BaseViewController {
     $0.axis = .vertical
     $0.spacing = 8
   }
-
+  
+  private let uploadButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "글 업로드")
+    $0.layer.cornerRadius = 10
+    $0.layer.masksToBounds = true
+  }
   
   /// PostType에 따라 필요한 UI
   private lazy var photoAddLabel = UILabel().then {
@@ -77,7 +82,7 @@ final class CreateBoardViewController: BaseViewController {
     [photoButton, textButton, photoAndTextButton].forEach { buttonStackView.addArrangedSubview($0) }
     
     [photoAddLabel, addPhotoImageView].forEach { boardTypeStackView.addArrangedSubview($0) }
-    [boardTypeLabel, buttonStackView, titleInputTextView, boardTypeStackView].forEach { view.addSubview($0) }
+    [boardTypeLabel, buttonStackView, titleInputTextView, boardTypeStackView, uploadButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -106,6 +111,12 @@ final class CreateBoardViewController: BaseViewController {
       $0.top.equalTo(titleInputTextView.snp.bottom).offset(24)
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
       $0.bottom.lessThanOrEqualToSuperview()
+    }
+    
+    uploadButton.snp.makeConstraints {
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.height.equalTo(46)
     }
   }
   

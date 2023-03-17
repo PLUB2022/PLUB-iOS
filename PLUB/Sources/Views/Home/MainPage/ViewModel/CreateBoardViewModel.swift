@@ -8,6 +8,19 @@
 import RxSwift
 import RxCocoa
 
-final class CreateBoardViewModel {
+protocol CreateBoardViewModelType {
+  // Input
   
+  // Output
+}
+
+final class CreateBoardViewModel: CreateBoardViewModelType {
+  
+  // Input
+  
+  // Output
+  
+  init() {
+    
+  }
 }
