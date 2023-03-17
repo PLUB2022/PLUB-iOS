@@ -39,7 +39,8 @@ final class CreateBoardViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    self.navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
+
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
   }
   
   @objc private func didTappedBackButton() {
