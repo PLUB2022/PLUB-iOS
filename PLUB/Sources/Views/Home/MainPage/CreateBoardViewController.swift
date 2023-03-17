@@ -12,6 +12,13 @@ import Then
 
 final class CreateBoardViewController: BaseViewController {
   
+  private var type: PostType = .photo {
+    didSet {
+      guard type != oldValue else { return }
+      changedPostType(type: type)
+    }
+  }
+  
   private let boardTypeLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .subtitle
@@ -43,17 +50,21 @@ final class CreateBoardViewController: BaseViewController {
     $0.spacing = 8
   }
 
-  private let photoAddLabel = UILabel().then {
+  
+  /// PostType에 따라 필요한 UI
+  private lazy var photoAddLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .subtitle
     $0.text = "사진 추가"
   }
   
-  private let addPhotoImageView = UIImageView().then {
+  private lazy var addPhotoImageView = UIImageView().then {
     $0.backgroundColor = .deepGray
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
   }
+  
+  private lazy var boardContentInputTextView = InputTextView(title: "게시할 내용", placeHolder: "내용을 입력해주세요", totalCharacterLimit: 300)
   
   override func setupStyles() {
     super.setupStyles()
@@ -95,6 +106,56 @@ final class CreateBoardViewController: BaseViewController {
       $0.top.equalTo(titleInputTextView.snp.bottom).offset(24)
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
       $0.bottom.lessThanOrEqualToSuperview()
+    }
+  }
+  
+  override func bind() {
+    super.bind()
+    photoButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.type = .photo
+        owner.photoButton.isSelected = true
+        owner.textButton.isSelected = false
+        owner.photoAndTextButton.isSelected = false
+      }
+      .disposed(by: disposeBag)
+    
+    textButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.type = .text
+        owner.photoButton.isSelected = false
+        owner.textButton.isSelected = true
+        owner.photoAndTextButton.isSelected = false
+      }
+      .disposed(by: disposeBag)
+    
+    photoAndTextButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.type = .photoAndText
+        owner.photoButton.isSelected = false
+        owner.textButton.isSelected = false
+        owner.photoAndTextButton.isSelected = true
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func changedPostType(type: PostType) {
+    boardTypeStackView.subviews.forEach { $0.removeFromSuperview() }
+    switch type {
+    case .photo:
+      [photoAddLabel, addPhotoImageView].forEach { boardTypeStackView.addArrangedSubview($0) }
+      addPhotoImageView.snp.makeConstraints {
+        $0.height.equalTo(245)
+      }
+    case .text:
+      boardTypeStackView.addArrangedSubview(boardContentInputTextView)
+    case .photoAndText:
+      [photoAddLabel, addPhotoImageView, boardContentInputTextView].forEach { boardTypeStackView.addArrangedSubview($0) }
+      addPhotoImageView.snp.makeConstraints {
+        $0.height.equalTo(245)
+      }
+      
+      boardTypeStackView.setCustomSpacing(24, after: addPhotoImageView)
     }
   }
   
