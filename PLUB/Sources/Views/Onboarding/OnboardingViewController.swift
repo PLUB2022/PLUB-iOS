@@ -51,7 +51,8 @@ final class OnboardingViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     onboardingView.snp.makeConstraints {
-      $0.size.equalTo(240)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.height.equalTo(onboardingView.snp.width).dividedBy(1.36)
       $0.centerX.equalToSuperview()
       $0.centerY.equalToSuperview().dividedBy(1.564)
     }
