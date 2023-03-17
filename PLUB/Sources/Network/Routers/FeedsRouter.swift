@@ -19,7 +19,7 @@ enum FeedsRouter {
   case likeFeed(plubbingID: Int, feedID: Int)
   
   // === 댓글 파트 ===
-  case fetchComments(plubbingID: Int, feedID: Int, page: Int)
+  case fetchComments(plubbingID: Int, feedID: Int, cursorID: Int)
   case createComment(plubbingID: Int, feedID: Int, model: CommentsRequest)
   case updateComment(plubbingID: Int, feedID: Int, commentID: Int, content: String)
   case deleteComment(plubbingID: Int, feedID: Int, commentID: Int)
@@ -70,7 +70,8 @@ extension FeedsRouter: Router {
     switch self {
     case .createBoard(_, let model):
       return .body(model)
-    case .fetchBoards(_, let cursorID):
+    case .fetchBoards(_, let cursorID),
+         .fetchComments(_, _, let cursorID):
       return .query(["cursorId": cursorID])
     case .updateFeed(_, _, let model):
       return .body(model)
