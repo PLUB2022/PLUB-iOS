@@ -10,20 +10,38 @@ import RxCocoa
 
 protocol CreateBoardViewModelType {
   // Input
-  var uploadBoard: AnyObserver<Void> { get }
+  var whichUpload: AnyObserver<BoardsRequest> { get }
   
   // Output
+  var isSuccessCreateBoard: Signal<Int> { get }
 }
 
 final class CreateBoardViewModel: CreateBoardViewModelType {
   
   // Input
-  let uploadBoard: AnyObserver<Void>
+  let whichUpload: AnyObserver<BoardsRequest>
   
   // Output
+  let isSuccessCreateBoard: Signal<Int>
   
   init() {
-    let uploadingBoard = PublishSubject<Void>()
-    self.uploadBoard = uploadingBoard.asObserver()
+    let whichUploading = PublishSubject<BoardsRequest>()
+    self.whichUpload = whichUploading.asObserver()
+    
+    let createBoard = whichUploading
+      .flatMapLatest { request in
+        return FeedsService.shared.createBoards(plubbingID: 0, model: request)
+      }
+    
+    let successCreateBoard = createBoard.compactMap { result -> BoardsResponse? in
+      print("결과 \(result)")
+      guard case .success(let response) = result else { return nil }
+      return response.data
+    }
+    
+    // Output
+    isSuccessCreateBoard = successCreateBoard
+      .map { $0.feedID }
+      .asSignal(onErrorSignalWith: .empty())
   }
 }

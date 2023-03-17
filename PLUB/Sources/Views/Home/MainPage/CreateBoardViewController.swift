@@ -162,7 +162,19 @@ final class CreateBoardViewController: BaseViewController {
     
     uploadButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        
+        guard let title = owner.titleInputTextView.textView.text else { return }
+        let request = BoardsRequest(
+          title: title,
+          content: owner.boardContentInputTextView.textView.text,
+          feedImage: owner.addPhotoImageView.image?.jpegData(compressionQuality: 1.0)?.base64EncodedString()
+        )
+        owner.viewModel.whichUpload.onNext(request)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isSuccessCreateBoard
+      .emit(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }
