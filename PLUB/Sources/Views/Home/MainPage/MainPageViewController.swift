@@ -164,6 +164,15 @@ final class MainPageViewController: BaseViewController {
         owner.currentPage = index
       }
       .disposed(by: disposeBag)
+    
+    writeButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let vc = CreateBoardViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.title = "요란한 밧줄"
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   @objc func didTappedBackButton() {
