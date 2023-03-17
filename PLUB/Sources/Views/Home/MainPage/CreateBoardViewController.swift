@@ -12,6 +12,8 @@ import Then
 
 final class CreateBoardViewController: BaseViewController {
   
+  private let viewModel: CreateBoardViewModelType
+  
   private var type: PostType = .photo {
     didSet {
       guard type != oldValue else { return }
@@ -71,9 +73,18 @@ final class CreateBoardViewController: BaseViewController {
   
   private lazy var boardContentInputTextView = InputTextView(title: "게시할 내용", placeHolder: "내용을 입력해주세요", totalCharacterLimit: 300)
   
+  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func setupStyles() {
     super.setupStyles()
-
+    
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
   }
   
@@ -146,6 +157,12 @@ final class CreateBoardViewController: BaseViewController {
         owner.photoButton.isSelected = false
         owner.textButton.isSelected = false
         owner.photoAndTextButton.isSelected = true
+      }
+      .disposed(by: disposeBag)
+    
+    uploadButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        
       }
       .disposed(by: disposeBag)
   }

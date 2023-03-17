@@ -10,6 +10,7 @@ import RxCocoa
 
 protocol CreateBoardViewModelType {
   // Input
+  var uploadBoard: AnyObserver<Void> { get }
   
   // Output
 }
@@ -17,10 +18,12 @@ protocol CreateBoardViewModelType {
 final class CreateBoardViewModel: CreateBoardViewModelType {
   
   // Input
+  let uploadBoard: AnyObserver<Void>
   
   // Output
   
   init() {
-    
+    let uploadingBoard = PublishSubject<Void>()
+    self.uploadBoard = uploadingBoard.asObserver()
   }
 }
