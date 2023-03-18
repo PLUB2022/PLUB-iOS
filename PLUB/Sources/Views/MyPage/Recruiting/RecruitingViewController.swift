@@ -173,7 +173,9 @@ extension RecruitingViewController: RecruitingSectionHeaderViewDelegate {
 
 extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
   func declineApplicant(sectionIndex: Int) {
-    let alert = CustomAlertView<String>(
+    let model = viewModel.applications[sectionIndex]
+    let accountID = model.data.accountID
+    let alert = CustomAlertView(
       AlertModel(
         title: "해당 지원자를\n거절하시겠어요?",
         message: nil,
@@ -181,17 +183,19 @@ extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
         confirmButton: "거절하기",
         height: 210
       )
-      , input: "sssss"
-    ) { outputValue in
-        if let outputValue = outputValue as? String {
-          
-        }
+    ) {
+      self.viewModel.refuseApplicant.onNext((
+        sectionIndex: sectionIndex,
+        accountID: accountID
+      ))
     }
     alert.show()
   }
   
   func acceptApplicant(sectionIndex: Int) {
-    let alert = CustomAlertView<String>(
+    let model = viewModel.applications[sectionIndex]
+    let accountID = model.data.accountID
+    let alert = CustomAlertView(
       AlertModel(
         title: "해당 지원자를\n받으시겠어요?",
         message: nil,
@@ -199,11 +203,11 @@ extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
         confirmButton: "받기",
         height: 210
       )
-      , input: "sssss"
-    ) { outputValue in
-        if let outputValue = outputValue as? String {
-          
-        }
+    ) {
+      self.viewModel.approvalApplicant.onNext((
+        sectionIndex: sectionIndex,
+        accountID: accountID
+      ))
     }
     alert.show()
   }

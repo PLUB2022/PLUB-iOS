@@ -15,14 +15,17 @@ class RecruitingViewModel {
   
   // Input
   let sectionTapped: AnyObserver<Int> // 섹션뷰 클릭 이벤트
+  let approvalApplicant: AnyObserver<(sectionIndex: Int, accountID: Int)> // 지원자 승낙
+  let refuseApplicant: AnyObserver<(sectionIndex: Int, accountID: Int)> // 지원자 거절
   
   // Output
   let meetingInfo: Driver<RecruitingModel> // 내 정보 데이터
   let reloadData: Driver<Void> // 테이블 뷰 갱신
   let reloadSection: Driver<Int> // 테이블 뷰 섹션 갱신
   
-  
   private let sectionTappedSubject = PublishSubject<Int>()
+  private let approvalApplicantSubject = PublishSubject<(sectionIndex: Int, accountID: Int)>()
+  private let refuseApplicantSubject = PublishSubject<(sectionIndex: Int, accountID: Int)>()
   private let meetingInfoSubject = PublishSubject<RecruitingModel>()
   private let reloadDataSubject = PublishSubject<Void>()
   private let reloadSectionSubject = PublishSubject<Int>()
@@ -34,6 +37,8 @@ class RecruitingViewModel {
     self.plubbingID = plubbingID
     
     sectionTapped = sectionTappedSubject.asObserver()
+    approvalApplicant = approvalApplicantSubject.asObserver()
+    refuseApplicant = refuseApplicantSubject.asObserver()
     
     meetingInfo = meetingInfoSubject.asDriver(onErrorDriveWith: .empty())
     reloadData = reloadDataSubject.asDriver(onErrorDriveWith: .empty())
@@ -47,6 +52,26 @@ class RecruitingViewModel {
       .subscribe(onNext: { owner, index in
         owner.applications[index].isFolded.toggle()
         owner.reloadSectionSubject.onNext(index)
+      })
+      .disposed(by: disposeBag)
+    
+    approvalApplicantSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, data in
+        owner.approvalApplicant(
+          sectionIndex: data.sectionIndex,
+          accountID: data.accountID
+        )
+      })
+      .disposed(by: disposeBag)
+    
+    refuseApplicantSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, data in
+        owner.refuseApplicant(
+          sectionIndex: data.sectionIndex,
+          accountID: data.accountID
+        )
       })
       .disposed(by: disposeBag)
   }
@@ -109,5 +134,45 @@ class RecruitingViewModel {
     }.string(from: date)
     
     return (dateStr.isEmpty ? "온라인" : dateStr)  + " | " + timeStr
+  }
+  
+  private func approvalApplicant(sectionIndex: Int, accountID: Int) {
+    RecruitmentService.shared.approvalApplicant(
+      plubbingID: "\(plubbingID)",
+      accountID: "\(accountID)"
+    )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let model):
+          print(model)
+          owner.applications.remove(at: sectionIndex)
+          // 테이블 뷰 리로드
+          owner.reloadDataSubject.onNext(())
+        default:
+          break
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func refuseApplicant(sectionIndex: Int, accountID: Int) {
+    RecruitmentService.shared.refuseApplicant(
+      plubbingID: "\(plubbingID)",
+      accountID: "\(accountID)"
+    )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let model):
+          print(model)
+          owner.applications.remove(at: sectionIndex)
+          // 테이블 뷰 리로드
+          owner.reloadDataSubject.onNext(())
+        default:
+          break
+        }
+      })
+      .disposed(by: disposeBag)
   }
 }

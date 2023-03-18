@@ -16,6 +16,8 @@ enum RecruitmentRouter {
   case editMeetingPost(String, EditMeetingPostRequest)
   case editMeetingQuestion(String, EditMeetingQuestionRequest)
   case inquireApplicant(String)
+  case approvalApplicant(String, String)
+  case refuseApplicant(String, String)
 }
 
 extension RecruitmentRouter: Router {
@@ -23,7 +25,7 @@ extension RecruitmentRouter: Router {
     switch self {
     case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .inquireApplicant:
       return .get
-    case .requestBookmark:
+    case .requestBookmark, .approvalApplicant, .refuseApplicant:
       return .post
     case .editMeetingPost, .editMeetingQuestion:
       return .put
@@ -48,12 +50,16 @@ extension RecruitmentRouter: Router {
       return "/plubbings/recruit/bookmarks/me"
     case .inquireApplicant(let plubbingID):
       return "/plubbings/\(plubbingID)/recruit/applicants"
+    case .approvalApplicant(let plubbingID, let accountID):
+      return "/plubbings/\(plubbingID)/recruit/applicants/\(accountID)/approval"
+    case .refuseApplicant(let plubbingID, let accountID):
+      return "/plubbings/\(plubbingID)/recruit/applicants/\(accountID)/refuse"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .requestBookmark, .inquireApplicant:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .requestBookmark, .inquireApplicant, .approvalApplicant, .refuseApplicant:
       return .plain
     case .searchRecruitment(let parameter):
       return .query(parameter)
@@ -66,7 +72,7 @@ extension RecruitmentRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion, .inquireApplicant:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion, .inquireApplicant, .approvalApplicant, .refuseApplicant:
       return .withAccessToken
     }
   }

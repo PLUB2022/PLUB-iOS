@@ -45,4 +45,12 @@ extension RecruitmentService {
   func inquireApplicant(plubbingID: String) -> PLUBResult<InquireApplicantResponse> {
     return sendRequest(RecruitmentRouter.inquireApplicant(plubbingID), type: InquireApplicantResponse.self)
   }
+  
+  func approvalApplicant(plubbingID: String, accountID: String) -> PLUBResult<EmptyModel> {
+    return sendRequest(RecruitmentRouter.approvalApplicant(plubbingID, accountID))
+  }
+  
+  func refuseApplicant(plubbingID: String, accountID: String) -> PLUBResult<EmptyModel> {
+    return sendRequest(RecruitmentRouter.refuseApplicant(plubbingID, accountID))
+  }
 }

@@ -19,13 +19,12 @@ struct AlertModel {
   let height: Int?
 }
 
-final class CustomAlertView<T>: UIView {
+final class CustomAlertView: UIView {
   private let model: AlertModel
   private let disposeBag = DisposeBag()
   
-  typealias CompletionHandler = (T?) -> Void
+  typealias CompletionHandler = () -> Void
   private var completionHandler: CompletionHandler?
-  private var input: T?
   
   private let backgroundButton = UIButton().then {
     $0.backgroundColor = .black
@@ -79,11 +78,9 @@ final class CustomAlertView<T>: UIView {
   
   init(
     _ model: AlertModel,
-    input: T?,
     completionHandler: CompletionHandler?
   ) {
     self.model = model
-    self.input = input
     self.completionHandler = completionHandler
     super.init(frame: .zero)
 
@@ -146,7 +143,8 @@ final class CustomAlertView<T>: UIView {
     confirmButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.completionHandler?(owner.input)
+        owner.completionHandler?()
+        owner.dismiss()
       }
       .disposed(by: disposeBag)
     
