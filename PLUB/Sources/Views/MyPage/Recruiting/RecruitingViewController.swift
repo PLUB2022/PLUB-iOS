@@ -201,7 +201,8 @@ extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
         confirmButton: "거절하기",
         height: 210
       )
-    ) {
+    ) { [weak self] in
+      guard let self = self else { return }
       self.viewModel.refuseApplicant.onNext((
         sectionIndex: sectionIndex,
         accountID: accountID
@@ -221,7 +222,8 @@ extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
         confirmButton: "받기",
         height: 210
       )
-    ) {
+    ) { [weak self] in
+      guard let self = self else { return }
       self.viewModel.approvalApplicant.onNext((
         sectionIndex: sectionIndex,
         accountID: accountID
