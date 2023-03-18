@@ -275,6 +275,7 @@
 		C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA8297C60A000485355 /* Ex+UILabel.swift */; };
 		C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D65612987F0990052013F /* CategoryHeaderView.swift */; };
 		C38D6566298852F80052013F /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D6565298852F80052013F /* PaddingLabel.swift */; };
+		C39E09B429C5F3C100ECAD11 /* MyPageNoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */; };
 		C3AB743D296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift */; };
 		C3AB743F296B21C1003DD5E2 /* MeetingDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743E296B21C1003DD5E2 /* MeetingDateViewController.swift */; };
 		C3AB7441296B21E6003DD5E2 /* MeetingQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB7440296B21E6003DD5E2 /* MeetingQuestionViewController.swift */; };
@@ -569,6 +570,7 @@
 		C38A5BA8297C60A000485355 /* Ex+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UILabel.swift"; sourceTree = "<group>"; };
 		C38D65612987F0990052013F /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
 		C38D6565298852F80052013F /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNoneView.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewController.swift; sourceTree = "<group>"; };
 		C3AB743E296B21C1003DD5E2 /* MeetingDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDateViewController.swift; sourceTree = "<group>"; };
 		C3AB7440296B21E6003DD5E2 /* MeetingQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingQuestionViewController.swift; sourceTree = "<group>"; };
@@ -1317,6 +1319,7 @@
 			isa = PBXGroup;
 			children = (
 				C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */,
+				C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2104,6 +2107,7 @@
 				C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */,
 				C3EB29CB29A91CC600615B6B /* MeetingScheduleViewModel.swift in Sources */,
 				70A420BE29914B690026E9F9 /* RecruitmentQuestionResponse.swift in Sources */,
+				C39E09B429C5F3C100ECAD11 /* MyPageNoneView.swift in Sources */,
 				BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */,
 				705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,

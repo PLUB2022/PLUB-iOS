@@ -10,6 +10,10 @@ import UIKit
 final class MyPageViewController: BaseViewController {
   private let viewModel = MyPageViewModel()
   private let profileView = MyProfileView()
+  private lazy var noneView = MyPageNoneView().then {
+    $0.delegate = self
+    $0.isHidden = true
+  }
   
   private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
     $0.separatorStyle = .none
@@ -17,6 +21,8 @@ final class MyPageViewController: BaseViewController {
     $0.backgroundColor = .background
     $0.delegate = self
     $0.dataSource = self
+    $0.tableHeaderView = profileView
+    $0.tableHeaderView?.frame.size.height = 88
     $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.identifier)
     $0.register(MyPageSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: MyPageSectionHeaderView.identifier)
     $0.register(MyPageSectionFooterView.self, forHeaderFooterViewReuseIdentifier: MyPageSectionFooterView.identifier)
@@ -25,25 +31,24 @@ final class MyPageViewController: BaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     viewModel.fetchMyInfoData()
+    viewModel.fetchMyPubbings()
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [profileView, tableView].forEach {
+    [tableView, noneView].forEach {
       view.addSubview($0)
     }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    profileView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(88)
-    }
-    
     tableView.snp.makeConstraints {
-      $0.top.equalTo(profileView.snp.bottom)
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.leading.trailing.equalToSuperview()
+    }
+    noneView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(88)
       $0.bottom.leading.trailing.equalToSuperview()
     }
   }
@@ -64,7 +69,14 @@ final class MyPageViewController: BaseViewController {
     
     viewModel.reloadData
       .drive(with: self) { owner, _ in
-        owner.tableView.reloadData()
+        if owner.viewModel.myPlubbing.isEmpty {
+          owner.noneView.isHidden = false
+          owner.tableView.isScrollEnabled = false
+        } else {
+          owner.noneView.isHidden = true
+          owner.tableView.isScrollEnabled = true
+          owner.tableView.reloadData()
+        }
       }
       .disposed(by: disposeBag)
     
@@ -172,5 +184,11 @@ extension MyPageViewController: UITableViewDataSource {
 extension MyPageViewController: MyPageSectionHeaderViewDelegate {
   func foldHeaderView(sectionIndex: Int) {
     viewModel.sectionTapped.onNext(sectionIndex)
+  }
+}
+
+extension MyPageViewController: MyPageNoneViewDelegate {
+  func didTappedMoveToMeeting() {
+    tabBarController?.selectedIndex = 0
   }
 }
