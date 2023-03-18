@@ -147,6 +147,7 @@ extension MyPageViewController: UITableViewDelegate {
     switch status {
     case .recruiting:
       let vc = RecruitingViewController(viewModel: RecruitingViewModel(plubbingID: plubbingID))
+      vc.hidesBottomBarWhenPushed = true
       navigationController?.pushViewController(vc, animated: true)
     case .waiting: break
     case .active: break

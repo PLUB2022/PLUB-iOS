@@ -63,6 +63,10 @@ class RecruitingViewController: BaseViewController {
     }
   }
   
+  override func setupStyles() {
+    setupNavigationBar()
+  }
+  
   override func bind() {
     viewModel.meetingInfo
       .drive(with: self) { owner, myInfo in
@@ -85,6 +89,20 @@ class RecruitingViewController: BaseViewController {
         owner.tableView.reloadSections([index], with: .automatic)
       }
       .disposed(by: disposeBag)
+  }
+  
+  private func setupNavigationBar() {
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "backButton"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+  }
+  
+  @objc
+  private func didTappedBackButton() {
+    navigationController?.popViewController(animated: true)
   }
 }
 
