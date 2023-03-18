@@ -46,6 +46,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     let writingTitle = BehaviorSubject<String>(value: "")
     let writingContent = BehaviorSubject<String>(value: "")
     let isSelectingImage = BehaviorSubject<Bool>(value: false)
+    let isSuccessCreatingBoard = PublishRelay<Int>()
     
     self.whichUpload = whichUploading.asObserver()
     self.selectMeeting = whichPlubbingID.asObserver()
@@ -63,14 +64,18 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
       }
     
     let successCreateBoard = createBoard.compactMap { result -> BoardsResponse? in
-      print("결과 \(result)")
       guard case .success(let response) = result else { return nil }
       return response.data
     }
     
+    successCreateBoard
+      .subscribe(onNext: { data in
+        isSuccessCreatingBoard.accept(data.feedID)
+      })
+      .disposed(by: disposeBag)
+    
     // Output
-    isSuccessCreateBoard = successCreateBoard
-      .map { $0.feedID }
+    isSuccessCreateBoard = isSuccessCreatingBoard
       .asSignal(onErrorSignalWith: .empty())
     
     onlyTextUploadButtonIsActivated = Observable.combineLatest(

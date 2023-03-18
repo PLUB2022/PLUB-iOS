@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -55,8 +56,6 @@ final class CreateBoardViewController: BaseViewController {
   
   private let uploadButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "글 업로드")
-    $0.layer.cornerRadius = 10
-    $0.layer.masksToBounds = true
     $0.isEnabled = false
   }
   
@@ -147,6 +146,8 @@ final class CreateBoardViewController: BaseViewController {
   
   func bind(plubbingID: Int) {
     super.bind()
+    viewModel.selectMeeting.onNext(plubbingID)
+    
     photoButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.type = .photo
@@ -175,12 +176,14 @@ final class CreateBoardViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     uploadButton.rx.tap
+      .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
         guard let title = owner.titleInputTextView.textView.text else { return }
+        
         let request = BoardsRequest(
           title: title,
           content: owner.boardContentInputTextView.textView.text,
-          feedImage: owner.addPhotoImageView.image?.jpegData(compressionQuality: 1.0)?.base64EncodedString()
+          feedImage: nil
         )
         owner.viewModel.whichUpload.onNext(request)
       }
@@ -214,8 +217,6 @@ final class CreateBoardViewController: BaseViewController {
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
-    
-    
     
     checkUploadButtonActivated(type: .photo)
   }
