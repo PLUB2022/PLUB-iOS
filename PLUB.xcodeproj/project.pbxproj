@@ -252,6 +252,7 @@
 		C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */; };
 		C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
+		C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3775E2329C61B9C003A812F /* CustomAlertView.swift */; };
 		C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967529A25718005998A5 /* CreateScheduleRequest.swift */; };
 		C383967A29A25A16005998A5 /* ScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967929A25A16005998A5 /* ScheduleService.swift */; };
 		C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967B29A25A3E005998A5 /* ScheduleRouter.swift */; };
@@ -549,6 +550,7 @@
 		C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetListView.swift; sourceTree = "<group>"; };
 		C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
+		C3775E2329C61B9C003A812F /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		C383967529A25718005998A5 /* CreateScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleRequest.swift; sourceTree = "<group>"; };
 		C383967929A25A16005998A5 /* ScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleService.swift; sourceTree = "<group>"; };
 		C383967B29A25A3E005998A5 /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
@@ -1759,6 +1761,7 @@
 			children = (
 				C3E0390E29C230F700C4744C /* RecruitingHeaderView.swift */,
 				C39E09B529C604DE00ECAD11 /* RecruitingFooterView.swift */,
+				C3775E2329C61B9C003A812F /* CustomAlertView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1939,6 +1942,7 @@
 				C3B3435D29BE4A3000935B73 /* MyPlubbingParameter.swift in Sources */,
 				BA72BCF029BB03FF007165E5 /* BaseNavigationController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
+				C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */,
 				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
 				C3E0390F29C230F700C4744C /* RecruitingHeaderView.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
