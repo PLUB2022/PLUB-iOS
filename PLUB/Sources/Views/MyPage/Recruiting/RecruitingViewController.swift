@@ -89,6 +89,15 @@ class RecruitingViewController: BaseViewController {
         owner.tableView.reloadSections([index], with: .automatic)
       }
       .disposed(by: disposeBag)
+    
+    recruitButton
+      .rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        let vc = DetailRecruitmentViewController(plubbingID: "\(owner.viewModel.plubbingID)")
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   private func setupNavigationBar() {

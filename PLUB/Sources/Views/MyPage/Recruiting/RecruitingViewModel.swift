@@ -11,7 +11,7 @@ import Foundation
 
 class RecruitingViewModel {
   private let disposeBag = DisposeBag()
-  private let plubbingID: Int
+  private(set) var plubbingID: Int
   
   // Input
   let sectionTapped: AnyObserver<Int> // 섹션뷰 클릭 이벤트
