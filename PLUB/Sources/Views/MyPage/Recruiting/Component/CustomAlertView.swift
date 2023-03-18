@@ -12,11 +12,11 @@ import SnapKit
 import Then
 
 struct AlertModel {
-  let title: String
-  let message: String?
-  let cancelButton: String?
-  let confirmButton: String
-  let height: Int?
+  let title: String // 알림창 제목
+  let message: String? // 알림창 내용
+  let cancelButton: String? // 취소 버튼 이름
+  let confirmButton: String // 확인 버튼 이름
+  let height: Int? // 알림창 높이
 }
 
 final class CustomAlertView: UIView {
