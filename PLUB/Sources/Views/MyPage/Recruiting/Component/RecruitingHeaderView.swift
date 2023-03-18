@@ -93,6 +93,6 @@ extension RecruitingHeaderView {
       locationView.setText(data.address, false)
     }
     scheduleView.setText(data.schedule, false)
-    subtitleLabel.text = "나의 지원서"
+    subtitleLabel.text = "지원자 내역"
   }
 }

@@ -71,6 +71,10 @@ class RecruitingViewController: BaseViewController {
     
     viewModel.reloadData
       .drive(with: self) { owner, _ in
+        if owner.viewModel.applications.isEmpty {
+          owner.tableView.tableFooterView = RecruitingFooterView()
+          owner.tableView.tableFooterView?.frame.size.height = 74
+        }
         owner.tableView.reloadData()
       }
       .disposed(by: disposeBag)
