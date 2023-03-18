@@ -74,7 +74,11 @@ final class CreateBoardViewController: BaseViewController {
     $0.isUserInteractionEnabled = true
   }
   
-  private lazy var boardContentInputTextView = InputTextView(title: "게시할 내용", placeHolder: "내용을 입력해주세요", totalCharacterLimit: 300)
+  private lazy var boardContentInputTextView = InputTextView(
+    title: "게시할 내용",
+    placeHolder: "내용을 입력해주세요",
+    totalCharacterLimit: 300
+  )
   
   private let tapGesture = UITapGestureRecognizer(
       target: CreateBoardViewController.self,
@@ -184,50 +188,52 @@ final class CreateBoardViewController: BaseViewController {
     
     titleInputTextView.textView.rx.text
       .orEmpty
-      .subscribe(viewModel.writeTitle)
+      .subscribe(with: self) { owner, title in
+        owner.viewModel.writeTitle.onNext(title)
+      }
       .disposed(by: disposeBag)
     
     boardContentInputTextView.textView.rx.text
       .orEmpty
-      .subscribe(viewModel.writeContent)
+      .subscribe(with: self) { owner, content in
+        owner.viewModel.writeContent.onNext(content)
+      }
       .disposed(by: disposeBag)
     
     tapGesture.rx.event
-      .subscribe(onNext: { _ in
-        print("탭")
-      })
+      .subscribe(with: self) { owner, _ in
+        let bottomSheet = PhotoBottomSheetViewController()
+        bottomSheet.modalPresentationStyle = .overFullScreen
+        bottomSheet.delegate = self
+        owner.present(bottomSheet, animated: false)
+      }
       .disposed(by: disposeBag)
-    
-//    addPhotoImageView.rx.tap
-//      .subscribe(onNext: { image in
-//        print("이미지 \(image)")
-//      })
-//      .disposed(by: disposeBag)
     
     viewModel.isSuccessCreateBoard
       .emit(with: self) { owner, _ in
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
+    
+    
+    
+    checkUploadButtonActivated(type: .photo)
   }
   
   private func checkUploadButtonActivated(type: PostType) {
+    uploadButton.isEnabled = false
     switch type {
     case .photo:
-      viewModel.onlyTextUploadButtonIsActivated
-        .drive(onNext: { isActivated in
-          print("뭐야1 \(isActivated)")
-        })
+      viewModel.onlyPhotoUploadButtonIsActivated
+        .drive(uploadButton.rx.isEnabled)
         .disposed(by: disposeBag)
     case .text:
       viewModel.onlyTextUploadButtonIsActivated
         .drive(uploadButton.rx.isEnabled)
         .disposed(by: disposeBag)
     case .photoAndText:
-      viewModel.onlyTextUploadButtonIsActivated
-        .drive(onNext: { isActivated in
-          print("뭐야3 \(isActivated)")
-        })
+      viewModel.photoAndTextUploadButtonIsActivated
+        .drive(uploadButton.rx.isEnabled)
         .disposed(by: disposeBag)
     }
   }
@@ -256,4 +262,11 @@ final class CreateBoardViewController: BaseViewController {
     self.navigationController?.popViewController(animated: true)
   }
   
+}
+
+extension CreateBoardViewController: PhotoBottomSheetDelegate {
+  func selectImage(image: UIImage) {
+    addPhotoImageView.image = image
+    viewModel.isSelectImage.onNext(true)
+  }
 }
