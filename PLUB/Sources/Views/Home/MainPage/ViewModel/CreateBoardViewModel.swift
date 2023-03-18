@@ -11,6 +11,7 @@ import RxCocoa
 protocol CreateBoardViewModelType {
   // Input
   var whichUpload: AnyObserver<BoardsRequest> { get }
+  var selectMeeting: AnyObserver<Int> { get }
   
   // Output
   var isSuccessCreateBoard: Signal<Int> { get }
@@ -20,17 +21,25 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
   
   // Input
   let whichUpload: AnyObserver<BoardsRequest>
+  let selectMeeting: AnyObserver<Int>
   
   // Output
   let isSuccessCreateBoard: Signal<Int>
   
   init() {
     let whichUploading = PublishSubject<BoardsRequest>()
-    self.whichUpload = whichUploading.asObserver()
+    let whichPlubbingID = PublishSubject<Int>()
     
-    let createBoard = whichUploading
-      .flatMapLatest { request in
-        return FeedsService.shared.createBoards(plubbingID: 0, model: request)
+    self.whichUpload = whichUploading.asObserver()
+    self.selectMeeting = whichPlubbingID.asObserver()
+    
+    // Input
+    let createBoard = Observable.zip(
+      whichPlubbingID,
+      whichUploading
+    )
+      .flatMapLatest { plubbingID, request in
+        return FeedsService.shared.createBoards(plubbingID: plubbingID, model: request)
       }
     
     let successCreateBoard = createBoard.compactMap { result -> BoardsResponse? in

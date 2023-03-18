@@ -73,9 +73,10 @@ final class CreateBoardViewController: BaseViewController {
   
   private lazy var boardContentInputTextView = InputTextView(title: "게시할 내용", placeHolder: "내용을 입력해주세요", totalCharacterLimit: 300)
   
-  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel()) {
+  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
@@ -131,7 +132,7 @@ final class CreateBoardViewController: BaseViewController {
     }
   }
   
-  override func bind() {
+  func bind(plubbingID: Int) {
     super.bind()
     photoButton.rx.tap
       .subscribe(with: self) { owner, _ in
