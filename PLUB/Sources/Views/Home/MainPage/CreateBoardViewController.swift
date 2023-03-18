@@ -80,8 +80,8 @@ final class CreateBoardViewController: BaseViewController {
   )
   
   private let tapGesture = UITapGestureRecognizer(
-      target: CreateBoardViewController.self,
-      action: nil
+    target: CreateBoardViewController.self,
+    action: nil
   )
   
   init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int) {
@@ -191,16 +191,12 @@ final class CreateBoardViewController: BaseViewController {
     
     titleInputTextView.textView.rx.text
       .orEmpty
-      .subscribe(with: self) { owner, title in
-        owner.viewModel.writeTitle.onNext(title)
-      }
+      .subscribe(viewModel.writeTitle)
       .disposed(by: disposeBag)
     
     boardContentInputTextView.textView.rx.text
       .orEmpty
-      .subscribe(with: self) { owner, content in
-        owner.viewModel.writeContent.onNext(content)
-      }
+      .subscribe(viewModel.writeContent)
       .disposed(by: disposeBag)
     
     tapGesture.rx.event
