@@ -173,7 +173,25 @@ extension RecruitingViewController: RecruitingSectionHeaderViewDelegate {
 
 extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
   func declineApplicant(sectionIndex: Int) {
-    let alert = CustomAlertView(
+    let alert = CustomAlertView<String>(
+      AlertModel(
+        title: "해당 지원자를\n거절하시겠어요?",
+        message: nil,
+        cancelButton: "취소",
+        confirmButton: "거절하기",
+        height: 210
+      )
+      , input: "sssss"
+    ) { outputValue in
+        if let outputValue = outputValue as? String {
+          
+        }
+    }
+    alert.show()
+  }
+  
+  func acceptApplicant(sectionIndex: Int) {
+    let alert = CustomAlertView<String>(
       AlertModel(
         title: "해당 지원자를\n받으시겠어요?",
         message: nil,
@@ -181,22 +199,12 @@ extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
         confirmButton: "받기",
         height: 210
       )
-    )
-
-    alert.delegate = self
+      , input: "sssss"
+    ) { outputValue in
+        if let outputValue = outputValue as? String {
+          
+        }
+    }
     alert.show()
-  }
-  
-  func acceptApplicant(sectionIndex: Int) {
-    
-  }
-}
-
-extension RecruitingViewController: CustomAlertViewDelegate {
-  func cancelButtonTapped() {
-    
-  }
-  func confirmButtonTapped() {
-    
   }
 }

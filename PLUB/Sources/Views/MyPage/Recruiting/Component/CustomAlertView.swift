@@ -11,11 +11,6 @@ import RxCocoa
 import SnapKit
 import Then
 
-protocol CustomAlertViewDelegate: AnyObject {
-  func cancelButtonTapped()
-  func confirmButtonTapped()
-}
-
 struct AlertModel {
   let title: String
   let message: String?
@@ -24,10 +19,13 @@ struct AlertModel {
   let height: Int?
 }
 
-final class CustomAlertView: UIView {
-  weak var delegate: CustomAlertViewDelegate?
+final class CustomAlertView<T>: UIView {
   private let model: AlertModel
   private let disposeBag = DisposeBag()
+  
+  typealias CompletionHandler = (T?) -> Void
+  private var completionHandler: CompletionHandler?
+  private var input: T?
   
   private let backgroundButton = UIButton().then {
     $0.backgroundColor = .black
@@ -79,8 +77,14 @@ final class CustomAlertView: UIView {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: model.confirmButton)
   }
   
-  init(_ model: AlertModel) {
+  init(
+    _ model: AlertModel,
+    input: T?,
+    completionHandler: CompletionHandler?
+  ) {
     self.model = model
+    self.input = input
+    self.completionHandler = completionHandler
     super.init(frame: .zero)
 
     setupLayouts()
@@ -135,14 +139,14 @@ final class CustomAlertView: UIView {
     cancelButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.delegate?.cancelButtonTapped()
+        owner.dismiss()
       }
       .disposed(by: disposeBag)
     
     confirmButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.delegate?.confirmButtonTapped()
+        owner.completionHandler?(owner.input)
       }
       .disposed(by: disposeBag)
     
@@ -152,10 +156,6 @@ final class CustomAlertView: UIView {
         owner.dismiss()
       }
       .disposed(by: disposeBag)
-  }
-    
-  @objc func backgroundTapped() {
-    dismiss()
   }
     
   func show() {
