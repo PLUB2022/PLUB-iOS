@@ -71,9 +71,15 @@ final class CreateBoardViewController: BaseViewController {
     $0.backgroundColor = .deepGray
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
+    $0.isUserInteractionEnabled = true
   }
   
   private lazy var boardContentInputTextView = InputTextView(title: "게시할 내용", placeHolder: "내용을 입력해주세요", totalCharacterLimit: 300)
+  
+  private let tapGesture = UITapGestureRecognizer(
+      target: CreateBoardViewController.self,
+      action: nil
+  )
   
   init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
@@ -89,6 +95,7 @@ final class CreateBoardViewController: BaseViewController {
     super.setupStyles()
     
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
+    addPhotoImageView.addGestureRecognizer(tapGesture)
   }
   
   override func setupLayouts() {
@@ -185,7 +192,13 @@ final class CreateBoardViewController: BaseViewController {
       .subscribe(viewModel.writeContent)
       .disposed(by: disposeBag)
     
-//    addPhotoImageView.rx.image
+    tapGesture.rx.event
+      .subscribe(onNext: { _ in
+        print("탭")
+      })
+      .disposed(by: disposeBag)
+    
+//    addPhotoImageView.rx.tap
 //      .subscribe(onNext: { image in
 //        print("이미지 \(image)")
 //      })
