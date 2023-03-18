@@ -33,6 +33,7 @@ class RecruitingViewController: BaseViewController {
     $0.tableHeaderView?.frame.size.height = 190
     $0.register(RecruitingTableViewCell.self, forCellReuseIdentifier: RecruitingTableViewCell.identifier)
     $0.register(RecruitingSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: RecruitingSectionHeaderView.identifier)
+    $0.register(RecruitingSectionFooterView.self, forHeaderFooterViewReuseIdentifier: RecruitingSectionFooterView.identifier)
     $0.register(MyPageSectionFooterView.self, forHeaderFooterViewReuseIdentifier: MyPageSectionFooterView.identifier)
   }
   
@@ -113,14 +114,24 @@ extension RecruitingViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
     let isFolded = viewModel.applications[section].isFolded
-    return isFolded ? 18 : 14
+    return isFolded ? 18 : (14 + 46)
   }
   
   func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-    guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyPageSectionFooterView.identifier) as? MyPageSectionFooterView else {
-        return UIView()
+    let isFolded = viewModel.applications[section].isFolded
+    if isFolded {
+      guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyPageSectionFooterView.identifier) as? MyPageSectionFooterView else {
+          return UIView()
+      }
+      return footerView
+    } else {
+      guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: RecruitingSectionFooterView.identifier) as? RecruitingSectionFooterView else {
+          return UIView()
+      }
+      footerView.delegate = self
+      footerView.setupData(sectionIndex: section)
+      return footerView
     }
-    return footerView
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -157,5 +168,15 @@ extension RecruitingViewController: UITableViewDataSource {
 extension RecruitingViewController: RecruitingSectionHeaderViewDelegate {
   func foldHeaderView(sectionIndex: Int) {
     viewModel.sectionTapped.onNext(sectionIndex)
+  }
+}
+
+extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
+  func declineApplicant(sectionIndex: Int) {
+    
+  }
+  
+  func acceptApplicant(sectionIndex: Int) {
+    
   }
 }
