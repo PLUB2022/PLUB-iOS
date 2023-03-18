@@ -12,26 +12,38 @@ protocol CreateBoardViewModelType {
   // Input
   var whichUpload: AnyObserver<BoardsRequest> { get }
   var selectMeeting: AnyObserver<Int> { get }
+  var writeTitle: AnyObserver<String> { get }
+  var writeContent: AnyObserver<String> { get }
   
   // Output
   var isSuccessCreateBoard: Signal<Int> { get }
+  var onlyTextUploadButtonIsActivated: Driver<Bool> { get }
 }
 
 final class CreateBoardViewModel: CreateBoardViewModelType {
   
+  private let disposeBag = DisposeBag()
+  
   // Input
   let whichUpload: AnyObserver<BoardsRequest>
   let selectMeeting: AnyObserver<Int>
+  let writeTitle: AnyObserver<String>
+  let writeContent: AnyObserver<String>
   
   // Output
   let isSuccessCreateBoard: Signal<Int>
+  let onlyTextUploadButtonIsActivated: Driver<Bool>
   
   init() {
     let whichUploading = PublishSubject<BoardsRequest>()
     let whichPlubbingID = PublishSubject<Int>()
+    let writingTitle = PublishSubject<String>()
+    let writingContent = PublishSubject<String>()
     
     self.whichUpload = whichUploading.asObserver()
     self.selectMeeting = whichPlubbingID.asObserver()
+    self.writeTitle = writingTitle.asObserver()
+    self.writeContent = writingContent.asObserver()
     
     // Input
     let createBoard = Observable.zip(
@@ -52,5 +64,23 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     isSuccessCreateBoard = successCreateBoard
       .map { $0.feedID }
       .asSignal(onErrorSignalWith: .empty())
+    
+    onlyTextUploadButtonIsActivated = Observable.combineLatest(
+      writingTitle
+        .filter { $0 != Constants.titlePlaceholder }
+        .skip(1),
+      writingContent
+        .filter { $0 != Constants.contentPlaceholder }
+        .skip(1)
+    ) { ($0, $1) }
+      .map { !$0.isEmpty && !$1.isEmpty }
+      .asDriver(onErrorDriveWith: .empty())
+  }
+}
+
+extension CreateBoardViewModel {
+  struct Constants {
+    static let titlePlaceholder = "제목을 입력해주세요"
+    static let contentPlaceholder = "내용을 입력해주세요"
   }
 }

@@ -18,6 +18,7 @@ final class CreateBoardViewController: BaseViewController {
     didSet {
       guard type != oldValue else { return }
       changedPostType(type: type)
+      checkUploadButtonActivated(type: type)
     }
   }
   
@@ -56,6 +57,7 @@ final class CreateBoardViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "글 업로드")
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
+    $0.isEnabled = false
   }
   
   /// PostType에 따라 필요한 UI
@@ -173,11 +175,48 @@ final class CreateBoardViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    titleInputTextView.textView.rx.text
+      .orEmpty
+      .subscribe(viewModel.writeTitle)
+      .disposed(by: disposeBag)
+    
+    boardContentInputTextView.textView.rx.text
+      .orEmpty
+      .subscribe(viewModel.writeContent)
+      .disposed(by: disposeBag)
+    
+//    addPhotoImageView.rx.image
+//      .subscribe(onNext: { image in
+//        print("이미지 \(image)")
+//      })
+//      .disposed(by: disposeBag)
+    
     viewModel.isSuccessCreateBoard
       .emit(with: self) { owner, _ in
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
+  }
+  
+  private func checkUploadButtonActivated(type: PostType) {
+    switch type {
+    case .photo:
+      viewModel.onlyTextUploadButtonIsActivated
+        .drive(onNext: { isActivated in
+          print("뭐야1 \(isActivated)")
+        })
+        .disposed(by: disposeBag)
+    case .text:
+      viewModel.onlyTextUploadButtonIsActivated
+        .drive(uploadButton.rx.isEnabled)
+        .disposed(by: disposeBag)
+    case .photoAndText:
+      viewModel.onlyTextUploadButtonIsActivated
+        .drive(onNext: { isActivated in
+          print("뭐야3 \(isActivated)")
+        })
+        .disposed(by: disposeBag)
+    }
   }
   
   private func changedPostType(type: PostType) {
