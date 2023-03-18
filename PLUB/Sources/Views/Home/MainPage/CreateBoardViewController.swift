@@ -97,7 +97,7 @@ final class CreateBoardViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
+    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
     addPhotoImageView.addGestureRecognizer(tapGesture)
   }
   

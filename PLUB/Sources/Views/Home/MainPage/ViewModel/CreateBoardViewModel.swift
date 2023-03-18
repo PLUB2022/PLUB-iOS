@@ -48,11 +48,11 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     let isSelectingImage = BehaviorSubject<Bool>(value: false)
     let isSuccessCreatingBoard = PublishRelay<Int>()
     
-    self.whichUpload = whichUploading.asObserver()
-    self.selectMeeting = whichPlubbingID.asObserver()
-    self.writeTitle = writingTitle.asObserver()
-    self.writeContent = writingContent.asObserver()
-    self.isSelectImage = isSelectingImage.asObserver()
+    whichUpload = whichUploading.asObserver()
+    selectMeeting = whichPlubbingID.asObserver()
+    writeTitle = writingTitle.asObserver()
+    writeContent = writingContent.asObserver()
+    isSelectImage = isSelectingImage.asObserver()
     
     // Input
     let createBoard = Observable.zip(
