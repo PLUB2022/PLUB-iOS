@@ -179,12 +179,28 @@ final class CreateBoardViewController: BaseViewController {
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
         guard let title = owner.titleInputTextView.textView.text else { return }
+        let request: BoardsRequest
+        switch owner.type {
+        case .photo:
+          request = BoardsRequest(
+            title: title,
+            content: nil,
+            feedImage: ""
+          )
+        case .text:
+          request = BoardsRequest(
+            title: title,
+            content: owner.boardContentInputTextView.textView.text,
+            feedImage: nil
+          )
+        case .photoAndText:
+          request = BoardsRequest(
+            title: title,
+            content: owner.boardContentInputTextView.textView.text,
+            feedImage: ""
+          )
+        }
         
-        let request = BoardsRequest(
-          title: title,
-          content: owner.boardContentInputTextView.textView.text,
-          feedImage: nil
-        )
         owner.viewModel.whichUpload.onNext(request)
       }
       .disposed(by: disposeBag)
