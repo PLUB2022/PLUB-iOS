@@ -76,7 +76,7 @@ final class CreateBoardViewController: BaseViewController {
   private lazy var boardContentInputTextView = InputTextView(
     title: "게시할 내용",
     placeHolder: "내용을 입력해주세요",
-    totalCharacterLimit: 300
+    options: [.textCount]
   )
   
   private let tapGesture = UITapGestureRecognizer(
