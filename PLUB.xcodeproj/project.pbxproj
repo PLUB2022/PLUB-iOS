@@ -209,6 +209,8 @@
 		C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */; };
 		C3100CBF29BD94FF005FCCAD /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */; };
 		C3100CC329BD9ECD005FCCAD /* MyPageSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */; };
+		C312AB5C29C367100020C475 /* RecruitingSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C312AB5B29C367100020C475 /* RecruitingSectionHeaderView.swift */; };
+		C312AB5E29C36E160020C475 /* RecruitingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C312AB5D29C36E160020C475 /* RecruitingTableViewCell.swift */; };
 		C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */; };
 		C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */; };
 		C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605162997934100D27488 /* RecruitPostViewModel.swift */; };
@@ -216,7 +218,6 @@
 		C316051B2997936200D27488 /* GuestQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316051A2997936200D27488 /* GuestQuestionViewModel.swift */; };
 		C316051F2997F92200D27488 /* EditMeetingPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316051E2997F92200D27488 /* EditMeetingPostRequest.swift */; };
 		C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */; };
-		C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
 		C33952EF29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33952EE29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift */; };
 		C33EF37D29A1DFD100D7A5CA /* ScheduleAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */; };
@@ -235,6 +236,7 @@
 		C34F047E29C7049400E5B67E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F047D29C7049400E5B67E /* SettingViewController.swift */; };
 		C34F048129C70FB900E5B67E /* SettingDetailSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F048029C70FB900E5B67E /* SettingDetailSubView.swift */; };
 		C34F048429C715A800E5B67E /* SettingSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F048329C715A800E5B67E /* SettingSubview.swift */; };
+		C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F048729C7203500E5B67E /* MeetingCreateSuccessViewController.swift */; };
 		C34F07F3297DAFD900C91E90 /* AddQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F07F2297DAFD900C91E90 /* AddQuestionTableViewCell.swift */; };
 		C34F07F5297DB1DC00C91E90 /* AddQuestionControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */; };
 		C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F71C029798C87003DB376 /* MeetingDateViewModel.swift */; };
@@ -257,6 +259,7 @@
 		C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */; };
 		C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
+		C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3775E2329C61B9C003A812F /* CustomAlertView.swift */; };
 		C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967529A25718005998A5 /* CreateScheduleRequest.swift */; };
 		C383967A29A25A16005998A5 /* ScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967929A25A16005998A5 /* ScheduleService.swift */; };
 		C383967C29A25A3E005998A5 /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967B29A25A3E005998A5 /* ScheduleRouter.swift */; };
@@ -280,6 +283,9 @@
 		C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA8297C60A000485355 /* Ex+UILabel.swift */; };
 		C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D65612987F0990052013F /* CategoryHeaderView.swift */; };
 		C38D6566298852F80052013F /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D6565298852F80052013F /* PaddingLabel.swift */; };
+		C39E09B429C5F3C100ECAD11 /* MyPageNoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */; };
+		C39E09B629C604DE00ECAD11 /* RecruitingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39E09B529C604DE00ECAD11 /* RecruitingFooterView.swift */; };
+		C39E09B829C6089300ECAD11 /* RecruitingSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39E09B729C6089300ECAD11 /* RecruitingSectionFooterView.swift */; };
 		C3AB743D296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743C296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift */; };
 		C3AB743F296B21C1003DD5E2 /* MeetingDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB743E296B21C1003DD5E2 /* MeetingDateViewController.swift */; };
 		C3AB7441296B21E6003DD5E2 /* MeetingQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AB7440296B21E6003DD5E2 /* MeetingQuestionViewController.swift */; };
@@ -300,6 +306,10 @@
 		C3CD675029B4E5970052087E /* ScheduleParticipantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */; };
 		C3D9807A297D982E00B8F5DF /* MeetingQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */; };
 		C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */; };
+		C3E0390829C208B700C4744C /* RecruitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0390729C208B700C4744C /* RecruitingViewController.swift */; };
+		C3E0390A29C2125700C4744C /* InquireApplicantResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0390929C2125700C4744C /* InquireApplicantResponse.swift */; };
+		C3E0390C29C21F0C00C4744C /* RecruitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0390B29C21F0C00C4744C /* RecruitingViewModel.swift */; };
+		C3E0390F29C230F700C4744C /* RecruitingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0390E29C230F700C4744C /* RecruitingHeaderView.swift */; };
 		C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */; };
 		C3EB29C829A9040600615B6B /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EB29C729A9040600615B6B /* ScheduleTableViewCell.swift */; };
 		C3EB29CB29A91CC600615B6B /* MeetingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EB29CA29A91CC600615B6B /* MeetingScheduleViewModel.swift */; };
@@ -507,6 +517,8 @@
 		C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileView.swift; sourceTree = "<group>"; };
 		C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSectionHeaderView.swift; sourceTree = "<group>"; };
+		C312AB5B29C367100020C475 /* RecruitingSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingSectionHeaderView.swift; sourceTree = "<group>"; };
+		C312AB5D29C36E160020C475 /* RecruitingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingTableViewCell.swift; sourceTree = "<group>"; };
 		C3158EC8297D20C80016E231 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C3158ECA297D50B60016E231 /* MeetingPeopleNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewModel.swift; sourceTree = "<group>"; };
 		C31605162997934100D27488 /* RecruitPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitPostViewModel.swift; sourceTree = "<group>"; };
@@ -514,7 +526,6 @@
 		C316051A2997936200D27488 /* GuestQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestQuestionViewModel.swift; sourceTree = "<group>"; };
 		C316051E2997F92200D27488 /* EditMeetingPostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingPostRequest.swift; sourceTree = "<group>"; };
 		C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingQuestionRequest.swift; sourceTree = "<group>"; };
-		C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCreateSuccessViewController.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C33952EE29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantCollectionViewCell.swift; sourceTree = "<group>"; };
 		C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAlarmView.swift; sourceTree = "<group>"; };
@@ -530,6 +541,7 @@
 		C34F047D29C7049400E5B67E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		C34F048029C70FB900E5B67E /* SettingDetailSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailSubView.swift; sourceTree = "<group>"; };
 		C34F048329C715A800E5B67E /* SettingSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSubview.swift; sourceTree = "<group>"; };
+		C34F048729C7203500E5B67E /* MeetingCreateSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingCreateSuccessViewController.swift; sourceTree = "<group>"; };
 		C34F07F2297DAFD900C91E90 /* AddQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionControl.swift; sourceTree = "<group>"; };
 		C34F71C029798C87003DB376 /* MeetingDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDateViewModel.swift; sourceTree = "<group>"; };
@@ -552,6 +564,7 @@
 		C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetListView.swift; sourceTree = "<group>"; };
 		C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
+		C3775E2329C61B9C003A812F /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		C383967529A25718005998A5 /* CreateScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleRequest.swift; sourceTree = "<group>"; };
 		C383967929A25A16005998A5 /* ScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleService.swift; sourceTree = "<group>"; };
 		C383967B29A25A3E005998A5 /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
@@ -575,6 +588,9 @@
 		C38A5BA8297C60A000485355 /* Ex+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UILabel.swift"; sourceTree = "<group>"; };
 		C38D65612987F0990052013F /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
 		C38D6565298852F80052013F /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNoneView.swift; sourceTree = "<group>"; };
+		C39E09B529C604DE00ECAD11 /* RecruitingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingFooterView.swift; sourceTree = "<group>"; };
+		C39E09B729C6089300ECAD11 /* RecruitingSectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingSectionFooterView.swift; sourceTree = "<group>"; };
 		C3AB743C296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPeopleNumberViewController.swift; sourceTree = "<group>"; };
 		C3AB743E296B21C1003DD5E2 /* MeetingDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDateViewController.swift; sourceTree = "<group>"; };
 		C3AB7440296B21E6003DD5E2 /* MeetingQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingQuestionViewController.swift; sourceTree = "<group>"; };
@@ -595,6 +611,10 @@
 		C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewModel.swift; sourceTree = "<group>"; };
 		C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingQuestionViewModel.swift; sourceTree = "<group>"; };
 		C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		C3E0390729C208B700C4744C /* RecruitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingViewController.swift; sourceTree = "<group>"; };
+		C3E0390929C2125700C4744C /* InquireApplicantResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireApplicantResponse.swift; sourceTree = "<group>"; };
+		C3E0390B29C21F0C00C4744C /* RecruitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingViewModel.swift; sourceTree = "<group>"; };
+		C3E0390E29C230F700C4744C /* RecruitingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingHeaderView.swift; sourceTree = "<group>"; };
 		C3E98EAC2974759800E36C45 /* MeetingNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingNameViewModel.swift; sourceTree = "<group>"; };
 		C3EB29C729A9040600615B6B /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		C3EB29CA29A91CC600615B6B /* MeetingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingScheduleViewModel.swift; sourceTree = "<group>"; };
@@ -1315,6 +1335,10 @@
 				C34F047C29C7045100E5B67E /* Setting */,
 				C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */,
 				C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */,
+				C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */,
+				C3100CBD29BD94DC005FCCAD /* Cell */,
+				C3100CBA29BD8A96005FCCAD /* Component */,
+				C3E0390629C2087000C4744C /* Recruiting */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -1323,6 +1347,7 @@
 			isa = PBXGroup;
 			children = (
 				C3100CBB29BD8ABB005FCCAD /* MyProfileView.swift */,
+				C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1333,6 +1358,16 @@
 				C3100CBE29BD94FF005FCCAD /* MyPageTableViewCell.swift */,
 				C3100CC229BD9ECD005FCCAD /* MyPageSectionHeaderView.swift */,
 				C3B3435029BDEE5100935B73 /* MyPageSectionFooterView.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C312AB5A29C366E30020C475 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C312AB5B29C367100020C475 /* RecruitingSectionHeaderView.swift */,
+				C312AB5D29C36E160020C475 /* RecruitingTableViewCell.swift */,
+				C39E09B729C6089300ECAD11 /* RecruitingSectionFooterView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1526,7 +1561,7 @@
 				C3AB743C296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift */,
 				C3AB7440296B21E6003DD5E2 /* MeetingQuestionViewController.swift */,
 				C385D10C2989462300EF88EC /* MeetingSummaryViewController.swift */,
-				C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */,
+				C34F048729C7203500E5B67E /* MeetingCreateSuccessViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1697,6 +1732,7 @@
 				70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */,
 				70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */,
 				702876BA299E4DBA00E57509 /* BookmarkAllResponse.swift */,
+				C3E0390929C2125700C4744C /* InquireApplicantResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1745,6 +1781,27 @@
 			isa = PBXGroup;
 			children = (
 				C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		C3E0390629C2087000C4744C /* Recruiting */ = {
+			isa = PBXGroup;
+			children = (
+				C3E0390729C208B700C4744C /* RecruitingViewController.swift */,
+				C3E0390B29C21F0C00C4744C /* RecruitingViewModel.swift */,
+				C312AB5A29C366E30020C475 /* Cell */,
+				C3E0390D29C230D900C4744C /* Component */,
+			);
+			path = Recruiting;
+			sourceTree = "<group>";
+		};
+		C3E0390D29C230D900C4744C /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C3E0390E29C230F700C4744C /* RecruitingHeaderView.swift */,
+				C39E09B529C604DE00ECAD11 /* RecruitingFooterView.swift */,
+				C3775E2329C61B9C003A812F /* CustomAlertView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1916,6 +1973,7 @@
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70A4209C2988B1DC0026E9F9 /* SortControl.swift in Sources */,
 				70A420A7298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift in Sources */,
+				C3E0390A29C2125700C4744C /* InquireApplicantResponse.swift in Sources */,
 				C3B3435629BE3A2200935B73 /* MyPageService.swift in Sources */,
 				C33952EF29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift in Sources */,
 				BA340E2429782321002BAF2C /* ParticipantListView.swift in Sources */,
@@ -1925,7 +1983,10 @@
 				BA72BCF029BB03FF007165E5 /* BaseNavigationController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				70727A2529C4C21A003DE956 /* CreateBoardViewModel.swift in Sources */,
+				C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
+				C3E0390F29C230F700C4744C /* RecruitingHeaderView.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
 				C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */,
 				BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */,
@@ -1956,9 +2017,12 @@
 				BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */,
 				C34F048429C715A800E5B67E /* SettingSubview.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
+				C39E09B629C604DE00ECAD11 /* RecruitingFooterView.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
-				C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */,
+				C39E09B829C6089300ECAD11 /* RecruitingSectionFooterView.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				70A420B429914B370026E9F9 /* AllCategoryListResponse.swift in Sources */,
 				C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */,
@@ -2002,6 +2066,7 @@
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
 				70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */,
 				70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */,
+				C312AB5C29C367100020C475 /* RecruitingSectionHeaderView.swift in Sources */,
 				C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
@@ -2078,10 +2143,13 @@
 				BAE2B362297C1D6C0000D5B9 /* AccountRouter.swift in Sources */,
 				C3622B4A29A7CFF0005EF09C /* AddScheduleControl.swift in Sources */,
 				702876B7299E429C00E57509 /* BookmarkViewController.swift in Sources */,
+				C3E0390829C208B700C4744C /* RecruitingViewController.swift in Sources */,
 				BA1D4A7D29A9EB0C00CBBCC6 /* BoardModel.swift in Sources */,
 				BAE2B364297C1D720000D5B9 /* AccountService.swift in Sources */,
 				C3ED8FB52989B189002F689B /* CreateMeetingRequest.swift in Sources */,
+				C312AB5E29C36E160020C475 /* RecruitingTableViewCell.swift in Sources */,
 				70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */,
+				C3E0390C29C21F0C00C4744C /* RecruitingViewModel.swift in Sources */,
 				BA6D7C5329A7D46900D8E928 /* CommentsRequest.swift in Sources */,
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
 				7028770729A8C9A100E57509 /* RecruitmentFilterViewModel.swift in Sources */,
@@ -2099,6 +2167,7 @@
 				C3EB29CB29A91CC600615B6B /* MeetingScheduleViewModel.swift in Sources */,
 				70A420BE29914B690026E9F9 /* RecruitmentQuestionResponse.swift in Sources */,
 				C34F048129C70FB900E5B67E /* SettingDetailSubView.swift in Sources */,
+				C39E09B429C5F3C100ECAD11 /* MyPageNoneView.swift in Sources */,
 				BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */,
 				705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
@@ -2157,6 +2226,7 @@
 				C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */,
 				702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
+				C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 				BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */,
 				702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */,
