@@ -218,7 +218,6 @@
 		C316051B2997936200D27488 /* GuestQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316051A2997936200D27488 /* GuestQuestionViewModel.swift */; };
 		C316051F2997F92200D27488 /* EditMeetingPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316051E2997F92200D27488 /* EditMeetingPostRequest.swift */; };
 		C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */; };
-		C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
 		C33952EF29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33952EE29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift */; };
 		C33EF37D29A1DFD100D7A5CA /* ScheduleAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */; };
@@ -234,6 +233,7 @@
 		C346B4AA29B1079900884E4F /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = C346B4A929B1079900884E4F /* FirebaseCrashlytics */; };
 		C346B4AC29B1079900884E4F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = C346B4AB29B1079900884E4F /* FirebaseMessaging */; };
 		C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */; };
+		C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F048729C7203500E5B67E /* MeetingCreateSuccessViewController.swift */; };
 		C34F07F3297DAFD900C91E90 /* AddQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F07F2297DAFD900C91E90 /* AddQuestionTableViewCell.swift */; };
 		C34F07F5297DB1DC00C91E90 /* AddQuestionControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */; };
 		C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F71C029798C87003DB376 /* MeetingDateViewModel.swift */; };
@@ -523,7 +523,6 @@
 		C316051A2997936200D27488 /* GuestQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestQuestionViewModel.swift; sourceTree = "<group>"; };
 		C316051E2997F92200D27488 /* EditMeetingPostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingPostRequest.swift; sourceTree = "<group>"; };
 		C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingQuestionRequest.swift; sourceTree = "<group>"; };
-		C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCreateSuccessViewController.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C33952EE29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantCollectionViewCell.swift; sourceTree = "<group>"; };
 		C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAlarmView.swift; sourceTree = "<group>"; };
@@ -536,6 +535,7 @@
 		C344E53E2986B938009F73A9 /* MeetingCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewController.swift; sourceTree = "<group>"; };
 		C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewModel.swift; sourceTree = "<group>"; };
 		C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBottomSheetViewController.swift; sourceTree = "<group>"; };
+		C34F048729C7203500E5B67E /* MeetingCreateSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingCreateSuccessViewController.swift; sourceTree = "<group>"; };
 		C34F07F2297DAFD900C91E90 /* AddQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		C34F07F4297DB1DC00C91E90 /* AddQuestionControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionControl.swift; sourceTree = "<group>"; };
 		C34F71C029798C87003DB376 /* MeetingDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDateViewModel.swift; sourceTree = "<group>"; };
@@ -1533,7 +1533,7 @@
 				C3AB743C296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift */,
 				C3AB7440296B21E6003DD5E2 /* MeetingQuestionViewController.swift */,
 				C385D10C2989462300EF88EC /* MeetingSummaryViewController.swift */,
-				C317F2B9298C1D15005703CE /* MeetingCreateSuccessViewController.swift */,
+				C34F048729C7203500E5B67E /* MeetingCreateSuccessViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1956,7 +1956,7 @@
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				70727A2529C4C21A003DE956 /* CreateBoardViewModel.swift in Sources */,
 				C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */,
-        701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
 				C3E0390F29C230F700C4744C /* RecruitingHeaderView.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
@@ -1992,9 +1992,9 @@
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
 				C39E09B829C6089300ECAD11 /* RecruitingSectionFooterView.swift in Sources */,
-				701A9C9C29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift in Sources */,
 				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
-				701A9C9C29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				70A420B429914B370026E9F9 /* AllCategoryListResponse.swift in Sources */,
 				C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */,
 				BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */,
@@ -2195,6 +2195,7 @@
 				C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */,
 				702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
+				C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 				BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */,
 				702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */,
