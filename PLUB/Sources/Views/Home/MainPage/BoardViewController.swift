@@ -78,6 +78,11 @@ final class BoardViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.selectPlubbingID.onNext(plubbingID)
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(collectionView)
