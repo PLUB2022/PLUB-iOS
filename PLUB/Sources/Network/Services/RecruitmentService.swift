@@ -41,4 +41,8 @@ extension RecruitmentService {
   func editMeetingQuestion(plubbingID: String, request: EditMeetingQuestionRequest) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.editMeetingQuestion(plubbingID, request))
   }
+  
+  func applyForRecruitment(plubbingID: Int, request: ApplyForRecruitmentRequest) -> PLUBResult<EmptyModel> {
+    return sendRequest(RecruitmentRouter.applyForRecruitment(plubbingID, request))
+  }
 }
