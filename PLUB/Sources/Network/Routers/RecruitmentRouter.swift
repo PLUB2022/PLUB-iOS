@@ -15,6 +15,7 @@ enum RecruitmentRouter {
   case requestBookmark(String)
   case editMeetingPost(String, EditMeetingPostRequest)
   case editMeetingQuestion(String, EditMeetingQuestionRequest)
+  case applyForRecruitment(Int)
 }
 
 extension RecruitmentRouter: Router {
@@ -22,7 +23,7 @@ extension RecruitmentRouter: Router {
     switch self {
     case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment:
       return .get
-    case .requestBookmark:
+    case .requestBookmark, .applyForRecruitment:
       return .post
     case .editMeetingPost, .editMeetingQuestion:
       return .put
@@ -45,6 +46,8 @@ extension RecruitmentRouter: Router {
       return "/plubbings/\(plubbingID)/recruit/questions"
     case .inquireAllBookmark:
       return "/plubbings/recruit/bookmarks/me"
+    case .applyForRecruitment(let plubbingID):
+      return "/plubbings/\(plubbingID)/recruit/applicants"
     }
   }
   

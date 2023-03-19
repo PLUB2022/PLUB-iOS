@@ -33,7 +33,7 @@ enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
   case recommendedMeeting
 }
 
-class HomeViewController: BaseViewController {
+final class HomeViewController: BaseViewController {
   
   private let viewModel: HomeViewModelType
   private var mainCategoryList: [MainCategory] = [] {
