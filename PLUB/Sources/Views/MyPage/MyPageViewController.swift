@@ -101,6 +101,9 @@ extension MyPageViewController {
   
   @objc
   private func didTappedSettingButton() {
+    let vc = SettingViewController()
+    vc.hidesBottomBarWhenPushed = true
+    navigationController?.pushViewController(vc, animated: true)
   }
 }
 
