@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 /// 메인페이지 탑 탭바 타입
-enum MainPageFilterType {
+enum MainPageFilterType: CaseIterable {
   case board
   case todoList
   
@@ -21,6 +21,15 @@ enum MainPageFilterType {
       return "게시글"
     case .todoList:
       return "그룹원 TO-DO 리스트"
+    }
+  }
+  
+  var buttonTitle: String {
+    switch self {
+    case .board:
+      return "+ 새 글 작성"
+    case .todoList:
+      return "to-do 추가"
     }
   }
 }
@@ -35,6 +44,8 @@ final class MainPageViewController: BaseViewController {
       pageViewController.setViewControllers(
         [viewControllers[currentPage]], direction: direction, animated: true
       )
+      
+      writeButton.configurationUpdateHandler = writeButton.configuration?.plubButton(label: MainPageFilterType.allCases[currentPage].buttonTitle)
     }
   }
   
@@ -74,7 +85,6 @@ final class MainPageViewController: BaseViewController {
   }
   
   private let writeButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "+ 새 글 작성")
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
   }
