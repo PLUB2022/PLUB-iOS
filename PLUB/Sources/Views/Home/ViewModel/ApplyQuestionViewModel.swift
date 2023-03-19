@@ -12,6 +12,7 @@ protocol ApplyQuestionViewModelType {
   // Input
   var whichQuestion: AnyObserver<QuestionStatus> { get }
   var whichRecruitment: AnyObserver<String> { get }
+  var whichApplyRequest: AnyObserver<ApplyForRecruitmentRequest> { get }
   
   // Output
   var allQuestion: Driver<[ApplyQuestionTableViewCellModel]> { get }
@@ -24,6 +25,7 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   // Input
   let whichQuestion: AnyObserver<QuestionStatus> // 어떤 질문에 대한 상태값이 변경됬는지
   let whichRecruitment: AnyObserver<String> // 지원질문조회를 위한 어떤 모집에 대한 ID인지
+  let whichApplyRequest: AnyObserver<ApplyForRecruitmentRequest> // 어떤 질문에 대한 답변을 입력할 것인지
   
   // Output
   let allQuestion: Driver<[ApplyQuestionTableViewCellModel]> // 특정 ID에 해당하는 모집에 관련된 질문 데이터
@@ -35,11 +37,28 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
     let currentQuestion = PublishSubject<QuestionStatus>()
     let isActivating = BehaviorSubject<Bool>(value: false)
     let entireQuestionStatus = PublishSubject<[QuestionStatus]>()
+    let whichApplyingRequest = PublishSubject<ApplyForRecruitmentRequest>()
+    let entireApplyRequest = BehaviorRelay<[ApplyForRecruitmentRequest]>(value: [])
     
     whichRecruitment = currentPlubbing.asObserver()
     allQuestion = questions.asDriver(onErrorJustReturn: [])
     whichQuestion = currentQuestion.asObserver()
     isActivated = isActivating.asDriver(onErrorJustReturn: false)
+    whichApplyRequest = whichApplyingRequest.asObserver()
+    
+    whichApplyingRequest.withLatestFrom(entireApplyRequest) { ($0, $1) }
+      .subscribe(onNext: { request, entire in
+        var entire = entire
+        if !entire.contains(request) {
+          entire.append(request)
+        } else {
+          let filterEntire = entire.filter { $0 != request }
+          entire.append(contentsOf: filterEntire)
+        }
+        print("전체 \(entire)")
+        entireApplyRequest.accept(entire)
+      })
+      .disposed(by: disposeBag)
     
     /// 받아온 질문들을 초기화된 각각의 textView에 대한 상태값을 저장
     questions.map { questionModels in
@@ -94,8 +113,4 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
 struct QuestionStatus: Equatable {
   let id: Int
   let isFilled: Bool
-  
-  static func == (lhs: QuestionStatus, rhs: QuestionStatus) -> Bool {
-    return lhs.id == rhs.id && lhs.isFilled == rhs.isFilled
-  }
 }

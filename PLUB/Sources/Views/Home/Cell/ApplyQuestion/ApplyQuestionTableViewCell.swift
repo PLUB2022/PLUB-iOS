@@ -20,6 +20,7 @@ struct ApplyQuestionTableViewCellModel {
 protocol ApplyQuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView)
   func whichQuestionChangedIn(_ status: QuestionStatus)
+  func whatQuestionAnswer(_ answer: ApplyForRecruitmentRequest)
 }
 
 final class ApplyQuestionTableViewCell: UITableViewCell {
@@ -96,12 +97,12 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
       .filter { $0 != Constants.placeHolder }
       .distinctUntilChanged()
       .skip(1)
-      .do(onNext: { print("text = \($0)") })
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
         owner.countLabel.text = "\(text.count)"
         owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
         owner.delegate?.whichQuestionChangedIn(QuestionStatus(id: owner.id ?? 0, isFilled: !text.isEmpty))
+        owner.delegate?.whatQuestionAnswer(ApplyForRecruitmentRequest(questionID: owner.id ?? 0, answer: text))
       })
       .disposed(by: disposeBag)
     

@@ -98,21 +98,21 @@ final class BoardViewController: BaseViewController {
   func bind(plubbingID: Int) {
     super.bind()
     
-    viewModel.selectPlubbingID.onNext(plubbingID)
-    
-    viewModel.fetchedMainpageClipboardViewModel
-      .drive(rx.clipboardModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.clipboardListIsEmpty
-      .drive(with: self) { owner, isEmpty in
-        owner.headerType = isEmpty ? .noClipboard : .clipboard
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.fetchedBoardModel
-      .drive(rx.boardModel)
-      .disposed(by: disposeBag)
+//    viewModel.selectPlubbingID.onNext(plubbingID)
+//    
+//    viewModel.fetchedMainpageClipboardViewModel
+//      .drive(rx.clipboardModel)
+//      .disposed(by: disposeBag)
+//    
+//    viewModel.clipboardListIsEmpty
+//      .drive(with: self) { owner, isEmpty in
+//        owner.headerType = isEmpty ? .noClipboard : .clipboard
+//      }
+//      .disposed(by: disposeBag)
+//    
+//    viewModel.fetchedBoardModel
+//      .drive(rx.boardModel)
+//      .disposed(by: disposeBag)
   }
   
   private func createCollectionViewSection() -> NSCollectionLayoutSection? {
@@ -128,7 +128,7 @@ final class BoardViewController: BaseViewController {
     let group = NSCollectionLayoutGroup.horizontal(
       layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(107)),
+        heightDimension: .absolute(114)),
       subitems: [item]
     )
     
