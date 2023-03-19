@@ -18,7 +18,7 @@
 		70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */; };
 		70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */; };
 		70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B802955A68C000503F6 /* CategoryInfoListView.swift */; };
-		701A9C9C29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701A9C9B29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift */; };
+		701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701A9C9B29B72656006F53C2 /* MainPageClipboardView.swift */; };
 		701A9C9E29BB2178006F53C2 /* BoardClipboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701A9C9D29BB2178006F53C2 /* BoardClipboardHeaderView.swift */; };
 		702876B1299B788400E57509 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B0299B788400E57509 /* NoticeViewController.swift */; };
 		702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */; };
@@ -41,6 +41,10 @@
 		705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820D29B1142800830C4F /* MainPageHeaderView.swift */; };
 		705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820F29B127DF00830C4F /* MainPageNavigationView.swift */; };
 		705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 705F821129B2FCEC00830C4F /* GoogleService-Info.plist */; };
+		70727A1F29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A1E29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift */; };
+		70727A2129BF8F2A003DE956 /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2029BF8F2A003DE956 /* Ex+Date.swift */; };
+		70727A2329C4A9E4003DE956 /* CreateBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2229C4A9E4003DE956 /* CreateBoardViewController.swift */; };
+		70727A2529C4C21A003DE956 /* CreateBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2429C4C21A003DE956 /* CreateBoardViewModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -328,7 +332,7 @@
 		70197B7C29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryFilterHeaderView.swift; sourceTree = "<group>"; };
 		70197B7E29549C56000503F6 /* SelectedCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewModel.swift; sourceTree = "<group>"; };
 		70197B802955A68C000503F6 /* CategoryInfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfoListView.swift; sourceTree = "<group>"; };
-		701A9C9B29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageClipboardCollectionViewCell.swift; sourceTree = "<group>"; };
+		701A9C9B29B72656006F53C2 /* MainPageClipboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageClipboardView.swift; sourceTree = "<group>"; };
 		701A9C9D29BB2178006F53C2 /* BoardClipboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardClipboardHeaderView.swift; sourceTree = "<group>"; };
 		702876B0299B788400E57509 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -351,6 +355,10 @@
 		705F820D29B1142800830C4F /* MainPageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageHeaderView.swift; sourceTree = "<group>"; };
 		705F820F29B127DF00830C4F /* MainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageNavigationView.swift; sourceTree = "<group>"; };
 		705F821129B2FCEC00830C4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		70727A1E29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSystemCollectionViewCell.swift; sourceTree = "<group>"; };
+		70727A2029BF8F2A003DE956 /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
+		70727A2229C4A9E4003DE956 /* CreateBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBoardViewController.swift; sourceTree = "<group>"; };
+		70727A2429C4C21A003DE956 /* CreateBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBoardViewModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -807,6 +815,7 @@
 				705F81BE29AF35B700830C4F /* MainPageViewController.swift */,
 				705F81C229AFAA3B00830C4F /* BoardViewController.swift */,
 				705F81C429AFAA5200830C4F /* TodolistViewController.swift */,
+				70727A2229C4A9E4003DE956 /* CreateBoardViewController.swift */,
 			);
 			path = MainPage;
 			sourceTree = "<group>";
@@ -814,8 +823,9 @@
 		705F81C629AFB1B600830C4F /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				701A9C9B29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift */,
+				701A9C9B29B72656006F53C2 /* MainPageClipboardView.swift */,
 				701A9C9D29BB2178006F53C2 /* BoardClipboardHeaderView.swift */,
+				70727A1E29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -825,6 +835,7 @@
 			children = (
 				705F81C029AF8E7300830C4F /* MainPageViewModel.swift */,
 				705F820829B0EE6600830C4F /* BoardViewModel.swift */,
+				70727A2429C4C21A003DE956 /* CreateBoardViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1060,6 +1071,7 @@
 				C38A5BA8297C60A000485355 /* Ex+UILabel.swift */,
 				70A4207F2982ED9C0026E9F9 /* Ex+String.swift */,
 				C383968029A26480005998A5 /* Ex+UIResponder.swift */,
+				70727A2029BF8F2A003DE956 /* Ex+Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1942,7 +1954,9 @@
 				C3B3435D29BE4A3000935B73 /* MyPlubbingParameter.swift in Sources */,
 				BA72BCF029BB03FF007165E5 /* BaseNavigationController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
+				70727A2529C4C21A003DE956 /* CreateBoardViewModel.swift in Sources */,
 				C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */,
+        701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
 				C3E0390F29C230F700C4744C /* RecruitingHeaderView.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
@@ -1955,6 +1969,7 @@
 				C385D10F29894BF200EF88EC /* CreateMeetingViewModel.swift in Sources */,
 				70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */,
 				BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */,
+				70727A1F29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift in Sources */,
 				701A9C9E29BB2178006F53C2 /* BoardClipboardHeaderView.swift in Sources */,
 				70CF333929992FA60077FF47 /* RecruitmentFilterSlider.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
@@ -1976,8 +1991,9 @@
 				C39E09B629C604DE00ECAD11 /* RecruitingFooterView.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
-				C317F2BA298C1D15005703CE /* MeetingCreateSuccessViewController.swift in Sources */,
 				C39E09B829C6089300ECAD11 /* RecruitingSectionFooterView.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift in Sources */,
+				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				701A9C9C29B72656006F53C2 /* MainPageClipboardCollectionViewCell.swift in Sources */,
 				70A420B429914B370026E9F9 /* AllCategoryListResponse.swift in Sources */,
 				C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */,
@@ -2076,6 +2092,7 @@
 				70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
+				70727A2129BF8F2A003DE956 /* Ex+Date.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				C361743129AF95E2006AEAB1 /* MyMeetingResponse.swift in Sources */,
 				702876C429A3752A00E57509 /* MeetingScheduleViewController.swift in Sources */,
@@ -2109,6 +2126,7 @@
 				7028770729A8C9A100E57509 /* RecruitmentFilterViewModel.swift in Sources */,
 				C3413E1729954910004B8DBD /* MeetingInfoViewController.swift in Sources */,
 				BA1FC12929A5FD3C00AB3F91 /* FeedsPaginatedDataResponse.swift in Sources */,
+				70727A2329C4A9E4003DE956 /* CreateBoardViewController.swift in Sources */,
 				C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
 				BAC5EF31298B6F2D00F3955E /* CongratulationViewController.swift in Sources */,

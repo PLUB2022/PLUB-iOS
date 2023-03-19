@@ -94,11 +94,14 @@ final class ClipboardViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    // 선택된 셀의 FeedContent와 댓글 정보를 가져오고
+    // BoardDetailViewController의 ViewModel에 전달하면서 navigation push 진행
     collectionView.rx.modelSelected(FeedsContent.self)
-      .debug()
       .subscribe(with: self) { owner, model in
-        print(model)
-        owner.navigationController?.pushViewController(BoardDetailViewController(viewModel: BoardDetailViewModel(content: model)), animated: true)
+        owner.navigationController?.pushViewController(
+          BoardDetailViewController(viewModel: BoardDetailViewModel(content: model)),
+          animated: true
+        )
       }
       .disposed(by: disposeBag)
   }

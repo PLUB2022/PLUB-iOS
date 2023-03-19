@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 
@@ -174,6 +175,27 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   private func setupStyles() {
     
   }
+  
+  func configure(with model: CommentContent) {
+    if let imageLink = model.profileImageURL, imageLink.isEmpty == false {
+      profileImageView.kf.setImage(with: URL(string: imageLink)!)
+    } else {
+      profileImageView.image = UIImage(named: "userDefaultImage")
+    }
+    commentLabel.text = model.content
+    authorLabel.text = model.nickname
+    // TODO: 승현 - 날짜 처리는 정확하게 정해지지 않음, 기획안 나오면 그 때 처리할 예정
+    datetimeLabel.text = "방금 전"
+    
+    
+    // reply process
+    replyImageView.isHidden = model.type == .normal
+    repliedAuthorLabel.isHidden = model.type == .normal
+    repliedAuthorLabel.text = "\(model.parentCommentNickname ?? "") 님에게 쓴 답글"
+    
+    // author process
+    authorIndicationView.isHidden = !model.isFeedAuthor
+  }
 }
 
 // MARK: - Dynamic Height Sizing
@@ -185,9 +207,9 @@ extension BoardDetailCollectionViewCell {
   ///   - targetSize: 원하는 view의 크기,
   ///   - comment: 댓글 내용
   /// - Returns: 댓글 내용이 전부 보일 정도의 대략적인 view의 크기
-  static func estimatedCommentCellSize(_ targetSize: CGSize, comment: String) -> CGSize {
+  static func estimatedCommentCellSize(_ targetSize: CGSize, commentContent: CommentContent) -> CGSize {
     let view = BoardDetailCollectionViewCell()
-    view.commentLabel.text = comment
+    view.configure(with: commentContent)
     return view.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
   }
 }

@@ -103,10 +103,10 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
-  ///   - page: 페이지 위치, 기본값은 1입니다.
-  func fetchComments(plubbingID: Int, feedID: Int, page: Int = 1) -> PLUBResult<FeedsPaginatedDataResponse<CommentContent>> {
+  ///   - nextCursorID: 다음에 요청할 커서 위치, 기본값은 0입니다.
+  func fetchComments(plubbingID: Int, feedID: Int, nextCursorID: Int = 0) -> PLUBResult<FeedsPaginatedDataResponse<CommentContent>> {
     sendRequest(
-      FeedsRouter.fetchComments(plubbingID: plubbingID, feedID: feedID, page: page),
+      FeedsRouter.fetchComments(plubbingID: plubbingID, feedID: feedID, cursorID: nextCursorID),
       type: FeedsPaginatedDataResponse<CommentContent>.self
     )
   }

@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 
@@ -199,10 +200,29 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
     
     boardsInfoStackView.setCustomSpacing(8, after: profileImageView)
     wholeStackView.setCustomSpacing(24, after: headerStackView)
-    
   }
   
   private func setupStyles() {
     backgroundColor = .white
+  }
+  
+  func configure(with model: BoardModel) {
+    if let imageLink = model.authorProfileImageLink, imageLink.isEmpty == false {
+      profileImageView.kf.setImage(with: URL(string: imageLink)!)
+    } else {
+      profileImageView.image = UIImage(named: "userDefaultImage")
+    }
+    authorLabel.text = model.author
+    dateLabel.text = DateFormatter().then { $0.dateFormat = "yyyy. MM. dd." }.string(from: model.date)
+    heartCountLabel.text = "\(model.likeCount)"
+    commentCountLabel.text = "\(model.commentCount)"
+    titleLabel.text = model.title
+    contentLabel.text = model.content
+    
+    contentImageView.isHidden = model.imageLink == nil
+    if let contentImageLink = model.imageLink, contentImageLink.isEmpty == false {
+      contentImageView.kf.setImage(with: URL(string: contentImageLink)!)
+    }
+    commentLabel.text = "달린 댓글 \(model.commentCount)"
   }
 }

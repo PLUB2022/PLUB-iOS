@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 /// 메인페이지 탑 탭바 타입
-enum MainPageFilterType {
+enum MainPageFilterType: CaseIterable {
   case board
   case todoList
   
@@ -23,9 +23,20 @@ enum MainPageFilterType {
       return "그룹원 TO-DO 리스트"
     }
   }
+  
+  var buttonTitle: String {
+    switch self {
+    case .board:
+      return "+ 새 글 작성"
+    case .todoList:
+      return "to-do 추가"
+    }
+  }
 }
 
 final class MainPageViewController: BaseViewController {
+  
+  private let plubbingID: Int
   
   var currentPage = 0 {
     didSet {
@@ -33,6 +44,8 @@ final class MainPageViewController: BaseViewController {
       pageViewController.setViewControllers(
         [viewControllers[currentPage]], direction: direction, animated: true
       )
+      
+      writeButton.configurationUpdateHandler = writeButton.configuration?.plubButton(label: MainPageFilterType.allCases[currentPage].buttonTitle)
     }
   }
   
@@ -62,7 +75,7 @@ final class MainPageViewController: BaseViewController {
     $0.dataSource = self
   }
   
-  private lazy var boardViewController = BoardViewController().then {
+  private lazy var boardViewController = BoardViewController(plubbingID: plubbingID).then {
     $0.delegate = self
   }
   private let todolistViewController = TodolistViewController()
@@ -72,7 +85,6 @@ final class MainPageViewController: BaseViewController {
   }
   
   private let writeButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "+ 새 글 작성")
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
   }
@@ -80,6 +92,15 @@ final class MainPageViewController: BaseViewController {
   private lazy var mainpageNavigationView = MainPageNavigationView().then {
     $0.axis = .horizontal
     $0.spacing = 4
+  }
+  
+  init(plubbingID: Int) {
+    self.plubbingID = plubbingID
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -151,6 +172,15 @@ final class MainPageViewController: BaseViewController {
       .asDriver()
       .drive(with: self) { owner, index in
         owner.currentPage = index
+      }
+      .disposed(by: disposeBag)
+    
+    writeButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let vc = CreateBoardViewController(plubbingID: owner.plubbingID)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.title = "요란한 밧줄"
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
   }
