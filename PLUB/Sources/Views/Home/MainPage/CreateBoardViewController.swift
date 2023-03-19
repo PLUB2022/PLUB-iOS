@@ -219,7 +219,7 @@ final class CreateBoardViewController: BaseViewController {
       .subscribe(with: self) { owner, _ in
         let bottomSheet = PhotoBottomSheetViewController()
         bottomSheet.modalPresentationStyle = .overFullScreen
-        bottomSheet.delegate = self
+        bottomSheet.delegate = owner
         owner.present(bottomSheet, animated: false)
       }
       .disposed(by: disposeBag)
