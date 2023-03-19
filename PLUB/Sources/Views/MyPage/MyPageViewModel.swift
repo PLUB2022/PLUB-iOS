@@ -41,6 +41,32 @@ final class MyPageViewModel {
     reloadData = reloadDataSubject.asDriver(onErrorDriveWith: .empty())
     reloadSection = reloadSectionSubject.asDriver(onErrorDriveWith: .empty())
     
+    sectionTappedSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, index in
+        owner.myPlubbing[index].isFolded.toggle()
+        owner.reloadSectionSubject.onNext(index)
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  func fetchMyInfoData() {
+    AccountService.shared.inquireMyInfo()
+      .withUnretained(self)
+      .subscribe(onNext: { owner, result in
+        switch result {
+        case .success(let model):
+          print(model)
+          guard let data = model.data else { return }
+          owner.myInfoSubject.onNext(data)
+        default:
+          break
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  func fetchMyPubbings() {
     let plubbingStatusTypes = PlubbingStatusType.allCases.map {
       return MyPageService.shared.inquireMyMeeting(
         status: $0,
@@ -72,30 +98,6 @@ final class MyPageViewModel {
         owner.reloadDataSubject.onNext(())
       }, onError: { error in
           print("")
-      })
-      .disposed(by: disposeBag)
-    
-    sectionTappedSubject
-      .withUnretained(self)
-      .subscribe(onNext: { owner, index in
-        owner.myPlubbing[index].isFolded.toggle()
-        owner.reloadSectionSubject.onNext(index)
-      })
-      .disposed(by: disposeBag)
-  }
-  
-  func fetchMyInfoData() {
-    AccountService.shared.inquireMyInfo()
-      .withUnretained(self)
-      .subscribe(onNext: { owner, result in
-        switch result {
-        case .success(let model):
-          print(model)
-          guard let data = model.data else { return }
-          owner.myInfoSubject.onNext(data)
-        default:
-          break
-        }
       })
       .disposed(by: disposeBag)
   }
