@@ -21,6 +21,12 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   private let disposeBag = DisposeBag()
   weak var delegate: BoardClipboardHeaderViewDelegate?
   
+  private let contentView = UIView().then {
+    $0.backgroundColor = .white
+    $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
+  }
+  
   private let horizontalStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 4
@@ -79,15 +85,20 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
-    backgroundColor = .white
-    layer.masksToBounds = true
-    layer.cornerRadius = 10
+    backgroundColor = .background
+    
+    addSubview(contentView)
+    contentView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(8)
+    }
+    
     [pinImageView, clipboardLabel, clipboardButton].forEach { horizontalStackView.addArrangedSubview($0) }
     pinImageView.snp.makeConstraints {
       $0.size.equalTo(24)
     }
     
-    [horizontalStackView, entireStackView].forEach { addSubview($0) }
+    [horizontalStackView, entireStackView].forEach { contentView.addSubview($0) }
     
     clipboardButton.snp.makeConstraints {
       $0.size.equalTo(32)

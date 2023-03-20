@@ -38,7 +38,15 @@ final class BoardViewController: BaseViewController {
     }
   }
   
-  private var boardModel: [BoardModel] = [] {
+  private var boardModel: [BoardModel] = [
+    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
+    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "asdasd", content: ""),
+    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
+    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
+    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
+    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
+    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: "")
+  ] {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -52,9 +60,8 @@ final class BoardViewController: BaseViewController {
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-      guard let self = self else { return nil }
-      return self.createCollectionViewSection()
+    collectionViewLayout: UICollectionViewFlowLayout().then {
+      $0.minimumLineSpacing = 8
     }
   ).then {
     $0.backgroundColor = .background
@@ -64,7 +71,7 @@ final class BoardViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
     $0.bounces = false
-    $0.contentInset = .init(top: 16, left: .zero, bottom: .zero, right: .zero)
+    $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
   }
   
   init(viewModel: BoardViewModelType = BoardViewModel(), plubbingID: Int) {
@@ -98,21 +105,21 @@ final class BoardViewController: BaseViewController {
   func bind(plubbingID: Int) {
     super.bind()
     
-//    viewModel.selectPlubbingID.onNext(plubbingID)
-//    
-//    viewModel.fetchedMainpageClipboardViewModel
-//      .drive(rx.clipboardModel)
-//      .disposed(by: disposeBag)
-//    
-//    viewModel.clipboardListIsEmpty
-//      .drive(with: self) { owner, isEmpty in
-//        owner.headerType = isEmpty ? .noClipboard : .clipboard
-//      }
-//      .disposed(by: disposeBag)
-//    
-//    viewModel.fetchedBoardModel
-//      .drive(rx.boardModel)
-//      .disposed(by: disposeBag)
+    //    viewModel.selectPlubbingID.onNext(plubbingID)
+    //
+    //    viewModel.fetchedMainpageClipboardViewModel
+    //      .drive(rx.clipboardModel)
+    //      .disposed(by: disposeBag)
+    //
+    //    viewModel.clipboardListIsEmpty
+    //      .drive(with: self) { owner, isEmpty in
+    //        owner.headerType = isEmpty ? .noClipboard : .clipboard
+    //      }
+    //      .disposed(by: disposeBag)
+    //
+    //    viewModel.fetchedBoardModel
+    //      .drive(rx.boardModel)
+    //      .disposed(by: disposeBag)
   }
   
   private func createCollectionViewSection() -> NSCollectionLayoutSection? {
@@ -200,6 +207,40 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     header.configureUI(with: clipboardModel)
     header.delegate = self
     return header
+  }
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    switch headerType {
+    case .clipboard:
+      return .init(top: 16, left: 16, bottom: .zero, right: 16)
+    case .noClipboard:
+      return .init(top: .zero, left: 16, bottom: 16, right: 16)
+    }
+  }
+}
+
+extension BoardViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let boardModel = boardModel[indexPath.row]
+    switch boardModel.type {
+    case .photo:
+      return CGSize(width: collectionView.frame.width - 32, height: 305)
+    default:
+      return CGSize(width: collectionView.frame.width - 32, height: 114)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    switch headerType {
+    case .noClipboard:
+      return .zero
+    case .clipboard:
+      return CGSize(width: collectionView.frame.width - 32, height: 260 + 8)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 8
   }
 }
 
