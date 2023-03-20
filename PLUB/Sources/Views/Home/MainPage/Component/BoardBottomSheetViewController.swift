@@ -23,14 +23,14 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
     $0.layoutMargins = .init(top: 24, left: 16, bottom: 24, right: 16)
   }
   
-  private let clipboardFixView = PhotoBottomSheetListView(text: "클립보드에 고정", image: "camera")
-  private let modifyBoardView = PhotoBottomSheetListView(text: "게시글 수정", image: "camera")
-  private let reportBoardView = PhotoBottomSheetListView(text: "게시글 신고", image: "camera")
-  private let deleteBoardView = PhotoBottomSheetListView(text: "게시글 삭제", image: "camera")
+  private let clipboardFixView = PhotoBottomSheetListView(text: "클립보드에 고정", image: "pinBlack")
+  private let modifyBoardView = PhotoBottomSheetListView(text: "게시글 수정", image: "editBlack")
+  private let reportBoardView = PhotoBottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
+  private let deleteBoardView = PhotoBottomSheetListView(text: "게시글 삭제", image: "trashRed")
   
   override func setupLayouts() {
     super.setupLayouts()
-    [deleteBoardView, reportBoardView, modifyBoardView, clipboardFixView].forEach {
+    [clipboardFixView, modifyBoardView, reportBoardView, deleteBoardView].forEach {
       $0.snp.makeConstraints {
         $0.height.equalTo(52)
       }
