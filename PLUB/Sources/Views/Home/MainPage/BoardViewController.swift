@@ -40,9 +40,9 @@ final class BoardViewController: BaseViewController {
   
   private var boardModel: [BoardModel] = [
     BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 0, viewType: .pin, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "asdasd", content: ""),
-    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
+    BoardModel(feedID: 1, viewType: .pin, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "asdasd", content: ""),
+    BoardModel(feedID: 2, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
+    BoardModel(feedID: 3, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
     BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
     BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
     BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: "")
@@ -78,7 +78,6 @@ final class BoardViewController: BaseViewController {
     $0.minimumPressDuration = 0.5
     $0.delegate = self
     $0.delaysTouchesBegan = true
-//    collectionView.addGestureRecognizer(longPressedGesture)
   }
   
   init(viewModel: BoardViewModelType = BoardViewModel(), plubbingID: Int) {
@@ -135,22 +134,24 @@ final class BoardViewController: BaseViewController {
   }
   
   @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-          
-          let location = gestureRecognizer.location(in: collectionView)
-          // let collectionView = gestureRecognizer.view as! UICollectionView
-          
-          if gestureRecognizer.state == .began {
-            guard let indexPath = collectionView.indexPathForItem(at: location) else { return }
-            let bottomSheet = BoardBottomSheetViewController()
-            bottomSheet.modalPresentationStyle = .overFullScreen
-            present(bottomSheet, animated: false)
-              // 롱 프레스 터치가 시작될 떄
-          } else if gestureRecognizer.state == .ended {
-              // 롱 프레스 터치가 끝날 떄
-          } else {
-              return
-          }
-      }
+    
+    let location = gestureRecognizer.location(in: collectionView)
+    guard let indexPath = collectionView.indexPathForItem(at: location),
+          let cell = collectionView.cellForItem(at: indexPath) as? BoardCollectionViewCell else { return }
+    
+    if gestureRecognizer.state == .began {
+      let bottomSheet = BoardBottomSheetViewController()
+      bottomSheet.modalPresentationStyle = .overFullScreen
+      present(bottomSheet, animated: false)
+      // 롱 프레스 터치가 시작될 떄
+    } else if gestureRecognizer.state == .ended {
+      // 롱 프레스 터치가 끝날 떄
+      let feedID = boardModel[indexPath.row].feedID
+      print("피드 \(feedID)")
+    } else {
+      return
+    }
+  }
   
 }
 
