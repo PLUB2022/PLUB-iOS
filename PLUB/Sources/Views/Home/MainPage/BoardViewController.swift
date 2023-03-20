@@ -122,44 +122,6 @@ final class BoardViewController: BaseViewController {
     //      .disposed(by: disposeBag)
   }
   
-  private func createCollectionViewSection() -> NSCollectionLayoutSection? {
-    let item = NSCollectionLayoutItem(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .fractionalHeight(1)
-      )
-    )
-    
-    item.contentInsets = .init(top: .zero, leading: .zero, bottom: 8, trailing: .zero)
-    
-    let group = NSCollectionLayoutGroup.horizontal(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(114)),
-      subitems: [item]
-    )
-    
-    let section = NSCollectionLayoutSection(group: group)
-    section.orthogonalScrollingBehavior = .none
-    
-    switch headerType {
-    case .clipboard:
-      let header = NSCollectionLayoutBoundarySupplementaryItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(260)
-        ),
-        elementKind: UICollectionView.elementKindSectionHeader,
-        alignment: .top
-      )
-      section.boundarySupplementaryItems = [header]
-      section.contentInsets = .init(top: 16, leading: 16, bottom: .zero, trailing: 16)
-    case .noClipboard:
-      section.boundarySupplementaryItems = []
-      section.contentInsets = .init(top: .zero, leading: 16, bottom: 16, trailing: 16)
-    }
-    return section
-  }
 }
 
 extension BoardViewController: UIScrollViewDelegate {
