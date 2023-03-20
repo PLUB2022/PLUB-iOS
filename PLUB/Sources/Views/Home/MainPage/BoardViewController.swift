@@ -40,7 +40,7 @@ final class BoardViewController: BaseViewController {
   
   private var boardModel: [BoardModel] = [
     BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "asdasd", content: ""),
+    BoardModel(feedID: 0, viewType: .pin, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "asdasd", content: ""),
     BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
     BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
     BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
@@ -74,6 +74,13 @@ final class BoardViewController: BaseViewController {
     $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
   }
   
+  private lazy var longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:))).then {
+    $0.minimumPressDuration = 0.5
+    $0.delegate = self
+    $0.delaysTouchesBegan = true
+//    collectionView.addGestureRecognizer(longPressedGesture)
+  }
+  
   init(viewModel: BoardViewModelType = BoardViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
     self.plubbingID = plubbingID
@@ -88,6 +95,11 @@ final class BoardViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     viewModel.selectPlubbingID.onNext(plubbingID)
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    collectionView.addGestureRecognizer(longPressedGesture)
   }
   
   override func setupLayouts() {
@@ -121,6 +133,22 @@ final class BoardViewController: BaseViewController {
     //      .drive(rx.boardModel)
     //      .disposed(by: disposeBag)
   }
+  
+  @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+          
+          let location = gestureRecognizer.location(in: collectionView)
+          // let collectionView = gestureRecognizer.view as! UICollectionView
+          
+          if gestureRecognizer.state == .began {
+            guard let indexPath = collectionView.indexPathForItem(at: location) else { return }
+            
+              // 롱 프레스 터치가 시작될 떄
+          } else if gestureRecognizer.state == .ended {
+              // 롱 프레스 터치가 끝날 떄
+          } else {
+              return
+          }
+      }
   
 }
 
@@ -214,3 +242,6 @@ extension BoardViewController: BoardClipboardHeaderViewDelegate {
   }
 }
 
+extension BoardViewController: UIGestureRecognizerDelegate {
+  
+}
