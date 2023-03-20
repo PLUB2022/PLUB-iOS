@@ -141,7 +141,9 @@ final class BoardViewController: BaseViewController {
           
           if gestureRecognizer.state == .began {
             guard let indexPath = collectionView.indexPathForItem(at: location) else { return }
-            
+            let bottomSheet = BoardBottomSheetViewController()
+            bottomSheet.modalPresentationStyle = .overFullScreen
+            present(bottomSheet, animated: false)
               // 롱 프레스 터치가 시작될 떄
           } else if gestureRecognizer.state == .ended {
               // 롱 프레스 터치가 끝날 떄
