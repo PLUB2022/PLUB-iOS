@@ -26,7 +26,7 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
   private let clipboardFixView = PhotoBottomSheetListView(text: "클립보드에 고정", image: "pinBlack")
   private let modifyBoardView = PhotoBottomSheetListView(text: "게시글 수정", image: "editBlack")
   private let reportBoardView = PhotoBottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
-  private let deleteBoardView = PhotoBottomSheetListView(text: "게시글 삭제", image: "trashRed")
+  private let deleteBoardView = PhotoBottomSheetListView(text: "게시글 삭제", image: "trashRed", textColor: .error)
   
   override func setupLayouts() {
     super.setupLayouts()
