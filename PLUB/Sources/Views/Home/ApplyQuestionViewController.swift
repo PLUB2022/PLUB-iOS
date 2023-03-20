@@ -74,17 +74,17 @@ final class ApplyQuestionViewController: BaseViewController {
     
     questionHeaderView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(Device.navigationBarHeight)
-      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+      $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.height.lessThanOrEqualTo(120)
     }
     
     questionTableView.snp.makeConstraints {
       $0.top.equalTo(questionHeaderView.snp.bottom).offset(37.5)
-      $0.leading.trailing.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
     
     applyButton.snp.makeConstraints {
-      $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+      $0.directionalHorizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
       $0.bottom.equalToSuperview()
       $0.height.equalTo(46)
     }
@@ -136,21 +136,14 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
     return cell
   }
   
-  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return .leastNonzeroMagnitude
-  }
-  
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
   }
   
   func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 100
+    return 86 + 16
   }
-  
-  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    return .leastNonzeroMagnitude
-  }
+
 }
 
 extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {

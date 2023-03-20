@@ -61,7 +61,7 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
       .skip(1)
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
-        owner.delegate?.updateHeightOfRow(owner, owner.questionTextView.textView)
+//        owner.delegate?.updateHeightOfRow(owner, owner.questionTextView.textView)
         owner.delegate?.whichQuestionChangedIn(QuestionStatus(id: owner.id ?? 0, isFilled: !text.isEmpty))
         owner.delegate?.whatQuestionAnswer(ApplyForRecruitmentRequest(questionID: owner.id ?? 0, answer: text))
       })
