@@ -21,11 +21,13 @@ final class PhotoBottomSheetListView: UIView {
 
   init(
     text: String,
-    image: String
+    image: String,
+    textColor: UIColor = .black
   ) {
     super.init(frame: .zero)
     
     label.text = text
+    label.textColor = textColor
     imageView.image = UIImage(named: image)
     
     setupLayouts()
