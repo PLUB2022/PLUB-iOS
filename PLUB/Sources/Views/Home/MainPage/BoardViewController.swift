@@ -74,7 +74,10 @@ final class BoardViewController: BaseViewController {
     $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
   }
   
-  private lazy var longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:))).then {
+  private lazy var longPressedGesture = UILongPressGestureRecognizer(
+    target: self,
+    action: #selector(handleLongPress(gestureRecognizer:))
+  ).then {
     $0.minimumPressDuration = 0.5
     $0.delegate = self
     $0.delaysTouchesBegan = true
@@ -140,16 +143,14 @@ final class BoardViewController: BaseViewController {
           let cell = collectionView.cellForItem(at: indexPath) as? BoardCollectionViewCell else { return }
     
     if gestureRecognizer.state == .began {
+      // 롱 프레스 터치가 시작될 떄
       let bottomSheet = BoardBottomSheetViewController()
       bottomSheet.modalPresentationStyle = .overFullScreen
       present(bottomSheet, animated: false)
-      // 롱 프레스 터치가 시작될 떄
     } else if gestureRecognizer.state == .ended {
       // 롱 프레스 터치가 끝날 떄
-      let feedID = boardModel[indexPath.row].feedID
+      guard let feedID = cell.feedID else { return }
       print("피드 \(feedID)")
-    } else {
-      return
     }
   }
   
