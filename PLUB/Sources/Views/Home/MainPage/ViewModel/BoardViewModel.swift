@@ -122,7 +122,7 @@ final class BoardViewModel: BoardViewModelType {
     
     let successRequestDeleteFeed = requestDeleteFeed.compactMap { result -> Void? in
       print("삭제 결과 \(result)")
-      guard case .success(let _) = result else { return nil }
+      guard case .success(_) = result else { return nil }
       return ()
     }
     

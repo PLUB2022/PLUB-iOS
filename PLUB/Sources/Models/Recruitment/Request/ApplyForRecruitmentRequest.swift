@@ -17,6 +17,6 @@ struct ApplyForRecruitmentRequest: Codable, Equatable {
   }
   
   static func == (lhs: Self, rhs: Self) -> Bool {
-    return lhs.questionID == rhs.questionID && lhs.answer == rhs.answer
+    return lhs.questionID == rhs.questionID
   }
 }

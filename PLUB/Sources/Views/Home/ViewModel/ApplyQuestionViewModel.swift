@@ -46,17 +46,19 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
     isActivated = isActivating.asDriver(onErrorJustReturn: false)
     whichApplyRequest = whichApplyingRequest.asObserver()
     
-    whichApplyingRequest.withLatestFrom(entireApplyRequest) { ($0, $1) }
-      .subscribe(onNext: { request, entire in
-        var entire = entire
+    whichApplyingRequest
+      .subscribe(onNext: { request in
+        var entire = entireApplyRequest.value
         if !entire.contains(request) {
+          print("겹치지않아요")
           entire.append(request)
+          entireApplyRequest.accept(entire)
         } else {
-          let filterEntire = entire.filter { $0 != request }
-          entire.append(contentsOf: filterEntire)
+          print("겹쳐요")
+          var filterEntire = entire.filter { $0 != request }
+          filterEntire.append(request)
+          entireApplyRequest.accept(filterEntire)
         }
-        print("전체 \(entire)")
-        entireApplyRequest.accept(entire)
       })
       .disposed(by: disposeBag)
     

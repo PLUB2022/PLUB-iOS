@@ -34,61 +34,23 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
   private let disposeBag = DisposeBag()
   private var id: Int?
   
-  public weak var delegate: ApplyQuestionTableViewCellDelegate?
+  weak var delegate: ApplyQuestionTableViewCellDelegate?
   
   private let containerView = UIView().then {
     $0.backgroundColor = .clear
   }
   
-  private let questionLabel = UILabel().then {
-    $0.font = .body1
-    $0.textColor = .black
-  }
-  
-  private let questionTextView = UITextView().then {
-    $0.textColor = .deepGray
-    $0.backgroundColor = .white
-    $0.font = .body2
-    $0.layer.cornerRadius = 8
-    $0.layer.masksToBounds = true
-    $0.isScrollEnabled = false
-  }
-  
-  private let countLabel = UILabel().then {
-    $0.textColor = .mediumGray
-    $0.font = .overLine
-    $0.text = "0"
-    $0.sizeToFit()
-  }
-  
-  private let maxCountLabel = UILabel().then {
-    $0.textColor = .deepGray
-    $0.font = .overLine
-    $0.text = "/300"
-    $0.sizeToFit()
-  }
+  private let questionTextView = InputTextView(title: "", placeHolder: Constants.placeHolder, options: [.textCount])
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
     
-    questionTextView.rx.didBeginEditing
+    questionTextView.textView.rx.didEndEditing
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        if owner.questionTextView.text == Constants.placeHolder {
-          owner.questionTextView.text = nil
-          owner.questionTextView.textColor = .black
-        }
-      })
-      .disposed(by: disposeBag)
-    
-    questionTextView.rx.didEndEditing
-      .withUnretained(self)
-      .subscribe(onNext: { owner, _ in
-        if owner.questionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-          owner.questionTextView.textColor = .deepGray
-          owner.questionTextView.text = Constants.placeHolder
-          owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
+        if owner.questionTextView.textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+          owner.delegate?.updateHeightOfRow(owner, owner.questionTextView.textView)
         }
       })
       .disposed(by: disposeBag)
@@ -99,14 +61,12 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
       .skip(1)
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
-        owner.countLabel.text = "\(text.count)"
-        owner.delegate?.updateHeightOfRow(owner, owner.questionTextView)
+        owner.delegate?.updateHeightOfRow(owner, owner.questionTextView.textView)
         owner.delegate?.whichQuestionChangedIn(QuestionStatus(id: owner.id ?? 0, isFilled: !text.isEmpty))
         owner.delegate?.whatQuestionAnswer(ApplyForRecruitmentRequest(questionID: owner.id ?? 0, answer: text))
       })
       .disposed(by: disposeBag)
-    
-    questionTextView.rx.setDelegate(self).disposed(by: disposeBag)
+
   }
   
   required init?(coder: NSCoder) {
@@ -114,52 +74,23 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .secondarySystemBackground
+    contentView.backgroundColor = .background
     contentView.addSubview(containerView)
-    [questionLabel, questionTextView, countLabel, maxCountLabel].forEach { containerView.addSubview($0) }
     
     containerView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
     
-    questionLabel.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(20)
-      $0.height.equalTo(19)
-    }
-    
+    containerView.addSubview(questionTextView)
     questionTextView.snp.makeConstraints {
-      $0.top.equalTo(questionLabel.snp.bottom)
-      $0.leading.trailing.equalTo(questionLabel)
-      $0.bottom.equalTo(containerView).offset(-50)
-    }
-    
-    maxCountLabel.snp.makeConstraints {
-      $0.trailing.equalTo(questionTextView)
-      $0.top.equalTo(questionTextView.snp.bottom)
-    }
-    
-    countLabel.snp.makeConstraints {
-      $0.centerY.equalTo(maxCountLabel)
-      $0.trailing.equalTo(maxCountLabel.snp.leading)
+      $0.top.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.bottom.equalToSuperview().inset(16)
     }
   }
   
   public func configureUI(with model: ApplyQuestionTableViewCellModel) {
-    questionLabel.text = model.question
-    questionTextView.text = Constants.placeHolder
     self.id = model.id
-  }
-}
-
-extension ApplyQuestionTableViewCell: UITextViewDelegate {
-  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-    let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-    let numberOfChars = newText.count
-    
-    if(numberOfChars > 300){
-      return false
-    }
-    return true
+    questionTextView.setTitleText(text: model.question)
   }
 }
