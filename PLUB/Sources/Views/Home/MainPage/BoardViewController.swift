@@ -134,6 +134,18 @@ final class BoardViewController: BaseViewController {
     //    viewModel.fetchedBoardModel
     //      .drive(rx.boardModel)
     //      .disposed(by: disposeBag)
+    
+    viewModel.isPinnedFeed
+      .drive(onNext: { isPinned in
+        print("고정 성공 !! \(isPinned)")
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.successDeleteFeed
+      .drive(onNext: { success in
+        print("해당 게시글 삭제 성공")
+      })
+      .disposed(by: disposeBag)
   }
   
   @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
@@ -146,11 +158,12 @@ final class BoardViewController: BaseViewController {
       // 롱 프레스 터치가 시작될 떄
       let bottomSheet = BoardBottomSheetViewController()
       bottomSheet.modalPresentationStyle = .overFullScreen
+      bottomSheet.delegate = self
       present(bottomSheet, animated: false)
     } else if gestureRecognizer.state == .ended {
       // 롱 프레스 터치가 끝날 떄
       guard let feedID = cell.feedID else { return }
-      print("피드 \(feedID)")
+      viewModel.selectFeedID.onNext(feedID)
     }
   }
   
@@ -246,6 +259,26 @@ extension BoardViewController: BoardClipboardHeaderViewDelegate {
   }
 }
 
+extension BoardViewController: BoardBottomSheetDelegate {
+  func selectedBoardSheetType(type: BoardBottomSheetType) {
+    switch type {
+    case .fix:
+      print("탭")
+      viewModel.selectFix.onNext(())
+    case .modify:
+      viewModel.selectFix.onNext(())
+    case .report:
+      viewModel.selectFix.onNext(())
+    case .delete:
+      print("삭제 탭")
+      viewModel.selectDelete.onNext(())
+    }
+    dismiss(animated: false)
+  }
+  
+}
+
 extension BoardViewController: UIGestureRecognizerDelegate {
   
 }
+

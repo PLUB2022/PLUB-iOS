@@ -7,10 +7,24 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
+protocol BoardBottomSheetDelegate: AnyObject {
+  func selectedBoardSheetType(type: BoardBottomSheetType)
+}
+
+enum BoardBottomSheetType {
+  case fix // 클립보드 고정
+  case modify // 게시글 수정
+  case report // 게시글 신고
+  case delete // 게시글 삭제
+}
+
 final class BoardBottomSheetViewController: BottomSheetViewController {
+  
+  weak var delegate: BoardBottomSheetDelegate?
   
   private let grabber = UIView().then {
     $0.backgroundColor = .mediumGray
@@ -54,5 +68,32 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
       $0.top.equalTo(grabber.snp.bottom)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
+  }
+  
+  override func bind() {
+    super.bind()
+    clipboardFixView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.selectedBoardSheetType(type: .fix)
+      }
+      .disposed(by: disposeBag)
+    
+    modifyBoardView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.selectedBoardSheetType(type: .modify)
+      }
+      .disposed(by: disposeBag)
+    
+    reportBoardView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.selectedBoardSheetType(type: .report)
+      }
+      .disposed(by: disposeBag)
+    
+    deleteBoardView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.selectedBoardSheetType(type: .delete)
+      }
+      .disposed(by: disposeBag)
   }
 }
