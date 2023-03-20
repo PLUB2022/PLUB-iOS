@@ -42,7 +42,7 @@ extension RecruitmentService {
     return sendRequest(RecruitmentRouter.editMeetingQuestion(plubbingID, request))
   }
   
-  func applyForRecruitment(plubbingID: Int, request: ApplyForRecruitmentRequest) -> PLUBResult<EmptyModel> {
+  func applyForRecruitment(plubbingID: String, request: [ApplyForRecruitmentRequest]) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.applyForRecruitment(plubbingID, request))
   }
 }

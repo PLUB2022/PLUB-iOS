@@ -13,10 +13,12 @@ protocol ApplyQuestionViewModelType {
   var whichQuestion: AnyObserver<QuestionStatus> { get }
   var whichRecruitment: AnyObserver<String> { get }
   var whichApplyRequest: AnyObserver<ApplyForRecruitmentRequest> { get }
+  var selectApply: AnyObserver<Void> { get }
   
   // Output
   var allQuestion: Driver<[ApplyQuestionTableViewCellModel]> { get }
   var isActivated: Driver<Bool> { get }
+  var isSuccessApply: Driver<Void> { get }
 }
 
 // TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
@@ -26,35 +28,70 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   let whichQuestion: AnyObserver<QuestionStatus> // 어떤 질문에 대한 상태값이 변경됬는지
   let whichRecruitment: AnyObserver<String> // 지원질문조회를 위한 어떤 모집에 대한 ID인지
   let whichApplyRequest: AnyObserver<ApplyForRecruitmentRequest> // 어떤 질문에 대한 답변을 입력할 것인지
+  let selectApply: AnyObserver<Void>
   
   // Output
   let allQuestion: Driver<[ApplyQuestionTableViewCellModel]> // 특정 ID에 해당하는 모집에 관련된 질문 데이터
   let isActivated: Driver<Bool> // [지원하기]버튼의 사용가능 유무
+  let isSuccessApply: Driver<Void>
   
   init() {
-    let currentPlubbing = PublishSubject<String>()
+    let currentPlubbing = BehaviorSubject<String>(value: "")
     let questions = BehaviorRelay<[ApplyQuestionTableViewCellModel]>(value: [])
     let currentQuestion = PublishSubject<QuestionStatus>()
     let isActivating = BehaviorSubject<Bool>(value: false)
     let entireQuestionStatus = PublishSubject<[QuestionStatus]>()
     let whichApplyingRequest = PublishSubject<ApplyForRecruitmentRequest>()
     let entireApplyRequest = BehaviorRelay<[ApplyForRecruitmentRequest]>(value: [])
+    let selectingApply = PublishSubject<Void>()
     
     whichRecruitment = currentPlubbing.asObserver()
     allQuestion = questions.asDriver(onErrorJustReturn: [])
     whichQuestion = currentQuestion.asObserver()
     isActivated = isActivating.asDriver(onErrorJustReturn: false)
     whichApplyRequest = whichApplyingRequest.asObserver()
+    selectApply = selectingApply.asObserver()
+    
+    let fetchingQuestions = currentPlubbing
+      .flatMapLatest(RecruitmentService.shared.inquireRecruitmentQuestion(plubbingID: ))
+    
+    let successFetching = fetchingQuestions.compactMap { result -> RecruitmentQuestionResponse? in
+      guard case .success(let response) = result else { return nil }
+      return response.data
+    }
+    
+    successFetching.map { response in
+      let data = response.questions.map { question in
+        return ApplyQuestionTableViewCellModel(id: question.id, question: question.question)
+      }
+      return data
+    }
+    .bind(to: questions)
+    .disposed(by: disposeBag)
+    
+    let requestApplyForRecruitment = selectingApply.withLatestFrom(
+      Observable.combineLatest(
+        currentPlubbing,
+        entireApplyRequest
+      )
+    )
+      .flatMapLatest { plubbingID, request in
+        return RecruitmentService.shared.applyForRecruitment(plubbingID: plubbingID, request: request)
+      }
+    
+    let successApplyForRecruitment = requestApplyForRecruitment.compactMap { result -> Void? in
+      print("결과 \(result)")
+      guard case .success(_) = result else { return nil }
+      return ()
+    }
     
     whichApplyingRequest
       .subscribe(onNext: { request in
         var entire = entireApplyRequest.value
         if !entire.contains(request) {
-          print("겹치지않아요")
           entire.append(request)
           entireApplyRequest.accept(entire)
         } else {
-          print("겹쳐요")
           var filterEntire = entire.filter { $0 != request }
           filterEntire.append(request)
           entireApplyRequest.accept(filterEntire)
@@ -72,7 +109,9 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
     .disposed(by: disposeBag)
     
     /// 특정 질문에 관련된 상태값이 변경될때마다 해당 질문에 대한 정보를 변경
-    currentQuestion.distinctUntilChanged().withLatestFrom(entireQuestionStatus) { ($0, $1) }
+    currentQuestion
+      .distinctUntilChanged()
+      .withLatestFrom(entireQuestionStatus) { ($0, $1) }
       .subscribe(onNext: { (currentStatus, entireStatus) in
         let entireStatus = entireStatus.map { status -> QuestionStatus in
           if status.id == currentStatus.id {
@@ -93,22 +132,8 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
       })
       .disposed(by: disposeBag)
     
-    let fetchingQuestions = currentPlubbing
-      .flatMapLatest(RecruitmentService.shared.inquireRecruitmentQuestion(plubbingID: ))
+    isSuccessApply = successApplyForRecruitment.asDriver(onErrorDriveWith: .empty())
     
-    let successFetching = fetchingQuestions.compactMap { result -> RecruitmentQuestionResponse? in
-      guard case .success(let response) = result else { return nil }
-      return response.data
-    }
-    
-    successFetching.map { response in
-      let data = response.questions.map { question in
-        return ApplyQuestionTableViewCellModel(id: question.id, question: question.question)
-      }
-      return data
-    }
-    .bind(to: questions)
-    .disposed(by: disposeBag)
   }
 }
 

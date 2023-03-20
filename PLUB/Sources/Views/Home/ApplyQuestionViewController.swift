@@ -31,9 +31,12 @@ final class ApplyQuestionViewController: BaseViewController {
   private let questionHeaderView = ApplyQuestionHeaderView()
   
   private lazy var questionTableView = UITableView(frame: .zero, style: .grouped).then {
-    $0.backgroundColor = .secondarySystemBackground
     $0.separatorStyle = .none
     $0.register(ApplyQuestionTableViewCell.self, forCellReuseIdentifier: ApplyQuestionTableViewCell.identifier)
+    $0.delegate = self
+    $0.dataSource = self
+    $0.rowHeight = UITableView.automaticDimension
+    $0.estimatedRowHeight = 86 + 16
   }
   
   private let applyButton = UIButton(configuration: .plain()).then {
@@ -104,15 +107,19 @@ final class ApplyQuestionViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     applyButton.rx.tap
-      .withUnretained(self)
-      .subscribe(onNext: { owner, _ in
-        
-//        HomeAlert.shared.showAlert()
+      .subscribe(with: self) { owner, _ in
+        print("탭")
+        owner.viewModel.selectApply.onNext(())
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isSuccessApply
+      .drive(onNext: { _ in
+        print("성공!")
+        HomeAlert.shared.showAlert()
       })
       .disposed(by: disposeBag)
     
-    questionTableView.rx.setDelegate(self).disposed(by: disposeBag)
-    questionTableView.rx.setDataSource(self).disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
@@ -136,28 +143,16 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
     return cell
   }
   
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return UITableView.automaticDimension
-  }
-  
-  func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 86 + 16
-  }
-
 }
 
 extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
   func whatQuestionAnswer(_ answer: ApplyForRecruitmentRequest) {
-//    print("뭐야 \(answer)")
+    //    print("뭐야 \(answer)")
     viewModel.whichApplyRequest.onNext(answer)
   }
   
   func whichQuestionChangedIn(_ status: QuestionStatus) {
     viewModel.whichQuestion.onNext(status)
-  }
-  
-  func textViewDidChange(text: String, _ textView: UITextView) {
-    applyButton.isEnabled = text.isEmpty ? false : true
   }
   
   func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView) {
