@@ -12,7 +12,6 @@ import RxCocoa
 import SnapKit
 import Then
 
-// TODO: -이건준 plubbingId를 통해 받아온 DetailRecruitmentModel을 이용
 final class DetailRecruitmentViewController: BaseViewController {
   
   private let viewModel: DetailRecruitmentViewModelType
@@ -24,6 +23,7 @@ final class DetailRecruitmentViewController: BaseViewController {
       applyButton.configurationUpdateHandler = applyButton.configuration?.plubButton(
         label: isApplied ? "지원완료" : "같이 할래요!"
       )
+      applyButton.isEnabled = !isApplied
     }
   }
   
@@ -167,7 +167,7 @@ final class DetailRecruitmentViewController: BaseViewController {
         owner.introduceCategoryTitleView.configureUI(with: model)
       })
       .disposed(by: disposeBag)
-
+    
     viewModel.introduceCategoryInfoViewModel
       .asObservable()
       .withUnretained(self)
@@ -175,7 +175,7 @@ final class DetailRecruitmentViewController: BaseViewController {
         owner.introduceCategoryInfoView.configureUI(with: model)
       })
       .disposed(by: disposeBag)
-
+    
     viewModel.participantListViewModel
       .asObservable()
       .withUnretained(self)
@@ -194,7 +194,6 @@ final class DetailRecruitmentViewController: BaseViewController {
     
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        print("탭")
         let vc = ApplyQuestionViewController(plubbingID: owner.plubbingID)
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
@@ -234,13 +233,13 @@ extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectio
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     guard let model = model else { return .zero }
-      let label = UILabel().then {
-        $0.font = .caption
-        $0.text = model.categories[indexPath.row]
-        $0.sizeToFit()
-      }
-      let size = label.frame.size
-      return CGSize(width: size.width + 16, height: size.height + 4)
+    let label = UILabel().then {
+      $0.font = .caption
+      $0.text = model.categories[indexPath.row]
+      $0.sizeToFit()
+    }
+    let size = label.frame.size
+    return CGSize(width: size.width + 16, height: size.height + 4)
   }
 }
 
