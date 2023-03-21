@@ -10,12 +10,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol HomeAlertDelegate: AnyObject {
+  func didTappedCancelButton()
+}
+
 final class HomeAlert {
-  struct Constants {
-    static let backgroundAlphaTo = 0.6
-  }
   
-  public static let shared = HomeAlert()
+  weak var delegate: HomeAlertDelegate?
+  
+  static let shared = HomeAlert()
   
   private let backgroundView = UIView().then {
     $0.backgroundColor = .black
@@ -121,7 +124,14 @@ final class HomeAlert {
       if done {
         self.alertView.removeFromSuperview()
         self.backgroundView.removeFromSuperview()
+        self.delegate?.didTappedCancelButton()
       }
     }
+  }
+}
+
+extension HomeAlert {
+  struct Constants {
+    static let backgroundAlphaTo = 0.6
   }
 }

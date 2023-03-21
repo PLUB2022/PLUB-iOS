@@ -111,9 +111,10 @@ final class ApplyQuestionViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isSuccessApply
-      .drive(onNext: { _ in
+      .drive(with: self) { owner,  _ in
         HomeAlert.shared.showAlert()
-      })
+        HomeAlert.shared.delegate = owner
+      }
       .disposed(by: disposeBag)
     
   }
@@ -163,5 +164,11 @@ extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
         questionTableView.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
       }
     }
+  }
+}
+
+extension ApplyQuestionViewController: HomeAlertDelegate {
+  func didTappedCancelButton() {
+    self.navigationController?.popViewController(animated: true)
   }
 }
