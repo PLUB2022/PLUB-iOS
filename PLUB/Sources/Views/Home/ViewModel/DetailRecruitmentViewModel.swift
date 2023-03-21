@@ -17,6 +17,7 @@ protocol DetailRecruitmentViewModelType {
   var introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel> { get }
   var participantListViewModel: Driver<[AccountInfo]> { get }
   var meetingIntroduceModel: Driver<MeetingIntroduceModel> { get }
+  var isApplied: Driver<Bool> { get }
 }
 
 // TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
@@ -32,6 +33,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   let introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel> // 모집글 세부정보를 표시하기위한 UI 모델
   let participantListViewModel: Driver<[AccountInfo]> // 모집글 세부정보를 표시하기위한 UI 모델
   let meetingIntroduceModel: Driver<MeetingIntroduceModel> // 모집글 세부정보를 표시하기위한 UI 모델
+  let isApplied: Driver<Bool> // 해당 모집글을 신청했는지
   
   init() {
     let selectingPlubbingID = PublishSubject<String>()
@@ -50,12 +52,28 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     .disposed(by: disposeBag)
     
     introduceCategoryTitleViewModel = successFetchingDetail.map { response -> IntroduceCategoryTitleViewModel in
-      return IntroduceCategoryTitleViewModel(title: response.title, name: response.name, infoText: response.placeName)
+      return IntroduceCategoryTitleViewModel(
+        title: response.title,
+        name: response.name,
+        infoText: response.placeName
+      )
     }
     .asDriver(onErrorDriveWith: .empty())
     
+    isApplied = successFetchingDetail
+      .map { $0.isApplied }
+      .asDriver(onErrorDriveWith: .empty())
+    
     introduceCategoryInfoViewModel = successFetchingDetail.map { response -> IntroduceCategoryInfoViewModel in
-      return IntroduceCategoryInfoViewModel(recommendedText: response.goal, meetingImageURL: "", meetingImage: nil, categoryInfoListModel: .init(placeName: response.placeName, peopleCount: response.remainAccountNum, dateTime: ""))
+      return IntroduceCategoryInfoViewModel(
+        recommendedText: response.goal,
+        meetingImageURL: "",
+        meetingImage: nil,
+        categoryInfoListModel: .init(
+          placeName: response.placeName,
+          peopleCount: response.remainAccountNum,
+          dateTime: "")
+      )
     }
     .asDriver(onErrorDriveWith: .empty())
     
@@ -65,7 +83,10 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     .asDriver(onErrorDriveWith: .empty())
     
     meetingIntroduceModel = successFetchingDetail.map { response -> MeetingIntroduceModel in
-      return MeetingIntroduceModel(title: response.title, introduce: response.introduce)
+      return MeetingIntroduceModel(
+        title: response.title,
+        introduce: response.introduce
+      )
     }
     .asDriver(onErrorDriveWith: .empty())
   }

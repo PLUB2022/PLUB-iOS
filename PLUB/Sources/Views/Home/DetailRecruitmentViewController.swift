@@ -17,6 +17,16 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   private let viewModel: DetailRecruitmentViewModelType
   
+  private let plubbingID: String
+  
+  private var isApplied: Bool = false {
+    didSet {
+      applyButton.configurationUpdateHandler = applyButton.configuration?.plubButton(
+        label: isApplied ? "지원완료" : "같이 할래요!"
+      )
+    }
+  }
+  
   private var model: DetailRecruitmentModel? {
     didSet {
       self.introduceTagCollectionView.reloadData()
@@ -81,12 +91,18 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: String) {
     self.viewModel = viewModel
+    self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.selectPlubbingID.onNext(plubbingID)
   }
   
   override func setupLayouts() {
@@ -178,10 +194,15 @@ final class DetailRecruitmentViewController: BaseViewController {
     
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = ApplyQuestionViewController(plubbingID: plubbingID)
+        print("탭")
+        let vc = ApplyQuestionViewController(plubbingID: owner.plubbingID)
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }
+      .disposed(by: disposeBag)
+    
+    viewModel.isApplied
+      .drive(rx.isApplied)
       .disposed(by: disposeBag)
   }
   
