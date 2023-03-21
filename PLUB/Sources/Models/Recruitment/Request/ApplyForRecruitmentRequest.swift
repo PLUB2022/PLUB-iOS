@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct ApplyForRecruitmentRequest: Codable, Equatable {
+struct ApplyForRecruitmentRequest: Codable {
+  let answers: [ApplyAnswer]
+}
+
+struct ApplyAnswer: Codable, Equatable {
   let questionID: Int
   let answer: String
   

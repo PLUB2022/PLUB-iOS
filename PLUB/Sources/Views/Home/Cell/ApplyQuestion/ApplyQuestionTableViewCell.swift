@@ -20,7 +20,7 @@ struct ApplyQuestionTableViewCellModel {
 protocol ApplyQuestionTableViewCellDelegate: AnyObject {
   func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView)
   func whichQuestionChangedIn(_ status: QuestionStatus)
-  func whatQuestionAnswer(_ answer: ApplyForRecruitmentRequest)
+  func whatQuestionAnswer(_ answer: ApplyAnswer)
 }
 
 final class ApplyQuestionTableViewCell: UITableViewCell {
@@ -63,7 +63,7 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
       .subscribe(onNext: { owner, text in
         owner.delegate?.updateHeightOfRow(owner, owner.questionTextView.textView)
         owner.delegate?.whichQuestionChangedIn(QuestionStatus(id: owner.id ?? 0, isFilled: !text.isEmpty))
-        owner.delegate?.whatQuestionAnswer(ApplyForRecruitmentRequest(questionID: owner.id ?? 0, answer: text))
+        owner.delegate?.whatQuestionAnswer(ApplyAnswer(questionID: owner.id ?? 0, answer: text))
       })
       .disposed(by: disposeBag)
 
@@ -89,7 +89,7 @@ final class ApplyQuestionTableViewCell: UITableViewCell {
     }
   }
   
-  public func configureUI(with model: ApplyQuestionTableViewCellModel) {
+  func configureUI(with model: ApplyQuestionTableViewCellModel) {
     self.id = model.id
     questionTextView.setTitleText(text: model.question)
   }

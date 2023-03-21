@@ -15,7 +15,7 @@ enum RecruitmentRouter {
   case requestBookmark(String)
   case editMeetingPost(String, EditMeetingPostRequest)
   case editMeetingQuestion(String, EditMeetingQuestionRequest)
-  case applyForRecruitment(String, [ApplyForRecruitmentRequest])
+  case applyForRecruitment(String, ApplyForRecruitmentRequest)
 }
 
 extension RecruitmentRouter: Router {

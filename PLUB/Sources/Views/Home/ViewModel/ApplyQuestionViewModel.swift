@@ -12,7 +12,7 @@ protocol ApplyQuestionViewModelType {
   // Input
   var whichQuestion: AnyObserver<QuestionStatus> { get }
   var whichRecruitment: AnyObserver<String> { get }
-  var whichApplyRequest: AnyObserver<ApplyForRecruitmentRequest> { get }
+  var whichApplyRequest: AnyObserver<ApplyAnswer> { get }
   var selectApply: AnyObserver<Void> { get }
   
   // Output
@@ -27,7 +27,7 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   // Input
   let whichQuestion: AnyObserver<QuestionStatus> // 어떤 질문에 대한 상태값이 변경됬는지
   let whichRecruitment: AnyObserver<String> // 지원질문조회를 위한 어떤 모집에 대한 ID인지
-  let whichApplyRequest: AnyObserver<ApplyForRecruitmentRequest> // 어떤 질문에 대한 답변을 입력할 것인지
+  let whichApplyRequest: AnyObserver<ApplyAnswer> // 어떤 질문에 대한 답변을 입력할 것인지
   let selectApply: AnyObserver<Void>
   
   // Output
@@ -41,8 +41,8 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
     let currentQuestion = PublishSubject<QuestionStatus>()
     let isActivating = BehaviorSubject<Bool>(value: false)
     let entireQuestionStatus = PublishSubject<[QuestionStatus]>()
-    let whichApplyingRequest = PublishSubject<ApplyForRecruitmentRequest>()
-    let entireApplyRequest = BehaviorRelay<[ApplyForRecruitmentRequest]>(value: [])
+    let whichApplyingRequest = PublishSubject<ApplyAnswer>()
+    let entireApplyRequest = BehaviorRelay<[ApplyAnswer]>(value: [])
     let selectingApply = PublishSubject<Void>()
     
     whichRecruitment = currentPlubbing.asObserver()
@@ -76,11 +76,10 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
       )
     )
       .flatMapLatest { plubbingID, request in
-        return RecruitmentService.shared.applyForRecruitment(plubbingID: plubbingID, request: request)
+        return RecruitmentService.shared.applyForRecruitment(plubbingID: plubbingID, request: ApplyForRecruitmentRequest(answers: request))
       }
     
     let successApplyForRecruitment = requestApplyForRecruitment.compactMap { result -> Void? in
-      print("결과 \(result)")
       guard case .success(_) = result else { return nil }
       return ()
     }

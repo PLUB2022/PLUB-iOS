@@ -107,15 +107,11 @@ final class ApplyQuestionViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     applyButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        print("탭")
-        owner.viewModel.selectApply.onNext(())
-      }
+      .subscribe(viewModel.selectApply)
       .disposed(by: disposeBag)
     
     viewModel.isSuccessApply
       .drive(onNext: { _ in
-        print("성공!")
         HomeAlert.shared.showAlert()
       })
       .disposed(by: disposeBag)
@@ -146,8 +142,7 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
 }
 
 extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
-  func whatQuestionAnswer(_ answer: ApplyForRecruitmentRequest) {
-    //    print("뭐야 \(answer)")
+  func whatQuestionAnswer(_ answer: ApplyAnswer) {
     viewModel.whichApplyRequest.onNext(answer)
   }
   
