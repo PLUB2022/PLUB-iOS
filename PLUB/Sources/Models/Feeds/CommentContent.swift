@@ -41,6 +41,9 @@ struct CommentContent: Codable {
   /// 게시글 작성자 여부
   let isFeedAuthor: Bool
   
+  /// 댓글 작성자가 원 게시글 작성자인지 나타내는 변수입니다.'글쓴이' 마크를 보여주기 위해 사용됩니다.
+  let isAuthorComment: Bool
+  
   /// 작성 타입
   let type: CommentType
   
@@ -58,6 +61,7 @@ struct CommentContent: Codable {
     case nickname
     case isCommentAuthor
     case isFeedAuthor
+    case isAuthorComment
     case parentCommentNickname
     case commentID = "commentId"
     case profileImageURL = "profileImage"
