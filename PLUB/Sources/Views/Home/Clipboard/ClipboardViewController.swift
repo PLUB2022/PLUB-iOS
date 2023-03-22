@@ -99,7 +99,7 @@ final class ClipboardViewController: BaseViewController {
     collectionView.rx.modelSelected(FeedsContent.self)
       .subscribe(with: self) { owner, model in
         owner.navigationController?.pushViewController(
-          BoardDetailViewController(viewModel: BoardDetailViewModel(content: model)),
+          BoardDetailViewController(viewModel: BoardDetailViewModel(plubbingID: model.plubbingID!, content: model.toBoardModel)),
           animated: true
         )
       }
