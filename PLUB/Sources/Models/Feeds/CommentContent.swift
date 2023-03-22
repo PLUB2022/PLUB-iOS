@@ -38,8 +38,10 @@ struct CommentContent: Codable {
   /// 댓글 작성자 여부
   let isCommentAuthor: Bool
   
-  /// 게시글 작성자 여부
-  let isFeedAuthor: Bool
+  /// 현재 앱으로 로그인한 사용자가 해당 게시물의 저자인지를 나타냅니다. 만약 그렇다면, 모든 댓글 정보에 대한 이 변수값은 `true`로 세팅되고, 아닐 경우 `false`로 세팅됩니다.
+  ///
+  /// 원 게시글 저자인 경우 다른 사람의 댓글을 삭제 또는 신고할 수 있습니다. 이 기능을 제공하기 위해 해당 변수를 사용합니다.
+  let isCurrentUserFeedAuthor: Bool
   
   /// 댓글 작성자가 원 게시글 작성자인지 나타내는 변수입니다.'글쓴이' 마크를 보여주기 위해 사용됩니다.
   let isAuthorComment: Bool
@@ -60,9 +62,9 @@ struct CommentContent: Codable {
     case content
     case nickname
     case isCommentAuthor
-    case isFeedAuthor
     case isAuthorComment
     case parentCommentNickname
+    case isCurrentUserFeedAuthor = "isFeedAuthor"
     case commentID = "commentId"
     case profileImageURL = "profileImage"
     case postDate = "createdAt"
