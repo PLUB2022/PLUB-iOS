@@ -138,6 +138,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     selectingContents
       .do(onNext: { dataIsEmpty.onNext($0.isEmpty) })
       .subscribe(onNext: { contents in
+        print("콘텐츠 \(contents)")
         let model = contents.map { content in
           return SelectedCategoryCollectionViewCellModel(
             plubbingID: "\(content.plubbingID)",

@@ -249,7 +249,7 @@ extension SearchInputViewController: UICollectionViewDelegate, UICollectionViewD
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if collectionView == interestListCollectionView {
-      let vc = DetailRecruitmentViewController(plubbingID: model[indexPath.row].plubbingID)
+      let vc = DetailRecruitmentViewController(plubbingID: model[indexPath.row].plubbingID, isHost: false)
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     } else if collectionView == recentSearchListView {
