@@ -80,6 +80,7 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
       }
     
     let successApplyForRecruitment = requestApplyForRecruitment.compactMap { result -> Void? in
+      print("결과 \(result)")
       guard case .success(_) = result else { return nil }
       return ()
     }

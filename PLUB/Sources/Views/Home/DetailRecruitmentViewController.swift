@@ -18,12 +18,16 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   private let plubbingID: String
   
+  private let isHost: Bool
+  
   private var isApplied: Bool = false {
     didSet {
+      guard isApplied != oldValue else { return }
       applyButton.configurationUpdateHandler = applyButton.configuration?.plubButton(
         label: isApplied ? "지원취소" : "같이 할래요!"
       )
       applyButton.isEnabled = !isApplied
+      surroundMeetingButton.isEnabled = isApplied
     }
   }
   
@@ -90,6 +94,7 @@ final class DetailRecruitmentViewController: BaseViewController {
   }
   
   init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: String, isHost: Bool) {
+    self.isHost = isHost
     self.viewModel = viewModel
     self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
