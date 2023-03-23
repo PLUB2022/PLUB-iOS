@@ -62,7 +62,7 @@ final class DetailRecruitmentViewController: BaseViewController {
   }
   
   private let surroundMeetingButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "모임 둘러보기")
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "메인으로")
     $0.isEnabled = false
   }
   
@@ -200,6 +200,14 @@ final class DetailRecruitmentViewController: BaseViewController {
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
         let vc = ApplyQuestionViewController(plubbingID: owner.plubbingID)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    surroundMeetingButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let vc = MainPageViewController(plubbingID: Int(owner.plubbingID) ?? 0)
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }
