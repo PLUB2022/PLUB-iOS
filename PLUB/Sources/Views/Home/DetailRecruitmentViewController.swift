@@ -21,7 +21,7 @@ final class DetailRecruitmentViewController: BaseViewController {
   private var isApplied: Bool = false {
     didSet {
       applyButton.configurationUpdateHandler = applyButton.configuration?.plubButton(
-        label: isApplied ? "지원완료" : "같이 할래요!"
+        label: isApplied ? "지원취소" : "같이 할래요!"
       )
       applyButton.isEnabled = !isApplied
     }
