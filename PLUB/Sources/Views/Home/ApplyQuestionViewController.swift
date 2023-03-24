@@ -106,7 +106,7 @@ final class ApplyQuestionViewController: BaseViewController {
     applyButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        let alert = HomeAlert(type: .successApply)
+        let alert = HomeAlert(type: .cancelApply)
         alert.modalPresentationStyle = .overFullScreen
         owner.present(alert, animated: true)
       })

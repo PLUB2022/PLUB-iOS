@@ -126,8 +126,7 @@ final class HomeAlert: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(backgroundView)
-    view.addSubview(alertView)
+    [backgroundView, alertView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -137,18 +136,28 @@ final class HomeAlert: BaseViewController {
       $0.edges.equalToSuperview()
     }
     
-    alertView.snp.makeConstraints {
-      $0.center.equalToSuperview()
-      $0.width.equalTo(296)
-      $0.height.equalTo(448)
+    switch type {
+    case .successApply:
+      alertView.snp.makeConstraints {
+        $0.center.equalToSuperview()
+        $0.width.equalTo(296)
+        $0.height.equalTo(448)
+      }
+    case .cancelApply:
+      alertView.snp.makeConstraints {
+        $0.center.equalToSuperview()
+        $0.width.equalTo(296)
+        $0.height.equalTo(210)
+      }
     }
+    
   }
   
   override func bind() {
     super.bind()
     backButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.dismiss(animated: false)
+        owner.delegate?.didTappedBackButton()
       }
       .disposed(by: disposeBag)
     
@@ -188,21 +197,20 @@ final class HomeAlert: BaseViewController {
       
       stackView.setCustomSpacing(8, after: mainLabel)
       stackView.setCustomSpacing(32, after: subLabel)
+      
     case .cancelApply:
-      [backButton, stackView].forEach { alertView.addSubview($0) }
-      
-      backButton.snp.makeConstraints {
-        $0.width.height.equalTo(32)
-        $0.top.trailing.equalToSuperview().inset(10)
+      [mainLabel, buttonStackView].forEach { alertView.addSubview($0) }
+    
+      mainLabel.text = "이 모임에 참여하고 싶지\n 않으신가요?"
+      mainLabel.snp.makeConstraints {
+        $0.top.equalToSuperview().inset(59)
+        $0.directionalHorizontalEdges.equalToSuperview().inset(48)
       }
       
-      stackView.snp.makeConstraints {
-        $0.top.equalTo(backButton.snp.bottom).offset(0.5)
-        $0.leading.trailing.bottom.equalToSuperview()
+      buttonStackView.snp.makeConstraints {
+        $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(16)
+        $0.height.equalTo(46)
       }
-      
-      stackView.setCustomSpacing(8, after: mainLabel)
-      stackView.setCustomSpacing(32, after: subLabel)
     }
     
   }
