@@ -38,15 +38,7 @@ final class BoardViewController: BaseViewController {
     }
   }
   
-  private var boardModel: [BoardModel] = [
-    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 1, viewType: .pin, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "asdasd", content: ""),
-    BoardModel(feedID: 2, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 3, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: ""),
-    BoardModel(feedID: 0, viewType: .normal, author: "", authorProfileImageLink: "", date: .now, likeCount: 3, commentCount: 3, title: "", imageLink: "", content: "")
-  ] {
+  private var boardModel: [BoardModel] = [] {
     didSet {
       collectionView.reloadSections([0])
     }
@@ -119,21 +111,21 @@ final class BoardViewController: BaseViewController {
   func bind(plubbingID: Int) {
     super.bind()
     
-    //    viewModel.selectPlubbingID.onNext(plubbingID)
-    //
-    //    viewModel.fetchedMainpageClipboardViewModel
-    //      .drive(rx.clipboardModel)
-    //      .disposed(by: disposeBag)
-    //
-    //    viewModel.clipboardListIsEmpty
-    //      .drive(with: self) { owner, isEmpty in
-    //        owner.headerType = isEmpty ? .noClipboard : .clipboard
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    viewModel.fetchedBoardModel
-    //      .drive(rx.boardModel)
-    //      .disposed(by: disposeBag)
+    viewModel.selectPlubbingID.onNext(plubbingID)
+    
+    viewModel.fetchedMainpageClipboardViewModel
+      .drive(rx.clipboardModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.clipboardListIsEmpty
+      .drive(with: self) { owner, isEmpty in
+        owner.headerType = isEmpty ? .noClipboard : .clipboard
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.fetchedBoardModel
+      .drive(rx.boardModel)
+      .disposed(by: disposeBag)
     
     viewModel.isPinnedFeed
       .drive(onNext: { isPinned in
@@ -263,14 +255,12 @@ extension BoardViewController: BoardBottomSheetDelegate {
   func selectedBoardSheetType(type: BoardBottomSheetType) {
     switch type {
     case .fix:
-      print("탭")
       viewModel.selectFix.onNext(())
     case .modify:
       viewModel.selectFix.onNext(())
     case .report:
       viewModel.selectFix.onNext(())
     case .delete:
-      print("삭제 탭")
       viewModel.selectDelete.onNext(())
     }
     dismiss(animated: false)
