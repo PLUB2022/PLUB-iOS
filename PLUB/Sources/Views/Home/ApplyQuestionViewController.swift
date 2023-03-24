@@ -105,7 +105,11 @@ final class ApplyQuestionViewController: BaseViewController {
     
     applyButton.rx.tap
       .withUnretained(self)
-      .subscribe(onNext: { owner, _ in HomeAlert.shared.showAlert()})
+      .subscribe(onNext: { owner, _ in
+        let alert = HomeAlert(type: .successApply)
+        alert.modalPresentationStyle = .overFullScreen
+        owner.present(alert, animated: true)
+      })
       .disposed(by: disposeBag)
     
     questionTableView.rx.setDelegate(self).disposed(by: disposeBag)

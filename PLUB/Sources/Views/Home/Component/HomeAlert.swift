@@ -7,15 +7,23 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
-final class HomeAlert {
-  struct Constants {
-    static let backgroundAlphaTo = 0.6
-  }
+enum HomeAlertType {
+  case successApply
+  case cancelApply
+}
+
+protocol HomeAlertDelegate: AnyObject {
+  func didTappedBackButton()
+}
+
+final class HomeAlert: BaseViewController {
   
-  public static let shared = HomeAlert()
+  private let type: HomeAlertType
+  weak var delegate: HomeAlertDelegate?
   
   private let backgroundView = UIView().then {
     $0.backgroundColor = .black
@@ -75,21 +83,31 @@ final class HomeAlert {
     $0.font = .caption
   }
   
-  private init() {
-    backButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
+  init(type: HomeAlertType) {
+    self.type = type
+    super.init(nibName: nil, bundle: nil)
+    configureUI()
   }
   
-  public func showAlert() {
-    guard let keyWindow = UIApplication.shared.connectedScenes
-      .filter({$0.activationState == .foregroundActive})
-      .compactMap({$0 as? UIWindowScene})
-      .first?.windows
-      .filter({$0.isKeyWindow}).first else { return }
-    
-    [backgroundView, alertView].forEach { keyWindow.addSubview($0) }
-    [backButton, stackView].forEach { alertView.addSubview($0) }
-    
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    view.backgroundColor = .clear
     backgroundView.alpha = Constants.backgroundAlphaTo
+  }
+  
+  override func setupLayouts() {
+    super.setupLayouts()
+    view.addSubview(backgroundView)
+    view.addSubview(alertView)
+  }
+  
+  override func setupConstraints() {
+    super.setupConstraints()
+    
     backgroundView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
@@ -99,29 +117,61 @@ final class HomeAlert {
       $0.width.equalTo(296)
       $0.height.equalTo(448)
     }
-    
-    backButton.snp.makeConstraints {
-      $0.width.height.equalTo(32)
-      $0.top.trailing.equalToSuperview().inset(10)
-    }
-    
-    stackView.snp.makeConstraints {
-      $0.top.equalTo(backButton.snp.bottom).offset(0.5)
-      $0.leading.trailing.bottom.equalToSuperview()
-    }
-    
-    stackView.setCustomSpacing(8, after: mainLabel)
-    stackView.setCustomSpacing(32, after: subLabel)
   }
   
-  @objc private func dismissAlert() {
-    UIView.animate(withDuration: 0.25) {
-      self.backgroundView.alpha = 0
-    } completion: { done in
-      if done {
-        self.alertView.removeFromSuperview()
-        self.backgroundView.removeFromSuperview()
+  override func bind() {
+    super.bind()
+    backButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedBackButton()
       }
-    }
+      .disposed(by: disposeBag)
   }
+  
+  private func configureUI() {
+    switch type {
+    case .successApply:
+      [backButton, stackView].forEach { alertView.addSubview($0) }
+      
+      backButton.snp.makeConstraints {
+        $0.width.height.equalTo(32)
+        $0.top.trailing.equalToSuperview().inset(10)
+      }
+      
+      stackView.snp.makeConstraints {
+        $0.top.equalTo(backButton.snp.bottom).offset(0.5)
+        $0.leading.trailing.bottom.equalToSuperview()
+      }
+      
+      stackView.setCustomSpacing(8, after: mainLabel)
+      stackView.setCustomSpacing(32, after: subLabel)
+    case .cancelApply:
+      [backButton, stackView].forEach { alertView.addSubview($0) }
+      
+      backButton.snp.makeConstraints {
+        $0.width.height.equalTo(32)
+        $0.top.trailing.equalToSuperview().inset(10)
+      }
+      
+      stackView.snp.makeConstraints {
+        $0.top.equalTo(backButton.snp.bottom).offset(0.5)
+        $0.leading.trailing.bottom.equalToSuperview()
+      }
+      
+      stackView.setCustomSpacing(8, after: mainLabel)
+      stackView.setCustomSpacing(32, after: subLabel)
+    }
+    
+  }
+  
+}
+
+extension HomeAlert {
+  struct Constants {
+    static let backgroundAlphaTo = 0.6
+  }
+}
+
+extension HomeAlert: HomeAlertDelegate {
+  func didTappedBackButton() {}
 }
