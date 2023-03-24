@@ -26,7 +26,7 @@ final class DetailRecruitmentViewController: BaseViewController {
       applyButton.configurationUpdateHandler = applyButton.configuration?.plubButton(
         label: isApplied ? "지원취소" : "같이 할래요!"
       )
-      applyButton.isEnabled = !isApplied
+      applyButton.isSelected = isApplied
       surroundMeetingButton.isEnabled = isApplied
     }
   }
@@ -68,6 +68,12 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   private let applyButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "같이 할래요!")
+    $0.backgroundColor = .lightGray
+    $0.tintColor = .deepGray
+    $0.layer.masksToBounds = true
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.lightGray.cgColor
+    $0.layer.cornerRadius = 8
   }
   
   private let introduceCategoryTitleView = IntroduceCategoryTitleView()
@@ -199,9 +205,14 @@ final class DetailRecruitmentViewController: BaseViewController {
     
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = ApplyQuestionViewController(plubbingID: owner.plubbingID)
-        vc.navigationItem.largeTitleDisplayMode = .never
-        owner.navigationController?.pushViewController(vc, animated: true)
+        if !owner.isApplied {
+          let vc = ApplyQuestionViewController(plubbingID: owner.plubbingID)
+          vc.navigationItem.largeTitleDisplayMode = .never
+          owner.navigationController?.pushViewController(vc, animated: true)
+        } else {
+          HomeAlert.shared.showAlert(type: .cancelApply)
+          HomeAlert.shared.delegate = owner
+        }
       }
       .disposed(by: disposeBag)
     
@@ -261,5 +272,15 @@ extension DetailRecruitmentViewController: ParticipantListViewDelegate {
     let vc = ParticipantBottomSheetViewController(model: accountInfos)
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: false)
+  }
+}
+
+extension DetailRecruitmentViewController: HomeAlertDelegate {
+  func didTappedYesButton() {
+    print("네 선택")
+  }
+  
+  func didTappedNoButton() {
+    print("아니오 선택")
   }
 }
