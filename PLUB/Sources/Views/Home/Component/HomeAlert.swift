@@ -27,18 +27,15 @@ final class HomeAlert: BaseViewController {
   private let type: HomeAlertType
   weak var delegate: HomeAlertDelegate?
   
-  private let backgroundView = UIView().then {
-    $0.backgroundColor = .black
-    $0.alpha = 0
-  }
-  
   private let alertView = UIView().then {
     $0.backgroundColor = .white
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 12
     $0.isUserInteractionEnabled = true
+    $0.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
   }
   
+  /// successApply일 경우 사용되는 UI
   private lazy var stackView = UIStackView(arrangedSubviews: [applyImageView, mainLabel, subLabel, descriptionLabel]).then {
     $0.axis = .vertical
     $0.distribution = .fill
@@ -47,7 +44,7 @@ final class HomeAlert: BaseViewController {
     $0.layoutMargins = .init(top: .zero, left: 28, bottom: 32, right: 28)
   }
   
-  private let applyImageView = UIImageView().then {
+  private lazy var applyImageView = UIImageView().then {
     $0.image = UIImage(named: "apply")
     $0.contentMode = .scaleAspectFill
   }
@@ -56,7 +53,7 @@ final class HomeAlert: BaseViewController {
     $0.setImage(UIImage(named: "closeButton"), for: .normal)
   }
   
-  private let mainLabel = UILabel().then {
+  private lazy var mainLabel = UILabel().then {
     $0.textColor = .main
     $0.font = .h4
     $0.text = "지원완료 !"
@@ -64,7 +61,7 @@ final class HomeAlert: BaseViewController {
     $0.sizeToFit()
   }
   
-  private let subLabel = UILabel().then {
+  private lazy var subLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .body2
     $0.numberOfLines = 0
@@ -75,7 +72,7 @@ final class HomeAlert: BaseViewController {
     """
   }
   
-  private let descriptionLabel = UILabel().then {
+  private lazy var descriptionLabel = UILabel().then {
     $0.text = """
     호스트가 수락하면 함께 활동할 수 있습니다.
     알림으로 알려드릴게요!
@@ -85,12 +82,13 @@ final class HomeAlert: BaseViewController {
     $0.font = .caption
   }
   
+  /// cancelApply일 경우 사용되는 UI
   private lazy var buttonStackView = UIStackView(arrangedSubviews: [noButton, yesButton]).then {
     $0.axis = .horizontal
     $0.spacing = 12
   }
   
-  private let noButton = UIButton(configuration: .plain()).then {
+  private lazy var noButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.list(label: "아니오")
     $0.backgroundColor = .lightGray
     $0.tintColor = .deepGray
@@ -100,7 +98,7 @@ final class HomeAlert: BaseViewController {
     $0.layer.cornerRadius = 8
   }
   
-  private let yesButton = UIButton(configuration: .plain()).then {
+  private lazy var yesButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.list(label: "네")
     $0.isSelected = true
   }
@@ -117,24 +115,39 @@ final class HomeAlert: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    // curveEaseOut: 시작은 천천히, 끝날 땐 빠르게
+    UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut) { [weak self] in
+      self?.alertView.transform = .identity
+      self?.alertView.isHidden = false
+    }
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    // curveEaseIn: 시작은 빠르게, 끝날 땐 천천히
+    UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn) { [weak self] in
+      self?.alertView.transform = .identity
+      self?.alertView.isHidden = true
+    }
+  }
+  
   override func setupStyles() {
     super.setupStyles()
-    view.backgroundColor = .clear
-    backgroundView.alpha = Constants.backgroundAlphaTo
-    backgroundView.addGestureRecognizer(tapGesture)
+    view.backgroundColor = .black.withAlphaComponent(Constants.backgroundAlphaTo)
+    view.addGestureRecognizer(tapGesture)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [backgroundView, alertView].forEach { view.addSubview($0) }
+    [alertView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    
-    backgroundView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-    }
     
     switch type {
     case .successApply:
@@ -162,22 +175,22 @@ final class HomeAlert: BaseViewController {
       .disposed(by: disposeBag)
     
     tapGesture.rx.event
-        .subscribe(with: self) { owner, _ in
-          owner.dismiss(animated: false)
-        }
-        .disposed(by: disposeBag)
+      .subscribe(with: self) { owner, _ in
+        owner.dismiss(animated: false)
+      }
+      .disposed(by: disposeBag)
     
-      yesButton.rx.tap
-        .subscribe(with: self) { owner, _ in
-          owner.delegate?.didTappedYesButton()
-        }
-        .disposed(by: disposeBag)
+    yesButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedYesButton()
+      }
+      .disposed(by: disposeBag)
     
-      noButton.rx.tap
-        .subscribe(with: self) { owner, _ in
-          owner.delegate?.didTappedNoButton()
-        }
-        .disposed(by: disposeBag)
+    noButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedNoButton()
+      }
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -200,7 +213,7 @@ final class HomeAlert: BaseViewController {
       
     case .cancelApply:
       [mainLabel, buttonStackView].forEach { alertView.addSubview($0) }
-    
+      
       mainLabel.text = "이 모임에 참여하고 싶지\n 않으신가요?"
       mainLabel.snp.makeConstraints {
         $0.top.equalToSuperview().inset(59)
@@ -229,55 +242,3 @@ extension HomeAlert: HomeAlertDelegate {
   func didTappedNoButton() {}
 }
 
-//private lazy var buttonStackView = UIStackView(arrangedSubviews: [noButton, yesButton]).then {
-//  $0.axis = .horizontal
-//  $0.spacing = 12
-//}
-//
-//private let noButton = UIButton(configuration: .plain()).then {
-//  $0.configurationUpdateHandler = $0.configuration?.list(label: "아니오")
-//  $0.backgroundColor = .lightGray
-//  $0.tintColor = .deepGray
-//  $0.layer.masksToBounds = true
-//  $0.layer.borderWidth = 1
-//  $0.layer.borderColor = UIColor.lightGray.cgColor
-//  $0.layer.cornerRadius = 8
-//}
-//
-//private let yesButton = UIButton(configuration: .plain()).then {
-//  $0.configurationUpdateHandler = $0.configuration?.list(label: "네")
-//  $0.isSelected = true
-//}
-//
-//private let tapGesture = UITapGestureRecognizer(target: HomeAlert.self, action: nil)
-//
-//private init() {
-//  backgroundView.addGestureRecognizer(tapGesture)
-//  bind()
-//}
-//
-//private func bind() {
-//  tapGesture.rx.event
-//    .subscribe(with: self) { owner, _ in
-//      owner.dismissAlert()
-//    }
-//    .disposed(by: disposeBag)
-//
-//  backButton.rx.tap
-//    .subscribe(with: self) { owner, _ in
-//      owner.dismissAlert()
-//    }
-//    .disposed(by: disposeBag)
-//
-//  yesButton.rx.tap
-//    .subscribe(with: self) { owner, _ in
-//      owner.delegate?.didTappedYesButton()
-//    }
-//    .disposed(by: disposeBag)
-//
-//  noButton.rx.tap
-//    .subscribe(with: self) { owner, _ in
-//      owner.delegate?.didTappedNoButton()
-//    }
-//    .disposed(by: disposeBag)
-//}

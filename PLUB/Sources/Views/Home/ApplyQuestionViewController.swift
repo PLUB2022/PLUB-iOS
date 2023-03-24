@@ -106,9 +106,9 @@ final class ApplyQuestionViewController: BaseViewController {
     applyButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        let alert = HomeAlert(type: .cancelApply)
+        let alert = HomeAlert(type: .successApply)
         alert.modalPresentationStyle = .overFullScreen
-        owner.present(alert, animated: true)
+        owner.present(alert, animated: false)
       })
       .disposed(by: disposeBag)
     
