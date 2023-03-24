@@ -194,7 +194,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     repliedAuthorLabel.text = "\(model.parentCommentNickname ?? "") 님에게 쓴 답글"
     
     // author process
-    authorIndicationView.isHidden = !model.isFeedAuthor
+    authorIndicationView.isHidden = !model.isAuthorComment
   }
 }
 
