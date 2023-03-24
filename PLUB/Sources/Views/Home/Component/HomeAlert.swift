@@ -18,6 +18,8 @@ enum HomeAlertType {
 
 protocol HomeAlertDelegate: AnyObject {
   func didTappedBackButton()
+  func didTappedYesButton()
+  func didTappedNoButton()
 }
 
 final class HomeAlert: BaseViewController {
@@ -83,6 +85,28 @@ final class HomeAlert: BaseViewController {
     $0.font = .caption
   }
   
+  private lazy var buttonStackView = UIStackView(arrangedSubviews: [noButton, yesButton]).then {
+    $0.axis = .horizontal
+    $0.spacing = 12
+  }
+  
+  private let noButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.list(label: "아니오")
+    $0.backgroundColor = .lightGray
+    $0.tintColor = .deepGray
+    $0.layer.masksToBounds = true
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.lightGray.cgColor
+    $0.layer.cornerRadius = 8
+  }
+  
+  private let yesButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.list(label: "네")
+    $0.isSelected = true
+  }
+  
+  private let tapGesture = UITapGestureRecognizer(target: HomeAlert.self, action: nil)
+  
   init(type: HomeAlertType) {
     self.type = type
     super.init(nibName: nil, bundle: nil)
@@ -97,6 +121,7 @@ final class HomeAlert: BaseViewController {
     super.setupStyles()
     view.backgroundColor = .clear
     backgroundView.alpha = Constants.backgroundAlphaTo
+    backgroundView.addGestureRecognizer(tapGesture)
   }
   
   override func setupLayouts() {
@@ -123,9 +148,27 @@ final class HomeAlert: BaseViewController {
     super.bind()
     backButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedBackButton()
+        owner.dismiss(animated: false)
       }
       .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+        .subscribe(with: self) { owner, _ in
+          owner.dismiss(animated: false)
+        }
+        .disposed(by: disposeBag)
+    
+      yesButton.rx.tap
+        .subscribe(with: self) { owner, _ in
+          owner.delegate?.didTappedYesButton()
+        }
+        .disposed(by: disposeBag)
+    
+      noButton.rx.tap
+        .subscribe(with: self) { owner, _ in
+          owner.delegate?.didTappedNoButton()
+        }
+        .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -174,4 +217,59 @@ extension HomeAlert {
 
 extension HomeAlert: HomeAlertDelegate {
   func didTappedBackButton() {}
+  func didTappedYesButton() {}
+  func didTappedNoButton() {}
 }
+
+//private lazy var buttonStackView = UIStackView(arrangedSubviews: [noButton, yesButton]).then {
+//  $0.axis = .horizontal
+//  $0.spacing = 12
+//}
+//
+//private let noButton = UIButton(configuration: .plain()).then {
+//  $0.configurationUpdateHandler = $0.configuration?.list(label: "아니오")
+//  $0.backgroundColor = .lightGray
+//  $0.tintColor = .deepGray
+//  $0.layer.masksToBounds = true
+//  $0.layer.borderWidth = 1
+//  $0.layer.borderColor = UIColor.lightGray.cgColor
+//  $0.layer.cornerRadius = 8
+//}
+//
+//private let yesButton = UIButton(configuration: .plain()).then {
+//  $0.configurationUpdateHandler = $0.configuration?.list(label: "네")
+//  $0.isSelected = true
+//}
+//
+//private let tapGesture = UITapGestureRecognizer(target: HomeAlert.self, action: nil)
+//
+//private init() {
+//  backgroundView.addGestureRecognizer(tapGesture)
+//  bind()
+//}
+//
+//private func bind() {
+//  tapGesture.rx.event
+//    .subscribe(with: self) { owner, _ in
+//      owner.dismissAlert()
+//    }
+//    .disposed(by: disposeBag)
+//
+//  backButton.rx.tap
+//    .subscribe(with: self) { owner, _ in
+//      owner.dismissAlert()
+//    }
+//    .disposed(by: disposeBag)
+//
+//  yesButton.rx.tap
+//    .subscribe(with: self) { owner, _ in
+//      owner.delegate?.didTappedYesButton()
+//    }
+//    .disposed(by: disposeBag)
+//
+//  noButton.rx.tap
+//    .subscribe(with: self) { owner, _ in
+//      owner.delegate?.didTappedNoButton()
+//    }
+//    .disposed(by: disposeBag)
+//}
