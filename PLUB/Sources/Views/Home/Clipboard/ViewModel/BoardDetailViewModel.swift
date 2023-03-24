@@ -18,7 +18,7 @@ protocol BoardDetailViewModelType {
 }
 
 protocol BoardDetailDataStore {
-  var content: FeedsContent { get }
+  var content: BoardModel { get }
   var comments: [CommentContent] { get }
 }
 
@@ -29,22 +29,22 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   
   // MARK: - Properties
   
-  let content: FeedsContent
+  let content: BoardModel
   var comments: [CommentContent] = []
   
   private let requestCommentsSubject = PublishSubject<Void>()
   
   // MARK: - Initializations
   
-  init(content: FeedsContent) {
+  init(plubbingID: Int, content: BoardModel) {
     self.content = content
     
     fetchAlertDriver = requestCommentsSubject.asDriver(onErrorDriveWith: .empty())
-    bind()
+    bind(plubbingID: plubbingID)
   }
   
-  private func bind() {
-    FeedsService.shared.fetchComments(plubbingID: content.plubbingID!, feedID: content.feedID, nextCursorID: comments.last?.commentID ?? 0)
+  private func bind(plubbingID: Int) {
+    FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: comments.last?.commentID ?? 0)
       .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
         // TODO: 승현 - API 통신 에러 처리
         guard case let .success(response) = result else { return nil }
