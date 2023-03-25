@@ -17,6 +17,7 @@ enum BoardHeaderViewType {
 
 protocol BoardViewControllerDelegate: AnyObject {
   func calculateHeight(_ height: CGFloat)
+  func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel)
 }
 
 final class BoardViewController: BaseViewController {
@@ -209,12 +210,13 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = BoardDetailViewController(viewModel: BoardDetailViewModel(
-      plubbingID: plubbingID,
-      content: boardModel[indexPath.row])
-    )
-    vc.navigationItem.largeTitleDisplayMode = .never
-    self.navigationController?.pushViewController(vc, animated: true)
+    delegate?.didTappedBoardCollectionViewCell(plubbingID: plubbingID, content: boardModel[indexPath.row])
+//    let vc = BoardDetailViewController(viewModel: BoardDetailViewModel(
+//      plubbingID: plubbingID,
+//      content: boardModel[indexPath.row])
+//    )
+//    vc.navigationItem.largeTitleDisplayMode = .never
+//    self.navigationController?.pushViewController(vc, animated: true)
   }
   
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

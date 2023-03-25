@@ -226,6 +226,15 @@ extension MainPageViewController: UIScrollViewDelegate {
 }
 
 extension MainPageViewController: BoardViewControllerDelegate {
+  func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel) {
+    let vc = BoardDetailViewController(viewModel: BoardDetailViewModel(
+      plubbingID: plubbingID,
+      content: content)
+    )
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
+  
   func calculateHeight(_ height: CGFloat) {
     headerView.snp.updateConstraints {
       $0.height.equalTo(height)
