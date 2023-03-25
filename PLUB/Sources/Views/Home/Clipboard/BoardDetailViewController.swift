@@ -64,6 +64,18 @@ final class BoardDetailViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Life Cycles
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
@@ -204,6 +216,53 @@ private extension BoardDetailViewController {
       snapshot.appendItems(viewModel.comments.filter { $0.groupID == sectionGroupID }, toSection: sectionGroupID)
     }
     dataSource?.apply(snapshot)
+  }
+}
+
+// MARK: - Keyboards
+
+private extension BoardDetailViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification, object: nil
+    )
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillHide(_:)),
+      name: UIResponder.keyboardWillHideNotification, object: nil
+    )
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+      return
+    }
+    
+    let keyboardHeight = keyboardSize.height
+    
+    self.commentPostingStackView.snp.updateConstraints {
+      $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(keyboardHeight)
+    }
+    
+    UIView.animate(withDuration: 1) {
+      self.view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    commentPostingStackView.snp.updateConstraints {
+      $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
+    }
+    
+    UIView.animate(withDuration: 1) {
+      self.view.layoutIfNeeded()
+    }
   }
 }
 
