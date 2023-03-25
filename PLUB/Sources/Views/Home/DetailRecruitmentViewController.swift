@@ -27,7 +27,7 @@ final class DetailRecruitmentViewController: BaseViewController {
         label: isApplied ? "지원취소" : "같이 할래요!"
       )
       applyButton.isSelected = isApplied
-      surroundMeetingButton.isEnabled = isApplied
+      surroundMeetingButton.isSelected = isApplied
     }
   }
   
@@ -62,18 +62,12 @@ final class DetailRecruitmentViewController: BaseViewController {
   }
   
   private let surroundMeetingButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "메인으로")
-    $0.isEnabled = false
+    $0.configurationUpdateHandler = $0.configuration?.detailRecruitment(label: "메인으로")
+    $0.isSelected = false
   }
   
   private let applyButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "같이 할래요!")
-    $0.backgroundColor = .lightGray
-    $0.tintColor = .deepGray
-    $0.layer.masksToBounds = true
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.lightGray.cgColor
-    $0.layer.cornerRadius = 8
+    $0.configurationUpdateHandler = $0.configuration?.detailRecruitment(label: "같이 할래요!")
   }
   
   private let introduceCategoryTitleView = IntroduceCategoryTitleView()
