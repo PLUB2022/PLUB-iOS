@@ -122,6 +122,7 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    panGesture.delegate = self
     collectionView.addGestureRecognizer(tapGesture)
     collectionView.addGestureRecognizer(panGesture)
   }
@@ -284,6 +285,15 @@ private extension BoardDetailViewController {
     UIView.animate(withDuration: 1) {
       self.view.layoutIfNeeded()
     }
+  }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension BoardDetailViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    // navigation back gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
+    return true
   }
 }
 
