@@ -81,7 +81,10 @@ final class MainPageViewController: BaseViewController {
   private let todolistViewController = TodolistViewController()
   
   private var viewControllers: [UIViewController] {
-    [boardViewController, todolistViewController]
+    [
+      UINavigationController(rootViewController: boardViewController),
+      UINavigationController(rootViewController: todolistViewController)
+    ]
   }
   
   private let writeButton = UIButton(configuration: .plain()).then {

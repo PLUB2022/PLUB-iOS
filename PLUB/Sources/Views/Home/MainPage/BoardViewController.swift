@@ -112,27 +112,27 @@ final class BoardViewController: BaseViewController {
     super.bind()
     
     viewModel.selectPlubbingID.onNext(plubbingID)
-    
+
     viewModel.fetchedMainpageClipboardViewModel
       .drive(rx.clipboardModel)
       .disposed(by: disposeBag)
-    
+
     viewModel.clipboardListIsEmpty
       .drive(with: self) { owner, isEmpty in
         owner.headerType = isEmpty ? .noClipboard : .clipboard
       }
       .disposed(by: disposeBag)
-    
+
     viewModel.fetchedBoardModel
       .drive(rx.boardModel)
       .disposed(by: disposeBag)
-    
+
     viewModel.isPinnedFeed
       .drive(onNext: { isPinned in
         print("고정 성공 !! \(isPinned)")
       })
       .disposed(by: disposeBag)
-    
+
     viewModel.successDeleteFeed
       .drive(onNext: { success in
         print("해당 게시글 삭제 성공")
@@ -183,7 +183,7 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return boardModel.count
+    return 10
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -206,6 +206,15 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     header.configureUI(with: clipboardModel)
     header.delegate = self
     return header
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let vc = BoardDetailViewController(viewModel: BoardDetailViewModel(
+      plubbingID: plubbingID,
+      content: boardModel[indexPath.row])
+    )
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
   }
   
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
