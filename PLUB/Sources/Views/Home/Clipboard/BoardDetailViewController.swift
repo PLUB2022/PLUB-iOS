@@ -129,6 +129,9 @@ final class BoardDetailViewController: BaseViewController {
     panGesture.delegate = self
     collectionView.addGestureRecognizer(tapGesture)
     collectionView.addGestureRecognizer(panGesture)
+    
+    // == comment posting delegate ==
+    commentPostingInputView.delegate = self
   }
   
   override func bind() {
@@ -157,6 +160,15 @@ final class BoardDetailViewController: BaseViewController {
         owner.commentPostingInputView.endEditing(true)
       }
       .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - CommentInputViewDelegate
+
+extension BoardDetailViewController: CommentInputViewDelegate {
+  func commentInputView(_ textView: UITextView, writtenText: String) {
+    textView.text = ""
+    //TODO: 승현 - API 연동하기
   }
 }
 
