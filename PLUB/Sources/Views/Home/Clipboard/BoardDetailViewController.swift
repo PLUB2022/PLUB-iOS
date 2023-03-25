@@ -92,7 +92,7 @@ extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
     guard section == 0 else { return .zero }
     // 동적 높이 처리
     let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
-      supplementaryView.configure(with: viewModel.content.toBoardModel)
+      supplementaryView.configure(with: viewModel.content)
     }
     let indexPath = IndexPath(row: 0, section: section)
     let headerView = collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
@@ -126,7 +126,7 @@ private extension BoardDetailViewController {
     
     // Header View Registration, 헤더 뷰 후처리에 사용됨
     let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
-      supplementaryView.configure(with: viewModel.content.toBoardModel)
+      supplementaryView.configure(with: viewModel.content)
     }
     
     // dataSource에 cell 등록
