@@ -68,13 +68,40 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(collectionView)
+    [collectionView, commentPostingStackView, separatorLineView].forEach {
+      view.addSubview($0)
+    }
+    
+    [profileImageView, commentPostingTextField].forEach {
+      commentPostingStackView.addArrangedSubview($0)
+    }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     collectionView.snp.makeConstraints {
-      $0.directionalEdges.equalTo(view.safeAreaLayoutGuide)
+      $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalTo(commentPostingStackView.snp.top)
+    }
+    
+    commentPostingStackView.snp.makeConstraints {
+      $0.height.equalTo(Metric.commentPostingStackViewHeight)
+      $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(Metric.commentPostingStackViewInset)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
+    }
+    
+    profileImageView.snp.makeConstraints {
+      $0.size.equalTo(Metric.profileImageViewSize)
+    }
+    
+    commentPostingTextField.snp.makeConstraints {
+      $0.height.equalTo(Metric.commentPostingTextFieldHeight)
+    }
+    
+    separatorLineView.snp.makeConstraints {
+      $0.top.equalTo(commentPostingStackView.snp.top)
+      $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
+      $0.height.equalTo(Metric.separatorLineHeight)
     }
   }
   
@@ -183,6 +210,15 @@ private extension BoardDetailViewController {
 // MARK: - Constants
 
 private extension BoardDetailViewController {
+  
+  enum Metric {
+    static let commentPostingStackViewHeight = 54
+    static let commentPostingStackViewInset = 16
+    static let profileImageViewSize = 32
+    static let commentPostingTextFieldHeight = 32
+    static let separatorLineHeight = 1
+  }
+  
   enum Constants {
     static let placeholder = "댓글을 입력하세요"
   }
