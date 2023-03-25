@@ -62,6 +62,7 @@ final class MeetingViewController: BaseViewController {
     $0.isScrollEnabled = true
     $0.clipsToBounds = true
     $0.register(MeetingCollectionViewCell.self, forCellWithReuseIdentifier: "MeetingCollectionViewCell")
+    $0.register(MeetingCollectionMoreCell.self, forCellWithReuseIdentifier: "MeetingCollectionMoreCell")
     $0.isPagingEnabled = false
     $0.contentInsetAdjustmentBehavior = .never
     $0.contentInset = Constants.collectionViewContentInset
@@ -155,27 +156,33 @@ final class MeetingViewController: BaseViewController {
 }
 extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return meetingList.count + 1
+    return meetingList.count
   }
     
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: MeetingCollectionViewCell.identifier,
-      for: indexPath
-    ) as? MeetingCollectionViewCell else { return UICollectionViewCell() }
     
-    if indexPath.row < meetingList.count {
+    if indexPath.row < meetingList.count - 1 {
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: MeetingCollectionViewCell.identifier,
+        for: indexPath
+      ) as? MeetingCollectionViewCell else { return UICollectionViewCell() }
       cell.setupData(with: meetingList[indexPath.row])
+      return cell
     } else {
-      cell.setupCreateCell()
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: MeetingCollectionMoreCell.identifier,
+        for: indexPath
+      ) as? MeetingCollectionMoreCell else { return UICollectionViewCell() }
+      cell.setupData(isDimmed: meetingList[indexPath.row].isDimmed)
+      return cell
     }
-    return cell
   }
     
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    if indexPath.row < meetingList.count {
+    if indexPath.row < meetingList.count - 1 {
+      guard let plubbing = meetingList[indexPath.row].plubbing else { return }
       // 플러빙 메인
-      let vc = MainPageViewController(plubbingID: meetingList[indexPath.row].plubbing.plubbingID)
+      let vc = MainPageViewController(plubbingID: plubbing.plubbingID)
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
       self.navigationController?.pushViewController(vc, animated: true)

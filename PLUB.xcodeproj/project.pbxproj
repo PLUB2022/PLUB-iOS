@@ -203,6 +203,7 @@
 		BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE5D3362975B20000268D44 /* TokenResponse.swift */; };
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
 		C305B67C29AC9FE700BD5C6A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = C305B67B29AC9FE700BD5C6A /* RxDataSources */; };
+		C307826329CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C307826229CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift */; };
 		C3100CB429BD8980005FCCAD /* MyInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */; };
 		C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */; };
 		C3100CB929BD8A7E005FCCAD /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */; };
@@ -511,6 +512,7 @@
 		BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceRequest.swift; sourceTree = "<group>"; };
 		BAE5D3362975B20000268D44 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
 		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
+		C307826229CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCollectionMoreCell.swift; sourceTree = "<group>"; };
 		C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoResponse.swift; sourceTree = "<group>"; };
 		C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
@@ -1330,10 +1332,7 @@
 		C3100CB529BD8A46005FCCAD /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				C3100CBD29BD94DC005FCCAD /* Cell */,
-				C3100CBA29BD8A96005FCCAD /* Component */,
 				C34F047C29C7045100E5B67E /* Setting */,
-				C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */,
 				C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */,
 				C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */,
 				C3100CBD29BD94DC005FCCAD /* Cell */,
@@ -1452,6 +1451,7 @@
 			isa = PBXGroup;
 			children = (
 				C361743529AFB875006AEAB1 /* MeetingCollectionViewCell.swift */,
+				C307826229CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2169,6 +2169,7 @@
 				C34F048129C70FB900E5B67E /* SettingDetailSubView.swift in Sources */,
 				C39E09B429C5F3C100ECAD11 /* MyPageNoneView.swift in Sources */,
 				BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */,
+				C307826329CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift in Sources */,
 				705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,

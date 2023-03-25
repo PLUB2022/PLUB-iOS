@@ -32,9 +32,10 @@ final class MeetingViewModel {
         switch result {
         case .success(let model):
           guard let data = model.data else { return }
-          let model = data.myPlubbing.map {
+          var model = data.myPlubbing.map {
             MeetingCellModel(plubbing: $0, isDimmed: true)
           }
+          model.append(MeetingCellModel(plubbing: nil, isDimmed: true))
           owner.meetingListRelay.accept(model)
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }

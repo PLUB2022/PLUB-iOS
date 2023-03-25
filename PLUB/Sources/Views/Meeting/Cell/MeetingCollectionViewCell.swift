@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 struct MeetingCellModel {
-  let plubbing: MyPlubbing
+  let plubbing: MyPlubbing?
   var isDimmed: Bool
 }
 
@@ -67,7 +67,10 @@ final class MeetingCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    imageView.image = nil
     titleLabel.text = nil
+    dateLabel.text = nil
+    goalLabel.text = nil
     dimmedView.isHidden = false
   }
     
@@ -134,16 +137,17 @@ final class MeetingCollectionViewCell: UICollectionViewCell {
   }
   
   func setupData(with data: MeetingCellModel) {
-    titleLabel.text = data.plubbing.name
-    goalLabel.text = data.plubbing.goal
+    guard let plubbing = data.plubbing else { return }
+    titleLabel.text = plubbing.name
+    goalLabel.text = plubbing.goal
     
-    dateLabel.text = data.plubbing.days
+    dateLabel.text = plubbing.days
       .map{ $0.fromENGToKOR() }
       .joined(separator: " ,")
     
     dimmedView.isHidden = !data.isDimmed
     
-    if let imageURL = data.plubbing.mainImage, let url = URL(string: imageURL) {
+    if let imageURL = plubbing.mainImage, let url = URL(string: imageURL) {
       imageView.kf.setImage(with: url)
     } else {
       imageView.image = UIImage(named: "userDefaultImage")
@@ -153,9 +157,5 @@ final class MeetingCollectionViewCell: UICollectionViewCell {
     imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
     imageView.layer.masksToBounds = true
-  }
-  
-  func setupCreateCell() {
-    titleLabel.text = "+"
   }
 }
