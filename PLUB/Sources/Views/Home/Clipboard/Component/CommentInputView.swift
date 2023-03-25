@@ -30,7 +30,10 @@ final class CommentInputView: UIView {
     $0.font = .body1
   }
   
-  private let uploadButton = UIButton()
+  private let uploadButton = UIButton().then {
+    $0.setImage(UIImage(named: "arrowUpFilledCircle"), for: .normal)
+    $0.isHidden = true
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
