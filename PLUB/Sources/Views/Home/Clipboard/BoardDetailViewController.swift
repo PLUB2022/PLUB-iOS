@@ -52,7 +52,7 @@ final class BoardDetailViewController: BaseViewController {
     $0.layer.cornerRadius = 8
     $0.backgroundColor = .white
     $0.placeholder = Constants.placeholder
-    $0.font = .caption
+    $0.font = .body1
     $0.textColor = .black
   }
   
