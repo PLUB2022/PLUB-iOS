@@ -21,6 +21,10 @@ final class BoardDetailViewController: BaseViewController {
   /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
   private var dataSource: DataSource?
   
+  /// 터치 및 아래로 스와이프를 인식하기 위한 gesture recognizer
+  private let panGesture = UIPanGestureRecognizer(target: BoardDetailViewController.self, action: nil)
+  private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil)
+  
   // MARK: - UI Components
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
@@ -51,7 +55,6 @@ final class BoardDetailViewController: BaseViewController {
     $0.font = .caption
     $0.textColor = .black
   }
-  
   
   // MARK: - Initializations
   
@@ -119,6 +122,8 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    collectionView.addGestureRecognizer(tapGesture)
+    collectionView.addGestureRecognizer(panGesture)
   }
   
   override func bind() {
@@ -129,6 +134,22 @@ final class BoardDetailViewController: BaseViewController {
       .drive(with: self) { owner, _ in
         owner.setCollectionView()
         owner.applyInitialSnapshots()
+      }
+      .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.commentPostingTextField.resignFirstResponder()
+      }
+      .disposed(by: disposeBag)
+    
+    panGesture.rx.event
+      .asDriver()
+      .map { [weak self] in $0.translation(in: self?.collectionView) }
+      .filter { $0.y > 60 } // 특정 threshold값만큼 아래로 스와이프 하면 emit하도록 설정, threshold: 60
+      .drive(with: self) { owner, _ in
+        owner.commentPostingTextField.resignFirstResponder()
       }
       .disposed(by: disposeBag)
   }
