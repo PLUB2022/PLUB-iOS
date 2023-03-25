@@ -33,7 +33,7 @@ enum HomeSectionType: CaseIterable { // 홈 화면 섹션 타입
   case recommendedMeeting
 }
 
-class HomeViewController: BaseViewController {
+final class HomeViewController: BaseViewController {
   
   private let viewModel: HomeViewModelType
   private var mainCategoryList: [MainCategory] = [] {
@@ -333,7 +333,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     case .recommendedMeeting:
-      let vc = DetailRecruitmentViewController(plubbingID: recommendationList[indexPath.row].plubbingID)
+      let vc = DetailRecruitmentViewController(plubbingID: recommendationList[indexPath.row].plubbingID, isHost: false)
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -349,7 +349,7 @@ extension HomeViewController: InterestSelectCollectionViewCellDelegate {
 }
 
 extension HomeViewController: SelectedCategoryChartCollectionViewCellDelegate {
-  func didTappedChartBookmarkButton(plubbingID: String) {
+  func didTappedChartBookmarkButton(plubbingID: Int) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
   

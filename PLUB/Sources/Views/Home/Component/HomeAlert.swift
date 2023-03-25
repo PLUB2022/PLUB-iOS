@@ -7,15 +7,19 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
+protocol HomeAlertDelegate: AnyObject {
+  func didTappedCancelButton()
+}
+
 final class HomeAlert {
-  struct Constants {
-    static let backgroundAlphaTo = 0.6
-  }
   
-  public static let shared = HomeAlert()
+  weak var delegate: HomeAlertDelegate?
+  private let disposeBag = DisposeBag()
+  static let shared = HomeAlert()
   
   private let backgroundView = UIView().then {
     $0.backgroundColor = .black
@@ -75,8 +79,25 @@ final class HomeAlert {
     $0.font = .caption
   }
   
+  private let tapGesture = UITapGestureRecognizer(target: HomeAlert.self, action: nil)
+  
   private init() {
-    backButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
+    backgroundView.addGestureRecognizer(tapGesture)
+    bind()
+  }
+  
+  private func bind() {
+    tapGesture.rx.event
+      .subscribe(with: self) { owner, _ in
+        owner.dismissAlert()
+      }
+      .disposed(by: disposeBag)
+    
+    backButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.dismissAlert()
+      }
+      .disposed(by: disposeBag)
   }
   
   public func showAlert() {
@@ -86,13 +107,14 @@ final class HomeAlert {
       .first?.windows
       .filter({$0.isKeyWindow}).first else { return }
     
+    alertView.removeFromSuperview()
     [backgroundView, alertView].forEach { keyWindow.addSubview($0) }
-    [backButton, stackView].forEach { alertView.addSubview($0) }
-    
     backgroundView.alpha = Constants.backgroundAlphaTo
     backgroundView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
+    
+    [backButton, stackView].forEach { alertView.addSubview($0) }
     
     alertView.snp.makeConstraints {
       $0.center.equalToSuperview()
@@ -114,14 +136,21 @@ final class HomeAlert {
     stackView.setCustomSpacing(32, after: subLabel)
   }
   
-  @objc private func dismissAlert() {
+  private func dismissAlert() {
     UIView.animate(withDuration: 0.25) {
       self.backgroundView.alpha = 0
     } completion: { done in
       if done {
         self.alertView.removeFromSuperview()
         self.backgroundView.removeFromSuperview()
+        self.delegate?.didTappedCancelButton()
       }
     }
+  }
+}
+
+extension HomeAlert {
+  enum Constants {
+    static let backgroundAlphaTo = 0.6
   }
 }

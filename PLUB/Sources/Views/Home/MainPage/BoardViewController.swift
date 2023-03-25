@@ -52,9 +52,8 @@ final class BoardViewController: BaseViewController {
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-      guard let self = self else { return nil }
-      return self.createCollectionViewSection()
+    collectionViewLayout: UICollectionViewFlowLayout().then {
+      $0.minimumLineSpacing = 8
     }
   ).then {
     $0.backgroundColor = .background
@@ -64,7 +63,16 @@ final class BoardViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
     $0.bounces = false
-    $0.contentInset = .init(top: 16, left: .zero, bottom: .zero, right: .zero)
+    $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
+  }
+  
+  private lazy var longPressedGesture = UILongPressGestureRecognizer(
+    target: self,
+    action: #selector(handleLongPress(gestureRecognizer:))
+  ).then {
+    $0.minimumPressDuration = 0.5
+    $0.delegate = self
+    $0.delaysTouchesBegan = true
   }
   
   init(viewModel: BoardViewModelType = BoardViewModel(), plubbingID: Int) {
@@ -81,6 +89,11 @@ final class BoardViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     viewModel.selectPlubbingID.onNext(plubbingID)
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    collectionView.addGestureRecognizer(longPressedGesture)
   }
   
   override func setupLayouts() {
@@ -113,46 +126,39 @@ final class BoardViewController: BaseViewController {
     viewModel.fetchedBoardModel
       .drive(rx.boardModel)
       .disposed(by: disposeBag)
+    
+    viewModel.isPinnedFeed
+      .drive(onNext: { isPinned in
+        print("고정 성공 !! \(isPinned)")
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.successDeleteFeed
+      .drive(onNext: { success in
+        print("해당 게시글 삭제 성공")
+      })
+      .disposed(by: disposeBag)
   }
   
-  private func createCollectionViewSection() -> NSCollectionLayoutSection? {
-    let item = NSCollectionLayoutItem(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .fractionalHeight(1)
-      )
-    )
+  @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
     
-    item.contentInsets = .init(top: .zero, leading: .zero, bottom: 8, trailing: .zero)
+    let location = gestureRecognizer.location(in: collectionView)
+    guard let indexPath = collectionView.indexPathForItem(at: location),
+          let cell = collectionView.cellForItem(at: indexPath) as? BoardCollectionViewCell else { return }
     
-    let group = NSCollectionLayoutGroup.horizontal(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(107)),
-      subitems: [item]
-    )
-    
-    let section = NSCollectionLayoutSection(group: group)
-    section.orthogonalScrollingBehavior = .none
-    
-    switch headerType {
-    case .clipboard:
-      let header = NSCollectionLayoutBoundarySupplementaryItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(260)
-        ),
-        elementKind: UICollectionView.elementKindSectionHeader,
-        alignment: .top
-      )
-      section.boundarySupplementaryItems = [header]
-      section.contentInsets = .init(top: 16, leading: 16, bottom: .zero, trailing: 16)
-    case .noClipboard:
-      section.boundarySupplementaryItems = []
-      section.contentInsets = .init(top: .zero, leading: 16, bottom: 16, trailing: 16)
+    if gestureRecognizer.state == .began {
+      // 롱 프레스 터치가 시작될 떄
+      let bottomSheet = BoardBottomSheetViewController()
+      bottomSheet.modalPresentationStyle = .overFullScreen
+      bottomSheet.delegate = self
+      present(bottomSheet, animated: false)
+    } else if gestureRecognizer.state == .ended {
+      // 롱 프레스 터치가 끝날 떄
+      guard let feedID = cell.feedID else { return }
+      viewModel.selectFeedID.onNext(feedID)
     }
-    return section
   }
+  
 }
 
 extension BoardViewController: UIScrollViewDelegate {
@@ -201,6 +207,40 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     header.delegate = self
     return header
   }
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    switch headerType {
+    case .clipboard:
+      return .init(top: 16, left: 16, bottom: .zero, right: 16)
+    case .noClipboard:
+      return .init(top: .zero, left: 16, bottom: 16, right: 16)
+    }
+  }
+}
+
+extension BoardViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let boardModel = boardModel[indexPath.row]
+    switch boardModel.type {
+    case .photo:
+      return CGSize(width: collectionView.frame.width - 32, height: 305)
+    default:
+      return CGSize(width: collectionView.frame.width - 32, height: 114)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    switch headerType {
+    case .noClipboard:
+      return .zero
+    case .clipboard:
+      return CGSize(width: collectionView.frame.width - 32, height: 260 + 8)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 8
+  }
 }
 
 extension BoardViewController: BoardClipboardHeaderViewDelegate {
@@ -209,5 +249,26 @@ extension BoardViewController: BoardClipboardHeaderViewDelegate {
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
+}
+
+extension BoardViewController: BoardBottomSheetDelegate {
+  func selectedBoardSheetType(type: BoardBottomSheetType) {
+    switch type {
+    case .fix:
+      viewModel.selectFix.onNext(())
+    case .modify:
+      viewModel.selectFix.onNext(())
+    case .report:
+      viewModel.selectFix.onNext(())
+    case .delete:
+      viewModel.selectDelete.onNext(())
+    }
+    dismiss(animated: false)
+  }
+  
+}
+
+extension BoardViewController: UIGestureRecognizerDelegate {
+  
 }
 

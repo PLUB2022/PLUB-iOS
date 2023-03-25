@@ -70,7 +70,7 @@ final class EditMeetingViewController: BaseViewController {
   
   private var isSaveButtonEnable = [true, true, true]
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     viewModel = EditMeetingViewModel(plubbingID: plubbingID)
     super.init(nibName: nil, bundle: nil)
   }

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 protocol SelectedCategoryGridCollectionViewCellDelegate: AnyObject {
-  func didTappedGridBookmarkButton(plubbingID: String)
+  func didTappedGridBookmarkButton(plubbingID: Int)
   func updateBookmarkState(isBookmarked: Bool, cell: UICollectionViewCell)
 }
 
@@ -18,7 +18,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "SelectedCategoryGridCollectionViewCell"
   private let disposeBag = DisposeBag()
-  private var plubbingID: String?
+  private var plubbingID: Int?
   weak var delegate: SelectedCategoryGridCollectionViewCellDelegate?
   
   private let backgroundImageView = UIImageView().then {
@@ -130,7 +130,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedGridBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedGridBookmarkButton(plubbingID: plubbingID)
         owner.delegate?.updateBookmarkState(isBookmarked: true, cell: owner)
       })
       .disposed(by: disposeBag)
@@ -139,7 +139,7 @@ final class SelectedCategoryGridCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedGridBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedGridBookmarkButton(plubbingID: plubbingID)
         owner.delegate?.updateBookmarkState(isBookmarked: false, cell: owner)
       })
       .disposed(by: disposeBag)

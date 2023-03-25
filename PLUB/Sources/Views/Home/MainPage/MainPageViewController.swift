@@ -192,16 +192,10 @@ final class MainPageViewController: BaseViewController {
 
 extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
   func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-    //    guard let index = viewControllers.firstIndex(of: viewController),
-    //          index - 1 >= 0 else { return nil }
-    //    return viewControllers[index - 1]
     return nil
   }
   
   func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-    //    guard let index = viewControllers.firstIndex(of: viewController),
-    //          index + 1 < viewControllers.count else { return nil }
-    //    return viewControllers[index + 1]
     return nil
   }
   

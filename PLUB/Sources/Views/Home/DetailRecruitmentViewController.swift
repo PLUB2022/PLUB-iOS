@@ -12,10 +12,24 @@ import RxCocoa
 import SnapKit
 import Then
 
-// TODO: -이건준 plubbingId를 통해 받아온 DetailRecruitmentModel을 이용
 final class DetailRecruitmentViewController: BaseViewController {
   
   private let viewModel: DetailRecruitmentViewModelType
+  
+  private let plubbingID: Int
+  
+  private let isHost: Bool
+  
+  private var isApplied: Bool = false {
+    didSet {
+      guard isApplied != oldValue else { return }
+      applyButton.configurationUpdateHandler = applyButton.configuration?.plubButton(
+        label: isApplied ? "지원취소" : "같이 할래요!"
+      )
+      applyButton.isSelected = isApplied
+      surroundMeetingButton.isSelected = isApplied
+    }
+  }
   
   private var model: DetailRecruitmentModel? {
     didSet {
@@ -48,12 +62,12 @@ final class DetailRecruitmentViewController: BaseViewController {
   }
   
   private let surroundMeetingButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "모임 둘러보기")
-    $0.isEnabled = false
+    $0.configurationUpdateHandler = $0.configuration?.detailRecruitment(label: "메인으로")
+    $0.isSelected = false
   }
   
   private let applyButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "같이 할래요!")
+    $0.configurationUpdateHandler = $0.configuration?.detailRecruitment(label: "같이 할래요!")
   }
   
   private let introduceCategoryTitleView = IntroduceCategoryTitleView()
@@ -79,14 +93,21 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: String) {
+  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: Int, isHost: Bool) {
+    self.isHost = isHost
     self.viewModel = viewModel
+    self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.selectPlubbingID.onNext(plubbingID)
   }
   
   override func setupLayouts() {
@@ -140,7 +161,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     )
   }
   
-  func bind(plubbingID: String) {
+  func bind(plubbingID: Int) {
     super.bind()
     viewModel.selectPlubbingID.onNext(plubbingID)
     
@@ -151,7 +172,7 @@ final class DetailRecruitmentViewController: BaseViewController {
         owner.introduceCategoryTitleView.configureUI(with: model)
       })
       .disposed(by: disposeBag)
-
+    
     viewModel.introduceCategoryInfoViewModel
       .asObservable()
       .withUnretained(self)
@@ -159,7 +180,7 @@ final class DetailRecruitmentViewController: BaseViewController {
         owner.introduceCategoryInfoView.configureUI(with: model)
       })
       .disposed(by: disposeBag)
-
+    
     viewModel.participantListViewModel
       .asObservable()
       .withUnretained(self)
@@ -178,10 +199,38 @@ final class DetailRecruitmentViewController: BaseViewController {
     
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = ApplyQuestionViewController(plubbingID: plubbingID)
+        if !owner.isApplied {
+          let vc = ApplyQuestionViewController(plubbingID: owner.plubbingID)
+          vc.navigationItem.largeTitleDisplayMode = .never
+          owner.navigationController?.pushViewController(vc, animated: true)
+        } else {
+          let alert = CustomAlertView(
+            AlertModel(
+              title: "이 모임에 참여하고 싶지\n않으신가요?",
+              message: nil,
+              cancelButton: "아니오",
+              confirmButton: "네",
+              height: 210
+            )
+          ) { [weak self] in
+            guard let self = self else { return }
+            
+          }
+          alert.show()
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    surroundMeetingButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let vc = MainPageViewController(plubbingID: Int(owner.plubbingID) ?? 0)
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }
+      .disposed(by: disposeBag)
+    
+    viewModel.isApplied
+      .drive(rx.isApplied)
       .disposed(by: disposeBag)
   }
   
@@ -213,13 +262,13 @@ extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectio
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     guard let model = model else { return .zero }
-      let label = UILabel().then {
-        $0.font = .caption
-        $0.text = model.categories[indexPath.row]
-        $0.sizeToFit()
-      }
-      let size = label.frame.size
-      return CGSize(width: size.width + 16, height: size.height + 4)
+    let label = UILabel().then {
+      $0.font = .caption
+      $0.text = model.categories[indexPath.row]
+      $0.sizeToFit()
+    }
+    let size = label.frame.size
+    return CGSize(width: size.width + 16, height: size.height + 4)
   }
 }
 

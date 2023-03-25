@@ -12,7 +12,7 @@ protocol SelectedCategoryViewModelType {
   // Input
   var selectCategoryID: AnyObserver<String> { get }
   var whichSortType: AnyObserver<SortType> { get }
-  var tappedBookmark: AnyObserver<String> { get }
+  var tappedBookmark: AnyObserver<Int> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
   var whichFilterRequest: AnyObserver<CategoryMeetingRequest> { get }
   
@@ -30,7 +30,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
   // Input
   let selectCategoryID: AnyObserver<String> // 어떤 카테고리에 대한 것인지에 대한 ID
   let whichSortType: AnyObserver<SortType> // 해당 카테고리에 대한 어떤 분류타입으로 설정하고싶은지
-  let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
+  let tappedBookmark: AnyObserver<Int> // 북마크버튼을 탭 했을때
   let fetchMoreDatas: AnyObserver<Void> // 더 많은 데이터를 받을 것인지
   let whichFilterRequest: AnyObserver<CategoryMeetingRequest>
   
@@ -45,7 +45,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let searchFilterType = PublishSubject<CategoryMeetingRequest>()
     let dataIsEmpty = PublishSubject<Bool>()
-    let whichBookmark = PublishSubject<String>()
+    let whichBookmark = PublishSubject<Int>()
     let fetchingDatas = PublishSubject<Void>()
     let currentPage = BehaviorRelay<Int>(value: 1)
     let isLastPage = BehaviorRelay<Bool>(value: false)
@@ -140,7 +140,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       .subscribe(onNext: { contents in
         let model = contents.map { content in
           return SelectedCategoryCollectionViewCellModel(
-            plubbingID: "\(content.plubbingID)",
+            plubbingID: content.plubbingID,
             name: content.name,
             title: content.title,
             mainImage: content.mainImage,

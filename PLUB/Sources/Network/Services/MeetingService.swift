@@ -22,7 +22,7 @@ extension MeetingService {
     )
   }
   
-  func editMeetingInfo(plubbingID: String, request: EditMeetingInfoRequest) -> PLUBResult<CreateMeetingResponse> {
+  func editMeetingInfo(plubbingID: Int, request: EditMeetingInfoRequest) -> PLUBResult<CreateMeetingResponse> {
     return sendRequest(
       MeetingRouter.editMeetingInfo(plubbingID, request),
       type: CreateMeetingResponse.self

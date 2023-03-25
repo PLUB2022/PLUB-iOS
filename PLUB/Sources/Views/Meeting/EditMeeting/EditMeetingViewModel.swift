@@ -12,7 +12,7 @@ class EditMeetingViewModel {
   let meetingInfoViewModel: MeetingInfoViewModel
   let guestQuestionViewModel: GuestQuestionViewModel
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     recruitPostViewModel = RecruitPostViewModel(plubbingID: plubbingID)
     meetingInfoViewModel = MeetingInfoViewModel(plubbingID: plubbingID)
     guestQuestionViewModel = GuestQuestionViewModel(plubbingID: plubbingID)

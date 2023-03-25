@@ -31,16 +31,19 @@ final class ApplyQuestionViewController: BaseViewController {
   private let questionHeaderView = ApplyQuestionHeaderView()
   
   private lazy var questionTableView = UITableView(frame: .zero, style: .grouped).then {
-    $0.backgroundColor = .secondarySystemBackground
     $0.separatorStyle = .none
     $0.register(ApplyQuestionTableViewCell.self, forCellReuseIdentifier: ApplyQuestionTableViewCell.identifier)
+    $0.delegate = self
+    $0.dataSource = self
+    $0.rowHeight = UITableView.automaticDimension
+    $0.estimatedRowHeight = 86 + 16
   }
   
   private let applyButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "지원하기")
   }
   
-  init(viewModel: ApplyQuestionViewModelType = ApplyQuestionViewModel(), plubbingID: String) {
+  init(viewModel: ApplyQuestionViewModelType = ApplyQuestionViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
@@ -74,23 +77,23 @@ final class ApplyQuestionViewController: BaseViewController {
     
     questionHeaderView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(Device.navigationBarHeight)
-      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+      $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.height.lessThanOrEqualTo(120)
     }
     
     questionTableView.snp.makeConstraints {
       $0.top.equalTo(questionHeaderView.snp.bottom).offset(37.5)
-      $0.leading.trailing.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
     
     applyButton.snp.makeConstraints {
-      $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+      $0.directionalHorizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
       $0.bottom.equalToSuperview()
       $0.height.equalTo(46)
     }
   }
   
-  func bind(plubbingID: String) {
+  func bind(plubbingID: Int) {
     super.bind()
     
     viewModel.whichRecruitment.onNext(plubbingID)
@@ -104,12 +107,16 @@ final class ApplyQuestionViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     applyButton.rx.tap
-      .withUnretained(self)
-      .subscribe(onNext: { owner, _ in HomeAlert.shared.showAlert()})
+      .subscribe(viewModel.selectApply)
       .disposed(by: disposeBag)
     
-    questionTableView.rx.setDelegate(self).disposed(by: disposeBag)
-    questionTableView.rx.setDataSource(self).disposed(by: disposeBag)
+    viewModel.isSuccessApply
+      .drive(with: self) { owner,  _ in
+        HomeAlert.shared.showAlert()
+        HomeAlert.shared.delegate = owner
+      }
+      .disposed(by: disposeBag)
+    
   }
   
   @objc private func didTappedBackButton() {
@@ -133,30 +140,15 @@ extension ApplyQuestionViewController: UITableViewDelegate, UITableViewDataSourc
     return cell
   }
   
-  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return .leastNonzeroMagnitude
-  }
-  
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return UITableView.automaticDimension
-  }
-  
-  func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 100
-  }
-  
-  func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-    return .leastNonzeroMagnitude
-  }
 }
 
 extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
-  func whichQuestionChangedIn(_ status: QuestionStatus) {
-    viewModel.whichQuestion.onNext(status)
+  func whatQuestionAnswer(_ answer: ApplyAnswer) {
+    viewModel.whichApplyRequest.onNext(answer)
   }
   
-  func textViewDidChange(text: String, _ textView: UITextView) {
-    applyButton.isEnabled = text.isEmpty ? false : true
+  func whichQuestionChangedIn(_ status: QuestionStatus) {
+    viewModel.whichQuestion.onNext(status)
   }
   
   func updateHeightOfRow(_ cell: ApplyQuestionTableViewCell, _ textView: UITextView) {
@@ -172,5 +164,11 @@ extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
         questionTableView.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
       }
     }
+  }
+}
+
+extension ApplyQuestionViewController: HomeAlertDelegate {
+  func didTappedCancelButton() {
+    self.navigationController?.popViewController(animated: true)
   }
 }

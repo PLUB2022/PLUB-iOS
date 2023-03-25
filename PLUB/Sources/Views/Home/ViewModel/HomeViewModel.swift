@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol HomeViewModelType {
   // Input
-  var tappedBookmark: AnyObserver<String> { get }
+  var tappedBookmark: AnyObserver<Int> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
   
   // Output
@@ -25,7 +25,7 @@ final class HomeViewModel: HomeViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
+  let tappedBookmark: AnyObserver<Int> // 북마크버튼을 탭 했을때
   let fetchMoreDatas: AnyObserver<Void> // 더 많은 데이터를 받을 것인지
   
   // Output
@@ -37,7 +37,7 @@ final class HomeViewModel: HomeViewModelType {
   init() {
     let fetchingMainCategoryList = BehaviorRelay<[MainCategory]>(value: [])
     let fetchingRecommendation = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
-    let whichBookmark = PublishSubject<String>()
+    let whichBookmark = PublishSubject<Int>()
     let isSelectingInterest = BehaviorSubject<Bool>(value: false)
     let fetchingDatas = PublishSubject<Void>()
     let currentPage = BehaviorRelay<Int>(value: 1)
@@ -87,7 +87,7 @@ final class HomeViewModel: HomeViewModelType {
     successFetchingRecommendationMeeting.subscribe(onNext: { contents in
       let contents = contents.map { content in
         return SelectedCategoryCollectionViewCellModel(
-          plubbingID: "\(content.plubbingID)",
+          plubbingID: content.plubbingID,
           name: content.name,
           title: content.title,
           mainImage: content.mainImage,

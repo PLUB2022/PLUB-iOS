@@ -11,7 +11,7 @@ import RxCocoa
 final class GuestQuestionViewModel {
   
   private let disposeBag = DisposeBag()
-  private let plubbingID: String
+  private let plubbingID: Int
   
   // Input
   var questionList: [String]
@@ -22,7 +22,7 @@ final class GuestQuestionViewModel {
   let fetchedMeetingData = PublishSubject<Void>()
   let allQuestionFilled: BehaviorRelay<Bool>
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     self.plubbingID = plubbingID
     
     questionList = [""]

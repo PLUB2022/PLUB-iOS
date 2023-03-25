@@ -183,7 +183,7 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = DetailRecruitmentViewController(plubbingID: model[indexPath.row].plubbingID)
+    let vc = DetailRecruitmentViewController(plubbingID: model[indexPath.row].plubbingID, isHost: false)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
@@ -230,11 +230,11 @@ extension SelectedCategoryViewController: SelectedCategoryChartCollectionViewCel
     model[indexPath.row].isBookmarked = isBookmarked
   }
   
-  func didTappedChartBookmarkButton(plubbingID: String) {
+  func didTappedChartBookmarkButton(plubbingID: Int) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
   
-  func didTappedGridBookmarkButton(plubbingID: String) {
+  func didTappedGridBookmarkButton(plubbingID: Int) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
 }

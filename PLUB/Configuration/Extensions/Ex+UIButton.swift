@@ -76,6 +76,32 @@ extension UIButton.Configuration {
     return style
   }
   
+  private static func detailDeselected() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 10
+      $0.strokeWidth = 1
+      $0.strokeColor = .lightGray
+      $0.backgroundColor = .lightGray
+    }
+    style.baseForegroundColor = .deepGray
+    
+    return style
+  }
+  
+  private static func detailSelected() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 10
+      $0.backgroundColor = .main
+    }
+    style.baseForegroundColor = .white
+    
+    return style
+  }
+  
   private static func plubButtonEnabled() -> UIButton.Configuration {
     var style = UIButton.Configuration.plain()
     
@@ -109,6 +135,21 @@ extension UIButton.Configuration {
         button.configuration = .listDeselected()
       case .selected:
         button.configuration = .listSelected()
+        break
+      default: break
+      }
+      button.configuration?.title = text
+      button.configuration?.font = .body1
+    }
+  }
+  
+  func detailRecruitment(label text: String) -> UIButton.ConfigurationUpdateHandler {
+    return { button in
+      switch button.state {
+      case .normal:
+        button.configuration = .detailDeselected()
+      case .selected:
+        button.configuration = .detailSelected()
         break
       default: break
       }

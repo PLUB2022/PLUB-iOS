@@ -9,15 +9,16 @@ import Alamofire
 
 enum RecruitmentRouter {
   case inquireAllBookmark
-  case inquireDetailRecruitment(String)
-  case inquireRecruitmentQuestion(String)
+  case inquireDetailRecruitment(Int)
+  case inquireRecruitmentQuestion(Int)
   case searchRecruitment(SearchParameter)
-  case requestBookmark(String)
-  case editMeetingPost(String, EditMeetingPostRequest)
-  case editMeetingQuestion(String, EditMeetingQuestionRequest)
-  case inquireApplicant(String)
-  case approvalApplicant(String, String)
-  case refuseApplicant(String, String)
+  case requestBookmark(Int)
+  case editMeetingPost(Int, EditMeetingPostRequest)
+  case editMeetingQuestion(Int, EditMeetingQuestionRequest)
+  case applyForRecruitment(Int, ApplyForRecruitmentRequest)
+  case inquireApplicant(Int)
+  case approvalApplicant(Int, Int)
+  case refuseApplicant(Int, Int)
 }
 
 extension RecruitmentRouter: Router {
@@ -25,7 +26,7 @@ extension RecruitmentRouter: Router {
     switch self {
     case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .inquireApplicant:
       return .get
-    case .requestBookmark, .approvalApplicant, .refuseApplicant:
+    case .requestBookmark, .applyForRecruitment, .approvalApplicant, .refuseApplicant:
       return .post
     case .editMeetingPost, .editMeetingQuestion:
       return .put
@@ -48,6 +49,8 @@ extension RecruitmentRouter: Router {
       return "/plubbings/\(plubbingID)/recruit/questions"
     case .inquireAllBookmark:
       return "/plubbings/recruit/bookmarks/me"
+    case .applyForRecruitment(let plubbingID, _):
+      return "/plubbings/\(plubbingID)/recruit/applicants"
     case .inquireApplicant(let plubbingID):
       return "/plubbings/\(plubbingID)/recruit/applicants"
     case .approvalApplicant(let plubbingID, let accountID):
@@ -67,12 +70,14 @@ extension RecruitmentRouter: Router {
       return .body(model)
     case .editMeetingQuestion(_, let model):
       return .body(model)
+    case .applyForRecruitment(_, let model):
+      return .body(model)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion, .inquireApplicant, .approvalApplicant, .refuseApplicant:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion, .applyForRecruitment, .inquireApplicant, .approvalApplicant, .refuseApplicant:
       return .withAccessToken
     }
   }
