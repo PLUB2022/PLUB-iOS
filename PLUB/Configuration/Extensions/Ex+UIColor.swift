@@ -32,12 +32,12 @@ extension UIColor {
 // MARK: - Plub Color Palette
 
 extension UIColor {
-  static let main: UIColor                = .init(hex: 0x5F5FF9)
-  static let subMain: UIColor             = .init(hex: 0xE1E1FA)
-  static let background: UIColor          = .init(hex: 0xF5F3F6)
-  static let deepGray: UIColor            = .init(hex: 0x8C8C8C)
-  static let mediumGray: UIColor          = .init(hex: 0xC4C4C4)
-  static let lightGray: UIColor           = .init(hex: 0xF2F3F4)
-  static let black: UIColor               = .init(hex: 0x363636)
-  static let error: UIColor               = .init(hex: 0xF75B2B)
+  static let main                = UIColor(hex: 0x5F5FF9)
+  static let subMain             = UIColor(hex: 0xE1E1FA)
+  static let background          = UIColor(hex: 0xF5F3F6)
+  static let deepGray            = UIColor(hex: 0x8C8C8C)
+  static let mediumGray          = UIColor(hex: 0xC4C4C4)
+  static let lightGray           = UIColor(hex: 0xF2F3F4)
+  static let black               = UIColor(hex: 0x363636)
+  static let error               = UIColor(hex: 0xF75B2B)
 }
