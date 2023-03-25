@@ -39,10 +39,34 @@ final class CommentInputView: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    setupLayouts()
+    setupConstraints()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func setupLayouts() {
+    addSubview(containerView)
+    [textView, uploadButton].forEach {
+      containerView.addArrangedSubview($0)
+    }
+  }
+  
+  private func setupConstraints() {
+    containerView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    textView.snp.makeConstraints {
+      $0.height.greaterThanOrEqualTo(32)
+      
+    }
+    
+    uploadButton.snp.makeConstraints {
+      $0.size.equalTo(32)
+    }
   }
 }
 
