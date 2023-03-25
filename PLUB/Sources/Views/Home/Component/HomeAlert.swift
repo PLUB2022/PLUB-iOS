@@ -13,19 +13,6 @@ import Then
 
 protocol HomeAlertDelegate: AnyObject {
   func didTappedCancelButton()
-  func didTappedYesButton()
-  func didTappedNoButton()
-}
-
-extension HomeAlertDelegate {
-  func didTappedCancelButton() {}
-  func didTappedYesButton() {}
-  func didTappedNoButton() {}
-}
-
-enum HomeAlertType {
-  case applyCompleted
-  case cancelApply
 }
 
 final class HomeAlert {
@@ -92,26 +79,6 @@ final class HomeAlert {
     $0.font = .caption
   }
   
-  private lazy var buttonStackView = UIStackView(arrangedSubviews: [noButton, yesButton]).then {
-    $0.axis = .horizontal
-    $0.spacing = 12
-  }
-  
-  private let noButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.list(label: "아니오")
-    $0.backgroundColor = .lightGray
-    $0.tintColor = .deepGray
-    $0.layer.masksToBounds = true
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.lightGray.cgColor
-    $0.layer.cornerRadius = 8
-  }
-  
-  private let yesButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.list(label: "네")
-    $0.isSelected = true
-  }
-  
   private let tapGesture = UITapGestureRecognizer(target: HomeAlert.self, action: nil)
   
   private init() {
@@ -131,21 +98,9 @@ final class HomeAlert {
         owner.dismissAlert()
       }
       .disposed(by: disposeBag)
-    
-    yesButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedYesButton()
-      }
-      .disposed(by: disposeBag)
-    
-    noButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedNoButton()
-      }
-      .disposed(by: disposeBag)
   }
   
-  public func showAlert(type: HomeAlertType = .applyCompleted) {
+  public func showAlert() {
     guard let keyWindow = UIApplication.shared.connectedScenes
       .filter({$0.activationState == .foregroundActive})
       .compactMap({$0 as? UIWindowScene})
@@ -159,49 +114,26 @@ final class HomeAlert {
       $0.edges.equalToSuperview()
     }
     
-    switch type {
-    case .applyCompleted:
-      [backButton, stackView].forEach { alertView.addSubview($0) }
-      
-      alertView.snp.makeConstraints {
-        $0.center.equalToSuperview()
-        $0.width.equalTo(296)
-        $0.height.equalTo(448)
-      }
-      
-      backButton.snp.makeConstraints {
-        $0.width.height.equalTo(32)
-        $0.top.trailing.equalToSuperview().inset(10)
-      }
-      
-      stackView.snp.makeConstraints {
-        $0.top.equalTo(backButton.snp.bottom).offset(0.5)
-        $0.leading.trailing.bottom.equalToSuperview()
-      }
-      
-      stackView.setCustomSpacing(8, after: mainLabel)
-      stackView.setCustomSpacing(32, after: subLabel)
-    case .cancelApply:
-      [mainLabel, buttonStackView].forEach { alertView.addSubview($0) }
-      alertView.snp.makeConstraints {
-        $0.center.equalToSuperview()
-        $0.width.equalTo(296)
-        $0.height.equalTo(210)
-      }
+    [backButton, stackView].forEach { alertView.addSubview($0) }
     
-      mainLabel.text = "이 모임에 참여하고 싶지\n 않으신가요?"
-      mainLabel.snp.makeConstraints {
-        $0.top.equalToSuperview().inset(59)
-        $0.directionalHorizontalEdges.equalToSuperview().inset(48)
-      }
-      
-      buttonStackView.snp.makeConstraints {
-        $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(16)
-        $0.height.equalTo(46)
-      }
-      
+    alertView.snp.makeConstraints {
+      $0.center.equalToSuperview()
+      $0.width.equalTo(296)
+      $0.height.equalTo(448)
     }
     
+    backButton.snp.makeConstraints {
+      $0.width.height.equalTo(32)
+      $0.top.trailing.equalToSuperview().inset(10)
+    }
+    
+    stackView.snp.makeConstraints {
+      $0.top.equalTo(backButton.snp.bottom).offset(0.5)
+      $0.leading.trailing.bottom.equalToSuperview()
+    }
+    
+    stackView.setCustomSpacing(8, after: mainLabel)
+    stackView.setCustomSpacing(32, after: subLabel)
   }
   
   private func dismissAlert() {
@@ -218,7 +150,7 @@ final class HomeAlert {
 }
 
 extension HomeAlert {
-  struct Constants {
+  enum Constants {
     static let backgroundAlphaTo = 0.6
   }
 }

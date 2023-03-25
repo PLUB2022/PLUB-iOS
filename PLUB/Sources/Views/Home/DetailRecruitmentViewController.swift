@@ -210,8 +210,19 @@ final class DetailRecruitmentViewController: BaseViewController {
           vc.navigationItem.largeTitleDisplayMode = .never
           owner.navigationController?.pushViewController(vc, animated: true)
         } else {
-          HomeAlert.shared.showAlert(type: .cancelApply)
-          HomeAlert.shared.delegate = owner
+          let alert = CustomAlertView(
+            AlertModel(
+              title: "이 모임에 참여하고 싶지\n않으신가요?",
+              message: nil,
+              cancelButton: "아니오",
+              confirmButton: "네",
+              height: 210
+            )
+          ) { [weak self] in
+            guard let self = self else { return }
+            
+          }
+          alert.show()
         }
       }
       .disposed(by: disposeBag)
@@ -272,15 +283,5 @@ extension DetailRecruitmentViewController: ParticipantListViewDelegate {
     let vc = ParticipantBottomSheetViewController(model: accountInfos)
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: false)
-  }
-}
-
-extension DetailRecruitmentViewController: HomeAlertDelegate {
-  func didTappedYesButton() {
-    print("네 선택")
-  }
-  
-  func didTappedNoButton() {
-    print("아니오 선택")
   }
 }
