@@ -41,7 +41,6 @@ final class MeetingViewController: BaseViewController {
   
   private let pageControl = PageControl().then {
     $0.numberOfPages = 1
-    $0.isHidden = true
   }
   
   private let collectionViewLayout = UICollectionViewFlowLayout().then {
@@ -103,15 +102,15 @@ final class MeetingViewController: BaseViewController {
       $0.height.equalTo(20)
     }
     
-    pageControl.snp.makeConstraints {
-      $0.top.equalTo(meetingTypeStackView.snp.bottom).offset(24)
-      $0.centerX.equalToSuperview()
-    }
-    
     collectionView.snp.makeConstraints {
       $0.top.equalTo(meetingTypeStackView.snp.bottom).offset(36)
       $0.leading.trailing.equalToSuperview()
       $0.height.equalTo(433)
+    }
+    
+    pageControl.snp.makeConstraints {
+      $0.top.equalTo(collectionView.snp.bottom).offset(24)
+      $0.centerX.equalToSuperview()
     }
   }
   
@@ -211,6 +210,8 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
     let scrolledOffset = scrollView.contentOffset.x + scrollView.contentInset.left
     let cellWidth = Constants.itemSize.width + Constants.itemSpacing
     let index = Int(round(scrolledOffset / cellWidth))
+    
+    pageControl.currentPage = index
     
     guard index < meetingList.count else { return }
     self.meetingList[index].isDimmed = false
