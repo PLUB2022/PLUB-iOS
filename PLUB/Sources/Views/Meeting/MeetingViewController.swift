@@ -43,13 +43,9 @@ final class MeetingViewController: BaseViewController {
   }
   
   private let collectionViewLayout = UICollectionViewFlowLayout().then {
-    $0.minimumInteritemSpacing = 16
-    $0.itemSize = CGSize(
-      width: Device.width - 30 * 2,
-      height: Device.height
-      - (Device.topInset + Device.bottomInset)
-      - (111 + 25 + 100)
-    )
+    $0.minimumInteritemSpacing = 0
+    $0.minimumLineSpacing = Constants.itemSpacing
+    $0.itemSize = Constants.itemSize
     $0.scrollDirection = .horizontal
   }
   
@@ -61,7 +57,14 @@ final class MeetingViewController: BaseViewController {
     $0.showsHorizontalScrollIndicator = false
     $0.delegate = self
     $0.dataSource = self
+    $0.isScrollEnabled = true
+    $0.clipsToBounds = true
     $0.register(MeetingCollectionViewCell.self, forCellWithReuseIdentifier: "MeetingCollectionViewCell")
+    $0.isPagingEnabled = false
+    $0.contentInsetAdjustmentBehavior = .never
+    $0.contentInset = Constants.collectionViewContentInset
+    $0.decelerationRate = .fast
+    $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
   override func viewDidLoad() {
@@ -179,6 +182,31 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
       let vc = CreateMeetingViewController()
       vc.hidesBottomBarWhenPushed = true
       self.navigationController?.pushViewController(vc, animated: true)
+    }
+  }
+  
+  func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    let scrolledOffsetX = targetContentOffset.pointee.x + scrollView.contentInset.left
+    let cellWidth = Constants.itemSize.width + Constants.itemSpacing
+    let index = round(scrolledOffsetX / cellWidth)
+    
+    targetContentOffset.pointee = CGPoint(
+      x: index * cellWidth - scrollView.contentInset.left,
+      y: scrollView.contentInset.top
+    )
+  }
+}
+
+extension MeetingViewController {
+  private enum Constants {
+    static let itemSize = CGSize(width: 300, height: 433)
+    static let itemSpacing = CGFloat(16)
+    
+    static var insetX: CGFloat {
+      (Device.width - self.itemSize.width) / 2.0
+    }
+    static var collectionViewContentInset: UIEdgeInsets {
+      UIEdgeInsets(top: 0, left: self.insetX, bottom: 0, right: self.insetX)
     }
   }
 }
