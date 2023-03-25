@@ -17,26 +17,12 @@ final class MeetingViewController: BaseViewController {
   
   private var previousIndex: Int?
   
-  private let meetingTypeStackView = UIStackView().then {
-    $0.axis = .horizontal
-    $0.spacing = 16
-    $0.alignment = .center
-  }
-  
-  private let lineView = UIView().then {
-    $0.backgroundColor = .black
-  }
-  
-  private let myMeetingButton = UIButton().then {
-    $0.setTitle("내 모임", for: .normal)
-    $0.setTitleColor(.mediumGray, for: .normal)
-    $0.titleLabel?.font = .h4
-  }
-  
-  private let hostButton = UIButton().then {
-    $0.setTitle("호스트", for: .normal)
-    $0.setTitleColor(.black, for: .normal)
-    $0.titleLabel?.font = .h4
+  private let meetingTypeControl = MeetingTypeControl(items: ["내모임", "호스트"]).then {
+    $0.setTitleTextAttributes([.foregroundColor: UIColor.black, .font: UIFont.button], for: .normal)
+    $0.setTitleTextAttributes([.foregroundColor: UIColor.white, .font: UIFont.button], for: .selected)
+    $0.selectedSegmentIndex = 0
+
+    $0.backgroundColor = .background
   }
   
   private let pageControl = PageControl().then {
@@ -80,30 +66,22 @@ final class MeetingViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [meetingTypeStackView, pageControl, collectionView].forEach {
+    [meetingTypeControl, pageControl, collectionView].forEach {
       view.addSubview($0)
-    }
-    
-    [myMeetingButton, lineView, hostButton].forEach {
-      meetingTypeStackView.addArrangedSubview($0)
     }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    meetingTypeStackView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(51)
-      $0.height.equalTo(24)
+    meetingTypeControl.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
+      $0.width.equalTo(144)
+      $0.height.equalTo(32)
       $0.centerX.equalToSuperview()
     }
     
-    lineView.snp.makeConstraints {
-      $0.width.equalTo(1)
-      $0.height.equalTo(20)
-    }
-    
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(meetingTypeStackView.snp.bottom).offset(36)
+      $0.top.equalTo(meetingTypeControl.snp.bottom).offset(36)
       $0.leading.trailing.equalToSuperview()
       $0.height.equalTo(433)
     }
@@ -126,20 +104,6 @@ final class MeetingViewController: BaseViewController {
       .drive(with: self) { owner, data in
         owner.meetingList = data
         owner.pageControl.numberOfPages = data.count
-      }
-      .disposed(by: disposeBag)
-    
-    myMeetingButton.rx.tap
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        //
-      }
-      .disposed(by: disposeBag)
-    
-    hostButton.rx.tap
-      .asDriver()
-      .drive(with: self) { owner, _ in
-       //
       }
       .disposed(by: disposeBag)
   }
