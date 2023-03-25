@@ -126,6 +126,7 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    // == gesture ==
     panGesture.delegate = self
     collectionView.addGestureRecognizer(tapGesture)
     collectionView.addGestureRecognizer(panGesture)
@@ -138,6 +139,7 @@ final class BoardDetailViewController: BaseViewController {
     super.bind()
     collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
+    // 가져온 댓글을 가지고 Diffable DataSource에 전달
     viewModel.fetchAlertDriver
       .drive(with: self) { owner, _ in
         owner.setCollectionView()
@@ -145,6 +147,7 @@ final class BoardDetailViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    // collectionView가 터치되면 first responder를 resign 시킴
     tapGesture.rx.event
       .asDriver()
       .drive(with: self) { owner, _ in
@@ -152,6 +155,7 @@ final class BoardDetailViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    // collectionView에서 아래로 스와이프되었을 때 first responder를 resign 시킴
     panGesture.rx.event
       .asDriver()
       .map { [weak self] in $0.translation(in: self?.collectionView) }
