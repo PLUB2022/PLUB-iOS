@@ -16,9 +16,11 @@ final class BoardCollectionViewCell: UICollectionViewCell {
   static let identifier = "BoardsCollectionViewCell"
   
   // MARK: - Properties
+  
   var feedID: Int?
   
   // MARK: - UI Components
+  
   private let wholeStackView = UIStackView().then {
     $0.alignment = .top
     $0.spacing = 8
