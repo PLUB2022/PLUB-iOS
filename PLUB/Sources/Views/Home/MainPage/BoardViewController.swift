@@ -40,7 +40,7 @@ final class BoardViewController: BaseViewController {
   
   private var boardModel: [BoardModel] = [] {
     didSet {
-      collectionView.reloadSections([0])
+      collectionView.reloadData()
     }
   }
   

@@ -82,8 +82,8 @@ final class MainPageViewController: BaseViewController {
   
   private var viewControllers: [UIViewController] {
     [
-      UINavigationController(rootViewController: boardViewController),
-      UINavigationController(rootViewController: todolistViewController)
+      boardViewController,
+      todolistViewController
     ]
   }
   
