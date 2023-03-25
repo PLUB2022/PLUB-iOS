@@ -14,9 +14,9 @@ final class MeetingViewModel {
   private let disposeBag = DisposeBag()
 
   // Output
-  let meetingList: Driver<[MyPlubbing]>
+  let meetingList: Driver<[MeetingCellModel]>
 
-  private let meetingListRelay = BehaviorRelay<[MyPlubbing]>(value: [])
+  private let meetingListRelay = BehaviorRelay<[MeetingCellModel]>(value: [])
   
   init() {
     meetingList = meetingListRelay.asDriver()
@@ -32,7 +32,10 @@ final class MeetingViewModel {
         switch result {
         case .success(let model):
           guard let data = model.data else { return }
-          owner.meetingListRelay.accept(data.myPlubbing)
+          let model = data.myPlubbing.map {
+            MeetingCellModel(plubbing: $0, isDimmed: true)
+          }
+          owner.meetingListRelay.accept(model)
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })

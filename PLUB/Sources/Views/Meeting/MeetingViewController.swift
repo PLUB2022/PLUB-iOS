@@ -9,7 +9,7 @@ final class MeetingViewController: BaseViewController {
   
   private let viewModel = MeetingViewModel()
   
-  private var meetingList: [MyPlubbing] = [] {
+  private var meetingList: [MeetingCellModel] = [] {
     didSet {
       self.collectionView.reloadData()
     }
@@ -108,7 +108,7 @@ final class MeetingViewController: BaseViewController {
     collectionView.snp.makeConstraints {
       $0.top.equalTo(meetingTypeStackView.snp.bottom).offset(36)
       $0.leading.trailing.equalToSuperview()
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(25)
+      $0.height.equalTo(433)
     }
   }
   
@@ -173,7 +173,7 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if indexPath.row < meetingList.count {
       // 플러빙 메인
-      let vc = MainPageViewController(plubbingID: meetingList[indexPath.row].plubbingID)
+      let vc = MainPageViewController(plubbingID: meetingList[indexPath.row].plubbing.plubbingID)
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
       self.navigationController?.pushViewController(vc, animated: true)

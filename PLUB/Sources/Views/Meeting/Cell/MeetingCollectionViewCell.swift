@@ -9,13 +9,49 @@ import UIKit
 
 import SnapKit
 
+struct MeetingCellModel {
+  let plubbing: MyPlubbing
+  var isDimmed: Bool
+}
+
 final class MeetingCollectionViewCell: UICollectionViewCell {
   static let identifier = "MeetingCollectionViewCell"
   
-  private let label = UILabel().then {
-    $0.font = .h3
-    $0.textColor = .deepGray
+  private let imageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+  }
+  
+  private let textStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 16
+    $0.alignment = .center
+  }
+  
+  private let goalView = UIView()
+  
+  private let goalLabel = UILabel().then {
+    $0.textColor = .main
+    $0.font = .appFont(family: .nanum, size: 32)
     $0.textAlignment = .center
+  }
+  
+  private let goalBackgroundView = UIView().then {
+    $0.backgroundColor = .subMain
+  }
+  
+  private let titleLabel = UILabel().then {
+    $0.font = .h2
+    $0.textColor = .black
+  }
+  
+  private let dateLabel = UILabel().then {
+    $0.font = .caption
+    $0.textColor = .black
+  }
+  
+  private let dimmedView = UIView().then {
+    $0.backgroundColor = UIColor(hex: 0xFAF9FE, alpha: 0.45)
+    $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
   override init(frame: CGRect) {
@@ -28,30 +64,98 @@ final class MeetingCollectionViewCell: UICollectionViewCell {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    titleLabel.text = nil
+    dimmedView.isHidden = false
+  }
     
   private func setupLayouts() {
-    addSubview(label)
+    [imageView, textStackView, dimmedView].forEach {
+      addSubview($0)
+    }
+  
+    [goalView, titleLabel, dateLabel].forEach {
+      textStackView.addArrangedSubview($0)
+    }
+    
+    [goalBackgroundView, goalLabel].forEach {
+      goalView.addSubview($0)
+    }
   }
     
   private func setupConstraints() {
-    label.snp.makeConstraints {
-      $0.center.equalToSuperview()
+    imageView.snp.makeConstraints {
+      $0.top.leading.trailing.equalToSuperview()
+      $0.height.equalTo(270)
+    }
+    
+    textStackView.snp.makeConstraints {
+      $0.top.equalTo(imageView.snp.bottom).offset(16)
+      $0.leading.trailing.equalToSuperview()
+    }
+    
+    goalView.snp.makeConstraints {
+      $0.height.equalTo(40)
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.height.equalTo(33)
+    }
+    
+    dateLabel.snp.makeConstraints {
+      $0.height.equalTo(18)
+    }
+    
+    dimmedView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
+    
+    textStackView.setCustomSpacing(8, after: titleLabel)
+    
+    goalBackgroundView.snp.makeConstraints {
+      $0.width.equalTo(187)
+      $0.height.equalTo(19)
+      $0.centerX.bottom.equalToSuperview()
+    }
+    
+    goalLabel.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
   }
   
   private func setupStyles() {
     backgroundColor = .clear
     
-    layer.cornerRadius = 8
+    layer.cornerRadius = 30
     layer.borderWidth = 1
-    layer.borderColor = UIColor.deepGray.cgColor
+    layer.borderColor = UIColor.main.cgColor
   }
   
-  func setupData(with data: MyPlubbing) {
-    label.text = data.name
+  func setupData(with data: MeetingCellModel) {
+    titleLabel.text = data.plubbing.name
+    goalLabel.text = data.plubbing.goal
+    
+    dateLabel.text = data.plubbing.days
+      .map{ $0.fromENGToKOR() }
+      .joined(separator: " ,")
+    
+    dimmedView.isHidden = !data.isDimmed
+    
+    if let imageURL = data.plubbing.mainImage, let url = URL(string: imageURL) {
+      imageView.kf.setImage(with: url)
+    } else {
+      imageView.image = UIImage(named: "userDefaultImage")
+    }
+    
+    imageView.layer.cornerRadius = 30
+    imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+
+    imageView.layer.masksToBounds = true
   }
   
   func setupCreateCell() {
-    label.text = "+"
+    titleLabel.text = "+"
   }
 }
