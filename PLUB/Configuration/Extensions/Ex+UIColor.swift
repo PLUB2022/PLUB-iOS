@@ -35,9 +35,11 @@ extension UIColor {
   static let main                = UIColor(hex: 0x5F5FF9)
   static let subMain             = UIColor(hex: 0xE1E1FA)
   static let background          = UIColor(hex: 0xFAF9FE)
+  static let subBackground       = UIColor(hex: 0xF6F6FE)
   static let deepGray            = UIColor(hex: 0x8C8C8C)
   static let mediumGray          = UIColor(hex: 0xC4C4C4)
   static let lightGray           = UIColor(hex: 0xF2F3F4)
   static let black               = UIColor(hex: 0x363636)
   static let error               = UIColor(hex: 0xF75B2B)
+  static let errorLight          = UIColor(hex: 0xFDEFEA)
 }
