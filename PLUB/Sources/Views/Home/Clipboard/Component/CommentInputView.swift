@@ -12,11 +12,21 @@ import RxCocoa
 import SnapKit
 import Then
 
+protocol CommentInputViewDelegate: AnyObject {
+  /// 사용자가 작성한 댓글을 게시하려고 할 때 실행됩니다.
+  /// - Parameters:
+  ///   - textView: 입력된 텍스트가 포함된 UITextView입니다.
+  ///   - writtenText: 작성된 댓글 텍스트입니다.
+  func commentInputView(_ textView: UITextView, writtenText: String)
+}
+
 final class CommentInputView: UIView {
   
   // MARK: - Properties
   
   private let disposeBag = DisposeBag()
+  
+  weak var delegate: CommentInputViewDelegate?
   
   // MARK: - UI Components
   
@@ -74,8 +84,7 @@ final class CommentInputView: UIView {
     uploadButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        // TODO: 승현 - text를 가지고 메시지처리 해야함
-        owner.textView.text = ""
+        owner.delegate?.commentInputView(owner.textView, writtenText: owner.textView.text)
       }
       .disposed(by: disposeBag)
     
