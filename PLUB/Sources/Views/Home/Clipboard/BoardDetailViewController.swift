@@ -29,6 +29,30 @@ final class BoardDetailViewController: BaseViewController {
     $0.backgroundColor = .background
   }
   
+  // MARK: Comment Posting View (댓글 작성 UI)
+  
+  private let separatorLineView = UIView().then {
+    $0.backgroundColor = .lightGray
+  }
+  
+  private let commentPostingStackView = UIStackView().then {
+    $0.spacing = 8
+    $0.alignment = .center
+  }
+  
+  private let profileImageView = UIImageView(image: .init(named: "userDefaultImage")).then {
+    $0.contentMode = .scaleAspectFit
+  }
+  
+  private let commentPostingTextField = PaddingTextField(left: 8, right: 8).then {
+    $0.layer.cornerRadius = 8
+    $0.backgroundColor = .white
+    $0.placeholder = Constants.placeholder
+    $0.font = .caption
+    $0.textColor = .black
+  }
+  
+  
   // MARK: - Initializations
   
   init(viewModel: BoardDetailViewModelType & BoardDetailDataStore) {
@@ -153,5 +177,13 @@ private extension BoardDetailViewController {
       snapshot.appendItems(viewModel.comments.filter { $0.groupID == sectionGroupID }, toSection: sectionGroupID)
     }
     dataSource?.apply(snapshot)
+  }
+}
+
+// MARK: - Constants
+
+private extension BoardDetailViewController {
+  enum Constants {
+    static let placeholder = "댓글을 입력하세요"
   }
 }
