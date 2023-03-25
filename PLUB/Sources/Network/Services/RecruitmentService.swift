@@ -50,11 +50,11 @@ extension RecruitmentService {
     return sendRequest(RecruitmentRouter.inquireApplicant(plubbingID), type: InquireApplicantResponse.self)
   }
   
-  func approvalApplicant(plubbingID: Int, accountID: String) -> PLUBResult<EmptyModel> {
+  func approvalApplicant(plubbingID: Int, accountID: Int) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.approvalApplicant(plubbingID, accountID))
   }
   
-  func refuseApplicant(plubbingID: Int, accountID: String) -> PLUBResult<EmptyModel> {
+  func refuseApplicant(plubbingID: Int, accountID: Int) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.refuseApplicant(plubbingID, accountID))
   }
 }

@@ -138,7 +138,7 @@ class RecruitingViewModel {
   private func approvalApplicant(sectionIndex: Int, accountID: Int) {
     RecruitmentService.shared.approvalApplicant(
       plubbingID: plubbingID,
-      accountID: "\(accountID)"
+      accountID: accountID
     )
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
@@ -158,7 +158,7 @@ class RecruitingViewModel {
   private func refuseApplicant(sectionIndex: Int, accountID: Int) {
     RecruitmentService.shared.refuseApplicant(
       plubbingID: plubbingID,
-      accountID: "\(accountID)"
+      accountID: accountID
     )
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
