@@ -120,26 +120,6 @@ struct FeedsContent: Codable {
     case plubbingID = "plubbingId"
   }
   
-//  init(from decoder: Decoder) throws {
-//    let container = try decoder.container(keyedBy: CodingKeys.self)
-//    self.viewType = (try? container.decodeIfPresent(ViewType.self, forKey: .viewType)) ?? .system
-//    self.title = (try? container.decodeIfPresent(String.self, forKey: .title)) ?? ""
-//    self.content = (try? container.decodeIfPresent(String.self, forKey: .content)) ?? ""
-//    self.likeCount = (try? container.decodeIfPresent(Int.self, forKey: .likeCount)) ?? 0
-//    self.commentCount = (try? container.decodeIfPresent(Int.self, forKey: .commentCount)) ?? 0
-//    self.nickname = (try? container.decodeIfPresent(String.self, forKey: .nickname)) ?? ""
-//    self.plubbingName = (try? container.decodeIfPresent(String.self, forKey: .plubbingName)) ?? ""
-//    self.isAuthor = (try? container.decodeIfPresent(Bool.self, forKey: .isAuthor)) ?? false
-//    self.isHost = (try? container.decodeIfPresent(Bool.self, forKey: .isHost)) ?? false
-//    self.feedImageURL = (try? container.decodeIfPresent(String.self, forKey: .feedImageURL)) ?? ""
-//    self.profileImageURL = (try? container.decodeIfPresent(String.self, forKey: .profileImageURL)) ?? ""
-//    self.feedID = (try? container.decodeIfPresent(Int.self, forKey: .feedID)) ?? 0
-//    self.type = (try? container.decodeIfPresent(PostType.self, forKey: .type)) ?? .text
-//    self.postDate = (try? container.decodeIfPresent(String.self, forKey: .postDate)) ?? ""
-//    self.isPinned = (try? container.decodeIfPresent(Bool.self, forKey: .isPinned)) ?? false
-//    self.plubbingID = (try? container.decodeIfPresent(Int.self, forKey: .plubbingID)) ?? 0
-//  }
-  
   private let identifier = UUID()
 }
 

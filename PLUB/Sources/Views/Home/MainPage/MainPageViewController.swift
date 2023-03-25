@@ -232,7 +232,7 @@ extension MainPageViewController: BoardViewControllerDelegate {
       content: content)
     )
     vc.navigationItem.largeTitleDisplayMode = .never
-    self.navigationController?.pushViewController(vc, animated: true)
+    navigationController?.pushViewController(vc, animated: true)
   }
   
   func calculateHeight(_ height: CGFloat) {
