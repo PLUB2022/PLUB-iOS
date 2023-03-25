@@ -9,16 +9,16 @@ import Alamofire
 
 enum RecruitmentRouter {
   case inquireAllBookmark
-  case inquireDetailRecruitment(String)
-  case inquireRecruitmentQuestion(String)
+  case inquireDetailRecruitment(Int)
+  case inquireRecruitmentQuestion(Int)
   case searchRecruitment(SearchParameter)
-  case requestBookmark(String)
-  case editMeetingPost(String, EditMeetingPostRequest)
-  case editMeetingQuestion(String, EditMeetingQuestionRequest)
-  case applyForRecruitment(String, ApplyForRecruitmentRequest)
-  case inquireApplicant(String)
-  case approvalApplicant(String, String)
-  case refuseApplicant(String, String)
+  case requestBookmark(Int)
+  case editMeetingPost(Int, EditMeetingPostRequest)
+  case editMeetingQuestion(Int, EditMeetingQuestionRequest)
+  case applyForRecruitment(Int, ApplyForRecruitmentRequest)
+  case inquireApplicant(Int)
+  case approvalApplicant(Int, String)
+  case refuseApplicant(Int, String)
 }
 
 extension RecruitmentRouter: Router {

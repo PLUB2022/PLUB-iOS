@@ -14,11 +14,11 @@ class RecruitmentService: BaseService {
 }
 
 extension RecruitmentService {
-  func inquireDetailRecruitment(plubbingID: String) -> PLUBResult<DetailRecruitmentResponse> {
+  func inquireDetailRecruitment(plubbingID: Int) -> PLUBResult<DetailRecruitmentResponse> {
     return sendRequest(RecruitmentRouter.inquireDetailRecruitment(plubbingID), type: DetailRecruitmentResponse.self)
   }
   
-  func inquireRecruitmentQuestion(plubbingID: String) -> PLUBResult<RecruitmentQuestionResponse> {
+  func inquireRecruitmentQuestion(plubbingID: Int) -> PLUBResult<RecruitmentQuestionResponse> {
     return sendRequest(RecruitmentRouter.inquireRecruitmentQuestion(plubbingID), type: RecruitmentQuestionResponse.self)
   }
   
@@ -30,30 +30,31 @@ extension RecruitmentService {
     return sendRequest(RecruitmentRouter.searchRecruitment(searchParameter), type: SearchRecruitmentResponse.self)
   }
   
-  func requestBookmark(plubbingID: String) -> PLUBResult<RequestBookmarkResponse> {
+  func requestBookmark(plubbingID: Int) -> PLUBResult<RequestBookmarkResponse> {
     return sendRequest(RecruitmentRouter.requestBookmark(plubbingID), type: RequestBookmarkResponse.self)
   }
   
-  func editMeetingPost(plubbingID: String, request: EditMeetingPostRequest) -> PLUBResult<EmptyModel> {
+  func editMeetingPost(plubbingID: Int, request: EditMeetingPostRequest) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.editMeetingPost(plubbingID, request))
   }
   
-  func editMeetingQuestion(plubbingID: String, request: EditMeetingQuestionRequest) -> PLUBResult<EmptyModel> {
+  func editMeetingQuestion(plubbingID: Int, request: EditMeetingQuestionRequest) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.editMeetingQuestion(plubbingID, request))
   }
   
-  func applyForRecruitment(plubbingID: String, request: ApplyForRecruitmentRequest) -> PLUBResult<EmptyModel> {
+  func applyForRecruitment(plubbingID: Int, request: ApplyForRecruitmentRequest) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.applyForRecruitment(plubbingID, request))
-
-  func inquireApplicant(plubbingID: String) -> PLUBResult<InquireApplicantResponse> {
+  }
+  
+  func inquireApplicant(plubbingID: Int) -> PLUBResult<InquireApplicantResponse> {
     return sendRequest(RecruitmentRouter.inquireApplicant(plubbingID), type: InquireApplicantResponse.self)
   }
   
-  func approvalApplicant(plubbingID: String, accountID: String) -> PLUBResult<EmptyModel> {
+  func approvalApplicant(plubbingID: Int, accountID: String) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.approvalApplicant(plubbingID, accountID))
   }
   
-  func refuseApplicant(plubbingID: String, accountID: String) -> PLUBResult<EmptyModel> {
+  func refuseApplicant(plubbingID: Int, accountID: String) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.refuseApplicant(plubbingID, accountID))
   }
 }

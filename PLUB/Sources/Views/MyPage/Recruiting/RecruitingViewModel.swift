@@ -77,7 +77,7 @@ class RecruitingViewModel {
   }
   
   private func fetchMeetingData() {
-    RecruitmentService.shared.inquireDetailRecruitment(plubbingID: "\(plubbingID)")
+    RecruitmentService.shared.inquireDetailRecruitment(plubbingID: plubbingID)
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
         switch result {
@@ -101,7 +101,7 @@ class RecruitingViewModel {
   }
   
   private func fetchApplicants() {
-    RecruitmentService.shared.inquireApplicant(plubbingID: "\(plubbingID)")
+    RecruitmentService.shared.inquireApplicant(plubbingID: plubbingID)
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
         switch result {
@@ -137,7 +137,7 @@ class RecruitingViewModel {
   
   private func approvalApplicant(sectionIndex: Int, accountID: Int) {
     RecruitmentService.shared.approvalApplicant(
-      plubbingID: "\(plubbingID)",
+      plubbingID: plubbingID,
       accountID: "\(accountID)"
     )
       .withUnretained(self)
@@ -157,7 +157,7 @@ class RecruitingViewModel {
   
   private func refuseApplicant(sectionIndex: Int, accountID: Int) {
     RecruitmentService.shared.refuseApplicant(
-      plubbingID: "\(plubbingID)",
+      plubbingID: plubbingID,
       accountID: "\(accountID)"
     )
       .withUnretained(self)

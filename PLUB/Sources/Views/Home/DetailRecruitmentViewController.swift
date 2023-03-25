@@ -16,7 +16,7 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   private let viewModel: DetailRecruitmentViewModelType
   
-  private let plubbingID: String
+  private let plubbingID: Int
   
   private let isHost: Bool
   
@@ -99,7 +99,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: String, isHost: Bool) {
+  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: Int, isHost: Bool) {
     self.isHost = isHost
     self.viewModel = viewModel
     self.plubbingID = plubbingID
@@ -167,7 +167,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     )
   }
   
-  func bind(plubbingID: String) {
+  func bind(plubbingID: Int) {
     super.bind()
     viewModel.selectPlubbingID.onNext(plubbingID)
     

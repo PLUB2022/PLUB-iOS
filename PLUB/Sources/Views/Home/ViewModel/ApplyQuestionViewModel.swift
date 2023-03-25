@@ -11,7 +11,7 @@ import RxCocoa
 protocol ApplyQuestionViewModelType {
   // Input
   var whichQuestion: AnyObserver<QuestionStatus> { get }
-  var whichRecruitment: AnyObserver<String> { get }
+  var whichRecruitment: AnyObserver<Int> { get }
   var whichApplyRequest: AnyObserver<ApplyAnswer> { get }
   var selectApply: AnyObserver<Void> { get }
   
@@ -26,7 +26,7 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   private let disposeBag = DisposeBag()
   // Input
   let whichQuestion: AnyObserver<QuestionStatus> // 어떤 질문에 대한 상태값이 변경됬는지
-  let whichRecruitment: AnyObserver<String> // 지원질문조회를 위한 어떤 모집에 대한 ID인지
+  let whichRecruitment: AnyObserver<Int> // 지원질문조회를 위한 어떤 모집에 대한 ID인지
   let whichApplyRequest: AnyObserver<ApplyAnswer> // 어떤 질문에 대한 답변을 입력할 것인지
   let selectApply: AnyObserver<Void>
   
@@ -36,7 +36,7 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
   let isSuccessApply: Driver<Void>
   
   init() {
-    let currentPlubbing = BehaviorSubject<String>(value: "")
+    let currentPlubbing = BehaviorSubject<Int>(value: 0)
     let questions = BehaviorRelay<[ApplyQuestionTableViewCellModel]>(value: [])
     let currentQuestion = PublishSubject<QuestionStatus>()
     let isActivating = BehaviorSubject<Bool>(value: false)
@@ -80,7 +80,6 @@ final class ApplyQuestionViewModel: ApplyQuestionViewModelType {
       }
     
     let successApplyForRecruitment = requestApplyForRecruitment.compactMap { result -> Void? in
-      print("결과 \(result)")
       guard case .success(_) = result else { return nil }
       return ()
     }

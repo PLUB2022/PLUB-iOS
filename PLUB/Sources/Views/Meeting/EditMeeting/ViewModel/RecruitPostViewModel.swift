@@ -13,7 +13,7 @@ import RxCocoa
 final class RecruitPostViewModel {
   
   private let disposeBag = DisposeBag()
-  private let plubbingID: String
+  private let plubbingID: Int
   
   // Input
   let introduceTitleText: AnyObserver<String>
@@ -34,7 +34,7 @@ final class RecruitPostViewModel {
   
   private let editMeetingRelay = BehaviorRelay(value: EditMeetingPostRequest())
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     self.plubbingID = plubbingID
     
     introduceTitleText = introduceTitleSubject.asObserver()

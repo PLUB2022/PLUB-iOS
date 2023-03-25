@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
-  let plubbingID: String
+  let plubbingID: Int
   let name: String
   let title: String
   let mainImage: String?
@@ -22,7 +22,7 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
 }
 
 protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
-  func didTappedChartBookmarkButton(plubbingID: String)
+  func didTappedChartBookmarkButton(plubbingID: Int)
   func updateBookmarkState(isBookmarked: Bool, cell: UICollectionViewCell)
 }
 
@@ -31,7 +31,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
   weak var delegate: SelectedCategoryChartCollectionViewCellDelegate?
   
   private let disposeBag = DisposeBag()
-  private var plubbingID: String?
+  private var plubbingID: Int?
   
   private let backgroundImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
@@ -143,7 +143,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedChartBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedChartBookmarkButton(plubbingID: plubbingID)
         owner.delegate?.updateBookmarkState(isBookmarked: true, cell: owner)
       })
       .disposed(by: disposeBag)
@@ -152,7 +152,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         guard let plubbingID = owner.plubbingID else { return }
-        owner.delegate?.didTappedChartBookmarkButton(plubbingID: "\(plubbingID)")
+        owner.delegate?.didTappedChartBookmarkButton(plubbingID: plubbingID)
         owner.delegate?.updateBookmarkState(isBookmarked: false, cell: owner)
       })
       .disposed(by: disposeBag)

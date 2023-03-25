@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol DetailRecruitmentViewModelType {
   // Input
-  var selectPlubbingID: AnyObserver<String> { get }
+  var selectPlubbingID: AnyObserver<Int> { get }
   
   // Output
   var introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel> { get }
@@ -26,7 +26,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let selectPlubbingID: AnyObserver<String> // 세부정보를 보고싶은 모집글에 대한 ID
+  let selectPlubbingID: AnyObserver<Int> // 세부정보를 보고싶은 모집글에 대한 ID
   
   // Output
   let introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel> // 모집글 세부정보를 표시하기위한 UI 모델
@@ -36,7 +36,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   let isApplied: Driver<Bool> // 해당 모집글을 신청했는지
   
   init() {
-    let selectingPlubbingID = PublishSubject<String>()
+    let selectingPlubbingID = PublishSubject<Int>()
     let successFetchingDetail = PublishRelay<DetailRecruitmentResponse>()
     self.selectPlubbingID = selectingPlubbingID.asObserver()
     

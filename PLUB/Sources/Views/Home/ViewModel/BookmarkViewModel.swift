@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol BookmarkViewModelType {
   // Input
-  var tappedBookmark: AnyObserver<String> { get }
+  var tappedBookmark: AnyObserver<Int> { get }
   
   // Output
   var isBookmarked: Signal<Bool> { get }
@@ -20,14 +20,14 @@ protocol BookmarkViewModelType {
 // TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
 final class BookmarkViewModel: BookmarkViewModelType {
   // Input
-  let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
+  let tappedBookmark: AnyObserver<Int> // 북마크버튼을 탭 했을때
   
   // Output
   let isBookmarked: Signal<Bool> // [북마크][북마크해제] 성공 유무
   let updatedCellData: Signal<[SelectedCategoryCollectionViewCellModel]> // 해당 ID와 분류타입에 대한 카테고리 데이터
   
   init() {
-    let whichBookmark = PublishSubject<String>()
+    let whichBookmark = PublishSubject<Int>()
     
     tappedBookmark = whichBookmark.asObserver()
     
@@ -49,7 +49,7 @@ final class BookmarkViewModel: BookmarkViewModelType {
     updatedCellData = successBookmarkAll.map { contents in
       return contents.map { content in
         return SelectedCategoryCollectionViewCellModel(
-          plubbingID: "\(content.plubbingID)",
+          plubbingID: content.plubbingID,
           name: content.name,
           title: content.title,
           mainImage: content.mainImage,

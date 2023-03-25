@@ -16,7 +16,7 @@ protocol SearchInputViewModelType {
   var whichFilterType: AnyObserver<FilterType> { get }
   var whichKeywordRemove: AnyObserver<Int> { get }
   var tappedRemoveAll: AnyObserver<Void> { get }
-  var tappedBookmark: AnyObserver<String> { get }
+  var tappedBookmark: AnyObserver<Int> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
   
   // Output
@@ -38,7 +38,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
   let whichFilterType: AnyObserver<FilterType> // 어떤 필터타입으로 검색할 것인지
   let whichKeywordRemove: AnyObserver<Int> // 어떤 인덱스에 해당하는 remove버튼을 눌렀는지
   let tappedRemoveAll: AnyObserver<Void> // 모두 지우기 버튼을 눌렀는지
-  let tappedBookmark: AnyObserver<String> // 북마크버튼을 탭 했을때
+  let tappedBookmark: AnyObserver<Int> // 북마크버튼을 탭 했을때
   let fetchMoreDatas: AnyObserver<Void> // 더 많은 데이터를 받을 것인지
   
   // Output
@@ -56,7 +56,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
     let recentKeywordList = BehaviorRelay<[String]>(value: [])
     let removeKeyword = PublishSubject<Int>()
     let removeAllKeyword = PublishSubject<Void>()
-    let whichBookmark = PublishSubject<String>()
+    let whichBookmark = PublishSubject<Int>()
     let fetchingDatas = PublishSubject<Void>()
     let currentPage = BehaviorRelay<Int>(value: 1)
     let isLastPage = BehaviorRelay<Bool>(value: false)
@@ -128,7 +128,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
     let fetchSelectedCategoryCollectionViewCellModel = successSearch.map { contents in
       contents.map { content in
         return SelectedCategoryCollectionViewCellModel(
-          plubbingID: "\(content.plubbingID)",
+          plubbingID: content.plubbingID,
           name: content.name,
           title: content.title,
           mainImage: content.mainImage,

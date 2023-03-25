@@ -43,7 +43,7 @@ final class ApplyQuestionViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "지원하기")
   }
   
-  init(viewModel: ApplyQuestionViewModelType = ApplyQuestionViewModel(), plubbingID: String) {
+  init(viewModel: ApplyQuestionViewModelType = ApplyQuestionViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
@@ -93,7 +93,7 @@ final class ApplyQuestionViewController: BaseViewController {
     }
   }
   
-  func bind(plubbingID: String) {
+  func bind(plubbingID: Int) {
     super.bind()
     
     viewModel.whichRecruitment.onNext(plubbingID)

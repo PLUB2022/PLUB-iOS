@@ -13,7 +13,7 @@ import RxCocoa
 final class MeetingInfoViewModel {
   
   private let disposeBag = DisposeBag()
-  private let plubbingID: String
+  private let plubbingID: Int
   
   // CellData
   let dateCellData: BehaviorRelay<[MeetingDateCollectionViewCellModel]>
@@ -30,7 +30,7 @@ final class MeetingInfoViewModel {
   
   private let editMeetingRelay = BehaviorRelay(value: EditMeetingInfoRequest())
   
-  init(plubbingID: String) {
+  init(plubbingID: Int) {
     self.plubbingID = plubbingID
     
     let dateList = Day.allCases

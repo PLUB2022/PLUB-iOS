@@ -9,7 +9,7 @@ import Alamofire
 
 enum MeetingRouter {
   case createMeeting(CreateMeetingRequest)
-  case editMeetingInfo(String, EditMeetingInfoRequest)
+  case editMeetingInfo(Int, EditMeetingInfoRequest)
   case inquireCategoryMeeting(String, Int, String, CategoryMeetingRequest?)
   case inquireRecommendationMeeting(Int)
   case inquireMyMeeting(Bool)

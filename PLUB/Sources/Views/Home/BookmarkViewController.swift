@@ -215,11 +215,11 @@ extension BookmarkViewController: SelectedCategoryChartCollectionViewCellDelegat
     model[indexPath.row].isBookmarked = isBookmarked
   }
   
-  func didTappedChartBookmarkButton(plubbingID: String) {
+  func didTappedChartBookmarkButton(plubbingID: Int) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
   
-  func didTappedGridBookmarkButton(plubbingID: String) {
+  func didTappedGridBookmarkButton(plubbingID: Int) {
     viewModel.tappedBookmark.onNext(plubbingID)
   }
 }
