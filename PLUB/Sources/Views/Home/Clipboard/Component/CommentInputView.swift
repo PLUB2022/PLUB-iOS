@@ -41,6 +41,7 @@ final class CommentInputView: UIView {
     super.init(frame: frame)
     setupLayouts()
     setupConstraints()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -67,6 +68,34 @@ final class CommentInputView: UIView {
     uploadButton.snp.makeConstraints {
       $0.size.equalTo(32)
     }
+  }
+  
+  private func bind() {
+    uploadButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        // TODO: 승현 - text를 가지고 메시지처리 해야함
+        owner.textView.text = ""
+      }
+      .disposed(by: disposeBag)
+    
+    textView.rx.text
+      .orEmpty
+      .distinctUntilChanged()
+      .observe(on: MainScheduler.instance)
+      .subscribe(with: self) { owner, text in
+        // == 텍스트가 존재한다면 업로드 버튼 보이기 ==
+        owner.uploadButton.isHidden = text.isEmpty
+        
+        // == text view dynamic height ==
+        let size = CGSize(width: owner.textView.frame.width, height: .infinity)
+        let estimatedSize = owner.textView.sizeThatFits(size)
+        owner.textView.snp.remakeConstraints {
+          $0.height.greaterThanOrEqualTo(32).priority(.required)
+          $0.height.equalTo(estimatedSize.height).priority(.high)
+        }
+      }
+      .disposed(by: disposeBag)
   }
 }
 
