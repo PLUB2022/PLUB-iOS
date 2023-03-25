@@ -28,6 +28,8 @@ final class CommentInputView: UIView {
   private let textView = UITextView().then {
     $0.textColor = .black
     $0.font = .body1
+    $0.textContainerInset = .init(top: 4, left: 8, bottom: 4, right: 0)
+    $0.isScrollEnabled = false
   }
   
   private let uploadButton = UIButton().then {
