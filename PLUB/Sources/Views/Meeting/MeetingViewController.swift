@@ -15,6 +15,8 @@ final class MeetingViewController: BaseViewController {
     }
   }
   
+  private var previousIndex: Int?
+  
   private let meetingTypeStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 16
@@ -194,6 +196,27 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
       x: index * cellWidth - scrollView.contentInset.left,
       y: scrollView.contentInset.top
     )
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    guard !meetingList.isEmpty else { return }
+    
+    let scrolledOffset = scrollView.contentOffset.x + scrollView.contentInset.left
+    let cellWidth = Constants.itemSize.width + Constants.itemSpacing
+    let index = Int(round(scrolledOffset / cellWidth))
+    
+    guard index < meetingList.count else { return }
+    self.meetingList[index].isDimmed = false
+    
+    defer {
+      self.previousIndex = index
+      self.collectionView.reloadData()
+    }
+    
+    guard let previousIndex = self.previousIndex,
+      previousIndex != index
+    else { return }
+    self.meetingList[previousIndex].isDimmed = true
   }
 }
 
