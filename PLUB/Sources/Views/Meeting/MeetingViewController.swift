@@ -143,6 +143,7 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
         withReuseIdentifier: MeetingCollectionViewCell.identifier,
         for: indexPath
       ) as? MeetingCollectionViewCell else { return UICollectionViewCell() }
+      cell.delegate = self
       cell.setupData(with: meetingList[indexPath.row])
       return cell
     } else {
@@ -222,5 +223,19 @@ extension MeetingViewController {
     static var collectionViewContentInset: UIEdgeInsets {
       UIEdgeInsets(top: 0, left: self.insetX, bottom: 0, right: self.insetX)
     }
+  }
+}
+
+extension MeetingViewController: MeetingCollectionViewCellDelegate {
+  func didTappedSettingButton() {
+  }
+  
+  func didTappedExitButton() {
+  }
+  
+  func didTappedExportButton() {
+  }
+  
+  func didTappedEndButton() {
   }
 }
