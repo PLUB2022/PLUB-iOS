@@ -136,7 +136,7 @@ final class BoardDetailViewController: BaseViewController {
     super.bind()
     collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
-    // 가져온 댓글을 가지고 Diffable DataSource에 전달
+    // ViewModel에게 `DiffableDataSource`처리를 해주기 위해 collectionView를 전달
     viewModel.setCollectionViewObserver.onNext(collectionView)
     
     // collectionView가 터치되면 first responder를 resign 시킴
