@@ -18,9 +18,6 @@ final class BoardDetailViewController: BaseViewController {
   
   private let viewModel: BoardDetailViewModelType & BoardDetailDataStore
   
-  /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
-  private var dataSource: DataSource?
-  
   /// 터치 및 아래로 스와이프를 인식하기 위한 gesture recognizer
   private let panGesture = UIPanGestureRecognizer(target: BoardDetailViewController.self, action: nil)
   private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil)
@@ -139,13 +136,8 @@ final class BoardDetailViewController: BaseViewController {
     super.bind()
     collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
-    // 가져온 댓글을 가지고 Diffable DataSource에 전달
-    viewModel.fetchAlertDriver
-      .drive(with: self) { owner, _ in
-        owner.setCollectionView()
-        owner.applyInitialSnapshots()
-      }
-      .disposed(by: disposeBag)
+    // ViewModel에게 `DiffableDataSource`처리를 해주기 위해 collectionView를 전달
+    viewModel.setCollectionViewObserver.onNext(collectionView)
     
     // collectionView가 터치되면 first responder를 resign 시킴
     tapGesture.rx.event
@@ -196,68 +188,12 @@ extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
     // 첫 번째 section에만 게시글이 보이도록 설정
     guard section == 0 else { return .zero }
     // 동적 높이 처리
-    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
+    let headerRegistration = BoardDetailViewModel.HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
       supplementaryView.configure(with: viewModel.content)
     }
     let indexPath = IndexPath(row: 0, section: section)
     let headerView = collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
     return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-  }
-}
-
-// MARK: - Diffable DataSource & Types
-
-private extension BoardDetailViewController {
-  
-  // MARK: Type Alias
-  
-  typealias Section = Int
-  typealias Item = CommentContent
-  typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-  typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
-  
-  typealias CellRegistration = UICollectionView.CellRegistration<BoardDetailCollectionViewCell, CommentContent>
-  typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<BoardDetailCollectionHeaderView>
-  
-  // MARK: Snapshot & DataSource Part
-  
-  /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
-  private func setCollectionView() {
-    
-    // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
-    let registration = CellRegistration { cell, _, item in
-      cell.configure(with: item)
-    }
-    
-    // Header View Registration, 헤더 뷰 후처리에 사용됨
-    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
-      supplementaryView.configure(with: viewModel.content)
-    }
-    
-    // dataSource에 cell 등록
-    dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item in
-      return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
-    }
-    
-    // dataSource에 headerView도 등록
-    dataSource?.supplementaryViewProvider = .init { collectionView, elementKind, indexPath in
-      return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-    }
-  }
-  
-  /// 초기 Snapshot을 설정합니다. DataSource가 초기화될 시 해당 메서드가 실행됩니다.
-  /// 직접 이 메서드를 실행할 필요는 없습니다.
-  private func applyInitialSnapshots() {
-    var snapshot = Snapshot()
-    
-    var sections = [-1] // 최소한 하나의 Section이라도 존재해야 함
-    sections.append(contentsOf: Array(Set(viewModel.comments.map { $0.groupID })).sorted())
-    snapshot.appendSections(sections)
-    
-    sections.forEach { sectionGroupID in
-      snapshot.appendItems(viewModel.comments.filter { $0.groupID == sectionGroupID }, toSection: sectionGroupID)
-    }
-    dataSource?.apply(snapshot)
   }
 }
 
