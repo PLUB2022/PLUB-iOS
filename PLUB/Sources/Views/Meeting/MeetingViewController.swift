@@ -93,7 +93,6 @@ final class MeetingViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    setupNavigationBar()
   }
   
   override func bind() {
@@ -121,16 +120,8 @@ final class MeetingViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
   }
-  
-  private func setupNavigationBar() {
-    let logoImageView = UIImageView().then {
-      $0.image = UIImage(named: "plubIcon522x147")
-      $0.contentMode = .scaleAspectFill
-    }
-    
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoImageView)
-  }
 }
+
 extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return meetingList.count
