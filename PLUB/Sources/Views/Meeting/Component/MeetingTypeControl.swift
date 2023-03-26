@@ -15,14 +15,14 @@ class MeetingTypeControl: UISegmentedControl {
     layer.cornerRadius = CGRectGetHeight(bounds) / 2
     layer.masksToBounds = true
     clipsToBounds = true
-          
+    
     let segmentInset: CGFloat = 4
     let foregroundIndex = numberOfSegments
-
+    
     let segmentImage = UIImage(color: .main)
-          
+    
     if subviews.indices.contains(foregroundIndex),
-        let foregroundImageView = subviews[foregroundIndex] as? UIImageView
+       let foregroundImageView = subviews[foregroundIndex] as? UIImageView
     {
       foregroundImageView.bounds = foregroundImageView.bounds.insetBy(dx: segmentInset, dy: segmentInset)
       foregroundImageView.image = segmentImage

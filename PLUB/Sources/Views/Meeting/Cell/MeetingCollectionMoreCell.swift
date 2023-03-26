@@ -28,8 +28,7 @@ final class MeetingCollectionMoreCell: UICollectionViewCell {
   }
   
   private let dimmedView = UIView().then {
-    $0.backgroundColor = UIColor(hex: 0xFAF9FE, alpha: 0.45)
-    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.backgroundColor = .background.withAlphaComponent(0.45)
   }
   
   override init(frame: CGRect) {
