@@ -150,7 +150,7 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
         withReuseIdentifier: MeetingCollectionMoreCell.identifier,
         for: indexPath
       ) as? MeetingCollectionMoreCell else { return UICollectionViewCell() }
-      cell.setupData(isDimmed: meetingList[indexPath.row].isDimmed)
+      cell.setupData(with: meetingList[indexPath.row])
       return cell
     }
   }
@@ -164,10 +164,15 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
       vc.hidesBottomBarWhenPushed = true
       self.navigationController?.pushViewController(vc, animated: true)
     } else {
-      // 모임 생성
-      let vc = CreateMeetingViewController()
-      vc.hidesBottomBarWhenPushed = true
-      self.navigationController?.pushViewController(vc, animated: true)
+      if meetingList[indexPath.row].isHost {
+        // 모임 생성
+        let vc = CreateMeetingViewController()
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+      } else {
+        // 홈탭으로 이동
+        tabBarController?.selectedIndex = 0
+      }
     }
   }
   

@@ -32,11 +32,29 @@ final class MeetingViewModel {
         switch result {
         case .success(let model):
           guard let data = model.data else { return }
+          
+          // 내모임 데이터
           var model = data.myPlubbing.map {
-            MeetingCellModel(plubbing: $0, isDimmed: true)
+            MeetingCellModel(
+              plubbing: $0,
+              isDimmed: true,
+              isHost: isHost
+            )
           }
-          model.append(MeetingCellModel(plubbing: nil, isDimmed: true))
+          
+          // (+) 셀
+          model.append(
+            MeetingCellModel(
+              plubbing: nil,
+              isDimmed: true,
+              isHost: isHost
+            )
+          )
+          
+          // 첫 셀은 딤처리 제거
+          model[0].isDimmed = false
           owner.meetingListRelay.accept(model)
+          
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })

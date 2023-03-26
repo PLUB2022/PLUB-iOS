@@ -80,7 +80,21 @@ final class MeetingCollectionMoreCell: UICollectionViewCell {
     layer.borderColor = UIColor.main.cgColor
   }
   
-  func setupData(isDimmed: Bool) {
-    dimmedView.isHidden = !isDimmed
+  func setupData(with model: MeetingCellModel) {
+    dimmedView.isHidden = !model.isDimmed
+    titleLabel.text = model.isHost ? Constants.createMeeting : Constants.joinMeeting
+  }
+}
+
+extension MeetingCollectionMoreCell {
+  private enum Constants {
+    static let joinMeeting = """
+    새로운 모임에
+    참여해 보세요!
+    """
+    static let createMeeting = """
+    새로운 모임을
+    만들어 보세요!
+    """
   }
 }

@@ -12,6 +12,7 @@ import SnapKit
 struct MeetingCellModel {
   let plubbing: MyPlubbing?
   var isDimmed: Bool
+  let isHost: Bool
 }
 
 final class MeetingCollectionViewCell: UICollectionViewCell {
