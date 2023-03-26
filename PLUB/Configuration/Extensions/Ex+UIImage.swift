@@ -8,8 +8,7 @@
 import UIKit
 
 extension UIImage {
-  
-  public convenience init?(
+  convenience init?(
     color: UIColor,
     size: CGSize = CGSize(width: 1, height: 1)
   ) {
