@@ -133,7 +133,8 @@ final class BoardViewModel: BoardViewModelType {
       .map { $0.isEmpty }
       .asDriver(onErrorDriveWith: .empty())
     
-    fetchedBoardModel = fetchingBoardModel.asDriver(onErrorDriveWith: .empty())
+    fetchedBoardModel = fetchingBoardModel
+      .asDriver(onErrorDriveWith: .empty())
     
     isPinnedFeed = successRequestPinFeed
       .map { $0.feedID }

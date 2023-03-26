@@ -17,6 +17,7 @@ enum BoardHeaderViewType {
 
 protocol BoardViewControllerDelegate: AnyObject {
   func calculateHeight(_ height: CGFloat)
+  func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel)
 }
 
 final class BoardViewController: BaseViewController {
@@ -40,7 +41,7 @@ final class BoardViewController: BaseViewController {
   
   private var boardModel: [BoardModel] = [] {
     didSet {
-      collectionView.reloadSections([0])
+      collectionView.reloadData()
     }
   }
   
@@ -112,27 +113,27 @@ final class BoardViewController: BaseViewController {
     super.bind()
     
     viewModel.selectPlubbingID.onNext(plubbingID)
-    
+
     viewModel.fetchedMainpageClipboardViewModel
       .drive(rx.clipboardModel)
       .disposed(by: disposeBag)
-    
+
     viewModel.clipboardListIsEmpty
       .drive(with: self) { owner, isEmpty in
         owner.headerType = isEmpty ? .noClipboard : .clipboard
       }
       .disposed(by: disposeBag)
-    
+
     viewModel.fetchedBoardModel
       .drive(rx.boardModel)
       .disposed(by: disposeBag)
-    
+
     viewModel.isPinnedFeed
       .drive(onNext: { isPinned in
         print("고정 성공 !! \(isPinned)")
       })
       .disposed(by: disposeBag)
-    
+
     viewModel.successDeleteFeed
       .drive(onNext: { success in
         print("해당 게시글 삭제 성공")
@@ -206,6 +207,10 @@ extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSou
     header.configureUI(with: clipboardModel)
     header.delegate = self
     return header
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    delegate?.didTappedBoardCollectionViewCell(plubbingID: plubbingID, content: boardModel[indexPath.row])
   }
   
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

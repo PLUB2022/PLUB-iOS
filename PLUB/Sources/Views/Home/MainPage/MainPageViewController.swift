@@ -81,7 +81,10 @@ final class MainPageViewController: BaseViewController {
   private let todolistViewController = TodolistViewController()
   
   private var viewControllers: [UIViewController] {
-    [boardViewController, todolistViewController]
+    [
+      boardViewController,
+      todolistViewController
+    ]
   }
   
   private let writeButton = UIButton(configuration: .plain()).then {
@@ -223,6 +226,15 @@ extension MainPageViewController: UIScrollViewDelegate {
 }
 
 extension MainPageViewController: BoardViewControllerDelegate {
+  func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel) {
+    let vc = BoardDetailViewController(viewModel: BoardDetailViewModel(
+      plubbingID: plubbingID,
+      content: content)
+    )
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
   func calculateHeight(_ height: CGFloat) {
     headerView.snp.updateConstraints {
       $0.height.equalTo(height)
