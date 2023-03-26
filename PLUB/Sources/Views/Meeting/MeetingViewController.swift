@@ -61,7 +61,6 @@ final class MeetingViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    viewModel.fetchMyMeeting()
   }
   
   override func setupLayouts() {
@@ -104,6 +103,21 @@ final class MeetingViewController: BaseViewController {
       .drive(with: self) { owner, data in
         owner.meetingList = data
         owner.pageControl.numberOfPages = data.count
+        guard !data.isEmpty else { return }
+        owner.collectionView.scrollToItem(
+          at: IndexPath(row: 0, section: 0),
+          at: .centeredHorizontally,
+          animated: true
+        )
+      }
+      .disposed(by: disposeBag)
+    
+    meetingTypeControl
+      .rx.value
+      .asDriver()
+      .drive(with: self) { owner, index in
+        let isHost = index == 0 ? false : true
+        owner.viewModel.fetchMyMeeting(isHost: isHost)
       }
       .disposed(by: disposeBag)
   }

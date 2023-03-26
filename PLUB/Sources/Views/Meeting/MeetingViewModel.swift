@@ -22,10 +22,10 @@ final class MeetingViewModel {
     meetingList = meetingListRelay.asDriver()
   }
   
-  func fetchMyMeeting() {
+  func fetchMyMeeting(isHost: Bool) {
     MeetingService.shared
       .inquireMyMeeting(
-        isHost: true
+        isHost: isHost
       )
       .withUnretained(self)
       .subscribe(onNext: { owner, result in

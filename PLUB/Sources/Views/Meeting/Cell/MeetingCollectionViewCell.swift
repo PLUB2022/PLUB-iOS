@@ -150,7 +150,7 @@ final class MeetingCollectionViewCell: UICollectionViewCell {
     if let imageURL = plubbing.mainImage, let url = URL(string: imageURL) {
       imageView.kf.setImage(with: url)
     } else {
-      imageView.image = UIImage(named: "userDefaultImage")
+      imageView.image = nil
     }
     
     imageView.layer.cornerRadius = 30
