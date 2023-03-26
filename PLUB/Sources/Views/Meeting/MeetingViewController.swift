@@ -31,8 +31,8 @@ final class MeetingViewController: BaseViewController {
   
   private let collectionViewLayout = UICollectionViewFlowLayout().then {
     $0.minimumInteritemSpacing = 0
-    $0.minimumLineSpacing = Constants.itemSpacing
-    $0.itemSize = Constants.itemSize
+    $0.minimumLineSpacing = Metric.itemSpacing
+    $0.itemSize = Metric.itemSize
     $0.scrollDirection = .horizontal
   }
   
@@ -50,7 +50,7 @@ final class MeetingViewController: BaseViewController {
     $0.register(MeetingCollectionMoreCell.self, forCellWithReuseIdentifier: "MeetingCollectionMoreCell")
     $0.isPagingEnabled = false
     $0.contentInsetAdjustmentBehavior = .never
-    $0.contentInset = Constants.collectionViewContentInset
+    $0.contentInset = Metric.collectionViewContentInset
     $0.decelerationRate = .fast
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
@@ -179,7 +179,7 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
   
   func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
     let scrolledOffsetX = targetContentOffset.pointee.x + scrollView.contentInset.left
-    let cellWidth = Constants.itemSize.width + Constants.itemSpacing
+    let cellWidth = Metric.itemSize.width + Metric.itemSpacing
     let index = round(scrolledOffsetX / cellWidth)
     
     targetContentOffset.pointee = CGPoint(
@@ -192,28 +192,28 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
     guard !meetingList.isEmpty else { return }
     
     let scrolledOffset = scrollView.contentOffset.x + scrollView.contentInset.left
-    let cellWidth = Constants.itemSize.width + Constants.itemSpacing
+    let cellWidth = Metric.itemSize.width + Metric.itemSpacing
     let index = Int(round(scrolledOffset / cellWidth))
     
     pageControl.currentPage = index
     
     guard index < meetingList.count else { return }
-    self.meetingList[index].isDimmed = false
+    meetingList[index].isDimmed = false
     
     defer {
-      self.previousIndex = index
-      self.collectionView.reloadData()
+      previousIndex = index
+      collectionView.reloadData()
     }
     
-    guard let previousIndex = self.previousIndex,
+    guard let previousIndex = previousIndex,
       previousIndex != index
     else { return }
-    self.meetingList[previousIndex].isDimmed = true
+    meetingList[previousIndex].isDimmed = true
   }
 }
 
 extension MeetingViewController {
-  private enum Constants {
+  private enum Metric {
     static let itemSize = CGSize(width: 300, height: 433)
     static let itemSpacing = CGFloat(16)
     
