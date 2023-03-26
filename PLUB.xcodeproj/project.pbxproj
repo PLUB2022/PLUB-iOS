@@ -207,6 +207,9 @@
 		BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE5D3362975B20000268D44 /* TokenResponse.swift */; };
 		BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */; };
 		C305B67C29AC9FE700BD5C6A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = C305B67B29AC9FE700BD5C6A /* RxDataSources */; };
+		C307826329CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C307826229CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift */; };
+		C307826629CF5B6E00E1D44B /* MeetingTypeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C307826529CF5B6E00E1D44B /* MeetingTypeControl.swift */; };
+		C307826829CF5D9700E1D44B /* Ex+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C307826729CF5D9700E1D44B /* Ex+UIImage.swift */; };
 		C3100CB429BD8980005FCCAD /* MyInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */; };
 		C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */; };
 		C3100CB929BD8A7E005FCCAD /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */; };
@@ -519,6 +522,9 @@
 		BAE5D3342975B10F00268D44 /* ReissuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceRequest.swift; sourceTree = "<group>"; };
 		BAE5D3362975B20000268D44 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
 		BAF54B7A29487CE900C59FBA /* PolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewModel.swift; sourceTree = "<group>"; };
+		C307826229CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCollectionMoreCell.swift; sourceTree = "<group>"; };
+		C307826529CF5B6E00E1D44B /* MeetingTypeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingTypeControl.swift; sourceTree = "<group>"; };
+		C307826729CF5D9700E1D44B /* Ex+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIImage.swift"; sourceTree = "<group>"; };
 		C3100CB329BD8980005FCCAD /* MyInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoResponse.swift; sourceTree = "<group>"; };
 		C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
@@ -1065,6 +1071,7 @@
 		BA42D1F028EDE08000C20061 /* Meeting */ = {
 			isa = PBXGroup;
 			children = (
+				C307826429CF5B4500E1D44B /* Component */,
 				C361743429AFB83E006AEAB1 /* Cell */,
 				BA42D1F428EDE11900C20061 /* MeetingViewController.swift */,
 				C361743229AF9B2D006AEAB1 /* MeetingViewModel.swift */,
@@ -1087,6 +1094,7 @@
 				70A4207F2982ED9C0026E9F9 /* Ex+String.swift */,
 				C383968029A26480005998A5 /* Ex+UIResponder.swift */,
 				70727A2029BF8F2A003DE956 /* Ex+Date.swift */,
+				C307826729CF5D9700E1D44B /* Ex+UIImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1337,6 +1345,14 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		C307826429CF5B4500E1D44B /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C307826529CF5B6E00E1D44B /* MeetingTypeControl.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		C3100CB529BD8A46005FCCAD /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1459,6 +1475,7 @@
 			isa = PBXGroup;
 			children = (
 				C361743529AFB875006AEAB1 /* MeetingCollectionViewCell.swift */,
+				C307826229CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2007,6 +2024,7 @@
 				C385D10F29894BF200EF88EC /* CreateMeetingViewModel.swift in Sources */,
 				70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */,
 				BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */,
+				C307826829CF5D9700E1D44B /* Ex+UIImage.swift in Sources */,
 				70727A1F29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift in Sources */,
 				701A9C9E29BB2178006F53C2 /* BoardClipboardHeaderView.swift in Sources */,
 				70CF333929992FA60077FF47 /* RecruitmentFilterSlider.swift in Sources */,
@@ -2180,6 +2198,7 @@
 				C34F048129C70FB900E5B67E /* SettingDetailSubView.swift in Sources */,
 				C39E09B429C5F3C100ECAD11 /* MyPageNoneView.swift in Sources */,
 				BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */,
+				C307826329CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift in Sources */,
 				705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
@@ -2224,6 +2243,7 @@
 				BABB011A297ED415004178EC /* InterestViewController.swift in Sources */,
 				70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */,
 				BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */,
+				C307826629CF5B6E00E1D44B /* MeetingTypeControl.swift in Sources */,
 				C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
 				BA85BAA629A72D2400B4C59A /* BoardsRequest.swift in Sources */,
