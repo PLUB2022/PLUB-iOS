@@ -18,6 +18,7 @@ enum BoardHeaderViewType {
 protocol BoardViewControllerDelegate: AnyObject {
   func calculateHeight(_ height: CGFloat)
   func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel)
+//  func mainpageHeaderTopConstant(_ constant: CGFloat)
 }
 
 final class BoardViewController: BaseViewController {
@@ -63,7 +64,7 @@ final class BoardViewController: BaseViewController {
     $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-//    $0.bounces = false
+//        $0.bounces = false
     $0.isScrollEnabled = true
     $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
   }
@@ -114,27 +115,27 @@ final class BoardViewController: BaseViewController {
     super.bind()
     
     viewModel.selectPlubbingID.onNext(plubbingID)
-
+    
     viewModel.fetchedMainpageClipboardViewModel
       .drive(rx.clipboardModel)
       .disposed(by: disposeBag)
-
+    
     viewModel.clipboardListIsEmpty
       .drive(with: self) { owner, isEmpty in
         owner.headerType = isEmpty ? .noClipboard : .clipboard
       }
       .disposed(by: disposeBag)
-
+    
     viewModel.fetchedBoardModel
       .drive(rx.boardModel)
       .disposed(by: disposeBag)
-
+    
     viewModel.isPinnedFeed
       .drive(onNext: { isPinned in
         print("고정 성공 !! \(isPinned)")
       })
       .disposed(by: disposeBag)
-
+    
     viewModel.successDeleteFeed
       .drive(onNext: { success in
         print("해당 게시글 삭제 성공")
@@ -165,19 +166,35 @@ final class BoardViewController: BaseViewController {
 
 extension BoardViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let scroll = scrollView.contentOffset.y
-    
-    let heightTemp = max - scroll
-    
-    if heightTemp > max {
-      delegate?.calculateHeight(max)
-    }
-    else if heightTemp < min {
-      delegate?.calculateHeight(min)
-    }
-    else {
-      delegate?.calculateHeight(heightTemp)
-    }
+    if scrollView.contentOffset.y > 0 {
+                
+                if scrollView.contentOffset.y < 292 {
+                  print("엥")
+                  delegate?.calculateHeight(-scrollView.contentOffset.y)
+                } else {
+                  print("엥2")
+                  delegate?.calculateHeight(-292)
+                }
+                
+            } else {
+              print("엥3")
+              delegate?.calculateHeight(0)
+            }
+//    if scrollView.contentOffset.y > 0 {
+//      let scroll = scrollView.contentOffset.y
+//
+//      let heightTemp = max - scroll
+//
+//      if heightTemp > max {
+//        delegate?.calculateHeight(max)
+//      }
+//      else if heightTemp < min {
+//        delegate?.calculateHeight(min)
+//      }
+//      else {
+//        delegate?.calculateHeight(heightTemp)
+//      }
+//    }
   }
 }
 

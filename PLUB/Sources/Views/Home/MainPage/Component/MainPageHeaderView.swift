@@ -58,13 +58,13 @@ class MainPageHeaderView: UIView {
     [backButton, horizontalStackView].forEach { addSubview($0) }
     
     backButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(13.5)
+      $0.top.equalToSuperview().inset(Device.navigationBarHeight)
       $0.leading.equalToSuperview()
       $0.size.equalTo(32)
     }
     
     horizontalStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(13.5)
+      $0.top.equalToSuperview().inset(Device.navigationBarHeight)
       $0.trailing.equalToSuperview().inset(7)
       $0.leading.greaterThanOrEqualTo(backButton.snp.trailing)
       $0.height.equalTo(32)

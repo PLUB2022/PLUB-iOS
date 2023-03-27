@@ -97,6 +97,8 @@ final class MainPageViewController: BaseViewController {
     $0.spacing = 4
   }
   
+  private var topConstraint: ConstraintInsetTarget!
+  
   init(plubbingID: Int) {
     self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
@@ -145,7 +147,8 @@ final class MainPageViewController: BaseViewController {
     super.setupConstraints()
     
     headerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalToSuperview()
+      $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.height.equalTo(292)
     }
     
@@ -237,18 +240,21 @@ extension MainPageViewController: BoardViewControllerDelegate {
   
   func calculateHeight(_ height: CGFloat) {
     headerView.snp.updateConstraints {
-      $0.height.equalTo(height)
+      $0.top.equalToSuperview().offset(height)
     }
-    if height == Device.navigationBarHeight {
-      self.navigationController?.navigationBar.isHidden = false
-      self.headerView.isHidden = true
-      headerView.snp.updateConstraints {
-        $0.height.equalTo(0)
-      }
-    } else {
-      self.navigationController?.navigationBar.isHidden = true
-      self.headerView.isHidden = false
-    }
+//    headerView.snp.updateConstraints {
+//      $0.height.equalTo(height)
+//    }
+//    if height == Device.navigationBarHeight {
+//      self.navigationController?.navigationBar.isHidden = false
+//      self.headerView.isHidden = true
+//      headerView.snp.updateConstraints {
+//        $0.height.equalTo(0)
+//      }
+//    } else {
+//      self.navigationController?.navigationBar.isHidden = true
+//      self.headerView.isHidden = false
+//    }
   }
 }
 
