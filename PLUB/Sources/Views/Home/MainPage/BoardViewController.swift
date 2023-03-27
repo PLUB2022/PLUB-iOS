@@ -63,7 +63,8 @@ final class BoardViewController: BaseViewController {
     $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.bounces = false
+//    $0.bounces = false
+    $0.isScrollEnabled = true
     $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
   }
   
@@ -170,9 +171,11 @@ extension BoardViewController: UIScrollViewDelegate {
     
     if heightTemp > max {
       delegate?.calculateHeight(max)
-    } else if heightTemp < min {
+    }
+    else if heightTemp < min {
       delegate?.calculateHeight(min)
-    } else {
+    }
+    else {
       delegate?.calculateHeight(heightTemp)
     }
   }

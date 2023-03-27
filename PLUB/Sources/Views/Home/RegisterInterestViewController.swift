@@ -26,7 +26,7 @@ final class RegisterInterestViewController: BaseViewController {
   
   private lazy var registerTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.separatorStyle = .none
-    $0.backgroundColor = .secondarySystemBackground
+    $0.backgroundColor = .background
     $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.sectionFooterHeight = .leastNonzeroMagnitude
     $0.showsVerticalScrollIndicator = false
