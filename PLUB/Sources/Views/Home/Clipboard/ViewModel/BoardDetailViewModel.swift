@@ -11,14 +11,18 @@ import RxSwift
 import RxCocoa
 
 protocol BoardDetailViewModelType {
+  
   // Input
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
-  // Output
+  
+  /// 사용자의 댓글을 입력합니다.
+  var commentsInput: AnyObserver<String> { get }
 }
 
 protocol BoardDetailDataStore {
   var content: BoardModel { get }
   var comments: [CommentContent] { get }
+  
   /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
   var dataSource: BoardDetailViewModel.DataSource? { get }
 }
@@ -27,6 +31,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   
   // Input
   let setCollectionViewObserver: AnyObserver<UICollectionView>
+  let commentsInput: AnyObserver<String>
   
   // MARK: - Properties
   
@@ -41,10 +46,12 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
     self.content = content
     
     let collectionViewSubject = PublishSubject<UICollectionView>()
+    let commentInputSubject   = PublishSubject<String>()
     
     setCollectionViewObserver = collectionViewSubject.asObserver()
+    commentsInput = commentInputSubject.asObserver()
     
-    
+    // == fetching comments part ==
     let commentsObservable = FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: comments.last?.commentID ?? 0)
       .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
         // TODO: 승현 - API 통신 에러 처리
