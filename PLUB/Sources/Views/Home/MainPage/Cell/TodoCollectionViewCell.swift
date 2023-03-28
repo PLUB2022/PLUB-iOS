@@ -20,17 +20,15 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     $0.layer.cornerRadius = 12
   }
   
-  private let heartImageView = UIImageView().then {
-    $0.image = UIImage(named: "heartFilled")
-  }
+  private let likeButton = ToggleButton(type: .like)
   
-  private let heartCountLabel = UILabel().then {
+  private let likeCountLabel = UILabel().then {
     $0.textColor = .mediumGray
     $0.font = .caption2
     $0.text = "0"
   }
   
-  private let listContainerView = UIView().then {
+  private let listContainerView = UIStackView().then {
     $0.backgroundColor = .white
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
@@ -46,22 +44,22 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    [profileImageView, heartImageView, heartCountLabel, listContainerView].forEach { contentView.addSubview($0) }
+    [profileImageView, likeButton, likeCountLabel, listContainerView].forEach { contentView.addSubview($0) }
     
     profileImageView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
       $0.size.equalTo(24)
     }
     
-    heartImageView.snp.makeConstraints {
+    likeButton.snp.makeConstraints {
       $0.top.equalTo(profileImageView.snp.bottom).offset(10.67)
       $0.trailing.equalTo(profileImageView.snp.centerX).offset(-1)
       $0.size.equalTo(16)
     }
     
-    heartCountLabel.snp.makeConstraints {
-      $0.top.equalTo(heartImageView)
-      $0.leading.equalTo(heartImageView.snp.trailing).offset(2)
+    likeCountLabel.snp.makeConstraints {
+      $0.top.equalTo(likeButton)
+      $0.leading.equalTo(likeButton.snp.trailing).offset(2)
     }
     
     listContainerView.snp.makeConstraints {

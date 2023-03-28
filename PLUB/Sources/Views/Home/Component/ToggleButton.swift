@@ -35,7 +35,7 @@ class ToggleButton: UIButton {
       case .grid:
         isSelected ? setImage(UIImage(named: "gridActivated"), for: .normal) : setImage(UIImage(named: "gridInActivated"), for: .normal)
       case .like:
-        isSelected ? setImage(UIImage(named: "gridActivated"), for: .normal) : setImage(UIImage(named: "gridInActivated"), for: .normal)
+        isSelected ? setImage(UIImage(named: "heartFilled"), for: .normal) : setImage(UIImage(named: "heart"), for: .normal)
       }
     }
   }
@@ -81,7 +81,7 @@ class ToggleButton: UIButton {
     case .chart:
       setImage(UIImage(named: "chartInActivated"), for: .normal)
     case .like:
-      setImage(UIImage(named: "chartInActivated"), for: .normal)
+      setImage(UIImage(named: "heart"), for: .normal)
     case .grid:
       setImage(UIImage(named: "gridInActivated"), for: .normal)
     }
