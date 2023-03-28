@@ -80,6 +80,6 @@ extension TodolistViewController: UICollectionViewDelegate, UICollectionViewData
 
 extension TodolistViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width, height: 88)
+    return CGSize(width: collectionView.frame.width - 32, height: 88)
   }
 }
