@@ -61,7 +61,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     
     heartCountLabel.snp.makeConstraints {
       $0.top.equalTo(heartImageView)
-      $0.leading.equalTo(heartImageView.snp.trailing).offset(1)
+      $0.leading.equalTo(heartImageView.snp.trailing).offset(2)
     }
     
     listContainerView.snp.makeConstraints {

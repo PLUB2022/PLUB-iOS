@@ -15,6 +15,7 @@ enum ToggleType {
   case bookmark
   case chart
   case grid
+  case like
 }
 
 class ToggleButton: UIButton {
@@ -32,6 +33,8 @@ class ToggleButton: UIButton {
       case .chart:
         isSelected ? setImage(UIImage(named: "chartActivated"), for: .normal) : setImage(UIImage(named: "chartInActivated"), for: .normal)
       case .grid:
+        isSelected ? setImage(UIImage(named: "gridActivated"), for: .normal) : setImage(UIImage(named: "gridInActivated"), for: .normal)
+      case .like:
         isSelected ? setImage(UIImage(named: "gridActivated"), for: .normal) : setImage(UIImage(named: "gridInActivated"), for: .normal)
       }
     }
@@ -76,6 +79,8 @@ class ToggleButton: UIButton {
     case .bookmark:
       setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
     case .chart:
+      setImage(UIImage(named: "chartInActivated"), for: .normal)
+    case .like:
       setImage(UIImage(named: "chartInActivated"), for: .normal)
     case .grid:
       setImage(UIImage(named: "gridInActivated"), for: .normal)
