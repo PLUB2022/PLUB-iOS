@@ -40,6 +40,9 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   
   private(set) var dataSource: DataSource?
   
+  /// 현재 마지막 커서(페이지)인지 판단할 때 사용합니다.
+  private var isLast = false
+  
   // MARK: - Initializations
   
   init(plubbingID: Int, content: BoardModel) {
