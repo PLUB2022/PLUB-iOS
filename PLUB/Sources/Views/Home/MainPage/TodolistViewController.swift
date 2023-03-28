@@ -18,8 +18,12 @@ final class TodolistViewController: BaseViewController {
     $0.addLineSpacing($0)
   }
   
-  private let todoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+  private lazy var todoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
     $0.backgroundColor = .background
+    $0.register(TodoCollectionViewCell.self, forCellWithReuseIdentifier: TodoCollectionViewCell.identifier)
+    $0.delegate = self
+    $0.dataSource = self
+    $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
   }
   
   override func setupStyles() {
@@ -44,5 +48,26 @@ final class TodolistViewController: BaseViewController {
       $0.top.equalTo(titleLabel.snp.bottom)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
+  }
+}
+
+extension TodolistViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodoCollectionViewCell.identifier, for: indexPath) as? TodoCollectionViewCell ?? TodoCollectionViewCell()
+    return cell
+  }
+}
+
+extension TodolistViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: collectionView.frame.width, height: 88)
   }
 }
