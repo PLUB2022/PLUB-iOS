@@ -18,6 +18,10 @@ final class TodolistViewController: BaseViewController {
     $0.addLineSpacing($0)
   }
   
+  private let goalBackgroundView = UIView().then {
+    $0.backgroundColor = .subMain
+  }
+  
   private lazy var todoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
     $0.backgroundColor = .background
     $0.register(TodoCollectionViewCell.self, forCellWithReuseIdentifier: TodoCollectionViewCell.identifier)
@@ -33,11 +37,19 @@ final class TodolistViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [titleLabel, todoCollectionView].forEach { view.addSubview($0) }
+    [goalBackgroundView, titleLabel, todoCollectionView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    goalBackgroundView.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(32)
+      $0.centerX.equalToSuperview()
+      $0.width.equalTo(187)
+      $0.height.equalTo(19)
+    }
+    
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(16)
       $0.centerX.equalToSuperview()
