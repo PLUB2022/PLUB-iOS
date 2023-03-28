@@ -62,11 +62,12 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
         return response.data
       }
       .filter { [weak self] in $0.isLast == false || self?.comments.count == 0 }
-      .map { $0.content }
     
+    // 첫 세팅 작업
     Observable.combineLatest(collectionViewSubject.asObservable(), commentsObservable)
       .subscribe(with: self) { owner, tuple in
-        owner.comments.append(contentsOf: tuple.1)
+        owner.isLast = tuple.1.isLast
+        owner.comments.append(contentsOf: tuple.1.content)
         owner.setCollectionView(tuple.0)
         owner.applyInitialSnapshots()
       }
