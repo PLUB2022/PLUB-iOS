@@ -22,7 +22,9 @@ final class TodolistViewController: BaseViewController {
     $0.backgroundColor = .subMain
   }
   
-  private lazy var todoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+  private lazy var todoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+    $0.minimumLineSpacing = 8
+  }).then {
     $0.backgroundColor = .background
     $0.register(TodoCollectionViewCell.self, forCellWithReuseIdentifier: TodoCollectionViewCell.identifier)
     $0.delegate = self
