@@ -100,6 +100,11 @@ final class MainPageViewController: BaseViewController {
   init(plubbingID: Int) {
     self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
+    TodolistService.shared.inquireAllTodolist(plubbingID: plubbingID)
+      .subscribe(onNext: { result in
+        print("결과 \(result)")
+      })
+      .disposed(by: disposeBag)
   }
   
   required init?(coder: NSCoder) {

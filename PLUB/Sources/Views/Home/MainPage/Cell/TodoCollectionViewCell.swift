@@ -32,6 +32,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     $0.backgroundColor = .white
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.axis = .vertical
   }
   
   override init(frame: CGRect) {
@@ -44,6 +45,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    contentView.backgroundColor = .background
     [profileImageView, likeButton, likeCountLabel, listContainerView].forEach { contentView.addSubview($0) }
     
     profileImageView.snp.makeConstraints {
@@ -66,5 +68,21 @@ final class TodoCollectionViewCell: UICollectionViewCell {
       $0.leading.equalTo(profileImageView.snp.trailing).offset(12)
       $0.directionalVerticalEdges.trailing.equalToSuperview()
     }
+  }
+  
+  public func configureUI(with model: String) {
+    for _ in 0...5 {
+      let label = UILabel()
+      label.text = "이건준이에용"
+      listContainerView.addArrangedSubview(label)
+    }
+  }
+}
+
+extension TodoCollectionViewCell {
+  static func estimatedCommentCellSize(_ targetSize: CGSize, model: String) -> CGSize {
+    let view = TodoCollectionViewCell()
+    view.configureUI(with: model)
+    return view.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
   }
 }

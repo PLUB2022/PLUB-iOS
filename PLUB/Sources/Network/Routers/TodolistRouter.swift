@@ -8,7 +8,7 @@
 import Alamofire
 
 enum TodolistRouter {
-  case inquireAllTodolist(Int)
+  case inquireAllTodolist(Int, Int)
 }
 
 extension TodolistRouter: Router {
@@ -21,15 +21,15 @@ extension TodolistRouter: Router {
   
   var path: String {
     switch self {
-    case .inquireAllTodolist(let plubbingID):
+    case .inquireAllTodolist(let plubbingID, _):
       return "/plubbings/\(plubbingID)/timeline"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireAllTodolist:
-      return .plain
+    case .inquireAllTodolist(_, let cursorID):
+      return .query(["cursorId": cursorID])
     }
   }
   

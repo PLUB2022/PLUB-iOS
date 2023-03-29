@@ -74,12 +74,19 @@ extension TodolistViewController: UICollectionViewDelegate, UICollectionViewData
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodoCollectionViewCell.identifier, for: indexPath) as? TodoCollectionViewCell ?? TodoCollectionViewCell()
+    cell.configureUI(with: "")
     return cell
   }
 }
 
 extension TodolistViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width - 32, height: 88)
+    return TodoCollectionViewCell.estimatedCommentCellSize(
+      CGSize(
+        width: view.bounds.width - 32,
+        height: 0
+      ),
+      model: "commentsModelsForSection[indexPath.item]"
+    )
   }
 }
