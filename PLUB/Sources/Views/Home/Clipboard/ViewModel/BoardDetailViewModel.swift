@@ -13,6 +13,7 @@ import RxCocoa
 protocol BoardDetailViewModelType {
   
   // Input
+  /// ViewController 단에서 initialized된 collectionView를 받습니다.
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
   
   /// 사용자의 댓글을 입력합니다.
