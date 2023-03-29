@@ -72,6 +72,30 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
         owner.applyInitialSnapshots()
       }
       .disposed(by: disposeBag)
+    
+    // == create comments part ==
+    commentInputSubject
+      .flatMap { FeedsService.shared.createComments(plubbingID: plubbingID, feedID: content.feedID, comment: $0.comment, commentParentID: $0.parentID) }
+      .compactMap { result -> CommentContent? in
+        // TODO: 승현 - API 통신 에러 처리
+        guard case let .success(response) = result else { return nil }
+        return response.data
+      }
+      .filter { [weak self] _ in
+        return self?.isLast ?? false
+      }
+      .subscribe(with: self) { owner, comment in
+        // 일반 댓글은 단순 append
+        if comment.type == .normal {
+          owner.comments.append(comment)
+        } else {
+          // 작성된 답글은 마지막 답글 뒤에 insert
+          let index = owner.comments.map { $0.groupID }.lastIndex(of: comment.groupID)!
+          owner.comments.insert(comment, at: index + 1)
+        }
+        owner.addCommentToGroup(comment)
+      }
+      .disposed(by: disposeBag)
   }
   
   private let disposeBag = DisposeBag()
@@ -90,6 +114,22 @@ extension BoardDetailViewModel {
   typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<BoardDetailCollectionHeaderView>
   
   // MARK: Snapshot & DataSource Part
+  
+  /// 댓글을 그룹화하여 적용합니다.
+  /// - Parameter content: 댓글 또는 답글
+  private func addCommentToGroup(_ content: CommentContent) {
+    var snapshot = dataSource!.snapshot()
+    
+    // 일반 댓글인 경우
+    if content.type == .normal {
+      snapshot.appendSections([content.groupID]) // 섹션을 새롭게 추가
+      snapshot.appendItems([content], toSection: content.groupID)
+    } else {
+      // 답글인 경우
+      snapshot.appendItems([content], toSection: content.groupID)
+    }
+    dataSource?.apply(snapshot)
+  }
   
   /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
   private func setCollectionView(_ collectionView: UICollectionView) {
