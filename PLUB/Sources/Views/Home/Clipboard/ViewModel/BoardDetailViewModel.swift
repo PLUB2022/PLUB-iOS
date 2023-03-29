@@ -16,7 +16,7 @@ protocol BoardDetailViewModelType {
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
   
   /// 사용자의 댓글을 입력합니다.
-  var commentsInput: AnyObserver<String> { get }
+  var commentsInput: AnyObserver<(comment: String, parentID: Int?)> { get }
 }
 
 protocol BoardDetailDataStore {
@@ -31,7 +31,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   
   // Input
   let setCollectionViewObserver: AnyObserver<UICollectionView>
-  let commentsInput: AnyObserver<String>
+  let commentsInput: AnyObserver<(comment: String, parentID: Int?)>
   
   // MARK: - Properties
   
@@ -49,7 +49,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
     self.content = content
     
     let collectionViewSubject = PublishSubject<UICollectionView>()
-    let commentInputSubject   = PublishSubject<String>()
+    let commentInputSubject   = PublishSubject<(comment: String, parentID: Int?)>()
     
     setCollectionViewObserver = collectionViewSubject.asObserver()
     commentsInput = commentInputSubject.asObserver()
