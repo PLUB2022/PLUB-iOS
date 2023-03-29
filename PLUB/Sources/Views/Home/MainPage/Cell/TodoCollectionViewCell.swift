@@ -13,6 +13,7 @@ import Then
 
 protocol TodoCollectionViewCellDelegate: AnyObject {
   func didTappedMoreButton()
+  func didTappedLikeButton(isLiked: Bool)
 }
 
 final class TodoCollectionViewCell: UICollectionViewCell {
@@ -91,6 +92,18 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     moreButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedMoreButton()
+      }
+      .disposed(by: disposeBag)
+    
+    likeButton.buttonTapObservable
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedLikeButton(isLiked: true)
+      }
+      .disposed(by: disposeBag)
+    
+    likeButton.buttonUnTapObservable
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedLikeButton(isLiked: false)
       }
       .disposed(by: disposeBag)
   }

@@ -95,7 +95,16 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TodolistViewController: TodoCollectionViewCellDelegate {
-  func didTappedMoreButton() {
+  func didTappedLikeButton(isLiked: Bool) {
+    if isLiked {
+      /// 해당 투두리스트 좋아요 눌렀을 때
+    }
+    else {
+      /// 해당 투두리스트 좋아요 취소했을 때
+    }
+  }
+  
+  func didTappedMoreButton() { /// 투두리스트 작성자에 따른 type 지정해줘야함
     let bottomSheet = TodolistBottomSheetViewController(type: .report)
     bottomSheet.modalPresentationStyle = .overFullScreen
     present(bottomSheet, animated: false)
