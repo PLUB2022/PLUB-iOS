@@ -35,6 +35,10 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     $0.axis = .vertical
   }
   
+  private let reportButton = UIButton().then {
+    $0.setImage(UIImage(named: "verticalEllipsisBlack"), for: .normal)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -46,7 +50,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     contentView.backgroundColor = .background
-    [profileImageView, likeButton, likeCountLabel, listContainerView].forEach { contentView.addSubview($0) }
+    [profileImageView, likeButton, likeCountLabel, listContainerView, reportButton].forEach { contentView.addSubview($0) }
     
     profileImageView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
@@ -67,6 +71,11 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     listContainerView.snp.makeConstraints {
       $0.leading.equalTo(profileImageView.snp.trailing).offset(12)
       $0.directionalVerticalEdges.trailing.equalToSuperview()
+    }
+    
+    reportButton.snp.makeConstraints {
+      $0.size.equalTo(32)
+      $0.top.trailing.equalToSuperview().inset(8)
     }
   }
   
