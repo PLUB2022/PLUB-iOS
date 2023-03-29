@@ -73,7 +73,7 @@ final class TodolistBottomSheetViewController: BottomSheetViewController {
     bottomSheetView.snp.makeConstraints {
       $0.top.equalTo(grabber.snp.bottom).offset(24)
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
-      $0.bottom.equalToSuperview().inset(24)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(24)
     }
   }
 }

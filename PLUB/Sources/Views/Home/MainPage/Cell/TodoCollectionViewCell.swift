@@ -7,12 +7,19 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
+
+protocol TodoCollectionViewCellDelegate: AnyObject {
+  func didTappedMoreButton()
+}
 
 final class TodoCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "TodoCollectionViewCell"
+  private let disposeBag = DisposeBag()
+  weak var delegate: TodoCollectionViewCellDelegate?
   
   private let profileImageView = UIImageView().then {
     $0.image = UIImage(systemName: "person.fill")
@@ -35,13 +42,14 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     $0.axis = .vertical
   }
   
-  private let reportButton = UIButton().then {
+  private let moreButton = UIButton().then {
     $0.setImage(UIImage(named: "verticalEllipsisBlack"), for: .normal)
   }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -50,7 +58,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     contentView.backgroundColor = .background
-    [profileImageView, likeButton, likeCountLabel, listContainerView, reportButton].forEach { contentView.addSubview($0) }
+    [profileImageView, likeButton, likeCountLabel, listContainerView, moreButton].forEach { contentView.addSubview($0) }
     
     profileImageView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
@@ -73,10 +81,18 @@ final class TodoCollectionViewCell: UICollectionViewCell {
       $0.directionalVerticalEdges.trailing.equalToSuperview()
     }
     
-    reportButton.snp.makeConstraints {
+    moreButton.snp.makeConstraints {
       $0.size.equalTo(32)
       $0.top.trailing.equalToSuperview().inset(8)
     }
+  }
+  
+  private func bind() {
+    moreButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedMoreButton()
+      }
+      .disposed(by: disposeBag)
   }
   
   public func configureUI(with model: String) {

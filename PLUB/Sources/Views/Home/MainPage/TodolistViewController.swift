@@ -77,6 +77,7 @@ extension TodolistViewController: UICollectionViewDelegate, UICollectionViewData
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodoCollectionViewCell.identifier, for: indexPath) as? TodoCollectionViewCell ?? TodoCollectionViewCell()
     cell.configureUI(with: "")
+    cell.delegate = self
     return cell
   }
 }
@@ -90,5 +91,13 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
       ),
       model: "commentsModelsForSection[indexPath.item]"
     )
+  }
+}
+
+extension TodolistViewController: TodoCollectionViewCellDelegate {
+  func didTappedMoreButton() {
+    let bottomSheet = TodolistBottomSheetViewController(type: .report)
+    bottomSheet.modalPresentationStyle = .overFullScreen
+    present(bottomSheet, animated: false)
   }
 }
