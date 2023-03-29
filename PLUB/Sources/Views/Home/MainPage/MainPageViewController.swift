@@ -29,7 +29,7 @@ enum MainPageFilterType: CaseIterable {
     case .board:
       return "+ 새 글 작성"
     case .todoList:
-      return "to-do 추가"
+      return "TO-DO 추가"
     }
   }
 }
@@ -185,10 +185,18 @@ final class MainPageViewController: BaseViewController {
     
     writeButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = CreateBoardViewController(plubbingID: owner.plubbingID)
-        vc.navigationItem.largeTitleDisplayMode = .never
-        vc.title = "요란한 밧줄"
-        owner.navigationController?.pushViewController(vc, animated: true)
+        if owner.currentPage == 0 {
+          let vc = CreateBoardViewController(plubbingID: owner.plubbingID)
+          vc.navigationItem.largeTitleDisplayMode = .never
+          vc.title = "요란한 밧줄"
+          owner.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+          let vc = AddTodoViewController()
+          vc.navigationItem.largeTitleDisplayMode = .never
+          vc.title = "요란한 밧줄"
+          owner.navigationController?.pushViewController(vc, animated: true)
+        }
       }
       .disposed(by: disposeBag)
   }
