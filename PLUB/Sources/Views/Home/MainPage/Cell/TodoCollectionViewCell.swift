@@ -16,6 +16,12 @@ protocol TodoCollectionViewCellDelegate: AnyObject {
   func didTappedLikeButton(isLiked: Bool)
 }
 
+struct TodoCollectionViewCellModel {
+  let profileImageString: String
+  let isLiked: Bool
+  let likeCount: Int
+}
+
 final class TodoCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "TodoCollectionViewCell"
