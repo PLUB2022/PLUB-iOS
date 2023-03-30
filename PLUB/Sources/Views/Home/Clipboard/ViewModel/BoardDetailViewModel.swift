@@ -115,6 +115,42 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
         }
       }
       .disposed(by: disposeBag)
+    
+    // == paging part ==
+    bottomCellSubject
+      .filter { [weak self] in // 마지막으로부터 5번째 이전 셀인지 확인
+        guard let self, let dataSource = self.dataSource else {
+          return false
+        }
+        let snapshot = dataSource.snapshot()
+        let sectionIdentifier = snapshot.sectionIdentifiers[$0.section]
+        let item = snapshot.itemIdentifiers(inSection: sectionIdentifier)[$0.item]
+        let index = snapshot.itemIdentifiers.firstIndex(of: item)!
+        return snapshot.itemIdentifiers.count - index <= 5
+      }
+      .filter { [weak self] _ in // 이미 가져오고 있는 중인지 확인
+        return self?.isFetching == false
+      }
+      .do(onNext: { [weak self] _ in
+        self?.isFetching = true
+      })
+      .filter { [weak self] _ in // 호출 가능 여부 판단
+        self?.isLast == false
+      }
+      .flatMap { [weak self] _ in
+        return FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: self?.comments.last?.commentID ?? 0)
+          .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
+            // TODO: 승현 - API 통신 에러 처리
+            guard case let .success(response) = result else { return nil }
+            return response.data
+          }
+      }
+      .subscribe(with: self) { owner, paginatedData in
+        owner.isLast = paginatedData.isLast
+        owner.comments.append(contentsOf: paginatedData.content)
+        owner.isFetching = false
+      }
+      .disposed(by: disposeBag)
   }
   
   private let disposeBag = DisposeBag()
