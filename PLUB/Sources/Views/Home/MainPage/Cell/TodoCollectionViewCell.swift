@@ -115,7 +115,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   }
   
   public func configureUI(with model: String) {
-    for _ in 0...7 {
+    for _ in 0...5 {
       let label = CheckTodoView()
 //      label.text = "이건준이에용"
       listContainerView.addArrangedSubview(label)

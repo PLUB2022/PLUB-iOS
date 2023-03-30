@@ -58,7 +58,7 @@ final class MainPageViewController: BaseViewController {
   }
   
   private let segmentedControl = UnderlineSegmentedControl(
-    items: [MainPageFilterType.board.title, MainPageFilterType.todoList.title]
+    items: MainPageFilterType.allCases.map { $0.title }
   ).then {
     $0.setTitleTextAttributes([.foregroundColor: UIColor.mediumGray, .font: UIFont.body1], for: .normal)
     $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.body1], for: .selected)
@@ -255,9 +255,9 @@ extension MainPageViewController: BoardViewControllerDelegate {
     if height == Device.navigationBarHeight {
       self.navigationController?.navigationBar.isHidden = false
       self.headerView.isHidden = true
-      headerView.snp.updateConstraints {
-        $0.height.equalTo(0)
-      }
+//      headerView.snp.updateConstraints {
+//        $0.height.equalTo(0)
+//      }
     } else {
       self.navigationController?.navigationBar.isHidden = true
       self.headerView.isHidden = false

@@ -63,7 +63,7 @@ final class BoardViewController: BaseViewController {
     $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.bounces = false
+    //    $0.bounces = false
     $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
   }
   
@@ -113,27 +113,27 @@ final class BoardViewController: BaseViewController {
     super.bind()
     
     viewModel.selectPlubbingID.onNext(plubbingID)
-
+    
     viewModel.fetchedMainpageClipboardViewModel
       .drive(rx.clipboardModel)
       .disposed(by: disposeBag)
-
+    
     viewModel.clipboardListIsEmpty
       .drive(with: self) { owner, isEmpty in
         owner.headerType = isEmpty ? .noClipboard : .clipboard
       }
       .disposed(by: disposeBag)
-
+    
     viewModel.fetchedBoardModel
       .drive(rx.boardModel)
       .disposed(by: disposeBag)
-
+    
     viewModel.isPinnedFeed
       .drive(onNext: { isPinned in
         print("고정 성공 !! \(isPinned)")
       })
       .disposed(by: disposeBag)
-
+    
     viewModel.successDeleteFeed
       .drive(onNext: { success in
         print("해당 게시글 삭제 성공")
