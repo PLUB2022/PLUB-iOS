@@ -39,7 +39,16 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   // MARK: - Properties
   
   let content: BoardModel
-  var comments: [CommentContent] = []
+  
+  /// 댓글 정보 모델입니다.
+  ///
+  /// 댓글 순서는 작성 날짜를 기준으로 정렬되어있습니다.
+  /// 답글은 댓글 사이에 들어갈 수도 있으며, 부모 댓글 다음에 존재하게 됩니다.
+  private(set) var comments: [CommentContent] = [] {
+    didSet {
+      updateSnapshots()
+    }
+  }
   
   /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
   private var dataSource: DataSource?
@@ -102,7 +111,6 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
           let index = owner.comments.map { $0.groupID }.lastIndex(of: comment.groupID)!
           owner.comments.insert(comment, at: index + 1)
         }
-        owner.addCommentToGroup(comment)
       }
       .disposed(by: disposeBag)
   }
@@ -123,23 +131,6 @@ extension BoardDetailViewModel {
   typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<BoardDetailCollectionHeaderView>
   
   // MARK: Snapshot & DataSource Part
-  
-  /// 댓글을 그룹화하여 적용합니다.
-  /// - Parameter content: 댓글 또는 답글
-  private func addCommentToGroup(_ content: CommentContent) {
-    guard let dataSource else { return }
-    var snapshot = dataSource.snapshot()
-    
-    // 일반 댓글인 경우
-    if content.type == .normal {
-      snapshot.appendSections([content.groupID]) // 섹션을 새롭게 추가
-      snapshot.appendItems([content], toSection: content.groupID)
-    } else {
-      // 답글인 경우
-      snapshot.appendItems([content], toSection: content.groupID)
-    }
-    dataSource.apply(snapshot)
-  }
   
   /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
   private func setCollectionView(_ collectionView: UICollectionView) {
@@ -178,5 +169,26 @@ extension BoardDetailViewModel {
       snapshot.appendItems(comments.filter { $0.groupID == sectionGroupID }, toSection: sectionGroupID)
     }
     dataSource?.apply(snapshot)
+  }
+  
+  /// comments의 내용이 변경되면, 변경점을 인지하고 snapshot을 재설정합니다.
+  /// comments 프로퍼티가 변경되면 자동으로 호출되는 `didSet method` 입니다. 추가로 호출할 필요가 없습니다.
+  private func updateSnapshots() {
+    guard let dataSource else { return }
+    
+    var snapshot = dataSource.snapshot()
+    let sections = snapshot.sectionIdentifiers
+    let items = snapshot.itemIdentifiers // 전체 Item을 가져옴
+    
+    // snapshot에 적용되지 않은 item 선별
+    for content in comments where items.contains(content) == false {
+      // 댓글인 경우
+      if sections.contains(content.groupID) == false {
+        snapshot.appendSections([content.groupID])
+      }
+      snapshot.appendItems([content], toSection: content.groupID)
+    }
+    
+    dataSource.apply(snapshot)
   }
 }
