@@ -79,7 +79,6 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
         guard case let .success(response) = result else { return nil }
         return response.data
       }
-      .filter { [weak self] in $0.isLast == false || self?.comments.count == 0 }
     
     // 첫 세팅 작업
     Observable.combineLatest(collectionViewSubject.asObservable(), commentsObservable)
