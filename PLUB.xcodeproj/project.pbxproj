@@ -56,6 +56,7 @@
 		70727A3F29D47BB6003DE956 /* TodolistBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A3E29D47BB6003DE956 /* TodolistBottomSheetViewController.swift */; };
 		70727A4129D485E0003DE956 /* AddTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4029D485E0003DE956 /* AddTodoViewController.swift */; };
 		70727A4329D5D679003DE956 /* TodoAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4229D5D679003DE956 /* TodoAlertController.swift */; };
+		70727A4529D5E570003DE956 /* TodoAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4429D5E570003DE956 /* TodoAlertButton.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -388,6 +389,7 @@
 		70727A3E29D47BB6003DE956 /* TodolistBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodolistBottomSheetViewController.swift; sourceTree = "<group>"; };
 		70727A4029D485E0003DE956 /* AddTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewController.swift; sourceTree = "<group>"; };
 		70727A4229D5D679003DE956 /* TodoAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAlertController.swift; sourceTree = "<group>"; };
+		70727A4429D5E570003DE956 /* TodoAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAlertButton.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -887,6 +889,7 @@
 				70727A3C29D447D7003DE956 /* CheckTodoView.swift */,
 				70727A3E29D47BB6003DE956 /* TodolistBottomSheetViewController.swift */,
 				70727A4229D5D679003DE956 /* TodoAlertController.swift */,
+				70727A4429D5E570003DE956 /* TodoAlertButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2150,6 +2153,7 @@
 				C34F07F3297DAFD900C91E90 /* AddQuestionTableViewCell.swift in Sources */,
 				7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */,
 				C383967E29A25D67005998A5 /* CreateScheduleResponse.swift in Sources */,
+				70727A4529D5E570003DE956 /* TodoAlertButton.swift in Sources */,
 				C3AB7441296B21E6003DD5E2 /* MeetingQuestionViewController.swift in Sources */,
 				C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */,
 				BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */,
