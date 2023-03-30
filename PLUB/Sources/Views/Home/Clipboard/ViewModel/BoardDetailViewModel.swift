@@ -13,8 +13,12 @@ import RxCocoa
 protocol BoardDetailViewModelType {
   
   // Input
+  
   /// ViewController 단에서 initialized된 collectionView를 받습니다.
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
+  
+  /// 보여지는 댓글 Cell 중 제일 밑의 셀의 IndexPath를 받습니다.
+  var bottomCellObserver: AnyObserver<IndexPath> { get }
   
   /// 사용자의 댓글을 입력합니다.
   var commentsInput: AnyObserver<(comment: String, parentID: Int?)> { get }
@@ -30,6 +34,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   // Input
   let setCollectionViewObserver: AnyObserver<UICollectionView>
   let commentsInput: AnyObserver<(comment: String, parentID: Int?)>
+  let bottomCellObserver: AnyObserver<IndexPath>
   
   // MARK: - Properties
   
@@ -49,9 +54,11 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
     
     let collectionViewSubject = PublishSubject<UICollectionView>()
     let commentInputSubject   = PublishSubject<(comment: String, parentID: Int?)>()
+    let bottomCellSubject     = PublishSubject<IndexPath>()
     
     setCollectionViewObserver = collectionViewSubject.asObserver()
     commentsInput = commentInputSubject.asObserver()
+    bottomCellObserver = bottomCellSubject.asObserver()
     
     // == fetching comments part ==
     let commentsObservable = FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: comments.last?.commentID ?? 0)
