@@ -119,7 +119,8 @@ extension BoardDetailViewModel {
   /// 댓글을 그룹화하여 적용합니다.
   /// - Parameter content: 댓글 또는 답글
   private func addCommentToGroup(_ content: CommentContent) {
-    var snapshot = dataSource!.snapshot()
+    guard let dataSource else { return }
+    var snapshot = dataSource.snapshot()
     
     // 일반 댓글인 경우
     if content.type == .normal {
@@ -129,7 +130,7 @@ extension BoardDetailViewModel {
       // 답글인 경우
       snapshot.appendItems([content], toSection: content.groupID)
     }
-    dataSource?.apply(snapshot)
+    dataSource.apply(snapshot)
   }
   
   /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
