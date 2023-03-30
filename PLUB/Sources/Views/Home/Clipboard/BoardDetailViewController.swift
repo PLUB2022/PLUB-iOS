@@ -164,7 +164,7 @@ final class BoardDetailViewController: BaseViewController {
 extension BoardDetailViewController: CommentInputViewDelegate {
   func commentInputView(_ textView: UITextView, writtenText: String) {
     textView.text = ""
-    //TODO: 승현 - API 연동하기
+    viewModel.commentsInput.onNext((comment: writtenText, parentID: nil))
   }
 }
 
