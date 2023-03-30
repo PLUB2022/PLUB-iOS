@@ -95,6 +95,12 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TodolistViewController: TodoCollectionViewCellDelegate {
+  func didTappedTodo() {
+    let alert = TodoAlertController()
+    alert.modalPresentationStyle = .overFullScreen
+    present(alert, animated: false)
+  }
+  
   func didTappedLikeButton(isLiked: Bool) {
     if isLiked {
       /// 해당 투두리스트 좋아요 눌렀을 때

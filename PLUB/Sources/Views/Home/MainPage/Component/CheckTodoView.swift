@@ -7,10 +7,18 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
+protocol CheckTodoViewDelegate: AnyObject {
+  func didTappedCheckboxButton()
+}
+
 class CheckTodoView: UIView {
+  
+  weak var delegate: CheckTodoViewDelegate?
+  private let disposeBag = DisposeBag()
   
   private let checkboxButton = CheckBoxButton(type: .none)
   
@@ -23,6 +31,7 @@ class CheckTodoView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -41,5 +50,13 @@ class CheckTodoView: UIView {
       $0.directionalVerticalEdges.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
+  }
+  
+  private func bind() {
+    checkboxButton.rx.isChecked
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedCheckboxButton()
+      }
+      .disposed(by: disposeBag)
   }
 }

@@ -14,6 +14,7 @@ import Then
 protocol TodoCollectionViewCellDelegate: AnyObject {
   func didTappedMoreButton()
   func didTappedLikeButton(isLiked: Bool)
+  func didTappedTodo()
 }
 
 struct TodoCollectionViewCellModel {
@@ -117,7 +118,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   public func configureUI(with model: String) {
     for _ in 0...5 {
       let label = CheckTodoView()
-      
+      label.delegate = self
       listContainerView.addArrangedSubview(label)
     }
   }
@@ -128,5 +129,11 @@ extension TodoCollectionViewCell {
     let view = TodoCollectionViewCell()
     view.configureUI(with: model)
     return view.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+  }
+}
+
+extension TodoCollectionViewCell: CheckTodoViewDelegate {
+  func didTappedCheckboxButton() {
+    delegate?.didTappedTodo()
   }
 }
