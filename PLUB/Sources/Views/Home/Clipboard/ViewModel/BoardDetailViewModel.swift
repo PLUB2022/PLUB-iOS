@@ -47,6 +47,9 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   /// 현재 마지막 커서(페이지)인지 판단할 때 사용합니다.
   private var isLast = false
   
+  /// API를 요청하는 중인지 확인합니다.
+  private var isFetching = false
+  
   // MARK: - Initializations
   
   init(plubbingID: Int, content: BoardModel) {
