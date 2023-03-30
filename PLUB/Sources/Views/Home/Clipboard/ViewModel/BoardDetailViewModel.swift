@@ -23,9 +23,6 @@ protocol BoardDetailViewModelType {
 protocol BoardDetailDataStore {
   var content: BoardModel { get }
   var comments: [CommentContent] { get }
-  
-  /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
-  var dataSource: BoardDetailViewModel.DataSource? { get }
 }
 
 final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore {
@@ -39,7 +36,8 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   let content: BoardModel
   var comments: [CommentContent] = []
   
-  private(set) var dataSource: DataSource?
+  /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
+  private var dataSource: DataSource?
   
   /// 현재 마지막 커서(페이지)인지 판단할 때 사용합니다.
   private var isLast = false
