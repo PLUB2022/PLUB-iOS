@@ -81,14 +81,17 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
       }
     
     // 첫 세팅 작업
-    Observable.combineLatest(collectionViewSubject.asObservable(), commentsObservable)
-      .subscribe(with: self) { owner, tuple in
-        owner.isLast = tuple.1.isLast
-        owner.comments.append(contentsOf: tuple.1.content)
-        owner.setCollectionView(tuple.0)
-        owner.applyInitialSnapshots()
-      }
-      .disposed(by: disposeBag)
+    Observable.combineLatest(collectionViewSubject.asObservable(), commentsObservable) {
+      return (collectionView: $0, commentsData: $1)
+    }
+    .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
+    .subscribe(with: self) { owner, tuple in
+      owner.isLast = tuple.commentsData.isLast
+      owner.comments.append(contentsOf: tuple.commentsData.content)
+      owner.setCollectionView(tuple.collectionView)
+      owner.applyInitialSnapshots()
+    }
+    .disposed(by: disposeBag)
     
     // == create comments part ==
     commentInputSubject
