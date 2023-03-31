@@ -74,42 +74,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
     
     fetchComments(plubbingID: plubbingID, content: content, collectionViewObservable: collectionViewSubject.asObservable())
     createComments(plubbingID: plubbingID, content: content, commentsObservable: commentInputSubject.asObservable())
-    
-    // == paging part ==
-    bottomCellSubject
-      .filter { [weak self] in // 마지막으로부터 5번째 이전 셀인지 확인
-        guard let self, let dataSource = self.dataSource else {
-          return false
-        }
-        let snapshot = dataSource.snapshot()
-        let sectionIdentifier = snapshot.sectionIdentifiers[$0.section]
-        let item = snapshot.itemIdentifiers(inSection: sectionIdentifier)[$0.item]
-        let index = snapshot.itemIdentifiers.firstIndex(of: item)!
-        return snapshot.itemIdentifiers.count - index <= 5
-      }
-      .filter { [weak self] _ in // 이미 가져오고 있는 중인지 확인
-        return self?.isFetching == false
-      }
-      .do(onNext: { [weak self] _ in
-        self?.isFetching = true
-      })
-      .filter { [weak self] _ in // 호출 가능 여부 판단
-        self?.isLast == false
-      }
-      .flatMap { [weak self] _ in
-        return FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: self?.comments.last?.commentID ?? 0)
-          .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
-            // TODO: 승현 - API 통신 에러 처리
-            guard case let .success(response) = result else { return nil }
-            return response.data
-          }
-      }
-      .subscribe(with: self) { owner, paginatedData in
-        owner.isLast = paginatedData.isLast
-        owner.comments.append(contentsOf: paginatedData.content)
-        owner.isFetching = false
-      }
-      .disposed(by: disposeBag)
+    pagingSetup(plubbingID: plubbingID, content: content, indexPathObservable: bottomCellSubject.asObservable())
   }
   
   private let disposeBag = DisposeBag()
@@ -172,6 +137,53 @@ extension BoardDetailViewModel {
           let index = owner.comments.map { $0.groupID }.lastIndex(of: comment.groupID)!
           owner.comments.insert(comment, at: index + 1)
         }
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  /// `BoardDetailViewModel`에 대한 페이징 메커니즘을 설정합니다.
+  ///
+  /// 이 메서드는 `bottomCellSubject`를 관찰하여 페이징 동작을 설정합니다. 현재 아이템이 댓글 목록 끝에서 지정된 임계값 이내인지 확인합니다.
+  /// 조건이 충족되고 다음 페이지를 가져올 수 있을 때, `fetchComments API`를 사용하여 다음 페이지를 가져옵니다.
+  ///
+  /// - Parameters:
+  ///   - plubbingID: 플러빙 ID
+  ///   - content: 게시글 컨텐츠 모델
+  ///   - indexPathObservable: 컬렉션 뷰에서 하단 셀의 인덱스 경로를 전달받는 `Observable`
+  private func pagingSetup(plubbingID: Int, content: BoardModel, indexPathObservable: Observable<IndexPath>) {
+    // == paging part ==
+    indexPathObservable
+      .filter { [weak self] in // 마지막으로부터 5번째 이전 셀인지 확인
+        guard let self, let dataSource = self.dataSource else {
+          return false
+        }
+        let snapshot = dataSource.snapshot()
+        let sectionIdentifier = snapshot.sectionIdentifiers[$0.section]
+        let item = snapshot.itemIdentifiers(inSection: sectionIdentifier)[$0.item]
+        let index = snapshot.itemIdentifiers.firstIndex(of: item)!
+        return snapshot.itemIdentifiers.count - index <= 5
+      }
+      .filter { [weak self] _ in // 이미 가져오고 있는 중인지 확인
+        return self?.isFetching == false
+      }
+      .do(onNext: { [weak self] _ in
+        self?.isFetching = true
+      })
+      .filter { [weak self] _ in // 호출 가능 여부 판단
+        self?.isLast == false
+      }
+      .flatMap { [weak self] _ in
+        return FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: self?.comments.last?.commentID ?? 0)
+          .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
+            // TODO: 승현 - API 통신 에러 처리
+            guard case let .success(response) = result else { return nil }
+            return response.data
+          }
+      }
+      .subscribe(with: self) { owner, paginatedData in
+        owner.isLast = paginatedData.isLast
+        owner.comments.append(contentsOf: paginatedData.content)
+        owner.isFetching = false
       }
       .disposed(by: disposeBag)
   }
