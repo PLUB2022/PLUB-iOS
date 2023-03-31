@@ -94,7 +94,8 @@ extension BoardDetailViewModel {
         .compactMap { result -> (content: [CommentContent], nextCursorID: Int, isLast: Bool)? in
           // TODO: 승현 - API 통신 에러 처리
           guard case let .success(response) = result else { return nil }
-          return (content: response.data!.content, nextCursorID: response.data!.content.last!.commentID, isLast: response.data!.isLast)
+          guard let data = response.data else { return nil }
+          return (content: data.content, nextCursorID: data.content.last?.commentID ?? 0, isLast: data.isLast)
         }
     }
     
@@ -161,7 +162,9 @@ extension BoardDetailViewModel {
           FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
             .compactMap { result -> (content: [CommentContent], nextCursorID: Int, isLast: Bool)? in
               guard case let .success(response) = result else { return nil }
-              return (content: response.data!.content, nextCursorID: response.data!.content.last!.commentID, isLast: response.data!.isLast)
+              guard let data = response.data else { return nil }
+              // 페이징 작업시 발생하는 데이터의 마지막 요소(last)는 항상 값이 존재하므로 force-unwrapping을 사용.
+              return (content: data.content, nextCursorID: data.content.last!.commentID, isLast: data.isLast)
             }
         }
       }
