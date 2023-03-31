@@ -59,6 +59,9 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   /// API를 요청하는 중인지 확인합니다.
   private var isFetching = false
   
+  /// 페이징 관리 객체
+  private let pagingManager = PagingManager<CommentContent>(threshold: 5)
+  
   // MARK: - Initializations
   
   init(plubbingID: Int, content: BoardModel) {
