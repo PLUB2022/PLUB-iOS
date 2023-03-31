@@ -72,26 +72,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
     commentsInput = commentInputSubject.asObserver()
     bottomCellObserver = bottomCellSubject.asObserver()
     
-    // == fetching comments part ==
-    let commentsObservable = FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: comments.last?.commentID ?? 0)
-      .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
-        // TODO: 승현 - API 통신 에러 처리
-        guard case let .success(response) = result else { return nil }
-        return response.data
-      }
-    
-    // 첫 세팅 작업
-    Observable.combineLatest(collectionViewSubject.asObservable(), commentsObservable) {
-      return (collectionView: $0, commentsData: $1)
-    }
-    .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
-    .subscribe(with: self) { owner, tuple in
-      owner.isLast = tuple.commentsData.isLast
-      owner.comments.append(contentsOf: tuple.commentsData.content)
-      owner.setCollectionView(tuple.collectionView)
-      owner.applyInitialSnapshots()
-    }
-    .disposed(by: disposeBag)
+    fetchComments(plubbingID: plubbingID, content: content, collectionViewObservable: collectionViewSubject.asObservable())
     
     // == create comments part ==
     commentInputSubject
@@ -155,6 +136,41 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   
   private let disposeBag = DisposeBag()
 }
+
+// MARK: - Binding Methods
+
+extension BoardDetailViewModel {
+  
+  /// 댓글 정보를 가져와 초기 상태의 UI를 업데이트합니다.
+  /// - Parameters:
+  ///   - plubbingID: 플러빙 ID
+  ///   - content: 게시글 컨텐츠 모델
+  ///   - collectionViewObservable: 게시글 UI에 사용되는 CollectionView Observable
+  private func fetchComments(plubbingID: Int, content: BoardModel, collectionViewObservable: Observable<UICollectionView>) {
+    
+    let commentsObservable = FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: comments.last?.commentID ?? 0)
+      .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
+        // TODO: 승현 - API 통신 에러 처리
+        guard case let .success(response) = result else { return nil }
+        return response.data
+      }
+    
+    // 첫 세팅 작업
+    Observable.combineLatest(collectionViewObservable.asObservable(), commentsObservable) {
+      return (collectionView: $0, commentsData: $1)
+    }
+    .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
+    .subscribe(with: self) { owner, tuple in
+      owner.isLast = tuple.commentsData.isLast
+      owner.comments.append(contentsOf: tuple.commentsData.content)
+      owner.setCollectionView(tuple.collectionView)
+      owner.applyInitialSnapshots()
+    }
+    .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - Diffable DataSource
 
 extension BoardDetailViewModel {
   
