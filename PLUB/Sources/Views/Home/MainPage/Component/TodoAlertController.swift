@@ -49,6 +49,8 @@ final class TodoAlertController: BaseViewController {
     $0.backgroundColor = .lightGray
   }
   
+  private let todoInfoView = TodoInfoView()
+  
   private let todoAlertView = TodoAlertView()
   
   private let buttonStackView = UIStackView().then {
@@ -98,7 +100,7 @@ final class TodoAlertController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     [dimmedView, containerView].forEach { view.addSubview($0) }
-    [profileImageView, dateLabel, nameLabel, closeButton, seperatorView, todoAlertView, buttonStackView].forEach { containerView.addSubview($0) }
+    [profileImageView, dateLabel, nameLabel, closeButton, seperatorView, todoInfoView, todoAlertView, buttonStackView].forEach { containerView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -141,8 +143,14 @@ final class TodoAlertController: BaseViewController {
       $0.top.equalTo(nameLabel.snp.bottom).offset(10)
     }
     
+    todoInfoView.snp.makeConstraints {
+      $0.top.equalTo(seperatorView.snp.bottom).offset(8)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.height.equalTo(24)
+    }
+    
     todoAlertView.snp.makeConstraints {
-      $0.top.equalTo(seperatorView).offset(40)
+      $0.top.equalTo(todoInfoView.snp.bottom).offset(8)
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
       $0.height.equalTo(197.2)
     }
