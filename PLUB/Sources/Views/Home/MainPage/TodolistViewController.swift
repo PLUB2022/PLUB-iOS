@@ -32,11 +32,6 @@ final class TodolistViewController: BaseViewController {
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    view.backgroundColor = .background
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
     [goalBackgroundView, titleLabel, todoCollectionView].forEach { view.addSubview($0) }
