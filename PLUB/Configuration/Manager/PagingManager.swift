@@ -17,7 +17,7 @@ final class PagingManager<T> {
   private var isFetching = false
   
   /// 이미 마지막 페이지에 도달했는지 여부를 판단합니다.
-  private var isLast = false
+  private(set) var isLast = false
   
   /// 임계값입니다. 마지막 셀로부터 `threshold`번째 앞인 셀이 보이는 경우 Fetch 조건에 해당하게 됩니다.
   private var threshold: Int
