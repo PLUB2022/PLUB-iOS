@@ -49,6 +49,8 @@ final class TodoAlertController: BaseViewController {
     $0.backgroundColor = .lightGray
   }
   
+  private let todoAlertView = TodoAlertView()
+  
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 12
@@ -96,7 +98,7 @@ final class TodoAlertController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     [dimmedView, containerView].forEach { view.addSubview($0) }
-    [profileImageView, dateLabel, nameLabel, seperatorView, buttonStackView].forEach { containerView.addSubview($0) }
+    [profileImageView, dateLabel, nameLabel, closeButton, seperatorView, todoAlertView, buttonStackView].forEach { containerView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -127,6 +129,24 @@ final class TodoAlertController: BaseViewController {
       $0.leading.equalTo(dateLabel)
     }
     
+    closeButton.snp.makeConstraints {
+      $0.size.equalTo(32)
+      $0.top.equalToSuperview().inset(12)
+      $0.trailing.equalToSuperview().inset(8)
+    }
+    
+    seperatorView.snp.makeConstraints {
+      $0.height.equalTo(1)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.top.equalTo(nameLabel.snp.bottom).offset(10)
+    }
+    
+    todoAlertView.snp.makeConstraints {
+      $0.top.equalTo(seperatorView).offset(40)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.height.equalTo(197.2)
+    }
+    
     [nextButton, completedButton].forEach { buttonStackView.addArrangedSubview($0) }
     buttonStackView.snp.makeConstraints {
       $0.bottom.directionalHorizontalEdges.equalToSuperview()
@@ -138,6 +158,12 @@ final class TodoAlertController: BaseViewController {
     super.bind()
     
     tapGesture.rx.event
+      .subscribe(with: self) { owner, _ in
+        owner.dismiss(animated: false)
+      }
+      .disposed(by: disposeBag)
+    
+    closeButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.dismiss(animated: false)
       }
