@@ -49,5 +49,9 @@ class TodoAlertView: UIView {
       $0.centerX.equalToSuperview()
       $0.top.equalTo(addPhotoImageView.snp.bottom).offset(10)
     }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
   }
 }
