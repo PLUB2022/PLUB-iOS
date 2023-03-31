@@ -64,6 +64,11 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    listContainerView.subviews.forEach { $0.removeFromSuperview() }
+  }
+  
   private func configureUI() {
     contentView.backgroundColor = .background
     [profileImageView, likeButton, likeCountLabel, listContainerView, moreButton].forEach { contentView.addSubview($0) }
