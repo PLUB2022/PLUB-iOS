@@ -125,6 +125,7 @@
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
 		BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */; };
 		BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */; };
+		BA4BD1AE29D6C4A800334C04 /* PagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */; };
 		BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */; };
 		BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4DADB2295747E700C7ABD7 /* PageControl.swift */; };
 		BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */; };
@@ -445,6 +446,7 @@
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
 		BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIButton.swift"; sourceTree = "<group>"; };
+		BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingManager.swift; sourceTree = "<group>"; };
 		BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		BA4DADB2295747E700C7ABD7 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -1120,6 +1122,7 @@
 			isa = PBXGroup;
 			children = (
 				BA117A3C297440D900B37E03 /* UserManager.swift */,
+				BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -2212,6 +2215,7 @@
 				C3ED8FB72989B87E002F689B /* CreateMeetingResponse.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
 				C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */,
+				BA4BD1AE29D6C4A800334C04 /* PagingManager.swift in Sources */,
 				7028770929AA6B3D00E57509 /* CategoryMeetingRequest.swift in Sources */,
 				BAC5EF2F298AA23700F3955E /* SplashViewModel.swift in Sources */,
 				C38A5B95297AD5B000485355 /* KakaoLocationRouter.swift in Sources */,
