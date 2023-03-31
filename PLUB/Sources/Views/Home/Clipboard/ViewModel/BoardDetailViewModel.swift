@@ -73,29 +73,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
     bottomCellObserver = bottomCellSubject.asObserver()
     
     fetchComments(plubbingID: plubbingID, content: content, collectionViewObservable: collectionViewSubject.asObservable())
-    
-    // == create comments part ==
-    commentInputSubject
-      .flatMap { FeedsService.shared.createComments(plubbingID: plubbingID, feedID: content.feedID, comment: $0.comment, commentParentID: $0.parentID) }
-      .compactMap { result -> CommentContent? in
-        // TODO: 승현 - API 통신 에러 처리
-        guard case let .success(response) = result else { return nil }
-        return response.data
-      }
-      .filter { [weak self] _ in
-        return self?.isLast ?? false
-      }
-      .subscribe(with: self) { owner, comment in
-        // 일반 댓글은 단순 append
-        if comment.type == .normal {
-          owner.comments.append(comment)
-        } else {
-          // 작성된 답글은 마지막 답글 뒤에 insert
-          let index = owner.comments.map { $0.groupID }.lastIndex(of: comment.groupID)!
-          owner.comments.insert(comment, at: index + 1)
-        }
-      }
-      .disposed(by: disposeBag)
+    createComments(plubbingID: plubbingID, content: content, commentsObservable: commentInputSubject.asObservable())
     
     // == paging part ==
     bottomCellSubject
@@ -167,6 +145,35 @@ extension BoardDetailViewModel {
       owner.applyInitialSnapshots()
     }
     .disposed(by: disposeBag)
+  }
+  
+  /// 입력된 글을 가지고 댓글을 작성합니다.
+  /// - Parameters:
+  ///   - plubbingID: 플러빙 ID
+  ///   - content: 게시글 컨텐츠 모델
+  ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
+  private func createComments(plubbingID: Int, content: BoardModel, commentsObservable: Observable<(comment: String, parentID: Int?)>) {
+    commentsObservable
+      .flatMap { FeedsService.shared.createComments(plubbingID: plubbingID, feedID: content.feedID, comment: $0.comment, commentParentID: $0.parentID) }
+      .compactMap { result -> CommentContent? in
+        // TODO: 승현 - API 통신 에러 처리
+        guard case let .success(response) = result else { return nil }
+        return response.data
+      }
+      .filter { [weak self] _ in
+        return self?.isLast ?? false
+      }
+      .subscribe(with: self) { owner, comment in
+        // 일반 댓글은 단순 append
+        if comment.type == .normal {
+          owner.comments.append(comment)
+        } else {
+          // 작성된 답글은 마지막 답글 뒤에 insert
+          let index = owner.comments.map { $0.groupID }.lastIndex(of: comment.groupID)!
+          owner.comments.insert(comment, at: index + 1)
+        }
+      }
+      .disposed(by: disposeBag)
   }
 }
 
