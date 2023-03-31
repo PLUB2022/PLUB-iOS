@@ -87,3 +87,5 @@ extension CommentContent: Hashable {
     hasher.combine(identifier)
   }
 }
+
+extension CommentContent: Equatable { }
