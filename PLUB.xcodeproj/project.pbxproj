@@ -2490,8 +2490,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 		BA117A4C297444EE00B37E03 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
