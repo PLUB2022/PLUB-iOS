@@ -18,7 +18,7 @@ protocol BoardDetailViewModelType {
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
   
   /// 보여지는 댓글 Cell 중 제일 밑의 셀의 IndexPath를 받습니다.
-  var bottomCellObserver: AnyObserver<IndexPath> { get }
+  var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> { get }
   
   /// 사용자의 댓글을 입력합니다.
   var commentsInput: AnyObserver<(comment: String, parentID: Int?)> { get }
@@ -34,7 +34,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   // Input
   let setCollectionViewObserver: AnyObserver<UICollectionView>
   let commentsInput: AnyObserver<(comment: String, parentID: Int?)>
-  let bottomCellObserver: AnyObserver<IndexPath>
+  let offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)>
   
   // MARK: - Properties
   
@@ -54,7 +54,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   private var dataSource: DataSource?
   
   /// 페이징 관리 객체
-  private let pagingManager = PagingManager<CommentContent>(threshold: 5)
+  private let pagingManager = PagingManager<CommentContent>(threshold: 700)
   
   // MARK: - Initializations
   
@@ -63,15 +63,15 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
     
     let collectionViewSubject = PublishSubject<UICollectionView>()
     let commentInputSubject   = PublishSubject<(comment: String, parentID: Int?)>()
-    let bottomCellSubject     = PublishSubject<IndexPath>()
+    let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
     
     setCollectionViewObserver = collectionViewSubject.asObserver()
     commentsInput = commentInputSubject.asObserver()
-    bottomCellObserver = bottomCellSubject.asObserver()
+    offsetObserver = bottomCellSubject.asObserver()
     
     fetchComments(plubbingID: plubbingID, content: content, collectionViewObservable: collectionViewSubject.asObservable())
     createComments(plubbingID: plubbingID, content: content, commentsObservable: commentInputSubject.asObservable())
-    pagingSetup(plubbingID: plubbingID, content: content, indexPathObservable: bottomCellSubject.asObservable())
+    pagingSetup(plubbingID: plubbingID, content: content, offsetObservable: bottomCellSubject.asObservable())
   }
   
   private let disposeBag = DisposeBag()
@@ -149,20 +149,16 @@ extension BoardDetailViewModel {
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
   ///   - indexPathObservable: 컬렉션 뷰에서 하단 셀의 인덱스 경로를 전달받는 `Observable`
-  private func pagingSetup(plubbingID: Int, content: BoardModel, indexPathObservable: Observable<IndexPath>) {
-    indexPathObservable
+  private func pagingSetup(plubbingID: Int, content: BoardModel, offsetObservable: Observable<(collectionViewHeight: CGFloat, offset: CGFloat)>) {
+    offsetObservable
       .filter { [weak self] in // pagingManager에게 fetching 가능한지 요청
-        guard let self, let dataSource = self.dataSource else { return false }
-        let snapshot = dataSource.snapshot()
-        let sectionIdentifier = snapshot.sectionIdentifiers[$0.section]
-        let item = snapshot.itemIdentifiers(inSection: sectionIdentifier)[$0.item]
-        let index = snapshot.itemIdentifiers.firstIndex(of: item)!
-        return self.pagingManager.shouldFetchNextPage(currentIndex: index, totalItems: snapshot.itemIdentifiers.count)
+        guard let self else { return false }
+        return self.pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
       }
       .flatMap { [weak self] _ -> Observable<[CommentContent]> in
         guard let self else { return .empty() }
         return self.pagingManager.fetchNextPage { cursorID in
-          return FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
+          FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
             .compactMap { result -> (content: [CommentContent], nextCursorID: Int, isLast: Bool)? in
               guard case let .success(response) = result else { return nil }
               return (content: response.data!.content, nextCursorID: response.data!.content.last!.commentID, isLast: response.data!.isLast)

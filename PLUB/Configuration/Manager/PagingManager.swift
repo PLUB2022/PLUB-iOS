@@ -32,11 +32,11 @@ final class PagingManager<T> {
   /// 다음 페이지를 가져올지 여부를 결정합니다.
   ///
   /// - Parameters:
-  ///   - currentIndex: 현재 아이템의 인덱스입니다.
-  ///   - totalItems: 전체 아이템 개수입니다.
+  ///   - totalHeight: collectionView(tableView)의 전체 높이
+  ///   - offsetHeight: 보여지고 있는 컨텐츠의 y 위치
   /// - Returns: 다음 페이지를 가져올지 여부를 반환합니다.
-  func shouldFetchNextPage(currentIndex: Int, totalItems: Int) -> Bool {
-    return !isFetching && !isLast && totalItems - currentIndex <= threshold
+  func shouldFetchNextPage(totalHeight: CGFloat, offset: CGFloat) -> Bool {
+    return !isFetching && !isLast && totalHeight - offset <= CGFloat(threshold)
   }
   
   /// 다음 페이지를 가져옵니다.

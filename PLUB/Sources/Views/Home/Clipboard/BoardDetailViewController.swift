@@ -142,9 +142,10 @@ final class BoardDetailViewController: BaseViewController {
     // 페이징 처리 - 현재 보이는 셀들 중 마지막 셀의 IndexPath를 전달
     collectionView.rx.contentOffset
       .compactMap { [weak self] offset in
-        return self?.collectionView.indexPathsForVisibleItems.max()
+        guard let self else { return nil }
+        return (self.collectionView.contentSize.height, offset.y)
       }
-      .bind(to: viewModel.bottomCellObserver)
+      .bind(to: viewModel.offsetObserver)
       .disposed(by: disposeBag)
     
     // collectionView가 터치되면 first responder를 resign 시킴
