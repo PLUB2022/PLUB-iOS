@@ -139,7 +139,7 @@ final class BoardDetailViewController: BaseViewController {
     // ViewModel에게 `DiffableDataSource`처리를 해주기 위해 collectionView를 전달
     viewModel.setCollectionViewObserver.onNext(collectionView)
     
-    // 페이징 처리 - 현재 보이는 셀들 중 마지막 셀의 IndexPath를 전달
+    // 페이징 처리 - 현재 사용자가 바로보고있는 Offset의 y값과 실제 CollectionView의 높이값을 전달
     collectionView.rx.contentOffset
       .compactMap { [weak self] offset in
         guard let self else { return nil }
