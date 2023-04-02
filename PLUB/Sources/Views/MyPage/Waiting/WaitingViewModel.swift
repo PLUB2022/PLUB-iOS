@@ -117,6 +117,7 @@ class WaitingViewModel {
   
   private func createScheduleString(days: [String], time: String) -> String {
     let dateStr = days
+      .map { $0.fromENGToKOR() }
       .joined(separator: ", ")
     
     let date = DateFormatter().then {
