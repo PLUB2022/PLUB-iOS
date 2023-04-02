@@ -12,9 +12,32 @@ import RxCocoa
 import SnapKit
 import Then
 
+enum ApplicationType {
+  case recruiting
+  case waiting(questionCount: Int)
+  
+  var firstButtonTitle: String {
+    switch self {
+    case .recruiting:
+      return "거절하기"
+    case .waiting:
+      return "지원 취소"
+    }
+  }
+  
+  var secondButtonTitle: String {
+    switch self {
+    case .recruiting:
+      return "받기"
+    case .waiting:
+      return "수정"
+    }
+  }
+}
+
 protocol RecruitingSectionFooterViewDelegate: AnyObject {
-  func declineApplicant(sectionIndex: Int)
-  func acceptApplicant(sectionIndex: Int)
+  func firstButtonTapped(sectionIndex: Int)
+  func secondButtonTapped(sectionIndex: Int)
 }
 
 final class RecruitingSectionFooterView: UITableViewHeaderFooterView {
@@ -22,6 +45,7 @@ final class RecruitingSectionFooterView: UITableViewHeaderFooterView {
   weak var delegate: RecruitingSectionFooterViewDelegate?
   private let disposeBag = DisposeBag()
   private var sectionIndex: Int? = nil
+  private var applicationType: ApplicationType? = nil
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -42,18 +66,21 @@ final class RecruitingSectionFooterView: UITableViewHeaderFooterView {
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     $0.backgroundColor = .white
+    $0.distribution = .fillEqually
   }
   
-  private let declineButton = UIButton(configuration: .plain()).then {
-    $0.configuration?.title = "거절하기"
+  private let firstButton = UIButton(configuration: .plain()).then {
     $0.configuration?.font = .button
     $0.configuration?.background.backgroundColor = .lightGray
     $0.configuration?.background.cornerRadius = 10
     $0.configuration?.baseForegroundColor = .deepGray
   }
   
-  private let acceptButton =  UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "받기")
+  private let secondButton =  UIButton(configuration: .plain()).then {
+    $0.configuration?.font = .button
+    $0.configuration?.background.backgroundColor = .main
+    $0.configuration?.background.cornerRadius = 10
+    $0.configuration?.baseForegroundColor = .white
   }
   
   override init(reuseIdentifier: String?) {
@@ -68,6 +95,11 @@ final class RecruitingSectionFooterView: UITableViewHeaderFooterView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    buttonStackView.subviews.forEach { $0.removeFromSuperview() }
+  }
+  
   override func layoutSubviews() {
     super.layoutSubviews()
     containerView.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 15)
@@ -79,10 +111,6 @@ final class RecruitingSectionFooterView: UITableViewHeaderFooterView {
     
     [clearView, buttonStackView, whiteView].forEach {
       containerView.addArrangedSubview($0)
-    }
-    
-    [declineButton, acceptButton].forEach {
-      buttonStackView.addArrangedSubview($0)
     }
   }
   
@@ -106,24 +134,42 @@ final class RecruitingSectionFooterView: UITableViewHeaderFooterView {
   }
   
   private func bind() {
-    declineButton.rx.tap
+    firstButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
         guard let sectionIndex = owner.sectionIndex else { return }
-        owner.delegate?.declineApplicant(sectionIndex: sectionIndex)
+        owner.delegate?.firstButtonTapped(sectionIndex: sectionIndex)
       }
       .disposed(by: disposeBag)
     
-    acceptButton.rx.tap
+    secondButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
         guard let sectionIndex = owner.sectionIndex else { return }
-        owner.delegate?.acceptApplicant(sectionIndex: sectionIndex)
+        owner.delegate?.secondButtonTapped(sectionIndex: sectionIndex)
       }
       .disposed(by: disposeBag)
   }
   
-  func setupData(sectionIndex: Int) {
+  func setupData(sectionIndex: Int, type: ApplicationType) {
     self.sectionIndex = sectionIndex
+    self.applicationType = type
+  
+    firstButton.configuration?.title = type.firstButtonTitle
+    firstButton.configuration?.font = .button
+
+    secondButton.configuration?.title = type.secondButtonTitle
+    secondButton.configuration?.font = .button
+    
+    buttonStackView.addArrangedSubview(firstButton)
+    
+    switch type {
+    case .waiting(questionCount: let questionCount):
+      if questionCount != 0 {
+        buttonStackView.addArrangedSubview(secondButton)
+      }
+    case .recruiting:
+      buttonStackView.addArrangedSubview(secondButton)
+    }
   }
 }

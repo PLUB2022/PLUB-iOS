@@ -152,7 +152,16 @@ extension MyPageViewController: UITableViewDelegate {
       let vc = RecruitingViewController(viewModel: RecruitingViewModel(plubbingID: plubbingID))
       vc.hidesBottomBarWhenPushed = true
       navigationController?.pushViewController(vc, animated: true)
-    case .waiting: break
+    case .waiting:
+      guard let myInfo = viewModel.myInfoData else { return }
+      let vc = WaitingViewController(
+        viewModel: WaitingViewModel(
+          plubbingID: plubbingID,
+          myInfo: myInfo)
+      )
+      vc.delegate = self
+      vc.hidesBottomBarWhenPushed = true
+      navigationController?.pushViewController(vc, animated: true)
     case .active: break
     case .end: break
     }
@@ -194,5 +203,11 @@ extension MyPageViewController: MyPageSectionHeaderViewDelegate {
 extension MyPageViewController: MyPageNoneViewDelegate {
   func didTappedMoveToMeeting() {
     tabBarController?.selectedIndex = 0
+  }
+}
+
+extension MyPageViewController: MyPageCellDelegate {
+  func removeCell(plubbingID: Int) {
+    viewModel.removeCell(with: plubbingID)
   }
 }

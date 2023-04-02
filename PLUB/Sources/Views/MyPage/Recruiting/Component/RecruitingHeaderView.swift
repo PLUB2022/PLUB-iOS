@@ -10,6 +10,21 @@ import UIKit
 import SnapKit
 import RxSwift
 
+extension PlubbingStatusType {
+  var subtitle: String {
+    switch self {
+    case .recruiting:
+       return "지원자 내역"
+    case .end:
+      return ""
+    case .active:
+      return ""
+    case .waiting:
+      return "나의 지원서"
+    }
+  }
+}
+
 final class RecruitingHeaderView: UIView {
   private let disposeBag = DisposeBag()
   
@@ -81,7 +96,7 @@ extension RecruitingHeaderView {
   private func setupStyles() {
   }
   
-  func setupData(with data: RecruitingModel) {
+  func setupData(with data: RecruitingModel, type: PlubbingStatusType) {
     titleLabel.text = data.title
     if data.address.isEmpty {
       locationView.isHidden = true
@@ -93,6 +108,6 @@ extension RecruitingHeaderView {
       locationView.setText(data.address, false)
     }
     scheduleView.setText(data.schedule, false)
-    subtitleLabel.text = "지원자 내역"
+    subtitleLabel.text = type.subtitle
   }
 }

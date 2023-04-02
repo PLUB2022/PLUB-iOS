@@ -16,7 +16,7 @@ enum PlubbingStatusType: String, CaseIterable {
 
 struct MyPlubbingResponse: Codable {
   let plubbingStatus: PlubbingStatusType.RawValue
-  let plubbings: [MyPagePlubbing]
+  var plubbings: [MyPagePlubbing]
   
   enum CodingKeys: String, CodingKey {
     case plubbingStatus

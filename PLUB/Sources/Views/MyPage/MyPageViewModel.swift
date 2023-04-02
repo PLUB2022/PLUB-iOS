@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 struct MyPageTableViewCellModel {
-  let section: MyPlubbingResponse
+  var section: MyPlubbingResponse
   var isFolded: Bool
 }
 
@@ -22,7 +22,7 @@ final class MyPageViewModel {
   let sectionTapped: AnyObserver<Int> // 섹션뷰 클릭 이벤트
   
   // Output
-  let myInfo: Driver<MyInfoResponse> // 내 정보 데이터
+  var myInfo: Driver<MyInfoResponse> // 내 정보 데이터
   let reloadData: Driver<Void> // 테이블 뷰 갱신
   let reloadSection: Driver<Int> // 테이블 뷰 섹션 갱신
   
@@ -33,6 +33,7 @@ final class MyPageViewModel {
   
   // Data
   private(set) var myPlubbing: [MyPageTableViewCellModel] = [] // 나의 플러빙 데이터
+  private(set) var myInfoData: MyInfoResponse? // 내정보
   
   init() {
     sectionTapped = sectionTappedSubject.asObserver()
@@ -58,6 +59,7 @@ final class MyPageViewModel {
         case .success(let model):
           print(model)
           guard let data = model.data else { return }
+          owner.myInfoData = data
           owner.myInfoSubject.onNext(data)
         default:
           break
@@ -100,5 +102,20 @@ final class MyPageViewModel {
           print("")
       })
       .disposed(by: disposeBag)
+  }
+  
+  func removeCell(with plubbingID: Int) {
+    myPlubbing.enumerated().forEach { (i, data) in
+      data.section.plubbings.enumerated().forEach { (j, plubbing) in
+        if (plubbing.plubbingID == plubbingID) {
+          myPlubbing[i].section.plubbings.remove(at: j)
+          if myPlubbing[i].section.plubbings.count == 0 {
+            myPlubbing.remove(at: i)
+          }
+          reloadDataSubject.onNext(())
+          return
+        }
+      }
+    }
   }
 }

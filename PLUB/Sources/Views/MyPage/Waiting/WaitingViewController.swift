@@ -1,18 +1,22 @@
 //
-//  RecruitingViewController.swift
+//  WaitingViewController.swift
 //  PLUB
 //
-//  Created by 김수빈 on 2023/03/15.
+//  Created by 김수빈 on 2023/04/02.
 //
 
-import Foundation
 import UIKit
 
-final class RecruitingViewController: BaseViewController {
+protocol MyPageCellDelegate: AnyObject {
+  func removeCell(plubbingID: Int)
+}
+
+final class WaitingViewController: BaseViewController {
   
-  let viewModel: RecruitingViewModel
+  let viewModel: WaitingViewModel
+  weak var delegate: MyPageCellDelegate?
   
-  init(viewModel: RecruitingViewModel) {
+  init(viewModel: WaitingViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -70,7 +74,7 @@ final class RecruitingViewController: BaseViewController {
   override func bind() {
     viewModel.meetingInfo
       .drive(with: self) { owner, myInfo in
-        owner.recruitingHeaderView.setupData(with: myInfo, type: .recruiting)
+        owner.recruitingHeaderView.setupData(with: myInfo, type: .waiting)
       }
       .disposed(by: disposeBag)
     
@@ -87,6 +91,13 @@ final class RecruitingViewController: BaseViewController {
     viewModel.reloadSection
       .drive(with: self) { owner, index in
         owner.tableView.reloadSections([index], with: .automatic)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successCanelApplication
+      .drive(with: self) { owner, _ in
+        owner.delegate?.removeCell(plubbingID: owner.viewModel.plubbingID)
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -117,7 +128,7 @@ final class RecruitingViewController: BaseViewController {
 
 // MARK: - UITableViewDelegate
 
-extension RecruitingViewController: UITableViewDelegate {
+extension WaitingViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
   }
@@ -155,8 +166,9 @@ extension RecruitingViewController: UITableViewDelegate {
       guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: RecruitingSectionFooterView.identifier) as? RecruitingSectionFooterView else {
           return UIView()
       }
+      let questionCount = viewModel.applications[section].data.answers.count
       footerView.delegate = self
-      footerView.setupData(sectionIndex: section, type: .recruiting)
+      footerView.setupData(sectionIndex: section, type: .waiting(questionCount: questionCount))
       return footerView
     }
   }
@@ -168,7 +180,7 @@ extension RecruitingViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 
-extension RecruitingViewController: UITableViewDataSource {
+extension WaitingViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
     return viewModel.applications.count
   }
@@ -192,52 +204,29 @@ extension RecruitingViewController: UITableViewDataSource {
   }
 }
 
-extension RecruitingViewController: RecruitingSectionHeaderViewDelegate {
+extension WaitingViewController: RecruitingSectionHeaderViewDelegate {
   func foldHeaderView(sectionIndex: Int) {
     viewModel.sectionTapped.onNext(sectionIndex)
   }
 }
 
-extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
+extension WaitingViewController: RecruitingSectionFooterViewDelegate {
   func firstButtonTapped(sectionIndex: Int) {
-    let model = viewModel.applications[sectionIndex]
-    let accountID = model.data.accountID
     let alert = CustomAlertView(
       AlertModel(
-        title: "해당 지원자를\n거절하시겠어요?",
+        title: "이 모임에 참여하고 싶지\n않으신가요?",
         message: nil,
-        cancelButton: "취소",
-        confirmButton: "거절하기",
+        cancelButton: "아니요",
+        confirmButton: "네",
         height: 210
       )
     ) { [weak self] in
       guard let self = self else { return }
-      self.viewModel.refuseApplicant.onNext((
-        sectionIndex: sectionIndex,
-        accountID: accountID
-      ))
+      self.viewModel.cancelApplication.onNext(sectionIndex)
     }
     alert.show()
   }
   
   func secondButtonTapped(sectionIndex: Int) {
-    let model = viewModel.applications[sectionIndex]
-    let accountID = model.data.accountID
-    let alert = CustomAlertView(
-      AlertModel(
-        title: "해당 지원자를\n받으시겠어요?",
-        message: nil,
-        cancelButton: "취소",
-        confirmButton: "받기",
-        height: 210
-      )
-    ) { [weak self] in
-      guard let self = self else { return }
-      self.viewModel.approvalApplicant.onNext((
-        sectionIndex: sectionIndex,
-        accountID: accountID
-      ))
-    }
-    alert.show()
   }
 }
