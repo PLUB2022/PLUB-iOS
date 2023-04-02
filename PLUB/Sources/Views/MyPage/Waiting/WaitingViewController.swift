@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol MyPageCellDelegate: AnyObject {
+  func removeCell(plubbingID: Int)
+}
+
 final class WaitingViewController: BaseViewController {
   
   let viewModel: WaitingViewModel
+  weak var delegate: MyPageCellDelegate?
   
   init(viewModel: WaitingViewModel) {
     self.viewModel = viewModel
@@ -91,8 +96,8 @@ final class WaitingViewController: BaseViewController {
     
     viewModel.successCanelApplication
       .drive(with: self) { owner, _ in
+        owner.delegate?.removeCell(plubbingID: owner.viewModel.plubbingID)
         owner.navigationController?.popViewController(animated: true)
-        // TODO: 수빈 - 지원 취소 -> 마이페이지 셀 remove 로직 추가
       }
       .disposed(by: disposeBag)
     
