@@ -18,7 +18,7 @@ protocol BoardDetailViewModelType {
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
   
   /// 보여지는 댓글 Cell 중 제일 밑의 셀의 IndexPath를 받습니다.
-  var bottomCellObserver: AnyObserver<IndexPath> { get }
+  var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> { get }
   
   /// 사용자의 댓글을 입력합니다.
   var commentsInput: AnyObserver<(comment: String, parentID: Int?)> { get }
@@ -34,7 +34,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   // Input
   let setCollectionViewObserver: AnyObserver<UICollectionView>
   let commentsInput: AnyObserver<(comment: String, parentID: Int?)>
-  let bottomCellObserver: AnyObserver<IndexPath>
+  let offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)>
   
   // MARK: - Properties
   
@@ -53,11 +53,8 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   /// 게시글, 댓글에 대한 CollectionViewDiffableDataSource
   private var dataSource: DataSource?
   
-  /// 현재 마지막 커서(페이지)인지 판단할 때 사용합니다.
-  private var isLast = false
-  
-  /// API를 요청하는 중인지 확인합니다.
-  private var isFetching = false
+  /// 페이징 관리 객체
+  private let pagingManager = PagingManager<CommentContent>(threshold: 700)
   
   // MARK: - Initializations
   
@@ -66,35 +63,62 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
     
     let collectionViewSubject = PublishSubject<UICollectionView>()
     let commentInputSubject   = PublishSubject<(comment: String, parentID: Int?)>()
-    let bottomCellSubject     = PublishSubject<IndexPath>()
+    let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
     
     setCollectionViewObserver = collectionViewSubject.asObserver()
     commentsInput = commentInputSubject.asObserver()
-    bottomCellObserver = bottomCellSubject.asObserver()
+    offsetObserver = bottomCellSubject.asObserver()
     
-    // == fetching comments part ==
-    let commentsObservable = FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: comments.last?.commentID ?? 0)
-      .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
-        // TODO: 승현 - API 통신 에러 처리
-        guard case let .success(response) = result else { return nil }
-        return response.data
-      }
+    fetchComments(plubbingID: plubbingID, content: content, collectionViewObservable: collectionViewSubject.asObservable())
+    createComments(plubbingID: plubbingID, content: content, commentsObservable: commentInputSubject.asObservable())
+    pagingSetup(plubbingID: plubbingID, content: content, offsetObservable: bottomCellSubject.asObservable())
+  }
+  
+  private let disposeBag = DisposeBag()
+}
+
+// MARK: - Binding Methods
+
+extension BoardDetailViewModel {
+  
+  /// 댓글 정보를 가져와 초기 상태의 UI를 업데이트합니다.
+  /// - Parameters:
+  ///   - plubbingID: 플러빙 ID
+  ///   - content: 게시글 컨텐츠 모델
+  ///   - collectionViewObservable: 게시글 UI에 사용되는 CollectionView Observable
+  private func fetchComments(plubbingID: Int, content: BoardModel, collectionViewObservable: Observable<UICollectionView>) {
+    
+    // PagingManager를 이용하여 댓글을 가져옴
+    let commentsObservable = pagingManager.fetchNextPage { _ in
+      FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID)
+        .compactMap { result -> (content: [CommentContent], nextCursorID: Int, isLast: Bool)? in
+          // TODO: 승현 - API 통신 에러 처리
+          guard case let .success(response) = result else { return nil }
+          guard let data = response.data else { return nil }
+          return (content: data.content, nextCursorID: data.content.last?.commentID ?? 0, isLast: data.isLast)
+        }
+    }
     
     // 첫 세팅 작업
-    Observable.combineLatest(collectionViewSubject.asObservable(), commentsObservable) {
-      return (collectionView: $0, commentsData: $1)
+    Observable.combineLatest(collectionViewObservable.asObservable(), commentsObservable) {
+      return (collectionView: $0, comments: $1)
     }
     .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
     .subscribe(with: self) { owner, tuple in
-      owner.isLast = tuple.commentsData.isLast
-      owner.comments.append(contentsOf: tuple.commentsData.content)
+      owner.comments.append(contentsOf: tuple.comments)
       owner.setCollectionView(tuple.collectionView)
       owner.applyInitialSnapshots()
     }
     .disposed(by: disposeBag)
-    
-    // == create comments part ==
-    commentInputSubject
+  }
+  
+  /// 입력된 글을 가지고 댓글을 작성합니다.
+  /// - Parameters:
+  ///   - plubbingID: 플러빙 ID
+  ///   - content: 게시글 컨텐츠 모델
+  ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
+  private func createComments(plubbingID: Int, content: BoardModel, commentsObservable: Observable<(comment: String, parentID: Int?)>) {
+    commentsObservable
       .flatMap { FeedsService.shared.createComments(plubbingID: plubbingID, feedID: content.feedID, comment: $0.comment, commentParentID: $0.parentID) }
       .compactMap { result -> CommentContent? in
         // TODO: 승현 - API 통신 에러 처리
@@ -102,7 +126,7 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
         return response.data
       }
       .filter { [weak self] _ in
-        return self?.isLast ?? false
+        return self?.pagingManager.isLast ?? false
       }
       .subscribe(with: self) { owner, comment in
         // 일반 댓글은 단순 append
@@ -115,46 +139,43 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
         }
       }
       .disposed(by: disposeBag)
-    
-    // == paging part ==
-    bottomCellSubject
-      .filter { [weak self] in // 마지막으로부터 5번째 이전 셀인지 확인
-        guard let self, let dataSource = self.dataSource else {
-          return false
+  }
+  
+  /// `BoardDetailViewModel`에 대한 페이징 메커니즘을 설정합니다.
+  ///
+  /// 이 메서드는 `bottomCellSubject`를 관찰하여 페이징 동작을 설정합니다. 현재 아이템이 댓글 목록 끝에서 지정된 임계값 이내인지 확인합니다.
+  /// 조건이 충족되고 다음 페이지를 가져올 수 있을 때, `fetchComments API`를 사용하여 다음 페이지를 가져옵니다.
+  ///
+  /// - Parameters:
+  ///   - plubbingID: 플러빙 ID
+  ///   - content: 게시글 컨텐츠 모델
+  ///   - indexPathObservable: 컬렉션 뷰에서 하단 셀의 인덱스 경로를 전달받는 `Observable`
+  private func pagingSetup(plubbingID: Int, content: BoardModel, offsetObservable: Observable<(collectionViewHeight: CGFloat, offset: CGFloat)>) {
+    offsetObservable
+      .filter { [weak self] in // pagingManager에게 fetching 가능한지 요청
+        guard let self else { return false }
+        return self.pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
+      }
+      .flatMap { [weak self] _ -> Observable<[CommentContent]> in
+        guard let self else { return .empty() }
+        return self.pagingManager.fetchNextPage { cursorID in
+          FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
+            .compactMap { result -> (content: [CommentContent], nextCursorID: Int, isLast: Bool)? in
+              guard case let .success(response) = result else { return nil }
+              guard let data = response.data else { return nil }
+              // 페이징 작업시 발생하는 데이터의 마지막 요소(last)는 항상 값이 존재하므로 force-unwrapping을 사용.
+              return (content: data.content, nextCursorID: data.content.last!.commentID, isLast: data.isLast)
+            }
         }
-        let snapshot = dataSource.snapshot()
-        let sectionIdentifier = snapshot.sectionIdentifiers[$0.section]
-        let item = snapshot.itemIdentifiers(inSection: sectionIdentifier)[$0.item]
-        let index = snapshot.itemIdentifiers.firstIndex(of: item)!
-        return snapshot.itemIdentifiers.count - index <= 5
       }
-      .filter { [weak self] _ in // 이미 가져오고 있는 중인지 확인
-        return self?.isFetching == false
-      }
-      .do(onNext: { [weak self] _ in
-        self?.isFetching = true
-      })
-      .filter { [weak self] _ in // 호출 가능 여부 판단
-        self?.isLast == false
-      }
-      .flatMap { [weak self] _ in
-        return FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: self?.comments.last?.commentID ?? 0)
-          .compactMap { result -> FeedsPaginatedDataResponse<CommentContent>? in
-            // TODO: 승현 - API 통신 에러 처리
-            guard case let .success(response) = result else { return nil }
-            return response.data
-          }
-      }
-      .subscribe(with: self) { owner, paginatedData in
-        owner.isLast = paginatedData.isLast
-        owner.comments.append(contentsOf: paginatedData.content)
-        owner.isFetching = false
+      .subscribe(with: self) { owner, content in
+        owner.comments.append(contentsOf: content)
       }
       .disposed(by: disposeBag)
   }
-  
-  private let disposeBag = DisposeBag()
 }
+
+// MARK: - Diffable DataSource
 
 extension BoardDetailViewModel {
   
