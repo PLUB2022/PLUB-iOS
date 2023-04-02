@@ -89,6 +89,13 @@ final class WaitingViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    viewModel.successCanelApplication
+      .drive(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
+        // TODO: 수빈 - 지원 취소 -> 마이페이지 셀 remove 로직 추가
+      }
+      .disposed(by: disposeBag)
+    
     recruitButton
       .rx.tap
       .asDriver()
@@ -216,7 +223,5 @@ extension WaitingViewController: RecruitingSectionFooterViewDelegate {
   }
   
   func secondButtonTapped(sectionIndex: Int) {
-    let model = viewModel.applications[sectionIndex]
-
   }
 }

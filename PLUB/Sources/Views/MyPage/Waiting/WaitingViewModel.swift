@@ -23,6 +23,7 @@ class WaitingViewModel {
   let meetingInfo: Driver<RecruitingModel> // 내 정보 데이터
   let reloadData: Driver<Void> // 테이블 뷰 갱신
   let reloadSection: Driver<Int> // 테이블 뷰 섹션 갱신
+  let successCanelApplication: Driver<Void>
   
   private let sectionTappedSubject = PublishSubject<Int>()
   private let cancelApplicationSubject = PublishSubject<Int>()
@@ -30,6 +31,7 @@ class WaitingViewModel {
   private let meetingInfoSubject = PublishSubject<RecruitingModel>()
   private let reloadDataSubject = PublishSubject<Void>()
   private let reloadSectionSubject = PublishSubject<Int>()
+  private let successCanelApplicationSubject = PublishSubject<Void>()
   
   // Data
   private(set) var applications: [(data: Application, isFolded: Bool)] = []
@@ -44,6 +46,7 @@ class WaitingViewModel {
     meetingInfo = meetingInfoSubject.asDriver(onErrorDriveWith: .empty())
     reloadData = reloadDataSubject.asDriver(onErrorDriveWith: .empty())
     reloadSection = reloadSectionSubject.asDriver(onErrorDriveWith: .empty())
+    successCanelApplication = successCanelApplicationSubject.asDriver(onErrorDriveWith: .empty())
     
     fetchApplicants()
     
@@ -67,10 +70,7 @@ class WaitingViewModel {
     editApplicationSubject
       .withUnretained(self)
       .subscribe(onNext: { owner, data in
-//        owner.refuseApplicant(
-//          sectionIndex: data.sectionIndex,
-//          accountID: data.accountID
-//        )
+//TODO: 수빈 - 질문 답변 수정 화면 연결
       })
       .disposed(by: disposeBag)
   }
@@ -141,9 +141,8 @@ class WaitingViewModel {
         switch result {
         case .success(let model):
           print(model)
-//          owner.applications.remove(at: sectionIndex)
-//          // 테이블 뷰 리로드
-//          owner.reloadDataSubject.onNext(())
+          owner.applications.remove(at: sectionIndex)
+          owner.successCanelApplicationSubject.onNext(())
         default:
           break
         }
