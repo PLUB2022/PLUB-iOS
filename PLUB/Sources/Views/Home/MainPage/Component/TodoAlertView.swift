@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class TodoAlertView: UIView {
+final class TodoAlertView: UIView {
   
   private let addPhotoImageView = UIImageView().then {
     $0.image = UIImage(named: "selectPhotoBlack")

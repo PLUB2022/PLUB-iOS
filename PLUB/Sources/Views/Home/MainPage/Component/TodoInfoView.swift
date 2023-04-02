@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class TodoInfoView: UIView {
+final class TodoInfoView: UIView {
   
   private let checkImageView = UIImageView().then {
     $0.image = UIImage(named: "Check")

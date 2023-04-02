@@ -15,7 +15,7 @@ protocol CheckTodoViewDelegate: AnyObject {
   func didTappedCheckboxButton()
 }
 
-class CheckTodoView: UIView {
+final class CheckTodoView: UIView {
   
   weak var delegate: CheckTodoViewDelegate?
   private let disposeBag = DisposeBag()
