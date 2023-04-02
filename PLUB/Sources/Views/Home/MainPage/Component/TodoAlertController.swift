@@ -51,7 +51,7 @@ final class TodoAlertController: BaseViewController {
   
   private let todoInfoView = TodoInfoView()
   
-  private let todoAlertView = TodoAlertView()
+  private let todoAlertView = TodoAlertView(frame: .zero)
   
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
@@ -174,6 +174,15 @@ final class TodoAlertController: BaseViewController {
     closeButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.dismiss(animated: false)
+      }
+      .disposed(by: disposeBag)
+    
+    todoAlertView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        print("뭐냐고")
+        let bottomSheet = PhotoBottomSheetViewController()
+        bottomSheet.modalPresentationStyle = .overFullScreen
+        owner.present(bottomSheet, animated: false)
       }
       .disposed(by: disposeBag)
   }
