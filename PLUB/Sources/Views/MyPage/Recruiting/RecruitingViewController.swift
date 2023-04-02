@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class RecruitingViewController: BaseViewController {
+final class RecruitingViewController: BaseViewController {
   
   let viewModel: RecruitingViewModel
   

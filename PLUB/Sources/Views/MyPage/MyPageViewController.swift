@@ -152,7 +152,10 @@ extension MyPageViewController: UITableViewDelegate {
       let vc = RecruitingViewController(viewModel: RecruitingViewModel(plubbingID: plubbingID))
       vc.hidesBottomBarWhenPushed = true
       navigationController?.pushViewController(vc, animated: true)
-    case .waiting: break
+    case .waiting:
+      let vc = WaitingViewController(viewModel: WaitingViewModel(plubbingID: plubbingID))
+      vc.hidesBottomBarWhenPushed = true
+      navigationController?.pushViewController(vc, animated: true)
     case .active: break
     case .end: break
     }
