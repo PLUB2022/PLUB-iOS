@@ -15,6 +15,37 @@ enum ToggleType {
   case bookmark
   case chart
   case grid
+  case like
+  
+  var selectedImage: String {
+    switch self {
+    case .indicator:
+      return "topIndicator"
+    case .bookmark:
+      return "bookmarkActivated"
+    case .chart:
+      return "chartActivated"
+    case .grid:
+      return "gridActivated"
+    case .like:
+      return "heartFilled"
+    }
+  }
+  
+  var unSelectedImage: String {
+    switch self {
+    case .indicator:
+      return "bottomIndicator"
+    case .bookmark:
+      return "bookmarkInActivated"
+    case .chart:
+      return "chartInActivated"
+    case .grid:
+      return "gridInActivated"
+    case .like:
+      return "heart"
+    }
+  }
 }
 
 class ToggleButton: UIButton {
@@ -24,16 +55,7 @@ class ToggleButton: UIButton {
   
   override var isSelected: Bool {
     didSet {
-      switch type {
-      case .indicator:
-        isSelected ? setImage(UIImage(named: "topIndicator"), for: .normal) : setImage(UIImage(named: "bottomIndicator"), for: .normal)
-      case .bookmark:
-        isSelected ? setImage(UIImage(named: "bookmarkActivated"), for: .normal) : setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
-      case .chart:
-        isSelected ? setImage(UIImage(named: "chartActivated"), for: .normal) : setImage(UIImage(named: "chartInActivated"), for: .normal)
-      case .grid:
-        isSelected ? setImage(UIImage(named: "gridActivated"), for: .normal) : setImage(UIImage(named: "gridInActivated"), for: .normal)
-      }
+      isSelected ? setImage(UIImage(named: type.selectedImage), for: .normal) : setImage(UIImage(named: type.unSelectedImage), for: .normal)
     }
   }
   
@@ -70,16 +92,7 @@ class ToggleButton: UIButton {
   }
   
   private func configureUI() {
-    switch type {
-    case .indicator:
-      setImage(UIImage(named: "bottomIndicator"), for: .normal)
-    case .bookmark:
-      setImage(UIImage(named: "bookmarkInActivated"), for: .normal)
-    case .chart:
-      setImage(UIImage(named: "chartInActivated"), for: .normal)
-    case .grid:
-      setImage(UIImage(named: "gridInActivated"), for: .normal)
-    }
+    setImage(UIImage(named: type.unSelectedImage), for: .normal)
   }
   
   private func bind() {
