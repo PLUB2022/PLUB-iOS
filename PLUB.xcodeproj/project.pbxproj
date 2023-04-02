@@ -322,6 +322,8 @@
 		C3EB29CB29A91CC600615B6B /* MeetingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EB29CA29A91CC600615B6B /* MeetingScheduleViewModel.swift */; };
 		C3EB29CD29A9A4D400615B6B /* ScheduleDetailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EB29CC29A9A4D400615B6B /* ScheduleDetailContentView.swift */; };
 		C3EB29CF29A9AB5C00615B6B /* ScheduleDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EB29CE29A9AB5C00615B6B /* ScheduleDateView.swift */; };
+		C3EC027D29D9582D0024C962 /* WaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EC027C29D9582D0024C962 /* WaitingViewController.swift */; };
+		C3EC027F29D958960024C962 /* WaitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EC027E29D958960024C962 /* WaitingViewModel.swift */; };
 		C3ED8FB52989B189002F689B /* CreateMeetingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */; };
 		C3ED8FB72989B87E002F689B /* CreateMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */; };
 		C3ED8FB92989E13D002F689B /* MeetingSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ED8FB82989E13D002F689B /* MeetingSummaryViewModel.swift */; };
@@ -634,6 +636,8 @@
 		C3EB29CA29A91CC600615B6B /* MeetingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingScheduleViewModel.swift; sourceTree = "<group>"; };
 		C3EB29CC29A9A4D400615B6B /* ScheduleDetailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailContentView.swift; sourceTree = "<group>"; };
 		C3EB29CE29A9AB5C00615B6B /* ScheduleDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateView.swift; sourceTree = "<group>"; };
+		C3EC027C29D9582D0024C962 /* WaitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingViewController.swift; sourceTree = "<group>"; };
+		C3EC027E29D958960024C962 /* WaitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingViewModel.swift; sourceTree = "<group>"; };
 		C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingRequest.swift; sourceTree = "<group>"; };
 		C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingResponse.swift; sourceTree = "<group>"; };
 		C3ED8FB82989E13D002F689B /* MeetingSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSummaryViewModel.swift; sourceTree = "<group>"; };
@@ -1362,6 +1366,7 @@
 				C3100CBD29BD94DC005FCCAD /* Cell */,
 				C3100CBA29BD8A96005FCCAD /* Component */,
 				C3E0390629C2087000C4744C /* Recruiting */,
+				C3EC027B29D958070024C962 /* Waiting */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -1855,6 +1860,15 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		C3EC027B29D958070024C962 /* Waiting */ = {
+			isa = PBXGroup;
+			children = (
+				C3EC027C29D9582D0024C962 /* WaitingViewController.swift */,
+				C3EC027E29D958960024C962 /* WaitingViewModel.swift */,
+			);
+			path = Waiting;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2099,6 +2113,7 @@
 				C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */,
 				BA8E2B46297467A2009DDF32 /* AuthService.swift in Sources */,
 				BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */,
+				C3EC027D29D9582D0024C962 /* WaitingViewController.swift in Sources */,
 				70A420B329914B370026E9F9 /* SubCategoryListResponse.swift in Sources */,
 				BA88125228E48A2F00BD832A /* HomeViewController.swift in Sources */,
 				BA340E2529782356002BAF2C /* ProfileViewController.swift in Sources */,
@@ -2120,6 +2135,7 @@
 				705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */,
 				C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */,
 				BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				C3EC027F29D958960024C962 /* WaitingViewModel.swift in Sources */,
 				BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */,
 				C3413E15299548FB004B8DBD /* RecruitPostViewController.swift in Sources */,
 				BA88126228E48A5800BD832A /* BaseViewController.swift in Sources */,
