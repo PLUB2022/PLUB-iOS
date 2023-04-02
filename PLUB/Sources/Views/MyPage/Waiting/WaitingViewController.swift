@@ -69,7 +69,7 @@ final class WaitingViewController: BaseViewController {
   override func bind() {
     viewModel.meetingInfo
       .drive(with: self) { owner, myInfo in
-        owner.recruitingHeaderView.setupData(with: myInfo)
+        owner.recruitingHeaderView.setupData(with: myInfo, type: .waiting)
       }
       .disposed(by: disposeBag)
     
@@ -154,8 +154,9 @@ extension WaitingViewController: UITableViewDelegate {
       guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: RecruitingSectionFooterView.identifier) as? RecruitingSectionFooterView else {
           return UIView()
       }
+      let questionCount = viewModel.applications[section].data.answers.count
       footerView.delegate = self
-      footerView.setupData(sectionIndex: section)
+      footerView.setupData(sectionIndex: section, type: .waiting(questionCount: questionCount))
       return footerView
     }
   }
@@ -198,45 +199,24 @@ extension WaitingViewController: RecruitingSectionHeaderViewDelegate {
 }
 
 extension WaitingViewController: RecruitingSectionFooterViewDelegate {
-  func declineApplicant(sectionIndex: Int) {
-    let model = viewModel.applications[sectionIndex]
-    let accountID = model.data.accountID
+  func firstButtonTapped(sectionIndex: Int) {
     let alert = CustomAlertView(
       AlertModel(
-        title: "해당 지원자를\n거절하시겠어요?",
+        title: "이 모임에 참여하고 싶지\n않으신가요?",
         message: nil,
-        cancelButton: "취소",
-        confirmButton: "거절하기",
+        cancelButton: "아니요",
+        confirmButton: "네",
         height: 210
       )
     ) { [weak self] in
       guard let self = self else { return }
-//      self.viewModel.refuseApplicant.onNext((
-//        sectionIndex: sectionIndex,
-//        accountID: accountID
-//      ))
+      self.viewModel.cancelApplication.onNext(sectionIndex)
     }
     alert.show()
   }
   
-  func acceptApplicant(sectionIndex: Int) {
+  func secondButtonTapped(sectionIndex: Int) {
     let model = viewModel.applications[sectionIndex]
-    let accountID = model.data.accountID
-    let alert = CustomAlertView(
-      AlertModel(
-        title: "해당 지원자를\n받으시겠어요?",
-        message: nil,
-        cancelButton: "취소",
-        confirmButton: "받기",
-        height: 210
-      )
-    ) { [weak self] in
-      guard let self = self else { return }
-//      self.viewModel.approvalApplicant.onNext((
-//        sectionIndex: sectionIndex,
-//        accountID: accountID
-//      ))
-    }
-    alert.show()
+
   }
 }

@@ -70,7 +70,7 @@ final class RecruitingViewController: BaseViewController {
   override func bind() {
     viewModel.meetingInfo
       .drive(with: self) { owner, myInfo in
-        owner.recruitingHeaderView.setupData(with: myInfo)
+        owner.recruitingHeaderView.setupData(with: myInfo, type: .recruiting)
       }
       .disposed(by: disposeBag)
     
@@ -156,7 +156,7 @@ extension RecruitingViewController: UITableViewDelegate {
           return UIView()
       }
       footerView.delegate = self
-      footerView.setupData(sectionIndex: section)
+      footerView.setupData(sectionIndex: section, type: .recruiting)
       return footerView
     }
   }
@@ -199,7 +199,7 @@ extension RecruitingViewController: RecruitingSectionHeaderViewDelegate {
 }
 
 extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
-  func declineApplicant(sectionIndex: Int) {
+  func firstButtonTapped(sectionIndex: Int) {
     let model = viewModel.applications[sectionIndex]
     let accountID = model.data.accountID
     let alert = CustomAlertView(
@@ -220,7 +220,7 @@ extension RecruitingViewController: RecruitingSectionFooterViewDelegate {
     alert.show()
   }
   
-  func acceptApplicant(sectionIndex: Int) {
+  func secondButtonTapped(sectionIndex: Int) {
     let model = viewModel.applications[sectionIndex]
     let accountID = model.data.accountID
     let alert = CustomAlertView(

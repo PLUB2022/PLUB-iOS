@@ -16,7 +16,7 @@ class WaitingViewModel {
   
   // Input
   let sectionTapped: AnyObserver<Int> // 섹션뷰 클릭 이벤트
-  let cancelApplication: AnyObserver<(sectionIndex: Int, accountID: Int)> // 지원 취소
+  let cancelApplication: AnyObserver<Int> // 지원 취소
   let editApplication: AnyObserver<(sectionIndex: Int, accountID: Int)> // 지원서 수정
   
   // Output
@@ -25,7 +25,7 @@ class WaitingViewModel {
   let reloadSection: Driver<Int> // 테이블 뷰 섹션 갱신
   
   private let sectionTappedSubject = PublishSubject<Int>()
-  private let cancelApplicationSubject = PublishSubject<(sectionIndex: Int, accountID: Int)>()
+  private let cancelApplicationSubject = PublishSubject<Int>()
   private let editApplicationSubject = PublishSubject<(sectionIndex: Int, accountID: Int)>()
   private let meetingInfoSubject = PublishSubject<RecruitingModel>()
   private let reloadDataSubject = PublishSubject<Void>()
@@ -57,11 +57,10 @@ class WaitingViewModel {
     
     cancelApplicationSubject
       .withUnretained(self)
-      .subscribe(onNext: { owner, data in
-//        owner.approvalApplicant(
-//          sectionIndex: data.sectionIndex,
-//          accountID: data.accountID
-//        )
+      .subscribe(onNext: { owner, sectionIndex in
+        owner.cancelApplication(
+          sectionIndex: sectionIndex
+        )
       })
       .disposed(by: disposeBag)
     
