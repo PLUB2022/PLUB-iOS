@@ -324,6 +324,7 @@
 		C3EB29CF29A9AB5C00615B6B /* ScheduleDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EB29CE29A9AB5C00615B6B /* ScheduleDateView.swift */; };
 		C3EC027D29D9582D0024C962 /* WaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EC027C29D9582D0024C962 /* WaitingViewController.swift */; };
 		C3EC027F29D958960024C962 /* WaitingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EC027E29D958960024C962 /* WaitingViewModel.swift */; };
+		C3EC028129D95FAC0024C962 /* MyApplicationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EC028029D95FAC0024C962 /* MyApplicationResponse.swift */; };
 		C3ED8FB52989B189002F689B /* CreateMeetingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */; };
 		C3ED8FB72989B87E002F689B /* CreateMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */; };
 		C3ED8FB92989E13D002F689B /* MeetingSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ED8FB82989E13D002F689B /* MeetingSummaryViewModel.swift */; };
@@ -638,6 +639,7 @@
 		C3EB29CE29A9AB5C00615B6B /* ScheduleDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateView.swift; sourceTree = "<group>"; };
 		C3EC027C29D9582D0024C962 /* WaitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingViewController.swift; sourceTree = "<group>"; };
 		C3EC027E29D958960024C962 /* WaitingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingViewModel.swift; sourceTree = "<group>"; };
+		C3EC028029D95FAC0024C962 /* MyApplicationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApplicationResponse.swift; sourceTree = "<group>"; };
 		C3ED8FB42989B189002F689B /* CreateMeetingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingRequest.swift; sourceTree = "<group>"; };
 		C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingResponse.swift; sourceTree = "<group>"; };
 		C3ED8FB82989E13D002F689B /* MeetingSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSummaryViewModel.swift; sourceTree = "<group>"; };
@@ -1763,6 +1765,7 @@
 				702876BA299E4DBA00E57509 /* BookmarkAllResponse.swift */,
 				70727A2829C709E9003DE956 /* ApplyForRecruitmentResponse.swift */,
 				C3E0390929C2125700C4744C /* InquireApplicantResponse.swift */,
+				C3EC028029D95FAC0024C962 /* MyApplicationResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -2084,6 +2087,7 @@
 				C3B04E4229816B9C00188E60 /* ImageRouter.swift in Sources */,
 				BA8E2B4429746738009DDF32 /* AuthRouter.swift in Sources */,
 				BA94E81C297E706A00DF23CE /* IntroductionViewModel.swift in Sources */,
+				C3EC028129D95FAC0024C962 /* MyApplicationResponse.swift in Sources */,
 				702876BB299E4DBA00E57509 /* BookmarkAllResponse.swift in Sources */,
 				70A420A9298D89A40026E9F9 /* RecentSearchListHeaderView.swift in Sources */,
 				70A420BD29914B690026E9F9 /* DetailRecruitmentResponse.swift in Sources */,

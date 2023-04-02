@@ -57,4 +57,12 @@ extension RecruitmentService {
   func refuseApplicant(plubbingID: Int, accountID: Int) -> PLUBResult<EmptyModel> {
     return sendRequest(RecruitmentRouter.refuseApplicant(plubbingID, accountID))
   }
+  
+  func inquireMyApplication(plubbingID: Int) -> PLUBResult<MyApplicationResponse> {
+    return sendRequest(RecruitmentRouter.inquireMyApplication(plubbingID), type: MyApplicationResponse.self)
+  }
+  
+  func cancelApplication(plubbingID: Int) -> PLUBResult<EmptyModel> {
+    return sendRequest(RecruitmentRouter.cancelApplication(plubbingID))
+  }
 }
