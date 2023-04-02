@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -177,13 +178,25 @@ final class TodoAlertController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    nextButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.dismiss(animated: false)
+      }
+      .disposed(by: disposeBag)
+    
     todoAlertView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        print("뭐냐고")
         let bottomSheet = PhotoBottomSheetViewController()
         bottomSheet.modalPresentationStyle = .overFullScreen
+        bottomSheet.delegate = owner
         owner.present(bottomSheet, animated: false)
       }
       .disposed(by: disposeBag)
+  }
+}
+
+extension TodoAlertController: PhotoBottomSheetDelegate {
+  func selectImage(image: UIImage) {
+    todoAlertView.image = image
   }
 }
