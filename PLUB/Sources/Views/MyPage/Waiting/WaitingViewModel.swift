@@ -13,6 +13,7 @@ import RxCocoa
 class WaitingViewModel {
   private let disposeBag = DisposeBag()
   private(set) var plubbingID: Int
+  private(set) var myInfo: MyInfoResponse
   
   // Input
   let sectionTapped: AnyObserver<Int> // 섹션뷰 클릭 이벤트
@@ -36,8 +37,9 @@ class WaitingViewModel {
   // Data
   private(set) var applications: [(data: Application, isFolded: Bool)] = []
   
-  init(plubbingID: Int) {
+  init(plubbingID: Int, myInfo: MyInfoResponse) {
     self.plubbingID = plubbingID
+    self.myInfo = myInfo
     
     sectionTapped = sectionTappedSubject.asObserver()
     cancelApplication = cancelApplicationSubject.asObserver()
@@ -97,9 +99,9 @@ class WaitingViewModel {
           owner.applications.append(
             (
               Application(
-                accountID: 0,
-                userName: "김수빈",
-                profileImage: nil,
+                accountID: -1,
+                userName: owner.myInfo.nickname,
+                profileImage: owner.myInfo.profileImage,
                 date: data.date,
                 answers: data.answers),
               true
