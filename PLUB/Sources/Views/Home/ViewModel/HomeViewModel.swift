@@ -65,10 +65,10 @@ final class HomeViewModel: HomeViewModelType {
     }
     
     let inquireRecommendationMeeting = currentPage
-      .flatMapLatest { page in
+      .flatMapLatest { cursorID in
         if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.onNext(true)
-          return MeetingService.shared.inquireRecommendationMeeting(page: page)
+          return MeetingService.shared.inquireRecommendationMeeting(cursorID: cursorID)
         }
         return .empty()
       }
