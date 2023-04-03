@@ -40,7 +40,7 @@ final class HomeViewModel: HomeViewModelType {
     let whichBookmark = PublishSubject<Int>()
     let isSelectingInterest = BehaviorSubject<Bool>(value: false)
     let fetchingDatas = PublishSubject<Void>()
-    let currentPage = BehaviorRelay<Int>(value: 1)
+    let currentCursorID = BehaviorRelay<Int>(value: 0)
     let isLastPage = BehaviorSubject<Bool>(value: false)
     let isLoading = BehaviorSubject<Bool>(value: false)
     
@@ -51,7 +51,6 @@ final class HomeViewModel: HomeViewModelType {
     fetchMoreDatas = fetchingDatas.asObserver()
     
     let inquireMainCategoryList = CategoryService.shared.inquireMainCategoryList().share()
-    //    let inquireRecommendationMeeting = MeetingService.shared.inquireRecommendationMeeting().share()
     let inquireInterest = AccountService.shared.inquireInterest().share()
     
     let successFetchingMainCategoryList = inquireMainCategoryList.compactMap { result -> [MainCategory]? in
@@ -64,7 +63,7 @@ final class HomeViewModel: HomeViewModelType {
       return interestResponse.data
     }
     
-    let inquireRecommendationMeeting = currentPage
+    let inquireRecommendationMeeting = currentCursorID
       .flatMapLatest { cursorID in
         if try !isLastPage.value() && !isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
           isLoading.onNext(true)
@@ -115,12 +114,12 @@ final class HomeViewModel: HomeViewModelType {
       .bind(to: fetchingMainCategoryList)
       .disposed(by: disposeBag)
     
-    fetchingDatas.withLatestFrom(currentPage)
+    fetchingDatas.withLatestFrom(currentCursorID)
       .filter({ page in
         try isLastPage.value() || isLoading.value() ? false : true
       })
       .map { $0 + 1 }
-      .bind(to: currentPage)
+      .bind(to: currentCursorID)
       .disposed(by: disposeBag)
     
     let requestBookmark = whichBookmark
