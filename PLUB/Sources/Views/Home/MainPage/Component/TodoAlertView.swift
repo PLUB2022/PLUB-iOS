@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class TodoAlertView: UIView {
+final class TodoAlertView: UIImageView {
   
   private let addPhotoImageView = UIImageView().then {
     $0.image = UIImage(named: "selectPhotoBlack")
@@ -34,6 +34,7 @@ final class TodoAlertView: UIView {
   }
   
   private func configureUI() {
+    isUserInteractionEnabled = true
     backgroundColor = .lightGray
     layer.masksToBounds = true
     layer.cornerRadius = 8
