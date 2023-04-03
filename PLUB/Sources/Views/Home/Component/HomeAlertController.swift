@@ -7,23 +7,21 @@
 
 import UIKit
 
+import Lottie
 import RxSwift
 import SnapKit
 import Then
 
 protocol HomeAlertDelegate: AnyObject {
-  func didTappedCancelButton()
+  func dismissHomeAlert()
 }
 
-final class HomeAlert {
+final class HomeAlertController: BaseViewController {
   
   weak var delegate: HomeAlertDelegate?
-  private let disposeBag = DisposeBag()
-  static let shared = HomeAlert()
   
   private let backgroundView = UIView().then {
-    $0.backgroundColor = .black
-    $0.alpha = 0
+    $0.backgroundColor = .black.withAlphaComponent(Constants.backgroundAlphaTo)
   }
   
   private let alertView = UIView().then {
@@ -31,6 +29,7 @@ final class HomeAlert {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 12
     $0.isUserInteractionEnabled = true
+    $0.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
   }
   
   private lazy var stackView = UIStackView(arrangedSubviews: [applyImageView, mainLabel, subLabel, descriptionLabel]).then {
@@ -41,9 +40,9 @@ final class HomeAlert {
     $0.layoutMargins = .init(top: .zero, left: 28, bottom: 32, right: 28)
   }
   
-  private let applyImageView = UIImageView().then {
-    $0.image = UIImage(named: "apply")
+  private let applyImageView = LottieAnimationView().then {
     $0.contentMode = .scaleAspectFill
+    $0.animation = .named("SuccessApply")
   }
   
   private lazy var backButton = UIButton().then {
@@ -79,42 +78,64 @@ final class HomeAlert {
     $0.font = .caption
   }
   
-  private let tapGesture = UITapGestureRecognizer(target: HomeAlert.self, action: nil)
+  private let tapGesture = UITapGestureRecognizer(target: HomeAlertController.self, action: nil)
   
-  private init() {
-    backgroundView.addGestureRecognizer(tapGesture)
-    bind()
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    // curveEaseOut: 시작은 천천히, 끝날 땐 빠르게
+    UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut) { [weak self] in
+      self?.alertView.transform = .identity
+      self?.alertView.isHidden = false
+    }
   }
   
-  private func bind() {
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    // curveEaseIn: 시작은 빠르게, 끝날 땐 천천히
+    UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn) { [weak self] in
+      self?.alertView.transform = .identity
+      self?.alertView.isHidden = true
+    }
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    backgroundView.addGestureRecognizer(tapGesture)
+    applyImageView.play()
+  }
+  
+  override func bind() {
+    super.bind()
+    
     tapGesture.rx.event
       .subscribe(with: self) { owner, _ in
-        owner.dismissAlert()
+        owner.dismiss(animated: false)
+        owner.delegate?.dismissHomeAlert()
       }
       .disposed(by: disposeBag)
     
     backButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.dismissAlert()
+        owner.dismiss(animated: false)
+        owner.delegate?.dismissHomeAlert()
       }
       .disposed(by: disposeBag)
   }
   
-  public func showAlert() {
-    guard let keyWindow = UIApplication.shared.connectedScenes
-      .filter({$0.activationState == .foregroundActive})
-      .compactMap({$0 as? UIWindowScene})
-      .first?.windows
-      .filter({$0.isKeyWindow}).first else { return }
+  override func setupLayouts() {
+    super.setupLayouts()
+    [backgroundView, alertView].forEach { view.addSubview($0) }
+    [backButton, stackView].forEach { alertView.addSubview($0) }
+  }
+  
+  override func setupConstraints() {
+    super.setupConstraints()
     
-    alertView.removeFromSuperview()
-    [backgroundView, alertView].forEach { keyWindow.addSubview($0) }
-    backgroundView.alpha = Constants.backgroundAlphaTo
     backgroundView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
-    
-    [backButton, stackView].forEach { alertView.addSubview($0) }
     
     alertView.snp.makeConstraints {
       $0.center.equalToSuperview()
@@ -135,21 +156,9 @@ final class HomeAlert {
     stackView.setCustomSpacing(8, after: mainLabel)
     stackView.setCustomSpacing(32, after: subLabel)
   }
-  
-  private func dismissAlert() {
-    UIView.animate(withDuration: 0.25) {
-      self.backgroundView.alpha = 0
-    } completion: { done in
-      if done {
-        self.alertView.removeFromSuperview()
-        self.backgroundView.removeFromSuperview()
-        self.delegate?.didTappedCancelButton()
-      }
-    }
-  }
 }
 
-extension HomeAlert {
+extension HomeAlertController {
   enum Constants {
     static let backgroundAlphaTo = 0.6
   }

@@ -58,6 +58,7 @@
 		70727A4329D5D679003DE956 /* TodoAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4229D5D679003DE956 /* TodoAlertController.swift */; };
 		70727A4529D5E570003DE956 /* TodoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4429D5E570003DE956 /* TodoAlertView.swift */; };
 		70727A4729D6D507003DE956 /* TodoInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4629D6D507003DE956 /* TodoInfoView.swift */; };
+		70727ABB29DAA745003DE956 /* SuccessApply.json in Resources */ = {isa = PBXBuildFile; fileRef = 70727ABA29DAA745003DE956 /* SuccessApply.json */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -96,7 +97,7 @@
 		70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */; };
 		70BD5F35296491C8002CBA89 /* ApplyQuestionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */; };
 		70BD5F3729657E3E002CBA89 /* ApplyQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */; };
-		70BD5F3929684EAC002CBA89 /* HomeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3829684EAC002CBA89 /* HomeAlert.swift */; };
+		70BD5F3929684EAC002CBA89 /* HomeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F3829684EAC002CBA89 /* HomeAlertController.swift */; };
 		70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */; };
 		70CF3330299793220077FF47 /* RegisterInterestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF332F299793220077FF47 /* RegisterInterestRequest.swift */; };
 		70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */; };
@@ -396,6 +397,7 @@
 		70727A4229D5D679003DE956 /* TodoAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAlertController.swift; sourceTree = "<group>"; };
 		70727A4429D5E570003DE956 /* TodoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAlertView.swift; sourceTree = "<group>"; };
 		70727A4629D6D507003DE956 /* TodoInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoInfoView.swift; sourceTree = "<group>"; };
+		70727ABA29DAA745003DE956 /* SuccessApply.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessApply.json; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -433,7 +435,7 @@
 		70BD5F3229648DD9002CBA89 /* ApplyQuestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		70BD5F34296491C8002CBA89 /* ApplyQuestionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionHeaderView.swift; sourceTree = "<group>"; };
 		70BD5F3629657E3E002CBA89 /* ApplyQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyQuestionViewModel.swift; sourceTree = "<group>"; };
-		70BD5F3829684EAC002CBA89 /* HomeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAlert.swift; sourceTree = "<group>"; };
+		70BD5F3829684EAC002CBA89 /* HomeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAlertController.swift; sourceTree = "<group>"; };
 		70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainCollectionHeaderView.swift; sourceTree = "<group>"; };
 		70CF332F299793220077FF47 /* RegisterInterestRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestRequest.swift; sourceTree = "<group>"; };
 		70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterViewController.swift; sourceTree = "<group>"; };
@@ -921,6 +923,14 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
+		70727AB929DAA6F6003DE956 /* Recruitment */ = {
+			isa = PBXGroup;
+			children = (
+				70727ABA29DAA745003DE956 /* SuccessApply.json */,
+			);
+			path = Recruitment;
+			sourceTree = "<group>";
+		};
 		7085678428EE9A84008047DC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -941,7 +951,7 @@
 				70A420852982F0920026E9F9 /* SearchAlertView.swift */,
 				7095A589292E58F9002A52E6 /* ToggleButton.swift */,
 				70197B802955A68C000503F6 /* CategoryInfoListView.swift */,
-				70BD5F3829684EAC002CBA89 /* HomeAlert.swift */,
+				70BD5F3829684EAC002CBA89 /* HomeAlertController.swift */,
 				BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */,
 				BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */,
 				BA340E1F29782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift */,
@@ -1287,6 +1297,7 @@
 		BA8AA43329890172004E9403 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				70727AB929DAA6F6003DE956 /* Recruitment */,
 				BAC5EF33298B714600F3955E /* Login */,
 				BAC5EF2A2989F58900F3955E /* Onboarding */,
 			);
@@ -2020,6 +2031,7 @@
 				BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */,
 				BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */,
 				BA8AA43229890083004E9403 /* NanumPen.otf in Resources */,
+				70727ABB29DAA745003DE956 /* SuccessApply.json in Resources */,
 				705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */,
 				BA52778A28EECDC50036B825 /* Pretendard-Bold.otf in Resources */,
 				BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */,
@@ -2184,7 +2196,7 @@
 				C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */,
 				BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */,
 				C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */,
-				70BD5F3929684EAC002CBA89 /* HomeAlert.swift in Sources */,
+				70BD5F3929684EAC002CBA89 /* HomeAlertController.swift in Sources */,
 				BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */,
 				702876B1299B788400E57509 /* NoticeViewController.swift in Sources */,
 				C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */,
