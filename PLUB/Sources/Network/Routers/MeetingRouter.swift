@@ -49,7 +49,6 @@ extension MeetingRouter: Router {
     case let .editMeetingInfo(_, model):
       return .body(model)
     case .inquireCategoryMeeting(_, let cursorID, let sort, let model):
-//      guard let model = model else { return .query(["cursorId": cursorID, "sort": sort]) }
       return .queryBody(["cursorId": "\(cursorID)", "sort": sort], model)
     case .inquireRecommendationMeeting(let cursorID):
       return .query(["cursorId": cursorID])
