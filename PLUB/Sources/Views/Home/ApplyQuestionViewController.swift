@@ -37,6 +37,7 @@ final class ApplyQuestionViewController: BaseViewController {
     $0.dataSource = self
     $0.rowHeight = UITableView.automaticDimension
     $0.estimatedRowHeight = 86 + 16
+    $0.backgroundColor = .background
   }
   
   private let applyButton = UIButton(configuration: .plain()).then {
