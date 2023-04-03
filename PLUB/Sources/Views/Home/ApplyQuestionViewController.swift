@@ -112,8 +112,10 @@ final class ApplyQuestionViewController: BaseViewController {
     
     viewModel.isSuccessApply
       .drive(with: self) { owner,  _ in
-        HomeAlert.shared.showAlert()
-        HomeAlert.shared.delegate = owner
+        let alert = HomeAlertController()
+        alert.modalPresentationStyle = .overFullScreen
+        alert.delegate = owner
+        owner.present(alert, animated: false)
       }
       .disposed(by: disposeBag)
     
@@ -168,7 +170,7 @@ extension ApplyQuestionViewController: ApplyQuestionTableViewCellDelegate {
 }
 
 extension ApplyQuestionViewController: HomeAlertDelegate {
-  func didTappedCancelButton() {
-    self.navigationController?.popViewController(animated: true)
+  func dismissHomeAlert() {
+    navigationController?.popViewController(animated: false)
   }
 }
