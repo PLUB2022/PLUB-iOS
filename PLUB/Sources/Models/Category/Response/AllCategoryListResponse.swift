@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// 카테고리 전체를 조회할 때 사용되는 응답 모델
 struct AllCategoryListResponse: Codable {
   let categories: [Category]
   
@@ -21,19 +22,38 @@ struct AllCategoryListResponse: Codable {
   }
 }
 
+// MARK: - Category
+
 struct Category: Codable {
+  
+  /// 카테고리 고유 Identifier
   let id: Int
+  
+  /// 카테고리 이름
   let name: String
+  
+  /// 카테고리 Icon 이미지 주소
   let icon: String
+  
+  /// 상세 카테고리 배열
   var subCategories: [SubCategory]
 }
 
+// MARK: - SubCategory
+
 struct SubCategory: Codable {
+  
+  /// 상세 카테고리 고유 Identifier
   let id: Int
+  
+  /// 상세 카테고리 이름
   let name: String
+  
+  /// 부모 카테고리 이름
   let categoryName: String
+  
+  /// 부모 카테고리 Identifier
   let parentId: String
-  var isSelected: Bool
   
   enum CodingKeys: String, CodingKey {
     case id, name, categoryName, parentId, isSelected
