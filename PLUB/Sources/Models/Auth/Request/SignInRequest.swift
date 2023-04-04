@@ -8,7 +8,7 @@
 import Foundation
 
 /// 소셜 로그인 타입
-enum SignInType: String, Codable {
+enum SocialType: String, Codable {
   
   /// 구글
   case google
@@ -32,5 +32,5 @@ struct SignInRequest: Codable {
   let authorizationCode: String?
   
   /// 소셜 로그인 타입
-  let socialType: SignInType
+  let socialType: SocialType
 }

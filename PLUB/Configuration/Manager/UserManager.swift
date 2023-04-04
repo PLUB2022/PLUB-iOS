@@ -34,8 +34,8 @@ final class UserManager {
   
   // MARK: - Social Login Type
   
-  @UserDefaultsWrapper<SignInType>(key: "loginType")
-  private(set) var loginnedType
+  @UserDefaultsWrapper<SocialType>(key: "socialType")
+  private(set) var socialType
   
   var hasAccessToken: Bool { return accessToken != nil }
   var hasRefreshToken: Bool { return refreshToken != nil }
@@ -63,8 +63,8 @@ extension UserManager {
   
   /// 소셜로그인 타입을 세팅합니다.
   /// - Parameter socialType: 소셜로그인 타입(애플, 구글, 카카오)
-  func set(socialType: SignInType) {
-    loginnedType = socialType
+  func set(socialType: SocialType) {
+    self.socialType = socialType
   }
   
   /// 최초 실행 여부를 세팅합니다.
@@ -77,7 +77,7 @@ extension UserManager {
     accessToken = nil
     refreshToken = nil
     signToken = nil
-    loginnedType = nil
+    socialType = nil
   }
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
