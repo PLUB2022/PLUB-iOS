@@ -9,17 +9,17 @@ import Foundation
 
 struct InquireInterestResponse: Codable {
   let accountID: Int
-  let categoryID: [Int]
+  let categoryIDs: [Int]
   
   enum CodingKeys: String, CodingKey {
     case accountID = "accountId"
-    case categoryID = "categoryId"
+    case categoryIDs = "categoryId"
   }
   
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
     accountID = try values.decodeIfPresent(Int.self, forKey: .accountID) ?? 0
-    categoryID = try values.decodeIfPresent([Int].self, forKey: .categoryID) ?? []
+    categoryIDs = try values.decodeIfPresent([Int].self, forKey: .categoryIDs) ?? []
   }
 }
