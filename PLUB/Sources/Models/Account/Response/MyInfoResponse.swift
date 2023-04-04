@@ -16,13 +16,13 @@ struct MyInfoResponse: Codable {
   let nickname: String
   
   /// 내 로그인 소셜 타입
-  let socialType: String
+  let socialType: SocialType
   
   /// 내 생일, `yyyy-MM-dd` 형태의 문자열로 형성
   let birthday: String
   
   /// 내 성별
-  let gender: String
+  let gender: Sex
   
   /// 나의 소개
   let introduce: String
