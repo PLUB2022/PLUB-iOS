@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// 회원가입 성공 시 받는 토큰 응답 모델
 struct TokenResponse: Codable {
   
   /// PLUB의 access token

@@ -9,11 +9,16 @@ import Foundation
 
 import Then
 
+/// 성별
 enum Sex: String, Codable {
+  /// 남성
   case male = "M"
+  
+  /// 여성
   case female = "F"
 }
 
+/// 회원가입 요청 모델
 struct SignUpRequest: Codable {
   /// sign token
   var signToken: String

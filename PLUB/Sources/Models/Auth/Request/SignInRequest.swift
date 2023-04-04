@@ -21,11 +21,11 @@ enum SocialType: String, Codable {
 }
 
 
-/// `Plub Backend`에 보낼 소셜 로그인 모델
+/// 소셜 로그인 요청 모델
 struct SignInRequest: Codable {
   
   /// 액세스 토큰(카카오, 애플)
-  /// 애플의 경우 identityToken을 해당 값으로 전달해야한다.
+  /// 애플의 경우 identityToken을 해당 값으로 처리해야합니다.
   let accessToken: String?
   
   /// 인가 코드(구글, 애플)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// 내 정보 조회 API
+/// 내 정보 조회 응답 모델
 struct MyInfoResponse: Codable {
   /// 내 이메일
   let email: String
