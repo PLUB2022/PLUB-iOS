@@ -11,10 +11,6 @@ import Foundation
 struct AllCategoryListResponse: Codable {
   let categories: [Category]
   
-  enum CodingKeys: String, CodingKey {
-    case categories
-  }
-  
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
@@ -55,9 +51,8 @@ struct SubCategory: Codable {
   /// 부모 카테고리 Identifier
   let parentId: String
   
-  enum CodingKeys: String, CodingKey {
-    case id, name, categoryName, parentId, isSelected
-  }
+  /// 카테고리의 선택 유무 (iOS 상태값)
+  var isSelected: Bool = false
   
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -66,6 +61,5 @@ struct SubCategory: Codable {
     name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
     categoryName = try values.decodeIfPresent(String.self, forKey: .categoryName) ?? ""
     parentId = try values.decodeIfPresent(String.self, forKey: .parentId) ?? ""
-    isSelected = try values.decodeIfPresent(Bool.self, forKey: .isSelected) ?? false
   }
 }
