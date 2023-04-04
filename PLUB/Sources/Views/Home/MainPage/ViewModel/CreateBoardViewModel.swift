@@ -15,12 +15,11 @@ protocol CreateBoardViewModelType {
   var writeTitle: AnyObserver<String> { get }
   var writeContent: AnyObserver<String> { get }
   var isSelectImage: AnyObserver<Bool> { get }
+  var whichPostType: AnyObserver<PostType> { get }
   
   // Output
   var isSuccessCreateBoard: Signal<Int> { get }
-  var onlyTextUploadButtonIsActivated: Driver<Bool> { get }
-  var photoAndTextUploadButtonIsActivated: Driver<Bool> { get }
-  var onlyPhotoUploadButtonIsActivated: Driver<Bool> { get }
+  var uploadButtonIsActivated: Driver<Bool> { get }
 }
 
 final class CreateBoardViewModel: CreateBoardViewModelType {
@@ -33,12 +32,11 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
   let writeTitle: AnyObserver<String>
   let writeContent: AnyObserver<String>
   let isSelectImage: AnyObserver<Bool>
+  let whichPostType: AnyObserver<PostType>
   
   // Output
   let isSuccessCreateBoard: Signal<Int>
-  let onlyTextUploadButtonIsActivated: Driver<Bool>
-  let photoAndTextUploadButtonIsActivated: Driver<Bool>
-  let onlyPhotoUploadButtonIsActivated: Driver<Bool>
+  let uploadButtonIsActivated: Driver<Bool>
   
   init() {
     let whichUploading = PublishSubject<BoardsRequest>()
@@ -47,12 +45,14 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     let writingContent = BehaviorSubject<String>(value: "")
     let isSelectingImage = BehaviorSubject<Bool>(value: false)
     let isSuccessCreatingBoard = PublishRelay<Int>()
+    let selectingPostType = BehaviorSubject<PostType>(value: .photo)
     
     whichUpload = whichUploading.asObserver()
     selectMeeting = whichPlubbingID.asObserver()
     writeTitle = writingTitle.asObserver()
     writeContent = writingContent.asObserver()
     isSelectImage = isSelectingImage.asObserver()
+    whichPostType = selectingPostType.asObserver()
     
     // Input
     let createBoard = Observable.zip(
@@ -78,32 +78,36 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     isSuccessCreateBoard = isSuccessCreatingBoard
       .asSignal(onErrorSignalWith: .empty())
     
-    onlyTextUploadButtonIsActivated = Observable.combineLatest(
-      writingTitle
-        .filter { $0 != Constants.titlePlaceholder },
-      writingContent
-        .filter { $0 != Constants.contentPlaceholder }
-    ) { ($0, $1) }
-      .map { !$0.isEmpty && !$1.isEmpty }
-      .asDriver(onErrorDriveWith: .empty())
-    
-    photoAndTextUploadButtonIsActivated = Observable.combineLatest(
-      writingTitle
-        .filter { $0 != Constants.titlePlaceholder },
-      writingContent
-        .filter { $0 != Constants.contentPlaceholder },
-      isSelectingImage
-    ) { ($0, $1, $2) }
-      .map { !$0.isEmpty && !$1.isEmpty && $2 }
-      .asDriver(onErrorDriveWith: .empty())
-    
-    onlyPhotoUploadButtonIsActivated = Observable.combineLatest(
-      writingTitle
-        .filter { $0 != Constants.titlePlaceholder },
-      isSelectingImage
-    ) { ($0, $1) }
-      .map { !$0.isEmpty && $1 }
-      .asDriver(onErrorDriveWith: .empty())
+    uploadButtonIsActivated = selectingPostType
+      .flatMap { type in
+      switch type {
+      case .photo:
+        return Observable.combineLatest(
+          writingTitle
+            .filter { $0 != Constants.titlePlaceholder },
+          isSelectingImage
+        ) { ($0, $1) }
+          .map { !$0.isEmpty && $1 }
+      case .text:
+        return Observable.combineLatest(
+          writingTitle
+            .filter { $0 != Constants.titlePlaceholder },
+          writingContent
+            .filter { $0 != Constants.contentPlaceholder }
+        ) { ($0, $1) }
+          .map { !$0.isEmpty && !$1.isEmpty }
+      case .photoAndText:
+        return Observable.combineLatest(
+          writingTitle
+            .filter { $0 != Constants.titlePlaceholder },
+          writingContent
+            .filter { $0 != Constants.contentPlaceholder },
+          isSelectingImage
+        ) { ($0, $1, $2) }
+          .map { !$0.isEmpty && !$1.isEmpty && $2 }
+      }
+    }
+    .asDriver(onErrorDriveWith: .empty())
     
   }
 }

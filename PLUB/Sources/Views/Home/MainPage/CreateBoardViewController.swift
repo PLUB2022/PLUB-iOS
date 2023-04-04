@@ -230,25 +230,16 @@ final class CreateBoardViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    viewModel.uploadButtonIsActivated
+      .drive(uploadButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
     checkUploadButtonActivated(type: .photo)
   }
   
   private func checkUploadButtonActivated(type: PostType) {
     uploadButton.isEnabled = false
-    switch type {
-    case .photo:
-      viewModel.onlyPhotoUploadButtonIsActivated
-        .drive(uploadButton.rx.isEnabled)
-        .disposed(by: disposeBag)
-    case .text:
-      viewModel.onlyTextUploadButtonIsActivated
-        .drive(uploadButton.rx.isEnabled)
-        .disposed(by: disposeBag)
-    case .photoAndText:
-      viewModel.photoAndTextUploadButtonIsActivated
-        .drive(uploadButton.rx.isEnabled)
-        .disposed(by: disposeBag)
-    }
+    viewModel.whichPostType.onNext(type)
   }
   
   private func changedPostType(type: PostType) {
