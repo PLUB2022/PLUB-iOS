@@ -47,7 +47,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let dataIsEmpty = PublishSubject<Bool>()
     let whichBookmark = PublishSubject<Int>()
     let fetchingDatas = PublishSubject<Void>()
-    let currentPage = BehaviorRelay<Int>(value: 1)
+    let currentCursorID = BehaviorRelay<Int>(value: 0)
     let isLastPage = BehaviorRelay<Bool>(value: false)
     let isLoading = BehaviorRelay<Bool>(value: false)
     
@@ -66,7 +66,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
       .skip(1)
       .do(onNext: { _ in
         isLastPage.accept(false)
-        currentPage.accept(1)
+        currentCursorID.accept(0)
         updatingCellData.accept([])
       })
       .flatMapLatest { (categoryID, sortType) in
@@ -74,7 +74,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
           isLoading.accept(true)
           return MeetingService.shared.inquireCategoryMeeting(
             categoryID: categoryID,
-            page: currentPage.value,
+            cursorID: currentCursorID.value,
             sort: sortType.text,
             request: nil
           )
@@ -82,17 +82,17 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         return .empty()
       }
     
-    let fetchMore = fetchingDatas.withLatestFrom(currentPage)
+    let fetchMore = fetchingDatas.withLatestFrom(currentCursorID)
       .filter { _ in !isLastPage.value && !isLoading.value }
       .map { $0 + 1 }
       .do(onNext: { page in
-        currentPage.accept(page)
+        currentCursorID.accept(page)
         isLoading.accept(true)
       })
       .flatMapLatest { _ in
         return MeetingService.shared.inquireCategoryMeeting(
           categoryID: try selectingCategoryID.value(),
-          page: currentPage.value,
+          cursorID: currentCursorID.value,
           sort: try searchSortType.value().text,
           request: nil
         )
@@ -101,7 +101,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let fetchingFilter = searchFilterType
       .do(onNext: { _ in
         isLastPage.accept(false)
-        currentPage.accept(1)
+        currentCursorID.accept(1)
         updatingCellData.accept([])
       })
       .flatMapLatest { request in
@@ -109,7 +109,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
           isLoading.accept(true)
           return MeetingService.shared.inquireCategoryMeeting(
             categoryID: try selectingCategoryID.value(),
-            page: currentPage.value,
+            cursorID: currentCursorID.value,
             sort: try searchSortType.value().text,
             request: request
           )

@@ -48,11 +48,10 @@ extension MeetingRouter: Router {
       return .body(model)
     case let .editMeetingInfo(_, model):
       return .body(model)
-    case .inquireCategoryMeeting(_, let page, let sort, let model):
-      guard let model = model else { return .query(["page": "\(page)", "sort": sort]) }
-      return .queryBody(["page": "\(page)", "sort": sort], model)
-    case .inquireRecommendationMeeting(let page):
-      return .query(["page": page])
+    case .inquireCategoryMeeting(_, let cursorID, let sort, let model):
+      return .queryBody(["cursorId": "\(cursorID)", "sort": sort], model)
+    case .inquireRecommendationMeeting(let cursorID):
+      return .query(["cursorId": cursorID])
     case .inquireMyMeeting(let isHost):
       return .query(["isHost": isHost])
     }

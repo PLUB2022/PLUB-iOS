@@ -29,12 +29,12 @@ extension MeetingService {
     )
   }
   
-  func inquireCategoryMeeting(categoryID: String, page: Int, sort: String, request: CategoryMeetingRequest?) -> PLUBResult<CategoryMeetingResponse>  {
-    return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryID, page, sort, request), type: CategoryMeetingResponse.self)
+  func inquireCategoryMeeting(categoryID: String, cursorID: Int, sort: String, request: CategoryMeetingRequest?) -> PLUBResult<CategoryMeetingResponse>  {
+    return sendRequest(MeetingRouter.inquireCategoryMeeting(categoryID, cursorID, sort, request), type: CategoryMeetingResponse.self)
   }
   
-  func inquireRecommendationMeeting(page: Int) -> PLUBResult<CategoryMeetingResponse> {
-    return sendRequest(MeetingRouter.inquireRecommendationMeeting(page), type: CategoryMeetingResponse.self)
+  func inquireRecommendationMeeting(cursorID: Int = 0) -> PLUBResult<CategoryMeetingResponse> {
+    return sendRequest(MeetingRouter.inquireRecommendationMeeting(cursorID), type: CategoryMeetingResponse.self)
   }
   
   func inquireMyMeeting(isHost: Bool) -> PLUBResult<MyMeetingResponse> {
