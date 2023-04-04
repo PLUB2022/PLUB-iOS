@@ -233,8 +233,7 @@ final class CreateBoardViewController: BaseViewController {
     viewModel.uploadButtonIsActivated
       .drive(uploadButton.rx.isEnabled)
       .disposed(by: disposeBag)
-    
-    checkUploadButtonActivated(type: .photo)
+
   }
   
   private func checkUploadButtonActivated(type: PostType) {
