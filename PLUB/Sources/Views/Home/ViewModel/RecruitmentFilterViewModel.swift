@@ -139,10 +139,10 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         confirmingAccountNum
       )
     )
-    .map { (days, subCategoryID, accountNum) in
+    .map { days, subCategoryIDs, accountNum in
       return CategoryMeetingRequest(
         days: days,
-        subCategoryID: subCategoryID,
+        subCategoryIDs: subCategoryIDs,
         accountNum: accountNum
       )
     }
