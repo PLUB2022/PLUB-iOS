@@ -27,10 +27,6 @@ struct CategoryMeetingResponse: Codable {
   }
 }
 
-struct Plubbing: Codable {
-  let content: [Content]
-}
-
 struct Content: Codable {
   let plubbingID: Int
   let name: String
@@ -54,19 +50,3 @@ struct Content: Codable {
     case name, title, mainImage, introduce, time, days, address, roadAddress, placeName, placePositionX, placePositionY, curAccountNum, remainAccountNum, isBookmarked, isHost
   }
 }
-
-struct Pageable: Codable {
-  let sort: Sort
-  let offset: Int
-  let pageSize: Int
-  let pageNumber: Int
-  let unpaged: Bool
-  let paged: Bool
-}
-
-struct Sort: Codable {
-  let empty: Bool
-  let sorted: Bool
-  let unsorted: Bool
-}
-
