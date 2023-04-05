@@ -9,6 +9,7 @@ import Foundation
 
 import Then
 
+/// 모집글 수정에 필요한 요청 모델
 struct EditMeetingPostRequest: Codable {
   
   /// 플러빙 타이틀
@@ -41,5 +42,7 @@ struct EditMeetingPostRequest: Codable {
     self.mainImage = mainImage
   }
 }
+
+// MARK: - Conform `Then`
 
 extension EditMeetingPostRequest: Then { }

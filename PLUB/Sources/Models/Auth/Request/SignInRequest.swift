@@ -11,13 +11,13 @@ import Foundation
 enum SocialType: String, Codable {
   
   /// 구글
-  case google
+  case google = "GOOGLE"
   
   /// 카카오
-  case kakao
+  case kakao = "KAKAO"
   
   /// 애플
-  case apple
+  case apple = "APPLE"
 }
 
 
