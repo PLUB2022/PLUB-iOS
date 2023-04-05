@@ -30,11 +30,6 @@ struct MyPlubbingResponse: Codable {
   
   /// 본 `plubbingStatus`값을 따르는 플러빙 리스트
   var plubbings: [MyPagePlubbing]
-  
-  enum CodingKeys: String, CodingKey {
-    case plubbingStatus
-    case plubbings
-  }
 }
 
 struct MyPagePlubbing: Codable {
