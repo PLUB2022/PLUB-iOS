@@ -59,6 +59,7 @@
 		70727A4529D5E570003DE956 /* TodoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4429D5E570003DE956 /* TodoAlertView.swift */; };
 		70727A4729D6D507003DE956 /* TodoInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4629D6D507003DE956 /* TodoInfoView.swift */; };
 		70727ABB29DAA745003DE956 /* SuccessApply.json in Resources */ = {isa = PBXBuildFile; fileRef = 70727ABA29DAA745003DE956 /* SuccessApply.json */; };
+		70727ABD29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727ABC29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -398,6 +399,7 @@
 		70727A4429D5E570003DE956 /* TodoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAlertView.swift; sourceTree = "<group>"; };
 		70727A4629D6D507003DE956 /* TodoInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoInfoView.swift; sourceTree = "<group>"; };
 		70727ABA29DAA745003DE956 /* SuccessApply.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessApply.json; sourceTree = "<group>"; };
+		70727ABC29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryCollectionViewCellModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -852,6 +854,7 @@
 			children = (
 				70F1DFEB297D99A400F9BC83 /* Recruitment */,
 				704AC7942938E800008C3A88 /* RegisterInterestModel.swift */,
+				70727ABC29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2275,6 +2278,7 @@
 				C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
 				BAC5EF31298B6F2D00F3955E /* CongratulationViewController.swift in Sources */,
+				70727ABD29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift in Sources */,
 				70F1DFE8297D969000F9BC83 /* RecruitmentRouter.swift in Sources */,
 				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
 				702876C229A3751400E57509 /* ArchiveViewController.swift in Sources */,
