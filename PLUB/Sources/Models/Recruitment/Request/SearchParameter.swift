@@ -13,6 +13,7 @@ struct SearchParameter: Encodable {
   /// 검색한 키워드
   let keyword: String
   
+  @available(*, deprecated)
   let page: Int?
   
   /// 필터링 타입
