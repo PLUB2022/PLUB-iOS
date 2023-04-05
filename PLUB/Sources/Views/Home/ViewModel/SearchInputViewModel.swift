@@ -126,9 +126,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
     
     
     let fetchSelectedCategoryCollectionViewCellModel = successSearch.map { contents in
-      contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(content: content)
-      }
+      contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
     }
     
     fetchSelectedCategoryCollectionViewCellModel

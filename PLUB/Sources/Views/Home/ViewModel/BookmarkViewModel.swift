@@ -47,10 +47,7 @@ final class BookmarkViewModel: BookmarkViewModelType {
     }
     
     updatedCellData = successBookmarkAll.map { contents in
-      return contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(content: content)
-
-      }
+      return contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
     }.asSignal(onErrorSignalWith: .empty())
     
     isBookmarked = successRequestBookmark.distinctUntilChanged()

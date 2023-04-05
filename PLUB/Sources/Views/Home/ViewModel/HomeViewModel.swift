@@ -84,9 +84,7 @@ final class HomeViewModel: HomeViewModelType {
     .disposed(by: disposeBag)
     
     successFetchingRecommendationMeeting.subscribe(onNext: { contents in
-      let contents = contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(content: content)
-      }
+      let contents = contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
       var cellData = fetchingRecommendation.value
       cellData.append(contentsOf: contents)
       fetchingRecommendation.accept(cellData)

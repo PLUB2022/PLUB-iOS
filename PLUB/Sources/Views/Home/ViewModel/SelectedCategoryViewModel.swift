@@ -138,9 +138,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     selectingContents
       .do(onNext: { dataIsEmpty.onNext($0.isEmpty) })
       .subscribe(onNext: { contents in
-        let model = contents.map { content in
-          return SelectedCategoryCollectionViewCellModel(content: content)
-        }
+        let model = contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
         var cellData = updatingCellData.value
         cellData.append(contentsOf: model)
         updatingCellData.accept(cellData)
