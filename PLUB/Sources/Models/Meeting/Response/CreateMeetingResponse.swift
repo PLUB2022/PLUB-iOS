@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// 모임 생성 시 받는 응답 모델
 struct CreateMeetingResponse: Codable {
   
   /// 플러빙 ID
