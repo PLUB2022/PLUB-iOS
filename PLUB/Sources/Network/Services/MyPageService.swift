@@ -22,7 +22,7 @@ extension MyPageService {
       MyPageRouter.inquireMyMeeting(
         .init(
           status:status.rawValue,
-          cursorId: cursorID
+          cursorID: cursorID
         )
       ), type: MyPlubbingResponse.self)
   }
