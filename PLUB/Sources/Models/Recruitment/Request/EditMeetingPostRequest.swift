@@ -10,6 +10,7 @@ import Foundation
 import Then
 
 struct EditMeetingPostRequest: Codable {
+  
   /// 플러빙 타이틀
   var title: String
   
@@ -38,12 +39,6 @@ struct EditMeetingPostRequest: Codable {
     self.goal = goal
     self.introduce = introduce
     self.mainImage = mainImage
-  }
-}
-
-extension EditMeetingPostRequest {
-  enum CodingKeys: String, CodingKey {
-    case title, name, goal, introduce, mainImage
   }
 }
 
