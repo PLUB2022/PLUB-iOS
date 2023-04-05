@@ -54,8 +54,4 @@ struct Answer: Codable {
   
   /// 응답글
   let answer: String
-  
-  enum CodingKeys: String, CodingKey {
-    case question, answer
-  }
 }
