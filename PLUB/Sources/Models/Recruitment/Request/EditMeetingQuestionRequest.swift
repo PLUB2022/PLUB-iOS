@@ -21,9 +21,3 @@ struct EditMeetingQuestionRequest: Codable {
     self.questions = questions
   }
 }
-
-extension EditMeetingQuestionRequest {
-  enum CodingKeys: String, CodingKey {
-    case questions
-  }
-}
