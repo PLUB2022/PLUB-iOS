@@ -237,6 +237,7 @@
 		C316051B2997936200D27488 /* GuestQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316051A2997936200D27488 /* GuestQuestionViewModel.swift */; };
 		C316051F2997F92200D27488 /* EditMeetingPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316051E2997F92200D27488 /* EditMeetingPostRequest.swift */; };
 		C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */; };
+		C32AB19029DDB9000045B919 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
 		C33952EF29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33952EE29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift */; };
 		C33EF37D29A1DFD100D7A5CA /* ScheduleAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */; };
@@ -320,6 +321,7 @@
 		C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435A29BE3E5100935B73 /* MyPlubbingResponse.swift */; };
 		C3B3435D29BE4A3000935B73 /* MyPlubbingParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435C29BE4A3000935B73 /* MyPlubbingParameter.swift */; };
 		C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */; };
+		C3C7197C29DC81C700A6DFD9 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C7197B29DC81C700A6DFD9 /* ProfileEditViewController.swift */; };
 		C3CD674A29B4B37C0052087E /* ScheduleParticipantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */; };
 		C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */; };
 		C3CD675029B4E5970052087E /* ScheduleParticipantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */; };
@@ -567,6 +569,7 @@
 		C316051A2997936200D27488 /* GuestQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestQuestionViewModel.swift; sourceTree = "<group>"; };
 		C316051E2997F92200D27488 /* EditMeetingPostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingPostRequest.swift; sourceTree = "<group>"; };
 		C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingQuestionRequest.swift; sourceTree = "<group>"; };
+		C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C33952EE29B6577B0029FF7F /* ScheduleParticipantCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantCollectionViewCell.swift; sourceTree = "<group>"; };
 		C33EF37C29A1DFD100D7A5CA /* ScheduleAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAlarmView.swift; sourceTree = "<group>"; };
@@ -647,6 +650,7 @@
 		C3B3435A29BE3E5100935B73 /* MyPlubbingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlubbingResponse.swift; sourceTree = "<group>"; };
 		C3B3435C29BE4A3000935B73 /* MyPlubbingParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlubbingParameter.swift; sourceTree = "<group>"; };
 		C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleNumberToolTip.swift; sourceTree = "<group>"; };
+		C3C7197B29DC81C700A6DFD9 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewController.swift; sourceTree = "<group>"; };
 		C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantTopView.swift; sourceTree = "<group>"; };
 		C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewModel.swift; sourceTree = "<group>"; };
@@ -1429,6 +1433,7 @@
 				C3100CBA29BD8A96005FCCAD /* Component */,
 				C3E0390629C2087000C4744C /* Recruiting */,
 				C3EC027B29D958070024C962 /* Waiting */,
+				C3C7197A29DC81A100A6DFD9 /* ProfileEdit */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -1860,6 +1865,15 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
+		C3C7197A29DC81A100A6DFD9 /* ProfileEdit */ = {
+			isa = PBXGroup;
+			children = (
+				C3C7197B29DC81C700A6DFD9 /* ProfileEditViewController.swift */,
+				C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */,
+			);
+			path = ProfileEdit;
+			sourceTree = "<group>";
+		};
 		C3CD675229B4FB3E0052087E /* ScheduleParticipant */ = {
 			isa = PBXGroup;
 			children = (
@@ -2217,11 +2231,13 @@
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
 				C31605192997935100D27488 /* MeetingInfoViewModel.swift in Sources */,
+				C32AB19029DDB9000045B919 /* ProfileEditViewModel.swift in Sources */,
 				70A420AB298FAD000026E9F9 /* TopTabCollectionViewCell.swift in Sources */,
 				70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */,
 				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
 				BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */,
 				70A420C029914B690026E9F9 /* SearchRecruitmentResponse.swift in Sources */,
+				C3C7197C29DC81C700A6DFD9 /* ProfileEditViewController.swift in Sources */,
 				70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */,
 				70727A3B29D32E4C003DE956 /* InquireAllTodolistResponse.swift in Sources */,
 				C34F71C329799B1C003DB376 /* TimeControl.swift in Sources */,
