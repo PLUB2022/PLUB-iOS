@@ -7,20 +7,6 @@
 
 import Foundation
 
-/// 소셜 로그인 타입
-enum SocialType: String, Codable {
-  
-  /// 구글
-  case google = "GOOGLE"
-  
-  /// 카카오
-  case kakao = "KAKAO"
-  
-  /// 애플
-  case apple = "APPLE"
-}
-
-
 /// 소셜 로그인 요청 모델
 struct SignInRequest: Codable {
   

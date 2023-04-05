@@ -132,6 +132,8 @@
 		BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E2129782311002BAF2C /* MeetingIntroduceView.swift */; };
 		BA340E2429782321002BAF2C /* ParticipantListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E2329782321002BAF2C /* ParticipantListView.swift */; };
 		BA340E2529782356002BAF2C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BEDC2296454AB00C6BD41 /* ProfileViewController.swift */; };
+		BA3D300729DDB9B900B56E98 /* SocialType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D300629DDB9B900B56E98 /* SocialType.swift */; };
+		BA3D300929DDB9CC00B56E98 /* Sex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D300829DDB9CC00B56E98 /* Sex.swift */; };
 		BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F228EDE10F00C20061 /* LoginViewController.swift */; };
 		BA42D1F528EDE11900C20061 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA42D1F428EDE11900C20061 /* MeetingViewController.swift */; };
 		BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */; };
@@ -467,6 +469,8 @@
 		BA340E1F29782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		BA340E2129782311002BAF2C /* MeetingIntroduceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceView.swift; sourceTree = "<group>"; };
 		BA340E2329782321002BAF2C /* ParticipantListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantListView.swift; sourceTree = "<group>"; };
+		BA3D300629DDB9B900B56E98 /* SocialType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialType.swift; sourceTree = "<group>"; };
+		BA3D300829DDB9CC00B56E98 /* Sex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sex.swift; sourceTree = "<group>"; };
 		BA42D1F228EDE10F00C20061 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BA42D1F428EDE11900C20061 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		BA46CC9D28EC9B05004953B1 /* Ex+UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
@@ -1078,8 +1082,7 @@
 		BA36EED5295463AA00D30169 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				BA780E1429714AAB0032C178 /* GeneralResponse.swift */,
-				BA1FC12829A5FD3C00AB3F91 /* PaginatedDataResponse.swift */,
+				BA3D300A29DDBA4700B56E98 /* GeneralModels */,
 				C3C24CD42990078700056313 /* Account */,
 				C3C24CD52990079900056313 /* Auth */,
 				C3C24CD7299007DE00056313 /* Category */,
@@ -1093,6 +1096,17 @@
 				70727A3829D32E31003DE956 /* Todolist */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		BA3D300A29DDBA4700B56E98 /* GeneralModels */ = {
+			isa = PBXGroup;
+			children = (
+				BA780E1429714AAB0032C178 /* GeneralResponse.swift */,
+				BA1FC12829A5FD3C00AB3F91 /* PaginatedDataResponse.swift */,
+				BA3D300829DDB9CC00B56E98 /* Sex.swift */,
+				BA3D300629DDB9B900B56E98 /* SocialType.swift */,
+			);
+			path = GeneralModels;
 			sourceTree = "<group>";
 		};
 		BA42D1EE28EDE05000C20061 /* Home */ = {
@@ -2171,6 +2185,7 @@
 				705F81C129AF8E7300830C4F /* MainPageViewModel.swift in Sources */,
 				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
 				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
+				BA3D300729DDB9B900B56E98 /* SocialType.swift in Sources */,
 				702876B5299BAD0A00E57509 /* ParticipantCollectionViewCell.swift in Sources */,
 				C3EB29CF29A9AB5C00615B6B /* ScheduleDateView.swift in Sources */,
 				0A3E42D928E7343F00F62BF0 /* Constants.swift in Sources */,
@@ -2326,6 +2341,7 @@
 				C3AB743D296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift in Sources */,
 				C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */,
 				BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */,
+				BA3D300929DDB9CC00B56E98 /* Sex.swift in Sources */,
 				C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */,
 				70A420B829914B5B0026E9F9 /* SearchParameter.swift in Sources */,
 				BA98B34929AC956A00307073 /* CommentContent.swift in Sources */,
