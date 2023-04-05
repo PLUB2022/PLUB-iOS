@@ -118,8 +118,7 @@ final class MyPageSectionHeaderView: UITableViewHeaderFooterView {
     with data: MyPageTableViewCellModel,
     sectionIndex: Int
   ) {
-    guard let status = PlubbingStatusType(rawValue: data.section.plubbingStatus) else { return }
-    titlelabel.text = status.title
+    titlelabel.text = data.section.plubbingStatus.title
     
     foldImageView.isHighlighted = !data.isFolded
     

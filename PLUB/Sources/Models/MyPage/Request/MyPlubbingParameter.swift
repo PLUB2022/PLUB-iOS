@@ -11,7 +11,7 @@ import Foundation
 struct MyPlubbingParameter: Encodable {
   
   /// 모임 상태
-  let status: String
+  let status: PlubbingStatusType
   
   /// 커서 ID
   let cursorID: Int

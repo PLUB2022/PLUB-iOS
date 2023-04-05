@@ -8,7 +8,7 @@
 import Foundation
 
 /// 플러빙 상태
-enum PlubbingStatusType: String, CaseIterable {
+enum PlubbingStatusType: String, Codable, CaseIterable {
   
   /// 모집 중인 상태
   case recruiting = "RECRUITING"
@@ -26,7 +26,7 @@ enum PlubbingStatusType: String, CaseIterable {
 struct MyPlubbingResponse: Codable {
   
   /// 나의 플러빙 상태
-  let plubbingStatus: PlubbingStatusType.RawValue
+  let plubbingStatus: PlubbingStatusType
   
   /// 본 `plubbingStatus`값을 따르는 플러빙 리스트
   var plubbings: [MyPagePlubbing]
