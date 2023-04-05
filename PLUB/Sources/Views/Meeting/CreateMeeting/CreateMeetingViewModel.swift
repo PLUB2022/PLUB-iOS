@@ -45,7 +45,7 @@ final class CreateMeetingViewModel {
   private let daysRelay = BehaviorRelay<[String]>(value: [])
   
   /// 온/오프라인
-  private let onOffRelay = BehaviorRelay<OnOff>(value: .on)
+  private let onOffRelay = BehaviorRelay<MeetType>(value: .online)
   
   /// 장소
   private let locationRelay = BehaviorRelay<Location?>(value: nil)

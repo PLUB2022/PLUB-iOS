@@ -12,7 +12,7 @@ struct EditMeetingInfoRequest: Codable {
   var days: [String]
   
   /// 온/오프라인
-  var onOff: OnOff
+  var onOff: MeetType
   
   /// 인원 수
   var peopleNumber: Int
@@ -34,13 +34,13 @@ struct EditMeetingInfoRequest: Codable {
   
   init() {
     days = []
-    onOff = .on
+    onOff = .online
     peopleNumber = 0
   }
   
   init(
     days: [String],
-    onOff: OnOff,
+    onOff: MeetType,
     peopleNumber: Int,
     address: String? = nil,
     roadAddress: String? = nil,
