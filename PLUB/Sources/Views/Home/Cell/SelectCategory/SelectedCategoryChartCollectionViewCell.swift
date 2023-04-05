@@ -21,20 +21,20 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
   let selectedCategoryInfoModel: CategoryInfoListModel
   
   init(content: Content) {
-    plubbingID = content.plubbingID,
-    name = content.name,
-    title = content.title,
-    mainImage = content.mainImage,
-    introduce = content.introduce,
-    isBookmarked = content.isBookmarked,
+    plubbingID = content.plubbingID
+    name = content.name
+    title = content.title
+    mainImage = content.mainImage
+    introduce = content.introduce
+    isBookmarked = content.isBookmarked
     selectedCategoryInfoModel = .init(
-      placeName = content.placeName,
-      peopleCount = content.remainAccountNum,
-      dateTime = content.days
-        .map { $0.fromENGToKOR() }
-        .joined(separator: ",")
-      + " | "
-      + "(data.time)")
+      placeName: content.placeName,
+      peopleCount: content.remainAccountNum,
+      dateTime: content.days
+      .map { $0.fromENGToKOR() }
+      .joined(separator: ",")
+    + " | "
+    + "(data.time)")
   }
 }
 

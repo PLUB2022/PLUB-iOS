@@ -85,23 +85,7 @@ final class HomeViewModel: HomeViewModelType {
     
     successFetchingRecommendationMeeting.subscribe(onNext: { contents in
       let contents = contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(
-          plubbingID: content.plubbingID,
-          name: content.name,
-          title: content.title,
-          mainImage: content.mainImage,
-          introduce: content.introduce,
-          isBookmarked: content.isBookmarked,
-          selectedCategoryInfoModel: .init(
-            placeName: content.placeName,
-            peopleCount: content.remainAccountNum,
-            dateTime: content.days
-              .map { $0.fromENGToKOR() }
-              .joined(separator: ",")
-            + " | "
-            + "(data.time)"
-          )
-        )
+        return SelectedCategoryCollectionViewCellModel(content: content)
       }
       var cellData = fetchingRecommendation.value
       cellData.append(contentsOf: contents)
