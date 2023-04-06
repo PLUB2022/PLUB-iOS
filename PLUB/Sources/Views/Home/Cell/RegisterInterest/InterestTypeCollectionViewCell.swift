@@ -57,7 +57,7 @@ final class InterestTypeCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  public func configureUI(with model: SubCategory) {
+  public func configureUI(with model: SubCategoryStatus) {
     interestTypeLabel.text = model.name
     isTapped = model.isSelected
   }

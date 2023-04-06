@@ -33,10 +33,10 @@ struct SubCategory: Codable {
   let name: String
   let categoryName: String
   let parentId: String
-  var isSelected: Bool
+//  var isSelected: Bool
   
   enum CodingKeys: String, CodingKey {
-    case id, name, categoryName, parentId, isSelected
+    case id, name, categoryName, parentId
   }
   
   init(from decoder: Decoder) throws {
@@ -46,6 +46,36 @@ struct SubCategory: Codable {
     name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
     categoryName = try values.decodeIfPresent(String.self, forKey: .categoryName) ?? ""
     parentId = try values.decodeIfPresent(String.self, forKey: .parentId) ?? ""
-    isSelected = try values.decodeIfPresent(Bool.self, forKey: .isSelected) ?? false
+//    isSelected = try values.decodeIfPresent(Bool.self, forKey: .isSelected) ?? false
+  }
+}
+
+struct CategoryModel {
+  let id: Int
+  let name: String
+  let icon: String
+  var subCategories: [SubCategoryStatus]
+  
+  init(category: Category) {
+    id = category.id
+    name = category.name
+    icon = category.icon
+    subCategories = category.subCategories.map { SubCategoryStatus(subCategory: $0) }
+  }
+}
+
+struct SubCategoryStatus {
+  let id: Int
+  let name: String
+  let categoryName: String
+  let parentId: String
+  var isSelected: Bool
+  
+  init(subCategory: SubCategory) {
+    id = subCategory.id
+    name = subCategory.name
+    categoryName = subCategory.categoryName
+    parentId = subCategory.parentId
+    isSelected = false
   }
 }

@@ -21,7 +21,7 @@ final class CreateMeetingViewModel {
   let questionViewModel = MeetingQuestionViewModel()
   
   /// 선택한 카테고리 리스트
-  private let categoryIDsRelay = BehaviorRelay<[SubCategory]>(value: [])
+  private let categoryIDsRelay = BehaviorRelay<[SubCategoryStatus]>(value: [])
   
   /// 플러빙 타이틀
   private let titleRelay = BehaviorRelay<String>(value: "")
