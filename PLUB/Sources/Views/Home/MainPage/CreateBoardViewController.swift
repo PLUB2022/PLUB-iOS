@@ -19,7 +19,7 @@ final class CreateBoardViewController: BaseViewController {
     didSet {
       guard type != oldValue else { return }
       changedPostType(type: type)
-      checkUploadButtonActivated(type: type)
+      changedLayout(type: type)
     }
   }
   
@@ -230,28 +230,18 @@ final class CreateBoardViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    checkUploadButtonActivated(type: .photo)
-  }
-  
-  private func checkUploadButtonActivated(type: PostType) {
-    uploadButton.isEnabled = false
-    switch type {
-    case .photo:
-      viewModel.onlyPhotoUploadButtonIsActivated
-        .drive(uploadButton.rx.isEnabled)
-        .disposed(by: disposeBag)
-    case .text:
-      viewModel.onlyTextUploadButtonIsActivated
-        .drive(uploadButton.rx.isEnabled)
-        .disposed(by: disposeBag)
-    case .photoAndText:
-      viewModel.photoAndTextUploadButtonIsActivated
-        .drive(uploadButton.rx.isEnabled)
-        .disposed(by: disposeBag)
-    }
+    viewModel.uploadButtonIsActivated
+      .drive(uploadButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+
   }
   
   private func changedPostType(type: PostType) {
+    uploadButton.isEnabled = false
+    viewModel.whichPostType.onNext(type)
+  }
+  
+  private func changedLayout(type: PostType) {
     boardTypeStackView.subviews.forEach { $0.removeFromSuperview() }
     switch type {
     case .photo:
