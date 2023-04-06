@@ -78,7 +78,7 @@ final class RegisterInterestDetailTableViewCell: UITableViewCell {
     }
   }
   
-  public func configureUI(
+  func configureUI(
     with model: RegisterInterestModel,
     indexPath: IndexPath,
     selectEnabled: Bool = true

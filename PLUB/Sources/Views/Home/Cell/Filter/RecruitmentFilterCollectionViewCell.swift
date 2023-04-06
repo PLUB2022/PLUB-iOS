@@ -55,11 +55,11 @@ class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  public func configureUI(with model: String) {
+  func configureUI(with model: String) {
     interestTypeLabel.text = model
   }
   
-  public func configureUI(with model: RecruitmentFilterCollectionViewCellModel) {
+  func configureUI(with model: RecruitmentFilterCollectionViewCellModel) {
     interestTypeLabel.text = model.name
   }
 }

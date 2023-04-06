@@ -49,7 +49,7 @@ final class InterestSelectCollectionHeaderView: UICollectionReusableView {
     backgroundColor = .background
   }
   
-  public func configureUI(with model: HomeType) {
+  func configureUI(with model: HomeType) {
     switch model {
     case .selected:
       [titleLabel, settingButton].forEach { addSubview($0) }

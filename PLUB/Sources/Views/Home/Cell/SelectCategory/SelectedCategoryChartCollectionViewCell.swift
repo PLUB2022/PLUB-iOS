@@ -158,7 +158,7 @@ final class SelectedCategoryChartCollectionViewCell: UICollectionViewCell {
       .disposed(by: disposeBag)
   }
   
-  public func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
+  func configureUI(with model: SelectedCategoryCollectionViewCellModel) {
     let url = URL(string: model.mainImage ?? "")
     backgroundImageView.kf.setImage(with: url)
     titleLabel.text = model.title

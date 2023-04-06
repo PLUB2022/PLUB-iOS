@@ -59,7 +59,7 @@ final class ParticipantCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  public func configureUI(with model: ParticipantCollectionViewCellModel) {
+  func configureUI(with model: ParticipantCollectionViewCellModel) {
     pariticipantNameLabel.text = model.name
     if let imageName = model.imageName,
        let url = URL(string: imageName) {

@@ -83,7 +83,7 @@ final class CategoryInfoListView: UIView {
     }
   }
   
-  public func configureUI(with model: CategoryInfoListModel) {
+  func configureUI(with model: CategoryInfoListModel) {
     locationInfoView.configureUI(with: model.placeName, categoryListType: categoryListType)
     peopleInfoView.configureUI(with: "\(model.peopleCount)", categoryListType: categoryListType)
     whenInfoView.configureUI(with: model.dateTime, categoryListType: categoryListType)
@@ -143,7 +143,7 @@ final class CategoryInfoView: UIView {
     }
   }
   
-  public func configureUI(with model: String, categoryListType: CategoryListType) {
+  func configureUI(with model: String, categoryListType: CategoryListType) {
     switch categoryType {
     case .location:
       infoLabel.text = model

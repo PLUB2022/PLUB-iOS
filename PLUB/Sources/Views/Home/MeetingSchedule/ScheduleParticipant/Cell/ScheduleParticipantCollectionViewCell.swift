@@ -63,7 +63,7 @@ final class ScheduleParticipantCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  public func configureUI(
+  func configureUI(
     with model: ParticipantCollectionViewCellModel,
     type: ScheduleParticipantCellType
   ) {

@@ -117,7 +117,7 @@ final class RegisterInterestTableViewCell: UITableViewCell {
       .disposed(by: disposeBag)
   }
   
-  public func configureUI(with model: RegisterInterestModel) {
+  func configureUI(with model: RegisterInterestModel) {
     guard let url = URL(string: model.category.icon) else { return }
     interestImageView.kf.setImage(with: url)
     titleLabel.text = model.category.name

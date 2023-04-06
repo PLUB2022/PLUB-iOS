@@ -36,7 +36,7 @@ class RecruitmentFilterCollectionHeaderView: UICollectionReusableView {
     }
   }
   
-  public func configureUI(with model: String) {
+  func configureUI(with model: String) {
     titleLabel.text = model
   }
 }

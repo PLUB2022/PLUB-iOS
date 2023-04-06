@@ -56,7 +56,7 @@ final class HomeCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  public func configureUI(with model: MainCategory) {
+  func configureUI(with model: MainCategory) {
     guard let url = URL(string: model.icon) else { return }
     interestLabel.text = model.name
     imageView.kf.setImage(with: url)
