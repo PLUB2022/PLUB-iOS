@@ -45,7 +45,7 @@ struct SubCategoryStatus {
   let categoryName: String
   
   /// 서브카테고리가 해당하는 카테고리의 아이디
-  let parentID: String
+  let parentID: Int
   
   /// 해당 서브카테고리가 선택되었는지에 대한 상태값
   var isSelected: Bool
