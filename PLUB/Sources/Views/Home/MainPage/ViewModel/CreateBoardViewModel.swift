@@ -78,36 +78,42 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     isSuccessCreateBoard = isSuccessCreatingBoard
       .asSignal(onErrorSignalWith: .empty())
     
-    uploadButtonIsActivated = selectingPostType
+    let titleNotEmpty = writingTitle
+      .filter { $0 != Constants.titlePlaceholder }
+      .map { !$0.isEmpty }
+    
+    let contentNotEmpty = writingContent
+      .filter { $0 != Constants.contentPlaceholder }
+      .map { !$0.isEmpty }
+    
+    let postType = selectingPostType
+      .share()
+    
+    uploadButtonIsActivated = postType
       .flatMap { type in
-      switch type {
-      case .photo:
-        return Observable.combineLatest(
-          writingTitle
-            .filter { $0 != Constants.titlePlaceholder },
-          isSelectingImage
-        ) { ($0, $1) }
-          .map { !$0.isEmpty && $1 }
-      case .text:
-        return Observable.combineLatest(
-          writingTitle
-            .filter { $0 != Constants.titlePlaceholder },
-          writingContent
-            .filter { $0 != Constants.contentPlaceholder }
-        ) { ($0, $1) }
-          .map { !$0.isEmpty && !$1.isEmpty }
-      case .photoAndText:
-        return Observable.combineLatest(
-          writingTitle
-            .filter { $0 != Constants.titlePlaceholder },
-          writingContent
-            .filter { $0 != Constants.contentPlaceholder },
-          isSelectingImage
-        ) { ($0, $1, $2) }
-          .map { !$0.isEmpty && !$1.isEmpty && $2 }
+        switch type {
+        case .photo:
+          return Observable.combineLatest(
+            titleNotEmpty,
+            isSelectingImage
+          )
+          .map { $0 && $1 }
+        case .text:
+          return Observable.combineLatest(
+            titleNotEmpty,
+            contentNotEmpty
+          )
+          .map { $0 && $1 }
+        case .photoAndText:
+          return Observable.combineLatest(
+            titleNotEmpty,
+            contentNotEmpty,
+            isSelectingImage
+          )
+          .map { $0 && $1 && $2 }
+        }
       }
-    }
-    .asDriver(onErrorDriveWith: .empty())
+      .asDriver(onErrorDriveWith: .empty())
     
   }
 }
