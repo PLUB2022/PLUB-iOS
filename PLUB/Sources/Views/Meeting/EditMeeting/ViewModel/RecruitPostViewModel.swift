@@ -149,7 +149,7 @@ final class RecruitPostViewModel {
       switch result {
       case .success(let model):
         guard let data = model.data,
-              let fileUrl = data.files.first?.fileUrl else { return }
+              let fileUrl = data.files.first?.fileURL else { return }
         let request = owner.editMeetingRelay.value.with {
           $0.mainImage = fileUrl
         }

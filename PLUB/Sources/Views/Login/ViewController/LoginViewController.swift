@@ -198,7 +198,7 @@ extension LoginViewController {
     controller.performRequests()
   }
   
-  private func requestPLUBTokens(socialType: SignInType, token: String? = nil, authorizationCode: String? = nil) {
+  private func requestPLUBTokens(socialType: SocialType, token: String? = nil, authorizationCode: String? = nil) {
     AuthService.shared.requestAuth(socialType: socialType, token: token, authorizationCode: authorizationCode)
       .withUnretained(self)
       .subscribe(onNext: { owner, result in

@@ -7,14 +7,17 @@
 
 import Foundation
 
+/// 모임 수정 요청 모델
 struct EditMeetingInfoRequest: Codable {
   /// 요일
+  ///
+  /// [MON, TUE, WED, THR, FRI, SAT, SUN, ALL] 형태로 처리됩니다.
   var days: [String]
   
   /// 온/오프라인
-  var onOff: OnOff
+  var onOff: MeetType
   
-  /// 인원 수
+  /// 최대 모집가능한 인원 수
   var peopleNumber: Int
   
   /// 주소
@@ -34,13 +37,13 @@ struct EditMeetingInfoRequest: Codable {
   
   init() {
     days = []
-    onOff = .on
+    onOff = .online
     peopleNumber = 0
   }
   
   init(
     days: [String],
-    onOff: OnOff,
+    onOff: MeetType,
     peopleNumber: Int,
     address: String? = nil,
     roadAddress: String? = nil,

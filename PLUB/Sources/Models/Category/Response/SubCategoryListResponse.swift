@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// 상세 카테고리 리스트를 조회할 때 사용되는 응답 모델
 struct SubCategoryListResponse: Codable {
   let categories: [SubCategory]
   

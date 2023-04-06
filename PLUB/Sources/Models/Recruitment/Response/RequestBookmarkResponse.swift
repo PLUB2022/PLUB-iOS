@@ -7,8 +7,15 @@
 
 import Foundation
 
+/// 북마크 등록 요청 모델
 struct RequestBookmarkResponse: Codable, Equatable {
+  
+  /// 플러빙 ID
   let plubbingID: Int
+  
+  /// 북마크 처리 여부
+  ///
+  /// 북마크를 등록하려면 `true`, 북마크를 해제하려면 `false`로 처리합니다.
   let isBookmarked: Bool
   
   enum CodingKeys: String, CodingKey {

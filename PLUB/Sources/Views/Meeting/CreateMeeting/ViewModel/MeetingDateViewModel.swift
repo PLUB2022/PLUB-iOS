@@ -64,7 +64,7 @@ final class MeetingDateViewModel {
   // Input
   let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
   let timeInputRelay = BehaviorRelay<Date?>.init(value: nil)
-  let onOffInputRelay = BehaviorRelay<OnOff>.init(value: .on)
+  let onOffInputRelay = BehaviorRelay<MeetType>.init(value: .online)
   let locationInputRelay = BehaviorRelay<Location?>.init(value: nil)
   
   // OutPut
@@ -85,9 +85,9 @@ final class MeetingDateViewModel {
       onOffInputRelay,
       locationInputRelay
     ).map {
-      if $0.0 == OnOff.on {
+      if $0.0 == MeetType.online {
         return true
-      } else if $0.0 == OnOff.off && !($0.1 == nil) {
+      } else if $0.0 == MeetType.offline && !($0.1 == nil) {
         return true
       } else {
         return false

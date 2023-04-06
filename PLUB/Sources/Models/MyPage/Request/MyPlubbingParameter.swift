@@ -7,7 +7,17 @@
 
 import Foundation
 
+/// 마이 페이지 모임 조회시 `Query`로 요청할 모델
 struct MyPlubbingParameter: Encodable {
-  let status: String
-  let cursorId: Int
+  
+  /// 모임 상태
+  let status: PlubbingStatusType
+  
+  /// 커서 ID
+  let cursorID: Int
+  
+  enum CodingKeys: String, CodingKey {
+    case status
+    case cursorID = "cursorId"
+  }
 }

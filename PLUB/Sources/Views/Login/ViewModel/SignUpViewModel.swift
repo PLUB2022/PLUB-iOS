@@ -240,7 +240,7 @@ final class SignUpViewModel: SignUpViewModelType {
         .flatMap { response -> Observable<String?> in
           switch response {
           case let .success(imageModel):
-            return .just(imageModel.data?.files.first?.fileUrl)
+            return .just(imageModel.data?.files.first?.fileURL)
           default:
             // 이미지 등록이 되지 못함 (오류 발생)
             return .empty()

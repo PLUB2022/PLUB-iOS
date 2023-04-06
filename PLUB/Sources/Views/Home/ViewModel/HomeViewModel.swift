@@ -79,7 +79,7 @@ final class HomeViewModel: HomeViewModelType {
     }
     
     successFetchingInterest.subscribe(onNext: { response in
-      isSelectingInterest.onNext(!response.categoryID.isEmpty)
+      isSelectingInterest.onNext(!response.categoryIDs.isEmpty)
     })
     .disposed(by: disposeBag)
     

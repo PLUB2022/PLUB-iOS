@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// 댓글 정보 요청 모델
 struct CommentsRequest: Codable {
   
   /// 댓글 내용

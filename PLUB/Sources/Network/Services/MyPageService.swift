@@ -21,8 +21,8 @@ extension MyPageService {
     return sendRequest(
       MyPageRouter.inquireMyMeeting(
         .init(
-          status:status.rawValue,
-          cursorId: cursorID
+          status:status,
+          cursorID: cursorID
         )
       ), type: MyPlubbingResponse.self)
   }

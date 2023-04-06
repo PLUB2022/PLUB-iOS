@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum OnOff: String, Codable {
-  case on = "ON"
-  case off = "OFF"
+enum MeetType: String, Codable {
+  case online = "ON"
+  case offline = "OFF"
 }
 
 struct CreateMeetingRequest: Codable {
@@ -38,7 +38,7 @@ struct CreateMeetingRequest: Codable {
   var days: [String]
   
   /// 온/오프라인
-  var onOff: OnOff
+  var onOff: MeetType
   
   /// 주소
   var address: String?

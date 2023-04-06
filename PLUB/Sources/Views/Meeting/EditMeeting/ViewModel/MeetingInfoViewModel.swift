@@ -20,7 +20,7 @@ final class MeetingInfoViewModel {
   
   // Input
   let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
-  let onOffInputRelay = BehaviorRelay<OnOff>.init(value: .on)
+  let onOffInputRelay = BehaviorRelay<MeetType>.init(value: .online)
   let locationInputRelay = BehaviorRelay<Location?>.init(value: nil)
   let peopleNumberRelay = BehaviorRelay<Int>.init(value: .init())
   
@@ -66,7 +66,7 @@ final class MeetingInfoViewModel {
   private func setupMeetingData(data: DetailRecruitmentResponse) {
     let request = EditMeetingInfoRequest(
       days: data.days,
-      onOff: data.address.isEmpty ? .on : .off,
+      onOff: data.address.isEmpty ? .online : .offline,
       peopleNumber: data.curAccountNum + data.remainAccountNum,
       address: data.address,
       roadAddress: data.roadAddress,
@@ -77,7 +77,7 @@ final class MeetingInfoViewModel {
     
     editMeetingRelay.accept(request)
 
-    onOffInputRelay.accept(data.address.isEmpty ? .on : .off)
+    onOffInputRelay.accept(data.address.isEmpty ? .online : .offline)
     peopleNumberRelay.accept(data.curAccountNum + data.remainAccountNum)
     
     let dates = data.days.map { $0.fromKORToENG() }
