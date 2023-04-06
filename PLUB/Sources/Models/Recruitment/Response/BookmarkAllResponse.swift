@@ -11,7 +11,7 @@ struct BookmarkAllResponse: Codable {
   let totalPages: Int
   let totalElements: Int
   let last: Bool
-  let content: [BoardContent]
+  let content: [CategoryContent]
   
   enum CodingKeys: String, CodingKey {
     case totalPages, totalElements, last, content
@@ -23,11 +23,11 @@ struct BookmarkAllResponse: Codable {
     totalPages = try values.decodeIfPresent(Int.self, forKey: .totalPages) ?? 0
     totalElements = try values.decodeIfPresent(Int.self, forKey: .totalElements) ?? 0
     last = try values.decodeIfPresent(Bool.self, forKey: .last) ?? false
-    content = try values.decodeIfPresent([BoardContent].self, forKey: .content) ?? []
+    content = try values.decodeIfPresent([CategoryContent].self, forKey: .content) ?? []
   }
 }
 
-struct BoardContent: Codable {
+struct CategoryContent: Codable {
   let plubbingID: Int
   let title: String
   let introduce: String

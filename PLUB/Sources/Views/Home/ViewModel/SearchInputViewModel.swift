@@ -118,7 +118,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
       searchRecruitment,
       fetchMore
     )
-      .compactMap { result -> [BoardContent]? in
+      .compactMap { result -> [CategoryContent]? in
         guard case .success(let response) = result else { return nil }
         isLastPage.accept(response.data?.last ?? false)
         return response.data?.content

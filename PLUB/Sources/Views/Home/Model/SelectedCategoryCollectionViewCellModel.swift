@@ -33,7 +33,7 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
     + "(data.time)")
   }
   
-  init(content: BoardContent) {
+  init(content: CategoryContent) {
     plubbingID = content.plubbingID
     name = content.name
     title = content.title
