@@ -41,30 +41,13 @@ final class BookmarkViewModel: BookmarkViewModelType {
     
     let inquireBookmarkAll = RecruitmentService.shared.inquireBookmarkAll().share()
     
-    let successBookmarkAll = inquireBookmarkAll.compactMap { result -> [BookmarkContent]? in
+    let successBookmarkAll = inquireBookmarkAll.compactMap { result -> [CategoryContent]? in
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }
     
     updatedCellData = successBookmarkAll.map { contents in
-      return contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(
-          plubbingID: content.plubbingID,
-          name: content.name,
-          title: content.title,
-          mainImage: content.mainImage,
-          introduce: content.introduce,
-          isBookmarked: content.isBookmarked,
-          selectedCategoryInfoModel: .init(
-            placeName: content.placeName,
-            peopleCount: content.remainAccountNum,
-            dateTime: content.days
-          .map { $0.fromENGToKOR() }
-          .joined(separator: ",")
-        + " | "
-        + "(data.time)"))
-
-      }
+      return contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
     }.asSignal(onErrorSignalWith: .empty())
     
     isBookmarked = successRequestBookmark.distinctUntilChanged()
