@@ -84,6 +84,13 @@ final class ProfileEditViewModel {
   private func validate(text: String) {
     let characterRegex = "[^a-zA-Z가-힣0-9]" // 한글, 영어, 숫자를 제외한 문자를 찾는 정규표현식 (특수문자 찾기용)
     
+    // 기존 닉네임과 동일
+    if text == myInfoData.nickname {
+      isAvailableRelay.accept(true)
+      alertMessageRelay.accept("닉네임 변경은 한번만 가능해요")
+      return
+    }
+    
     // 2~8자가 아닌 경우
     if text.count < 2 || text.count > 8 {
       isAvailableRelay.accept(false)
