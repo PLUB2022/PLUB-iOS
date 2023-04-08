@@ -139,7 +139,7 @@ class BaseService {
   ///
   /// 해당 메서드로 파이프라인을 시작하게 되면, [weak self]를 통한 retain cycle를 고려하지 않아도 됩니다.
   /// 값을 파이프라인에 전달하게 되면 그 뒤 바로 종료되는 것을 보장하기 때문입니다.
-  func sendObservableRequest<T: Codable>(_ router: Router) -> Observable<GeneralResponse<T>> {
+  func sendObservableRequest<T: Codable>(_ router: Router) -> Observable<T> {
     Single.create { observer in
       
       self.session.request(router).responseData { response in
@@ -153,7 +153,8 @@ class BaseService {
           
           switch self.validateHTTPResponse(by: statusCode, data, type: T.self) {
           case .success(let decodedData):
-            observer(.success(decodedData))
+            // validateHTTPResponse에서 success인 경우 Data값을 보장함
+            observer(.success(decodedData.data!))
             
           case .failure(let error):
             observer(.failure(error))
