@@ -12,6 +12,7 @@ enum AccountRouter {
   case validateNickname(String)
   case inquireInterest
   case registerInterest(RegisterInterestRequest)
+  case updateMyInfo(MyInfoRequest)
 }
 
 extension AccountRouter: Router {
@@ -19,7 +20,7 @@ extension AccountRouter: Router {
     switch self {
     case .inquireMyInfo, .validateNickname, .inquireInterest:
       return .get
-    case .registerInterest:
+    case .registerInterest, .updateMyInfo:
       return .post
     }
   }
@@ -34,6 +35,8 @@ extension AccountRouter: Router {
       return "/accounts/me/interest"
     case .registerInterest:
       return "/accounts/interest"
+    case .updateMyInfo:
+      return "/accounts/me/profile"
     }
   }
   
@@ -41,7 +44,7 @@ extension AccountRouter: Router {
     switch self {
     case .validateNickname:
       return .default
-    case .inquireMyInfo, .inquireInterest, .registerInterest:
+    case .inquireMyInfo, .inquireInterest, .registerInterest, .updateMyInfo:
       return .withAccessToken
     }
   }
@@ -51,6 +54,8 @@ extension AccountRouter: Router {
     case .inquireMyInfo, .inquireInterest, .validateNickname:
       return .plain
     case .registerInterest(let request):
+      return .body(request)
+    case .updateMyInfo(let request):
       return .body(request)
     }
   }
