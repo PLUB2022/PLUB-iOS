@@ -88,6 +88,7 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   
   private func configureUI() {
     backgroundColor = .background
+    contentView.addGestureRecognizer(tapGesture)
     
     addSubview(contentView)
     contentView.snp.makeConstraints {
