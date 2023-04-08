@@ -69,11 +69,8 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
-  func pinFeed(plubbingID: Int, feedID: Int) -> PLUBResult<BoardsResponse> {
-    sendRequest(
-      FeedsRouter.pinFeed(plubbingID: plubbingID, feedID: feedID),
-      type: BoardsResponse.self
-    )
+  func pinFeed(plubbingID: Int, feedID: Int) -> Observable<BoardsResponse> {
+    sendObservableRequest(FeedsRouter.pinFeed(plubbingID: plubbingID, feedID: feedID))
   }
   
   /// 피드(게시글)에 좋아요를 누를 때 사용됩니다.

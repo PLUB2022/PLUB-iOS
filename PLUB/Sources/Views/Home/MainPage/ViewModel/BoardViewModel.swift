@@ -105,12 +105,6 @@ final class BoardViewModel: BoardViewModelType {
       .flatMapLatest(FeedsService.shared.deleteFeed)
       .map { _ in Void() }
     
-    let successRequestPinFeed = requestPinFeed.compactMap { result -> BoardsResponse? in
-      print("고정 결과 \(result)")
-      guard case .success(let response) = result else { return nil }
-      return response.data
-    }
-    
     // Output
     fetchedMainpageClipboardViewModel = fetchingMainpageClipboardViewModel.asDriver(onErrorDriveWith: .empty())
     
@@ -121,7 +115,7 @@ final class BoardViewModel: BoardViewModelType {
     fetchedBoardModel = fetchingBoardModel
       .asDriver(onErrorDriveWith: .empty())
     
-    isPinnedFeed = successRequestPinFeed
+    isPinnedFeed = requestPinFeed
       .map { $0.feedID }
       .asDriver(onErrorDriveWith: .empty())
     
