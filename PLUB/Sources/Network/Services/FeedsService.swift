@@ -86,11 +86,8 @@ extension FeedsService {
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
   ///   - nextCursorID: 다음에 요청할 커서 위치, 기본값은 0입니다.
-  func fetchComments(plubbingID: Int, feedID: Int, nextCursorID: Int = 0) -> PLUBResult<PaginatedDataResponse<CommentContent>> {
-    sendRequest(
-      FeedsRouter.fetchComments(plubbingID: plubbingID, feedID: feedID, cursorID: nextCursorID),
-      type: PaginatedDataResponse<CommentContent>.self
-    )
+  func fetchComments(plubbingID: Int, feedID: Int, nextCursorID: Int = 0) -> Observable<PaginatedDataResponse<CommentContent>> {
+    sendObservableRequest(FeedsRouter.fetchComments(plubbingID: plubbingID, feedID: feedID, cursorID: nextCursorID))
   }
   
   /// 피드(게시글)에 댓글을 생성합니다.
