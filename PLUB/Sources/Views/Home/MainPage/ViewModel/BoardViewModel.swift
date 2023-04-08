@@ -70,24 +70,14 @@ final class BoardViewModel: BoardViewModelType {
         return FeedsService.shared.fetchClipboards(plubbingID: plubbingID)
       }
     
-    let successFetchingBoards = fetchingBoards.compactMap { result -> [FeedsContent]? in
-      guard case .success(let response) = result else { return nil }
-      return response.data?.content
-    }
-    
-    successFetchingBoards.subscribe(onNext: { boards in
-      let boardModels = boards.map { $0.toBoardModel }
+    fetchingBoards.subscribe(onNext: { boards in
+      let boardModels = boards.content.map { $0.toBoardModel }
       fetchingBoardModel.accept(boardModels)
     })
     .disposed(by: disposeBag)
     
-    let successFetchingClipboards = fetchingClipboards.compactMap { result -> [FeedsContent]? in
-      guard case .success(let response) = result else { return nil }
-      return response.data?.pinnedFeedList
-    }
-    
-    successFetchingClipboards.subscribe(onNext: { contents in
-      let mainPageClipboardViewModel = contents.map {
+    fetchingClipboards.subscribe(onNext: { contents in
+      let mainPageClipboardViewModel = contents.pinnedFeedList.map {
         return MainPageClipboardViewModel(
           type: $0.type,
           contentImageString: $0.feedImageURL,
@@ -113,18 +103,7 @@ final class BoardViewModel: BoardViewModelType {
       )
     )
       .flatMapLatest(FeedsService.shared.deleteFeed)
-    
-    let successRequestPinFeed = requestPinFeed.compactMap { result -> BoardsResponse? in
-      print("고정 결과 \(result)")
-      guard case .success(let response) = result else { return nil }
-      return response.data
-    }
-    
-    let successRequestDeleteFeed = requestDeleteFeed.compactMap { result -> Void? in
-      print("삭제 결과 \(result)")
-      guard case .success(_) = result else { return nil }
-      return ()
-    }
+      .map { _ in Void() }
     
     // Output
     fetchedMainpageClipboardViewModel = fetchingMainpageClipboardViewModel.asDriver(onErrorDriveWith: .empty())
@@ -136,11 +115,11 @@ final class BoardViewModel: BoardViewModelType {
     fetchedBoardModel = fetchingBoardModel
       .asDriver(onErrorDriveWith: .empty())
     
-    isPinnedFeed = successRequestPinFeed
+    isPinnedFeed = requestPinFeed
       .map { $0.feedID }
       .asDriver(onErrorDriveWith: .empty())
     
-    successDeleteFeed = successRequestDeleteFeed.asDriver(onErrorDriveWith: .empty())
+    successDeleteFeed = requestDeleteFeed.asDriver(onErrorDriveWith: .empty())
   }
   
 }
