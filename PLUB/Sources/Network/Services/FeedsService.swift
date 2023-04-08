@@ -44,11 +44,8 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
-  func fetchFeedDetails(plubbingID: Int, feedID: Int) -> PLUBResult<FeedsContent> {
-    sendRequest(
-      FeedsRouter.fetchFeedDetails(plubbingID: plubbingID, feedID: feedID),
-      type: FeedsContent.self
-    )
+  func fetchFeedDetails(plubbingID: Int, feedID: Int) -> Observable<FeedsContent> {
+    sendObservableRequest(FeedsRouter.fetchFeedDetails(plubbingID: plubbingID, feedID: feedID))
   }
   
   /// 피드(게시글)을 수정합니다.
