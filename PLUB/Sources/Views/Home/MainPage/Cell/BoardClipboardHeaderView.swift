@@ -61,6 +61,8 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     $0.distribution = .fillEqually
   }
   
+  private let tapGesture = UITapGestureRecognizer(target: BoardClipboardHeaderView.self, action: nil)
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
