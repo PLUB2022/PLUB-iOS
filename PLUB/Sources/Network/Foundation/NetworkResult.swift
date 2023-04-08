@@ -9,6 +9,7 @@ import Foundation
 
 import enum Alamofire.AFError
 
+@available(*, deprecated)
 enum NetworkResult<T> {
   
   /// 성공

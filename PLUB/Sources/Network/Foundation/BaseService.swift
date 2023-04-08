@@ -27,6 +27,7 @@ class BaseService {
   ///
   /// 해당 메서드는 검증을 위해 사용됩니다.
   /// 요청값을 전달하고 응답받은 값을 처리하고 싶은 경우 `requestObject(_:type:)`을 사용해주세요.
+  @available(*, deprecated, renamed: "validateHTTPResponse(by:_:type:)")
   func evaluateStatus<T: Codable>(
     by statusCode: Int,
     _ data: Data,
@@ -51,6 +52,7 @@ class BaseService {
   /// - Parameters:
   ///   - target: Router를 채택한 인스턴스(instance)
   ///   - type: 응답 값에 들어오는 `data`를 파싱할 모델
+  @available(*, deprecated, renamed: "sendObservableRequest(_:)")
   func sendRequest<T: Codable>(
     _ router: Router,
     type: T.Type = EmptyModel.self
