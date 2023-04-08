@@ -48,7 +48,7 @@ final class MyPageTableViewCell: UITableViewCell {
   }
   
   private func setupLayouts() {
-    addSubview(contentStackView)
+    contentView.addSubview(contentStackView)
     [meetingImageView, textStackView].forEach {
       contentStackView.addArrangedSubview($0)
     }

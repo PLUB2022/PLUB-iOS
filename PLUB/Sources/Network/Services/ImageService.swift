@@ -11,6 +11,11 @@ import Alamofire
 import RxCocoa
 import RxSwift
 
+enum ImageServiceType {
+  case upload
+  case update
+}
+
 final class ImageService: BaseService {
   static let shared = ImageService()
   
@@ -32,9 +37,25 @@ extension ImageService {
     )
   }
   
+  func updateImage(
+    images: [UIImage],
+    params: UpdateImageRequest
+) -> PLUBResult<UploadImageResponse> {
+    return sendRequestWithImage(
+      setUpImageData(
+        images: images,
+        params: params.toDictionary,
+        type: .update
+      ),
+      ImageRouter.updateImage,
+      type: UploadImageResponse.self
+    )
+  }
+  
   private func setUpImageData(
     images: [UIImage],
-    params: [String: Any]
+    params: [String: Any],
+    type: ImageServiceType = .upload
   ) -> MultipartFormData {
     let formData = MultipartFormData()
 
@@ -42,7 +63,7 @@ extension ImageService {
       guard let imageData = image.jpegData(compressionQuality: 0.1) else { continue }
       formData.append(
         imageData,
-        withName: "files",
+        withName: type == .upload ? "files" : "newFiles",
         fileName: "\(image).jpeg",
         mimeType: "image/jpeg"
       )

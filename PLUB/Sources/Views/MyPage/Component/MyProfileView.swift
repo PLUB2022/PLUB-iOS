@@ -12,10 +12,12 @@ import SnapKit
 final class MyProfileView: UIView {
   
   private let profileImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 32
+    $0.clipsToBounds = true
   }
   
-  private let editButton = UIButton().then {
+  let editButton = UIButton().then {
     $0.setImage(UIImage(named: "pencil"), for: .normal)
   }
   

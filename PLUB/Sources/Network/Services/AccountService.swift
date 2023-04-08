@@ -32,4 +32,8 @@ extension AccountService {
   func registerInterest(request: RegisterInterestRequest) -> PLUBResult<EmptyModel> {
     return sendRequest(AccountRouter.registerInterest(request))
   }
+  
+  func updateMyInfo(request: MyInfoRequest) -> PLUBResult<MyInfoResponse> {
+    return sendRequest(AccountRouter.updateMyInfo(request), type: MyInfoResponse.self)
+  }
 }

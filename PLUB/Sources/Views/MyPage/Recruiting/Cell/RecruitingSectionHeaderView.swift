@@ -50,8 +50,8 @@ final class RecruitingSectionHeaderView: UITableViewHeaderFooterView {
   }
   
   private let foldImageView = UIImageView().then {
-    $0.image = UIImage(named: "foldedArrow")
-    $0.highlightedImage = UIImage(named: "unfoldedArrow")
+    $0.image = UIImage(named: "unfoldedArrow")
+    $0.highlightedImage = UIImage(named: "foldedArrow")
   }
   
   private let button = UIButton()
