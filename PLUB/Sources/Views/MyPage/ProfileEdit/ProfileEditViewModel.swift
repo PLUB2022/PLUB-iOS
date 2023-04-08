@@ -72,11 +72,20 @@ final class ProfileEditViewModel {
       )
       .subscribe(onNext: { [weak self] nickName, introduce, image in
         guard let self = self else { return }
-        self.updateMyInfo(
-          nickName: nickName,
-          introduce: introduce,
-          image: image
-        )
+        
+        if nickName == self.myInfoData.nickname {
+          self.updateMyInfo(
+            nickName: nickName,
+            introduce: introduce,
+            image: image
+          )
+        } else {
+          self.showNicknameAlert(
+            nickName: nickName,
+            introduce: introduce,
+            image: image
+          )
+        }
       })
       .disposed(by: disposeBag)
   }
@@ -240,5 +249,29 @@ final class ProfileEditViewModel {
       }
     })
     .disposed(by: disposeBag)
+  }
+  
+  private func showNicknameAlert(
+    nickName: String,
+    introduce: String,
+    image: UIImage?
+  ) {
+    let alert = CustomAlertView(
+      AlertModel(
+        title: "닉네임을 변경할까요?",
+        message: "닉네임 변경은 1회만 가능해요.\n지금 변경한 닉네임은 탈퇴 시까지 사용됩니다",
+        cancelButton: "취소",
+        confirmButton: "네, 할게요",
+        height: 210
+      )
+    ) { [weak self] in
+      guard let self = self else { return }
+      self.updateMyInfo(
+        nickName: nickName,
+        introduce: introduce,
+        image: image
+      )
+    }
+    alert.show()
   }
 }
