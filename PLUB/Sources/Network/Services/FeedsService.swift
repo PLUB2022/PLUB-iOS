@@ -129,7 +129,13 @@ extension FeedsService {
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
   ///   - commentID: 댓글 ID
-  func deleteComment(plubbingID: Int, feedID: Int, commentID: Int) -> PLUBResult<EmptyModel> {
-    sendRequest(FeedsRouter.deleteComment(plubbingID: plubbingID, feedID: feedID, commentID: commentID))
+  func deleteComment(plubbingID: Int, feedID: Int, commentID: Int) -> Observable<EmptyModel> {
+    sendObservableRequest(
+      FeedsRouter.deleteComment(
+        plubbingID: plubbingID,
+        feedID: feedID,
+        commentID: commentID
+      )
+    )
   }
 }
