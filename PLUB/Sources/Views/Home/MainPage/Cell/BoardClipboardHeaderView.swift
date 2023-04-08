@@ -43,8 +43,9 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     $0.textColor = .black
   }
   
-  private let clipboardButton = UIButton().then {
-    $0.setImage(UIImage(named: "rightIndicatorGray"), for: .normal)
+  private let clipboardImageView = UIImageView().then {
+    $0.image = UIImage(named: "rightIndicatorGray")
+    $0.contentMode = .scaleAspectFill
   }
   
   private let entireStackView = UIStackView().then {
@@ -96,14 +97,14 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
       $0.bottom.equalToSuperview().inset(8)
     }
     
-    [pinImageView, clipboardLabel, clipboardButton].forEach { horizontalStackView.addArrangedSubview($0) }
+    [pinImageView, clipboardLabel, clipboardImageView].forEach { horizontalStackView.addArrangedSubview($0) }
     pinImageView.snp.makeConstraints {
       $0.size.equalTo(24)
     }
     
     [horizontalStackView, entireStackView].forEach { contentView.addSubview($0) }
     
-    clipboardButton.snp.makeConstraints {
+    clipboardImageView.snp.makeConstraints {
       $0.size.equalTo(32)
     }
     
