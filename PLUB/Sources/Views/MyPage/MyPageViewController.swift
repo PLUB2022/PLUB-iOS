@@ -94,6 +94,7 @@ final class MyPageViewController: BaseViewController {
         let vc = ProfileEditViewController(
           viewModel: ProfileEditViewModel(myInfoData: myInfoData)
         )
+        vc.delegate = owner
         vc.hidesBottomBarWhenPushed = true
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -222,5 +223,11 @@ extension MyPageViewController: MyPageNoneViewDelegate {
 extension MyPageViewController: MyPageCellDelegate {
   func removeCell(plubbingID: Int) {
     viewModel.removeCell(with: plubbingID)
+  }
+}
+
+extension MyPageViewController: ProfileEditDelegate {
+  func updateProfile(myInfo: MyInfoResponse) {
+    viewModel.updateMyInfo.onNext(myInfo)
   }
 }

@@ -22,11 +22,13 @@ final class ProfileEditViewModel {
   let isAvailableNickname: Driver<Bool> // 닉네임 사용 가능 여부
   let alertMessage: Driver<String>      // 닉네임 관련 알림 문구
   let isButtonEnabled: Driver<Bool> // 버튼 활성화 제어
+  let successUpdateProfile: Driver<MyInfoResponse> // 프로필 변경 완료
   
   private let nicknameSubject = PublishSubject<String>()
   private let introduceSubject = PublishSubject<String>()
-  private let editedImageSubject = PublishSubject<UIImage?>()
+  private let editedImageSubject = BehaviorSubject<UIImage?>(value: nil)
   private let updateButtonSubject = PublishSubject<Void>()
+  private let successUpdateProfileSubject = PublishSubject<MyInfoResponse>()
   
   private let isAvailableRelay = PublishRelay<Bool>()
   private let alertMessageRelay = PublishRelay<String>()
@@ -44,6 +46,7 @@ final class ProfileEditViewModel {
     
     isAvailableNickname = isAvailableRelay.asDriver(onErrorDriveWith: .empty())
     alertMessage = alertMessageRelay.asDriver(onErrorDriveWith: .empty())
+    successUpdateProfile = successUpdateProfileSubject.asDriver(onErrorDriveWith: .empty())
     
     isButtonEnabled = Driver.combineLatest(
       introduceSubject.asDriver(onErrorDriveWith: .empty()),
@@ -164,7 +167,8 @@ final class ProfileEditViewModel {
       .subscribe(onNext: { owner, result in
         switch result {
         case .success(let model):
-          print(model.data)
+          guard let data = model.data else { return }
+          owner.successUpdateProfileSubject.onNext(data)
         default:
           break
         }

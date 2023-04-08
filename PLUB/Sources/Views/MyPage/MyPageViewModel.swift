@@ -20,6 +20,7 @@ final class MyPageViewModel {
   
   // Input
   let sectionTapped: AnyObserver<Int> // 섹션뷰 클릭 이벤트
+  let updateMyInfo: AnyObserver<MyInfoResponse> // 내 정보 데이터 갱신
   
   // Output
   let myInfo: Driver<MyInfoResponse> // 내 정보 데이터
@@ -27,6 +28,7 @@ final class MyPageViewModel {
   let reloadSection: Driver<Int> // 테이블 뷰 섹션 갱신
   
   private let sectionTappedSubject = PublishSubject<Int>()
+  private let updateMyInfoSubject = PublishSubject<MyInfoResponse>()
   private let myInfoSubject = PublishSubject<MyInfoResponse>()
   private let reloadDataSubject = PublishSubject<Void>()
   private let reloadSectionSubject = PublishSubject<Int>()
@@ -37,6 +39,7 @@ final class MyPageViewModel {
   
   init() {
     sectionTapped = sectionTappedSubject.asObserver()
+    updateMyInfo = updateMyInfoSubject.asObserver()
     
     myInfo = myInfoSubject.asDriver(onErrorDriveWith: .empty())
     reloadData = reloadDataSubject.asDriver(onErrorDriveWith: .empty())
@@ -49,6 +52,13 @@ final class MyPageViewModel {
         owner.reloadSectionSubject.onNext(index)
       })
       .disposed(by: disposeBag)
+    
+    updateMyInfoSubject
+      .withUnretained(self)
+      .subscribe(onNext: { owner, myInfo in
+        owner.setupMyInfoData(myInfo: myInfo)
+      })
+      .disposed(by: disposeBag)
   }
   
   func fetchMyInfoData() {
@@ -59,8 +69,7 @@ final class MyPageViewModel {
         case .success(let model):
           print(model)
           guard let data = model.data else { return }
-          owner.myInfoData = data
-          owner.myInfoSubject.onNext(data)
+          owner.setupMyInfoData(myInfo: data)
         default:
           break
         }
@@ -117,5 +126,10 @@ final class MyPageViewModel {
         }
       }
     }
+  }
+  
+  private func setupMyInfoData(myInfo: MyInfoResponse) {
+    myInfoData = myInfo
+    myInfoSubject.onNext(myInfo)
   }
 }

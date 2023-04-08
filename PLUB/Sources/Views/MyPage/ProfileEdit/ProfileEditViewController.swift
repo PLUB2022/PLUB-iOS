@@ -12,7 +12,13 @@ import RxSwift
 import SnapKit
 import Then
 
+protocol ProfileEditDelegate: AnyObject {
+  func updateProfile(myInfo: MyInfoResponse)
+}
+
 final class ProfileEditViewController: BaseViewController {
+  
+  weak var delegate: ProfileEditDelegate?
   
   // MARK: - Property
   
@@ -228,7 +234,6 @@ final class ProfileEditViewController: BaseViewController {
     introductionTextView.textView.rx.text
       .orEmpty
       .distinctUntilChanged()
-      .skip(1)
       .bind(to: viewModel.introduceText)
       .disposed(by: disposeBag)
     
@@ -249,6 +254,14 @@ final class ProfileEditViewController: BaseViewController {
     saveButton
       .rx.tap
       .bind(to: viewModel.updateButtonTapped)
+      .disposed(by: disposeBag)
+    
+    viewModel
+      .successUpdateProfile
+      .drive(with: self) { owner, myInfo in
+        owner.delegate?.updateProfile(myInfo: myInfo)
+        owner.navigationController?.popViewController(animated: true)
+      }
       .disposed(by: disposeBag)
   }
   
@@ -321,7 +334,6 @@ extension ProfileEditViewController: PhotoBottomSheetDelegate {
 extension ProfileEditViewController: UITextFieldDelegate {
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//    delegate?.checkValidation(index: 2, state: false)
     textField.textColor = .black
     return range.location < 15
   }
