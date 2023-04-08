@@ -50,6 +50,7 @@ enum ViewType: String, Codable {
   case system = "SYSTEM"
 }
 
+/// 게시글 정보를 담는 모델
 struct FeedsContent: Codable {
   
   /// 게시글 Identifier

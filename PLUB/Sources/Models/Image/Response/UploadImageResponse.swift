@@ -11,10 +11,10 @@ struct UploadImageResponse: Codable {
 
 struct Files: Codable {
   var fileName: String?
-  var fileUrl: String?
+  var fileURL: String?
   
   enum CodingKeys: String, CodingKey {
     case fileName = "filename"
-    case fileUrl = "fileUrl"
+    case fileURL = "fileUrl"
   }
 }

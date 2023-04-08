@@ -11,16 +11,6 @@ import RxSwift
 import SnapKit
 import Then
 
-struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 다 동일한 모델
-  let plubbingID: Int
-  let name: String
-  let title: String
-  let mainImage: String?
-  let introduce: String
-  var isBookmarked: Bool
-  let selectedCategoryInfoModel: CategoryInfoListModel
-}
-
 protocol SelectedCategoryChartCollectionViewCellDelegate: AnyObject {
   func didTappedChartBookmarkButton(plubbingID: Int)
   func updateBookmarkState(isBookmarked: Bool, cell: UICollectionViewCell)

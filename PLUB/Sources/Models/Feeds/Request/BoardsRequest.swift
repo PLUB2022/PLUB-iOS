@@ -7,7 +7,10 @@
 
 import Foundation
 
+/// 게시글 정보 관련 요청 모델
+/// 게시판 글 추가, 조회 등에서 사용됩니다.
 struct BoardsRequest: Codable {
+  
   /// 게시글 제목
   let title: String
   

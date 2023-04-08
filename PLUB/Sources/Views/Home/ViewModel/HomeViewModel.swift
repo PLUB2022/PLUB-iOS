@@ -79,30 +79,12 @@ final class HomeViewModel: HomeViewModelType {
     }
     
     successFetchingInterest.subscribe(onNext: { response in
-      isSelectingInterest.onNext(!response.categoryID.isEmpty)
+      isSelectingInterest.onNext(!response.categoryIDs.isEmpty)
     })
     .disposed(by: disposeBag)
     
     successFetchingRecommendationMeeting.subscribe(onNext: { contents in
-      let contents = contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(
-          plubbingID: content.plubbingID,
-          name: content.name,
-          title: content.title,
-          mainImage: content.mainImage,
-          introduce: content.introduce,
-          isBookmarked: content.isBookmarked,
-          selectedCategoryInfoModel: .init(
-            placeName: content.placeName,
-            peopleCount: content.remainAccountNum,
-            dateTime: content.days
-              .map { $0.fromENGToKOR() }
-              .joined(separator: ",")
-            + " | "
-            + "(data.time)"
-          )
-        )
-      }
+      let contents = contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
       var cellData = fetchingRecommendation.value
       cellData.append(contentsOf: contents)
       fetchingRecommendation.accept(cellData)

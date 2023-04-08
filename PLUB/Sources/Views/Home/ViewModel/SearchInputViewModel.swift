@@ -118,7 +118,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
       searchRecruitment,
       fetchMore
     )
-      .compactMap { result -> [SearchContent]? in
+      .compactMap { result -> [CategoryContent]? in
         guard case .success(let response) = result else { return nil }
         isLastPage.accept(response.data?.last ?? false)
         return response.data?.content
@@ -126,23 +126,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
     
     
     let fetchSelectedCategoryCollectionViewCellModel = successSearch.map { contents in
-      contents.map { content in
-        return SelectedCategoryCollectionViewCellModel(
-          plubbingID: content.plubbingID,
-          name: content.name,
-          title: content.title,
-          mainImage: content.mainImage,
-          introduce: content.introduce,
-          isBookmarked: content.isBookmarked,
-          selectedCategoryInfoModel: .init(
-            placeName: content.placeName,
-            peopleCount: content.remainAccountNum,
-            dateTime: content.days
-              .map { $0.fromENGToKOR() }
-              .joined(separator: ",")
-            + " | "
-            + "(data.time)"))
-      }
+      contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
     }
     
     fetchSelectedCategoryCollectionViewCellModel

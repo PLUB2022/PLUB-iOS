@@ -138,23 +138,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     selectingContents
       .do(onNext: { dataIsEmpty.onNext($0.isEmpty) })
       .subscribe(onNext: { contents in
-        let model = contents.map { content in
-          return SelectedCategoryCollectionViewCellModel(
-            plubbingID: content.plubbingID,
-            name: content.name,
-            title: content.title,
-            mainImage: content.mainImage,
-            introduce: content.introduce,
-            isBookmarked: content.isBookmarked,
-            selectedCategoryInfoModel: .init(
-              placeName: content.placeName,
-              peopleCount: content.remainAccountNum,
-              dateTime: content.days
-                .map { $0.fromENGToKOR() }
-                .joined(separator: ",")
-              + " | "
-              + "(data.time)"))
-        }
+        let model = contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
         var cellData = updatingCellData.value
         cellData.append(contentsOf: model)
         updatingCellData.accept(cellData)

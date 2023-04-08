@@ -7,7 +7,10 @@
 
 import Foundation
 
+/// 모집 지원 응답 모델
 struct ApplyForRecruitmentResponse: Codable {
+  
+  /// 플러빙 ID
   let plubbingID: Int
   
   enum CodingKeys: String, CodingKey {

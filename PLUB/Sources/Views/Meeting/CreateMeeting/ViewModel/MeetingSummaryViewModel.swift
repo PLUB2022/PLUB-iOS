@@ -52,7 +52,7 @@ final class MeetingSummaryViewModel {
       switch result {
       case .success(let model):
         guard let data = model.data,
-              let fileUrl = data.files.first?.fileUrl else { return }
+              let fileUrl = data.files.first?.fileURL else { return }
         var request = owner.meetingData
         request.mainImage = fileUrl
         owner.requestCreateMeeting(with: request)

@@ -7,12 +7,9 @@
 
 import Foundation
 
+/// 카테고리 전체를 조회할 때 사용되는 응답 모델
 struct AllCategoryListResponse: Codable {
   let categories: [Category]
-  
-  enum CodingKeys: String, CodingKey {
-    case categories
-  }
   
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -21,12 +18,24 @@ struct AllCategoryListResponse: Codable {
   }
 }
 
+// MARK: - Category
+
 struct Category: Codable {
+  
+  /// 카테고리 고유 Identifier
   let id: Int
+  
+  /// 카테고리 이름
   let name: String
+  
+  /// 카테고리 Icon 이미지 주소
   let icon: String
+  
+  /// 상세 카테고리 배열
   var subCategories: [SubCategory]
 }
+
+// MARK: - SubCategory
 
 struct SubCategory: Codable {
   let id: Int

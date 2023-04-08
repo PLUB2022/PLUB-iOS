@@ -18,7 +18,7 @@ final class AuthService: BaseService {
 
 extension AuthService {
   func requestAuth(
-    socialType: SignInType,
+    socialType: SocialType,
     token: String?,
     authorizationCode: String?
   ) -> PLUBResult<SignInResponse> {
