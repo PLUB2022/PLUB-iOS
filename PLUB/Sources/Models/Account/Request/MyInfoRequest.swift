@@ -10,7 +10,7 @@ import Foundation
 struct MyInfoRequest: Codable {
   let nickname: String
   let introduce: String
-  let profileImage: String
+  let profileImage: String?
 }
 
 extension MyInfoRequest {

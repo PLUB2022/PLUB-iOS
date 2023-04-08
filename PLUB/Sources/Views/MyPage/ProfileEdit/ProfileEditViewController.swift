@@ -16,9 +16,7 @@ final class ProfileEditViewController: BaseViewController {
   
   // MARK: - Property
   
-  weak var delegate: SignUpChildViewControllerDelegate?
-  
-  private let viewModel = ProfileEditViewModel()
+  private let viewModel: ProfileEditViewModel
   
   private let wholeStackView = UIStackView().then {
     $0.axis = .vertical
@@ -110,6 +108,16 @@ final class ProfileEditViewController: BaseViewController {
   
   // MARK: - Configuration
   
+  init(viewModel: ProfileEditViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+    setupPreData(myInfoData: viewModel.myInfoData) // 이전 프로필 정보 세팅
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     
@@ -191,8 +199,6 @@ final class ProfileEditViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
-    
-    // textField의 clean button 구현
     (nicknameTextField.rightView as? UIButton)?.rx.tap
       .asDriver()
       .drive(with: self, onNext: { owner, _ in
@@ -201,10 +207,8 @@ final class ProfileEditViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
-    // 텍스트가 비어있으면 UI 회색 처리
     nicknameTextField.rx.text
       .orEmpty
-      .skip(1)
       .distinctUntilChanged()
       .filter { $0 == "" }
       .withUnretained(self)
@@ -213,44 +217,41 @@ final class ProfileEditViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
-    // ===  ViewModel Binding  ===
-    
-    // 빨리 입력하면 api가 여러번 호출되므로, 0.5초동안 입력 없을 시 데이터 emit
     nicknameTextField.rx.text
       .orEmpty
       .distinctUntilChanged()
-      .skip(1)
       .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
       .filter { $0 != "" }
       .bind(to: viewModel.nicknameText)
       .disposed(by: disposeBag)
     
-    // 닉네임 사용가능여부를 판단하고 UI 업데이트
+    introductionTextView.textView.rx.text
+      .orEmpty
+      .distinctUntilChanged()
+      .skip(1)
+      .bind(to: viewModel.introduceText)
+      .disposed(by: disposeBag)
+    
     viewModel.isAvailableNickname
       .drive(with: self) { owner, flag in
         owner.updateNicknameValidationUI(isValid: flag)
-        // 부모 뷰컨의 `확인 버튼` 활성화 처리
-        owner.delegate?.checkValidation(index: 2, state: flag)
       }
       .disposed(by: disposeBag)
     
-    viewModel.isAvailableNickname
-      .filter { $0 }
-      .withLatestFrom(nicknameTextField.rx.text.asDriver())
-      .compactMap { $0 }
-      .drive(with: self) { owner, nickname in
-        // 사용가능한 닉네임 전달
-        owner.delegate?.information(nickname: nickname)
-      }
-      .disposed(by: disposeBag)
-    
-    // 메시지 처리
     viewModel.alertMessage
       .drive(alertLabel.rx.text)
       .disposed(by: disposeBag)
+    
+    viewModel.isButtonEnabled
+      .drive(saveButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    saveButton
+      .rx.tap
+      .bind(to: viewModel.updateButtonTapped)
+      .disposed(by: disposeBag)
   }
   
-  /// 최초 상태의 UI를 설정합니다. (textField, label, bubble image 등)
   private func configureInitialUI() {
     
     // placeholder 폰트 설정
@@ -282,6 +283,16 @@ final class ProfileEditViewController: BaseViewController {
     navigationController?.popViewController(animated: true)
   }
   
+  private func setupPreData(myInfoData: MyInfoResponse) {
+    if let profileImage = myInfoData.profileImage,
+        let profileImageUrl = URL(string: profileImage) {
+      uploadImageButton.kf.setImage(with: profileImageUrl, for: .normal)
+    }
+    
+    nicknameTextField.text = myInfoData.nickname
+    introductionTextView.textView.text = myInfoData.introduce
+  }
+  
   /// 닉네임 검증 여부에 따라 색을 지정해줍니다.
   private func updateNicknameValidationUI(isValid: Bool) {
     if isValid {
@@ -303,14 +314,14 @@ final class ProfileEditViewController: BaseViewController {
 extension ProfileEditViewController: PhotoBottomSheetDelegate {
   func selectImage(image: UIImage) {
     uploadImageButton.setImage(image, for: .normal)
-    delegate?.information(profile: image) // 프로필 이미지 전달
+    viewModel.editedImage.onNext(image)
   }
 }
 
 extension ProfileEditViewController: UITextFieldDelegate {
   
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    delegate?.checkValidation(index: 2, state: false)
+//    delegate?.checkValidation(index: 2, state: false)
     textField.textColor = .black
     return range.location < 15
   }
