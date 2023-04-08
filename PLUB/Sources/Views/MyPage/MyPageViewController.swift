@@ -85,6 +85,19 @@ final class MyPageViewController: BaseViewController {
         owner.tableView.reloadSections([index], with: .automatic)
       }
       .disposed(by: disposeBag)
+    
+    profileView.editButton
+      .rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        guard let myInfoData = owner.viewModel.myInfoData else { return }
+        let vc = ProfileEditViewController(
+          viewModel: ProfileEditViewModel(myInfoData: myInfoData)
+        )
+        vc.hidesBottomBarWhenPushed = true
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
 

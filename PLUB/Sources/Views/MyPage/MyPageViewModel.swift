@@ -22,7 +22,7 @@ final class MyPageViewModel {
   let sectionTapped: AnyObserver<Int> // 섹션뷰 클릭 이벤트
   
   // Output
-  var myInfo: Driver<MyInfoResponse> // 내 정보 데이터
+  let myInfo: Driver<MyInfoResponse> // 내 정보 데이터
   let reloadData: Driver<Void> // 테이블 뷰 갱신
   let reloadSection: Driver<Int> // 테이블 뷰 섹션 갱신
   

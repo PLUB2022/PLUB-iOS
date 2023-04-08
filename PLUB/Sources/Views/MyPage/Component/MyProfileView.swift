@@ -15,7 +15,7 @@ final class MyProfileView: UIView {
     $0.layer.cornerRadius = 32
   }
   
-  private let editButton = UIButton().then {
+  let editButton = UIButton().then {
     $0.setImage(UIImage(named: "pencil"), for: .normal)
   }
   
