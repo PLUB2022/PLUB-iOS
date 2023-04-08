@@ -53,11 +53,8 @@ extension FeedsService {
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
   ///   - model: 게시글 요청 모델(`BoardsRequest`)
-  func updateFeed(plubbingID: Int, feedID: Int, model: BoardsRequest) -> PLUBResult<BoardsResponse> {
-    sendRequest(
-      FeedsRouter.updateFeed(plubbingID: plubbingID, feedID: feedID, model: model),
-      type: BoardsResponse.self
-    )
+  func updateFeed(plubbingID: Int, feedID: Int, model: BoardsRequest) -> Observable<BoardsResponse> {
+    sendObservableRequest(FeedsRouter.updateFeed(plubbingID: plubbingID, feedID: feedID, model: model))
   }
   
   /// 피드(게시글)을 삭제합니다.
