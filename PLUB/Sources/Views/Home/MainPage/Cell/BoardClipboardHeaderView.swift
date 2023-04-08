@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 protocol BoardClipboardHeaderViewDelegate: AnyObject {
-  func didTappedClipboardButton()
+  func didTappedBoardClipboardHeaderView()
 }
 
 final class BoardClipboardHeaderView: UICollectionReusableView {
@@ -81,7 +81,7 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   private func bind() {
     tapGesture.rx.event
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedClipboardButton()
+        owner.delegate?.didTappedBoardClipboardHeaderView()
       }
       .disposed(by: disposeBag)
   }

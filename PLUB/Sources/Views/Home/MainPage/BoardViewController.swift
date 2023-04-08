@@ -249,7 +249,7 @@ extension BoardViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension BoardViewController: BoardClipboardHeaderViewDelegate {
-  func didTappedClipboardButton() {
+  func didTappedBoardClipboardHeaderView() {
     let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: plubbingID))
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
