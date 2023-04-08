@@ -77,8 +77,8 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
-  func likeFeed(plubbingID: Int, feedID: Int) -> PLUBResult<EmptyModel> {
-    sendRequest(FeedsRouter.likeFeed(plubbingID: plubbingID, feedID: feedID))
+  func likeFeed(plubbingID: Int, feedID: Int) -> Observable<EmptyModel> {
+    sendObservableRequest(FeedsRouter.likeFeed(plubbingID: plubbingID, feedID: feedID))
   }
   
   /// 피드(게시글)의 댓글을 조회합니다.
