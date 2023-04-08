@@ -97,14 +97,13 @@ extension FeedsService {
   ///   - comment: 댓글 내용
   ///   - commentParentID: 대댓글인 경우, 해당 부모 댓글 ID를 요청으로 보내야합니다.
   ///   만약 일반 댓글인 경우 해당 값은 nil로 처리하면 됩니다. 기본값은 `nil`입니다.
-  func createComments(plubbingID: Int, feedID: Int, comment: String, commentParentID: Int? = nil) -> PLUBResult<CommentContent> {
-    sendRequest(
+  func createComments(plubbingID: Int, feedID: Int, comment: String, commentParentID: Int? = nil) -> Observable<CommentContent> {
+    sendObservableRequest(
       FeedsRouter.createComment(
         plubbingID: plubbingID,
         feedID: feedID,
         model: CommentsRequest(content: comment, parentCommentID: commentParentID)
-      ),
-      type: CommentContent.self
+      )
     )
   }
   

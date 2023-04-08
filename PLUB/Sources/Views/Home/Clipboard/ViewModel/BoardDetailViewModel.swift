@@ -117,11 +117,6 @@ extension BoardDetailViewModel {
   private func createComments(plubbingID: Int, content: BoardModel, commentsObservable: Observable<(comment: String, parentID: Int?)>) {
     commentsObservable
       .flatMap { FeedsService.shared.createComments(plubbingID: plubbingID, feedID: content.feedID, comment: $0.comment, commentParentID: $0.parentID) }
-      .compactMap { result -> CommentContent? in
-        // TODO: 승현 - API 통신 에러 처리
-        guard case let .success(response) = result else { return nil }
-        return response.data
-      }
       .filter { [weak self] _ in
         return self?.pagingManager.isLast ?? false
       }
