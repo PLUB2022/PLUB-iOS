@@ -18,6 +18,7 @@ enum BoardHeaderViewType {
 protocol BoardViewControllerDelegate: AnyObject {
   func calculateHeight(_ height: CGFloat)
   func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel)
+  func didTappedBoardClipboardHeaderView()
 }
 
 final class BoardViewController: BaseViewController {
@@ -249,10 +250,8 @@ extension BoardViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension BoardViewController: BoardClipboardHeaderViewDelegate {
-  func didTappedClipboardButton() {
-    let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: plubbingID))
-    vc.navigationItem.largeTitleDisplayMode = .never
-    self.navigationController?.pushViewController(vc, animated: true)
+  func didTappedBoardClipboardHeaderView() {
+    delegate?.didTappedBoardClipboardHeaderView()
   }
 }
 

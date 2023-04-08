@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 protocol BoardClipboardHeaderViewDelegate: AnyObject {
-  func didTappedClipboardButton()
+  func didTappedBoardClipboardHeaderView()
 }
 
 final class BoardClipboardHeaderView: UICollectionReusableView {
@@ -43,8 +43,9 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     $0.textColor = .black
   }
   
-  private let clipboardButton = UIButton().then {
-    $0.setImage(UIImage(named: "rightIndicatorGray"), for: .normal)
+  private let clipboardImageView = UIImageView().then {
+    $0.image = UIImage(named: "rightIndicatorGray")
+    $0.contentMode = .scaleAspectFill
   }
   
   private let entireStackView = UIStackView().then {
@@ -60,6 +61,8 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     $0.spacing = 9
     $0.distribution = .fillEqually
   }
+  
+  private let tapGesture = UITapGestureRecognizer(target: BoardClipboardHeaderView.self, action: nil)
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -77,15 +80,16 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   }
   
   private func bind() {
-    clipboardButton.rx.tap
+    tapGesture.rx.event
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedClipboardButton()
+        owner.delegate?.didTappedBoardClipboardHeaderView()
       }
       .disposed(by: disposeBag)
   }
   
   private func configureUI() {
     backgroundColor = .background
+    contentView.addGestureRecognizer(tapGesture)
     
     addSubview(contentView)
     contentView.snp.makeConstraints {
@@ -93,14 +97,14 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
       $0.bottom.equalToSuperview().inset(8)
     }
     
-    [pinImageView, clipboardLabel, clipboardButton].forEach { horizontalStackView.addArrangedSubview($0) }
+    [pinImageView, clipboardLabel, clipboardImageView].forEach { horizontalStackView.addArrangedSubview($0) }
     pinImageView.snp.makeConstraints {
       $0.size.equalTo(24)
     }
     
     [horizontalStackView, entireStackView].forEach { contentView.addSubview($0) }
     
-    clipboardButton.snp.makeConstraints {
+    clipboardImageView.snp.makeConstraints {
       $0.size.equalTo(32)
     }
     
