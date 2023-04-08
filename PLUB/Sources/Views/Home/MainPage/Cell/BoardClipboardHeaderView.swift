@@ -79,7 +79,7 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   }
   
   private func bind() {
-    clipboardButton.rx.tap
+    tapGesture.rx.event
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedClipboardButton()
       }
