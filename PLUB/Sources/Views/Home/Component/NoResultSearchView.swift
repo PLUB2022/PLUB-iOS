@@ -78,7 +78,7 @@ class NoResultSearchView: UIView {
     }
   }
   
-  public func configureUI(with model: String) {
+  func configureUI(with model: String) {
     noResultLabel.text = "‘\(model)’에 대한 검색결과가 없어요."
   }
 }

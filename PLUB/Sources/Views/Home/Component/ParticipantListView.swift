@@ -85,7 +85,7 @@ final class ParticipantListView: UIView {
     participantListStackView.addArrangedSubview(participantImageView)
   }
   
-  public func configureUI(with model: [AccountInfo]) {
+  func configureUI(with model: [AccountInfo]) {
     accountInfos = model
     let model = model.compactMap { $0 }
     let joinedCount = model.count
@@ -137,7 +137,7 @@ final class ParticipantImageView: UIImageView {
     }
   }
   
-  public func configureUI(with model: String?) {
+  func configureUI(with model: String?) {
     guard let url = URL(string: model ?? "") else { return }
     kf.setImage(with: url)
   }

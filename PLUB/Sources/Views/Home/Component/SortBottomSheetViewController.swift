@@ -144,7 +144,7 @@ class SortBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
   }
   
-  public func configureUI(with type: SortType) {
+  func configureUI(with type: SortType) {
     switch type {
     case .popular:
       popularButton.isTapped = true

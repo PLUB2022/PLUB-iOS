@@ -63,7 +63,7 @@ final class IntroduceCategoryInfoView: UIView {
     }
   }
   
-  public func configureUI(with model: IntroduceCategoryInfoViewModel) {
+  func configureUI(with model: IntroduceCategoryInfoViewModel) {
     meetingRecommendedLabel.text = model.recommendedText
     categoryInfoListView.configureUI(with: model.categoryInfoListModel)
     

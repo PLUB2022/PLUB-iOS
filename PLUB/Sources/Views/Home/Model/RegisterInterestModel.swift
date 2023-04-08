@@ -8,11 +8,11 @@
 import Foundation
 
 struct RegisterInterestModel {
-  var category: Category
+  var category: CategoryModel
   var isExpanded: Bool
   
   init(category: Category) {
-    self.category = category
+    self.category = CategoryModel(category: category)
     isExpanded = false
   }
 }

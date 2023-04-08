@@ -22,7 +22,7 @@ final class RegisterInterestDetailTableViewCell: UITableViewCell {
   
   private var indexPath: IndexPath?
   
-  private var subCategories: [SubCategory] = [] {
+  private var subCategories: [SubCategoryStatus] = [] {
     didSet {
       interestTypeCollectionView.reloadData()
     }
@@ -78,7 +78,7 @@ final class RegisterInterestDetailTableViewCell: UITableViewCell {
     }
   }
   
-  public func configureUI(
+  func configureUI(
     with model: RegisterInterestModel,
     indexPath: IndexPath,
     selectEnabled: Bool = true

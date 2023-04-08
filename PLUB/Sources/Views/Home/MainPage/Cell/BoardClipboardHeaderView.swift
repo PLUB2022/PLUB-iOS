@@ -124,7 +124,7 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
     }
   }
   
-  public func configureUI(with model: [MainPageClipboardViewModel]) {
+  func configureUI(with model: [MainPageClipboardViewModel]) {
     guard !model.isEmpty else { return }
     let mainpageClipboardType = MainPageClipboardType.getMainPageClipboardType(with: model)
     

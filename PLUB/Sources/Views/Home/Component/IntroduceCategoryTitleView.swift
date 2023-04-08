@@ -64,7 +64,7 @@ final class IntroduceCategoryTitleView: UIView {
     }
   }
   
-  public func configureUI(with model: IntroduceCategoryTitleViewModel) {
+  func configureUI(with model: IntroduceCategoryTitleViewModel) {
     meetingTitleLabel.text = model.title
     introduceTitleLabel.text = model.name
     

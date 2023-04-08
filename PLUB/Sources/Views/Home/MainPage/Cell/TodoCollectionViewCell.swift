@@ -120,7 +120,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
       .disposed(by: disposeBag)
   }
   
-  public func configureUI(with model: String) {
+  func configureUI(with model: String) {
     for _ in 0...5 {
       let label = CheckTodoView()
       label.delegate = self

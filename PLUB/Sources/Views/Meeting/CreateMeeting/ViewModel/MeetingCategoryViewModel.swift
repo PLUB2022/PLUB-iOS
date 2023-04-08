@@ -11,12 +11,12 @@ import RxCocoa
 final class MeetingCategoryViewModel {
   
   // Input
-  let selectSubCategory: AnyObserver<SubCategory>   // 선택된 서브 카테고리
+  let selectSubCategory: AnyObserver<SubCategoryStatus>   // 선택된 서브 카테고리
   let deselectSubCategory: AnyObserver<Int> // 취소한 카테고리의 id
   
   // Output
   let fetchData: Driver<[RegisterInterestModel]>  // tableView data fetch
-  let selectedSubCategories: Driver<[SubCategory]>        // 선택된 서브 카테고리의 배열
+  let selectedSubCategories: Driver<[SubCategoryStatus]>        // 선택된 서브 카테고리의 배열
   let isButtonEnabled: Driver<Bool>               // 버튼 활성화 여부
   let selectedSubCategoriesCount: Driver<Int>     // 선택된 카테고리 개수
   var selectEnabled: Bool = true                  // 카테고리 선택 활성화 여부 (5개 이하 제한)
@@ -25,13 +25,13 @@ final class MeetingCategoryViewModel {
   private let fetchedCategoriesRelay = BehaviorRelay<[RegisterInterestModel]>(value: [])
   
   /// 선택된 카테고리의 `Subject`
-  private let selectSubject = PublishSubject<SubCategory>()
+  private let selectSubject = PublishSubject<SubCategoryStatus>()
   
   /// 취소된 카테고리의 `Subject`
   private let deselectSubject = PublishSubject<Int>()
   
   /// 선택된 카테고리들의 `Relay`
-  private let selectedSubCategoriesRelay = BehaviorRelay<[SubCategory]>(value: [])
+  private let selectedSubCategoriesRelay = BehaviorRelay<[SubCategoryStatus]>(value: [])
   
   /// 선택된 카테고리 개수의 `Relay`
   private let selectedSubCategoriesCountRelay = BehaviorRelay<Int>(value: 0)

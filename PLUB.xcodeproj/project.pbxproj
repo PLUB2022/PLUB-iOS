@@ -59,6 +59,7 @@
 		70727A4529D5E570003DE956 /* TodoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4429D5E570003DE956 /* TodoAlertView.swift */; };
 		70727A4729D6D507003DE956 /* TodoInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4629D6D507003DE956 /* TodoInfoView.swift */; };
 		70727ABB29DAA745003DE956 /* SuccessApply.json in Resources */ = {isa = PBXBuildFile; fileRef = 70727ABA29DAA745003DE956 /* SuccessApply.json */; };
+		70727ABF29DE8B82003DE956 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727ABE29DE8B82003DE956 /* CategoryModel.swift */; };
 		70727ABD29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727ABC29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
@@ -401,6 +402,7 @@
 		70727A4429D5E570003DE956 /* TodoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAlertView.swift; sourceTree = "<group>"; };
 		70727A4629D6D507003DE956 /* TodoInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoInfoView.swift; sourceTree = "<group>"; };
 		70727ABA29DAA745003DE956 /* SuccessApply.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessApply.json; sourceTree = "<group>"; };
+		70727ABE29DE8B82003DE956 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		70727ABC29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryCollectionViewCellModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -858,6 +860,7 @@
 			children = (
 				70F1DFEB297D99A400F9BC83 /* Recruitment */,
 				704AC7942938E800008C3A88 /* RegisterInterestModel.swift */,
+				70727ABE29DE8B82003DE956 /* CategoryModel.swift */,
 				70727ABC29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift */,
 			);
 			path = Model;
@@ -2331,6 +2334,7 @@
 				C35AFD012998B0A500AB5CD3 /* EditMeetingViewModel.swift in Sources */,
 				C359FEA8299FE3AB00B2F561 /* CreateScheduleViewModel.swift in Sources */,
 				BA780E1529714AAB0032C178 /* GeneralResponse.swift in Sources */,
+				70727ABF29DE8B82003DE956 /* CategoryModel.swift in Sources */,
 				C3AD265D296ACC0600C57370 /* MeetingNameViewController.swift in Sources */,
 				BA1FC12B29A62E3600AB3F91 /* FeedsClipboardResponse.swift in Sources */,
 				C38A5B99297ADE8500485355 /* KakaoLocationResponse.swift in Sources */,

@@ -110,7 +110,7 @@ final class BoardSystemCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  public func configureUI(with model: BoardModel) {
+  func configureUI(with model: BoardModel) {
     guard let content = model.content else { return }
     titleLabel.text = model.title
     contentLabel.text = content + "\n 멤버들과 함께 환영인사를 나눠보세요!"

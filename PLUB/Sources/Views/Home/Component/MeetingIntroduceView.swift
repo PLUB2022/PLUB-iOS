@@ -53,7 +53,7 @@ final class MeetingIntroduceView: UIView {
     }
   }
   
-  public func configureUI(with model: MeetingIntroduceModel) {
+  func configureUI(with model: MeetingIntroduceModel) {
     meetingIntroduceLabel.text = "[ \(model.title) ] 모임은요...!"
     meetingDescriptionLabel.text = model.introduce
   }
