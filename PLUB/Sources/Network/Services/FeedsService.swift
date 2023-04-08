@@ -22,11 +22,8 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - model: 게시판 요청 모델
-  func createBoards(plubbingID: Int, model: BoardsRequest) -> PLUBResult<BoardsResponse> {
-    sendRequest(
-      FeedsRouter.createBoard(plubbingID: plubbingID, model: model),
-      type: BoardsResponse.self
-    )
+  func createBoards(plubbingID: Int, model: BoardsRequest) -> Observable<BoardsResponse> {
+    sendObservableRequest(FeedsRouter.createBoard(plubbingID: plubbingID, model: model))
   }
   
   /// 게시판을 조회합니다.

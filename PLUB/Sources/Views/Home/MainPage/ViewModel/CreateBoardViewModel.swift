@@ -63,12 +63,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
         return FeedsService.shared.createBoards(plubbingID: plubbingID, model: request)
       }
     
-    let successCreateBoard = createBoard.compactMap { result -> BoardsResponse? in
-      guard case .success(let response) = result else { return nil }
-      return response.data
-    }
-    
-    successCreateBoard
+    createBoard
       .subscribe(onNext: { data in
         isSuccessCreatingBoard.accept(data.feedID)
       })
