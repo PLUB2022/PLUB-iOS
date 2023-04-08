@@ -30,11 +30,8 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - nextCursorID: 다음에 요청할 커서 위치, 기본값은 0입니다.
-  func fetchBoards(plubbingID: Int, nextCursorID: Int = 0) -> PLUBResult<PaginatedDataResponse<FeedsContent>> {
-    sendRequest(
-      FeedsRouter.fetchBoards(plubbingID: plubbingID, cursorID: nextCursorID),
-      type: PaginatedDataResponse<FeedsContent>.self
-    )
+  func fetchBoards(plubbingID: Int, nextCursorID: Int = 0) -> Observable<PaginatedDataResponse<FeedsContent>> {
+    sendObservableRequest(FeedsRouter.fetchBoards(plubbingID: plubbingID, cursorID: nextCursorID))
   }
   
   /// 클립보드를 조회합니다.

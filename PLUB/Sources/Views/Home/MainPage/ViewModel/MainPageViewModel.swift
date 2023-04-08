@@ -35,18 +35,13 @@ final class MainPageViewModel: MainPageViewModelType {
     self.whichPlubID = selectingPlubID.asObserver()
     
     // Input
-    let fetchingBoards = selectingPlubID
+    let successFetchingFeedContents = selectingPlubID
       .flatMapLatest { FeedsService.shared.fetchBoards(plubbingID: $0) }
       .share()
     
-    let successFetchingFeedContents = fetchingBoards.compactMap { result -> [FeedsContent]? in
-      guard case .success(let response) = result else { return nil }
-      return response.data?.content
-    }
-    
     successFetchingFeedContents
       .subscribe(onNext: { feedContents in
-        let boardModels = feedContents.map { feedContent in
+        let boardModels = feedContents.content.map { feedContent in
           BoardModel(
             feedID: feedContent.feedID,
             viewType: feedContent.viewType,

@@ -70,13 +70,8 @@ final class BoardViewModel: BoardViewModelType {
         return FeedsService.shared.fetchClipboards(plubbingID: plubbingID)
       }
     
-    let successFetchingBoards = fetchingBoards.compactMap { result -> [FeedsContent]? in
-      guard case .success(let response) = result else { return nil }
-      return response.data?.content
-    }
-    
-    successFetchingBoards.subscribe(onNext: { boards in
-      let boardModels = boards.map { $0.toBoardModel }
+    fetchingBoards.subscribe(onNext: { boards in
+      let boardModels = boards.content.map { $0.toBoardModel }
       fetchingBoardModel.accept(boardModels)
     })
     .disposed(by: disposeBag)
