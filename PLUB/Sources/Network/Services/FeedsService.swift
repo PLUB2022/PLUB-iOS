@@ -61,8 +61,8 @@ extension FeedsService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - feedID: 피드(게시글) ID
-  func deleteFeed(plubbingID: Int, feedID: Int) -> PLUBResult<EmptyModel> {
-    sendRequest(FeedsRouter.deleteFeed(plubbingID: plubbingID, feedID: feedID))
+  func deleteFeed(plubbingID: Int, feedID: Int) -> Observable<EmptyModel> {
+    sendObservableRequest(FeedsRouter.deleteFeed(plubbingID: plubbingID, feedID: feedID))
   }
   
   /// 피드(게시글)을 클립보드에 고정합니다.

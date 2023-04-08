@@ -103,17 +103,12 @@ final class BoardViewModel: BoardViewModelType {
       )
     )
       .flatMapLatest(FeedsService.shared.deleteFeed)
+      .map { _ in Void() }
     
     let successRequestPinFeed = requestPinFeed.compactMap { result -> BoardsResponse? in
       print("고정 결과 \(result)")
       guard case .success(let response) = result else { return nil }
       return response.data
-    }
-    
-    let successRequestDeleteFeed = requestDeleteFeed.compactMap { result -> Void? in
-      print("삭제 결과 \(result)")
-      guard case .success(_) = result else { return nil }
-      return ()
     }
     
     // Output
@@ -130,7 +125,7 @@ final class BoardViewModel: BoardViewModelType {
       .map { $0.feedID }
       .asDriver(onErrorDriveWith: .empty())
     
-    successDeleteFeed = successRequestDeleteFeed.asDriver(onErrorDriveWith: .empty())
+    successDeleteFeed = requestDeleteFeed.asDriver(onErrorDriveWith: .empty())
   }
   
 }
