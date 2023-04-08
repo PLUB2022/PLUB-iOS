@@ -33,11 +33,7 @@ final class ClipboardViewModel: ClipboardViewModelType, ClipboardCellDataStore {
   init(plubbingID: Int) {
     // API 여러번 호출 방지
     let sharedClipboardsAPI = FeedsService.shared.fetchClipboards(plubbingID: plubbingID)
-      .compactMap { response -> [FeedsContent]? in
-        // TODO: 승현 - API failure 처리
-        guard case let .success(data) = response else { return nil }
-        return data.data?.pinnedFeedList
-      }
+      .map { $0.pinnedFeedList }
       .share()
     
     fetchClipboards = sharedClipboardsAPI.asDriver(onErrorJustReturn: [])

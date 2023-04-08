@@ -36,11 +36,8 @@ extension FeedsService {
   
   /// 클립보드를 조회합니다.
   /// - Parameter plubbingID: 플럽 모임 ID
-  func fetchClipboards(plubbingID: Int) -> PLUBResult<FeedsClipboardResponse> {
-    sendRequest(
-      FeedsRouter.fetchClipboards(plubbingID: plubbingID),
-      type: FeedsClipboardResponse.self
-    )
+  func fetchClipboards(plubbingID: Int) -> Observable<FeedsClipboardResponse> {
+    sendObservableRequest(FeedsRouter.fetchClipboards(plubbingID: plubbingID))
   }
   
   /// 게시글 상세 조회할 때 사용됩니다.

@@ -76,13 +76,8 @@ final class BoardViewModel: BoardViewModelType {
     })
     .disposed(by: disposeBag)
     
-    let successFetchingClipboards = fetchingClipboards.compactMap { result -> [FeedsContent]? in
-      guard case .success(let response) = result else { return nil }
-      return response.data?.pinnedFeedList
-    }
-    
-    successFetchingClipboards.subscribe(onNext: { contents in
-      let mainPageClipboardViewModel = contents.map {
+    fetchingClipboards.subscribe(onNext: { contents in
+      let mainPageClipboardViewModel = contents.pinnedFeedList.map {
         return MainPageClipboardViewModel(
           type: $0.type,
           contentImageString: $0.feedImageURL,
