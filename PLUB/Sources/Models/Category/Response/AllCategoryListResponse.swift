@@ -32,10 +32,11 @@ struct SubCategory: Codable {
   let id: Int
   let name: String
   let categoryName: String
-  let parentID: Int
+  let parentID: String
   
   enum CodingKeys: String, CodingKey {
-    case id, name, categoryName, parentID
+    case id, name, categoryName
+    case parentID = "parentId"
   }
   
   init(from decoder: Decoder) throws {
@@ -44,7 +45,7 @@ struct SubCategory: Codable {
     id = try values.decodeIfPresent(Int.self, forKey: .id) ?? 0
     name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
     categoryName = try values.decodeIfPresent(String.self, forKey: .categoryName) ?? ""
-    parentID = try values.decodeIfPresent(Int.self, forKey: .parentID) ?? 0
+    parentID = try values.decodeIfPresent(String.self, forKey: .parentID) ?? ""
   }
 }
 
