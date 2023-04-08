@@ -113,10 +113,14 @@ extension FeedsService {
   ///   - feedID: 피드(게시글) ID
   ///   - commentID: 댓글 ID
   ///   - comment: 수정할 댓글 내용
-  func updateComment(plubbingID: Int, feedID: Int, commentID: Int, comment: String) -> PLUBResult<CommentContent> {
-    sendRequest(
-      FeedsRouter.updateComment(plubbingID: plubbingID, feedID: feedID, commentID: commentID, content: comment),
-      type: CommentContent.self
+  func updateComment(plubbingID: Int, feedID: Int, commentID: Int, comment: String) -> Observable<CommentContent> {
+    sendObservableRequest(
+      FeedsRouter.updateComment(
+        plubbingID: plubbingID,
+        feedID: feedID,
+        commentID: commentID,
+        content: comment
+      )
     )
   }
   
