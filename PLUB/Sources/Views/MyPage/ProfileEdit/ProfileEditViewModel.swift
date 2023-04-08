@@ -70,17 +70,17 @@ final class ProfileEditViewModel {
           editedImageSubject
         )
       )
-      .subscribe(onNext: { [weak self] nickName, introduce, image in
-        guard let self = self else { return }
-        
-        if nickName == self.myInfoData.nickname {
-          self.updateMyInfo(
+      .withUnretained(self)
+      .subscribe(onNext: { (owner: ProfileEditViewModel, info: (String, String, UIImage?)) in
+        let (nickName, introduce, image) = info
+        if nickName == owner.myInfoData.nickname {
+          owner.updateMyInfo(
             nickName: nickName,
             introduce: introduce,
             image: image
           )
         } else {
-          self.showNicknameAlert(
+          owner.showNicknameAlert(
             nickName: nickName,
             introduce: introduce,
             image: image
