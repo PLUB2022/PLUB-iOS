@@ -13,6 +13,7 @@ import Then
 struct RecruitmentFilterCollectionViewCellModel {
   let subCategoryID: Int
   let name: String
+  let isTapped: Bool
 }
 
 class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
