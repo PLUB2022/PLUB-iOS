@@ -287,6 +287,12 @@ final class CreateScheduleViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    viewModel.setupPrevSchedule
+      .drive(with: self) { owner, schedule in
+        owner.setupPrevSchedule(schedule: schedule)
+      }
+      .disposed(by: disposeBag)
+    
     scrollView.addGestureRecognizer(tapGesture)
   }
   
@@ -357,6 +363,32 @@ final class CreateScheduleViewController: BaseViewController {
       startDatePicker.datePickerMode = .dateAndTime
       endDatePicker.datePickerMode = .dateAndTime
     }
+  }
+  
+  private func setupPrevSchedule(schedule: Schedule) {
+    titleTextField.text = schedule.title
+    if !schedule.memo.isEmpty {
+      memoTextView.text = schedule.memo
+      memoTextView.textColor = .black
+    }
+    
+    allDaySwitch.isOn = schedule.isAllDay
+    changeDatePickerMode(with: schedule.isAllDay)
+    
+    let date = DateFormatter().then {
+      $0.dateFormat = "yyyy-MM-dd hh:mm"
+      $0.locale = Locale(identifier: "ko_KR")
+    }
+    
+    startDatePicker.date = date.date(from: schedule.startDay + " " + schedule.startTime) ?? Date()
+    endDatePicker.date = date.date(from: schedule.endDay + " " + schedule.endTime) ?? Date()
+    
+    if let placeName = schedule.placeName, !placeName.isEmpty {
+      locationButton.configuration?.baseForegroundColor = .black
+      locationButton.configuration?.title = placeName
+      locationButton.configuration?.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
+    }
+    scheduleAlarmView.setupAlarmText(with: schedule.alarmType)
   }
 }
 
