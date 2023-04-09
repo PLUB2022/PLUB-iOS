@@ -41,7 +41,6 @@ final class MeetingScheduleViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    viewModel.fetchScheduleList()
   }
   
   override func setupLayouts() {
@@ -81,12 +80,12 @@ final class MeetingScheduleViewController: BaseViewController {
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
-    
+
     let datasource = viewModel.dataSource()
     viewModel.scheduleList
       .drive(tableView.rx.items(dataSource: datasource))
       .disposed(by: disposeBag)
-    
+
     tableView.rx.modelSelected(ScheduleTableViewCellModel.self)
       .withUnretained(self)
       .subscribe(onNext: { owner, data in
@@ -94,14 +93,23 @@ final class MeetingScheduleViewController: BaseViewController {
           plubbingID: owner.viewModel.plubbingID,
           data: data
         )
-        vc.delegate = self
+        vc.delegate = owner
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
-    
+
     tableView
       .rx.setDelegate(self)
+      .disposed(by: disposeBag)
+
+    tableView
+      .rx.contentOffset
+      .compactMap { [weak self] offset in
+        guard let self else { return nil }
+        return (self.tableView.contentSize.height, offset.y)
+      }
+      .bind(to: viewModel.offsetObserver)
       .disposed(by: disposeBag)
   }
   
