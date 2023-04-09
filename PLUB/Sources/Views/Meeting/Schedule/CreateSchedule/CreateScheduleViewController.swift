@@ -107,8 +107,8 @@ final class CreateScheduleViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private let registerButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "일정 등록")
+  private lazy var registerButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: viewModel.calendarID == nil ? "일정 등록" : "일정 수정")
     $0.isEnabled = false
   }
   
@@ -265,7 +265,11 @@ final class CreateScheduleViewController: BaseViewController {
     registerButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.viewModel.createSchedule()
+        if let _ = owner.viewModel.calendarID {
+          owner.viewModel.editSchedule()
+        } else {
+          owner.viewModel.createSchedule()
+        }
       }
       .disposed(by: disposeBag)
     
