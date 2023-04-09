@@ -129,7 +129,7 @@ final class CreateScheduleViewModel {
       .withUnretained(self)
       .map { owner, alarm in
         owner.scheduleRelay.value.with {
-          $0.alarmType = alarm.value
+          $0.alarmType = alarm.rawValue
         }
       }
       .bind(to: scheduleRelay)
