@@ -64,6 +64,10 @@ final class CreateScheduleViewModel {
     successResult = successResultSubject.asDriver(onErrorDriveWith: .empty())
     
     bind()
+    
+    if let calendarID = calendarID { // 편집 일때
+      fetchSchedule(calendarID: calendarID)
+    }
   }
   
   private func bind() {
@@ -170,5 +174,17 @@ final class CreateScheduleViewModel {
         }
       })
       .disposed(by: disposeBag)
+  }
+  
+  private func fetchSchedule(calendarID: Int) {
+    ScheduleService.shared.inquireScheduleDetail(
+      plubbingID: plubbingID,
+      calendarID: calendarID
+    )
+    .withUnretained(self)
+    .subscribe(onNext: { owner, model in
+      print(model)
+    })
+    .disposed(by: disposeBag)
   }
 }
