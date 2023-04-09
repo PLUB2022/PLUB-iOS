@@ -14,6 +14,12 @@ struct RecruitmentFilterCollectionViewCellModel {
   let subCategoryID: Int
   let name: String
   let isTapped: Bool
+  
+  init(subCategory: SubCategory) {
+    subCategoryID = subCategory.id
+    name = subCategory.name
+    isTapped = false
+  }
 }
 
 class RecruitmentFilterCollectionViewCell: UICollectionViewCell {

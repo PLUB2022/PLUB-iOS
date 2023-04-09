@@ -76,7 +76,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     
     successRequestSubCategory.map { categories in
       return categories.map { category in
-        return RecruitmentFilterCollectionViewCellModel(subCategoryID: category.id, name: category.name)
+        return RecruitmentFilterCollectionViewCellModel(subCategoryID: category.id, name: category.name, isTapped: false)
       }
     }
     .subscribe(onNext: selectingSubCategories.accept)
