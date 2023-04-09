@@ -51,6 +51,11 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   /// 페이징 관리 객체
   private let pagingManager = PagingManager<CommentContent>(threshold: 700)
   
+  // MARK: Use Cases
+  
+  private let getCommentsUseCase: GetCommentsUseCase
+  private let postCommentUseCase: PostCommentUseCase
+  
   // MARK: Subjects
   
   private let collectionViewSubject = PublishSubject<UICollectionView>()
@@ -59,8 +64,15 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   // MARK: - Initializations
   
-  init(plubbingID: Int, content: BoardModel) {
+  init(
+    plubbingID: Int,
+    content: BoardModel,
+    getCommentsUseCase: GetCommentsUseCase,
+    postCommentUseCase: PostCommentUseCase
+  ) {
     self.content = content
+    self.getCommentsUseCase = getCommentsUseCase
+    self.postCommentUseCase = postCommentUseCase
     
     fetchComments(plubbingID: plubbingID, content: content)
     createComments(plubbingID: plubbingID, content: content)
@@ -82,11 +94,8 @@ extension BoardDetailViewModel {
   private func fetchComments(plubbingID: Int, content: BoardModel) {
     
     // PagingManager를 이용하여 댓글을 가져옴
-    let commentsObservable = pagingManager.fetchNextPage { _ in
-      FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID)
-        .map { data -> (content: [CommentContent], nextCursorID: Int, isLast: Bool) in
-          return (content: data.content, nextCursorID: data.content.last?.commentID ?? 0, isLast: data.isLast)
-        }
+    let commentsObservable = pagingManager.fetchNextPage { [getCommentsUseCase] cursorID in
+      getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
     }
     
     // 첫 세팅 작업
@@ -109,7 +118,9 @@ extension BoardDetailViewModel {
   ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
   private func createComments(plubbingID: Int, content: BoardModel) {
     commentInputSubject
-      .flatMap { FeedsService.shared.createComments(plubbingID: plubbingID, feedID: content.feedID, comment: $0.comment, commentParentID: $0.parentID) }
+      .flatMap { [postCommentUseCase] in
+        postCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, context: $0.comment, commentParentID: $0.parentID)
+      }
       .filter { [weak self] _ in
         return self?.pagingManager.isLast ?? false
       }
@@ -137,18 +148,13 @@ extension BoardDetailViewModel {
   ///   - indexPathObservable: 컬렉션 뷰에서 하단 셀의 인덱스 경로를 전달받는 `Observable`
   private func pagingSetup(plubbingID: Int, content: BoardModel) {
     bottomCellSubject
-      .filter { [weak self] in // pagingManager에게 fetching 가능한지 요청
-        guard let self else { return false }
-        return self.pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
+      .filter { [pagingManager] in // pagingManager에게 fetching 가능한지 요청
+        return pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
       }
       .flatMap { [weak self] _ -> Observable<[CommentContent]> in
         guard let self else { return .empty() }
         return self.pagingManager.fetchNextPage { cursorID in
-          FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
-            .map { data -> (content: [CommentContent], nextCursorID: Int, isLast: Bool) in
-              // 페이징 작업시 발생하는 데이터의 마지막 요소(last)는 항상 값이 존재하므로 force-unwrapping을 사용.
-              return (content: data.content, nextCursorID: data.content.last!.commentID, isLast: data.isLast)
-            }
+          self.getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
         }
       }
       .subscribe(with: self) { owner, content in
