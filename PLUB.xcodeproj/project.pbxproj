@@ -201,6 +201,7 @@
 		BAAD0AD529BB2E72007B33D9 /* ArchiveCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAD0AD429BB2E72007B33D9 /* ArchiveCollectionViewCell.swift */; };
 		BAB033FA29B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */; };
 		BAB2E56C29E30A13006B7BDC /* PostCommentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */; };
+		BAB2E56E29E30F96006B7BDC /* GetCommentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */; };
 		BAB9DFD229BB17B90062807C /* ArchiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */; };
 		BABB011A297ED415004178EC /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB0119297ED415004178EC /* InterestViewController.swift */; };
 		BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB011B297ED74C004178EC /* InterestViewModel.swift */; };
@@ -541,6 +542,7 @@
 		BAAD0AD429BB2E72007B33D9 /* ArchiveCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCollectionViewCell.swift; sourceTree = "<group>"; };
 		BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionHeaderView.swift; sourceTree = "<group>"; };
 		BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUseCase.swift; sourceTree = "<group>"; };
+		BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommentsUseCase.swift; sourceTree = "<group>"; };
 		BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewModel.swift; sourceTree = "<group>"; };
 		BABB0119297ED415004178EC /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		BABB011B297ED74C004178EC /* InterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewModel.swift; sourceTree = "<group>"; };
@@ -1343,6 +1345,7 @@
 			isa = PBXGroup;
 			children = (
 				BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */,
+				BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -2327,6 +2330,7 @@
 				70F1DFEA297D992100F9BC83 /* RecruitmentService.swift in Sources */,
 				C3E0390C29C21F0C00C4744C /* RecruitingViewModel.swift in Sources */,
 				BA6D7C5329A7D46900D8E928 /* CommentsRequest.swift in Sources */,
+				BAB2E56E29E30F96006B7BDC /* GetCommentsUseCase.swift in Sources */,
 				BA8E2B4829746881009DDF32 /* SignInResponse.swift in Sources */,
 				7028770729A8C9A100E57509 /* RecruitmentFilterViewModel.swift in Sources */,
 				C3413E1729954910004B8DBD /* MeetingInfoViewController.swift in Sources */,
