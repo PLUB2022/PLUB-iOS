@@ -183,6 +183,7 @@ extension MeetingScheduleViewController: ScheduleBottomSheetDelegate {
         calendarID: calendarID
       )
     )
+    vc.delegate = self
     navigationController?.pushViewController(vc, animated: true)
   }
   

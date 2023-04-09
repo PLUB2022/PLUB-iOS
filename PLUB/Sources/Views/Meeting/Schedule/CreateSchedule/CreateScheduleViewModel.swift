@@ -182,21 +182,19 @@ final class CreateScheduleViewModel {
   }
   
   func editSchedule() {
-//    ScheduleService.shared
-//      .createSchedule(
-//        plubbingID: plubbingID,
-//        request: scheduleRelay.value
-//      )
-//      .withUnretained(self)
-//      .subscribe(onNext: { owner, result in
-//        switch result {
-//        case .success(let model):
-//          print(model)
-//          owner.successResultSubject.onNext(())
-//        default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
-//        }
-//      })
-//      .disposed(by: disposeBag)
+    guard let calendarID = calendarID else { return }
+    ScheduleService.shared
+      .editSchedule(
+        plubbingID: plubbingID,
+        calendarID: calendarID,
+        request: scheduleRelay.value
+      )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, model in
+        print(model)
+        owner.successResultSubject.onNext(())
+      })
+      .disposed(by: disposeBag)
   }
   
   private func fetchSchedule(calendarID: Int) {
