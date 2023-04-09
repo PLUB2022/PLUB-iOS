@@ -42,4 +42,12 @@ extension ScheduleService {
   ) -> Observable<Schedule>  {
     sendObservableRequest(ScheduleRouter.inquireScheduleDetail(plubbingID, calendarID))
   }
+  
+  func editSchedule(
+    plubbingID: Int,
+    calendarID: Int,
+    request: CreateScheduleRequest
+  ) -> Observable<CreateScheduleResponse>  {
+    sendObservableRequest(ScheduleRouter.editSchedule(plubbingID, calendarID, request))
+  }
 }
