@@ -13,7 +13,7 @@ import Then
 struct RecruitmentFilterCollectionViewCellModel {
   let subCategoryID: Int
   let name: String
-  let isTapped: Bool
+  var isTapped: Bool
   
   init(subCategory: SubCategory) {
     subCategoryID = subCategory.id
@@ -22,7 +22,7 @@ struct RecruitmentFilterCollectionViewCellModel {
   }
 }
 
-class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
+final class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "RecruitmentFilterCollectionViewCell"
   
@@ -68,5 +68,6 @@ class RecruitmentFilterCollectionViewCell: UICollectionViewCell {
   
   func configureUI(with model: RecruitmentFilterCollectionViewCellModel) {
     interestTypeLabel.text = model.name
+    isTapped = model.isTapped
   }
 }
