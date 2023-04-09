@@ -8,7 +8,7 @@
 import RxSwift
 
 protocol PostCommentUseCase {
-  func execute(plubbingID: Int, feedID: Int, context: String, commentParentID: Int) -> Observable<CommentContent>
+  func execute(plubbingID: Int, feedID: Int, context: String, commentParentID: Int?) -> Observable<CommentContent>
 }
 
 final class DefaultPostCommentUseCase: PostCommentUseCase {
@@ -16,7 +16,7 @@ final class DefaultPostCommentUseCase: PostCommentUseCase {
     plubbingID: Int,
     feedID: Int,
     context: String,
-    commentParentID: Int
+    commentParentID: Int?
   ) -> Observable<CommentContent> {
     FeedsService.shared.createComments(
       plubbingID: plubbingID,
