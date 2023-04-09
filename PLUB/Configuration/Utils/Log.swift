@@ -16,73 +16,63 @@ enum Log {
     return .init(subsystem: subsystem, category: category)
   }
   
-  static func debug<T>(_ value: T, category: String = #fileID, privacy: Privacy = .auto) {
+  static func debug<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
-    case .auto:
-      logger(category: category).debug("\(message, privacy: .auto)")
-    case .public:
-      logger(category: category).debug("\(message, privacy: .public)")
-    case .private:
-      logger(category: category).debug("\(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).debug("[\(fileID):\(line)] \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).debug("[\(fileID):\(line)] \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).debug("[\(fileID):\(line)] \(message, privacy: .private)")
     }
   }
   
-  static func info<T>(_ value: T, category: String = #fileID, privacy: Privacy = .auto) {
+  static func info<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
-    case .auto:
-      logger(category: category).info("\(message, privacy: .auto)")
-    case .public:
-      logger(category: category).info("\(message, privacy: .public)")
-    case .private:
-      logger(category: category).info("\(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).info("[\(fileID):\(line)] \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).info("[\(fileID):\(line)] \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).info("[\(fileID):\(line)] \(message, privacy: .private)")
     }
   }
   
-  static func notice<T>(_ value: T, category: String = #fileID, privacy: Privacy = .auto) {
+  static func notice<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
-    case .auto:
-      logger(category: category).notice("\(message, privacy: .auto)")
-    case .public:
-      logger(category: category).notice("\(message, privacy: .public)")
-    case .private:
-      logger(category: category).notice("\(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).notice("[\(fileID):\(line)] \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).notice("[\(fileID):\(line)] \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).notice("[\(fileID):\(line)] \(message, privacy: .private)")
     }
   }
   
-  static func error<T>(_ value: T, category: String = #fileID, privacy: Privacy = .auto) {
+  static func error<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
-    case .auto:
-      logger(category: category).error("\(message, privacy: .auto)")
-    case .public:
-      logger(category: category).error("\(message, privacy: .public)")
-    case .private:
-      logger(category: category).error("\(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).error("[\(fileID):\(line)] \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).error("[\(fileID):\(line)] \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).error("[\(fileID):\(line)] \(message, privacy: .private)")
     }
   }
   
-  static func fault<T>(_ value: T, category: String = #fileID, privacy: Privacy = .auto) {
+  static func fault<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
-    case .auto:
-      logger(category: category).fault("\(message, privacy: .auto)")
-    case .public:
-      logger(category: category).fault("\(message, privacy: .public)")
-    case .private:
-      logger(category: category).fault("\(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).fault("[\(fileID):\(line)] \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).fault("[\(fileID):\(line)] \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).fault("[\(fileID):\(line)] \(message, privacy: .private)")
     }
   }
 }
 
-// MARK: - Log Privacy
+// MARK: - Log Enum Cases
 
 extension Log {
   enum Privacy {
     case auto
     case `public`
     case `private`
+  }
+  
+  enum Category: String {
+    case network
+    case ui
   }
 }
