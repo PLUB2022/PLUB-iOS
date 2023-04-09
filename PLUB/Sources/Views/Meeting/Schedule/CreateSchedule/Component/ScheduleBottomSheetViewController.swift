@@ -13,12 +13,13 @@ import SnapKit
 import Then
 
 protocol ScheduleBottomSheetDelegate: AnyObject {
-  func editSchedule()
-  func deleteSchedule()
+  func editSchedule(calendarID: Int)
+  func deleteSchedule(calendarID: Int)
 }
 
 final class ScheduleBottomSheetViewController: BottomSheetViewController {
   weak var delegate: ScheduleBottomSheetDelegate?
+  private let calendarID: Int
   
   private let lineView = UIView().then {
     $0.backgroundColor = .mediumGray
@@ -41,6 +42,15 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
     image: "trashRed24",
     textColor: .error
   )
+  
+  init(calendarID: Int) {
+    self.calendarID = calendarID
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
@@ -87,7 +97,7 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
     editView.button.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.delegate?.editSchedule()
+        owner.delegate?.editSchedule(calendarID: owner.calendarID)
         owner.dismiss(animated: false)
       }
       .disposed(by: disposeBag)
@@ -95,7 +105,7 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
     deleteView.button.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.delegate?.deleteSchedule()
+        owner.delegate?.deleteSchedule(calendarID: owner.calendarID)
         owner.dismiss(animated: false)
       }
       .disposed(by: disposeBag)

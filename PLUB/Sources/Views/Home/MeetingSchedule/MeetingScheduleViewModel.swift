@@ -209,5 +209,12 @@ final class MeetingScheduleViewModel {
       $0.locale = Locale(identifier: "ko_KR")
     }.string(from: date)
   }
+  
+  func getCellScheduleID(_ indexPath: IndexPath) -> Int? {
+    let data = scheduleListRelay.value
+    guard let section = data[safe: indexPath.section],
+          let row = section.items[safe: indexPath.row] else { return nil}
+    return row.calendarID
+  }
 }
 

@@ -42,7 +42,7 @@ final class CreateScheduleViewModel {
   
   private let scheduleRelay = BehaviorRelay<CreateScheduleRequest>(value: CreateScheduleRequest())
   
-  init(plubbingID: Int) {
+  init(plubbingID: Int, calendarID: Int? = nil) {
     self.plubbingID = plubbingID
     
     title = titleSubject.asObserver()

@@ -78,7 +78,7 @@ final class MeetingScheduleViewController: BaseViewController {
       .rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        let vc = CreateScheduleViewController(plubbingID: owner.viewModel.plubbingID)
+        let vc = CreateScheduleViewController(viewModel: CreateScheduleViewModel(plubbingID: owner.viewModel.plubbingID))
         vc.delegate = owner
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -135,8 +135,9 @@ final class MeetingScheduleViewController: BaseViewController {
   func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
     if gestureRecognizer.state == .began {
         let touchPoint = gestureRecognizer.location(in: tableView)
-        if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-          let vc = ScheduleBottomSheetViewController()
+        if let indexPath = tableView.indexPathForRow(at: touchPoint),
+           let calendarID = viewModel.getCellScheduleID(indexPath) {
+          let vc = ScheduleBottomSheetViewController(calendarID: calendarID)
           vc.delegate = self
           vc.modalPresentationStyle = .overFullScreen
           present(vc, animated: false)
@@ -175,11 +176,17 @@ extension MeetingScheduleViewController: MeetingScheduleDelegate {
 }
 
 extension MeetingScheduleViewController: ScheduleBottomSheetDelegate {
-  func editSchedule() {
-    
+  func editSchedule(calendarID: Int) {
+    let vc = CreateScheduleViewController(
+      viewModel: CreateScheduleViewModel(
+        plubbingID: viewModel.plubbingID,
+        calendarID: calendarID
+      )
+    )
+    navigationController?.pushViewController(vc, animated: true)
   }
   
-  func deleteSchedule() {
+  func deleteSchedule(calendarID: Int) {
     
   }
 }

@@ -121,8 +121,8 @@ final class CreateScheduleViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  init(plubbingID: Int) {
-    viewModel = CreateScheduleViewModel(plubbingID: plubbingID)
+  init(viewModel: CreateScheduleViewModel) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
