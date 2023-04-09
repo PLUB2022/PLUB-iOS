@@ -16,7 +16,7 @@ enum Log {
     return .init(subsystem: subsystem, category: category)
   }
   
-  static func debug<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func debug<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
     case .auto:       logger(category: category.rawValue).debug("[\(fileID):\(line)] \(message, privacy: .auto)")
@@ -25,7 +25,7 @@ enum Log {
     }
   }
   
-  static func info<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func info<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
     case .auto:       logger(category: category.rawValue).info("[\(fileID):\(line)] \(message, privacy: .auto)")
@@ -34,7 +34,7 @@ enum Log {
     }
   }
   
-  static func notice<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func notice<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
     case .auto:       logger(category: category.rawValue).notice("[\(fileID):\(line)] \(message, privacy: .auto)")
@@ -43,7 +43,7 @@ enum Log {
     }
   }
   
-  static func error<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func error<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
     case .auto:       logger(category: category.rawValue).error("[\(fileID):\(line)] \(message, privacy: .auto)")
@@ -52,7 +52,7 @@ enum Log {
     }
   }
   
-  static func fault<T>(_ value: T, category: Category, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func fault<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
     let message = String(describing: value)
     switch privacy {
     case .auto:       logger(category: category.rawValue).fault("[\(fileID):\(line)] \(message, privacy: .auto)")
@@ -72,6 +72,7 @@ extension Log {
   }
   
   enum Category: String {
+    case `default`
     case network
     case ui
   }
