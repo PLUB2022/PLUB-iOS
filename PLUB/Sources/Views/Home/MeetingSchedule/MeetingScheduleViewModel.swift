@@ -216,5 +216,20 @@ final class MeetingScheduleViewModel {
           let row = section.items[safe: indexPath.row] else { return nil}
     return row.calendarID
   }
+  
+  func deleteSchedule(calendarID: Int) {
+    ScheduleService.shared
+      .deleteSchedule(plubbingID: plubbingID, calendarID: calendarID)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        let value = owner.scheduleListRelay.value
+        let newValue = value.compactMap { sectionData in
+          let newItems = sectionData.items.filter { $0.calendarID != calendarID }
+          return newItems.isEmpty ? nil : MeetingScheduleData(header: sectionData.header, items: newItems)
+        }
+        owner.scheduleListRelay.accept(newValue)
+      })
+      .disposed(by: disposeBag)
+  }
 }
 

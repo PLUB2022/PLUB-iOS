@@ -188,6 +188,6 @@ extension MeetingScheduleViewController: ScheduleBottomSheetDelegate {
   }
   
   func deleteSchedule(calendarID: Int) {
-    
+    viewModel.deleteSchedule(calendarID: calendarID)
   }
 }
