@@ -35,4 +35,11 @@ extension ScheduleService {
       type: AttendScheduleResponse.self
     )
   }
+  
+  func inquireScheduleDetail(
+    plubbingID: Int,
+    calendarID: Int
+  ) -> Observable<Schedule>  {
+    sendObservableRequest(ScheduleRouter.inquireScheduleDetail(plubbingID, calendarID))
+  }
 }

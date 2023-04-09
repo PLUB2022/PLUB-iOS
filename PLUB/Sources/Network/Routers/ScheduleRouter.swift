@@ -11,6 +11,7 @@ enum ScheduleRouter {
   case createSchedule(Int, CreateScheduleRequest)
   case inquireScheduleList(Int, Int?)
   case attendSchedule(Int, Int, AttendScheduleRequest)
+  case inquireScheduleDetail(Int, Int)
 }
 
 extension ScheduleRouter: Router {
@@ -18,7 +19,7 @@ extension ScheduleRouter: Router {
     switch self {
     case .createSchedule:
       return .post
-    case .inquireScheduleList:
+    case .inquireScheduleList, .inquireScheduleDetail:
       return .get
     case .attendSchedule:
       return .put
@@ -32,6 +33,8 @@ extension ScheduleRouter: Router {
       return "/plubbings/\(plubbingID)/calendar"
     case .attendSchedule(let plubbingID, let calendarID, _):
       return "/plubbings/\(plubbingID)/calendar/\(calendarID)/attend"
+    case .inquireScheduleDetail(let plubbingID, let calendarID):
+      return "/plubbings/\(plubbingID)/calendar/\(calendarID)"
     }
   }
   
@@ -44,12 +47,14 @@ extension ScheduleRouter: Router {
       return .query(["cursorId": cursorID])
     case .attendSchedule(_, _, let model):
       return .body(model)
+    case .inquireScheduleDetail:
+      return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .createSchedule, .inquireScheduleList, .attendSchedule:
+    case .createSchedule, .inquireScheduleList, .attendSchedule, .inquireScheduleDetail:
       return .withAccessToken
     }
   }
