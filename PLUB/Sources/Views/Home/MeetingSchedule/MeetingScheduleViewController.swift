@@ -18,7 +18,7 @@ final class MeetingScheduleViewController: BaseViewController {
   
   private let scheduleTopView = ScheduleTopView()
   
-  private let tableView = UITableView().then {
+  private lazy var tableView = UITableView().then {
     $0.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
     $0.separatorStyle = .none
     $0.showsVerticalScrollIndicator = false
@@ -67,6 +67,8 @@ final class MeetingScheduleViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     setupNavigationBar()
+    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+    tableView.addGestureRecognizer(longPressGesture)
   }
   
   override func bind() {
@@ -128,6 +130,19 @@ final class MeetingScheduleViewController: BaseViewController {
   private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
+  
+  @objc
+  func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+    if gestureRecognizer.state == .began {
+        let touchPoint = gestureRecognizer.location(in: tableView)
+        if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+          let vc = ScheduleBottomSheetViewController()
+          vc.delegate = self
+          vc.modalPresentationStyle = .overFullScreen
+          present(vc, animated: false)
+        }
+    }
+  }
 }
 
 extension MeetingScheduleViewController: UITableViewDelegate {
@@ -156,5 +171,15 @@ extension MeetingScheduleViewController: UITableViewDelegate {
 extension MeetingScheduleViewController: MeetingScheduleDelegate {
   func refreshScheduleData() {
     viewModel.fetchScheduleList()
+  }
+}
+
+extension MeetingScheduleViewController: ScheduleBottomSheetDelegate {
+  func editSchedule() {
+    
+  }
+  
+  func deleteSchedule() {
+    
   }
 }
