@@ -74,19 +74,15 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
       return response.data?.categories
     }
     
-    successRequestSubCategory.map { categories in
-      return categories.map { category in
-        return RecruitmentFilterCollectionViewCellModel(subCategoryID: category.id, name: category.name, isTapped: false)
-      }
+    successRequestSubCategory.map { subCategories in
+      return subCategories.map { RecruitmentFilterCollectionViewCellModel(subCategory: $0) }
     }
     .subscribe(onNext: selectingSubCategories.accept)
     .disposed(by: disposeBag)
     
     Observable.merge(
-      selectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1) }
-        .map { ($0, $1 + 1) },
-      deselectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1) }
-        .map { ($0, $1 - 1) }
+      selectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1 + 1) },
+      deselectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1 - 1) }
     )
     .subscribe(onNext: { (categoryID, count) in
       var list = confirmSubCategory.value
@@ -102,10 +98,8 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     .disposed(by: disposeBag)
     
     Observable.merge(
-      selectingDay.withLatestFrom(dayCount) { ($0, $1) }
-        .map { ($0, $1 + 1) },
-      deselectingDay.withLatestFrom(dayCount) { ($0, $1) }
-        .map { ($0, $1 - 1) }
+      selectingDay.withLatestFrom(dayCount) { ($0, $1 + 1) },
+      deselectingDay.withLatestFrom(dayCount) { ($0, $1 - 1) }
     )
     .subscribe(onNext: { (day, count) in
       var list = confirmDay.value
@@ -139,13 +133,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         confirmingAccountNum
       )
     )
-    .map { days, subCategoryIDs, accountNum in
-      return CategoryMeetingRequest(
-        days: days,
-        subCategoryIDs: subCategoryIDs,
-        accountNum: accountNum
-      )
-    }
+    .map { CategoryMeetingRequest(days: $0, subCategoryIDs: $1, accountNum: $2) }
     .asSignal(onErrorSignalWith: .empty())
   }
 }
