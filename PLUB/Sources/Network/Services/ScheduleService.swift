@@ -50,4 +50,11 @@ extension ScheduleService {
   ) -> Observable<CreateScheduleResponse>  {
     sendObservableRequest(ScheduleRouter.editSchedule(plubbingID, calendarID, request))
   }
+  
+  func deleteSchedule(
+    plubbingID: Int,
+    calendarID: Int
+  ) -> Observable<EmptyModel>  {
+    sendObservableRequest(ScheduleRouter.deleteSchedule(plubbingID, calendarID))
+  }
 }
