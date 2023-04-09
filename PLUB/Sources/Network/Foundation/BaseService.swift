@@ -123,8 +123,17 @@ class BaseService {
     case 200..<300 where decodedData.data != nil:
       return .success(decodedData)
     case 200..<300 where decodedData.data == nil:
+      // 로깅을 위해 json을 이쁘게 포맷팅
+      guard let jsonData = try? JSONSerialization.jsonObject(with: data),
+            let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .prettyPrinted),
+            let formattedString = String(data: prettyJsonData, encoding: .utf8)
+      else {
+        return .failure(.decodingError(raw: data))
+      }
+      Log.fault("decodingError: \(formattedString)", category: .network)
       return .failure(.decodingError(raw: data))
     case 400..<500:
+      Log.error("Request Error: \(decodedData)", category: .network)
       return .failure(.requestError(decodedData))
     case 500..<600:
       return .failure(.serverError)
