@@ -31,6 +31,7 @@ enum MeetingScheduleType: String, CaseIterable {
 }
 
 final class CreateScheduleViewController: BaseViewController {
+  weak var delegate: MeetingScheduleDelegate?
   private let viewModel: CreateScheduleViewModel
   
   private let scrollView = UIScrollView().then {
@@ -274,6 +275,7 @@ final class CreateScheduleViewController: BaseViewController {
     
     viewModel.successResult
       .drive(with: self) { owner, _ in
+        owner.delegate?.refreshScheduleData()
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)

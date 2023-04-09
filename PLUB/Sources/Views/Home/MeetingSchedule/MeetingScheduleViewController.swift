@@ -77,6 +77,7 @@ final class MeetingScheduleViewController: BaseViewController {
       .asDriver()
       .drive(with: self) { owner, _ in
         let vc = CreateScheduleViewController(plubbingID: owner.viewModel.plubbingID)
+        vc.delegate = owner
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
@@ -152,8 +153,8 @@ extension MeetingScheduleViewController: UITableViewDelegate {
   }
 }
 
-extension MeetingScheduleViewController: ScheduleParticipantDelegate {
-  func updateAttendStatus() {
+extension MeetingScheduleViewController: MeetingScheduleDelegate {
+  func refreshScheduleData() {
     viewModel.fetchScheduleList()
   }
 }
