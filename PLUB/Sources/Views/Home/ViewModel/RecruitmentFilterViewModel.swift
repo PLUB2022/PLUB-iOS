@@ -11,10 +11,8 @@ import RxCocoa
 protocol RecruitmentFilterViewModelType {
   // Input
   var selectCategoryID: AnyObserver<String> { get }
-  var selectSubCategory: AnyObserver<Int> { get }
-  var selectDay: AnyObserver<Day> { get }
-  var deselectSubCategory: AnyObserver<Int> { get }
-  var deselectDay: AnyObserver<Day> { get }
+  var isSelectSubCategory: AnyObserver<(Bool, Int)> { get }
+  var isSelectDay: AnyObserver<(Bool, Day)> { get }
   var confirmAccountNum: AnyObserver<Int> { get }
   var filterConfirm: AnyObserver<Void> { get }
   
@@ -30,10 +28,8 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   
   // Input
   let selectCategoryID: AnyObserver<String> // 어떤 카테고리에 대한 것인지에 대한 ID
-  let selectSubCategory: AnyObserver<Int> // 세부카테고리 혹은 요일 셀을 선택할때
-  let selectDay: AnyObserver<Day>
-  let deselectSubCategory: AnyObserver<Int> // 세부카테고리 혹은 요일 셀을 선택하지않을때
-  let deselectDay: AnyObserver<Day>
+  let isSelectSubCategory: AnyObserver<(Bool, Int)> // 세부카테고리 혹은 요일 셀을 선택할때
+  let isSelectDay: AnyObserver<(Bool, Day)>
   let filterConfirm: AnyObserver<Void>
   let confirmAccountNum: AnyObserver<Int>
   
@@ -45,23 +41,19 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   init() {
     let selectingCategoryID = PublishSubject<String>()
     let selectingSubCategories = BehaviorRelay<[RecruitmentFilterCollectionViewCellModel]>(value: [])
-    let selectingSubCategory = PublishSubject<Int>()
-    let selectingDay = PublishSubject<Day>()
-    let deselectingSubCategory = PublishSubject<Int>()
-    let deselectingDay = PublishSubject<Day>()
+    let isSelectingSubCategory = PublishSubject<(Bool, Int)>()
+    let isSelectingDay = PublishSubject<(Bool, Day)>()
     let subCategoryCount = BehaviorRelay<Int>(value: 0)
     let dayCount = BehaviorRelay<Int>(value: 0)
     let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
     let confirmDay = BehaviorRelay<[String]>(value: [])
     let filterConfirming = PublishSubject<Void>()
     let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
-     
+    
     selectCategoryID = selectingCategoryID.asObserver()
     selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
-    selectSubCategory = selectingSubCategory.asObserver()
-    selectDay = selectingDay.asObserver()
-    deselectSubCategory = deselectingSubCategory.asObserver()
-    deselectDay = deselectingDay.asObserver()
+    isSelectSubCategory = isSelectingSubCategory.asObserver()
+    isSelectDay = isSelectingDay.asObserver()
     filterConfirm = filterConfirming.asObserver()
     confirmAccountNum = confirmingAccountNum.asObserver()
     
@@ -80,39 +72,39 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     .subscribe(onNext: selectingSubCategories.accept)
     .disposed(by: disposeBag)
     
-    Observable.merge(
-      selectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1 + 1) },
-      deselectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1 - 1) }
-    )
-    .subscribe(onNext: { (categoryID, count) in
-      var list = confirmSubCategory.value
-      if list.contains(categoryID) {
-        let filterList = list.filter { $0 != categoryID }
-        confirmSubCategory.accept(filterList)
-      } else {
-        list.append(categoryID)
-        confirmSubCategory.accept(list)
-      }
-      subCategoryCount.accept(count)
-    })
-    .disposed(by: disposeBag)
     
-    Observable.merge(
-      selectingDay.withLatestFrom(dayCount) { ($0, $1 + 1) },
-      deselectingDay.withLatestFrom(dayCount) { ($0, $1 - 1) }
-    )
-    .subscribe(onNext: { (day, count) in
-      var list = confirmDay.value
-      if list.contains(day.eng) {
-        let filterList = list.filter { $0 != day.eng }
-        confirmDay.accept(filterList)
-      } else {
-        list.append(day.eng)
-        confirmDay.accept(list)
-      }
-      dayCount.accept(count)
-    })
-    .disposed(by: disposeBag)
+    // 서브카테고리를 선택함에 따른 동작
+    isSelectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1) }
+      .subscribe(onNext: { (subCategoryInfo, count) in
+        let (isSelect, subCategoryID) = subCategoryInfo
+        var list = confirmSubCategory.value
+        if list.contains(subCategoryID) {
+          let filterList = list.filter { $0 != subCategoryID }
+          confirmSubCategory.accept(filterList)
+        } else {
+          list.append(subCategoryID)
+          confirmSubCategory.accept(list)
+        }
+        isSelect ? subCategoryCount.accept(count + 1) : subCategoryCount.accept(count - 1)
+      })
+      .disposed(by: disposeBag)
+    
+    // 요일을 선택함에 따른 동작
+    isSelectingDay.withLatestFrom(dayCount) { ($0, $1) }
+      .subscribe(onNext: { (selectInfo, count) in
+        let (isSelect, day) = selectInfo
+        
+        var list = confirmDay.value
+        if list.contains(day.eng) {
+          let filterList = list.filter { $0 != day.eng }
+          confirmDay.accept(filterList)
+        } else {
+          list.append(day.eng)
+          confirmDay.accept(list)
+        }
+        isSelect ? dayCount.accept(count + 1) : dayCount.accept(count - 1)
+      })
+      .disposed(by: disposeBag)
     
     // Output
     selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
