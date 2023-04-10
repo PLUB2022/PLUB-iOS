@@ -9,6 +9,7 @@ import Alamofire
 
 enum ArchiveRouter {
   case createArchive(plubbingID: Int, model: CreateArchiveRequest)
+  case fetchArchives(plubbingID: Int, cursorID: Int)
 }
 
 extension ArchiveRouter: Router {
@@ -17,12 +18,15 @@ extension ArchiveRouter: Router {
     switch self {
     case .createArchive:
       return .post
+    case .fetchArchives:
+      return .get
     }
   }
   
   var path: String {
     switch self {
-    case .createArchive(let plubbingID, _):
+    case .createArchive(let plubbingID, _),
+         .fetchArchives(let plubbingID, _):
       return "/plubbings/\(plubbingID)/archives"
     }
   }
@@ -31,6 +35,8 @@ extension ArchiveRouter: Router {
     switch self {
     case .createArchive(_, let model):
       return .body(model)
+    case .fetchArchives(_, let cursorID):
+      return .query(["cursorId": cursorID])
     default:
       return .plain
     }
