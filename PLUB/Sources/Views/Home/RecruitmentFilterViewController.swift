@@ -53,6 +53,7 @@ final class RecruitmentFilterViewController: BaseViewController {
   private lazy var filterCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
     $0.backgroundColor = .background
     $0.register(RecruitmentFilterCollectionViewCell.self, forCellWithReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier)
+    $0.register(RecruitmentFilterDateCollectionViewCell.self, forCellWithReuseIdentifier: RecruitmentFilterDateCollectionViewCell.identifier)
     $0.register(RecruitmentFilterCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecruitmentFilterCollectionHeaderView.identifier)
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
     $0.delegate = self
@@ -177,8 +178,8 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
       cell.configureUI(with: subCategories[indexPath.row])
       return cell
     case .day:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecruitmentFilterCollectionViewCell.identifier, for: indexPath) as? RecruitmentFilterCollectionViewCell ?? RecruitmentFilterCollectionViewCell()
-      cell.configureUI(with: Day.allCases[indexPath.row].kor)
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecruitmentFilterDateCollectionViewCell.identifier, for: indexPath) as? RecruitmentFilterDateCollectionViewCell ?? RecruitmentFilterDateCollectionViewCell()
+      cell.configureUI(with: filterDays[indexPath.row])
       return cell
     }
   }
@@ -190,15 +191,16 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    guard let cell = collectionView.cellForItem(at: indexPath) as? RecruitmentFilterCollectionViewCell else { return }
     let section = RecruitmentFilterSection.allCases[indexPath.section]
     switch section {
     case .detailCategory:
-      cell.isTapped ? viewModel.deselectSubCategory.onNext(subCategories[indexPath.row].subCategoryID) : viewModel.selectSubCategory.onNext(subCategories[indexPath.row].subCategoryID)
+      let isSelect = subCategories[indexPath.row].tappedSubCategory()
+      let subCategoryID = subCategories[indexPath.row].subCategoryID
+      viewModel.isSelectSubCategory.onNext((isSelect, subCategoryID))
     case .day:
-      cell.isTapped ? viewModel.deselectDay.onNext(Day.allCases[indexPath.row]) : viewModel.selectDay.onNext(Day.allCases[indexPath.row])
+      let isSelect = filterDays[indexPath.row].tappedDay()
+      viewModel.isSelectDay.onNext((isSelect, Day.allCases[indexPath.row]))
     }
-    cell.isTapped.toggle()
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
