@@ -8,21 +8,32 @@
 import Alamofire
 
 enum ArchiveRouter {
-  
+  case createArchive(plubbingID: Int, model: CreateArchiveRequest)
 }
 
 extension ArchiveRouter: Router {
   
   var method: HTTPMethod {
-    return .get
+    switch self {
+    case .createArchive:
+      return .post
+    }
   }
   
   var path: String {
-    return "/<#Path#>"
+    switch self {
+    case .createArchive(let plubbingID, _):
+      return "/plubbings/\(plubbingID)/archives"
+    }
   }
   
   var parameters: ParameterType {
-    return .plain
+    switch self {
+    case .createArchive(_, let model):
+      return .body(model)
+    default:
+      return .plain
+    }
   }
   
   var headers: HeaderType {

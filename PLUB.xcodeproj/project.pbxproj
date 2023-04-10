@@ -155,6 +155,8 @@
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
 		BA5D9ECF29E3E9A300F06AB5 /* ArchiveRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */; };
 		BA5D9ED029E3E9A300F06AB5 /* ArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECE29E3E9A300F06AB5 /* ArchiveService.swift */; };
+		BA5D9ED529E3EE7400F06AB5 /* CreateArchiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED429E3EE7400F06AB5 /* CreateArchiveRequest.swift */; };
+		BA5D9ED729E3EECA00F06AB5 /* CreateArchiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED629E3EECA00F06AB5 /* CreateArchiveResponse.swift */; };
 		BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5DEB2F2974D8E200650788 /* NetworkResult.swift */; };
 		BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA5DEB3229751E5F00650788 /* GoogleSignIn */; };
 		BA6D7C5329A7D46900D8E928 /* CommentsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D7C5229A7D46900D8E928 /* CommentsRequest.swift */; };
@@ -501,6 +503,8 @@
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
 		BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRouter.swift; sourceTree = "<group>"; };
 		BA5D9ECE29E3E9A300F06AB5 /* ArchiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveService.swift; sourceTree = "<group>"; };
+		BA5D9ED429E3EE7400F06AB5 /* CreateArchiveRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateArchiveRequest.swift; sourceTree = "<group>"; };
+		BA5D9ED629E3EECA00F06AB5 /* CreateArchiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateArchiveResponse.swift; sourceTree = "<group>"; };
 		BA5DEB2F2974D8E200650788 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		BA6D7C5229A7D46900D8E928 /* CommentsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsRequest.swift; sourceTree = "<group>"; };
 		BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLUBTabBarController.swift; sourceTree = "<group>"; };
@@ -1105,6 +1109,7 @@
 			children = (
 				BA3D300A29DDBA4700B56E98 /* GeneralModels */,
 				C3C24CD42990078700056313 /* Account */,
+				BA5D9ED129E3EE4000F06AB5 /* Archive */,
 				C3C24CD52990079900056313 /* Auth */,
 				C3C24CD7299007DE00056313 /* Category */,
 				BA1FC12329A5E13E00AB3F91 /* Feeds */,
@@ -1211,6 +1216,31 @@
 				BA8AA43129890083004E9403 /* NanumPen.otf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		BA5D9ED129E3EE4000F06AB5 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				BA5D9ED229E3EE5100F06AB5 /* Request */,
+				BA5D9ED329E3EE5500F06AB5 /* Response */,
+			);
+			path = Archive;
+			sourceTree = "<group>";
+		};
+		BA5D9ED229E3EE5100F06AB5 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				BA5D9ED429E3EE7400F06AB5 /* CreateArchiveRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		BA5D9ED329E3EE5500F06AB5 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				BA5D9ED629E3EECA00F06AB5 /* CreateArchiveResponse.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		BA771650296FBF2500762362 /* Manager */ = {
@@ -2148,6 +2178,7 @@
 				C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */,
 				BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */,
 				70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */,
+				BA5D9ED529E3EE7400F06AB5 /* CreateArchiveRequest.swift in Sources */,
 				7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */,
 				C3B3435429BE3A1400935B73 /* MyPageRouter.swift in Sources */,
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
@@ -2190,6 +2221,7 @@
 				BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */,
 				C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
+				BA5D9ED729E3EECA00F06AB5 /* CreateArchiveResponse.swift in Sources */,
 				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
 				C34F07F5297DB1DC00C91E90 /* AddQuestionControl.swift in Sources */,
 				C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */,
