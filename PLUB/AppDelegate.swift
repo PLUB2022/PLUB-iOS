@@ -10,6 +10,7 @@ import UIKit
 import GoogleSignIn
 import KakaoSDKCommon
 import FirebaseCore
+import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     )
     
     FirebaseApp.configure()
+    configureCloudMessaging(application)
     
     setupNavigationBarStyle()
     
@@ -37,6 +39,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+  }
+  
+  // MARK: Configuration Methods
+  
+  private func configureCloudMessaging(_ application: UIApplication) {
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in
+      
+    }
+    
+    application.registerForRemoteNotifications()
+    
+    Messaging.messaging().delegate = self
   }
   
   private func setupNavigationBarStyle() {
@@ -60,3 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
+// MARK: - MessagingDelegate
+
+extension AppDelegate: MessagingDelegate {
+  func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    Log.notice(fcmToken)
+  }
+}
