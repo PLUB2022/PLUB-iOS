@@ -40,4 +40,12 @@ extension ArchiveService {
   func fetchArchives(plubbingID: Int, nextCursorID: Int = 0) -> Observable<PaginatedDataResponse<FetchArchiveResponse>> {
     sendObservableRequest(ArchiveRouter.fetchArchives(plubbingID: plubbingID, cursorID: nextCursorID))
   }
+  
+  /// 아카이브 상세 조회 시 사용됩니다.
+  /// - Parameters:
+  ///   - plubbingID: 플럽 모임 ID
+  ///   - archiveID: 아카이브 ID
+  func fetchArchiveDetails(plubbingID: Int, archiveID: Int) -> Observable<FeedsContent> {
+    sendObservableRequest(ArchiveRouter.fetchArchiveDetails(plubbingID: plubbingID, archiveID: archiveID))
+  }
 }
