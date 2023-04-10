@@ -34,8 +34,8 @@ struct ArchiveContent: Codable {
   
   /// 아카이브에 접근한 사용자 타입
   ///
-  /// author, 등이 있습니다. 아카이브 상세 조회 API 호출 시 `nil`값으로 대체되며, 그 외에는 전부 값이 존재합니다.
-  let accessType: String?
+  /// 아카이브 상세 조회 API 호출 시 `nil`값으로 대체되며, 그 외에는 전부 값이 존재합니다.
+  let accessType: AccessType?
   
   
   enum CodingKeys: String, CodingKey {
@@ -46,5 +46,21 @@ struct ArchiveContent: Codable {
     case accessType
     case archiveID = "archiveId"
     case postDate = "createdAt"
+  }
+}
+
+extension ArchiveContent {
+  
+  /// 사용자 접근 타입
+  enum AccessType: String, Codable {
+    
+    /// 일반 사용자
+    case normal
+    
+    /// 아카이브 작성자
+    case author
+    
+    /// 모임 호스트
+    case host
   }
 }
