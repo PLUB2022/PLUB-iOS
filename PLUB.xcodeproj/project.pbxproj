@@ -153,6 +153,7 @@
 		BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778228EECDC50036B825 /* Pretendard-Regular.otf */; };
 		BA52778C28EECDC50036B825 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778328EECDC50036B825 /* Pretendard-Light.otf */; };
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
+		BA5D9EDB29E406AD00F06AB5 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9EDA29E406AD00F06AB5 /* Day.swift */; };
 		BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5DEB2F2974D8E200650788 /* NetworkResult.swift */; };
 		BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA5DEB3229751E5F00650788 /* GoogleSignIn */; };
 		BA6D7C5329A7D46900D8E928 /* CommentsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D7C5229A7D46900D8E928 /* CommentsRequest.swift */; };
@@ -497,6 +498,7 @@
 		BA52778228EECDC50036B825 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		BA52778328EECDC50036B825 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
+		BA5D9EDA29E406AD00F06AB5 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		BA5DEB2F2974D8E200650788 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		BA6D7C5229A7D46900D8E928 /* CommentsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsRequest.swift; sourceTree = "<group>"; };
 		BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLUBTabBarController.swift; sourceTree = "<group>"; };
@@ -1122,6 +1124,7 @@
 				BA1FC12829A5FD3C00AB3F91 /* PaginatedDataResponse.swift */,
 				BA3D300829DDB9CC00B56E98 /* Sex.swift */,
 				BA3D300629DDB9B900B56E98 /* SocialType.swift */,
+				BA5D9EDA29E406AD00F06AB5 /* Day.swift */,
 			);
 			path = GeneralModels;
 			sourceTree = "<group>";
@@ -2122,6 +2125,7 @@
 				C38D6566298852F80052013F /* PaddingLabel.swift in Sources */,
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70A4209C2988B1DC0026E9F9 /* SortControl.swift in Sources */,
+				BA5D9EDB29E406AD00F06AB5 /* Day.swift in Sources */,
 				70A420A7298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift in Sources */,
 				C3E0390A29C2125700C4744C /* InquireApplicantResponse.swift in Sources */,
 				C3B3435629BE3A2200935B73 /* MyPageService.swift in Sources */,
