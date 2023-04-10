@@ -11,6 +11,7 @@ enum ArchiveRouter {
   case createArchive(plubbingID: Int, model: CreateArchiveRequest)
   case fetchArchives(plubbingID: Int, cursorID: Int)
   case fetchArchiveDetails(plubbingID: Int, archiveID: Int)
+  case updateArchive(plubbingID: Int, archiveID: Int, model: CreateArchiveRequest)
 }
 
 extension ArchiveRouter: Router {
@@ -21,6 +22,8 @@ extension ArchiveRouter: Router {
       return .post
     case .fetchArchives, .fetchArchiveDetails:
       return .get
+    case .updateArchive:
+      return .put
     }
   }
   
@@ -29,7 +32,8 @@ extension ArchiveRouter: Router {
     case .createArchive(let plubbingID, _),
          .fetchArchives(let plubbingID, _):
       return "/plubbings/\(plubbingID)/archives"
-    case .fetchArchiveDetails(let plubbingID, let archiveID):
+    case .fetchArchiveDetails(let plubbingID, let archiveID),
+         .updateArchive(let plubbingID, let archiveID, _):
       return "/plubbings/\(plubbingID)/archives/\(archiveID)"
     }
   }
@@ -40,6 +44,8 @@ extension ArchiveRouter: Router {
       return .body(model)
     case .fetchArchives(_, let cursorID):
       return .query(["cursorId": cursorID])
+    case .updateArchive(_, _, let model):
+      return .body(model)
     default:
       return .plain
     }
