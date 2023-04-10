@@ -1,5 +1,5 @@
 //
-//  FetchArchiveResponse.swift
+//  ArchiveContent.swift
 //  PLUB
 //
 //  Created by 홍승현 on 2023/04/10.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// 아카이브 조회 시 응답받는 모델
-struct FetchArchiveResponse: Codable {
+struct ArchiveContent: Codable {
   
   /// 아카이브 ID
   ///

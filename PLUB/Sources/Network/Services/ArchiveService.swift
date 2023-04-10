@@ -36,7 +36,7 @@ extension ArchiveService {
   /// - Parameters:
   ///   - plubbingID: 플러빙 ID
   ///   - nextCursorID: 다음 아카이브를 조회할 때 사용할 커서 ID
-  func fetchArchives(plubbingID: Int, nextCursorID: Int = 0) -> Observable<PaginatedDataResponse<FetchArchiveResponse>> {
+  func fetchArchives(plubbingID: Int, nextCursorID: Int = 0) -> Observable<PaginatedDataResponse<ArchiveContent>> {
     sendObservableRequest(ArchiveRouter.fetchArchives(plubbingID: plubbingID, cursorID: nextCursorID))
   }
   
@@ -44,7 +44,7 @@ extension ArchiveService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - archiveID: 아카이브 ID
-  func fetchArchiveDetails(plubbingID: Int, archiveID: Int) -> Observable<FetchArchiveResponse> {
+  func fetchArchiveDetails(plubbingID: Int, archiveID: Int) -> Observable<ArchiveContent> {
     sendObservableRequest(ArchiveRouter.fetchArchiveDetails(plubbingID: plubbingID, archiveID: archiveID))
   }
   
@@ -53,7 +53,7 @@ extension ArchiveService {
   ///   - plubbingID: 플럽 모임 ID
   ///   - archiveID: 아카이브 ID
   ///   - model: 아카이브 요청 모델
-  func updateArchive(plubbingID: Int, archiveID: Int, model: ArchiveRequest) -> Observable<FetchArchiveResponse> {
+  func updateArchive(plubbingID: Int, archiveID: Int, model: ArchiveRequest) -> Observable<ArchiveContent> {
     sendObservableRequest(
       ArchiveRouter.updateArchive(
         plubbingID: plubbingID,
@@ -67,7 +67,7 @@ extension ArchiveService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - archiveID: 아카이브 ID
-  func deleteArchive(plubbingID: Int, archiveID: Int) -> Observable<FetchArchiveResponse> {
+  func deleteArchive(plubbingID: Int, archiveID: Int) -> Observable<ArchiveContent> {
     sendObservableRequest(ArchiveRouter.deleteArchive(plubbingID: plubbingID, archiveID: archiveID))
   }
 }
