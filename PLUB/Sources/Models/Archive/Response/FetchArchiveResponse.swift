@@ -11,7 +11,9 @@ import Foundation
 struct FetchArchiveResponse: Codable {
   
   /// 아카이브 ID
-  let archiveID: Int
+  ///
+  /// 아카이브 상세 조회 API 호출 시 `nil`값으로 대체되며, 그 외에는 전부 값이 존재합니다.
+  let archiveID: Int?
   
   /// 아카이브 제목
   let title: String
@@ -32,8 +34,8 @@ struct FetchArchiveResponse: Codable {
   
   /// 아카이브에 접근한 사용자 타입
   ///
-  /// author, 등이 있습니다.
-  let accessType: String
+  /// author, 등이 있습니다. 아카이브 상세 조회 API 호출 시 `nil`값으로 대체되며, 그 외에는 전부 값이 존재합니다.
+  let accessType: String?
   
   
   enum CodingKeys: String, CodingKey {
