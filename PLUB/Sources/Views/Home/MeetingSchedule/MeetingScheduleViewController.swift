@@ -18,7 +18,7 @@ final class MeetingScheduleViewController: BaseViewController {
   
   private let scheduleTopView = ScheduleTopView()
   
-  private lazy var tableView = UITableView().then {
+  private let tableView = UITableView().then {
     $0.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
     $0.separatorStyle = .none
     $0.showsVerticalScrollIndicator = false
@@ -108,9 +108,8 @@ final class MeetingScheduleViewController: BaseViewController {
 
     tableView
       .rx.contentOffset
-      .compactMap { [weak self] offset in
-        guard let self else { return nil }
-        return (self.tableView.contentSize.height, offset.y)
+      .compactMap { [tableView] offset in
+        return (tableView.contentSize.height, offset.y)
       }
       .bind(to: viewModel.offsetObserver)
       .disposed(by: disposeBag)
@@ -133,16 +132,13 @@ final class MeetingScheduleViewController: BaseViewController {
   
   @objc
   func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-    if gestureRecognizer.state == .began {
-        let touchPoint = gestureRecognizer.location(in: tableView)
-        if let indexPath = tableView.indexPathForRow(at: touchPoint),
-           let calendarID = viewModel.getCellScheduleID(indexPath) {
-          let vc = ScheduleBottomSheetViewController(calendarID: calendarID)
-          vc.delegate = self
-          vc.modalPresentationStyle = .overFullScreen
-          present(vc, animated: false)
-        }
-    }
+    guard gestureRecognizer.state == .began,
+          let indexPath = tableView.indexPathForRow(at: gestureRecognizer.location(in: tableView)),
+          let calendarID = viewModel.getCellScheduleID(indexPath) else { return }
+    let vc = ScheduleBottomSheetViewController(calendarID: calendarID)
+    vc.delegate = self
+    vc.modalPresentationStyle = .overFullScreen
+    present(vc, animated: false)
   }
 }
 
