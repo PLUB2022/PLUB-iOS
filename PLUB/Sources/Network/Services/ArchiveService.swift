@@ -62,4 +62,12 @@ extension ArchiveService {
       )
     )
   }
+  
+  /// 아카이브를 삭제합니다.
+  /// - Parameters:
+  ///   - plubbingID: 플럽 모임 ID
+  ///   - archiveID: 아카이브 ID
+  func deleteArchive(plubbingID: Int, archiveID: Int) -> Observable<FetchArchiveResponse> {
+    sendObservableRequest(ArchiveRouter.deleteArchive(plubbingID: plubbingID, archiveID: archiveID))
+  }
 }
