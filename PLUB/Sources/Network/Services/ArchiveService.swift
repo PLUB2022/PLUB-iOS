@@ -22,13 +22,12 @@ extension ArchiveService {
   /// 아카이브를 생성합니다.
   /// - Parameters:
   ///   - plubbingID: 플러빙 ID
-  ///   - title: 아카이브 제목
-  ///   - images: 만든 이미지
-  func createArchive(plubbingID: Int, title: String, images: [String]) -> Observable<CreateArchiveResponse> {
+  ///   - model: 아카이브 요청 모델
+  func createArchive(plubbingID: Int, model: CreateArchiveRequest) -> Observable<CreateArchiveResponse> {
     sendObservableRequest(
       ArchiveRouter.createArchive(
         plubbingID: plubbingID,
-        model: CreateArchiveRequest(title: title, images: images)
+        model: model
       )
     )
   }
@@ -53,7 +52,7 @@ extension ArchiveService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - archiveID: 아카이브 ID
-  ///   - model: 아카이브 모델
+  ///   - model: 아카이브 요청 모델
   func updateArchive(plubbingID: Int, archiveID: Int, model: CreateArchiveRequest) -> Observable<FetchArchiveResponse> {
     sendObservableRequest(
       ArchiveRouter.updateArchive(
