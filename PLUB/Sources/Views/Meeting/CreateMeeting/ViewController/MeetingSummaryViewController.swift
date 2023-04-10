@@ -168,7 +168,7 @@ extension MeetingSummaryViewController {
           placeName: data.placeName ?? "",
           peopleCount: data.peopleNumber,
           dateTime: data.days
-            .map { $0.fromENGToKOR() }
+            .map { $0.kor }
             .joined(separator: ",")
           + " | "
           + "\(viewModel.time)"

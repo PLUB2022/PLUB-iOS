@@ -118,8 +118,8 @@ class RecruitingViewModel {
       .disposed(by: disposeBag)
   }
   
-  private func createScheduleString(days: [String], time: String) -> String {
-    let dateStr = days
+  private func createScheduleString(days: [Day], time: String) -> String {
+    let dateStr = days.map { $0.kor }
       .joined(separator: ", ")
     
     let date = DateFormatter().then {

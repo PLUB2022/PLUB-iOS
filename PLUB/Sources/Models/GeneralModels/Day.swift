@@ -8,14 +8,14 @@
 import Foundation
 
 enum Day: String, Codable, CaseIterable {
-  case all
-  case monday
-  case tuesday
-  case wednesday
-  case thursday
-  case friday
-  case saturday
-  case sunday
+  case all       = "ALL"
+  case monday    = "MON"
+  case tuesday   = "TUE"
+  case wednesday = "WED"
+  case thursday  = "THR"
+  case friday    = "FRI"
+  case saturday  = "SAT"
+  case sunday    = "SUN"
   
   var kor: String {
     switch self {
@@ -27,19 +27,6 @@ enum Day: String, Codable, CaseIterable {
     case .saturday: return "토"
     case .sunday: return "일"
     case .all: return "요일 무관"
-    }
-  }
-  
-  var eng: String {
-    switch self {
-    case .monday: return "MON"
-    case .tuesday: return "TUE"
-    case .wednesday: return "WED"
-    case .thursday: return "THR"
-    case .friday: return "FRI"
-    case .saturday: return "SAT"
-    case .sunday: return "SUN"
-    case .all: return "ALL"
     }
   }
 }

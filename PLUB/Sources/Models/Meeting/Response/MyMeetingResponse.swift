@@ -33,7 +33,7 @@ struct MyPlubbing: Codable {
   /// 모임 만남 날짜
   ///
   /// ["MON", "TUE", "WED", "ALL"]와 같이 대문자 형식의 영문명 앞 세 글자만을 사용합니다.
-  let days: [String]
+  let days: [Day]
   
   enum CodingKeys: String, CodingKey {
     case plubbingID = "plubbingId"

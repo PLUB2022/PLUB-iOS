@@ -31,7 +31,7 @@ struct DetailRecruitmentResponse: Codable {
   let mainImage: String?
   
   /// 플러빙 모임 요일
-  let days: [String]
+  let days: [Day]
   
   /// 플러빙 모임 시간
   ///
@@ -83,7 +83,7 @@ struct DetailRecruitmentResponse: Codable {
     name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
     goal = try values.decodeIfPresent(String.self, forKey: .goal) ?? ""
     mainImage = try values.decodeIfPresent(String.self, forKey: .mainImage)
-    days = try values.decodeIfPresent([String].self, forKey: .days) ?? []
+    days = try values.decodeIfPresent([Day].self, forKey: .days) ?? []
     time = try values.decodeIfPresent(String.self, forKey: .time) ?? ""
     address = try values.decodeIfPresent(String.self, forKey: .address) ?? ""
     roadAddress = try values.decodeIfPresent(String.self, forKey: .roadAddress) ?? ""

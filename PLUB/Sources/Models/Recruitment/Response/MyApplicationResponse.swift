@@ -37,7 +37,7 @@ struct PlubbingInfo: Codable {
   let name: String
   
   /// 플러빙 모임 요일 리스트
-  let days: [String]
+  let days: [Day]
   
   /// 플러빙 모임 주소
   let address: String?

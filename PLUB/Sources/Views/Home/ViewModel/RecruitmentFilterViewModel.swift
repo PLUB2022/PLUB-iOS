@@ -52,7 +52,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     let subCategoryCount = BehaviorRelay<Int>(value: 0)
     let dayCount = BehaviorRelay<Int>(value: 0)
     let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
-    let confirmDay = BehaviorRelay<[String]>(value: [])
+    let confirmDay = BehaviorRelay<[Day]>(value: [])
     let filterConfirming = PublishSubject<Void>()
     let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
      
@@ -107,13 +107,13 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
       deselectingDay.withLatestFrom(dayCount) { ($0, $1) }
         .map { ($0, $1 - 1) }
     )
-    .subscribe(onNext: { (day, count) in
+    .subscribe(onNext: { day, count in
       var list = confirmDay.value
-      if list.contains(day.eng) {
-        let filterList = list.filter { $0 != day.eng }
+      if list.contains(day) {
+        let filterList = list.filter { $0 != day }
         confirmDay.accept(filterList)
       } else {
-        list.append(day.eng)
+        list.append(day)
         confirmDay.accept(list)
       }
       dayCount.accept(count)
