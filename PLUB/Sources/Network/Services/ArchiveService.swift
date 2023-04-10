@@ -23,7 +23,7 @@ extension ArchiveService {
   /// - Parameters:
   ///   - plubbingID: 플러빙 ID
   ///   - model: 아카이브 요청 모델
-  func createArchive(plubbingID: Int, model: CreateArchiveRequest) -> Observable<CreateArchiveResponse> {
+  func createArchive(plubbingID: Int, model: ArchiveRequest) -> Observable<CreateArchiveResponse> {
     sendObservableRequest(
       ArchiveRouter.createArchive(
         plubbingID: plubbingID,
@@ -53,7 +53,7 @@ extension ArchiveService {
   ///   - plubbingID: 플럽 모임 ID
   ///   - archiveID: 아카이브 ID
   ///   - model: 아카이브 요청 모델
-  func updateArchive(plubbingID: Int, archiveID: Int, model: CreateArchiveRequest) -> Observable<FetchArchiveResponse> {
+  func updateArchive(plubbingID: Int, archiveID: Int, model: ArchiveRequest) -> Observable<FetchArchiveResponse> {
     sendObservableRequest(
       ArchiveRouter.updateArchive(
         plubbingID: plubbingID,

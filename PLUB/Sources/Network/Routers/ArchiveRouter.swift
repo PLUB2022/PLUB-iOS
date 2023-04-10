@@ -8,10 +8,10 @@
 import Alamofire
 
 enum ArchiveRouter {
-  case createArchive(plubbingID: Int, model: CreateArchiveRequest)
+  case createArchive(plubbingID: Int, model: ArchiveRequest)
   case fetchArchives(plubbingID: Int, cursorID: Int)
   case fetchArchiveDetails(plubbingID: Int, archiveID: Int)
-  case updateArchive(plubbingID: Int, archiveID: Int, model: CreateArchiveRequest)
+  case updateArchive(plubbingID: Int, archiveID: Int, model: ArchiveRequest)
   case deleteArchive(plubbingID: Int, archiveID: Int)
 }
 

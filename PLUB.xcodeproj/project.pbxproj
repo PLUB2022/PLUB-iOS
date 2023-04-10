@@ -155,7 +155,7 @@
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
 		BA5D9ECF29E3E9A300F06AB5 /* ArchiveRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */; };
 		BA5D9ED029E3E9A300F06AB5 /* ArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECE29E3E9A300F06AB5 /* ArchiveService.swift */; };
-		BA5D9ED529E3EE7400F06AB5 /* CreateArchiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED429E3EE7400F06AB5 /* CreateArchiveRequest.swift */; };
+		BA5D9ED529E3EE7400F06AB5 /* ArchiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED429E3EE7400F06AB5 /* ArchiveRequest.swift */; };
 		BA5D9ED729E3EECA00F06AB5 /* CreateArchiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED629E3EECA00F06AB5 /* CreateArchiveResponse.swift */; };
 		BA5D9ED929E3F16900F06AB5 /* FetchArchiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED829E3F16900F06AB5 /* FetchArchiveResponse.swift */; };
 		BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5DEB2F2974D8E200650788 /* NetworkResult.swift */; };
@@ -504,7 +504,7 @@
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
 		BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRouter.swift; sourceTree = "<group>"; };
 		BA5D9ECE29E3E9A300F06AB5 /* ArchiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveService.swift; sourceTree = "<group>"; };
-		BA5D9ED429E3EE7400F06AB5 /* CreateArchiveRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateArchiveRequest.swift; sourceTree = "<group>"; };
+		BA5D9ED429E3EE7400F06AB5 /* ArchiveRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRequest.swift; sourceTree = "<group>"; };
 		BA5D9ED629E3EECA00F06AB5 /* CreateArchiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateArchiveResponse.swift; sourceTree = "<group>"; };
 		BA5D9ED829E3F16900F06AB5 /* FetchArchiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchArchiveResponse.swift; sourceTree = "<group>"; };
 		BA5DEB2F2974D8E200650788 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
@@ -1232,7 +1232,7 @@
 		BA5D9ED229E3EE5100F06AB5 /* Request */ = {
 			isa = PBXGroup;
 			children = (
-				BA5D9ED429E3EE7400F06AB5 /* CreateArchiveRequest.swift */,
+				BA5D9ED429E3EE7400F06AB5 /* ArchiveRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -2181,7 +2181,7 @@
 				C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */,
 				BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */,
 				70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */,
-				BA5D9ED529E3EE7400F06AB5 /* CreateArchiveRequest.swift in Sources */,
+				BA5D9ED529E3EE7400F06AB5 /* ArchiveRequest.swift in Sources */,
 				7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */,
 				C3B3435429BE3A1400935B73 /* MyPageRouter.swift in Sources */,
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
