@@ -22,7 +22,7 @@ extension CategoryService {
     return sendRequest(CategoryRouter.inquireAll, type: AllCategoryListResponse.self)
   }
   
-  func inquireSubCategoryList(categoryId: Int) -> PLUBResult<SubCategoryListResponse> {
-    return sendRequest(CategoryRouter.inquireSubCategoryList(categoryId), type: SubCategoryListResponse.self)
+  func inquireSubCategoryList(categoryID: Int) -> PLUBResult<SubCategoryListResponse> {
+    return sendRequest(CategoryRouter.inquireSubCategoryList(categoryID), type: SubCategoryListResponse.self)
   }
 }
