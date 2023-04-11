@@ -72,7 +72,8 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
         categoryInfoListModel: .init(
           placeName: response.placeName,
           peopleCount: response.remainAccountNum,
-          dateTime: "")
+          dateTime: response.days.map(\.kor).joined(separator: ",")
+        )
       )
     }
     .asDriver(onErrorDriveWith: .empty())
