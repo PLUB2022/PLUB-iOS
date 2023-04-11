@@ -19,7 +19,7 @@ final class MeetingInfoViewModel {
   let dateCellData: BehaviorRelay<[MeetingDateCollectionViewCellModel]>
   
   // Input
-  let dateInputRelay = BehaviorRelay<[String]>.init(value: .init())
+  let dateInputRelay = BehaviorRelay<[Day]>.init(value: .init())
   let onOffInputRelay = BehaviorRelay<MeetType>.init(value: .online)
   let locationInputRelay = BehaviorRelay<Location?>.init(value: nil)
   let peopleNumberRelay = BehaviorRelay<Int>.init(value: .init())
@@ -34,7 +34,6 @@ final class MeetingInfoViewModel {
     self.plubbingID = plubbingID
     
     let dateList = Day.allCases
-      .map { $0.kor }
       .map {
         MeetingDateCollectionViewCellModel(
           date: $0,
@@ -80,7 +79,7 @@ final class MeetingInfoViewModel {
     onOffInputRelay.accept(data.address.isEmpty ? .online : .offline)
     peopleNumberRelay.accept(data.curAccountNum + data.remainAccountNum)
     
-    let dates = data.days.map { $0.fromKORToENG() }
+    let dates = data.days
     dateInputRelay.accept(dates)
     
     let cellDatas = dateCellData.value
@@ -88,7 +87,7 @@ final class MeetingInfoViewModel {
       cellDatas.map {
         MeetingDateCollectionViewCellModel(
           date: $0.date,
-          isSelected: dates.contains($0.date.fromKORToENG())
+          isSelected: dates.contains($0.date)
         )
       }
     )
@@ -112,7 +111,7 @@ final class MeetingInfoViewModel {
     let cellDatas = dateCellData.value // collectionView 셀 데이터 (date: 요일, isSelected: 선택 여부)
     
     if data.isSelected { // CASE 1) 선택 해제
-      dateInputRelay.accept(dates.filter { $0 != data.date.fromKORToENG() }) // 선택된 요일 값 삭제
+      dateInputRelay.accept(dates.filter { $0 != data.date }) // 선택된 요일 값 삭제
       dateCellData.accept(
         cellDatas.map {
           MeetingDateCollectionViewCellModel(
@@ -122,20 +121,20 @@ final class MeetingInfoViewModel {
         }
       )
     }
-    else if data.date == Day.all.kor { // CASE 2) 요일 무관 선택
-      dateInputRelay.accept([data.date.fromKORToENG()]) // "요일 무관"만 존재
+    else if data.date == Day.all { // CASE 2) 요일 무관 선택
+      dateInputRelay.accept([data.date]) // "요일 무관"만 존재
       dateCellData.accept(
         cellDatas.map {
           MeetingDateCollectionViewCellModel(
             date: $0.date,
-            isSelected: $0.date == Day.all.kor ? true : false // "요일 무관"만 isSelected true, 나머지는 false로 변경
+            isSelected: $0.date == .all ? true : false // "요일 무관"만 isSelected true, 나머지는 false로 변경
           )
         }
       )
     }
     else { // CASE 3) 요일 무관 제외한 요일 선택
-      var filterDates = dates.filter { $0 != Day.all.eng } // "요일 무관" 삭제하고,
-      filterDates.append(data.date.fromKORToENG()) // 선택된 요일 값 추가
+      var filterDates = dates.filter { $0 != .all } // "요일 무관" 삭제하고,
+      filterDates.append(data.date) // 선택된 요일 값 추가
       dateInputRelay.accept(filterDates)
       
       dateCellData.accept(
@@ -143,7 +142,7 @@ final class MeetingInfoViewModel {
           return MeetingDateCollectionViewCellModel(
             date: $0.date,
             isSelected: {
-              if $0.date == Day.all.kor { // "요일 무관"은 isSelected false
+              if $0.date == .all { // "요일 무관"은 isSelected false
                 return false
               } else if $0.date == data.date { // 선택된 요일은 isSelected true
                 return true

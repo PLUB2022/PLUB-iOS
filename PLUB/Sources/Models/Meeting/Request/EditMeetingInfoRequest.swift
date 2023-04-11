@@ -12,7 +12,7 @@ struct EditMeetingInfoRequest: Codable {
   /// 요일
   ///
   /// [MON, TUE, WED, THR, FRI, SAT, SUN, ALL] 형태로 처리됩니다.
-  var days: [String]
+  var days: [Day]
   
   /// 온/오프라인
   var onOff: MeetType
@@ -42,7 +42,7 @@ struct EditMeetingInfoRequest: Codable {
   }
   
   init(
-    days: [String],
+    days: [Day],
     onOff: MeetType,
     peopleNumber: Int,
     address: String? = nil,

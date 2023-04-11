@@ -212,7 +212,7 @@ final class MeetingCollectionViewCell: UICollectionViewCell {
     goalLabel.text = plubbing.goal
     
     dateLabel.text = plubbing.days
-      .map{ $0.fromENGToKOR() }
+      .map{ $0.kor }
       .joined(separator: " ,")
     
     dimmedView.isHidden = !data.isDimmed

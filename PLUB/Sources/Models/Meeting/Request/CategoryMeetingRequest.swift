@@ -14,7 +14,7 @@ struct CategoryMeetingRequest: Codable {
   ///
   /// ["MON", "TUE", "WED"]와 같이 대문자 형식의 영문명 앞 세 글자만을 사용합니다.
   /// 만약 요일무관인 경우 해당 값은 nil로 처리됩니다.
-  let days: [String]?
+  let days: [Day]?
   
   /// 필터링할 상세 카테고리 Identifier
   ///

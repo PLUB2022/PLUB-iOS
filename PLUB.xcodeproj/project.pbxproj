@@ -70,7 +70,6 @@
 		7095A585292B566C002A52E6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7095A584292B566C002A52E6 /* Kingfisher */; };
 		7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A589292E58F9002A52E6 /* ToggleButton.swift */; };
 		7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */; };
-		70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4207F2982ED9C0026E9F9 /* Ex+String.swift */; };
 		70A420832982F0360026E9F9 /* SearchInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420822982F0360026E9F9 /* SearchInputViewController.swift */; };
 		70A420862982F0920026E9F9 /* SearchAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420852982F0920026E9F9 /* SearchAlertView.swift */; };
 		70A4208B298535D10026E9F9 /* SearchInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */; };
@@ -153,6 +152,7 @@
 		BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778228EECDC50036B825 /* Pretendard-Regular.otf */; };
 		BA52778C28EECDC50036B825 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778328EECDC50036B825 /* Pretendard-Light.otf */; };
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
+		BA5D9EDB29E406AD00F06AB5 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9EDA29E406AD00F06AB5 /* Day.swift */; };
 		BA5D9ECF29E3E9A300F06AB5 /* ArchiveRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */; };
 		BA5D9ED029E3E9A300F06AB5 /* ArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECE29E3E9A300F06AB5 /* ArchiveService.swift */; };
 		BA5D9ED529E3EE7400F06AB5 /* ArchiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED429E3EE7400F06AB5 /* ArchiveRequest.swift */; };
@@ -426,7 +426,6 @@
 		708567CD28F3F00F008047DC /* RegisterInterestHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestHeaderView.swift; sourceTree = "<group>"; };
 		7095A589292E58F9002A52E6 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7095A58B292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestTypeCollectionViewCell.swift; sourceTree = "<group>"; };
-		70A4207F2982ED9C0026E9F9 /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
 		70A420822982F0360026E9F9 /* SearchInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputViewController.swift; sourceTree = "<group>"; };
 		70A420852982F0920026E9F9 /* SearchAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlertView.swift; sourceTree = "<group>"; };
 		70A4208A298535D10026E9F9 /* SearchInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputViewModel.swift; sourceTree = "<group>"; };
@@ -506,6 +505,7 @@
 		BA52778228EECDC50036B825 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		BA52778328EECDC50036B825 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
+		BA5D9EDA29E406AD00F06AB5 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRouter.swift; sourceTree = "<group>"; };
 		BA5D9ECE29E3E9A300F06AB5 /* ArchiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveService.swift; sourceTree = "<group>"; };
 		BA5D9ED429E3EE7400F06AB5 /* ArchiveRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRequest.swift; sourceTree = "<group>"; };
@@ -1142,6 +1142,7 @@
 				BA1FC12829A5FD3C00AB3F91 /* PaginatedDataResponse.swift */,
 				BA3D300829DDB9CC00B56E98 /* Sex.swift */,
 				BA3D300629DDB9B900B56E98 /* SocialType.swift */,
+				BA5D9EDA29E406AD00F06AB5 /* Day.swift */,
 			);
 			path = GeneralModels;
 			sourceTree = "<group>";
@@ -1204,7 +1205,6 @@
 				BA52778F28EECEB40036B825 /* Ex+UIFont.swift */,
 				C36D337C2975ADD800943B11 /* Ex+CALayer.swift */,
 				C38A5BA8297C60A000485355 /* Ex+UILabel.swift */,
-				70A4207F2982ED9C0026E9F9 /* Ex+String.swift */,
 				C383968029A26480005998A5 /* Ex+UIResponder.swift */,
 				70727A2029BF8F2A003DE956 /* Ex+Date.swift */,
 				C307826729CF5D9700E1D44B /* Ex+UIImage.swift */,
@@ -2181,6 +2181,7 @@
 				C38D6566298852F80052013F /* PaddingLabel.swift in Sources */,
 				70197B7B29549B6A000503F6 /* SelectedCategoryChartCollectionViewCell.swift in Sources */,
 				70A4209C2988B1DC0026E9F9 /* SortControl.swift in Sources */,
+				BA5D9EDB29E406AD00F06AB5 /* Day.swift in Sources */,
 				70A420A7298D0F140026E9F9 /* RecentSearchListCollectionViewCell.swift in Sources */,
 				C3E0390A29C2125700C4744C /* InquireApplicantResponse.swift in Sources */,
 				C3B3435629BE3A2200935B73 /* MyPageService.swift in Sources */,
@@ -2364,7 +2365,6 @@
 				70197B7029535BDA000503F6 /* RegisterInterestViewModel.swift in Sources */,
 				BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */,
 				C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */,
-				70A420802982ED9C0026E9F9 /* Ex+String.swift in Sources */,
 				C3ED8FB92989E13D002F689B /* MeetingSummaryViewModel.swift in Sources */,
 				70BD5F3329648DD9002CBA89 /* ApplyQuestionTableViewCell.swift in Sources */,
 				BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */,

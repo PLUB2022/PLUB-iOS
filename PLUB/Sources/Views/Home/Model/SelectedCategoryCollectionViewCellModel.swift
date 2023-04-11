@@ -27,10 +27,10 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
       placeName: content.placeName,
       peopleCount: content.remainAccountNum,
       dateTime: content.days
-      .map { $0.fromENGToKOR() }
-      .joined(separator: ",")
-    + " | "
-    + "(data.time)")
+        .map { $0.kor }
+        .joined(separator: ",")
+      + " | "
+      + "(data.time)")
   }
   
   init(content: CategoryContent) {
@@ -44,9 +44,9 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
       placeName: content.placeName,
       peopleCount: content.remainAccountNum,
       dateTime: content.days
-      .map { $0.fromENGToKOR() }
-      .joined(separator: ",")
-    + " | "
-    + "(data.time)")
+        .map { $0.kor }
+        .joined(separator: ",")
+      + " | "
+      + "(data.time)")
   }
 }
