@@ -31,6 +31,7 @@ enum MeetingScheduleType: String, CaseIterable {
 }
 
 final class CreateScheduleViewController: BaseViewController {
+  weak var delegate: MeetingScheduleDelegate?
   private let viewModel: CreateScheduleViewModel
   
   private let scrollView = UIScrollView().then {
@@ -106,8 +107,8 @@ final class CreateScheduleViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private let registerButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "일정 등록")
+  private lazy var registerButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: viewModel.calendarID == nil ? "일정 등록" : "일정 수정")
     $0.isEnabled = false
   }
   
@@ -120,8 +121,8 @@ final class CreateScheduleViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  init(plubbingID: Int) {
-    viewModel = CreateScheduleViewModel(plubbingID: plubbingID)
+  init(viewModel: CreateScheduleViewModel) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -264,7 +265,11 @@ final class CreateScheduleViewController: BaseViewController {
     registerButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.viewModel.createSchedule()
+        if let _ = owner.viewModel.calendarID {
+          owner.viewModel.editSchedule()
+        } else {
+          owner.viewModel.createSchedule()
+        }
       }
       .disposed(by: disposeBag)
     
@@ -274,6 +279,7 @@ final class CreateScheduleViewController: BaseViewController {
     
     viewModel.successResult
       .drive(with: self) { owner, _ in
+        owner.delegate?.refreshScheduleData()
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
@@ -282,6 +288,12 @@ final class CreateScheduleViewController: BaseViewController {
       .asDriver()
       .drive(with: self) { owner, _ in
         owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.setupPrevSchedule
+      .drive(with: self) { owner, schedule in
+        owner.setupPrevSchedule(schedule: schedule)
       }
       .disposed(by: disposeBag)
     
@@ -355,6 +367,32 @@ final class CreateScheduleViewController: BaseViewController {
       startDatePicker.datePickerMode = .dateAndTime
       endDatePicker.datePickerMode = .dateAndTime
     }
+  }
+  
+  private func setupPrevSchedule(schedule: Schedule) {
+    titleTextField.text = schedule.title
+    if !schedule.memo.isEmpty {
+      memoTextView.text = schedule.memo
+      memoTextView.textColor = .black
+    }
+    
+    allDaySwitch.isOn = schedule.isAllDay
+    changeDatePickerMode(with: schedule.isAllDay)
+    
+    let date = DateFormatter().then {
+      $0.dateFormat = "yyyy-MM-dd hh:mm"
+      $0.locale = Locale(identifier: "ko_KR")
+    }
+    
+    startDatePicker.date = date.date(from: schedule.startDay + " " + schedule.startTime) ?? Date()
+    endDatePicker.date = date.date(from: schedule.endDay + " " + schedule.endTime) ?? Date()
+    
+    if let placeName = schedule.placeName, !placeName.isEmpty {
+      locationButton.configuration?.baseForegroundColor = .black
+      locationButton.configuration?.title = placeName
+      locationButton.configuration?.font = UIFont.appFont(family: .pretendard(option: .regular), size: 14)
+    }
+    scheduleAlarmView.setupAlarmText(with: schedule.alarmType)
   }
 }
 

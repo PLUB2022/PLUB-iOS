@@ -36,13 +36,16 @@ struct Schedule: Codable {
   let startTime: String
   let endTime: String
   let isAllDay: Bool
+  let isAuthor: Bool
+  let isEditable: Bool
   let address: String?
   let roadAddress: String?
   let placeName: String?
   let participantList: ParticipantList?
+  let alarmType: ScheduleAlarmType
   
   enum CodingKeys: String, CodingKey {
-    case title, memo, startTime, endTime, isAllDay, address, roadAddress, placeName
+    case title, memo, startTime, endTime, isAllDay, address, roadAddress, placeName, alarmType, isAuthor, isEditable
     case scheduleID = "calendarId"
     case startDay = "startedAt"
     case endDay = "endedAt"

@@ -16,12 +16,12 @@ enum ParticipantListType: CaseIterable {
   case multiLine
 }
 
-protocol ScheduleParticipantDelegate: AnyObject {
-  func updateAttendStatus()
+protocol MeetingScheduleDelegate: AnyObject {
+  func refreshScheduleData()
 }
 
 final class ScheduleParticipantViewController: BottomSheetViewController {
-  weak var delegate: ScheduleParticipantDelegate?
+  weak var delegate: MeetingScheduleDelegate?
   private let viewModel: ScheduleParticipantViewModel
   private let data: ScheduleTableViewCellModel
   private var participantListType: ParticipantListType = .oneLine
@@ -118,7 +118,7 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
     
     participantCollectionView.snp.makeConstraints {
       $0.top.equalTo(topScheduleView.snp.bottom).offset(16)
-      $0.height.equalTo(40)
+      $0.height.equalTo(data.participants.isEmpty ? 0 : 40)
       $0.leading.trailing.equalToSuperview().inset(16)
     }
     
@@ -152,7 +152,7 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
     
     viewModel.successResult
       .drive(with: self) { owner, _ in
-        owner.delegate?.updateAttendStatus()
+        owner.delegate?.refreshScheduleData()
         owner.dismiss(animated: false)
       }
       .disposed(by: disposeBag)

@@ -29,15 +29,24 @@ final class MeetingScheduleViewModel {
   private let disposeBag = DisposeBag()
   private(set) var plubbingID: Int
   private(set) var cursorID: Int?
+  private let pagingManager = PagingManager<Schedule>(threshold: 700)
+  
+  // Input
+  let offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)>
   
   // Output
   let scheduleList: Driver<[MeetingScheduleData]>
   
   private let scheduleListRelay = BehaviorRelay<[MeetingScheduleData]>(value: [])
+  let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   
   init(plubbingID: Int) {
     self.plubbingID = plubbingID
     scheduleList = scheduleListRelay.asDriver()
+
+    offsetObserver = bottomCellSubject.asObserver()
+    
+    pagingSetup(plubbingID: plubbingID, offsetObservable: bottomCellSubject.asObservable())
   }
   
   func dataSource() -> RxTableViewSectionedReloadDataSource<MeetingScheduleData> {
@@ -59,26 +68,54 @@ final class MeetingScheduleViewModel {
   }
   
   func fetchScheduleList() {
-    ScheduleService.shared
-      .inquireScheduleList(
-        plubbingID: plubbingID,
-        cursorID: cursorID
-      )
-      .withUnretained(self)
-      .subscribe(onNext: { owner, result in
-        switch result {
-        case .success(let model):
-          guard let data = model.data else { return }
-          owner.handleScheduleList(data: data.scheduleList.schedules)
-        default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
+    pagingManager.refreshPagingData()
+     pagingManager.fetchNextPage {  _ in
+       ScheduleService.shared
+         .inquireScheduleList(
+          plubbingID: self.plubbingID,
+          cursorID: 0
+         )
+        .map { data -> (content: [Schedule], nextCursorID: Int, isLast: Bool) in
+          return (content: data.scheduleList.schedules, nextCursorID: data.scheduleList.schedules.last?.scheduleID ?? 0, isLast: data.scheduleList.isLast)
         }
-      })
+    }
+     .subscribe(with: self) { owner, content in
+       owner.handleScheduleList(data: content, isFirst: true)
+     }
+     .disposed(by: disposeBag)
+  }
+  
+  private func pagingSetup(
+    plubbingID: Int,
+    offsetObservable: Observable<(collectionViewHeight: CGFloat, offset: CGFloat)>
+  ) {
+    offsetObservable
+      .filter { [weak self] in // pagingManager에게 fetching 가능한지 요청
+        guard let self else { return false }
+        return self.pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
+      }
+      .flatMap { [weak self] _ -> Observable<[Schedule]> in
+        guard let self else { return .empty() }
+        return self.pagingManager.fetchNextPage { cursorID in
+          ScheduleService.shared
+            .inquireScheduleList(
+              plubbingID: plubbingID,
+              cursorID: cursorID
+            )
+            .map { data -> (content: [Schedule], nextCursorID: Int, isLast: Bool) in
+              return (content: data.scheduleList.schedules, nextCursorID: data.scheduleList.schedules.last?.scheduleID ?? 0, isLast: data.scheduleList.isLast)
+            }
+        }
+      }
+      .subscribe(with: self) { owner, content in
+        owner.handleScheduleList(data: content)
+      }
       .disposed(by: disposeBag)
   }
   
-  private func handleScheduleList(data: [Schedule]) {
+  private func handleScheduleList(data: [Schedule], isFirst: Bool = false) {
     
-    var oldData = cursorID == nil ? [] : scheduleListRelay.value
+    var oldData = isFirst ? [] : scheduleListRelay.value
     
     data.forEach { schedule in
       let dateFormatter = DateFormatter().then {
@@ -171,6 +208,28 @@ final class MeetingScheduleViewModel {
       $0.dateFormat = "a h시 m분"
       $0.locale = Locale(identifier: "ko_KR")
     }.string(from: date)
+  }
+  
+  func getCellScheduleID(_ indexPath: IndexPath) -> Int? {
+    let data = scheduleListRelay.value
+    guard let section = data[safe: indexPath.section],
+          let row = section.items[safe: indexPath.row] else { return nil}
+    return row.calendarID
+  }
+  
+  func deleteSchedule(calendarID: Int) {
+    ScheduleService.shared
+      .deleteSchedule(plubbingID: plubbingID, calendarID: calendarID)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, _ in
+        let value = owner.scheduleListRelay.value
+        let newValue = value.compactMap { sectionData in
+          let newItems = sectionData.items.filter { $0.calendarID != calendarID }
+          return newItems.isEmpty ? nil : MeetingScheduleData(header: sectionData.header, items: newItems)
+        }
+        owner.scheduleListRelay.accept(newValue)
+      })
+      .disposed(by: disposeBag)
   }
 }
 

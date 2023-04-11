@@ -32,6 +32,9 @@ final class UserManager {
   @KeyChainWrapper<String>(key: "refreshToken")
   private(set) var refreshToken
   
+  @KeyChainWrapper<String>(key: "fcmToken")
+  private(set) var fcmToken
+  
   // MARK: - Social Login Type
   
   @UserDefaultsWrapper<SocialType>(key: "socialType")
@@ -61,6 +64,11 @@ extension UserManager {
     self.signToken = signToken
   }
   
+  /// 플럽 푸시 알림에 필요한 `firebase cloud messaging Token`을 세팅합니다.
+  func set(fcmToken: String) {
+    self.fcmToken = fcmToken
+  }
+  
   /// 소셜로그인 타입을 세팅합니다.
   /// - Parameter socialType: 소셜로그인 타입(애플, 구글, 카카오)
   func set(socialType: SocialType) {
@@ -77,6 +85,7 @@ extension UserManager {
     accessToken = nil
     refreshToken = nil
     signToken = nil
+    fcmToken = nil
     socialType = nil
   }
   

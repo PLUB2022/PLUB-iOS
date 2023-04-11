@@ -23,7 +23,14 @@ extension AuthService {
     authorizationCode: String?
   ) -> PLUBResult<SignInResponse> {
     return sendRequest(
-      AuthRouter.socialLogin(SignInRequest(accessToken: token, authorizationCode: authorizationCode, socialType: socialType)),
+      AuthRouter.socialLogin(
+        SignInRequest(
+          fcmToken: UserManager.shared.fcmToken!,
+          accessToken: token,
+          authorizationCode: authorizationCode,
+          socialType: socialType
+        )
+      ),
       type: SignInResponse.self
     )
   }
