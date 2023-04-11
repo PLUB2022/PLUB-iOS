@@ -118,7 +118,7 @@ final class ScheduleParticipantViewController: BottomSheetViewController {
     
     participantCollectionView.snp.makeConstraints {
       $0.top.equalTo(topScheduleView.snp.bottom).offset(16)
-      $0.height.equalTo(40)
+      $0.height.equalTo(data.participants.isEmpty ? 0 : 40)
       $0.leading.trailing.equalToSuperview().inset(16)
     }
     
