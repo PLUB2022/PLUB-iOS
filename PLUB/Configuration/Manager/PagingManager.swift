@@ -29,6 +29,13 @@ final class PagingManager<T> {
     self.threshold = threshold
   }
   
+  /// 페이징 관련 변수들을 초기화해줍니다.
+  func refreshPagingData() {
+    isFetching = false
+    isLast = false
+    nextCursorID = 0
+  }
+  
   /// 다음 페이지를 가져올지 여부를 결정합니다.
   ///
   /// - Parameters:

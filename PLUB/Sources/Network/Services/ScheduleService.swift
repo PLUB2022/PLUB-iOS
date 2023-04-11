@@ -21,11 +21,8 @@ extension ScheduleService {
     )
   }
   
-  func inquireScheduleList(plubbingID: Int, cursorID: Int?) -> PLUBResult<ScheduleListResponse> {
-    return sendRequest(
-      ScheduleRouter.inquireScheduleList(plubbingID, cursorID),
-      type: ScheduleListResponse.self
-    )
+  func inquireScheduleList(plubbingID: Int, cursorID: Int?) -> Observable<ScheduleListResponse>  {
+    sendObservableRequest(ScheduleRouter.inquireScheduleList(plubbingID, cursorID))
   }
   
   func attendSchedule(
@@ -37,5 +34,27 @@ extension ScheduleService {
       ScheduleRouter.attendSchedule(plubbingID, calendarID, request),
       type: AttendScheduleResponse.self
     )
+  }
+  
+  func inquireScheduleDetail(
+    plubbingID: Int,
+    calendarID: Int
+  ) -> Observable<Schedule>  {
+    sendObservableRequest(ScheduleRouter.inquireScheduleDetail(plubbingID, calendarID))
+  }
+  
+  func editSchedule(
+    plubbingID: Int,
+    calendarID: Int,
+    request: CreateScheduleRequest
+  ) -> Observable<CreateScheduleResponse>  {
+    sendObservableRequest(ScheduleRouter.editSchedule(plubbingID, calendarID, request))
+  }
+  
+  func deleteSchedule(
+    plubbingID: Int,
+    calendarID: Int
+  ) -> Observable<EmptyModel>  {
+    sendObservableRequest(ScheduleRouter.deleteSchedule(plubbingID, calendarID))
   }
 }

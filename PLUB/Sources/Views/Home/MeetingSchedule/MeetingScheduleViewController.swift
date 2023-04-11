@@ -41,7 +41,6 @@ final class MeetingScheduleViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    viewModel.fetchScheduleList()
   }
   
   override func setupLayouts() {
@@ -68,6 +67,8 @@ final class MeetingScheduleViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     setupNavigationBar()
+    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+    tableView.addGestureRecognizer(longPressGesture)
   }
   
   override func bind() {
@@ -77,16 +78,17 @@ final class MeetingScheduleViewController: BaseViewController {
       .rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        let vc = CreateScheduleViewController(plubbingID: owner.viewModel.plubbingID)
+        let vc = CreateScheduleViewController(viewModel: CreateScheduleViewModel(plubbingID: owner.viewModel.plubbingID))
+        vc.delegate = owner
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
-    
+
     let datasource = viewModel.dataSource()
     viewModel.scheduleList
       .drive(tableView.rx.items(dataSource: datasource))
       .disposed(by: disposeBag)
-    
+
     tableView.rx.modelSelected(ScheduleTableViewCellModel.self)
       .withUnretained(self)
       .subscribe(onNext: { owner, data in
@@ -94,14 +96,22 @@ final class MeetingScheduleViewController: BaseViewController {
           plubbingID: owner.viewModel.plubbingID,
           data: data
         )
-        vc.delegate = self
+        vc.delegate = owner
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: false)
       })
       .disposed(by: disposeBag)
-    
+
     tableView
       .rx.setDelegate(self)
+      .disposed(by: disposeBag)
+
+    tableView
+      .rx.contentOffset
+      .compactMap { [tableView] offset in
+        return (tableView.contentSize.height, offset.y)
+      }
+      .bind(to: viewModel.offsetObserver)
       .disposed(by: disposeBag)
   }
   
@@ -118,6 +128,17 @@ final class MeetingScheduleViewController: BaseViewController {
   @objc
   private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
+  }
+  
+  @objc
+  func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+    guard gestureRecognizer.state == .began,
+          let indexPath = tableView.indexPathForRow(at: gestureRecognizer.location(in: tableView)),
+          let calendarID = viewModel.getCellScheduleID(indexPath) else { return }
+    let vc = ScheduleBottomSheetViewController(calendarID: calendarID)
+    vc.delegate = self
+    vc.modalPresentationStyle = .overFullScreen
+    present(vc, animated: false)
   }
 }
 
@@ -144,8 +165,25 @@ extension MeetingScheduleViewController: UITableViewDelegate {
   }
 }
 
-extension MeetingScheduleViewController: ScheduleParticipantDelegate {
-  func updateAttendStatus() {
+extension MeetingScheduleViewController: MeetingScheduleDelegate {
+  func refreshScheduleData() {
     viewModel.fetchScheduleList()
+  }
+}
+
+extension MeetingScheduleViewController: ScheduleBottomSheetDelegate {
+  func editSchedule(calendarID: Int) {
+    let vc = CreateScheduleViewController(
+      viewModel: CreateScheduleViewModel(
+        plubbingID: viewModel.plubbingID,
+        calendarID: calendarID
+      )
+    )
+    vc.delegate = self
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
+  func deleteSchedule(calendarID: Int) {
+    viewModel.deleteSchedule(calendarID: calendarID)
   }
 }
