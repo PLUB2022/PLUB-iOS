@@ -33,6 +33,7 @@
 		7028770929AA6B3D00E57509 /* CategoryMeetingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */; };
 		7036A3EB294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */; };
 		704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704AC7942938E800008C3A88 /* RegisterInterestModel.swift */; };
+		705E70BC29E29F6800156B1F /* RecruitmentFilterDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70BB29E29F6800156B1F /* RecruitmentFilterDateCollectionViewCell.swift */; };
 		705F81BF29AF35B700830C4F /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81BE29AF35B700830C4F /* MainPageViewController.swift */; };
 		705F81C129AF8E7300830C4F /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C029AF8E7300830C4F /* MainPageViewModel.swift */; };
 		705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C229AFAA3B00830C4F /* BoardViewController.swift */; };
@@ -59,8 +60,8 @@
 		70727A4529D5E570003DE956 /* TodoAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4429D5E570003DE956 /* TodoAlertView.swift */; };
 		70727A4729D6D507003DE956 /* TodoInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A4629D6D507003DE956 /* TodoInfoView.swift */; };
 		70727ABB29DAA745003DE956 /* SuccessApply.json in Resources */ = {isa = PBXBuildFile; fileRef = 70727ABA29DAA745003DE956 /* SuccessApply.json */; };
-		70727ABF29DE8B82003DE956 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727ABE29DE8B82003DE956 /* CategoryModel.swift */; };
 		70727ABD29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727ABC29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift */; };
+		70727ABF29DE8B82003DE956 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727ABE29DE8B82003DE956 /* CategoryModel.swift */; };
 		7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */; };
 		7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */; };
 		7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */; };
@@ -376,6 +377,7 @@
 		7028770829AA6B3D00E57509 /* CategoryMeetingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeetingRequest.swift; sourceTree = "<group>"; };
 		7036A3EA294E3E810041B8DD /* RegisterInterestDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestDetailTableViewCell.swift; sourceTree = "<group>"; };
 		704AC7942938E800008C3A88 /* RegisterInterestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestModel.swift; sourceTree = "<group>"; };
+		705E70BB29E29F6800156B1F /* RecruitmentFilterDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		705F81BE29AF35B700830C4F /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 		705F81C029AF8E7300830C4F /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
 		705F81C229AFAA3B00830C4F /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
@@ -402,8 +404,8 @@
 		70727A4429D5E570003DE956 /* TodoAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAlertView.swift; sourceTree = "<group>"; };
 		70727A4629D6D507003DE956 /* TodoInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoInfoView.swift; sourceTree = "<group>"; };
 		70727ABA29DAA745003DE956 /* SuccessApply.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessApply.json; sourceTree = "<group>"; };
-		70727ABE29DE8B82003DE956 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		70727ABC29DDD519003DE956 /* SelectedCategoryCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryCollectionViewCellModel.swift; sourceTree = "<group>"; };
+		70727ABE29DE8B82003DE956 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		7085678528EE9A92008047DC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678728EEACFB008047DC /* InterestSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		7085678928EEB73F008047DC /* InterestSelectCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestSelectCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -1010,6 +1012,7 @@
 			children = (
 				70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */,
 				70CF3336299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift */,
+				705E70BB29E29F6800156B1F /* RecruitmentFilterDateCollectionViewCell.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -2249,6 +2252,7 @@
 				70A420A0298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				C384590629B9228200944CB5 /* AttendScheduleRequest.swift in Sources */,
+				705E70BC29E29F6800156B1F /* RecruitmentFilterDateCollectionViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */,
 				C3100CB429BD8980005FCCAD /* MyInfoResponse.swift in Sources */,

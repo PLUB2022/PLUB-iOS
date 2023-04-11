@@ -10,7 +10,6 @@ import RxCocoa
 
 protocol RecruitmentFilterViewModelType {
   // Input
-  var selectCategoryID: AnyObserver<String> { get }
   var isSelectSubCategory: AnyObserver<(Bool, Int)> { get }
   var isSelectDay: AnyObserver<(Bool, Day)> { get }
   var confirmAccountNum: AnyObserver<Int> { get }
@@ -18,6 +17,7 @@ protocol RecruitmentFilterViewModelType {
   
   // Output
   var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> { get }
+  var fetchedDayModel: Signal<[RecruitmentFilterDateCollectionViewCellModel]> { get }
   var isButtonEnabled: Driver<Bool> { get }
   var confirmRequest: Signal<CategoryMeetingRequest> { get }
 }
@@ -27,7 +27,6 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let selectCategoryID: AnyObserver<String> // 어떤 카테고리에 대한 것인지에 대한 ID
   let isSelectSubCategory: AnyObserver<(Bool, Int)> // 세부카테고리 혹은 요일 셀을 선택할때
   let isSelectDay: AnyObserver<(Bool, Day)>
   let filterConfirm: AnyObserver<Void>
@@ -35,12 +34,13 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   
   // Output
   var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> // 선택된 서브카테고리 목록
+  var fetchedDayModel: Signal<[RecruitmentFilterDateCollectionViewCellModel]>
   let isButtonEnabled: Driver<Bool> // 필터버튼 활성화 여부
   let confirmRequest: Signal<CategoryMeetingRequest>
   
-  init() {
-    let selectingCategoryID = PublishSubject<String>()
+  init(categoryID: Int) {
     let selectingSubCategories = BehaviorRelay<[RecruitmentFilterCollectionViewCellModel]>(value: [])
+    let fetchingDayModel = BehaviorRelay<[RecruitmentFilterDateCollectionViewCellModel]>(value: Day.allCases.map { RecruitmentFilterDateCollectionViewCellModel(day: $0) })
     let isSelectingSubCategory = PublishSubject<(Bool, Int)>()
     let isSelectingDay = PublishSubject<(Bool, Day)>()
     let subCategoryCount = BehaviorRelay<Int>(value: 0)
@@ -50,16 +50,14 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     let filterConfirming = PublishSubject<Void>()
     let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
     
-    selectCategoryID = selectingCategoryID.asObserver()
     selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
     isSelectSubCategory = isSelectingSubCategory.asObserver()
     isSelectDay = isSelectingDay.asObserver()
     filterConfirm = filterConfirming.asObserver()
     confirmAccountNum = confirmingAccountNum.asObserver()
     
-    let requestSubCategory = selectingCategoryID
-      .compactMap { Int($0) }
-      .flatMapLatest(CategoryService.shared.inquireSubCategoryList(categoryId: ))
+    
+    let requestSubCategory = CategoryService.shared.inquireSubCategoryList(categoryID: categoryID)
     
     let successRequestSubCategory = requestSubCategory.compactMap { result -> [SubCategory]? in
       guard case .success(let response) = result else { return nil }
@@ -69,7 +67,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     successRequestSubCategory.map { subCategories in
       return subCategories.map { RecruitmentFilterCollectionViewCellModel(subCategory: $0) }
     }
-    .subscribe(onNext: selectingSubCategories.accept)
+    .bind(to: selectingSubCategories)
     .disposed(by: disposeBag)
     
     
@@ -85,7 +83,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
           list.append(subCategoryID)
           confirmSubCategory.accept(list)
         }
-        isSelect ? subCategoryCount.accept(count + 1) : subCategoryCount.accept(count - 1)
+        subCategoryCount.accept(isSelect ? count + 1 : count - 1)
       })
       .disposed(by: disposeBag)
     
@@ -95,14 +93,43 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         let (isSelect, day) = selectInfo
         
         var list = confirmDay.value
-        if list.contains(day.eng) {
+        let fetchList = fetchingDayModel.value
+        if day == .all && isSelect { // 리스트에 해당 요일이 존재하는지 확인하기전에 선택한 요일이 요일무관인지 확인
+          confirmDay.accept([])
+          fetchingDayModel.accept(Day.allCases.map { day in
+            day == .all ? RecruitmentFilterDateCollectionViewCellModel(day: .all, isTapped: true)
+                        : RecruitmentFilterDateCollectionViewCellModel(day: day)
+          })
+        }
+        else if list.contains(day.eng) { // 만약에 필터할 요일리스트에 해당 요일이 존재한다면
           let filterList = list.filter { $0 != day.eng }
+          let fetchList = fetchList.map { model in
+            if model.day == .all {
+              return RecruitmentFilterDateCollectionViewCellModel(day: .all)
+            } else if model.day == day {
+              return RecruitmentFilterDateCollectionViewCellModel(day: day, isTapped: true)
+            }
+            return model
+          }
+          
+          fetchingDayModel.accept(fetchList)
           confirmDay.accept(filterList)
-        } else {
+        }
+        else { // 만약에 필터할 요일리스트에 해당 요일이 존재하지않는다면
+          let fetchList = fetchList.map { model in
+            if model.day == .all {
+              return RecruitmentFilterDateCollectionViewCellModel(day: .all)
+            } else if model.day == day {
+              return RecruitmentFilterDateCollectionViewCellModel(day: day, isTapped: true)
+            }
+            return model
+          }
+          
+          fetchingDayModel.accept(fetchList)
           list.append(day.eng)
           confirmDay.accept(list)
         }
-        isSelect ? dayCount.accept(count + 1) : dayCount.accept(count - 1)
+        dayCount.accept(isSelect ? count + 1 : count - 1)
       })
       .disposed(by: disposeBag)
     
@@ -127,5 +154,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     )
     .map { CategoryMeetingRequest(days: $0, subCategoryIDs: $1, accountNum: $2) }
     .asSignal(onErrorSignalWith: .empty())
+    
+    fetchedDayModel = fetchingDayModel.asSignal(onErrorSignalWith: .empty())
   }
 }
