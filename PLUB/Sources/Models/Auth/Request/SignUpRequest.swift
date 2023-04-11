@@ -11,6 +11,10 @@ import Then
 
 /// 회원가입 요청 모델
 struct SignUpRequest: Codable {
+  
+  /// Firebase Cloud Messaging Token
+  let fcmToken: String
+  
   /// sign token
   var signToken: String
 
@@ -48,6 +52,7 @@ struct SignUpRequest: Codable {
   var marketing: Bool
 
   init() {
+    fcmToken = UserManager.shared.fcmToken!
     signToken = UserManager.shared.signToken!
     categoryList = []
     birthday = ""
@@ -66,6 +71,7 @@ struct SignUpRequest: Codable {
 
 extension SignUpRequest {
   enum CodingKeys: String, CodingKey {
+    case fcmToken
     case signToken
     case categoryList
     case profileImageLink = "profileImage"
