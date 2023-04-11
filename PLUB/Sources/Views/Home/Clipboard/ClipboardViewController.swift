@@ -99,7 +99,14 @@ final class ClipboardViewController: BaseViewController {
     collectionView.rx.modelSelected(FeedsContent.self)
       .subscribe(with: self) { owner, model in
         owner.navigationController?.pushViewController(
-          BoardDetailViewController(viewModel: BoardDetailViewModel(plubbingID: model.plubbingID!, content: model.toBoardModel)),
+          BoardDetailViewController(
+            viewModel: BoardDetailViewModel(
+              plubbingID: model.plubbingID!,
+              content: model.toBoardModel,
+              getCommentsUseCase: DefaultGetCommentsUseCase(),
+              postCommentUseCase: DefaultPostCommentUseCase()
+            )
+          ),
           animated: true
         )
       }
