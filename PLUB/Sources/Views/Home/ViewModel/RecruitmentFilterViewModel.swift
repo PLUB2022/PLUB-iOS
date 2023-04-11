@@ -43,8 +43,6 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     let fetchingDayModel = BehaviorRelay<[RecruitmentFilterDateCollectionViewCellModel]>(value: Day.allCases.map { RecruitmentFilterDateCollectionViewCellModel(day: $0) })
     let isSelectingSubCategory = PublishSubject<(Bool, Int)>()
     let isSelectingDay = PublishSubject<(Bool, Day)>()
-    let subCategoryCount = BehaviorRelay<Int>(value: 0)
-    let dayCount = BehaviorRelay<Int>(value: 0)
     let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
     let confirmDay = BehaviorRelay<[String]>(value: [])
     let filterConfirming = PublishSubject<Void>()
@@ -72,8 +70,8 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     
     
     // 서브카테고리를 선택함에 따른 동작
-    isSelectingSubCategory.withLatestFrom(subCategoryCount) { ($0, $1) }
-      .subscribe(onNext: { (subCategoryInfo, count) in
+    isSelectingSubCategory
+      .subscribe(onNext: { subCategoryInfo in
         let (isSelect, subCategoryID) = subCategoryInfo
         var list = confirmSubCategory.value
         if list.contains(subCategoryID) {
@@ -83,13 +81,12 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
           list.append(subCategoryID)
           confirmSubCategory.accept(list)
         }
-        subCategoryCount.accept(isSelect ? count + 1 : count - 1)
       })
       .disposed(by: disposeBag)
     
     // 요일을 선택함에 따른 동작
-    isSelectingDay.withLatestFrom(dayCount) { ($0, $1) }
-      .subscribe(onNext: { (selectInfo, count) in
+    isSelectingDay
+      .subscribe(onNext: { selectInfo in
         let (isSelect, day) = selectInfo
         
         var list = confirmDay.value
@@ -129,7 +126,6 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
           list.append(day.eng)
           confirmDay.accept(list)
         }
-        dayCount.accept(isSelect ? count + 1 : count - 1)
       })
       .disposed(by: disposeBag)
     
@@ -137,11 +133,11 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
     
     isButtonEnabled = Observable.combineLatest(
-      subCategoryCount,
-      dayCount
+      selectingSubCategories,
+      fetchingDayModel
     )
-    { subCategoryCnt, dayCnt -> Bool in
-      return subCategoryCnt != 0 && dayCnt != 0
+    { subCategories, days -> Bool in
+      return subCategories.filter { $0.isTapped }.count > 0 && days.filter { $0.isTapped }.count > 0
     }
     .asDriver(onErrorDriveWith: .empty())
     
