@@ -44,6 +44,12 @@ final class RecruitmentFilterViewController: BaseViewController {
     }
   }
   
+  private var filterDays: [RecruitmentFilterDateCollectionViewCellModel] = [] {
+    didSet {
+      filterCollectionView.reloadData()
+    }
+  }
+  
   private let titleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .systemFont(ofSize: 24, weight: .semibold)
@@ -67,23 +73,24 @@ final class RecruitmentFilterViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "확인")
   }
   
-  init(categoryID: String, viewModel: RecruitmentFilterViewModelType = RecruitmentFilterViewModel()) {
+  init(viewModel: RecruitmentFilterViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    bind(categoryID: categoryID)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func bind(categoryID: String) {
+  override func bind() {
     super.bind()
-    
-    viewModel.selectCategoryID.onNext(categoryID)
     
     viewModel.selectedSubCategories
       .emit(to: rx.subCategories)
+      .disposed(by: disposeBag)
+    
+    viewModel.fetchedDayModel
+      .emit(to: rx.filterDays)
       .disposed(by: disposeBag)
     
     viewModel.isButtonEnabled
@@ -166,7 +173,7 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
     case .detailCategory:
       return subCategories.count
     case .day:
-      return Day.allCases.count
+      return filterDays.count
     }
   }
   

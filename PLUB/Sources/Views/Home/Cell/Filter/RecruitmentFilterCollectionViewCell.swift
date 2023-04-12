@@ -15,10 +15,27 @@ struct RecruitmentFilterCollectionViewCellModel {
   let name: String
   var isTapped: Bool
   
+  init(subCategoryID: Int, name: String, isTapped: Bool) {
+    self.subCategoryID = subCategoryID
+    self.name = name
+    self.isTapped = isTapped
+  }
+  
+  init(model: RecruitmentFilterCollectionViewCellModel, isTapped: Bool) {
+    self.subCategoryID = model.subCategoryID
+    self.name = model.name
+    self.isTapped = isTapped
+  }
+  
   init(subCategory: SubCategory) {
     subCategoryID = subCategory.id
     name = subCategory.name
     isTapped = false
+  }
+  
+  mutating func tappedSubCategory() -> Bool {
+    isTapped.toggle()
+    return isTapped
   }
 }
 

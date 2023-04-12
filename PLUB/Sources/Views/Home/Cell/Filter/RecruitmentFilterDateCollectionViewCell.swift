@@ -11,12 +11,22 @@ import SnapKit
 import Then
 
 struct RecruitmentFilterDateCollectionViewCellModel {
-  let dayString: String
+  let day: Day
   var isTapped: Bool
   
   init(day: Day) {
-    dayString = day.kor
+    self.day = day
     isTapped = false
+  }
+  
+  init(day: Day, isTapped: Bool) {
+    self.day = day
+    self.isTapped = isTapped
+  }
+  
+  mutating func tappedDay() -> Bool {
+    isTapped.toggle()
+    return isTapped
   }
 }
 
@@ -64,7 +74,7 @@ final class RecruitmentFilterDateCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: RecruitmentFilterDateCollectionViewCellModel) {
-    dayLabel.text = model.dayString
+    dayLabel.text = model.day.kor
     isTapped = model.isTapped
   }
 }
