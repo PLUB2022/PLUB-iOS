@@ -17,11 +17,6 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
   private var questionIndex: Int
   private var lastQuestion: Bool
   
-  private let lineView = UIView().then {
-    $0.backgroundColor = .mediumGray
-    $0.layer.cornerRadius = 2
-  }
-  
   private lazy var titleLabel = UILabel().then {
     $0.attributedText = setTitleAttributeText(
       count: questionIndex,
@@ -67,13 +62,9 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
-    [lineView, titleLabel, buttonStackView].forEach {
+    [titleLabel, buttonStackView].forEach {
       contentView.addSubview($0)
     }
     
@@ -84,28 +75,18 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    contentView.snp.remakeConstraints {
-      $0.leading.trailing.bottom.equalToSuperview()
-      $0.height.equalTo(206)
-    }
-    
-    lineView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.height.equalTo(4)
-      $0.width.equalTo(48)
-      $0.centerX.equalToSuperview()
-    }
     
     titleLabel.snp.makeConstraints {
-      $0.top.equalTo(lineView.snp.bottom).offset(31)
+      $0.top.equalToSuperview().inset(43)
       $0.height.greaterThanOrEqualTo(19)
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.bottom.equalTo(buttonStackView.snp.top).offset(-15)
     }
     
     buttonStackView.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom).offset(15)
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.height.equalTo(48)
+      $0.bottom.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.height.equalTo(46)
     }
   }
   
@@ -114,7 +95,7 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
     backButton.rx.tap
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
-        owner.dismiss(animated: false)
+        owner.dismiss(animated: true)
       })
       .disposed(by: disposeBag)
     
@@ -122,7 +103,7 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         owner.delegate?.removeQuestion(index: owner.questionIndex, lastQuestion: owner.lastQuestion)
-        owner.dismiss(animated: false)
+        owner.dismiss(animated: true)
       })
       .disposed(by: disposeBag)
   }
@@ -137,7 +118,7 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
       string: "를 삭제 할까요?" + (lastQuestion ? "\n삭제할 경우 질문 없이 모집하기로 변경돼요." : ""),
       attributes: [.foregroundColor: UIColor.black]
     )
-
+    
     return NSMutableAttributedString(attributedString: purpleCharacters).then {
       $0.append(blackCharacters)
     }
