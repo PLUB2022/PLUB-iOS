@@ -89,7 +89,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
       .subscribe(onNext: { selectInfo in
         let (isSelect, day) = selectInfo
         
-        var list = confirmDay.value
+        var confirmList = confirmDay.value
         let fetchList = fetchingDayModel.value
         if day == .all && isSelect { // 리스트에 해당 요일이 존재하는지 확인하기전에 선택한 요일이 요일무관인지 확인
           confirmDay.accept([])
@@ -152,5 +152,12 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     .asSignal(onErrorSignalWith: .empty())
     
     fetchedDayModel = fetchingDayModel.asSignal(onErrorSignalWith: .empty())
+  }
+}
+
+extension RecruitmentFilterViewModel {
+  struct Constants {
+    static let entireID = 0
+    static let entireName = "제목"
   }
 }
