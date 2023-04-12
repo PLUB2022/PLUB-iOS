@@ -85,7 +85,7 @@ final class DateBottomSheetViewController: BottomSheetViewController {
       .asDriver(onErrorDriveWith: .empty())
       .drive(onNext: { owner, _ in
         owner.delegate?.selectDate(date: owner.datePicker.date)
-        owner.dismiss(animated: false)
+        owner.dismiss(animated: true)
       })
       .disposed(by: disposeBag)
   }

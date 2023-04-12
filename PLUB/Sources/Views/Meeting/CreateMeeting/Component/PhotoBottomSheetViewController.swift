@@ -93,15 +93,15 @@ extension PhotoBottomSheetViewController: UIImagePickerControllerDelegate, UINav
   ) {
     guard let selectedImage = info[.originalImage] as? UIImage else { return }
     
-    picker.dismiss(animated: false) {
+    picker.dismiss(animated: true) {
       self.delegate?.selectImage(image: selectedImage)
-      self.dismiss(animated: false)
+      self.dismiss(animated: true)
     }
   }
   
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    picker.dismiss(animated: false) {
-      self.dismiss(animated: false)
+    picker.dismiss(animated: true) {
+      self.dismiss(animated: true)
     }
   }
 }
