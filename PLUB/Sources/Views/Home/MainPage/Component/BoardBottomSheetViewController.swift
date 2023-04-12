@@ -31,10 +31,10 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
     $0.spacing = 8
   }
   
-  private let clipboardFixView = PhotoBottomSheetListView(text: "클립보드에 고정", image: "pinBlack")
-  private let modifyBoardView = PhotoBottomSheetListView(text: "게시글 수정", image: "editBlack")
-  private let reportBoardView = PhotoBottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
-  private let deleteBoardView = PhotoBottomSheetListView(text: "게시글 삭제", image: "trashRed", textColor: .error)
+  private let clipboardFixView = BottomSheetListView(text: "클립보드에 고정", image: "pinBlack")
+  private let modifyBoardView = BottomSheetListView(text: "게시글 수정", image: "editBlack")
+  private let reportBoardView = BottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
+  private let deleteBoardView = BottomSheetListView(text: "게시글 삭제", image: "trashRed", textColor: .error)
   
   override func setupLayouts() {
     super.setupLayouts()

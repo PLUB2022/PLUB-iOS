@@ -27,12 +27,12 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
     $0.backgroundColor = .background
   }
   
-  private let editView = PhotoBottomSheetListView(
+  private let editView = BottomSheetListView(
     text: "수정",
     image: "editBlack"
   )
   
-  private let deleteView = PhotoBottomSheetListView(
+  private let deleteView = BottomSheetListView(
     text: "삭제",
     image: "trashRed24",
     textColor: .error

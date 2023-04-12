@@ -37,7 +37,7 @@ final class TodolistBottomSheetViewController: BottomSheetViewController {
   
   private let type: TodolistBottomSheetType
   
-  private lazy var bottomSheetView = PhotoBottomSheetListView(
+  private lazy var bottomSheetView = BottomSheetListView(
     text: type.text,
     image: type.image
   )

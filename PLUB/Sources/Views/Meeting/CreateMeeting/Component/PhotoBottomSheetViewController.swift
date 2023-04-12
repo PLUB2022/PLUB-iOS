@@ -25,12 +25,12 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
     $0.backgroundColor = .background
   }
   
-  private let cameraView = PhotoBottomSheetListView(
+  private let cameraView = BottomSheetListView(
     text: "카메라로 촬영",
     image: "camera"
   )
   
-  private let albumView = PhotoBottomSheetListView(
+  private let albumView = BottomSheetListView(
     text: "앨범에서 사진 업로드",
     image: "selectPhotoBlack"
   )
