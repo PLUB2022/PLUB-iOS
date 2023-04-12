@@ -203,7 +203,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     .asDriver(onErrorDriveWith: .empty())
     
     confirmRequest = filterConfirming.withLatestFrom(
-      Observable.zip(
+      Observable.combineLatest(
         confirmDay,
         confirmSubCategory,
         confirmingAccountNum
