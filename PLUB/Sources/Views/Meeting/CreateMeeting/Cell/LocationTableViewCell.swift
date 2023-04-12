@@ -72,8 +72,9 @@ private extension LocationTableViewCell {
   
   private func setupConstraints() {
     contextView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview()
       $0.top.bottom.equalToSuperview().inset(4)
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.height.equalTo(64)
     }
     
     contentStackView.snp.makeConstraints {
@@ -82,11 +83,11 @@ private extension LocationTableViewCell {
     }
     
     titleLabel.snp.makeConstraints {
-      $0.height.equalTo(19)
+      $0.height.equalTo(21)
     }
     
     subTitleLabel.snp.makeConstraints {
-      $0.height.equalTo(21)
+      $0.height.equalTo(16)
     }
   }
   

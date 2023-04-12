@@ -57,7 +57,7 @@ final class LocationBaseView: UIView {
     }
     
     beforeSearchImage.snp.makeConstraints {
-      $0.height.equalTo(136.23)
+      $0.height.equalTo(100)
     }
     
     titleLabel.snp.makeConstraints {
