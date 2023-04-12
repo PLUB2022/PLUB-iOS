@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-class SortBottomSheetView: UIControl {
+final class SortBottomSheetView: UIControl {
   
   private let type: SortType
   
@@ -52,7 +52,7 @@ class SortBottomSheetView: UIControl {
     }
     
     selectImageView.snp.makeConstraints {
-      $0.leading.equalTo(sortLabel.snp.trailing)
+      $0.leading.equalTo(sortLabel.snp.trailing).offset(8)
       $0.top.bottom.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
@@ -72,22 +72,14 @@ protocol SortBottomSheetViewControllerDelegate: AnyObject {
   func didTappedSortButton(type: SortType)
 }
 
-class SortBottomSheetViewController: BottomSheetViewController {
+final class SortBottomSheetViewController: BottomSheetViewController {
   
   weak var delegate: SortBottomSheetViewControllerDelegate?
   
-  private let grabber = UIView().then {
-    $0.backgroundColor = .mediumGray
-    $0.layer.cornerRadius = 6
-    $0.layer.masksToBounds = true
-  }
-  
   private let stackView = UIStackView().then {
-    $0.spacing = 15.5
+    $0.spacing = 8
     $0.axis = .vertical
     $0.distribution = .fillEqually
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 36, left: 16, bottom: 24, right: 16)
   }
   
   private let titleLabel = UILabel().then {
@@ -102,23 +94,25 @@ class SortBottomSheetViewController: BottomSheetViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [grabber, stackView].forEach { contentView.addSubview($0) }
+    contentView.addSubview(stackView)
     [titleLabel, popularButton, newButton].forEach { stackView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    grabber.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.centerX.equalToSuperview()
-      $0.width.equalTo(48)
-      $0.height.equalTo(4)
+    stackView.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(36)
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.bottom.equalToSuperview().inset(24)
     }
     
-    stackView.snp.makeConstraints {
-      $0.top.equalTo(grabber.snp.bottom).offset(8)
-      $0.leading.trailing.bottom.equalToSuperview()
+    popularButton.snp.makeConstraints {
+      $0.height.equalTo(32)
+    }
+    
+    newButton.snp.makeConstraints {
+      $0.height.equalTo(32)
     }
   }
   
