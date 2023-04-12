@@ -209,7 +209,12 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         confirmingAccountNum
       )
     )
-    .map { CategoryMeetingRequest(days: $0, subCategoryIDs: $1, accountNum: $2) }
+    .map { CategoryMeetingRequest(
+      days: $0.isEmpty ? nil : $0,
+      subCategoryIDs: $1.isEmpty ? nil : $1,
+      accountNum: $2
+    )
+    }
     .asSignal(onErrorSignalWith: .empty())
     
     fetchedDayModel = fetchingDayModel.asSignal(onErrorSignalWith: .empty())
