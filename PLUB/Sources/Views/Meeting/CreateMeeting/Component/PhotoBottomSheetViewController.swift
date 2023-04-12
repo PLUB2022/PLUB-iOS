@@ -7,6 +7,7 @@
 
 import UIKit
 
+import CropViewController
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -94,8 +95,15 @@ extension PhotoBottomSheetViewController: UIImagePickerControllerDelegate, UINav
     guard let selectedImage = info[.originalImage] as? UIImage else { return }
     
     picker.dismiss(animated: true) {
-      self.delegate?.selectImage(image: selectedImage)
-      self.dismiss(animated: true)
+      let cropViewController = CropViewController(croppingStyle: .default, image: selectedImage).then {
+        $0.aspectRatioPreset = .presetSquare
+        $0.aspectRatioLockEnabled = false
+        $0.toolbarPosition = .bottom
+        $0.doneButtonTitle = "계속"
+        $0.cancelButtonTitle = "취소"
+        $0.delegate = self
+      }
+      self.present(cropViewController, animated: true)
     }
   }
   
@@ -103,5 +111,19 @@ extension PhotoBottomSheetViewController: UIImagePickerControllerDelegate, UINav
     picker.dismiss(animated: true) {
       self.dismiss(animated: true)
     }
+  }
+}
+
+// MARK: - CropViewControllerDelegate
+
+extension PhotoBottomSheetViewController: CropViewControllerDelegate {
+  func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+    cropViewController.dismiss(animated: true)
+  }
+  
+  func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+    cropViewController.dismiss(animated: true)
+    delegate?.selectImage(image: image)
+    self.dismiss(animated: true)
   }
 }

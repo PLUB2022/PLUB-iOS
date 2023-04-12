@@ -217,6 +217,7 @@
 		BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC8930829755B87000D44E2 /* SignUpRequest.swift */; };
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAC9794529CF0E9E00A5DF1B /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */; };
+		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
 		BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */; };
 		BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */; };
 		BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */; };
@@ -718,6 +719,7 @@
 				7095A585292B566C002A52E6 /* Kingfisher in Frameworks */,
 				C346B4AA29B1079900884E4F /* FirebaseCrashlytics in Frameworks */,
 				BA88127028E48AC800BD832A /* Alamofire in Frameworks */,
+				BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */,
 				C346B4A829B1079900884E4F /* FirebaseAnalytics in Frameworks */,
 				BA88126728E48A7A00BD832A /* RxSwift in Frameworks */,
 				BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */,
@@ -2066,6 +2068,7 @@
 				C346B4A729B1079900884E4F /* FirebaseAnalytics */,
 				C346B4A929B1079900884E4F /* FirebaseCrashlytics */,
 				C346B4AB29B1079900884E4F /* FirebaseMessaging */,
+				BACEE33229E6F393009FAB98 /* CropViewController */,
 			);
 			productName = PLUB;
 			productReference = BA88124A28E48A2F00BD832A /* PLUB.app */;
@@ -2106,6 +2109,7 @@
 				BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				C305B67A29AC9FE700BD5C6A /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				C346B4A629B1079900884E4F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				BACEE33129E6F393009FAB98 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
 			);
 			productRefGroup = BA88124B28E48A2F00BD832A /* Products */;
 			projectDirPath = "";
@@ -2762,6 +2766,14 @@
 				kind = branch;
 			};
 		};
+		BACEE33129E6F393009FAB98 /* XCRemoteSwiftPackageReference "TOCropViewController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TimOliver/TOCropViewController.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		C305B67A29AC9FE700BD5C6A /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
@@ -2835,6 +2847,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		BACEE33229E6F393009FAB98 /* CropViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BACEE33129E6F393009FAB98 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
+			productName = CropViewController;
 		};
 		C305B67B29AC9FE700BD5C6A /* RxDataSources */ = {
 			isa = XCSwiftPackageProductDependency;
