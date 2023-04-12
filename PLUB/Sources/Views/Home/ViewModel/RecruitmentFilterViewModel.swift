@@ -65,7 +65,15 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     successRequestSubCategory.map { subCategories in
       return subCategories.map { RecruitmentFilterCollectionViewCellModel(subCategory: $0) }
     }
-    .bind(to: selectingSubCategories)
+    .subscribe(onNext: { subCategories in
+      var subCategories = subCategories
+      subCategories.insert(RecruitmentFilterCollectionViewCellModel(
+        subCategoryID: Constants.entireID,
+        name: Constants.entireName,
+        isTapped: false
+      ), at: 0)
+      selectingSubCategories.accept(subCategories)
+    })
     .disposed(by: disposeBag)
     
     
