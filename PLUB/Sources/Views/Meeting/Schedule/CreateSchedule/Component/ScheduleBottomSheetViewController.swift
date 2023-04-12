@@ -21,11 +21,6 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
   weak var delegate: ScheduleBottomSheetDelegate?
   private let calendarID: Int
   
-  private let lineView = UIView().then {
-    $0.backgroundColor = .mediumGray
-    $0.layer.cornerRadius = 2
-  }
-  
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 8
@@ -52,15 +47,9 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
-    [lineView, contentStackView].forEach {
-      contentView.addSubview($0)
-    }
+    contentView.addSubview(contentStackView)
     
     [editView, deleteView].forEach {
       contentStackView.addArrangedSubview($0)
@@ -70,17 +59,10 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
-    lineView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.height.equalTo(4.33)
-      $0.width.equalTo(52)
-      $0.centerX.equalToSuperview()
-    }
-    
     contentStackView.snp.makeConstraints {
-      $0.top.equalTo(lineView.snp.bottom).offset(26)
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(78)
+      $0.top.equalToSuperview().inset(36)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.bottom.equalToSuperview().inset(24)
     }
     
     editView.snp.makeConstraints {
@@ -98,7 +80,7 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
       .asDriver()
       .drive(with: self) { owner, _ in
         owner.delegate?.editSchedule(calendarID: owner.calendarID)
-        owner.dismiss(animated: false)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -106,7 +88,7 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
       .asDriver()
       .drive(with: self) { owner, _ in
         owner.delegate?.deleteSchedule(calendarID: owner.calendarID)
-        owner.dismiss(animated: false)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
   }
