@@ -19,11 +19,6 @@ protocol PhotoBottomSheetDelegate: AnyObject {
 final class PhotoBottomSheetViewController: BottomSheetViewController {
   weak var delegate: PhotoBottomSheetDelegate?
   
-  private let lineView = UIView().then {
-    $0.backgroundColor = .mediumGray
-    $0.layer.cornerRadius = 2
-  }
-  
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 8
@@ -44,15 +39,9 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
     $0.delegate = self
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
-    [lineView, contentStackView].forEach {
-      contentView.addSubview($0)
-    }
+    contentView.addSubview(contentStackView)
     
     [cameraView, albumView].forEach {
       contentStackView.addArrangedSubview($0)
@@ -62,25 +51,18 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
-    lineView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.height.equalTo(4.33)
-      $0.width.equalTo(52)
-      $0.centerX.equalToSuperview()
-    }
-    
     contentStackView.snp.makeConstraints {
-      $0.top.equalTo(lineView.snp.bottom).offset(26)
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(78)
+      $0.top.equalToSuperview().inset(36)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.bottom.equalToSuperview().inset(24)
     }
     
     cameraView.snp.makeConstraints {
-      $0.height.equalTo(52)
+      $0.height.equalTo(48)
     }
     
     albumView.snp.makeConstraints {
-      $0.height.equalTo(52)
+      $0.height.equalTo(48)
     }
   }
   
@@ -107,19 +89,19 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
 extension PhotoBottomSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   func imagePickerController(
     _ picker: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
   ) {
-    guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+    guard let selectedImage = info[.originalImage] as? UIImage else { return }
     
-    picker.dismiss(animated: false, completion: {
+    picker.dismiss(animated: false) {
       self.delegate?.selectImage(image: selectedImage)
       self.dismiss(animated: false)
-    })
+    }
   }
   
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    picker.dismiss(animated: false, completion: {
+    picker.dismiss(animated: false) {
       self.dismiss(animated: false)
-    })
+    }
   }
 }
