@@ -15,11 +15,6 @@ final class DateBottomSheetViewController: BottomSheetViewController {
   
   weak var delegate: DateBottomSheetDelegate?
   
-  private let lineView = UIView().then {
-    $0.backgroundColor = .mediumGray
-    $0.layer.cornerRadius = 2
-  }
-  
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 24
@@ -57,9 +52,7 @@ final class DateBottomSheetViewController: BottomSheetViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [lineView, contentStackView].forEach {
-      contentView.addSubview($0)
-    }
+    contentView.addSubview(contentStackView)
     
     [datePicker, nextButton].forEach {
       contentStackView.addArrangedSubview($0)
@@ -69,17 +62,11 @@ final class DateBottomSheetViewController: BottomSheetViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
-    lineView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.height.equalTo(4.33)
-      $0.width.equalTo(52)
-      $0.centerX.equalToSuperview()
-    }
     
     contentStackView.snp.makeConstraints {
-      $0.top.equalTo(lineView.snp.bottom).offset(26)
+      $0.top.equalToSuperview().inset(36)
       $0.leading.trailing.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(38)
+      $0.bottom.equalToSuperview().inset(4)
     }
     
     datePicker.snp.makeConstraints {
