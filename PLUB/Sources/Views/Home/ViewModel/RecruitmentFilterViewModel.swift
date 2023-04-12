@@ -81,13 +81,54 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     isSelectingSubCategory
       .subscribe(onNext: { subCategoryInfo in
         let (isSelect, subCategoryID) = subCategoryInfo
-        var list = confirmSubCategory.value
-        if list.contains(subCategoryID) {
-          let filterList = list.filter { $0 != subCategoryID }
-          confirmSubCategory.accept(filterList)
-        } else {
-          list.append(subCategoryID)
-          confirmSubCategory.accept(list)
+        var confirmList = confirmSubCategory.value
+        let fetchList = selectingSubCategories.value
+        
+        if subCategoryID == Constants.entireID { // [전체] 카테고리를 선택/미선택 했을 때
+          if isSelect {
+            let fetchList = fetchList.map { model in
+              model.subCategoryID == Constants.entireID ? RecruitmentFilterCollectionViewCellModel(subCategoryID: Constants.entireID, name: Constants.entireName, isTapped: true) : RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
+            }
+            selectingSubCategories.accept(fetchList)
+            confirmSubCategory.accept([])
+          }
+          else {
+            let fetchList = fetchList.map { model in
+              var model = model
+              if model.subCategoryID == Constants.entireID {
+                model.isTapped.toggle()
+              }
+              return model
+            }
+            selectingSubCategories.accept(fetchList)
+          }
+        }
+        else { // 특정 서브카테고리를 선택/미선택 했을 때
+          if isSelect {
+            let fetchList = fetchList.map { model in
+              if model.subCategoryID == subCategoryID {
+                return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: true)
+              }
+              else if model.subCategoryID == Constants.entireID {
+                return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
+              }
+              return model
+            }
+            selectingSubCategories.accept(fetchList)
+            confirmList.append(subCategoryID)
+            confirmSubCategory.accept(confirmList)
+          }
+          else {
+            let fetchList = fetchList.map { model in
+              if model.subCategoryID == subCategoryID {
+                return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
+              }
+              return model
+            }
+            selectingSubCategories.accept(fetchList)
+            let confirmList = confirmList.filter { $0 != subCategoryID }
+            confirmSubCategory.accept(confirmList)
+          }
         }
       })
       .disposed(by: disposeBag)
@@ -99,40 +140,52 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         
         var confirmList = confirmDay.value
         let fetchList = fetchingDayModel.value
-        if day == .all && isSelect { // 리스트에 해당 요일이 존재하는지 확인하기전에 선택한 요일이 요일무관인지 확인
-          confirmDay.accept([])
-          fetchingDayModel.accept(Day.allCases.map { day in
-            day == .all ? RecruitmentFilterDateCollectionViewCellModel(day: .all, isTapped: true)
-                        : RecruitmentFilterDateCollectionViewCellModel(day: day)
-          })
-        }
-        else if list.contains(day.eng) { // 만약에 필터할 요일리스트에 해당 요일이 존재한다면
-          let filterList = list.filter { $0 != day.eng }
-          let fetchList = fetchList.map { model in
-            if model.day == .all {
-              return RecruitmentFilterDateCollectionViewCellModel(day: .all)
-            } else if model.day == day {
-              return RecruitmentFilterDateCollectionViewCellModel(day: day, isTapped: true)
+        
+        if day == .all { // [요일무관] 요일을 선택/미선택 했을 때
+          if isSelect {
+            let fetchList = fetchList.map { model in
+              model.day == .all ? RecruitmentFilterDateCollectionViewCellModel(day: .all, isTapped: true) : RecruitmentFilterDateCollectionViewCellModel(day: model.day)
             }
-            return model
+            fetchingDayModel.accept(fetchList)
+            confirmDay.accept([])
           }
-          
-          fetchingDayModel.accept(fetchList)
-          confirmDay.accept(filterList)
-        }
-        else { // 만약에 필터할 요일리스트에 해당 요일이 존재하지않는다면
-          let fetchList = fetchList.map { model in
-            if model.day == .all {
-              return RecruitmentFilterDateCollectionViewCellModel(day: .all)
-            } else if model.day == day {
-              return RecruitmentFilterDateCollectionViewCellModel(day: day, isTapped: true)
+          else {
+            let fetchList = fetchList.map { model in
+              var model = model
+              if model.day == .all {
+                model.isTapped.toggle()
+              }
+              return model
             }
-            return model
+            fetchingDayModel.accept(fetchList)
           }
-          
-          fetchingDayModel.accept(fetchList)
-          list.append(day.eng)
-          confirmDay.accept(list)
+        }
+        else { // 특정 요일을 선택/미선택 했을 때
+          if isSelect {
+            let fetchList = fetchList.map { model in
+              if model.day == day {
+                return RecruitmentFilterDateCollectionViewCellModel(day: model.day, isTapped: true)
+              }
+              else if model.day == .all {
+                return RecruitmentFilterDateCollectionViewCellModel(day: model.day)
+              }
+              return model
+            }
+            fetchingDayModel.accept(fetchList)
+            confirmList.append(day.eng)
+            confirmDay.accept(confirmList)
+          }
+          else {
+            let fetchList = fetchList.map { model in
+              if model.day == day {
+                return RecruitmentFilterDateCollectionViewCellModel(day: day)
+              }
+              return model
+            }
+            fetchingDayModel.accept(fetchList)
+            let confirmList = confirmList.filter { $0 != day.eng }
+            confirmDay.accept(confirmList)
+          }
         }
       })
       .disposed(by: disposeBag)
