@@ -37,10 +37,6 @@ final class TodolistBottomSheetViewController: BottomSheetViewController {
   
   private let type: TodolistBottomSheetType
   
-  private let grabber = UIView().then {
-    $0.backgroundColor = .mediumGray
-  }
-  
   private lazy var bottomSheetView = PhotoBottomSheetListView(
     text: type.text,
     image: type.image
@@ -57,23 +53,16 @@ final class TodolistBottomSheetViewController: BottomSheetViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [grabber, bottomSheetView].forEach { contentView.addSubview($0) }
+    contentView.addSubview(bottomSheetView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    
-    grabber.snp.makeConstraints {
-      $0.width.equalTo(48)
-      $0.height.equalTo(4)
-      $0.centerX.equalToSuperview()
-      $0.top.equalToSuperview().inset(8)
-    }
-    
     bottomSheetView.snp.makeConstraints {
-      $0.top.equalTo(grabber.snp.bottom).offset(24)
+      $0.top.equalToSuperview().inset(36)
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(24)
+      $0.bottom.equalToSuperview().inset(24)
+      $0.height.equalTo(48)
     }
   }
 }
