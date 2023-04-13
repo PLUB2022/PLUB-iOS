@@ -10,31 +10,31 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-enum ScheduleAlarmType: String, CaseIterable {
-  case none = "없음"
-  case before5Minute = "5분 전"
-  case before15Minute = "15분 전"
-  case before30Minute = "30분 전"
-  case before1Hour = "1시간 전"
-  case before1Day = "1일 전"
-  case before1Week = "1주 전"
+enum ScheduleAlarmType: String, Codable, CaseIterable {
+  case none = "NONE"
+  case before5Minute = "FIVE_MINUTES"
+  case before15Minute = "FIFTEEN_MINUTES"
+  case before30Minute = "THIRTY_MINUTES"
+  case before1Hour = "ONE_HOUR"
+  case before1Day = "ONE_DAY"
+  case before1Week = "ONE_WEEK"
   
-  var value: String {
+  var title: String {
     switch self {
     case .none:
-      return "NONE"
+      return "없음"
     case .before5Minute:
-      return "FIVE_MINUTES"
+      return "5분 전"
     case .before15Minute:
-      return "FIFTEEN_MINUTES"
+      return "15분 전"
     case .before30Minute:
-      return "THIRTY_MINUTES"
+      return "30분 전"
     case .before1Hour:
-      return "ONE_HOUR"
+      return "1시간 전"
     case .before1Day:
-      return "ONE_DAY"
+      return "1일 전"
     case .before1Week:
-      return "ONE_WEEK"
+      return "1주 전"
     }
   }
 }
@@ -105,7 +105,7 @@ extension ScheduleAlarmView {
   private func setupButtonMenus() {
     let menuItems = ScheduleAlarmType.allCases
       .map { alarm in
-        return UIAction(title: alarm.rawValue, image: nil) { [weak self] _ in
+        return UIAction(title: alarm.title, image: nil) { [weak self] _ in
           guard let self else { return }
           self.setupAlarmText(with: alarm)
           self.delegate?.selectAlarm(alarm: alarm)
@@ -121,8 +121,8 @@ extension ScheduleAlarmView {
     )
   }
   
-  private func setupAlarmText(with alarm: ScheduleAlarmType) {
-    label.text = alarm.rawValue
+  func setupAlarmText(with alarm: ScheduleAlarmType) {
+    label.text = alarm.title
     if alarm == .none {
       label.textColor = .mediumGray
     } else {

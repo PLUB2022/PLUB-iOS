@@ -35,7 +35,7 @@ struct CreateMeetingRequest: Codable {
   var time: String
   
   /// 요일
-  var days: [String]
+  var days: [Day]
   
   /// 온/오프라인
   var onOff: MeetType

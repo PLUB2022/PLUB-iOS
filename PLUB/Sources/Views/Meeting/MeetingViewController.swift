@@ -197,8 +197,9 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     guard let previousIndex = previousIndex,
-      previousIndex != index
-    else { return }
+      previousIndex != index,
+      previousIndex < meetingList.count else { return }
+    
     meetingList[previousIndex].isDimmed = true
   }
 }

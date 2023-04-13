@@ -44,7 +44,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     let isSelectingSubCategory = PublishSubject<(Bool, Int)>()
     let isSelectingDay = PublishSubject<(Bool, Day)>()
     let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
-    let confirmDay = BehaviorRelay<[String]>(value: [])
+    let confirmDay = BehaviorRelay<[Day]>(value: [])
     let filterConfirming = PublishSubject<Void>()
     let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
     
@@ -75,7 +75,6 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
       selectingSubCategories.accept(subCategories)
     })
     .disposed(by: disposeBag)
-    
     
     // 서브카테고리를 선택함에 따른 동작
     isSelectingSubCategory

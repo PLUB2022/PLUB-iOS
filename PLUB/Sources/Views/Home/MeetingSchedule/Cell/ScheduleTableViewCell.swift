@@ -177,21 +177,9 @@ final class ScheduleTableViewCell: UITableViewCell {
   func setupData(with data: ScheduleTableViewCellModel) {
     // 선
     switch data.indexType {
-    case .first:
-      topLineView.isHidden = true
-      bottomLineView.isHidden = false
-      
-    case .middle:
+    case .first, .middle, .last, .firstAndLast:
       topLineView.isHidden = false
       bottomLineView.isHidden = false
-      
-    case .last:
-      topLineView.isHidden = false
-      bottomLineView.isHidden = true
-      
-    case .firstAndLast:
-      topLineView.isHidden = true
-      bottomLineView.isHidden = true
     }
     
     // 점

@@ -29,12 +29,7 @@ protocol BoardDetailDataStore {
   var comments: [CommentContent] { get }
 }
 
-final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore {
-  
-  // Input
-  let setCollectionViewObserver: AnyObserver<UICollectionView>
-  let commentsInput: AnyObserver<(comment: String, parentID: Int?)>
-  let offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)>
+final class BoardDetailViewModel: BoardDetailDataStore {
   
   // MARK: - Properties
   
@@ -56,22 +51,32 @@ final class BoardDetailViewModel: BoardDetailViewModelType, BoardDetailDataStore
   /// 페이징 관리 객체
   private let pagingManager = PagingManager<CommentContent>(threshold: 700)
   
+  // MARK: Use Cases
+  
+  private let getCommentsUseCase: GetCommentsUseCase
+  private let postCommentUseCase: PostCommentUseCase
+  
+  // MARK: Subjects
+  
+  private let collectionViewSubject = PublishSubject<UICollectionView>()
+  private let commentInputSubject   = PublishSubject<(comment: String, parentID: Int?)>()
+  private let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
+  
   // MARK: - Initializations
   
-  init(plubbingID: Int, content: BoardModel) {
+  init(
+    plubbingID: Int,
+    content: BoardModel,
+    getCommentsUseCase: GetCommentsUseCase,
+    postCommentUseCase: PostCommentUseCase
+  ) {
     self.content = content
+    self.getCommentsUseCase = getCommentsUseCase
+    self.postCommentUseCase = postCommentUseCase
     
-    let collectionViewSubject = PublishSubject<UICollectionView>()
-    let commentInputSubject   = PublishSubject<(comment: String, parentID: Int?)>()
-    let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
-    
-    setCollectionViewObserver = collectionViewSubject.asObserver()
-    commentsInput = commentInputSubject.asObserver()
-    offsetObserver = bottomCellSubject.asObserver()
-    
-    fetchComments(plubbingID: plubbingID, content: content, collectionViewObservable: collectionViewSubject.asObservable())
-    createComments(plubbingID: plubbingID, content: content, commentsObservable: commentInputSubject.asObservable())
-    pagingSetup(plubbingID: plubbingID, content: content, offsetObservable: bottomCellSubject.asObservable())
+    fetchComments(plubbingID: plubbingID, content: content)
+    createComments(plubbingID: plubbingID, content: content)
+    pagingSetup(plubbingID: plubbingID, content: content)
   }
   
   private let disposeBag = DisposeBag()
@@ -86,21 +91,15 @@ extension BoardDetailViewModel {
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
   ///   - collectionViewObservable: 게시글 UI에 사용되는 CollectionView Observable
-  private func fetchComments(plubbingID: Int, content: BoardModel, collectionViewObservable: Observable<UICollectionView>) {
+  private func fetchComments(plubbingID: Int, content: BoardModel) {
     
     // PagingManager를 이용하여 댓글을 가져옴
-    let commentsObservable = pagingManager.fetchNextPage { _ in
-      FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID)
-        .compactMap { result -> (content: [CommentContent], nextCursorID: Int, isLast: Bool)? in
-          // TODO: 승현 - API 통신 에러 처리
-          guard case let .success(response) = result else { return nil }
-          guard let data = response.data else { return nil }
-          return (content: data.content, nextCursorID: data.content.last?.commentID ?? 0, isLast: data.isLast)
-        }
+    let commentsObservable = pagingManager.fetchNextPage { [getCommentsUseCase] cursorID in
+      getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
     }
     
     // 첫 세팅 작업
-    Observable.combineLatest(collectionViewObservable.asObservable(), commentsObservable) {
+    Observable.combineLatest(collectionViewSubject, commentsObservable) {
       return (collectionView: $0, comments: $1)
     }
     .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
@@ -117,13 +116,10 @@ extension BoardDetailViewModel {
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
   ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
-  private func createComments(plubbingID: Int, content: BoardModel, commentsObservable: Observable<(comment: String, parentID: Int?)>) {
-    commentsObservable
-      .flatMap { FeedsService.shared.createComments(plubbingID: plubbingID, feedID: content.feedID, comment: $0.comment, commentParentID: $0.parentID) }
-      .compactMap { result -> CommentContent? in
-        // TODO: 승현 - API 통신 에러 처리
-        guard case let .success(response) = result else { return nil }
-        return response.data
+  private func createComments(plubbingID: Int, content: BoardModel) {
+    commentInputSubject
+      .flatMap { [postCommentUseCase] in
+        postCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, context: $0.comment, commentParentID: $0.parentID)
       }
       .filter { [weak self] _ in
         return self?.pagingManager.isLast ?? false
@@ -150,28 +146,36 @@ extension BoardDetailViewModel {
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
   ///   - indexPathObservable: 컬렉션 뷰에서 하단 셀의 인덱스 경로를 전달받는 `Observable`
-  private func pagingSetup(plubbingID: Int, content: BoardModel, offsetObservable: Observable<(collectionViewHeight: CGFloat, offset: CGFloat)>) {
-    offsetObservable
-      .filter { [weak self] in // pagingManager에게 fetching 가능한지 요청
-        guard let self else { return false }
-        return self.pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
+  private func pagingSetup(plubbingID: Int, content: BoardModel) {
+    bottomCellSubject
+      .filter { [pagingManager] in // pagingManager에게 fetching 가능한지 요청
+        return pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
       }
       .flatMap { [weak self] _ -> Observable<[CommentContent]> in
         guard let self else { return .empty() }
         return self.pagingManager.fetchNextPage { cursorID in
-          FeedsService.shared.fetchComments(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
-            .compactMap { result -> (content: [CommentContent], nextCursorID: Int, isLast: Bool)? in
-              guard case let .success(response) = result else { return nil }
-              guard let data = response.data else { return nil }
-              // 페이징 작업시 발생하는 데이터의 마지막 요소(last)는 항상 값이 존재하므로 force-unwrapping을 사용.
-              return (content: data.content, nextCursorID: data.content.last!.commentID, isLast: data.isLast)
-            }
+          self.getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
         }
       }
       .subscribe(with: self) { owner, content in
         owner.comments.append(contentsOf: content)
       }
       .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - BoardDetailViewModelType
+
+extension BoardDetailViewModel: BoardDetailViewModelType {
+  // Input
+  var setCollectionViewObserver: AnyObserver<UICollectionView> {
+    collectionViewSubject.asObserver()
+  }
+  var commentsInput: AnyObserver<(comment: String, parentID: Int?)> {
+    commentInputSubject.asObserver()
+  }
+  var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> {
+    bottomCellSubject.asObserver()
   }
 }
 

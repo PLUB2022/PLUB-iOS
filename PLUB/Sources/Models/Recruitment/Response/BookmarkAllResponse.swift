@@ -32,7 +32,7 @@ struct CategoryContent: Codable {
   let title: String
   let introduce: String
   let name: String
-  let days: [String]
+  let days: [Day]
   let mainImage: String
   let address: String
   let roadAddress: String

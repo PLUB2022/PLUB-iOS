@@ -14,6 +14,7 @@ import Then
 final class CreateScheduleViewModel {
   private let disposeBag = DisposeBag()
   private let plubbingID: Int
+  private(set) var calendarID: Int?
   
   let scheduleType = MeetingScheduleType.allCases
   
@@ -29,6 +30,7 @@ final class CreateScheduleViewModel {
   // Output
   let isButtonEnabled: Driver<Bool>
   let successResult: Driver<Void>
+  let setupPrevSchedule: Driver<Schedule>
 
   private let titleSubject = PublishSubject<String>()
   private let allDaySwitchSubject = PublishSubject<Bool>()
@@ -39,11 +41,13 @@ final class CreateScheduleViewModel {
   private let memoSubject = PublishSubject<String>()
   
   private let successResultSubject = PublishSubject<Void>()
+  private let setupPrevScheduleSubject = PublishSubject<Schedule>()
   
   private let scheduleRelay = BehaviorRelay<CreateScheduleRequest>(value: CreateScheduleRequest())
   
-  init(plubbingID: Int) {
+  init(plubbingID: Int, calendarID: Int? = nil) {
     self.plubbingID = plubbingID
+    self.calendarID = calendarID
     
     title = titleSubject.asObserver()
     allDay = allDaySwitchSubject.asObserver()
@@ -62,8 +66,13 @@ final class CreateScheduleViewModel {
       $1 != "메모 내용을 입력해주세요."
     }
     successResult = successResultSubject.asDriver(onErrorDriveWith: .empty())
+    setupPrevSchedule = setupPrevScheduleSubject.asDriver(onErrorDriveWith: .empty())
     
     bind()
+    
+    if let calendarID = calendarID { // 편집 일때
+      fetchSchedule(calendarID: calendarID)
+    }
   }
   
   private func bind() {
@@ -125,7 +134,7 @@ final class CreateScheduleViewModel {
       .withUnretained(self)
       .map { owner, alarm in
         owner.scheduleRelay.value.with {
-          $0.alarmType = alarm.value
+          $0.alarmType = alarm.rawValue
         }
       }
       .bind(to: scheduleRelay)
@@ -170,5 +179,56 @@ final class CreateScheduleViewModel {
         }
       })
       .disposed(by: disposeBag)
+  }
+  
+  func editSchedule() {
+    guard let calendarID = calendarID else { return }
+    ScheduleService.shared
+      .editSchedule(
+        plubbingID: plubbingID,
+        calendarID: calendarID,
+        request: scheduleRelay.value
+      )
+      .withUnretained(self)
+      .subscribe(onNext: { owner, model in
+        print(model)
+        owner.successResultSubject.onNext(())
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func fetchSchedule(calendarID: Int) {
+    ScheduleService.shared.inquireScheduleDetail(
+      plubbingID: plubbingID,
+      calendarID: calendarID
+    )
+    .withUnretained(self)
+    .subscribe(onNext: { owner, model in
+      owner.titleSubject.onNext(model.title)
+      owner.allDaySwitchSubject.onNext(model.isAllDay)
+      
+      let date = DateFormatter().then {
+        $0.dateFormat = "yyyy-MM-dd hh:mm"
+        $0.locale = Locale(identifier: "ko_KR")
+      }
+      
+      owner.startDateSubject.onNext(date.date(from: model.startDay + " " + model.startTime) ?? Date())
+      owner.endDateSubject.onNext(date.date(from: model.endDay + " " + model.endTime) ?? Date())
+      
+      owner.locationSubject.onNext(
+        Location(
+          address: model.address,
+          roadAddress: model.roadAddress,
+          placeName: model.placeName,
+          positionX: 0,
+          positionY: 0
+        )
+      )
+      owner.alarmSubject.onNext(model.alarmType)
+      owner.memoSubject.onNext(model.memo)
+      
+      owner.setupPrevScheduleSubject.onNext(model)
+    })
+    .disposed(by: disposeBag)
   }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 struct MeetingDateCollectionViewCellModel {
-  let date: String
+  let date: Day
   let isSelected: Bool
 }
 
@@ -62,7 +62,7 @@ private extension WeekDateCollectionViewCell {
 
 extension WeekDateCollectionViewCell {
   func setupData(data: MeetingDateCollectionViewCellModel) {
-    label.text = data.date
+    label.text = data.date.kor
     setupSelected(data.isSelected)
   }
 }

@@ -14,7 +14,7 @@ struct DetailRecruitmentModel {
   let name: String
   let goal: String
   let mainImage: String?
-  let days: [String]
+  let days: [Day]
   let placeName: String
   let isBookmarked: Bool
   let isApplied: Bool

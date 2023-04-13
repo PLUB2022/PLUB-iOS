@@ -42,7 +42,7 @@ final class CreateMeetingViewModel {
   private let timeRelay = BehaviorRelay<Date?>(value: nil)
   
   /// 요일
-  private let daysRelay = BehaviorRelay<[String]>(value: [])
+  private let daysRelay = BehaviorRelay<[Day]>(value: [])
   
   /// 온/오프라인
   private let onOffRelay = BehaviorRelay<MeetType>(value: .online)
