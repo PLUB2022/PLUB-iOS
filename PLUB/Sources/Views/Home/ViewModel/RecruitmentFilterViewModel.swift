@@ -27,10 +27,10 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   private let disposeBag = DisposeBag()
   
   // Input
-  let isSelectSubCategory: AnyObserver<(Bool, Int)> // 세부카테고리 혹은 요일 셀을 선택할때
-  let isSelectDay: AnyObserver<(Bool, Day)>
-  let filterConfirm: AnyObserver<Void>
-  let confirmAccountNum: AnyObserver<Int>
+  let isSelectSubCategory: AnyObserver<(Bool, Int)> // 세부카테고리 선택/미선택
+  let isSelectDay: AnyObserver<(Bool, Day)> // 요일 선택/미선택
+  let filterConfirm: AnyObserver<Void> // 필터클릭
+  let confirmAccountNum: AnyObserver<Int> // 필터하고자하는 인원 수
   
   // Output
   var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> // 선택된 서브카테고리 목록
@@ -87,7 +87,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         let index = fetchList.firstIndex(where: { $0.subCategoryID == subCategoryID })!
         fetchList[index].isTapped = isSelect
         
-        if subCategoryID == Constants.entireID { // [전체] 카테고리를 선택/미선택 했을 때, 초기화
+        if subCategoryID == Constants.entireID { // [전체] 카테고리를 선택/미선택 했을 때, 나머지 카테고리 초기화
           let fetchList = fetchList.map { model in
             if model.subCategoryID != Constants.entireID {
               return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
@@ -108,7 +108,6 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
           confirmList.append(subCategoryID)
           confirmSubCategory.accept(confirmList)
         }
-        
       })
       .disposed(by: disposeBag)
     
@@ -124,7 +123,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         let index = fetchList.firstIndex(where: { $0.day == day })!
         fetchList[index].isTapped = isSelect
         
-        if day == .all { // [전체] 카테고리를 선택/미선택 했을 때, 초기화
+        if day == .all { // [요일무관] 선택/미선택 했을 때, 나머키 요일 초기화
           let fetchList = fetchList.map { model in
             if model.day != .all {
               return RecruitmentFilterDateCollectionViewCellModel(day: model.day)
@@ -134,7 +133,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
           fetchingDayModel.accept(fetchList)
           confirmDay.accept([])
         }
-        else { // 특정 서브카테고리를 선택/미선택 했을 때, [전체] 카테고리 미선택
+        else { // 특정 요일 선택/미선택 했을 때, [요일무관] 카테고리 미선택
           let fetchList = fetchList.map { model in
             if model.day == .all {
               return RecruitmentFilterDateCollectionViewCellModel(day: model.day)
