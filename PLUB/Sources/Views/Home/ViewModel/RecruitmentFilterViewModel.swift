@@ -223,6 +223,6 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
 extension RecruitmentFilterViewModel {
   struct Constants {
     static let entireID = 0
-    static let entireName = "제목"
+    static let entireName = "전체"
   }
 }
