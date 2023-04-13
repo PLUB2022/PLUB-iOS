@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 protocol DateBottomSheetDelegate: AnyObject {
   func selectDate(date: Date)
 }
@@ -65,8 +68,7 @@ final class DateBottomSheetViewController: BottomSheetViewController {
     
     contentStackView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(36)
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(4)
+      $0.leading.trailing.bottom.equalToSuperview().inset(24)
     }
     
     datePicker.snp.makeConstraints {

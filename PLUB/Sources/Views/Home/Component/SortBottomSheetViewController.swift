@@ -103,7 +103,7 @@ final class SortBottomSheetViewController: BottomSheetViewController {
     
     stackView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(36)
-      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.leading.trailing.equalToSuperview().inset(24)
       $0.bottom.equalToSuperview().inset(24)
     }
     

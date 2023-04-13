@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 protocol LocationBottomSheetDelegate: AnyObject {
   func selectLocation(location: Location)
 }
@@ -87,15 +90,14 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     
     tableView.snp.makeConstraints {
       $0.top.equalTo(searchCountLabel.snp.bottom).offset(16)
-      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
       $0.bottom.equalTo(nextButton.snp.top).offset(-6)
       $0.height.equalTo(352)
     }
     
     nextButton.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(26)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(24)
       $0.height.equalTo(46)
-      $0.leading.trailing.equalToSuperview().inset(16)
     }
   }
   

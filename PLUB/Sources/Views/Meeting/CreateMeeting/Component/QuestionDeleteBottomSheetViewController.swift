@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 protocol QuestionDeleteBottomSheetDelegate: AnyObject {
   func removeQuestion(index: Int, lastQuestion: Bool)
 }
@@ -79,13 +82,12 @@ final class QuestionDeleteBottomSheetViewController: BottomSheetViewController {
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(43)
       $0.height.greaterThanOrEqualTo(19)
-      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
       $0.bottom.equalTo(buttonStackView.snp.top).offset(-15)
     }
     
     buttonStackView.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(24)
-      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(24)
       $0.height.equalTo(46)
     }
   }

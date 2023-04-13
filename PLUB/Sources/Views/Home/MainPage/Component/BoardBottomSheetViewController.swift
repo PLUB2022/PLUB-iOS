@@ -32,9 +32,9 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
   }
   
   private let clipboardFixView = BottomSheetListView(text: "클립보드에 고정", image: "pinBlack")
-  private let modifyBoardView = BottomSheetListView(text: "게시글 수정", image: "editBlack")
-  private let reportBoardView = BottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
-  private let deleteBoardView = BottomSheetListView(text: "게시글 삭제", image: "trashRed", textColor: .error)
+  private let modifyBoardView  = BottomSheetListView(text: "게시글 수정", image: "editBlack")
+  private let reportBoardView  = BottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
+  private let deleteBoardView  = BottomSheetListView(text: "게시글 삭제", image: "trashRed", textColor: .error)
   
   override func setupLayouts() {
     super.setupLayouts()
@@ -56,7 +56,7 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
     
     contentStackView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(36)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
       $0.bottom.equalToSuperview().inset(24)
     }
   }
