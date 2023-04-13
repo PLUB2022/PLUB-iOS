@@ -127,7 +127,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         if day == .all { // [전체] 카테고리를 선택/미선택 했을 때, 초기화
           let fetchList = fetchList.map { model in
             if model.day != .all {
-              return RecruitmentFilterDateCollectionViewCellModel(day: day)
+              return RecruitmentFilterDateCollectionViewCellModel(day: model.day)
             }
             return model
           }
@@ -137,7 +137,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         else { // 특정 서브카테고리를 선택/미선택 했을 때, [전체] 카테고리 미선택
           let fetchList = fetchList.map { model in
             if model.day == .all {
-              return RecruitmentFilterDateCollectionViewCellModel(day: day)
+              return RecruitmentFilterDateCollectionViewCellModel(day: model.day)
             }
             return model
           }
