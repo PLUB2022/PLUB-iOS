@@ -9,6 +9,15 @@ import UIKit
 
 final class ReplyView: UIView {
   
+  // MARK: - Properties
+  
+  /// 답글을 달 닉네임을 설정합니다.
+  var nickname: String = "Unknown" {
+    didSet {
+      replyIndicatorLabel.text = "\(nickname)님에게 답글 쓰는 중..."
+    }
+  }
+  
   // MARK: - UI Components
   
   private let replyIndicatorLabel = UILabel().then {
