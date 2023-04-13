@@ -81,54 +81,34 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
       .subscribe(onNext: { subCategoryInfo in
         let (isSelect, subCategoryID) = subCategoryInfo
         var confirmList = confirmSubCategory.value
-        let fetchList = selectingSubCategories.value
+        var fetchList = selectingSubCategories.value
         
-        if subCategoryID == Constants.entireID { // [전체] 카테고리를 선택/미선택 했을 때
-          if isSelect {
-            let fetchList = fetchList.map { model in
-              model.subCategoryID == Constants.entireID ? RecruitmentFilterCollectionViewCellModel(subCategoryID: Constants.entireID, name: Constants.entireName, isTapped: true) : RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
+        // 선택한 서브카테고리를 선택/미선택 기본동작
+        let index = fetchList.firstIndex(where: { $0.subCategoryID == subCategoryID })!
+        fetchList[index].isTapped = isSelect
+        
+        if subCategoryID == Constants.entireID { // [전체] 카테고리를 선택/미선택 했을 때, 초기화
+          let fetchList = fetchList.map { model in
+            if model.subCategoryID != Constants.entireID {
+              return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
             }
-            selectingSubCategories.accept(fetchList)
-            confirmSubCategory.accept([])
+            return model
           }
-          else {
-            let fetchList = fetchList.map { model in
-              var model = model
-              if model.subCategoryID == Constants.entireID {
-                model.isTapped.toggle()
-              }
-              return model
-            }
-            selectingSubCategories.accept(fetchList)
-          }
+          selectingSubCategories.accept(fetchList)
+          confirmSubCategory.accept([])
         }
-        else { // 특정 서브카테고리를 선택/미선택 했을 때
-          if isSelect {
-            let fetchList = fetchList.map { model in
-              if model.subCategoryID == subCategoryID {
-                return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: true)
-              }
-              else if model.subCategoryID == Constants.entireID {
-                return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
-              }
-              return model
+        else { // 특정 서브카테고리를 선택/미선택 했을 때, [전체] 카테고리 미선택
+          let fetchList = fetchList.map { model in
+            if model.subCategoryID == Constants.entireID {
+              return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
             }
-            selectingSubCategories.accept(fetchList)
-            confirmList.append(subCategoryID)
-            confirmSubCategory.accept(confirmList)
+            return model
           }
-          else {
-            let fetchList = fetchList.map { model in
-              if model.subCategoryID == subCategoryID {
-                return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
-              }
-              return model
-            }
-            selectingSubCategories.accept(fetchList)
-            let confirmList = confirmList.filter { $0 != subCategoryID }
-            confirmSubCategory.accept(confirmList)
-          }
+          selectingSubCategories.accept(fetchList)
+          confirmList.append(subCategoryID)
+          confirmSubCategory.accept(confirmList)
         }
+        
       })
       .disposed(by: disposeBag)
     
@@ -138,53 +118,32 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
         let (isSelect, day) = selectInfo
         
         var confirmList = confirmDay.value
-        let fetchList = fetchingDayModel.value
+        var fetchList = fetchingDayModel.value
         
-        if day == .all { // [요일무관] 요일을 선택/미선택 했을 때
-          if isSelect {
-            let fetchList = fetchList.map { model in
-              model.day == .all ? RecruitmentFilterDateCollectionViewCellModel(day: .all, isTapped: true) : RecruitmentFilterDateCollectionViewCellModel(day: model.day)
+        // 선택한 요일 선택/미선택 기본동작
+        let index = fetchList.firstIndex(where: { $0.day == day })!
+        fetchList[index].isTapped = isSelect
+        
+        if day == .all { // [전체] 카테고리를 선택/미선택 했을 때, 초기화
+          let fetchList = fetchList.map { model in
+            if model.day != .all {
+              return RecruitmentFilterDateCollectionViewCellModel(day: day)
             }
-            fetchingDayModel.accept(fetchList)
-            confirmDay.accept([])
+            return model
           }
-          else {
-            let fetchList = fetchList.map { model in
-              var model = model
-              if model.day == .all {
-                model.isTapped.toggle()
-              }
-              return model
-            }
-            fetchingDayModel.accept(fetchList)
-          }
+          fetchingDayModel.accept(fetchList)
+          confirmDay.accept([])
         }
-        else { // 특정 요일을 선택/미선택 했을 때
-          if isSelect {
-            let fetchList = fetchList.map { model in
-              if model.day == day {
-                return RecruitmentFilterDateCollectionViewCellModel(day: model.day, isTapped: true)
-              }
-              else if model.day == .all {
-                return RecruitmentFilterDateCollectionViewCellModel(day: model.day)
-              }
-              return model
+        else { // 특정 서브카테고리를 선택/미선택 했을 때, [전체] 카테고리 미선택
+          let fetchList = fetchList.map { model in
+            if model.day == .all {
+              return RecruitmentFilterDateCollectionViewCellModel(day: day)
             }
-            fetchingDayModel.accept(fetchList)
-            confirmList.append(day)
-            confirmDay.accept(confirmList)
+            return model
           }
-          else {
-            let fetchList = fetchList.map { model in
-              if model.day == day {
-                return RecruitmentFilterDateCollectionViewCellModel(day: day)
-              }
-              return model
-            }
-            fetchingDayModel.accept(fetchList)
-            let confirmList = confirmList.filter { $0 != day }
-            confirmDay.accept(confirmList)
-          }
+          fetchingDayModel.accept(fetchList)
+          confirmList.append(day)
+          confirmDay.accept(confirmList)
         }
       })
       .disposed(by: disposeBag)
