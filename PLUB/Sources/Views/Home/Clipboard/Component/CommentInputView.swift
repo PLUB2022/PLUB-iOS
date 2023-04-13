@@ -30,7 +30,20 @@ final class CommentInputView: UIView {
   
   // MARK: - UI Components
   
-  private let containerView = UIStackView().then {
+  private let commentSeparatorLineView = UIView().then {
+    $0.backgroundColor = .lightGray
+  }
+  
+  private let commentStackView = UIStackView().then {
+    $0.spacing = 8
+    $0.alignment = .top
+  }
+  
+  private let profileImageView = UIImageView(image: .init(named: "userDefaultImage")).then {
+    $0.contentMode = .scaleAspectFit
+  }
+  
+  private let textViewContainerView = UIStackView().then {
     $0.alignment = .center
     $0.spacing = 8
   }
@@ -59,24 +72,41 @@ final class CommentInputView: UIView {
   }
   
   private func setupLayouts() {
-    addSubview(containerView)
+    addSubview(commentStackView)
+    addSubview(commentSeparatorLineView)
+    
+    [profileImageView, textViewContainerView].forEach {
+      commentStackView.addArrangedSubview($0)
+    }
+    
     [textView, uploadButton].forEach {
-      containerView.addArrangedSubview($0)
+      textViewContainerView.addArrangedSubview($0)
     }
   }
   
   private func setupConstraints() {
-    containerView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+    
+    commentStackView.snp.makeConstraints {
+      $0.directionalVerticalEdges.equalToSuperview().inset(8)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
+    }
+    
+    profileImageView.snp.makeConstraints {
+      $0.size.equalTo(32)
     }
     
     textView.snp.makeConstraints {
       $0.height.greaterThanOrEqualTo(32)
-      
     }
     
     uploadButton.snp.makeConstraints {
       $0.size.equalTo(32)
+    }
+    
+    commentSeparatorLineView.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(1)
     }
   }
   

@@ -32,22 +32,7 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: Comment Posting View (댓글 작성 UI)
   
-  private let commentContainerView = UIView()
-  
-  private let separatorLineView = UIView().then {
-    $0.backgroundColor = .lightGray
-  }
-  
-  private let commentPostingStackView = UIStackView().then {
-    $0.spacing = 8
-    $0.alignment = .top
-  }
-  
-  private let profileImageView = UIImageView(image: .init(named: "userDefaultImage")).then {
-    $0.contentMode = .scaleAspectFit
-  }
-  
-  private let commentPostingInputView = CommentInputView().then {
+  private let commentInputView = CommentInputView().then {
     $0.clipsToBounds = true
     $0.layer.cornerRadius = 8
     $0.backgroundColor = .white
@@ -80,16 +65,8 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [collectionView, commentContainerView].forEach {
+    [collectionView, commentInputView].forEach {
       view.addSubview($0)
-    }
-    
-    [commentPostingStackView, separatorLineView].forEach {
-      commentContainerView.addSubview($0)
-    }
-    
-    [profileImageView, commentPostingInputView].forEach {
-      commentPostingStackView.addArrangedSubview($0)
     }
   }
   
@@ -97,27 +74,12 @@ final class BoardDetailViewController: BaseViewController {
     super.setupConstraints()
     collectionView.snp.makeConstraints {
       $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
-      $0.bottom.equalTo(commentContainerView.snp.top)
+      $0.bottom.equalTo(commentInputView.snp.top)
     }
     
-    commentContainerView.snp.makeConstraints {
+    commentInputView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
-    }
-    
-    commentPostingStackView.snp.makeConstraints {
-      $0.directionalVerticalEdges.equalToSuperview().inset(Metric.commentPostingStackViewVerticalInset)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(Metric.commentPostingStackViewHorizontalInset)
-    }
-    
-    profileImageView.snp.makeConstraints {
-      $0.size.equalTo(Metric.profileImageViewSize)
-    }
-    
-    separatorLineView.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(Metric.separatorLineHeight)
     }
   }
   
@@ -129,7 +91,7 @@ final class BoardDetailViewController: BaseViewController {
     collectionView.addGestureRecognizer(panGesture)
     
     // == comment posting delegate ==
-    commentPostingInputView.delegate = self
+    commentInputView.delegate = self
   }
   
   override func bind() {
@@ -152,7 +114,7 @@ final class BoardDetailViewController: BaseViewController {
     tapGesture.rx.event
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.commentPostingInputView.endEditing(true)
+        owner.commentInputView.endEditing(true)
       }
       .disposed(by: disposeBag)
     
@@ -162,7 +124,7 @@ final class BoardDetailViewController: BaseViewController {
       .map { [weak self] in $0.translation(in: self?.collectionView) }
       .filter { $0.y > 60 } // 특정 threshold값만큼 아래로 스와이프 하면 emit하도록 설정, threshold: 60
       .drive(with: self) { owner, _ in
-        owner.commentPostingInputView.endEditing(true)
+        owner.commentInputView.endEditing(true)
       }
       .disposed(by: disposeBag)
   }
@@ -232,7 +194,7 @@ private extension BoardDetailViewController {
     
     let keyboardHeight = keyboardSize.height
     
-    self.commentContainerView.snp.updateConstraints {
+    self.commentInputView.snp.updateConstraints {
       $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(keyboardHeight)
     }
     
@@ -243,7 +205,7 @@ private extension BoardDetailViewController {
   
   @objc
   func keyboardWillHide(_ sender: Notification) {
-    commentContainerView.snp.updateConstraints {
+    commentInputView.snp.updateConstraints {
       $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
     }
     
