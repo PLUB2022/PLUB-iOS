@@ -171,7 +171,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
               return model
             }
             fetchingDayModel.accept(fetchList)
-            confirmList.append(day.eng)
+            confirmList.append(day)
             confirmDay.accept(confirmList)
           }
           else {
@@ -182,7 +182,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
               return model
             }
             fetchingDayModel.accept(fetchList)
-            let confirmList = confirmList.filter { $0 != day.eng }
+            let confirmList = confirmList.filter { $0 != day }
             confirmDay.accept(confirmList)
           }
         }
