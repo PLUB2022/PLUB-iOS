@@ -197,7 +197,7 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
       fetchingDayModel
     )
     { subCategories, days -> Bool in
-      return subCategories.filter { $0.isTapped }.count > 0 && days.filter { $0.isTapped }.count > 0
+      return subCategories.filter(\.isTapped).count > 0 && days.filter(\.isTapped).count > 0
     }
     .asDriver(onErrorDriveWith: .empty())
     
