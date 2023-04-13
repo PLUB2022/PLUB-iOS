@@ -37,6 +37,7 @@ final class ReplyView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayouts()
+    setupConstraints()
   }
   
   required init?(coder: NSCoder) {
@@ -52,7 +53,6 @@ final class ReplyView: UIView {
   }
   
   private func setupConstraints() {
-    
     replyIndicatorLabel.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(Metrics.directionalHorizontalInset)
       $0.centerY.equalToSuperview()
