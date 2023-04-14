@@ -30,6 +30,25 @@ final class ArchivePopUpViewController: BaseViewController {
     $0.alwaysBounceVertical = false
   }
   
+  private let orderLabel = UILabel().then {
+    $0.text = "번째 기록"
+    $0.textColor = .black
+    $0.font = .h5
+  }
+  
+  private let dateLabel = UILabel().then {
+    $0.text = "2022.03.25"
+    $0.textColor = .mediumGray
+    $0.font = .body2
+  }
+  
+  private let titleLabel = UILabel().then {
+    $0.text = "아카이브 제목"
+    $0.numberOfLines = 0
+    $0.textColor = .black
+    $0.font = .h2
+  }
+  
   // MARK: - Initializations
   
   init() {
@@ -51,7 +70,7 @@ final class ArchivePopUpViewController: BaseViewController {
     
     view.addSubview(containerView)
     
-    [closeButton, collectionView].forEach {
+    [closeButton, collectionView, orderLabel, dateLabel, titleLabel].forEach {
       containerView.addSubview($0)
     }
   }
@@ -61,7 +80,6 @@ final class ArchivePopUpViewController: BaseViewController {
     
     containerView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalToSuperview().inset(24)
-      $0.height.equalTo(440)
       $0.center.equalToSuperview()
     }
     
@@ -74,6 +92,22 @@ final class ArchivePopUpViewController: BaseViewController {
       $0.top.equalToSuperview().inset(50)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(collectionView.snp.width).offset(-Metrics.Padding.horizontal * 2)
+    }
+    
+    orderLabel.snp.makeConstraints {
+      $0.leading.equalToSuperview().inset(Metrics.Padding.horizontal)
+      $0.top.equalTo(collectionView.snp.bottom).offset(20)
+    }
+    
+    dateLabel.snp.makeConstraints {
+      $0.bottom.equalTo(orderLabel.snp.bottom)
+      $0.leading.equalTo(orderLabel.snp.trailing).offset(10)
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Metrics.Padding.horizontal)
+      $0.top.equalTo(orderLabel.snp.bottom).offset(10)
+      $0.bottom.equalToSuperview().inset(30)
     }
   }
   
