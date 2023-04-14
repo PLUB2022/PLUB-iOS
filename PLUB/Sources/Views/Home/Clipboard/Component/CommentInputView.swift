@@ -46,6 +46,9 @@ final class CommentInputView: UIView {
   private let textViewContainerView = UIStackView().then {
     $0.alignment = .center
     $0.spacing = 8
+    $0.backgroundColor = .white
+    $0.clipsToBounds = true
+    $0.layer.cornerRadius = 8
   }
   
   private let textView = UITextView().then {

@@ -38,9 +38,7 @@ final class BoardDetailViewController: BaseViewController {
   }
   
   private let commentInputView = CommentInputView().then {
-    $0.clipsToBounds = true
-    $0.layer.cornerRadius = 8
-    $0.backgroundColor = .white
+    $0.backgroundColor = .background
   }
   
   // MARK: - Initializations
