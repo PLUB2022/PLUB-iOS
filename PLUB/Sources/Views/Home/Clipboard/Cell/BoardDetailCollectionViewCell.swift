@@ -8,12 +8,26 @@
 import UIKit
 
 import Kingfisher
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
+protocol BoardDetailCollectionViewCellDelegate: AnyObject {
+  func didTappedReplyButton(commentID: Int)
+}
+
 final class BoardDetailCollectionViewCell: UICollectionViewCell {
   
+  // MARK: - Properties
+  
   static let identifier = "\(BoardDetailCollectionViewCell.self)"
+  
+  weak var delegate: BoardDetailCollectionViewCellDelegate?
+  
+  private var commentID = 0
+  
+  private let disposeBag = DisposeBag()
   
   // MARK: - UI Components
   
@@ -112,7 +126,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     super.init(frame: frame)
     setupLayouts()
     setupConstraints()
-    setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -171,9 +185,13 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
       $0.directionalHorizontalEdges.equalToSuperview().inset(6)
     }
   }
-  
-  private func setupStyles() {
     
+  private func bind() {
+    replyButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedReplyButton(commentID: owner.commentID)
+      }
+      .disposed(by: disposeBag)
   }
   
   func configure(with model: CommentContent) {
@@ -195,6 +213,9 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     
     // author process
     authorIndicationView.isHidden = !model.isAuthorComment
+    
+    // Inject comment ID
+    commentID = model.commentID
   }
 }
 

@@ -201,6 +201,7 @@ extension BoardDetailViewModel {
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
     let registration = CellRegistration { cell, _, item in
       cell.configure(with: item)
+      cell.delegate = self
     }
     
     // Header View Registration, 헤더 뷰 후처리에 사용됨
@@ -253,5 +254,16 @@ extension BoardDetailViewModel {
     }
     
     dataSource.apply(snapshot)
+  }
+}
+
+extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
+  func didTappedReplyButton(commentID: Int) {
+    guard let commentValue = comments.first(where: { $0.commentID == commentID })
+    else {
+      return
+    }
+    
+    // 답글 처리
   }
 }
