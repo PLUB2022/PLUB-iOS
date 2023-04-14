@@ -21,7 +21,7 @@ protocol BoardDetailViewModelType {
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> { get }
   
   /// 사용자의 댓글을 입력합니다.
-  var commentsInput: AnyObserver<(comment: String, parentID: Int?)> { get }
+  var commentsInput: AnyObserver<String> { get }
 }
 
 protocol BoardDetailDataStore {
@@ -59,7 +59,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   // MARK: Subjects
   
   private let collectionViewSubject = PublishSubject<UICollectionView>()
-  private let commentInputSubject   = PublishSubject<(comment: String, parentID: Int?)>()
+  private let commentInputSubject   = PublishSubject<String>()
   private let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   
   // MARK: - Initializations
@@ -171,7 +171,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   var setCollectionViewObserver: AnyObserver<UICollectionView> {
     collectionViewSubject.asObserver()
   }
-  var commentsInput: AnyObserver<(comment: String, parentID: Int?)> {
+  var commentsInput: AnyObserver<String> {
     commentInputSubject.asObserver()
   }
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> {
