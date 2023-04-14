@@ -88,12 +88,7 @@ final class RecruitmentFilterViewModel {
           owner.confirmSubCategory.accept([])
         }
         else { // 특정 서브카테고리를 선택/미선택 했을 때, [전체] 카테고리 미선택
-          let fetchList = fetchList.map { model in
-            if model.subCategoryID == Constants.entireID {
-              return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
-            }
-            return model
-          }
+          fetchList[0].isTapped = false
           owner.selectingSubCategories.accept(fetchList)
           confirmList.append(subCategoryID)
           owner.confirmSubCategory.accept(confirmList)
@@ -126,12 +121,7 @@ final class RecruitmentFilterViewModel {
           owner.confirmDay.accept([])
         }
         else { // 특정 요일 선택/미선택 했을 때, [요일무관] 카테고리 미선택
-          let fetchList = fetchList.map { model in
-            if model.day == .all {
-              return RecruitmentFilterDateCollectionViewCellModel(day: model.day)
-            }
-            return model
-          }
+          fetchList[0].isTapped = false
           owner.fetchingDayModel.accept(fetchList)
           confirmList.append(day)
           owner.confirmDay.accept(confirmList)
@@ -175,7 +165,7 @@ extension RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
       selectingSubCategories,
       fetchingDayModel
     )
-    { subCategories, days -> Bool in
+    { subCategories, days in
       return subCategories.filter(\.isTapped).count > 0 && days.filter(\.isTapped).count > 0
     }
     .asDriver(onErrorDriveWith: .empty())
