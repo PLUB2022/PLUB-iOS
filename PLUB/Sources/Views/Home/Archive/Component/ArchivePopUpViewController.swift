@@ -25,6 +25,11 @@ final class ArchivePopUpViewController: BaseViewController {
     $0.setImage(.init(named: "xMarkDeepGray"), for: .normal)
   }
   
+  private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
+    $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
+    $0.alwaysBounceVertical = false
+  }
+  
   // MARK: - Initializations
   
   init() {
@@ -46,7 +51,7 @@ final class ArchivePopUpViewController: BaseViewController {
     
     view.addSubview(containerView)
     
-    [closeButton].forEach {
+    [closeButton, collectionView].forEach {
       containerView.addSubview($0)
     }
   }
@@ -64,11 +69,19 @@ final class ArchivePopUpViewController: BaseViewController {
       $0.top.trailing.equalToSuperview().inset(7)
       $0.size.equalTo(32)
     }
+    
+    collectionView.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(50)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(collectionView.snp.width).offset(-Metrics.Padding.horizontal * 2)
+    }
   }
   
   override func setupStyles() {
     super.setupStyles()
     view.backgroundColor = .black.withAlphaComponent(0.45)
+    collectionView.collectionViewLayout = createLayouts()
+    collectionView.dataSource = self
   }
   
   override func bind() {
@@ -79,5 +92,55 @@ final class ArchivePopUpViewController: BaseViewController {
         owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - CompositionalLayout
+
+extension ArchivePopUpViewController {
+  /// 아카이빙된 이미지를 셀로부터 보여주기 위한 컬렉션 뷰 레이아웃을 생성합니다.
+  private func createLayouts() -> UICollectionViewLayout {
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalHeight(1.0))
+    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+    group.interItemSpacing = .fixed(8)
+    
+    let section = NSCollectionLayoutSection(group: group)
+    section.interGroupSpacing = 8
+    section.orthogonalScrollingBehavior = .groupPaging
+    section.contentInsets = NSDirectionalEdgeInsets(
+      top: 0,
+      leading: Metrics.Padding.horizontal,
+      bottom: 0,
+      trailing: Metrics.Padding.horizontal
+    )
+    
+    let layout = UICollectionViewCompositionalLayout(section: section)
+    return layout
+  }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension ArchivePopUpViewController: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UICollectionViewCell", for: indexPath)
+    cell.contentView.backgroundColor = .deepGray
+    cell.contentView.layer.cornerRadius = 10
+    return cell
+  }
+}
+
+private extension ArchivePopUpViewController {
+  enum Metrics {
+    enum Padding {
+      static let horizontal: CGFloat = 16
+    }
   }
 }
