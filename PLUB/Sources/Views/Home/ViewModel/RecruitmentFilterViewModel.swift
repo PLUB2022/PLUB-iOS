@@ -27,7 +27,7 @@ final class RecruitmentFilterViewModel {
   private let disposeBag = DisposeBag()
   
   private let selectingSubCategories = BehaviorRelay<[RecruitmentFilterCollectionViewCellModel]>(value: [])
-  private let fetchingDayModel = BehaviorRelay<[RecruitmentFilterDateCollectionViewCellModel]>(value: Day.allCases.map { RecruitmentFilterDateCollectionViewCellModel(day: $0) })
+  private let fetchingDayModel = BehaviorRelay<[RecruitmentFilterDateCollectionViewCellModel]>(value: [])
   private let isSelectingSubCategory = PublishSubject<(Bool, Int)>()
   private let isSelectingDay = PublishSubject<(Bool, Day)>()
   private let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
@@ -36,10 +36,15 @@ final class RecruitmentFilterViewModel {
   private let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
   
   init(categoryID: Int) {
-    
+    initializeFetchingDay()
     fetchSubCategory(categoryID: categoryID)
     selectingSubCategory()
     selectingDay()
+  }
+  
+  private func initializeFetchingDay() { // 요일에 대한 상태값을 초기화하는 함수
+    let fetchDay = Day.allCases.map { RecruitmentFilterDateCollectionViewCellModel(day: $0) }
+    fetchingDayModel.accept(fetchDay)
   }
   
   private func fetchSubCategory(categoryID: Int) {
