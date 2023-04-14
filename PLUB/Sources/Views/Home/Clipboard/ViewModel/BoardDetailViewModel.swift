@@ -21,7 +21,15 @@ protocol BoardDetailViewModelType {
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> { get }
   
   /// 사용자의 댓글을 입력합니다.
-  var commentsInput: AnyObserver<(comment: String, parentID: Int?)> { get }
+  var commentsInput: AnyObserver<String> { get }
+  
+  /// 답장할 대상자의 ID를 emit합니다.
+  var replyIDObserver: AnyObserver<Int?> { get }
+  
+  //Output
+  
+  /// 답장할 대상자의 닉네임을 받습니다.
+  var replyNicknameObserable: Observable<String> { get }
 }
 
 protocol BoardDetailDataStore {
@@ -59,7 +67,9 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   // MARK: Subjects
   
   private let collectionViewSubject = PublishSubject<UICollectionView>()
-  private let commentInputSubject   = PublishSubject<(comment: String, parentID: Int?)>()
+  private let commentInputSubject   = PublishSubject<String>()
+  private let replyIDSubject        = BehaviorSubject<Int?>(value: nil)
+  private let replyNicknameSubject  = PublishSubject<String>()
   private let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   
   // MARK: - Initializations
@@ -118,6 +128,9 @@ extension BoardDetailViewModel {
   ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
   private func createComments(plubbingID: Int, content: BoardModel) {
     commentInputSubject
+      .withLatestFrom(replyIDSubject) { comment, parentID in
+        (comment: comment, parentID: parentID)
+      }
       .flatMap { [postCommentUseCase] in
         postCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, context: $0.comment, commentParentID: $0.parentID)
       }
@@ -171,11 +184,17 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   var setCollectionViewObserver: AnyObserver<UICollectionView> {
     collectionViewSubject.asObserver()
   }
-  var commentsInput: AnyObserver<(comment: String, parentID: Int?)> {
+  var commentsInput: AnyObserver<String> {
     commentInputSubject.asObserver()
   }
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> {
     bottomCellSubject.asObserver()
+  }
+  var replyIDObserver: AnyObserver<Int?> {
+    replyIDSubject.asObserver()
+  }
+  var replyNicknameObserable: Observable<String> {
+    replyNicknameSubject.asObservable()
   }
 }
 
@@ -201,6 +220,7 @@ extension BoardDetailViewModel {
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
     let registration = CellRegistration { cell, _, item in
       cell.configure(with: item)
+      cell.delegate = self
     }
     
     // Header View Registration, 헤더 뷰 후처리에 사용됨
@@ -252,5 +272,17 @@ extension BoardDetailViewModel {
     }
     
     dataSource.apply(snapshot)
+  }
+}
+
+extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
+  func didTappedReplyButton(commentID: Int) {
+    guard let commentValue = comments.first(where: { $0.commentID == commentID })
+    else {
+      return
+    }
+    
+    replyNicknameSubject.onNext(commentValue.nickname)
+    replyIDSubject.onNext(commentID)
   }
 }
