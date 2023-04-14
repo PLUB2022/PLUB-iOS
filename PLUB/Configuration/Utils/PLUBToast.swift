@@ -72,6 +72,8 @@ final class PLUBToast: UIView {
       $0.bottom.equalTo(window.safeAreaLayoutGuide).inset(Metrics.Margin.vertical)
       $0.directionalHorizontalEdges.equalTo(window.safeAreaLayoutGuide).inset(Metrics.Margin.horizontal)
     }
+    
+    toast.showToast()
   }
   
   // MARK: - Configurations
@@ -97,6 +99,37 @@ final class PLUBToast: UIView {
     layer.cornerRadius = 8
     clipsToBounds = true
     alpha = 0
+  }
+  
+  // MARK: - Custom Methods
+  
+  /// Toast의 alpha값을 0에서 1로 변경하여 Toast가 보이도록 합니다.
+  private func showToast() {
+    UIView.animate(
+      withDuration: 0.25,
+      delay: 0,
+      options: .curveEaseIn) {
+        self.alpha = 1
+      } completion: { _ in
+        self.hideToast()
+      }
+  }
+  
+  /// 지속시간이 지난 이후 다시 alpha값을 0으로 만들어 Toast가 사라지도록 만듭니다.
+  private func hideToast() {
+    UIView.animate(
+      withDuration: 0.25,
+      delay: duration.value,
+      options: .curveEaseOut) {
+        self.alpha = 0
+      } completion: { _ in
+        self.removeToast()
+      }
+  }
+  
+  /// Toast를 제거합니다.
+  private func removeToast() {
+    self.removeFromSuperview()
   }
 }
 
