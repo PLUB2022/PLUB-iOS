@@ -75,8 +75,9 @@ final class CommentInputView: UIView {
   }
   
   private func setupLayouts() {
-    addSubview(commentStackView)
-    addSubview(commentSeparatorLineView)
+    [commentStackView, commentSeparatorLineView].forEach {
+      addSubview($0)
+    }
     
     [profileImageView, textViewContainerView].forEach {
       commentStackView.addArrangedSubview($0)
