@@ -7,6 +7,15 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+import SnapKit
+import Then
+
+protocol ReplyViewDelegate: AnyObject {
+  func cancelButtonTapped()
+}
+
 final class ReplyView: UIView {
   
   // MARK: - Properties
@@ -17,6 +26,10 @@ final class ReplyView: UIView {
       replyIndicatorLabel.text = "\(nickname)님에게 답글 쓰는 중..."
     }
   }
+  
+  weak var delegate: ReplyViewDelegate?
+  
+  private let disposeBag = DisposeBag()
   
   // MARK: - UI Components
   
@@ -42,6 +55,7 @@ final class ReplyView: UIView {
     super.init(frame: frame)
     setupLayouts()
     setupConstraints()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -71,6 +85,14 @@ final class ReplyView: UIView {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(Metrics.separatorHeight)
     }
+  }
+  
+  private func bind() {
+    replyCancelButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.cancelButtonTapped()
+      }
+      .disposed(by: disposeBag)
   }
 }
 
