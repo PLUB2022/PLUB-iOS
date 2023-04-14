@@ -74,7 +74,7 @@ final class RecruitmentFilterDateCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: RecruitmentFilterDateCollectionViewCellModel) {
-    dayLabel.text = model.day.kor
+    dayLabel.text = model.day == .all ? model.day.kor : "\(model.day.kor)요일"
     isTapped = model.isTapped
   }
 }
