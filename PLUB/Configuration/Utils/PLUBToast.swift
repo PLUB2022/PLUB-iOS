@@ -55,7 +55,7 @@ final class PLUBToast: UIView {
   ///   - text: Toast 내부에 들어갈 텍스트
   ///   - duration: Toast의 지속시간, `.short`는 1.5초, `.long`은 3초입니다.
   static func makeToast(text: String?, duration: Duration = .long) {
-    guard let text, text.isEmpty == false else { return }
+    guard let text, !text.isEmpty else { return }
     
     let toast = PLUBToast(text: text, duration: duration)
     
