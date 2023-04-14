@@ -83,11 +83,8 @@ final class RecruitmentFilterViewModel {
         fetchList[index].isTapped = isSelect
         
         if subCategoryID == Constants.entireID { // [전체] 카테고리를 선택/미선택 했을 때, 나머지 카테고리 초기화
-          let fetchList = fetchList.map { model in
-            if model.subCategoryID != Constants.entireID {
-              return RecruitmentFilterCollectionViewCellModel(model: model, isTapped: false)
-            }
-            return model
+          for i in 1..<fetchList.count {
+            fetchList[i].isTapped = false
           }
           owner.selectingSubCategories.accept(fetchList)
           owner.confirmSubCategory.accept([])
@@ -116,11 +113,8 @@ final class RecruitmentFilterViewModel {
         fetchList[index].isTapped = isSelect
         
         if day == .all { // [요일무관] 선택/미선택 했을 때, 나머키 요일 초기화
-          let fetchList = fetchList.map { model in
-            if model.day != .all {
-              return RecruitmentFilterDateCollectionViewCellModel(day: model.day)
-            }
-            return model
+          for i in 1..<fetchList.count {
+            fetchList[i].isTapped = false
           }
           owner.fetchingDayModel.accept(fetchList)
           owner.confirmDay.accept([])
