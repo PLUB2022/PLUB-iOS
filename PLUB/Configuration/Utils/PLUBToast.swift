@@ -49,6 +49,31 @@ final class PLUBToast: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  /// Toast를 생성합니다.
+  /// 생성될 때, 적절한 위치에 맞추어 Toast가 나타났다가 사라지게 됩니다.
+  /// - Parameters:
+  ///   - text: Toast 내부에 들어갈 텍스트
+  ///   - duration: Toast의 지속시간, `.short`는 1.5초, `.long`은 3초입니다.
+  static func makeToast(text: String?, duration: Duration = .long) {
+    guard let text, text.isEmpty == false else { return }
+    
+    let toast = PLUBToast(text: text, duration: duration)
+    
+    guard let window = UIApplication.shared.connectedScenes
+      .compactMap({ $0 as? UIWindowScene })
+      .flatMap(\.windows)
+      .first(where: \.isKeyWindow)
+    else {
+      return
+    }
+    
+    window.addSubview(toast)
+    toast.snp.makeConstraints {
+      $0.bottom.equalTo(window.safeAreaLayoutGuide).inset(Metrics.Margin.vertical)
+      $0.directionalHorizontalEdges.equalTo(window.safeAreaLayoutGuide).inset(Metrics.Margin.horizontal)
+    }
+  }
+  
   // MARK: - Configurations
   
   private func setupLayouts() {
@@ -93,6 +118,11 @@ extension PLUBToast {
   }
   
   private enum Metrics {
+    enum Margin {
+      static let horizontal   = 24
+      static let vertical     = 60
+    }
+    
     enum Padding {
       static let horizontal   = 24
       static let vertical     = 16
