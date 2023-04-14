@@ -32,6 +32,11 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: Comment Posting View (댓글 작성 UI)
   
+  private let replyView = ReplyView().then {
+    $0.backgroundColor = .background
+    $0.isHidden = true
+  }
+  
   private let commentInputView = CommentInputView().then {
     $0.clipsToBounds = true
     $0.layer.cornerRadius = 8
@@ -65,7 +70,7 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [collectionView, commentInputView].forEach {
+    [collectionView, commentInputView, replyView].forEach {
       view.addSubview($0)
     }
   }
@@ -81,6 +86,12 @@ final class BoardDetailViewController: BaseViewController {
       $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
+    
+    replyView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalTo(commentInputView.snp.top)
+      $0.height.equalTo(28)
+    }
   }
   
   override func setupStyles() {
@@ -92,6 +103,7 @@ final class BoardDetailViewController: BaseViewController {
     
     // == comment posting delegate ==
     commentInputView.delegate = self
+    replyView.delegate = self
   }
   
   override func bind() {
@@ -136,6 +148,12 @@ extension BoardDetailViewController: CommentInputViewDelegate {
   func commentInputView(_ textView: UITextView, writtenText: String) {
     textView.text = ""
     viewModel.commentsInput.onNext((comment: writtenText, parentID: nil))
+  }
+}
+
+extension BoardDetailViewController: ReplyViewDelegate {
+  func cancelButtonTapped() {
+    replyView.isHidden = true
   }
 }
 
