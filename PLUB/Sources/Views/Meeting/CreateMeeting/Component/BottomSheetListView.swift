@@ -1,5 +1,5 @@
 //
-//  PhotoBottomSheetListView.swift
+//  BottomSheetListView.swift
 //  PLUB
 //
 //  Created by 김수빈 on 2023/01/17.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PhotoBottomSheetListView: UIView {
+final class BottomSheetListView: UIView {
   private let imageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
   }

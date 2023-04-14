@@ -14,16 +14,10 @@ final class ParticipantBottomSheetViewController: BottomSheetViewController {
   
   private let model: [AccountInfo]
   
-  private let grabber = UIView().then {
-    $0.backgroundColor = .mediumGray
-    $0.layer.cornerRadius = 6
-    $0.layer.masksToBounds = true
-  }
-  
   private let titleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .h5
-    $0.text = "With us!"
+    $0.text = "With Us!"
   }
   
   private lazy var participantCollectionView = UICollectionView(
@@ -31,7 +25,6 @@ final class ParticipantBottomSheetViewController: BottomSheetViewController {
     collectionViewLayout: UICollectionViewFlowLayout()
   ).then {
     $0.backgroundColor = .background
-    $0.contentInset = UIEdgeInsets(top: 24, left: 16, bottom: 24, right: 16)
     $0.register(ParticipantCollectionViewCell.self, forCellWithReuseIdentifier: ParticipantCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
@@ -48,30 +41,24 @@ final class ParticipantBottomSheetViewController: BottomSheetViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [grabber, titleLabel, participantCollectionView].forEach { contentView.addSubview($0) }
+    [titleLabel, participantCollectionView].forEach { contentView.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    grabber.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.centerX.equalToSuperview()
-      $0.width.equalTo(48)
-      $0.height.equalTo(4)
-    }
-    
     titleLabel.snp.makeConstraints {
-      $0.top.equalTo(grabber.snp.bottom).offset(16)
-      $0.leading.equalToSuperview().inset(16)
+      $0.top.equalToSuperview().inset(28)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
+      $0.height.equalTo(23)
     }
     
     participantCollectionView.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom)
-      $0.leading.trailing.equalToSuperview()
-      $0.bottom.equalToSuperview()
-      $0.height.equalTo(ceil(Double(model.count) / Double(4)) * (48 + 4 + 21) + (ceil(Double(model.count) / Double(4)) - 1) * 16 + Double(24 + 24))
-      // (총 참여자 수 / 행 최대 인원 수) * (참여자프로필높이 + 프로필, 라벨 offset + 라벨높이) + ((총 참여자 수 / 행 최대 인원 수) - 1) * minimumLine + (topInset + bottomInset)
+      $0.top.equalTo(titleLabel.snp.bottom).offset(24)
+      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(24)
+      $0.height.equalTo(ceil(Double(model.count) / Double(4)) * (48 + 4 + 21) + (ceil(Double(model.count) / Double(4)) - 1) * 16)
+      // (총 참여자 수 / 행 최대 인원 수) * (참여자프로필높이 + 프로필, 라벨 offset + 라벨높이) + ((총 참여자 수 / 행 최대 인원 수) - 1) * minimumLine
     }
   }
   

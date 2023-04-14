@@ -7,6 +7,7 @@
 
 import UIKit
 
+import CropViewController
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -19,23 +20,18 @@ protocol PhotoBottomSheetDelegate: AnyObject {
 final class PhotoBottomSheetViewController: BottomSheetViewController {
   weak var delegate: PhotoBottomSheetDelegate?
   
-  private let lineView = UIView().then {
-    $0.backgroundColor = .mediumGray
-    $0.layer.cornerRadius = 2
-  }
-  
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 8
     $0.backgroundColor = .background
   }
   
-  private let cameraView = PhotoBottomSheetListView(
+  private let cameraView = BottomSheetListView(
     text: "카메라로 촬영",
     image: "camera"
   )
   
-  private let albumView = PhotoBottomSheetListView(
+  private let albumView = BottomSheetListView(
     text: "앨범에서 사진 업로드",
     image: "selectPhotoBlack"
   )
@@ -44,15 +40,9 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
     $0.delegate = self
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
-    [lineView, contentStackView].forEach {
-      contentView.addSubview($0)
-    }
+    contentView.addSubview(contentStackView)
     
     [cameraView, albumView].forEach {
       contentStackView.addArrangedSubview($0)
@@ -62,25 +52,18 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
-    lineView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(8)
-      $0.height.equalTo(4.33)
-      $0.width.equalTo(52)
-      $0.centerX.equalToSuperview()
-    }
-    
     contentStackView.snp.makeConstraints {
-      $0.top.equalTo(lineView.snp.bottom).offset(26)
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(78)
+      $0.top.equalToSuperview().inset(36)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(24)
     }
     
     cameraView.snp.makeConstraints {
-      $0.height.equalTo(52)
+      $0.height.equalTo(48)
     }
     
     albumView.snp.makeConstraints {
-      $0.height.equalTo(52)
+      $0.height.equalTo(48)
     }
   }
   
@@ -107,19 +90,40 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
 extension PhotoBottomSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   func imagePickerController(
     _ picker: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
   ) {
-    guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+    guard let selectedImage = info[.originalImage] as? UIImage else { return }
     
-    picker.dismiss(animated: false, completion: {
-      self.delegate?.selectImage(image: selectedImage)
-      self.dismiss(animated: false)
-    })
+    picker.dismiss(animated: true) {
+      let cropViewController = CropViewController(croppingStyle: .default, image: selectedImage).then {
+        $0.aspectRatioPreset = .presetSquare
+        $0.aspectRatioLockEnabled = false
+        $0.toolbarPosition = .bottom
+        $0.doneButtonTitle = "계속"
+        $0.cancelButtonTitle = "취소"
+        $0.delegate = self
+      }
+      self.present(cropViewController, animated: true)
+    }
   }
   
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    picker.dismiss(animated: false, completion: {
-      self.dismiss(animated: false)
-    })
+    picker.dismiss(animated: true) {
+      self.dismiss(animated: true)
+    }
+  }
+}
+
+// MARK: - CropViewControllerDelegate
+
+extension PhotoBottomSheetViewController: CropViewControllerDelegate {
+  func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+    cropViewController.dismiss(animated: true)
+  }
+  
+  func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+    cropViewController.dismiss(animated: true)
+    delegate?.selectImage(image: image)
+    self.dismiss(animated: true)
   }
 }

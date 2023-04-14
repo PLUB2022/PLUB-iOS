@@ -152,12 +152,12 @@
 		BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778228EECDC50036B825 /* Pretendard-Regular.otf */; };
 		BA52778C28EECDC50036B825 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778328EECDC50036B825 /* Pretendard-Light.otf */; };
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
-		BA5D9EDB29E406AD00F06AB5 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9EDA29E406AD00F06AB5 /* Day.swift */; };
 		BA5D9ECF29E3E9A300F06AB5 /* ArchiveRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */; };
 		BA5D9ED029E3E9A300F06AB5 /* ArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECE29E3E9A300F06AB5 /* ArchiveService.swift */; };
 		BA5D9ED529E3EE7400F06AB5 /* ArchiveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED429E3EE7400F06AB5 /* ArchiveRequest.swift */; };
 		BA5D9ED729E3EECA00F06AB5 /* CreateArchiveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED629E3EECA00F06AB5 /* CreateArchiveResponse.swift */; };
 		BA5D9ED929E3F16900F06AB5 /* ArchiveContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ED829E3F16900F06AB5 /* ArchiveContent.swift */; };
+		BA5D9EDB29E406AD00F06AB5 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9EDA29E406AD00F06AB5 /* Day.swift */; };
 		BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5DEB2F2974D8E200650788 /* NetworkResult.swift */; };
 		BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA5DEB3229751E5F00650788 /* GoogleSignIn */; };
 		BA6D7C5329A7D46900D8E928 /* CommentsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D7C5229A7D46900D8E928 /* CommentsRequest.swift */; };
@@ -217,6 +217,7 @@
 		BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC8930829755B87000D44E2 /* SignUpRequest.swift */; };
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAC9794529CF0E9E00A5DF1B /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */; };
+		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
 		BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */; };
 		BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */; };
 		BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */; };
@@ -290,7 +291,7 @@
 		C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */; };
 		C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */; };
 		C36D337D2975ADD800943B11 /* Ex+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337C2975ADD800943B11 /* Ex+CALayer.swift */; };
-		C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */; };
+		C36D337F2975B37D00943B11 /* BottomSheetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36D337E2975B37D00943B11 /* BottomSheetListView.swift */; };
 		C36F31C729E3072800AC2C8A /* ScheduleBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F31C629E3072800AC2C8A /* ScheduleBottomSheetViewController.swift */; };
 		C36F31C929E3119200AC2C8A /* Ex+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F31C829E3119200AC2C8A /* Ex+Collection.swift */; };
 		C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */; };
@@ -505,12 +506,12 @@
 		BA52778228EECDC50036B825 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		BA52778328EECDC50036B825 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
-		BA5D9EDA29E406AD00F06AB5 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRouter.swift; sourceTree = "<group>"; };
 		BA5D9ECE29E3E9A300F06AB5 /* ArchiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveService.swift; sourceTree = "<group>"; };
 		BA5D9ED429E3EE7400F06AB5 /* ArchiveRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRequest.swift; sourceTree = "<group>"; };
 		BA5D9ED629E3EECA00F06AB5 /* CreateArchiveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateArchiveResponse.swift; sourceTree = "<group>"; };
 		BA5D9ED829E3F16900F06AB5 /* ArchiveContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveContent.swift; sourceTree = "<group>"; };
+		BA5D9EDA29E406AD00F06AB5 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		BA5DEB2F2974D8E200650788 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		BA6D7C5229A7D46900D8E928 /* CommentsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsRequest.swift; sourceTree = "<group>"; };
 		BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLUBTabBarController.swift; sourceTree = "<group>"; };
@@ -635,7 +636,7 @@
 		C36CE39B29730B5000E3A68C /* MeetingIntroduceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewController.swift; sourceTree = "<group>"; };
 		C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectView.swift; sourceTree = "<group>"; };
 		C36D337C2975ADD800943B11 /* Ex+CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+CALayer.swift"; sourceTree = "<group>"; };
-		C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetListView.swift; sourceTree = "<group>"; };
+		C36D337E2975B37D00943B11 /* BottomSheetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetListView.swift; sourceTree = "<group>"; };
 		C36F31C629E3072800AC2C8A /* ScheduleBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C36F31C829E3119200AC2C8A /* Ex+Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Collection.swift"; sourceTree = "<group>"; };
 		C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -718,6 +719,7 @@
 				7095A585292B566C002A52E6 /* Kingfisher in Frameworks */,
 				C346B4AA29B1079900884E4F /* FirebaseCrashlytics in Frameworks */,
 				BA88127028E48AC800BD832A /* Alamofire in Frameworks */,
+				BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */,
 				C346B4A829B1079900884E4F /* FirebaseAnalytics in Frameworks */,
 				BA88126728E48A7A00BD832A /* RxSwift in Frameworks */,
 				BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */,
@@ -1654,7 +1656,7 @@
 			children = (
 				C36CE399297305E100E3A68C /* CreateMeetingTitleView.swift */,
 				C36CE39E29731A0700E3A68C /* PhotoSelectView.swift */,
-				C36D337E2975B37D00943B11 /* PhotoBottomSheetListView.swift */,
+				C36D337E2975B37D00943B11 /* BottomSheetListView.swift */,
 				C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */,
 				C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */,
 				C34F71C229799B1C003DB376 /* TimeControl.swift */,
@@ -2066,6 +2068,7 @@
 				C346B4A729B1079900884E4F /* FirebaseAnalytics */,
 				C346B4A929B1079900884E4F /* FirebaseCrashlytics */,
 				C346B4AB29B1079900884E4F /* FirebaseMessaging */,
+				BACEE33229E6F393009FAB98 /* CropViewController */,
 			);
 			productName = PLUB;
 			productReference = BA88124A28E48A2F00BD832A /* PLUB.app */;
@@ -2106,6 +2109,7 @@
 				BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				C305B67A29AC9FE700BD5C6A /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				C346B4A629B1079900884E4F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				BACEE33129E6F393009FAB98 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
 			);
 			productRefGroup = BA88124B28E48A2F00BD832A /* Products */;
 			projectDirPath = "";
@@ -2279,7 +2283,7 @@
 				C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */,
 				70A4209E2988BB410026E9F9 /* SortBottomSheetViewController.swift in Sources */,
 				705F81C129AF8E7300830C4F /* MainPageViewModel.swift in Sources */,
-				C36D337F2975B37D00943B11 /* PhotoBottomSheetListView.swift in Sources */,
+				C36D337F2975B37D00943B11 /* BottomSheetListView.swift in Sources */,
 				C38A5BA1297B0C4100485355 /* NoLocationView.swift in Sources */,
 				BA3D300729DDB9B900B56E98 /* SocialType.swift in Sources */,
 				702876B5299BAD0A00E57509 /* ParticipantCollectionViewCell.swift in Sources */,
@@ -2542,7 +2546,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2596,7 +2600,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -2624,7 +2628,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2658,7 +2662,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2762,6 +2766,14 @@
 				kind = branch;
 			};
 		};
+		BACEE33129E6F393009FAB98 /* XCRemoteSwiftPackageReference "TOCropViewController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TimOliver/TOCropViewController.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		C305B67A29AC9FE700BD5C6A /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
@@ -2835,6 +2847,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA8AA42E2988FDCC004E9403 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		BACEE33229E6F393009FAB98 /* CropViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BACEE33129E6F393009FAB98 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
+			productName = CropViewController;
 		};
 		C305B67B29AC9FE700BD5C6A /* RxDataSources */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,6 +7,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 protocol LocationBottomSheetDelegate: AnyObject {
   func selectLocation(location: Location)
 }
@@ -27,7 +30,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     $0.textColor = .black
     $0.font = .body2
   }
-
+  
   private let firstView = LocationBaseView()
   
   private let noneView = NoLocationView().then {
@@ -39,17 +42,12 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     $0.separatorStyle = .none
     $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
-    $0.rowHeight = 75
     $0.isHidden = true
   }
   
   private let nextButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "다음")
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "확인")
     $0.isEnabled = false
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
   }
   
   override func setupLayouts() {
@@ -61,10 +59,6 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    contentView.snp.remakeConstraints {
-      $0.leading.trailing.bottom.equalToSuperview()
-      $0.height.equalTo(639)
-    }
     
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(16)
@@ -74,38 +68,43 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     
     searchView.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(24)
-      $0.leading.trailing.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview().inset(16)
       $0.height.equalTo(40)
     }
     
     searchCountLabel.snp.makeConstraints {
       $0.top.equalTo(searchView.snp.bottom).offset(8)
-      $0.trailing.equalToSuperview().inset(24)
+      $0.trailing.equalTo(searchView.snp.trailing)
       $0.height.equalTo(21)
     }
     
     firstView.snp.makeConstraints {
       $0.top.equalTo(searchView.snp.bottom).offset(64)
       $0.centerX.equalToSuperview()
-      $0.leading.trailing.equalToSuperview()
     }
     
     noneView.snp.makeConstraints {
       $0.top.equalTo(searchView.snp.bottom).offset(64)
       $0.centerX.equalToSuperview()
-      $0.leading.trailing.equalToSuperview()
     }
     
     tableView.snp.makeConstraints {
-      $0.top.equalTo(searchCountLabel.snp.bottom).offset(8)
-      $0.leading.trailing.equalToSuperview()
-      $0.bottom.equalToSuperview()
+      $0.top.equalTo(searchCountLabel.snp.bottom).offset(16)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
+      $0.bottom.equalTo(nextButton.snp.top).offset(-6)
+      $0.height.equalTo(352)
     }
     
     nextButton.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(26)
-      $0.height.width.equalTo(46)
-      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(24)
+      $0.height.equalTo(46)
+    }
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    if let sheet = sheetPresentationController {
+      sheet.prefersGrabberVisible = false
     }
   }
   
@@ -165,7 +164,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
           withIdentifier: "LocationTableViewCell",
           for: IndexPath(row: row, section: 0)
         ) as? LocationTableViewCell,
-          let item = item
+              let item = item
         else { return UITableViewCell() }
         cell.setupData(
           with: LocationTableViewCellModel(
@@ -183,7 +182,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
         let offsetY = self.tableView.contentOffset.y
         let contentHeight = self.tableView.contentSize.height
         if offsetY > (contentHeight - self.tableView.frame.size.height) {
-            self.viewModel.fetchMoreData.onNext(())
+          self.viewModel.fetchMoreData.onNext(())
         }
       }
       .disposed(by: disposeBag)
@@ -218,7 +217,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
             positionY: Double(positionY) ?? 0
           )
         )
-        owner.dismiss(animated: false)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
   }
