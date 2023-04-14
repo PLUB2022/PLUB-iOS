@@ -38,7 +38,6 @@ final class ReplyView: UIView {
   }
   
   private let replyIndicatorLabel = UILabel().then {
-    $0.text = "~~님에게 답글 쓰는 중..."
     $0.font = .overLine
     $0.textColor = .black
   }
