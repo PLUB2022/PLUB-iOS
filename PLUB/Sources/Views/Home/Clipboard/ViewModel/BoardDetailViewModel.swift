@@ -240,13 +240,12 @@ extension BoardDetailViewModel {
     guard let dataSource else { return }
     
     var snapshot = dataSource.snapshot()
-    let sections = snapshot.sectionIdentifiers
     let items = snapshot.itemIdentifiers // 전체 Item을 가져옴
     
     // snapshot에 적용되지 않은 item 선별
     for content in comments where items.contains(content) == false {
       // 댓글인 경우
-      if sections.contains(content.groupID) == false {
+      if snapshot.sectionIdentifiers.contains(content.groupID) == false {
         snapshot.appendSections([content.groupID])
       }
       snapshot.appendItems([content], toSection: content.groupID)
