@@ -110,6 +110,13 @@ final class BoardDetailViewController: BaseViewController {
     super.bind()
     collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
+    viewModel.replyNicknameObserable
+      .subscribe(with: self) { owner, nickname in
+        owner.replyView.nickname = nickname
+        owner.replyView.isHidden = false
+      }
+      .disposed(by: disposeBag)
+    
     // ViewModel에게 `DiffableDataSource`처리를 해주기 위해 collectionView를 전달
     viewModel.setCollectionViewObserver.onNext(collectionView)
     
@@ -153,6 +160,7 @@ extension BoardDetailViewController: CommentInputViewDelegate {
 
 extension BoardDetailViewController: ReplyViewDelegate {
   func cancelButtonTapped() {
+    viewModel.replyIDObserver.onNext(nil)
     replyView.isHidden = true
   }
 }

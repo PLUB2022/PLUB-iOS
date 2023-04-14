@@ -22,6 +22,14 @@ protocol BoardDetailViewModelType {
   
   /// 사용자의 댓글을 입력합니다.
   var commentsInput: AnyObserver<String> { get }
+  
+  /// 답장할 대상자의 ID를 emit합니다.
+  var replyIDObserver: AnyObserver<Int?> { get }
+  
+  //Output
+  
+  /// 답장할 대상자의 닉네임을 받습니다.
+  var replyNicknameObserable: Observable<String> { get }
 }
 
 protocol BoardDetailDataStore {
@@ -60,6 +68,8 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   private let collectionViewSubject = PublishSubject<UICollectionView>()
   private let commentInputSubject   = PublishSubject<String>()
+  private let replyIDSubject        = PublishSubject<Int?>()
+  private let replyNicknameSubject  = PublishSubject<String>()
   private let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   
   // MARK: - Initializations
@@ -118,6 +128,9 @@ extension BoardDetailViewModel {
   ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
   private func createComments(plubbingID: Int, content: BoardModel) {
     commentInputSubject
+      .withLatestFrom(replyIDSubject) { comment, parentID in
+        (comment: comment, parentID: parentID)
+      }
       .flatMap { [postCommentUseCase] in
         postCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, context: $0.comment, commentParentID: $0.parentID)
       }
@@ -176,6 +189,12 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   }
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> {
     bottomCellSubject.asObserver()
+  }
+  var replyIDObserver: AnyObserver<Int?> {
+    replyIDSubject.asObserver()
+  }
+  var replyNicknameObserable: Observable<String> {
+    replyNicknameSubject.asObservable()
   }
 }
 
@@ -264,6 +283,7 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
       return
     }
     
-    // 답글 처리
+    replyNicknameSubject.onNext(commentValue.nickname)
+    replyIDSubject.onNext(commentID)
   }
 }
