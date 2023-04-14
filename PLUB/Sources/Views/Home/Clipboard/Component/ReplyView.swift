@@ -20,6 +20,10 @@ final class ReplyView: UIView {
   
   // MARK: - UI Components
   
+  private let separatorLineView = UIView().then {
+    $0.backgroundColor = .lightGray
+  }
+  
   private let replyIndicatorLabel = UILabel().then {
     $0.text = "~~님에게 답글 쓰는 중..."
     $0.font = .overLine
@@ -47,7 +51,7 @@ final class ReplyView: UIView {
   // MARK: - Configuration
   
   private func setupLayouts() {
-    [replyIndicatorLabel, replyCancelButton].forEach {
+    [replyIndicatorLabel, replyCancelButton, separatorLineView].forEach {
       addSubview($0)
     }
   }
@@ -62,11 +66,17 @@ final class ReplyView: UIView {
       $0.centerY.equalToSuperview()
       $0.trailing.equalToSuperview().inset(Metrics.directionalHorizontalInset)
     }
+    
+    separatorLineView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(Metrics.separatorHeight)
+    }
   }
 }
 
 extension ReplyView {
   enum Metrics {
     static let directionalHorizontalInset = 24
+    static let separatorHeight = 1
   }
 }
