@@ -22,39 +22,27 @@ protocol RecruitmentFilterViewModelType {
   var confirmRequest: Signal<CategoryMeetingRequest> { get }
 }
 
-final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
+final class RecruitmentFilterViewModel {
   
   private let disposeBag = DisposeBag()
   
-  // Input
-  let isSelectSubCategory: AnyObserver<(Bool, Int)> // 세부카테고리 선택/미선택
-  let isSelectDay: AnyObserver<(Bool, Day)> // 요일 선택/미선택
-  let filterConfirm: AnyObserver<Void> // 필터클릭
-  let confirmAccountNum: AnyObserver<Int> // 필터하고자하는 인원 수
-  
-  // Output
-  var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> // 선택된 서브카테고리 목록
-  var fetchedDayModel: Signal<[RecruitmentFilterDateCollectionViewCellModel]>
-  let isButtonEnabled: Driver<Bool> // 필터버튼 활성화 여부
-  let confirmRequest: Signal<CategoryMeetingRequest>
+  private let selectingSubCategories = BehaviorRelay<[RecruitmentFilterCollectionViewCellModel]>(value: [])
+  private let fetchingDayModel = BehaviorRelay<[RecruitmentFilterDateCollectionViewCellModel]>(value: Day.allCases.map { RecruitmentFilterDateCollectionViewCellModel(day: $0) })
+  private let isSelectingSubCategory = PublishSubject<(Bool, Int)>()
+  private let isSelectingDay = PublishSubject<(Bool, Day)>()
+  private let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
+  private let confirmDay = BehaviorRelay<[Day]>(value: [])
+  private let filterConfirming = PublishSubject<Void>()
+  private let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
   
   init(categoryID: Int) {
-    let selectingSubCategories = BehaviorRelay<[RecruitmentFilterCollectionViewCellModel]>(value: [])
-    let fetchingDayModel = BehaviorRelay<[RecruitmentFilterDateCollectionViewCellModel]>(value: Day.allCases.map { RecruitmentFilterDateCollectionViewCellModel(day: $0) })
-    let isSelectingSubCategory = PublishSubject<(Bool, Int)>()
-    let isSelectingDay = PublishSubject<(Bool, Day)>()
-    let confirmSubCategory = BehaviorRelay<[Int]>(value: [])
-    let confirmDay = BehaviorRelay<[Day]>(value: [])
-    let filterConfirming = PublishSubject<Void>()
-    let confirmingAccountNum = BehaviorSubject<Int>(value: 4)
     
-    selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
-    isSelectSubCategory = isSelectingSubCategory.asObserver()
-    isSelectDay = isSelectingDay.asObserver()
-    filterConfirm = filterConfirming.asObserver()
-    confirmAccountNum = confirmingAccountNum.asObserver()
-    
-    
+    fetchSubCategory(categoryID: categoryID)
+    selectingSubCategory()
+    selectingDay()
+  }
+  
+  private func fetchSubCategory(categoryID: Int) {
     let requestSubCategory = CategoryService.shared.inquireSubCategoryList(categoryID: categoryID)
     
     let successRequestSubCategory = requestSubCategory.compactMap { result -> [SubCategory]? in
@@ -65,23 +53,25 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     successRequestSubCategory.map { subCategories in
       return subCategories.map { RecruitmentFilterCollectionViewCellModel(subCategory: $0) }
     }
-    .subscribe(onNext: { subCategories in
+    .subscribe(with: self) { owner, subCategories in
       var subCategories = subCategories
       subCategories.insert(RecruitmentFilterCollectionViewCellModel(
         subCategoryID: Constants.entireID,
         name: Constants.entireName,
         isTapped: false
       ), at: 0)
-      selectingSubCategories.accept(subCategories)
-    })
+      owner.selectingSubCategories.accept(subCategories)
+    }
     .disposed(by: disposeBag)
-    
+  }
+  
+  private func selectingSubCategory() {
     // 서브카테고리를 선택함에 따른 동작
     isSelectingSubCategory
-      .subscribe(onNext: { subCategoryInfo in
+      .subscribe(with: self) { owner, subCategoryInfo in
         let (isSelect, subCategoryID) = subCategoryInfo
-        var confirmList = confirmSubCategory.value
-        var fetchList = selectingSubCategories.value
+        var confirmList = owner.confirmSubCategory.value
+        var fetchList = owner.selectingSubCategories.value
         
         // 선택한 서브카테고리를 선택/미선택 기본동작
         let index = fetchList.firstIndex(where: { $0.subCategoryID == subCategoryID })!
@@ -94,8 +84,8 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
             }
             return model
           }
-          selectingSubCategories.accept(fetchList)
-          confirmSubCategory.accept([])
+          owner.selectingSubCategories.accept(fetchList)
+          owner.confirmSubCategory.accept([])
         }
         else { // 특정 서브카테고리를 선택/미선택 했을 때, [전체] 카테고리 미선택
           let fetchList = fetchList.map { model in
@@ -104,20 +94,22 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
             }
             return model
           }
-          selectingSubCategories.accept(fetchList)
+          owner.selectingSubCategories.accept(fetchList)
           confirmList.append(subCategoryID)
-          confirmSubCategory.accept(confirmList)
+          owner.confirmSubCategory.accept(confirmList)
         }
-      })
+      }
       .disposed(by: disposeBag)
-    
+  }
+  
+  private func selectingDay() {
     // 요일을 선택함에 따른 동작
     isSelectingDay
-      .subscribe(onNext: { selectInfo in
+      .subscribe(with: self) { owner, selectInfo in
         let (isSelect, day) = selectInfo
         
-        var confirmList = confirmDay.value
-        var fetchList = fetchingDayModel.value
+        var confirmList = owner.confirmDay.value
+        var fetchList = owner.fetchingDayModel.value
         
         // 선택한 요일 선택/미선택 기본동작
         let index = fetchList.firstIndex(where: { $0.day == day })!
@@ -130,8 +122,8 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
             }
             return model
           }
-          fetchingDayModel.accept(fetchList)
-          confirmDay.accept([])
+          owner.fetchingDayModel.accept(fetchList)
+          owner.confirmDay.accept([])
         }
         else { // 특정 요일 선택/미선택 했을 때, [요일무관] 카테고리 미선택
           let fetchList = fetchList.map { model in
@@ -140,17 +132,46 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
             }
             return model
           }
-          fetchingDayModel.accept(fetchList)
+          owner.fetchingDayModel.accept(fetchList)
           confirmList.append(day)
-          confirmDay.accept(confirmList)
+          owner.confirmDay.accept(confirmList)
         }
-      })
+      }
       .disposed(by: disposeBag)
-    
-    // Output
-    selectedSubCategories = selectingSubCategories.asSignal(onErrorSignalWith: .empty())
-    
-    isButtonEnabled = Observable.combineLatest(
+  }
+}
+
+// MARK: - Input & Output
+extension RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
+  
+  // Input
+  var isSelectSubCategory: AnyObserver<(Bool, Int)> { // 세부카테고리 선택/미선택
+    isSelectingSubCategory.asObserver()
+  }
+  
+  var isSelectDay: AnyObserver<(Bool, Day)> { // 요일 선택/미선택
+    isSelectingDay.asObserver()
+  }
+  
+  var filterConfirm: AnyObserver<Void> { // 필터클릭
+    filterConfirming.asObserver()
+  }
+  
+  var confirmAccountNum: AnyObserver<Int> { // 필터하고자하는 인원 수
+    confirmingAccountNum.asObserver()
+  }
+  
+  // Output
+  var selectedSubCategories: Signal<[RecruitmentFilterCollectionViewCellModel]> { // 선택된 서브카테고리 목록
+    selectingSubCategories.asSignal(onErrorSignalWith: .empty())
+  }
+  
+  var fetchedDayModel: Signal<[RecruitmentFilterDateCollectionViewCellModel]> {
+    fetchingDayModel.asSignal(onErrorSignalWith: .empty())
+  }
+  
+  var isButtonEnabled: Driver<Bool> { // 필터버튼 활성화 여부
+    Observable.combineLatest(
       selectingSubCategories,
       fetchingDayModel
     )
@@ -158,8 +179,10 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
       return subCategories.filter(\.isTapped).count > 0 && days.filter(\.isTapped).count > 0
     }
     .asDriver(onErrorDriveWith: .empty())
-    
-    confirmRequest = filterConfirming.withLatestFrom(
+  }
+  
+  var confirmRequest: Signal<CategoryMeetingRequest> {
+    filterConfirming.withLatestFrom(
       Observable.combineLatest(
         confirmDay,
         confirmSubCategory,
@@ -173,12 +196,11 @@ final class RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
     )
     }
     .asSignal(onErrorSignalWith: .empty())
-    
-    fetchedDayModel = fetchingDayModel.asSignal(onErrorSignalWith: .empty())
   }
 }
 
-extension RecruitmentFilterViewModel {
+// MARK: - Constants
+extension RecruitmentFilterViewModel { // 서브카테고리 [전체]을 위한 상수
   struct Constants {
     static let entireID = 0
     static let entireName = "전체"
