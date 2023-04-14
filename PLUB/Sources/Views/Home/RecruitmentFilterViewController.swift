@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
+// 모집필터섹션에 따른 구분을 위한 타입
 enum RecruitmentFilterSection: CaseIterable {
   case detailCategory
   case day
@@ -25,16 +26,18 @@ enum RecruitmentFilterSection: CaseIterable {
 }
 
 protocol RecruitmentFilterDelegate: AnyObject {
-  func didTappedConfirmButton(request: CategoryMeetingRequest)
+  func didTappedConfirmButton(request: CategoryMeetingRequest) // 모집 필터를 위한 Request데이터를 전달하기위함
 }
 
 final class RecruitmentFilterViewController: BaseViewController {
   
+  // MARK: - Properties
   weak var delegate: RecruitmentFilterDelegate?
   
   private let viewModel: RecruitmentFilterViewModelType
   
-  private var subCategories: [RecruitmentFilterCollectionViewCellModel] = [] {
+  // MARK: - UI Models
+  private var subCategories: [RecruitmentFilterCollectionViewCellModel] = [] { // 서브카테고리를 위한 데이터
     didSet {
       guard !self.subCategories.isEmpty else { return }
       filterCollectionView.snp.updateConstraints {
@@ -44,12 +47,13 @@ final class RecruitmentFilterViewController: BaseViewController {
     }
   }
   
-  private var filterDays: [RecruitmentFilterDateCollectionViewCellModel] = [] {
+  private var filterDays: [RecruitmentFilterDateCollectionViewCellModel] = [] { // 요일을 위한 데이터
     didSet {
       filterCollectionView.reloadData()
     }
   }
   
+  // MARK: - UI Components
   private let titleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .systemFont(ofSize: 24, weight: .semibold)
@@ -73,6 +77,7 @@ final class RecruitmentFilterViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "확인")
   }
   
+  // MARK: - Initialization
   init(viewModel: RecruitmentFilterViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -82,6 +87,7 @@ final class RecruitmentFilterViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Configurations
   override func bind() {
     super.bind()
     
@@ -157,11 +163,13 @@ final class RecruitmentFilterViewController: BaseViewController {
     [titleLabel, filterCollectionView, recruitmentFilterSlider, confirmButton].forEach { view.addSubview($0) }
   }
   
+  // MARK: - Selector Method
   @objc private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return RecruitmentFilterSection.allCases.count
@@ -221,6 +229,7 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
   }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension RecruitmentFilterViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width / 4 - 3 - 16, height: 32)
