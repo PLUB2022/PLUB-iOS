@@ -68,7 +68,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   private let collectionViewSubject = PublishSubject<UICollectionView>()
   private let commentInputSubject   = PublishSubject<String>()
-  private let replyIDSubject        = PublishSubject<Int?>()
+  private let replyIDSubject        = BehaviorSubject<Int?>(value: nil)
   private let replyNicknameSubject  = PublishSubject<String>()
   private let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   
