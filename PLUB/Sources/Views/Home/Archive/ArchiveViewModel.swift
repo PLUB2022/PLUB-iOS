@@ -13,6 +13,9 @@ import RxCocoa
 protocol ArchiveViewModelType {
   // Input
   
+  /// ViewController 단에서 initialized된 collectionView를 받습니다.
+  var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
+  
   // Output
 }
 
@@ -34,20 +37,47 @@ final class ArchiveViewModel {
   
   private let pagingManager = PagingManager<ArchiveContent>(threshold: 700)
   private let getArchiveUseCase: GetArchiveUseCase
-
+  
+  private let setCollectionViewSubject = PublishSubject<UICollectionView>()
+  
   // MARK: - Initialization
   
   init(plubbingID: Int, getArchiveUseCase: GetArchiveUseCase) {
     self.getArchiveUseCase = getArchiveUseCase
+    
+    fetchArchive(plubbingID: plubbingID)
   }
   
   private let disposeBag = DisposeBag()
+  
+  
+  // MARK: - Configuration
+  
+  /// 초기 상태의 아카이브를 가져옵니다.
+  private func fetchArchive(plubbingID: Int) {
+    
+    // PagingManager를 이용하여 아카이브 리스트를 가져옴
+    let archivesObservable = pagingManager.fetchNextPage { [getArchiveUseCase] cursorID in
+      getArchiveUseCase.execute(plubbingID: plubbingID, nextCursorID: cursorID)
+    }
+    
+    setCollectionViewSubject
+      .take(1)
+      .withLatestFrom(archivesObservable) { (collectionView: $0, archiveContents: $1) }
+      .subscribe(with: self) { owner, tuple in
+        owner.archiveContents = tuple.archiveContents
+        owner.setCollectionView(tuple.collectionView)
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 // MARK: - ArchiveViewModelType
 
 extension ArchiveViewModel: ArchiveViewModelType {
-  
+  var setCollectionViewObserver: AnyObserver<UICollectionView> {
+    setCollectionViewSubject.asObserver()
+  }
 }
 
 // MARK: - Diffable DataSources

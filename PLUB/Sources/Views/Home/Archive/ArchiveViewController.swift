@@ -106,6 +106,10 @@ final class ArchiveViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    defer {
+      viewModel.setCollectionViewObserver.onCompleted()
+    }
+    viewModel.setCollectionViewObserver.onNext(collectionView)
   }
 }
 
