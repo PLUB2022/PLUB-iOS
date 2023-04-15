@@ -32,6 +32,8 @@ final class ArchiveViewModel {
     }
   }
   
+  private let pagingManager = PagingManager<ArchiveContent>(threshold: 700)
+
   // MARK: - Initialization
   
   init(plubbingID: Int) {
