@@ -63,7 +63,6 @@ final class ArchiveViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView.dataSource = self
     collectionView.delegate = self
   }
   
