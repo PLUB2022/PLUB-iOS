@@ -12,6 +12,7 @@ protocol DetailRecruitmentViewModelType {
   // Input
   var selectPlubbingID: AnyObserver<Int> { get }
   var selectCancelApplication: AnyObserver<Void> { get }
+  var selectEndRecruitment: AnyObserver<Void> { get }
   
   // Output
   var introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel> { get }
@@ -29,7 +30,8 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   
   // Input
   let selectPlubbingID: AnyObserver<Int> // 세부정보를 보고싶은 모집글에 대한 ID
-  let selectCancelApplication: AnyObserver<Void>
+  let selectCancelApplication: AnyObserver<Void> // [지원취소] 눌렀을 때
+  let selectEndRecruitment: AnyObserver<Void> // 호스트용 [모집 끝내기] 눌렀을 때
   
   // Output
   let introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel> // 모집글 세부정보를 표시하기위한 UI 모델
@@ -43,9 +45,11 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     let selectingPlubbingID = PublishSubject<Int>()
     let successFetchingDetail = PublishRelay<DetailRecruitmentResponse>()
     let selectingCancelApplication = PublishSubject<Void>()
+    let selectingEndRecruitment = PublishSubject<Void>()
     
     self.selectPlubbingID = selectingPlubbingID.asObserver()
     self.selectCancelApplication = selectingCancelApplication.asObserver()
+    self.selectEndRecruitment = selectingEndRecruitment.asObserver()
     
     let fetchingDetail = selectingPlubbingID
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingID:))
@@ -62,6 +66,15 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
       .withLatestFrom(selectingPlubbingID)
       .flatMapLatest(RecruitmentService.shared.cancelApplication(plubbingID:))
     
+    let requestEndRecruitment = selectingEndRecruitment
+      .withLatestFrom(selectingPlubbingID)
+      .flatMapLatest(RecruitmentService.shared.endRecruitment(plubbingID:))
+    
+    requestEndRecruitment
+      .subscribe(onNext: { _ in
+        print("[모집 끝내기] 성공했습니다")
+      })
+      .disposed(by: disposeBag)
     
     introduceCategoryTitleViewModel = successFetchingDetail.map { response -> IntroduceCategoryTitleViewModel in
       return IntroduceCategoryTitleViewModel(
