@@ -142,6 +142,7 @@
 		BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */; };
 		BA4BD1AE29D6C4A800334C04 /* PagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */; };
 		BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */; };
+		BA4CCDF129EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF029EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift */; };
 		BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4DADB2295747E700C7ABD7 /* PageControl.swift */; };
 		BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */; };
 		BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777C28EECDC50036B825 /* Pretendard-Black.otf */; };
@@ -498,6 +499,7 @@
 		BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIButton.swift"; sourceTree = "<group>"; };
 		BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingManager.swift; sourceTree = "<group>"; };
 		BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		BA4CCDF029EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentOptionBottomSheetViewController.swift; sourceTree = "<group>"; };
 		BA4DADB2295747E700C7ABD7 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		BA52777C28EECDC50036B825 /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
@@ -1505,6 +1507,7 @@
 				BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */,
 				BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */,
 				BA034D3129E864CA003B7192 /* ReplyView.swift */,
+				BA4CCDF029EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2371,6 +2374,7 @@
 				70727A4129D485E0003DE956 /* AddTodoViewController.swift in Sources */,
 				70727A3729D32DAA003DE956 /* TodolistService.swift in Sources */,
 				C361743629AFB875006AEAB1 /* MeetingCollectionViewCell.swift in Sources */,
+				BA4CCDF129EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift in Sources */,
 				C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */,
 				BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */,
 				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,
