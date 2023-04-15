@@ -125,16 +125,14 @@ extension UserManager {
   /// - Parameter index: 삭제하고자하는 키워드의 위치
   func removeKeyword(index: Int) {
     guard var recentKeywordList = recentKeywordList,
-          index < recentKeywordList.count && 0 <= index else { return }
+          (0..<recentKeywordList.count) ~= index else { return }
     recentKeywordList.remove(at: index)
     self.recentKeywordList = recentKeywordList
   }
   
   /// 최근 검색어목록을 초기화합니다
   func clearKeywordList() {
-    guard var recentKeywordList = recentKeywordList else { return }
-    recentKeywordList.removeAll()
-    self.recentKeywordList = recentKeywordList
+    self.recentKeywordList?.removeAll()
   }
 }
 
