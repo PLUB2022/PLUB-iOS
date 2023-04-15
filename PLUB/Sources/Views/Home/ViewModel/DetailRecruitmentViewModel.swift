@@ -11,6 +11,7 @@ import RxCocoa
 protocol DetailRecruitmentViewModelType {
   // Input
   var selectPlubbingID: AnyObserver<Int> { get }
+  var selectCancelApplication: AnyObserver<Void> { get }
   
   // Output
   var introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel> { get }
@@ -18,6 +19,7 @@ protocol DetailRecruitmentViewModelType {
   var participantListViewModel: Driver<[AccountInfo]> { get }
   var meetingIntroduceModel: Driver<MeetingIntroduceModel> { get }
   var isApplied: Driver<Bool> { get }
+  var successCancelApplication: Signal<Void> { get }
 }
 
 // TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
@@ -27,6 +29,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   
   // Input
   let selectPlubbingID: AnyObserver<Int> // 세부정보를 보고싶은 모집글에 대한 ID
+  let selectCancelApplication: AnyObserver<Void>
   
   // Output
   let introduceCategoryTitleViewModel: Driver<IntroduceCategoryTitleViewModel> // 모집글 세부정보를 표시하기위한 UI 모델
@@ -34,11 +37,15 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   let participantListViewModel: Driver<[AccountInfo]> // 모집글 세부정보를 표시하기위한 UI 모델
   let meetingIntroduceModel: Driver<MeetingIntroduceModel> // 모집글 세부정보를 표시하기위한 UI 모델
   let isApplied: Driver<Bool> // 해당 모집글을 신청했는지
+  let successCancelApplication: Signal<Void> // [지원취소] 성공했는지
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
     let successFetchingDetail = PublishRelay<DetailRecruitmentResponse>()
+    let selectingCancelApplication = PublishSubject<Void>()
+    
     self.selectPlubbingID = selectingPlubbingID.asObserver()
+    self.selectCancelApplication = selectingCancelApplication.asObserver()
     
     let fetchingDetail = selectingPlubbingID
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingID:))
@@ -50,6 +57,11 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     }
     .bind(to: successFetchingDetail)
     .disposed(by: disposeBag)
+    
+    let requestCancelApplication = selectingCancelApplication
+      .withLatestFrom(selectingPlubbingID)
+      .flatMapLatest(RecruitmentService.shared.cancelApplication(plubbingID:))
+    
     
     introduceCategoryTitleViewModel = successFetchingDetail.map { response -> IntroduceCategoryTitleViewModel in
       return IntroduceCategoryTitleViewModel(
@@ -90,5 +102,12 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
       )
     }
     .asDriver(onErrorDriveWith: .empty())
+    
+    successCancelApplication = requestCancelApplication
+      .compactMap { result -> Void? in
+        guard case .success(_) = result else { return nil }
+        return ()
+      }
+      .asSignal(onErrorSignalWith: .empty())
   }
 }
