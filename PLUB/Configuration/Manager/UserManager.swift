@@ -43,6 +43,11 @@ final class UserManager {
   var hasAccessToken: Bool { return accessToken != nil }
   var hasRefreshToken: Bool { return refreshToken != nil }
   
+  // MARK: - Recent Search KeywordList
+  
+  @UserDefaultsWrapper<[String]>(key: "recentKeywordList")
+  private(set) var recentKeywordList
+  
   // MARK: - Initialization
   
   private init() { }
@@ -105,6 +110,29 @@ extension UserManager {
           return false // 에러
         }
       }
+  }
+  
+  /// 최근 검색어목록에 키워드를 추가합니다
+  /// - Parameter keyword: 검색한 키워드
+  func addKeyword(keyword: String) {
+    let recentKeywordList = recentKeywordList ?? []
+    var filterList = recentKeywordList.filter { $0 != keyword }
+    filterList.insert(keyword, at: 0)
+    self.recentKeywordList = filterList
+  }
+  
+  /// 최근 검색어목록에 특정 인덱스에 위치한 키워드를 삭제합니다
+  /// - Parameter index: 삭제하고자하는 키워드의 위치
+  func removeKeyword(index: Int) {
+    guard var recentKeywordList = recentKeywordList,
+          (0..<recentKeywordList.count) ~= index else { return }
+    recentKeywordList.remove(at: index)
+    self.recentKeywordList = recentKeywordList
+  }
+  
+  /// 최근 검색어목록을 초기화합니다
+  func clearKeywordList() {
+    self.recentKeywordList?.removeAll()
   }
 }
 
