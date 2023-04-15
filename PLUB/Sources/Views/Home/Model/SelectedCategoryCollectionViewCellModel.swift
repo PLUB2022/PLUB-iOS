@@ -15,6 +15,7 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
   let introduce: String
   var isBookmarked: Bool
   let selectedCategoryInfoModel: CategoryInfoListModel
+  let isHost: Bool
   
   init(content: Content) {
     plubbingID = content.plubbingID
@@ -31,6 +32,7 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
         .joined(separator: ",")
       + " | "
       + "(data.time)")
+    isHost = content.isHost
   }
   
   init(content: CategoryContent) {
@@ -48,5 +50,6 @@ struct SelectedCategoryCollectionViewCellModel { // 차트, 그리드일때 둘 
         .joined(separator: ",")
       + " | "
       + "(data.time)")
+    isHost = false
   }
 }
