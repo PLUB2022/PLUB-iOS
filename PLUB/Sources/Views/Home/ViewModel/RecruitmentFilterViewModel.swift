@@ -131,6 +131,7 @@ final class RecruitmentFilterViewModel {
 }
 
 // MARK: - Input & Output
+
 extension RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
   
   // Input
@@ -189,6 +190,7 @@ extension RecruitmentFilterViewModel: RecruitmentFilterViewModelType {
 }
 
 // MARK: - Constants
+
 extension RecruitmentFilterViewModel { // 서브카테고리 [전체]을 위한 상수
   struct Constants {
     static let entireID = 0

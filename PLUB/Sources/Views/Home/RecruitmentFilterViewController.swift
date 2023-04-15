@@ -32,11 +32,13 @@ protocol RecruitmentFilterDelegate: AnyObject {
 final class RecruitmentFilterViewController: BaseViewController {
   
   // MARK: - Properties
+  
   weak var delegate: RecruitmentFilterDelegate?
   
   private let viewModel: RecruitmentFilterViewModelType
   
   // MARK: - UI Models
+  
   private var subCategories: [RecruitmentFilterCollectionViewCellModel] = [] { // 서브카테고리를 위한 데이터
     didSet {
       guard !self.subCategories.isEmpty else { return }
@@ -54,6 +56,7 @@ final class RecruitmentFilterViewController: BaseViewController {
   }
   
   // MARK: - UI Components
+  
   private let titleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .systemFont(ofSize: 24, weight: .semibold)
@@ -78,6 +81,7 @@ final class RecruitmentFilterViewController: BaseViewController {
   }
   
   // MARK: - Initialization
+  
   init(viewModel: RecruitmentFilterViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -88,6 +92,7 @@ final class RecruitmentFilterViewController: BaseViewController {
   }
   
   // MARK: - Configurations
+  
   override func bind() {
     super.bind()
     
@@ -164,12 +169,14 @@ final class RecruitmentFilterViewController: BaseViewController {
   }
   
   // MARK: - Selector Method
+  
   @objc private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+
 extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return RecruitmentFilterSection.allCases.count
@@ -230,6 +237,7 @@ extension RecruitmentFilterViewController: UICollectionViewDelegate, UICollectio
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
+
 extension RecruitmentFilterViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width / 4 - 3 - 16, height: 32)
