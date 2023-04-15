@@ -115,6 +115,12 @@ final class BoardDetailViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    viewModel.showBottomSheetObservable
+      .subscribe(with: self) { owner, userType in
+        owner.present(CommentOptionBottomSheetViewController(userAccessType: userType), animated: true)
+      }
+      .disposed(by: disposeBag)
+    
     // ViewModel에게 `DiffableDataSource`처리를 해주기 위해 collectionView를 전달
     viewModel.setCollectionViewObserver.onNext(collectionView)
     
