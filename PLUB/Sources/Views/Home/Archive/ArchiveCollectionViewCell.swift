@@ -47,18 +47,21 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
   private let firstContentImageView = UIImageView().then {
     $0.backgroundColor = .deepGray
     $0.layer.cornerRadius = 6
+    $0.clipsToBounds = true
     $0.isHidden = true
   }
   private let secondContentImageView = UIImageView().then {
     $0.backgroundColor = .deepGray
     $0.alpha = 0.5
     $0.layer.cornerRadius = 6
+    $0.clipsToBounds = true
     $0.isHidden = true
   }
   private let thirdContentImageView = UIImageView().then {
     $0.backgroundColor = .deepGray
     $0.alpha = 0.1
     $0.layer.cornerRadius = 6
+    $0.clipsToBounds = true
     $0.isHidden = true
   }
   
