@@ -22,11 +22,11 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   private var isApplied: Bool = false {
     didSet {
-      guard isApplied != oldValue else { return }
-      applyButton.configurationUpdateHandler = applyButton.configuration?.plubButton(
+      guard isApplied != oldValue && !isHost else { return }
+      applyButton.configurationUpdateHandler = applyButton.configuration?.detailRecruitment(
         label: isApplied ? "지원취소" : "같이 할래요!"
       )
-      applyButton.isSelected = isApplied
+      applyButton.isSelected = !isApplied
       surroundMeetingButton.isSelected = isApplied
     }
   }
@@ -68,6 +68,7 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   private let applyButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.detailRecruitment(label: "같이 할래요!")
+    $0.isSelected = true
   }
   
   private let introduceCategoryTitleView = IntroduceCategoryTitleView()
@@ -159,6 +160,15 @@ final class DetailRecruitmentViewController: BaseViewController {
       target: self,
       action: #selector(didTappedComponentButton)
     )
+    
+    if isHost {
+      applyButton.configurationUpdateHandler = applyButton.configuration?.detailRecruitment(
+        label: "모집 끝내기"
+      )
+      surroundMeetingButton.configurationUpdateHandler = surroundMeetingButton.configuration?.detailRecruitment(
+        label: "지원자 확인하기"
+      )
+    }
   }
   
   func bind(plubbingID: Int) {
@@ -199,11 +209,11 @@ final class DetailRecruitmentViewController: BaseViewController {
     
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        if !owner.isApplied {
+        if !owner.isApplied && !owner.isHost {
           let vc = ApplyQuestionViewController(plubbingID: owner.plubbingID)
           vc.navigationItem.largeTitleDisplayMode = .never
           owner.navigationController?.pushViewController(vc, animated: true)
-        } else {
+        } else if owner.isApplied && !owner.isHost {
           let alert = CustomAlertView(
             AlertModel(
               title: "이 모임에 참여하고 싶지\n않으신가요?",
@@ -214,23 +224,38 @@ final class DetailRecruitmentViewController: BaseViewController {
             )
           ) { [weak self] in
             guard let self = self else { return }
-            
+            // 지원취소 [네] 선택했을때의 동작을 작성
+            self.viewModel.selectCancelApplication.onNext(())
           }
           alert.show()
+        }
+        else { // 호스트일 경우, [모집 끝내기] 버튼을 선택했음에 따른 동작 구현
+          
         }
       }
       .disposed(by: disposeBag)
     
     surroundMeetingButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = MainPageViewController(plubbingID: Int(owner.plubbingID) ?? 0)
-        vc.navigationItem.largeTitleDisplayMode = .never
-        owner.navigationController?.pushViewController(vc, animated: true)
+        if !owner.isHost {
+          let vc = MainPageViewController(plubbingID: Int(owner.plubbingID))
+          vc.navigationItem.largeTitleDisplayMode = .never
+          owner.navigationController?.pushViewController(vc, animated: true)
+        }
+        else { // [지원자 확인하기] 버튼 선택할때
+          
+        }
       }
       .disposed(by: disposeBag)
     
     viewModel.isApplied
       .drive(rx.isApplied)
+      .disposed(by: disposeBag)
+    
+    viewModel.successCancelApplication
+      .emit(with: self) { owner, _ in
+        owner.viewModel.selectPlubbingID.onNext(plubbingID)
+      }
       .disposed(by: disposeBag)
   }
   
