@@ -145,6 +145,7 @@
 		BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */; };
 		BA4CCDF329EAA33B0040D0D7 /* DateFormatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */; };
 		BA4CCDF729EAB9540040D0D7 /* GetArchiveUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */; };
+		BA4CCDFA29EAE6D50040D0D7 /* ArchivePopUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF929EAE6D50040D0D7 /* ArchivePopUpViewModel.swift */; };
 		BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4DADB2295747E700C7ABD7 /* PageControl.swift */; };
 		BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */; };
 		BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777C28EECDC50036B825 /* Pretendard-Black.otf */; };
@@ -505,6 +506,7 @@
 		BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterFactory.swift; sourceTree = "<group>"; };
 		BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetArchiveUseCase.swift; sourceTree = "<group>"; };
+		BA4CCDF929EAE6D50040D0D7 /* ArchivePopUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivePopUpViewModel.swift; sourceTree = "<group>"; };
 		BA4DADB2295747E700C7ABD7 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		BA52777C28EECDC50036B825 /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
@@ -878,9 +880,9 @@
 		702876BD29A374C500E57509 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
-				BA8D949829E96FE30075ACD8 /* Component */,
-				BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */,
+				BA4CCDF829EAE6BC0040D0D7 /* ViewModel */,
 				BAAD0AD429BB2E72007B33D9 /* ArchiveCollectionViewCell.swift */,
+				BA8D949929E96FF00075ACD8 /* ArchivePopUpViewController.swift */,
 				702876C129A3751400E57509 /* ArchiveViewController.swift */,
 			);
 			path = Archive;
@@ -1246,6 +1248,15 @@
 			path = Archive;
 			sourceTree = "<group>";
 		};
+		BA4CCDF829EAE6BC0040D0D7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BA4CCDF929EAE6D50040D0D7 /* ArchivePopUpViewModel.swift */,
+				BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		BA52777A28EECD7F0036B825 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -1418,14 +1429,6 @@
 				BAC5EF2A2989F58900F3955E /* Onboarding */,
 			);
 			path = Lottie;
-			sourceTree = "<group>";
-		};
-		BA8D949829E96FE30075ACD8 /* Component */ = {
-			isa = PBXGroup;
-			children = (
-				BA8D949929E96FF00075ACD8 /* ArchivePopUpViewController.swift */,
-			);
-			path = Component;
 			sourceTree = "<group>";
 		};
 		BAB2E56A29E30053006B7BDC /* UseCases */ = {
@@ -2293,6 +2296,7 @@
 				C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */,
 				BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */,
 				C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */,
+				BA4CCDFA29EAE6D50040D0D7 /* ArchivePopUpViewModel.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
 				BA5D9ED729E3EECA00F06AB5 /* CreateArchiveResponse.swift in Sources */,
 				708567CE28F3F00F008047DC /* RegisterInterestHeaderView.swift in Sources */,
