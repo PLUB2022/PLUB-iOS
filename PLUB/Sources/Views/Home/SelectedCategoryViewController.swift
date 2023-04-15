@@ -199,7 +199,7 @@ extension SelectedCategoryViewController: SelectedCategoryFilterHeaderViewDelega
   }
   
   func didTappedInterestListFilterButton() {
-    let vc = RecruitmentFilterViewController(categoryID: categoryID)
+    let vc = RecruitmentFilterViewController(viewModel: RecruitmentFilterViewModel(categoryID: Int(categoryID)!))
     vc.delegate = self
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
