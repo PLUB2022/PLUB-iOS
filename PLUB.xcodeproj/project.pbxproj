@@ -144,6 +144,7 @@
 		BA4BD1AE29D6C4A800334C04 /* PagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */; };
 		BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */; };
 		BA4CCDF329EAA33B0040D0D7 /* DateFormatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */; };
+		BA4CCDF729EAB9540040D0D7 /* GetArchiveUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */; };
 		BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4DADB2295747E700C7ABD7 /* PageControl.swift */; };
 		BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */; };
 		BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777C28EECDC50036B825 /* Pretendard-Black.otf */; };
@@ -503,6 +504,7 @@
 		BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingManager.swift; sourceTree = "<group>"; };
 		BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterFactory.swift; sourceTree = "<group>"; };
+		BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetArchiveUseCase.swift; sourceTree = "<group>"; };
 		BA4DADB2295747E700C7ABD7 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		BA52777C28EECDC50036B825 /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
@@ -1227,6 +1229,23 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		BA4CCDF429EAB91D0040D0D7 /* Feeds */ = {
+			isa = PBXGroup;
+			children = (
+				BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */,
+				BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */,
+			);
+			path = Feeds;
+			sourceTree = "<group>";
+		};
+		BA4CCDF529EAB93D0040D0D7 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */,
+			);
+			path = Archive;
+			sourceTree = "<group>";
+		};
 		BA52777A28EECD7F0036B825 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -1412,8 +1431,8 @@
 		BAB2E56A29E30053006B7BDC /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */,
-				BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */,
+				BA4CCDF529EAB93D0040D0D7 /* Archive */,
+				BA4CCDF429EAB91D0040D0D7 /* Feeds */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -2476,6 +2495,7 @@
 				BAC9794529CF0E9E00A5DF1B /* CommentInputView.swift in Sources */,
 				C3AB743D296B2181003DD5E2 /* MeetingPeopleNumberViewController.swift in Sources */,
 				C36CE39A297305E100E3A68C /* CreateMeetingTitleView.swift in Sources */,
+				BA4CCDF729EAB9540040D0D7 /* GetArchiveUseCase.swift in Sources */,
 				BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */,
 				BA3D300929DDB9CC00B56E98 /* Sex.swift in Sources */,
 				C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */,

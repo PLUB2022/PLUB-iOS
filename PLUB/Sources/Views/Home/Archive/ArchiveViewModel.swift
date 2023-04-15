@@ -33,11 +33,12 @@ final class ArchiveViewModel {
   }
   
   private let pagingManager = PagingManager<ArchiveContent>(threshold: 700)
+  private let getArchiveUseCase: GetArchiveUseCase
 
   // MARK: - Initialization
   
-  init(plubbingID: Int) {
-    
+  init(plubbingID: Int, getArchiveUseCase: GetArchiveUseCase) {
+    self.getArchiveUseCase = getArchiveUseCase
   }
   
   private let disposeBag = DisposeBag()
