@@ -21,6 +21,7 @@ enum RecruitmentRouter {
   case refuseApplicant(Int, Int)
   case inquireMyApplication(Int)
   case cancelApplication(Int)
+  case endRecruitment(Int)
 }
 
 extension RecruitmentRouter: Router {
@@ -30,7 +31,7 @@ extension RecruitmentRouter: Router {
       return .get
     case .requestBookmark, .applyForRecruitment, .approvalApplicant, .refuseApplicant:
       return .post
-    case .editMeetingPost, .editMeetingQuestion:
+    case .editMeetingPost, .editMeetingQuestion, .endRecruitment:
       return .put
     case .cancelApplication:
       return .delete
@@ -63,12 +64,14 @@ extension RecruitmentRouter: Router {
       return "/plubbings/\(plubbingID)/recruit/applicants/\(accountID)/refuse"
     case .inquireMyApplication(let plubbingID), .cancelApplication(let plubbingID):
       return "/plubbings/\(plubbingID)/recruit/applicants/me"
+    case .endRecruitment(let plubbingID):
+      return "/plubbings/\(plubbingID)/recruit/end"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .requestBookmark, .inquireApplicant, .approvalApplicant, .refuseApplicant, .inquireMyApplication, .cancelApplication:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .requestBookmark, .inquireApplicant, .approvalApplicant, .refuseApplicant, .inquireMyApplication, .cancelApplication, .endRecruitment:
       return .plain
     case .searchRecruitment(let parameter):
       return .query(parameter)
@@ -83,7 +86,7 @@ extension RecruitmentRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion, .applyForRecruitment, .inquireApplicant, .approvalApplicant, .refuseApplicant, .inquireMyApplication, .cancelApplication:
+    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion, .applyForRecruitment, .inquireApplicant, .approvalApplicant, .refuseApplicant, .inquireMyApplication, .cancelApplication, .endRecruitment:
       return .withAccessToken
     }
   }
