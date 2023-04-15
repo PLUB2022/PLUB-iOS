@@ -143,6 +143,7 @@
 		BA46CCA028EC9B05004953B1 /* Ex+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */; };
 		BA4BD1AE29D6C4A800334C04 /* PagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */; };
 		BA4C46CA297ADB5900C914F3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */; };
+		BA4CCDF329EAA33B0040D0D7 /* DateFormatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */; };
 		BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4DADB2295747E700C7ABD7 /* PageControl.swift */; };
 		BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */; };
 		BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777C28EECDC50036B825 /* Pretendard-Black.otf */; };
@@ -501,6 +502,7 @@
 		BA46CC9E28EC9B05004953B1 /* Ex+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ex+UIButton.swift"; sourceTree = "<group>"; };
 		BA4BD1AD29D6C4A800334C04 /* PagingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingManager.swift; sourceTree = "<group>"; };
 		BA4C46C9297ADB5900C914F3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterFactory.swift; sourceTree = "<group>"; };
 		BA4DADB2295747E700C7ABD7 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		BA52777C28EECDC50036B825 /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
@@ -1280,10 +1282,11 @@
 		BA771653296FBFB600762362 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */,
 				BA771651296FBF4400762362 /* KeyChainWrapper.swift */,
-				BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */,
 				BAE234B929E2832200F779B2 /* Log.swift */,
 				BA8D949329E928B80075ACD8 /* PLUBToast.swift */,
+				BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2368,6 +2371,7 @@
 				70A420A0298AD6800026E9F9 /* SelectedCategoryEmptyCollectionViewCell.swift in Sources */,
 				BAE1AD992944C75F00CE36B9 /* PolicyBodyTableViewCell.swift in Sources */,
 				C384590629B9228200944CB5 /* AttendScheduleRequest.swift in Sources */,
+				BA4CCDF329EAA33B0040D0D7 /* DateFormatterFactory.swift in Sources */,
 				705E70BC29E29F6800156B1F /* RecruitmentFilterDateCollectionViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
 				705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */,
