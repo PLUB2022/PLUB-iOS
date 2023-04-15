@@ -115,6 +115,12 @@ final class BoardDetailViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    viewModel.showBottomSheetObservable
+      .subscribe(with: self) { owner, userType in
+        owner.present(CommentOptionBottomSheetViewController(userAccessType: userType), animated: true)
+      }
+      .disposed(by: disposeBag)
+    
     // ViewModel에게 `DiffableDataSource`처리를 해주기 위해 collectionView를 전달
     viewModel.setCollectionViewObserver.onNext(collectionView)
     
@@ -245,23 +251,5 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // navigation back gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-}
-
-// MARK: - Constants
-
-private extension BoardDetailViewController {
-  
-  enum Metric {
-    static let commentPostingStackViewHeight = 54
-    static let commentPostingStackViewHorizontalInset = 16
-    static let commentPostingStackViewVerticalInset = 8
-    static let profileImageViewSize = 32
-    static let commentPostingTextFieldHeight = 32
-    static let separatorLineHeight = 1
-  }
-  
-  enum Constants {
-    static let placeholder = "댓글을 입력하세요"
   }
 }
