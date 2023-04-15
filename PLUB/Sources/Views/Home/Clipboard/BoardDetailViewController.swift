@@ -253,21 +253,3 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
     return true
   }
 }
-
-// MARK: - Constants
-
-private extension BoardDetailViewController {
-  
-  enum Metric {
-    static let commentPostingStackViewHeight = 54
-    static let commentPostingStackViewHorizontalInset = 16
-    static let commentPostingStackViewVerticalInset = 8
-    static let profileImageViewSize = 32
-    static let commentPostingTextFieldHeight = 32
-    static let separatorLineHeight = 1
-  }
-  
-  enum Constants {
-    static let placeholder = "댓글을 입력하세요"
-  }
-}
