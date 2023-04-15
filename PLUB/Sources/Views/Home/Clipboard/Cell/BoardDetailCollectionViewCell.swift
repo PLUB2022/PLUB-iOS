@@ -15,6 +15,7 @@ import Then
 
 protocol BoardDetailCollectionViewCellDelegate: AnyObject {
   func didTappedReplyButton(commentID: Int)
+  func didTappedOptionButton(commentID: Int)
 }
 
 final class BoardDetailCollectionViewCell: UICollectionViewCell {
@@ -190,6 +191,12 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     replyButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedReplyButton(commentID: owner.commentID)
+      }
+      .disposed(by: disposeBag)
+    
+    settingButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedOptionButton(commentID: owner.commentID)
       }
       .disposed(by: disposeBag)
   }

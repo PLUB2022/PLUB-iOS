@@ -275,6 +275,8 @@ extension BoardDetailViewModel {
   }
 }
 
+// MARK: - BoardDetailCollectionViewCellDelegate
+
 extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
   func didTappedReplyButton(commentID: Int) {
     guard let commentValue = comments.first(where: { $0.commentID == commentID })
@@ -284,5 +286,12 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
     
     replyNicknameSubject.onNext(commentValue.nickname)
     replyIDSubject.onNext(commentID)
+  }
+  
+  func didTappedOptionButton(commentID: Int) {
+    guard let content = comments.first(where: { $0.commentID == commentID })
+    else {
+      return
+    }
   }
 }
