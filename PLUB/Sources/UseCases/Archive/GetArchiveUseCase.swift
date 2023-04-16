@@ -23,7 +23,7 @@ final class DefaultGetArchiveUseCase: GetArchiveUseCase {
       .map { data in
         (
           content: data.content,
-          nextCursorID: data.content.last?.archiveID ?? 0,
+          nextCursorID: data.content.last?.sequence ?? 0,
           isLast: data.isLast
         )
       }
