@@ -51,6 +51,7 @@ final class ArchiveDetailColletionViewCell: UICollectionViewCell {
   private func setupStyles() {
     contentView.backgroundColor = .deepGray
     contentView.layer.cornerRadius = 10
+    contentView.clipsToBounds = true
   }
   
   func configure(with imageString: String) {
