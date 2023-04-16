@@ -225,4 +225,11 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
       imageView.kf.setImage(with: URL(string: urlString))
     }
   }
+  
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    secondContentImageView.isHidden = true
+    thirdContentImageView.isHidden = true
+  }
 }
