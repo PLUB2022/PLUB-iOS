@@ -66,7 +66,7 @@ final class MeetingViewModel {
       .exitMeeting(plubbingID: plubbingID)
       .withUnretained(self)
       .subscribe (onNext: { owner, _ in
-        
+        owner.deleteMeeting(plubbingID: plubbingID)
       })
       .disposed(by: disposeBag)
   }
@@ -76,8 +76,17 @@ final class MeetingViewModel {
       .endMeeting(plubbingID: plubbingID)
       .withUnretained(self)
       .subscribe (onNext: { owner, _ in
-        
+        owner.deleteMeeting(plubbingID: plubbingID)
       })
       .disposed(by: disposeBag)
+  }
+  
+  private func deleteMeeting(plubbingID: Int) {
+    let meetings = meetingListRelay.value
+    meetingListRelay.accept(
+      meetings.filter {
+        $0.plubbing?.plubbingID != plubbingID
+      }
+    )
   }
 }
