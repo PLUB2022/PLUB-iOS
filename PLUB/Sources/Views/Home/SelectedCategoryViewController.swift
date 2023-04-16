@@ -183,7 +183,8 @@ extension SelectedCategoryViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = DetailRecruitmentViewController(plubbingID: model[indexPath.row].plubbingID, isHost: false)
+    let model = model[indexPath.row]
+    let vc = DetailRecruitmentViewController(plubbingID: model.plubbingID, isHost: model.isHost)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
