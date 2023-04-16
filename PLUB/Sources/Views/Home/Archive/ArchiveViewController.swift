@@ -63,7 +63,6 @@ final class ArchiveViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView.delegate = self
   }
   
   override func viewDidLayoutSubviews() {
@@ -122,7 +121,10 @@ final class ArchiveViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+    
     collectionView.rx.contentOffset
+      .distinctUntilChanged()
       .compactMap { [weak self] offset in
         guard let self else { return nil }
         return (self.collectionView.contentSize.height, offset.y)
