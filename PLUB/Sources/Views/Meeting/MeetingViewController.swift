@@ -219,15 +219,15 @@ extension MeetingViewController {
 }
 
 extension MeetingViewController: MeetingCollectionViewCellDelegate {
-  func didTappedSettingButton() {
+  func didTappedSettingButton(plubbingID: Int) {
   }
   
-  func didTappedExitButton() {
+  func didTappedExitButton(plubbingID: Int) {
   }
   
-  func didTappedExportButton() {
+  func didTappedExportButton(plubbingID: Int) {
   }
   
-  func didTappedEndButton() {
+  func didTappedEndButton(plubbingID: Int) {
   }
 }
