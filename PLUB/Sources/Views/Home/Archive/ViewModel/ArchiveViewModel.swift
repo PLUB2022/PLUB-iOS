@@ -16,7 +16,13 @@ protocol ArchiveViewModelType {
   /// ViewController 단에서 initialized된 collectionView를 받습니다.
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
   
+  /// 선택된 셀의 IndexPath를 전달합니다.
+  var selectedArchiveCellObserver: AnyObserver<IndexPath> { get }
+  
   // Output
+  
+  /// ArchivePopUpVC를 처리하는데 필요한 인자를 받습니다.
+  var presentArchivePopUpObservable: Observable<(plubbingID: Int, archiveID: Int)> { get }
 }
 
 final class ArchiveViewModel {
@@ -40,7 +46,8 @@ final class ArchiveViewModel {
   
   private let pagingManager = PagingManager<ArchiveContent>(threshold: 700)
   
-  private let setCollectionViewSubject = PublishSubject<UICollectionView>()
+  private let setCollectionViewSubject    = PublishSubject<UICollectionView>()
+  private let selectedArchiveCellSubject  = PublishSubject<IndexPath>()
   
   // MARK: - Initialization
   
@@ -73,6 +80,16 @@ final class ArchiveViewModel {
       }
       .disposed(by: disposeBag)
   }
+  
+  private func findPlubbingIDAndArchiveID() -> Observable<(plubbingID: Int, archiveID: Int)> {
+    selectedArchiveCellSubject
+      .map(\.item)
+      .compactMap { [weak self] index in self?.archiveContents[index].archiveID }
+      .compactMap { [weak self] in
+        guard let self else { return nil }
+        return (plubbingID: plubbingID, archiveID: $0)
+      }
+  }
 }
 
 // MARK: - ArchiveViewModelType
@@ -80,6 +97,14 @@ final class ArchiveViewModel {
 extension ArchiveViewModel: ArchiveViewModelType {
   var setCollectionViewObserver: AnyObserver<UICollectionView> {
     setCollectionViewSubject.asObserver()
+  }
+  
+  var selectedArchiveCellObserver: AnyObserver<IndexPath> {
+    selectedArchiveCellSubject.asObserver()
+  }
+  
+  var presentArchivePopUpObservable: Observable<(plubbingID: Int, archiveID: Int)> {
+    findPlubbingIDAndArchiveID()
   }
 }
 

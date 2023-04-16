@@ -110,6 +110,17 @@ final class ArchiveViewController: BaseViewController {
       viewModel.setCollectionViewObserver.onCompleted()
     }
     viewModel.setCollectionViewObserver.onNext(collectionView)
+    
+    viewModel.presentArchivePopUpObservable
+      .subscribe(with: self) { owner, tuple in
+        owner.present(ArchivePopUpViewController(
+          viewModel: ArchivePopUpViewModel(
+            getArchiveDetailUseCase: DefaultGetArchiveDetailUseCase(plubbingID: tuple.plubbingID,
+                                                                    archiveID: tuple.archiveID)
+          )
+        ), animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -149,6 +160,6 @@ extension ArchiveViewController: UICollectionViewDelegateFlowLayout {
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    present(ArchivePopUpViewController(), animated: true)
+    viewModel.selectedArchiveCellObserver.onNext(indexPath)
   }
 }
