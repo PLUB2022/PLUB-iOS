@@ -100,14 +100,17 @@ final class MeetingViewController: BaseViewController {
     
     viewModel.meetingList
       .drive(with: self) { owner, data in
-        owner.meetingList = data
-        owner.pageControl.numberOfPages = data.count
-        guard !data.isEmpty else { return }
-        owner.collectionView.scrollToItem(
-          at: IndexPath(row: 0, section: 0),
-          at: .centeredHorizontally,
-          animated: true
-        )
+        let (model, isScroll) = data
+        owner.meetingList = model
+        owner.pageControl.numberOfPages = model.count
+        guard !model.isEmpty else { return }
+        if isScroll {
+          owner.collectionView.scrollToItem(
+            at: IndexPath(row: 0, section: 0),
+            at: .centeredHorizontally,
+            animated: true
+          )
+        }
       }
       .disposed(by: disposeBag)
     
