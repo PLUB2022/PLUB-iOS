@@ -323,6 +323,7 @@
 		C38A5BA5297B234100485355 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA4297B234100485355 /* LocationTableViewCell.swift */; };
 		C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA6297C549A00485355 /* LocationBaseView.swift */; };
 		C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA8297C60A000485355 /* Ex+UILabel.swift */; };
+		C38C573E29EC5910002550DD /* MeetingMemberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C573D29EC5910002550DD /* MeetingMemberResponse.swift */; };
 		C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D65612987F0990052013F /* CategoryHeaderView.swift */; };
 		C38D6566298852F80052013F /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D6565298852F80052013F /* PaddingLabel.swift */; };
 		C39E09B429C5F3C100ECAD11 /* MyPageNoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */; };
@@ -673,6 +674,7 @@
 		C38A5BA4297B234100485355 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		C38A5BA6297C549A00485355 /* LocationBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationBaseView.swift; sourceTree = "<group>"; };
 		C38A5BA8297C60A000485355 /* Ex+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UILabel.swift"; sourceTree = "<group>"; };
+		C38C573D29EC5910002550DD /* MeetingMemberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingMemberResponse.swift; sourceTree = "<group>"; };
 		C38D65612987F0990052013F /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
 		C38D6565298852F80052013F /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNoneView.swift; sourceTree = "<group>"; };
@@ -1929,6 +1931,7 @@
 				70A420B529914B4F0026E9F9 /* CategoryMeetingResponse.swift */,
 				C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */,
 				C361743029AF95E2006AEAB1 /* MyMeetingResponse.swift */,
+				C38C573D29EC5910002550DD /* MeetingMemberResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -2502,6 +2505,7 @@
 				702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */,
+				C38C573E29EC5910002550DD /* MeetingMemberResponse.swift in Sources */,
 				70727A4329D5D679003DE956 /* TodoAlertController.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 				BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */,

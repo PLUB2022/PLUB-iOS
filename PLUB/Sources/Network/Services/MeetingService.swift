@@ -40,4 +40,24 @@ extension MeetingService {
   func inquireMyMeeting(isHost: Bool) -> PLUBResult<MyMeetingResponse> {
     return sendRequest(MeetingRouter.inquireMyMeeting(isHost), type: MyMeetingResponse.self)
   }
+  
+  func deleteMeeting(plubbingID: Int) -> Observable<EmptyModel>  {
+    sendObservableRequest(MeetingRouter.deleteMeeting(plubbingID))
+  }
+  
+  func exitMeeting(plubbingID: Int) -> Observable<EmptyModel>  {
+    sendObservableRequest(MeetingRouter.exitMeeting(plubbingID))
+  }
+  
+  func exportMeetingMember(plubbingID: Int, accountID: Int) -> Observable<EmptyModel>  {
+    sendObservableRequest(MeetingRouter.exportMeetingMember(plubbingID, accountID))
+  }
+  
+  func inquireMeetingMember(plubbingID: Int) -> Observable<MeetingMemberResponse>  {
+    sendObservableRequest(MeetingRouter.inquireMeetingMember(plubbingID))
+  }
+  
+  func endMeeting(plubbingID: Int) -> Observable<EmptyModel>  {
+    sendObservableRequest(MeetingRouter.endMeeting(plubbingID))
+  }
 }
