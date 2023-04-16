@@ -85,10 +85,7 @@ extension RecruitmentRouter: Router {
   }
   
   var headers: HeaderType {
-    switch self {
-    case .inquireDetailRecruitment, .inquireRecruitmentQuestion, .inquireAllBookmark, .searchRecruitment, .requestBookmark, .editMeetingPost, .editMeetingQuestion, .applyForRecruitment, .inquireApplicant, .approvalApplicant, .refuseApplicant, .inquireMyApplication, .cancelApplication, .endRecruitment:
-      return .withAccessToken
-    }
+    return .withAccessToken
   }
 }
 
