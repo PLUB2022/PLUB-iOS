@@ -20,11 +20,12 @@ final class ArchivePopUpViewModel {
   
   // MARK: - Properties
   
+  private let getArchiveDetailUseCase: GetArchiveDetailUseCase
   
   // MARK: - Initialization
   
-  init(plubbingID: Int, archiveID: Int) {
-    
+  init(getArchiveDetailUseCase: GetArchiveDetailUseCase) {
+    self.getArchiveDetailUseCase = getArchiveDetailUseCase
   }
   
   private let disposeBag = DisposeBag()
