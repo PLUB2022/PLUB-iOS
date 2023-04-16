@@ -13,10 +13,12 @@ import RxCocoa
 protocol ArchivePopUpViewModelType {
   // Input
   
+  /// 아카이브 상세 조회 API를 호출하기 위한 `Trigger Observer`
   var viewDidLoadObserver: AnyObserver<Void> { get }
   
   // Output
   
+  /// API 호출 이후 받아온 모델 값을 emit합니다.
   var fetchArchives: Observable<ArchiveContent> { get }
 }
 
@@ -35,10 +37,6 @@ final class ArchivePopUpViewModel {
   }
   
   private let disposeBag = DisposeBag()
-  
-  
-  // MARK: - Configuration
-  
 }
 
 // MARK: - ArchivePopUpViewModelType
@@ -51,6 +49,5 @@ extension ArchivePopUpViewModel: ArchivePopUpViewModelType {
   var fetchArchives: Observable<ArchiveContent> {
     viewDidLoadSubject
       .flatMap { [getArchiveDetailUseCase] in getArchiveDetailUseCase.execute() }
-      .debug()
   }
 }

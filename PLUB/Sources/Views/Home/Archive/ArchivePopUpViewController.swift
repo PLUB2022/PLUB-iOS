@@ -125,17 +125,19 @@ final class ArchivePopUpViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    // viewDidLoad 이후 API 요청을 위한 값 emit
     viewModel.viewDidLoadObserver.onNext(Void())
     
     let archives = viewModel.fetchArchives.share()
     
+    // fetching된 아카이브 모델값으로 view 업데이트
     archives
       .subscribe(with: self) { owner, content in
         owner.configure(with: content)
       }
       .disposed(by: disposeBag)
     
-    
+    // 아카이브에 존재하는 이미지 배열을 갖고, collectionView에 바인딩, 아카이브 image 업데이트
     archives
       .map(\.images)
       .bind(to: collectionView.rx.items(

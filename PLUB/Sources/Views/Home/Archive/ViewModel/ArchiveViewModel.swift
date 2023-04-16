@@ -19,6 +19,7 @@ protocol ArchiveViewModelType {
   /// 선택된 셀의 IndexPath를 전달합니다.
   var selectedArchiveCellObserver: AnyObserver<IndexPath> { get }
   
+  /// 페이징을 처리하기 위한 Observer입니다. 
   var offsetObserver: AnyObserver<(viewHeight: CGFloat, offset: CGFloat)> { get }
   
   // Output
@@ -86,6 +87,7 @@ final class ArchiveViewModel {
       .disposed(by: disposeBag)
   }
   
+  /// 선택된 Cell의 IndexPath에 맞는 archiveID와 plubbingID를 emit합니다.
   private func findPlubbingIDAndArchiveID() -> Observable<(plubbingID: Int, archiveID: Int)> {
     selectedArchiveCellSubject
       .map(\.item)
@@ -96,6 +98,7 @@ final class ArchiveViewModel {
       }
   }
   
+  /// 페이징 처리를 진행합니다.
   private func pagingSetup(plubbingID: Int) {
     offsetSubject
       .filter { [pagingManager] in // pagingManager에게 fetching 가능한지 요청
@@ -137,13 +140,11 @@ extension ArchiveViewModel: ArchiveViewModelType {
 // MARK: - Diffable DataSources
 
 extension ArchiveViewModel {
-  typealias Section = Int
-  typealias Item    = ArchiveContent
-  
-  typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-  typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
-  
-  typealias CellRegistration = UICollectionView.CellRegistration<ArchiveCollectionViewCell, ArchiveContent>
+  typealias Section           = Int
+  typealias Item              = ArchiveContent
+  typealias DataSource        = UICollectionViewDiffableDataSource<Section, Item>
+  typealias Snapshot          = NSDiffableDataSourceSnapshot<Section, Item>
+  typealias CellRegistration  = UICollectionView.CellRegistration<ArchiveCollectionViewCell, ArchiveContent>
   
   // MARK: Snapshot & DataSource Part
   

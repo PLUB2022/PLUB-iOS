@@ -106,10 +106,13 @@ final class ArchiveViewController: BaseViewController {
   override func bind() {
     super.bind()
     defer {
+      // 해당 Observer는 한 번만 호출되면 되므로, bind 함수가 끝나기 전 completed 호출
       viewModel.setCollectionViewObserver.onCompleted()
     }
+    // Diffable DataSource를 업데이트하기 위해 collectionView 제공
     viewModel.setCollectionViewObserver.onNext(collectionView)
     
+    // pop up 창을 띄워줘야한다면 받은 값으로 프로퍼티 인자를 제공하여 Pop Up View를 띄움
     viewModel.presentArchivePopUpObservable
       .subscribe(with: self) { owner, tuple in
         owner.present(ArchivePopUpViewController(
@@ -123,6 +126,7 @@ final class ArchiveViewController: BaseViewController {
     
     collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
+    // 페이징 처리
     collectionView.rx.contentOffset
       .distinctUntilChanged()
       .compactMap { [weak self] offset in
