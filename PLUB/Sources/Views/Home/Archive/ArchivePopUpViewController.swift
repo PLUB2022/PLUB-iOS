@@ -28,7 +28,7 @@ final class ArchivePopUpViewController: BaseViewController {
   }
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
-    $0.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
+    $0.register(ArchiveDetailColletionViewCell.self, forCellWithReuseIdentifier: ArchiveDetailColletionViewCell.identifier)
     $0.alwaysBounceVertical = false
   }
   
@@ -167,9 +167,7 @@ extension ArchivePopUpViewController: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UICollectionViewCell", for: indexPath)
-    cell.contentView.backgroundColor = .deepGray
-    cell.contentView.layer.cornerRadius = 10
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArchiveDetailColletionViewCell.identifier, for: indexPath)
     return cell
   }
 }
