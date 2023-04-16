@@ -25,7 +25,7 @@ extension AuthService {
     return sendRequest(
       AuthRouter.socialLogin(
         SignInRequest(
-          fcmToken: UserManager.shared.fcmToken!,
+          fcmToken: UserManager.shared.fcmToken ?? "",
           accessToken: token,
           authorizationCode: authorizationCode,
           socialType: socialType
