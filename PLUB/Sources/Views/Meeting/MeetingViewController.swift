@@ -223,11 +223,37 @@ extension MeetingViewController: MeetingCollectionViewCellDelegate {
   }
   
   func didTappedExitButton(plubbingID: Int) {
+    let alert = CustomAlertView(
+      AlertModel(
+        title: "모임에서 나가기\n하시겠어요?",
+        message: nil,
+        cancelButton: "취소",
+        confirmButton: "네, 할게요",
+        height: 210
+      )
+    ) { [weak self] in
+      guard let self = self else { return }
+      self.viewModel.exitMeeting(plubbingID: plubbingID)
+    }
+    alert.show()
   }
   
   func didTappedExportButton(plubbingID: Int) {
   }
   
   func didTappedEndButton(plubbingID: Int) {
+    let alert = CustomAlertView(
+      AlertModel(
+        title: "모임을 종료하시겠어요?",
+        message: nil,
+        cancelButton: "취소",
+        confirmButton: "네, 할게요",
+        height: 210
+      )
+    ) { [weak self] in
+      guard let self = self else { return }
+      self.viewModel.endMeeting(plubbingID: plubbingID)
+    }
+    alert.show()
   }
 }

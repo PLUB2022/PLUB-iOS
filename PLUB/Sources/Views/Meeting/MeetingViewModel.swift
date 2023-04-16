@@ -60,4 +60,24 @@ final class MeetingViewModel {
       })
       .disposed(by: disposeBag)
   }
+  
+  func exitMeeting(plubbingID: Int) {
+    MeetingService.shared
+      .exitMeeting(plubbingID: plubbingID)
+      .withUnretained(self)
+      .subscribe (onNext: { owner, _ in
+        
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  func endMeeting(plubbingID: Int) {
+    MeetingService.shared
+      .endMeeting(plubbingID: plubbingID)
+      .withUnretained(self)
+      .subscribe (onNext: { owner, _ in
+        
+      })
+      .disposed(by: disposeBag)
+  }
 }
