@@ -23,6 +23,9 @@ final class ArchiveViewModel {
   
   // MARK: - Properties
   
+  private let plubbingID: Int
+  private let getArchiveUseCase: GetArchiveUseCase
+  
   private var dataSource: DataSource? {
     didSet {
       applyInitialSnapshots()
@@ -36,13 +39,13 @@ final class ArchiveViewModel {
   }
   
   private let pagingManager = PagingManager<ArchiveContent>(threshold: 700)
-  private let getArchiveUseCase: GetArchiveUseCase
   
   private let setCollectionViewSubject = PublishSubject<UICollectionView>()
   
   // MARK: - Initialization
   
   init(plubbingID: Int, getArchiveUseCase: GetArchiveUseCase) {
+    self.plubbingID = plubbingID
     self.getArchiveUseCase = getArchiveUseCase
     
     fetchArchive(plubbingID: plubbingID)
