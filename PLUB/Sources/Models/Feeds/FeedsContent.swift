@@ -66,7 +66,7 @@ struct FeedsContent: Codable {
   let title: String
   
   /// 게시글 내용
-  let content: String
+  let content: String?
   
   /// 게시글 이미지
   let feedImageURL: String?
