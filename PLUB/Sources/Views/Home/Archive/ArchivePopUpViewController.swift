@@ -12,6 +12,8 @@ import Then
 
 final class ArchivePopUpViewController: BaseViewController {
   
+  private let viewModel: ArchivePopUpViewModelType
+  
   // MARK: - UI Components
   
   /// 모달 뷰
@@ -51,7 +53,8 @@ final class ArchivePopUpViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init() {
+  init(viewModel: ArchivePopUpViewModelType) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
     
     // popup motion 적용
