@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
@@ -118,17 +120,44 @@ final class ArchivePopUpViewController: BaseViewController {
     super.setupStyles()
     view.backgroundColor = .black.withAlphaComponent(0.45)
     collectionView.collectionViewLayout = createLayouts()
-    collectionView.dataSource = self
   }
   
   override func bind() {
     super.bind()
+    
+    viewModel.viewDidLoadObserver.onNext(Void())
+    
+    let archives = viewModel.fetchArchives.share()
+    
+    archives
+      .subscribe(with: self) { owner, content in
+        owner.configure(with: content)
+      }
+      .disposed(by: disposeBag)
+    
+    
+    archives
+      .map(\.images)
+      .bind(to: collectionView.rx.items(
+        cellIdentifier: ArchiveDetailColletionViewCell.identifier,
+        cellType: ArchiveDetailColletionViewCell.self
+      )) { _, imageString, cell in
+        cell.configure(with: imageString)
+      }
+      .disposed(by: disposeBag)
     
     closeButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
+  }
+  
+  private func configure(with model: ArchiveContent) {
+    guard let date = DateFormatterFactory.dateWithHypen.date(from: model.postDate) else { return }
+    orderLabel.text = "\(model.sequence)번째 기록"
+    dateLabel.text = DateFormatterFactory.dateWithDot.string(from: date)
+    titleLabel.text = model.title
   }
 }
 
@@ -156,19 +185,6 @@ extension ArchivePopUpViewController {
     
     let layout = UICollectionViewCompositionalLayout(section: section)
     return layout
-  }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension ArchivePopUpViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArchiveDetailColletionViewCell.identifier, for: indexPath)
-    return cell
   }
 }
 
