@@ -132,23 +132,6 @@ final class ArchiveViewController: BaseViewController {
   }
 }
 
-// MARK: - UICollectionViewDataSource
-
-extension ArchiveViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArchiveCollectionViewCell.identifier, for: indexPath) as? ArchiveCollectionViewCell
-    else {
-      fatalError()
-    }
-    
-    return cell
-  }
-}
-
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension ArchiveViewController: UICollectionViewDelegateFlowLayout {
