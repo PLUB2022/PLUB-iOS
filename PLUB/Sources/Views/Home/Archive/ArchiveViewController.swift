@@ -121,6 +121,14 @@ final class ArchiveViewController: BaseViewController {
         ), animated: true)
       }
       .disposed(by: disposeBag)
+    
+    collectionView.rx.contentOffset
+      .compactMap { [weak self] offset in
+        guard let self else { return nil }
+        return (self.collectionView.contentSize.height, offset.y)
+      }
+      .bind(to: viewModel.offsetObserver)
+      .disposed(by: disposeBag)
   }
 }
 

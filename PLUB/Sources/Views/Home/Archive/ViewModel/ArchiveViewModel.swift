@@ -19,6 +19,8 @@ protocol ArchiveViewModelType {
   /// 선택된 셀의 IndexPath를 전달합니다.
   var selectedArchiveCellObserver: AnyObserver<IndexPath> { get }
   
+  var offsetObserver: AnyObserver<(viewHeight: CGFloat, offset: CGFloat)> { get }
+  
   // Output
   
   /// ArchivePopUpVC를 처리하는데 필요한 인자를 받습니다.
@@ -46,8 +48,11 @@ final class ArchiveViewModel {
   
   private let pagingManager = PagingManager<ArchiveContent>(threshold: 700)
   
+  // MARK: Subjects
+  
   private let setCollectionViewSubject    = PublishSubject<UICollectionView>()
   private let selectedArchiveCellSubject  = PublishSubject<IndexPath>()
+  private let offsetSubject               = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
   
   // MARK: - Initialization
   
@@ -56,10 +61,10 @@ final class ArchiveViewModel {
     self.getArchiveUseCase = getArchiveUseCase
     
     fetchArchive(plubbingID: plubbingID)
+    pagingSetup(plubbingID: plubbingID)
   }
   
   private let disposeBag = DisposeBag()
-  
   
   // MARK: - Configuration
   
@@ -90,6 +95,23 @@ final class ArchiveViewModel {
         return (plubbingID: plubbingID, archiveID: $0)
       }
   }
+  
+  private func pagingSetup(plubbingID: Int) {
+    offsetSubject
+      .filter { [pagingManager] in // pagingManager에게 fetching 가능한지 요청
+        return pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
+      }
+      .flatMap { [weak self] _ -> Observable<[ArchiveContent]> in
+        guard let self else { return .empty() }
+        return self.pagingManager.fetchNextPage { cursorID in
+          self.getArchiveUseCase.execute(plubbingID: plubbingID, nextCursorID: cursorID)
+        }
+      }
+      .subscribe(with: self) { owner, content in
+        owner.archiveContents.append(contentsOf: content)
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 // MARK: - ArchiveViewModelType
@@ -101,6 +123,10 @@ extension ArchiveViewModel: ArchiveViewModelType {
   
   var selectedArchiveCellObserver: AnyObserver<IndexPath> {
     selectedArchiveCellSubject.asObserver()
+  }
+  
+  var offsetObserver: AnyObserver<(viewHeight: CGFloat, offset: CGFloat)> {
+    offsetSubject.asObserver()
   }
   
   var presentArchivePopUpObservable: Observable<(plubbingID: Int, archiveID: Int)> {
