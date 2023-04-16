@@ -40,7 +40,7 @@ final class ArchiveViewModel {
   
   private var archiveContents: [ArchiveContent] = [] {
     didSet {
-      
+      updateSnapshots()
     }
   }
   
@@ -141,6 +141,19 @@ extension ArchiveViewModel {
     var snapshot = Snapshot()
     snapshot.appendSections([0]) // 의무적으로 섹션 하나는 추가해야 함
     snapshot.appendItems(archiveContents)
+    dataSource?.apply(snapshot)
+  }
+  
+  func updateSnapshots() {
+    guard var snapshot = dataSource?.snapshot() else { return }
+    
+    guard let index = archiveContents.firstIndex(where: { !snapshot.itemIdentifiers.contains($0) })
+    else {
+      return
+    }
+    
+    snapshot.appendItems(Array(archiveContents[index...]))
+    
     dataSource?.apply(snapshot)
   }
 }
