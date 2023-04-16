@@ -47,13 +47,13 @@ extension MeetingRouter: Router {
     case .inquireMyMeeting:
       return "/plubbings/my"
     case .exitMeeting(let plubbingID):
-      return "/api/plubbings/\(plubbingID)/leave"
+      return "/plubbings/\(plubbingID)/leave"
     case .exportMeetingMember(let plubbingID, let accountID):
-      return "/api/plubbings/\(plubbingID)/acoounts/\(accountID)"
+      return "/plubbings/\(plubbingID)/acoounts/\(accountID)"
     case .inquireMeetingMember(let plubbingID):
-      return "/api/plubbings/\(plubbingID)/members"
+      return "/plubbings/\(plubbingID)/members"
     case .endMeeting(let plubbingID):
-      return "/api/plubbings/\(plubbingID)/status"
+      return "/plubbings/\(plubbingID)/status"
     }
   }
   
