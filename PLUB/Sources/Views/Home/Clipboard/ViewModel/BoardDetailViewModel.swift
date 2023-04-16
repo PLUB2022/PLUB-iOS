@@ -30,6 +30,8 @@ protocol BoardDetailViewModelType {
   
   /// 답장할 대상자의 닉네임을 받습니다.
   var replyNicknameObserable: Observable<String> { get }
+  
+  var showBottomSheetObservable: Observable<CommentOptionBottomSheetViewController.UserAccessType> { get }
 }
 
 protocol BoardDetailDataStore {
@@ -66,11 +68,12 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   // MARK: Subjects
   
-  private let collectionViewSubject = PublishSubject<UICollectionView>()
-  private let commentInputSubject   = PublishSubject<String>()
-  private let replyIDSubject        = BehaviorSubject<Int?>(value: nil)
-  private let replyNicknameSubject  = PublishSubject<String>()
-  private let bottomCellSubject     = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
+  private let collectionViewSubject   = PublishSubject<UICollectionView>()
+  private let commentInputSubject     = PublishSubject<String>()
+  private let replyIDSubject          = BehaviorSubject<Int?>(value: nil)
+  private let replyNicknameSubject    = PublishSubject<String>()
+  private let bottomCellSubject       = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
+  private let showBottomSheetSubject  = PublishSubject<CommentOptionBottomSheetViewController.UserAccessType>()
   
   // MARK: - Initializations
   
@@ -196,6 +199,9 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   var replyNicknameObserable: Observable<String> {
     replyNicknameSubject.asObservable()
   }
+  var showBottomSheetObservable: Observable<CommentOptionBottomSheetViewController.UserAccessType> {
+    showBottomSheetSubject.asObservable()
+  }
 }
 
 // MARK: - Diffable DataSource
@@ -275,6 +281,8 @@ extension BoardDetailViewModel {
   }
 }
 
+// MARK: - BoardDetailCollectionViewCellDelegate
+
 extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
   func didTappedReplyButton(commentID: Int) {
     guard let commentValue = comments.first(where: { $0.commentID == commentID })
@@ -284,5 +292,24 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
     
     replyNicknameSubject.onNext(commentValue.nickname)
     replyIDSubject.onNext(commentID)
+  }
+  
+  func didTappedOptionButton(commentID: Int) {
+    guard let content = comments.first(where: { $0.commentID == commentID })
+    else {
+      return
+    }
+    
+    let accessType: CommentOptionBottomSheetViewController.UserAccessType
+    
+    if content.isCommentAuthor {
+      accessType = .`self`
+    } else if content.isCurrentUserFeedAuthor {
+      accessType = .author
+    } else {
+      accessType = .normal
+    }
+    
+    showBottomSheetSubject.onNext(accessType)
   }
 }

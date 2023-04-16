@@ -46,3 +46,19 @@ class BottomSheetViewController: BaseViewController {
 extension UISheetPresentationController.Detent.Identifier {
   static let bottomSheet = Self("bottomSheet")
 }
+
+// MARK: - Constants
+
+extension BottomSheetViewController {
+  enum Metrics {
+    enum Margin {
+      static let horizontal = 16
+      static let top        = 36
+      static let bottom     = 24
+    }
+    
+    enum Size {
+      static let height     = 48
+    }
+  }
+}

@@ -53,7 +53,7 @@ final class SearchInputViewModel: SearchInputViewModelType {
     let searchSortType = BehaviorSubject<SortType>(value: .popular)
     let searchFilterType = BehaviorSubject<FilterType>(value: .title)
     let fetchingSearchOutput = BehaviorRelay<[SelectedCategoryCollectionViewCellModel]>(value: [])
-    let recentKeywordList = BehaviorRelay<[String]>(value: [])
+    let recentKeywordList = BehaviorRelay<[String]>(value: UserManager.shared.recentKeywordList ?? [])
     let removeKeyword = PublishSubject<Int>()
     let removeAllKeyword = PublishSubject<Void>()
     let whichBookmark = PublishSubject<Int>()
@@ -143,20 +143,21 @@ final class SearchInputViewModel: SearchInputViewModelType {
       var list = recentKeywordList.value
       list.remove(at: index)
       recentKeywordList.accept(list)
+      UserManager.shared.removeKeyword(index: index)
     })
     .disposed(by: disposeBag)
     
     searchKeyword.skip(1).subscribe(onNext: { keyword in
       let list = recentKeywordList.value
-      var filterList = list.filter { $0 != keyword }
-      filterList.insert(keyword, at: 0)
-      recentKeywordList.accept(filterList)
+      UserManager.shared.addKeyword(keyword: keyword)
+      recentKeywordList.accept(UserManager.shared.recentKeywordList!)
     })
     .disposed(by: disposeBag)
     
     removeAllKeyword
       .subscribe(onNext: { _ in
-        recentKeywordList.accept([])
+        UserManager.shared.clearKeywordList()
+        recentKeywordList.accept(UserManager.shared.recentKeywordList!)
       })
       .disposed(by: disposeBag)
     

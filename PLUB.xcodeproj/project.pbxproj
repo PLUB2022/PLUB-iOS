@@ -146,6 +146,7 @@
 		BA4CCDF329EAA33B0040D0D7 /* DateFormatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */; };
 		BA4CCDF729EAB9540040D0D7 /* GetArchiveUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */; };
 		BA4CCDFA29EAE6D50040D0D7 /* ArchivePopUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF929EAE6D50040D0D7 /* ArchivePopUpViewModel.swift */; };
+		BA4CCDF129EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4CCDF029EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift */; };
 		BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4DADB2295747E700C7ABD7 /* PageControl.swift */; };
 		BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */; };
 		BA52778528EECDC50036B825 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52777C28EECDC50036B825 /* Pretendard-Black.otf */; };
@@ -509,6 +510,7 @@
 		BA4CCDF229EAA33B0040D0D7 /* DateFormatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterFactory.swift; sourceTree = "<group>"; };
 		BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetArchiveUseCase.swift; sourceTree = "<group>"; };
 		BA4CCDF929EAE6D50040D0D7 /* ArchivePopUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivePopUpViewModel.swift; sourceTree = "<group>"; };
+		BA4CCDF029EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentOptionBottomSheetViewController.swift; sourceTree = "<group>"; };
 		BA4DADB2295747E700C7ABD7 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		BA52777B28EECDC50036B825 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		BA52777C28EECDC50036B825 /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
@@ -1558,6 +1560,7 @@
 				BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */,
 				BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */,
 				BA034D3129E864CA003B7192 /* ReplyView.swift */,
+				BA4CCDF029EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2428,6 +2431,7 @@
 				70727A4129D485E0003DE956 /* AddTodoViewController.swift in Sources */,
 				70727A3729D32DAA003DE956 /* TodolistService.swift in Sources */,
 				C361743629AFB875006AEAB1 /* MeetingCollectionViewCell.swift in Sources */,
+				BA4CCDF129EA79EA0040D0D7 /* CommentOptionBottomSheetViewController.swift in Sources */,
 				C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */,
 				BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */,
 				70A420B229914B370026E9F9 /* MainCategoryListResponse.swift in Sources */,
