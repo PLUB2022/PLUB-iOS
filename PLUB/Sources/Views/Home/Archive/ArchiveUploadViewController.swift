@@ -21,6 +21,11 @@ final class ArchiveUploadViewController: BaseViewController {
   // MARK: - UI Components
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
+    $0.register(
+      ArchiveUploadHeaderView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: ArchiveUploadHeaderView.identifier
+    )
     $0.backgroundColor = .background
   }
   

@@ -160,6 +160,7 @@
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
 		BA57F3F929ED4EEC00A9F790 /* ArchiveUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F729ED4EEC00A9F790 /* ArchiveUploadViewController.swift */; };
 		BA57F3FA29ED4EEC00A9F790 /* ArchiveUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */; };
+		BA57F3FD29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */; };
 		BA590E7A29EBC6320017FAF1 /* GetArchiveDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */; };
 		BA590E7D29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */; };
 		BA5D9ECF29E3E9A300F06AB5 /* ArchiveRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */; };
@@ -526,6 +527,7 @@
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
 		BA57F3F729ED4EEC00A9F790 /* ArchiveUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewController.swift; sourceTree = "<group>"; };
 		BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewModel.swift; sourceTree = "<group>"; };
+		BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadHeaderView.swift; sourceTree = "<group>"; };
 		BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetArchiveDetailUseCase.swift; sourceTree = "<group>"; };
 		BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRouter.swift; sourceTree = "<group>"; };
@@ -890,6 +892,7 @@
 		702876BD29A374C500E57509 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				BA57F3FB29ED5D5100A9F790 /* Component */,
 				BA590E7B29EBF2850017FAF1 /* Cell */,
 				BA4CCDF829EAE6BC0040D0D7 /* ViewModel */,
 				BA8D949929E96FF00075ACD8 /* ArchivePopUpViewController.swift */,
@@ -1285,6 +1288,14 @@
 				BA8AA43129890083004E9403 /* NanumPen.otf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		BA57F3FB29ED5D5100A9F790 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		BA590E7B29EBF2850017FAF1 /* Cell */ = {
@@ -2390,6 +2401,7 @@
 				705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */,
 				C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */,
 				BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				BA57F3FD29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift in Sources */,
 				C3EC027F29D958960024C962 /* WaitingViewModel.swift in Sources */,
 				BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */,
 				C3413E15299548FB004B8DBD /* RecruitPostViewController.swift in Sources */,
