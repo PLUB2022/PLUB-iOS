@@ -162,6 +162,7 @@
 		BA57F3FA29ED4EEC00A9F790 /* ArchiveUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */; };
 		BA57F3FD29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */; };
 		BA57F3FF29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3FE29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift */; };
+		BA57F3F629ED30D200A9F790 /* DeleteCommentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F529ED30D200A9F790 /* DeleteCommentUseCase.swift */; };
 		BA590E7A29EBC6320017FAF1 /* GetArchiveDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */; };
 		BA590E7D29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */; };
 		BA5D9ECF29E3E9A300F06AB5 /* ArchiveRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */; };
@@ -332,6 +333,7 @@
 		C38A5BA5297B234100485355 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA4297B234100485355 /* LocationTableViewCell.swift */; };
 		C38A5BA7297C549A00485355 /* LocationBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA6297C549A00485355 /* LocationBaseView.swift */; };
 		C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A5BA8297C60A000485355 /* Ex+UILabel.swift */; };
+		C38C573E29EC5910002550DD /* MeetingMemberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38C573D29EC5910002550DD /* MeetingMemberResponse.swift */; };
 		C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D65612987F0990052013F /* CategoryHeaderView.swift */; };
 		C38D6566298852F80052013F /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38D6565298852F80052013F /* PaddingLabel.swift */; };
 		C39E09B429C5F3C100ECAD11 /* MyPageNoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */; };
@@ -530,6 +532,7 @@
 		BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewModel.swift; sourceTree = "<group>"; };
 		BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadHeaderView.swift; sourceTree = "<group>"; };
 		BA57F3FE29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadCollectionViewCell.swift; sourceTree = "<group>"; };
+		BA57F3F529ED30D200A9F790 /* DeleteCommentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentUseCase.swift; sourceTree = "<group>"; };
 		BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetArchiveDetailUseCase.swift; sourceTree = "<group>"; };
 		BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRouter.swift; sourceTree = "<group>"; };
@@ -691,6 +694,7 @@
 		C38A5BA4297B234100485355 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		C38A5BA6297C549A00485355 /* LocationBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationBaseView.swift; sourceTree = "<group>"; };
 		C38A5BA8297C60A000485355 /* Ex+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UILabel.swift"; sourceTree = "<group>"; };
+		C38C573D29EC5910002550DD /* MeetingMemberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingMemberResponse.swift; sourceTree = "<group>"; };
 		C38D65612987F0990052013F /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
 		C38D6565298852F80052013F /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		C39E09B329C5F3C100ECAD11 /* MyPageNoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNoneView.swift; sourceTree = "<group>"; };
@@ -1251,6 +1255,7 @@
 			isa = PBXGroup;
 			children = (
 				BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */,
+				BA57F3F529ED30D200A9F790 /* DeleteCommentUseCase.swift */,
 				BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */,
 			);
 			path = Feeds;
@@ -1988,6 +1993,7 @@
 				70A420B529914B4F0026E9F9 /* CategoryMeetingResponse.swift */,
 				C3ED8FB62989B87E002F689B /* CreateMeetingResponse.swift */,
 				C361743029AF95E2006AEAB1 /* MyMeetingResponse.swift */,
+				C38C573D29EC5910002550DD /* MeetingMemberResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -2285,6 +2291,7 @@
 				C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */,
 				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
+				BA57F3F629ED30D200A9F790 /* DeleteCommentUseCase.swift in Sources */,
 				C3E0390F29C230F700C4744C /* RecruitingHeaderView.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
 				C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */,
@@ -2570,6 +2577,7 @@
 				702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */,
+				C38C573E29EC5910002550DD /* MeetingMemberResponse.swift in Sources */,
 				70727A4329D5D679003DE956 /* TodoAlertController.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 				BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */,

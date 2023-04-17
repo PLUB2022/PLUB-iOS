@@ -21,6 +21,7 @@ protocol DetailRecruitmentViewModelType {
   var meetingIntroduceModel: Driver<MeetingIntroduceModel> { get }
   var isApplied: Driver<Bool> { get }
   var successCancelApplication: Signal<Void> { get }
+  var isHost: Signal<Bool> { get }
 }
 
 // TODO: 이건준 -추후 API요청에 따른 result failure에 대한 에러 묶어서 처리하기
@@ -40,6 +41,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   let meetingIntroduceModel: Driver<MeetingIntroduceModel> // 모집글 세부정보를 표시하기위한 UI 모델
   let isApplied: Driver<Bool> // 해당 모집글을 신청했는지
   let successCancelApplication: Signal<Void> // [지원취소] 성공했는지
+  let isHost: Signal<Bool> // 해당 모집글이 호스트인지
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
@@ -102,6 +104,11 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
       )
     }
     .asDriver(onErrorDriveWith: .empty())
+    
+    isHost = successFetchingDetail.map { response -> Bool in
+      return response.isHost
+    }
+    .asSignal(onErrorSignalWith: .empty())
     
     participantListViewModel = successFetchingDetail.map { response -> [AccountInfo] in
       return response.joinedAccounts

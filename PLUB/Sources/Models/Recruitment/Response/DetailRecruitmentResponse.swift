@@ -70,9 +70,8 @@ struct DetailRecruitmentResponse: Codable {
   /// 참여자 인원 목록
   let joinedAccounts: [AccountInfo]
   
-  enum CodingKeys: String, CodingKey {
-    case title, introduce, categories, name, goal, mainImage, days, time, address, roadAddress, placeName, placePositionX, placePositionY, isBookmarked, isApplied, curAccountNum, remainAccountNum, joinedAccounts
-  }
+  /// 해당 모집글의 호스트인지 판단합니다.
+  let isHost: Bool
   
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -95,6 +94,7 @@ struct DetailRecruitmentResponse: Codable {
     curAccountNum = try container.decode(Int.self, forKey: .curAccountNum)
     remainAccountNum = try container.decode(Int.self, forKey: .remainAccountNum)
     joinedAccounts = try container.decode([AccountInfo].self, forKey: .joinedAccounts)
+    isHost = try container.decode(Bool.self, forKey: .isHost)
   }
 }
 

@@ -246,7 +246,8 @@ extension MainPageViewController: BoardViewControllerDelegate {
         plubbingID: plubbingID,
         content: content,
         getCommentsUseCase: DefaultGetCommentsUseCase(),
-        postCommentUseCase: DefaultPostCommentUseCase()
+        postCommentUseCase: DefaultPostCommentUseCase(),
+        deleteCommentUseCase: DefaultDeleteCommentUseCase()
       )
     )
     vc.navigationItem.largeTitleDisplayMode = .never

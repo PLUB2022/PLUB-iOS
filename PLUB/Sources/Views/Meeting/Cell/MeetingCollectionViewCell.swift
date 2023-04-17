@@ -25,16 +25,17 @@ struct MeetingCellModel {
 }
 
 protocol MeetingCollectionViewCellDelegate: AnyObject {
-  func didTappedSettingButton()
-  func didTappedExitButton()
-  func didTappedExportButton()
-  func didTappedEndButton()
+  func didTappedSettingButton(plubbingID: Int)
+  func didTappedExitButton(plubbingID: Int)
+  func didTappedExportButton(plubbingID: Int)
+  func didTappedEndButton(plubbingID: Int)
 }
 
 final class MeetingCollectionViewCell: UICollectionViewCell {
   static let identifier = "MeetingCollectionViewCell"
   private let disposeBag = DisposeBag()
   private var isHost: Bool?
+  private var plubbingID: Int?
   
   weak var delegate: MeetingCollectionViewCellDelegate?
   
@@ -210,6 +211,7 @@ final class MeetingCollectionViewCell: UICollectionViewCell {
     guard let plubbing = data.plubbing else { return }
     titleLabel.text = plubbing.name
     goalLabel.text = plubbing.goal
+    plubbingID = plubbing.plubbingID
     
     dateLabel.text = plubbing.days
       .map{ $0.kor }
@@ -249,15 +251,16 @@ final class MeetingCollectionViewCell: UICollectionViewCell {
         .rx.tap
         .asDriver()
         .drive(with: self) { owner, _ in
+          guard let plubbingID = owner.plubbingID else { return }
           switch type {
           case .setting:
-            owner.delegate?.didTappedSettingButton()
+            owner.delegate?.didTappedSettingButton(plubbingID: plubbingID)
           case .exit:
-            owner.delegate?.didTappedExitButton()
+            owner.delegate?.didTappedExitButton(plubbingID: plubbingID)
           case .export:
-            owner.delegate?.didTappedExportButton()
+            owner.delegate?.didTappedExportButton(plubbingID: plubbingID)
           case .end:
-            owner.delegate?.didTappedEndButton()
+            owner.delegate?.didTappedEndButton(plubbingID: plubbingID)
           }
         }
         .disposed(by: disposeBag)

@@ -117,7 +117,11 @@ final class BoardDetailViewController: BaseViewController {
     
     viewModel.showBottomSheetObservable
       .subscribe(with: self) { owner, userType in
-        owner.present(CommentOptionBottomSheetViewController(userAccessType: userType), animated: true)
+        let bottomSheetVC = CommentOptionBottomSheetViewController(userAccessType: userType).then {
+          $0.delegate = owner
+        }
+        owner.present(bottomSheetVC, animated: true)
+        
       }
       .disposed(by: disposeBag)
     
@@ -162,10 +166,28 @@ extension BoardDetailViewController: CommentInputViewDelegate {
   }
 }
 
+// MARK: - ReplyViewDelegate
+
 extension BoardDetailViewController: ReplyViewDelegate {
   func cancelButtonTapped() {
     viewModel.replyIDObserver.onNext(nil)
     replyView.isHidden = true
+  }
+}
+
+// MARK: - CommentOptionBottomSheetDelegate
+
+extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
+  func deleteButtonTapped() {
+    viewModel.deleteOptionObserver.onNext(Void())
+  }
+  
+  func editButtonTapped() {
+    print(#function)
+  }
+  
+  func reportButtonTapped() {
+    print(#function)
   }
 }
 
