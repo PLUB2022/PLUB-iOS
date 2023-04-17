@@ -89,12 +89,34 @@ final class ArchiveUploadViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    collectionView.collectionViewLayout = createLayouts()
   }
   
   override func bind() {
     super.bind()
   }
 }
+
+// MARK: - UICollectionViewCompositionalLayout
+
+private extension ArchiveUploadViewController {
+  func createLayouts() -> UICollectionViewLayout {
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalWidth(0.5))
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+    group.interItemSpacing = .fixed(12)
+    
+    let section = NSCollectionLayoutSection(group: group)
+    section.interGroupSpacing = 12
+    section.contentInsets = .init(top: 0, leading: 0, bottom: 32, trailing: 0)
+    
+    return UICollectionViewCompositionalLayout(section: section)
+  }
+}
+
+// MARK: - Constants
 
 private extension ArchiveUploadViewController {
   
