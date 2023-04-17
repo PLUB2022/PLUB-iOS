@@ -186,6 +186,32 @@ extension BoardDetailViewModel {
       }
       .disposed(by: disposeBag)
   }
+  
+  /// 댓글 삭제 관련 파이프라인을 설정합니다.
+  /// - Parameters:
+  ///   - plubbingID: 플러빙 ID
+  ///   - content: 게시글 컨텐츠 모델
+  private func deleteComments(plubbingID: Int, content: BoardModel) {
+    deleteOptionSubject
+      .withLatestFrom(recentSelectedCommentIDSubject)
+      .flatMap { [deleteCommentUseCase] commentID in
+        deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
+      }
+      .withLatestFrom(recentSelectedCommentIDSubject)
+      .subscribe(with: self) { owner, commentID in
+        guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
+        if content.type == .normal {
+          owner.comments.removeAll {
+            $0.groupID == content.groupID
+          }
+        } else {
+          owner.comments.removeAll {
+            $0.commentID == content.commentID
+          }
+        }
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 // MARK: - BoardDetailViewModelType
