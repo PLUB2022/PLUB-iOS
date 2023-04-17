@@ -28,6 +28,10 @@ final class ArchiveUploadViewController: BaseViewController {
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
     $0.register(
+      ArchiveUploadCollectionViewCell.self,
+      forCellWithReuseIdentifier: ArchiveUploadCollectionViewCell.identifier
+    )
+    $0.register(
       ArchiveUploadHeaderView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: ArchiveUploadHeaderView.identifier
