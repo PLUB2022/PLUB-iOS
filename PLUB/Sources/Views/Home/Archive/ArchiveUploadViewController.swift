@@ -20,6 +20,12 @@ final class ArchiveUploadViewController: BaseViewController {
   
   // MARK: - UI Components
   
+  private let archiveTitleLabel = UILabel().then {
+    $0.text = "아카이브 업로드"
+    $0.textColor = .black
+    $0.font = .h3
+  }
+  
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
     $0.register(
       ArchiveUploadHeaderView.self,
@@ -55,7 +61,7 @@ final class ArchiveUploadViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [collectionView, completeButton].forEach {
+    [archiveTitleLabel, collectionView, completeButton].forEach {
       view.addSubview($0)
     }
   }
@@ -63,9 +69,14 @@ final class ArchiveUploadViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
+    archiveTitleLabel.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(14)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Margin.horizontal)
+    }
+    
     collectionView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalToSuperview().inset(Margin.horizontal)
-      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalTo(archiveTitleLabel.snp.bottom).offset(24)
       $0.bottom.equalTo(completeButton.snp.top)
     }
     
