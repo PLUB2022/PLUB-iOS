@@ -65,6 +65,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   private let getCommentsUseCase: GetCommentsUseCase
   private let postCommentUseCase: PostCommentUseCase
+  private let deleteCommentUseCase: DeleteCommentUseCase
   
   // MARK: Subjects
   
@@ -81,11 +82,13 @@ final class BoardDetailViewModel: BoardDetailDataStore {
     plubbingID: Int,
     content: BoardModel,
     getCommentsUseCase: GetCommentsUseCase,
-    postCommentUseCase: PostCommentUseCase
+    postCommentUseCase: PostCommentUseCase,
+    deleteCommentUseCase: DeleteCommentUseCase
   ) {
     self.content = content
-    self.getCommentsUseCase = getCommentsUseCase
-    self.postCommentUseCase = postCommentUseCase
+    self.getCommentsUseCase   = getCommentsUseCase
+    self.postCommentUseCase   = postCommentUseCase
+    self.deleteCommentUseCase = deleteCommentUseCase
     
     fetchComments(plubbingID: plubbingID, content: content)
     createComments(plubbingID: plubbingID, content: content)
