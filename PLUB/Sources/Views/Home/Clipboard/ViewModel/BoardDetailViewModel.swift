@@ -26,6 +26,8 @@ protocol BoardDetailViewModelType {
   /// 답장할 대상자의 ID를 emit합니다.
   var replyIDObserver: AnyObserver<Int?> { get }
   
+  var deleteOptionObserver: AnyObserver<Void> { get }
+  
   //Output
   
   /// 답장할 대상자의 닉네임을 받습니다.
@@ -69,12 +71,14 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   // MARK: Subjects
   
-  private let collectionViewSubject   = PublishSubject<UICollectionView>()
-  private let commentInputSubject     = PublishSubject<String>()
-  private let replyIDSubject          = BehaviorSubject<Int?>(value: nil)
-  private let replyNicknameSubject    = PublishSubject<String>()
-  private let bottomCellSubject       = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
-  private let showBottomSheetSubject  = PublishSubject<CommentOptionBottomSheetViewController.UserAccessType>()
+  private let collectionViewSubject           = PublishSubject<UICollectionView>()
+  private let commentInputSubject             = PublishSubject<String>()
+  private let replyIDSubject                  = BehaviorSubject<Int?>(value: nil)
+  private let replyNicknameSubject            = PublishSubject<String>()
+  private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
+  private let showBottomSheetSubject          = PublishSubject<CommentOptionBottomSheetViewController.UserAccessType>()
+  private let recentSelectedCommentIDSubject  = ReplaySubject<Int>.create(bufferSize: 1)
+  private let deleteOptionSubject             = PublishSubject<Void>()
   
   // MARK: - Initializations
   
@@ -93,6 +97,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
     fetchComments(plubbingID: plubbingID, content: content)
     createComments(plubbingID: plubbingID, content: content)
     pagingSetup(plubbingID: plubbingID, content: content)
+    deleteComments(plubbingID: plubbingID, content: content)
   }
   
   private let disposeBag = DisposeBag()
@@ -205,6 +210,9 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   var showBottomSheetObservable: Observable<CommentOptionBottomSheetViewController.UserAccessType> {
     showBottomSheetSubject.asObservable()
   }
+  var deleteOptionObserver: AnyObserver<Void> {
+    deleteOptionSubject.asObserver()
+  }
 }
 
 // MARK: - Diffable DataSource
@@ -302,6 +310,9 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
     else {
       return
     }
+    
+    // 옵션 버튼을 선택한 셀의 commentID를 emit
+    recentSelectedCommentIDSubject.onNext(commentID)
     
     let accessType: CommentOptionBottomSheetViewController.UserAccessType
     

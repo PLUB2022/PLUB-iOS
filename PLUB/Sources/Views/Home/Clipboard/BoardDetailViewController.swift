@@ -179,7 +179,7 @@ extension BoardDetailViewController: ReplyViewDelegate {
 
 extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
   func deleteButtonTapped() {
-    print(#function)
+    viewModel.deleteOptionObserver.onNext(Void())
   }
   
   func editButtonTapped() {
