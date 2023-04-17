@@ -235,7 +235,7 @@ extension MeetingViewController: MeetingCollectionViewCellDelegate {
         height: 210
       )
     ) { [weak self] in
-      guard let self = self else { return }
+      guard let self else { return }
       self.viewModel.exitMeeting(plubbingID: plubbingID)
     }
     alert.show()
@@ -254,7 +254,7 @@ extension MeetingViewController: MeetingCollectionViewCellDelegate {
         height: 210
       )
     ) { [weak self] in
-      guard let self = self else { return }
+      guard let self else { return }
       self.viewModel.endMeeting(plubbingID: plubbingID)
     }
     alert.show()
