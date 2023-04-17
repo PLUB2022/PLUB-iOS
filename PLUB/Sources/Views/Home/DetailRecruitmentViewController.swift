@@ -18,7 +18,18 @@ final class DetailRecruitmentViewController: BaseViewController {
   
   private let plubbingID: Int
   
-  private let isHost: Bool
+  private var isHost: Bool = false {
+    didSet {
+      if isHost {
+        applyButton.configurationUpdateHandler = applyButton.configuration?.detailRecruitment(
+          label: "모집 끝내기"
+        )
+        surroundMeetingButton.configurationUpdateHandler = surroundMeetingButton.configuration?.detailRecruitment(
+          label: "지원자 확인하기"
+        )
+      }
+    }
+  }
   
   private var isApplied: Bool = false {
     didSet {
@@ -159,15 +170,6 @@ final class DetailRecruitmentViewController: BaseViewController {
       target: self,
       action: #selector(didTappedComponentButton)
     )
-    
-    if isHost {
-      applyButton.configurationUpdateHandler = applyButton.configuration?.detailRecruitment(
-        label: "모집 끝내기"
-      )
-      surroundMeetingButton.configurationUpdateHandler = surroundMeetingButton.configuration?.detailRecruitment(
-        label: "지원자 확인하기"
-      )
-    }
   }
   
   func bind(plubbingID: Int) {
@@ -255,6 +257,10 @@ final class DetailRecruitmentViewController: BaseViewController {
       .emit(with: self) { owner, _ in
         owner.viewModel.selectPlubbingID.onNext(plubbingID)
       }
+      .disposed(by: disposeBag)
+    
+    viewModel.isHost
+      .emit(to: rx.isHost)
       .disposed(by: disposeBag)
   }
   
