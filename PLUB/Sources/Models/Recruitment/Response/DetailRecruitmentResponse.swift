@@ -73,10 +73,6 @@ struct DetailRecruitmentResponse: Codable {
   /// 해당 모집글의 호스트인지 판단합니다.
   let isHost: Bool
   
-  enum CodingKeys: String, CodingKey {
-    case title, introduce, categories, name, goal, mainImage, days, time, address, roadAddress, placeName, placePositionX, placePositionY, isBookmarked, isApplied, curAccountNum, remainAccountNum, joinedAccounts, isHost
-  }
-  
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     
