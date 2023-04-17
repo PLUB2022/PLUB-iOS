@@ -7,8 +7,17 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
+
+protocol CommentOptionBottomSheetDelegate: AnyObject {
+  func deleteButtonTapped()
+  func editButtonTapped()
+  func reportButtonTapped()
+}
+
 
 final class CommentOptionBottomSheetViewController: BottomSheetViewController {
   
@@ -27,6 +36,8 @@ final class CommentOptionBottomSheetViewController: BottomSheetViewController {
   // MARK: - Properties
   
   private let userAccessType: UserAccessType
+  
+  weak var delegate: CommentOptionBottomSheetDelegate?
   
   // MARK: - UI Components
   
@@ -92,5 +103,16 @@ final class CommentOptionBottomSheetViewController: BottomSheetViewController {
     if userAccessType != .normal {
       deleteCommentView.snp.makeConstraints(heightConstraints)
     }
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    deleteCommentView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.deleteButtonTapped()
+        owner.dismiss(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
