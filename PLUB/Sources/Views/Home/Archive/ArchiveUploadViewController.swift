@@ -20,10 +20,17 @@ final class ArchiveUploadViewController: BaseViewController {
   
   // MARK: - UI Components
   
+  private let archiveTitleLabelContainerView = UIView()
+  
   private let archiveTitleLabel = UILabel().then {
     $0.text = "아카이브 업로드"
     $0.textColor = .black
     $0.font = .h3
+  }
+  
+  private let gradientLayer = CAGradientLayer().then {
+    $0.locations = [0.7]
+    $0.colors = [UIColor.background.cgColor, UIColor.background.withAlphaComponent(0).cgColor]
   }
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
@@ -37,6 +44,7 @@ final class ArchiveUploadViewController: BaseViewController {
       withReuseIdentifier: ArchiveUploadHeaderView.identifier
     )
     $0.backgroundColor = .background
+    $0.showsVerticalScrollIndicator = false
   }
   
   private let completeButton = UIButton(configuration: .plain()).then {
@@ -61,21 +69,34 @@ final class ArchiveUploadViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    var frame = archiveTitleLabelContainerView.bounds
+    frame.size.height += 32
+    gradientLayer.frame = frame
+  }
+  
   // MARK: - Configuration
   
   override func setupLayouts() {
     super.setupLayouts()
-    [archiveTitleLabel, collectionView, completeButton].forEach {
+    [collectionView, archiveTitleLabelContainerView, completeButton].forEach {
       view.addSubview($0)
     }
+    archiveTitleLabelContainerView.layer.addSublayer(gradientLayer)
+    archiveTitleLabelContainerView.addSubview(archiveTitleLabel)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    archiveTitleLabel.snp.makeConstraints {
+    archiveTitleLabelContainerView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(14)
       $0.directionalHorizontalEdges.equalToSuperview().inset(Margin.horizontal)
+    }
+    
+    archiveTitleLabel.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     collectionView.snp.makeConstraints {
