@@ -100,14 +100,17 @@ final class MeetingViewController: BaseViewController {
     
     viewModel.meetingList
       .drive(with: self) { owner, data in
-        owner.meetingList = data
-        owner.pageControl.numberOfPages = data.count
-        guard !data.isEmpty else { return }
-        owner.collectionView.scrollToItem(
-          at: IndexPath(row: 0, section: 0),
-          at: .centeredHorizontally,
-          animated: true
-        )
+        let (model, isScroll) = data
+        owner.meetingList = model
+        owner.pageControl.numberOfPages = model.count
+        guard !model.isEmpty else { return }
+        if isScroll {
+          owner.collectionView.scrollToItem(
+            at: IndexPath(row: 0, section: 0),
+            at: .centeredHorizontally,
+            animated: true
+          )
+        }
       }
       .disposed(by: disposeBag)
     
@@ -219,15 +222,41 @@ extension MeetingViewController {
 }
 
 extension MeetingViewController: MeetingCollectionViewCellDelegate {
-  func didTappedSettingButton() {
+  func didTappedSettingButton(plubbingID: Int) {
   }
   
-  func didTappedExitButton() {
+  func didTappedExitButton(plubbingID: Int) {
+    let alert = CustomAlertView(
+      AlertModel(
+        title: "모임에서 나가기\n하시겠어요?",
+        message: nil,
+        cancelButton: "취소",
+        confirmButton: "네, 할게요",
+        height: 210
+      )
+    ) { [weak self] in
+      guard let self else { return }
+      self.viewModel.exitMeeting(plubbingID: plubbingID)
+    }
+    alert.show()
   }
   
-  func didTappedExportButton() {
+  func didTappedExportButton(plubbingID: Int) {
   }
   
-  func didTappedEndButton() {
+  func didTappedEndButton(plubbingID: Int) {
+    let alert = CustomAlertView(
+      AlertModel(
+        title: "모임을 종료하시겠어요?",
+        message: nil,
+        cancelButton: "취소",
+        confirmButton: "네, 할게요",
+        height: 210
+      )
+    ) { [weak self] in
+      guard let self else { return }
+      self.viewModel.endMeeting(plubbingID: plubbingID)
+    }
+    alert.show()
   }
 }

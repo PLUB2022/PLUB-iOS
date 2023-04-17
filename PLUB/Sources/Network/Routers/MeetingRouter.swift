@@ -13,6 +13,11 @@ enum MeetingRouter {
   case inquireCategoryMeeting(String, Int, String, CategoryMeetingRequest?)
   case inquireRecommendationMeeting(Int)
   case inquireMyMeeting(Bool)
+  case deleteMeeting(Int)
+  case exitMeeting(Int)
+  case exportMeetingMember(Int, Int)
+  case inquireMeetingMember(Int)
+  case endMeeting(Int)
 }
 
 extension MeetingRouter: Router {
@@ -20,10 +25,12 @@ extension MeetingRouter: Router {
     switch self {
     case .createMeeting, .inquireCategoryMeeting:
       return .post
-    case .editMeetingInfo:
+    case .editMeetingInfo, .exitMeeting, .endMeeting:
       return .put
-    case .inquireRecommendationMeeting, .inquireMyMeeting:
+    case .inquireRecommendationMeeting, .inquireMyMeeting, .inquireMeetingMember:
       return .get
+    case .deleteMeeting, .exportMeetingMember:
+      return .delete
     }
   }
   
@@ -31,14 +38,22 @@ extension MeetingRouter: Router {
     switch self {
     case .createMeeting:
       return "/plubbings"
-    case .editMeetingInfo(let plubbingId, _):
-      return "/plubbings/\(plubbingId)"
+    case .editMeetingInfo(let plubbingID, _), .deleteMeeting(let plubbingID):
+      return "/plubbings/\(plubbingID)"
     case .inquireCategoryMeeting(let categoryID, _, _, _):
       return "/plubbings/categories/\(categoryID)"
     case .inquireRecommendationMeeting:
       return "/plubbings/recommendation"
     case .inquireMyMeeting:
       return "/plubbings/my"
+    case .exitMeeting(let plubbingID):
+      return "/plubbings/\(plubbingID)/leave"
+    case .exportMeetingMember(let plubbingID, let accountID):
+      return "/plubbings/\(plubbingID)/acoounts/\(accountID)"
+    case .inquireMeetingMember(let plubbingID):
+      return "/plubbings/\(plubbingID)/members"
+    case .endMeeting(let plubbingID):
+      return "/plubbings/\(plubbingID)/status"
     }
   }
   
@@ -54,14 +69,13 @@ extension MeetingRouter: Router {
       return .query(["cursorId": cursorID])
     case .inquireMyMeeting(let isHost):
       return .query(["isHost": isHost])
+    case .deleteMeeting, .exitMeeting, .exportMeetingMember, .inquireMeetingMember, .endMeeting:
+      return .plain
     }
   }
   
   var headers: HeaderType {
-    switch self {
-    case .createMeeting, .editMeetingInfo, .inquireCategoryMeeting, .inquireRecommendationMeeting, .inquireMyMeeting:
-      return .withAccessToken
-    }
+    return .withAccessToken
   }
 }
 
