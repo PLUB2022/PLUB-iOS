@@ -94,7 +94,7 @@ final class RecruitingViewController: BaseViewController {
       .rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        let vc = DetailRecruitmentViewController(plubbingID: owner.viewModel.plubbingID, isHost: false)
+        let vc = DetailRecruitmentViewController(plubbingID: owner.viewModel.plubbingID)
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
