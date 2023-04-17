@@ -63,8 +63,6 @@ final class ArchiveViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView.dataSource = self
-    collectionView.delegate = self
   }
   
   override func viewDidLayoutSubviews() {
@@ -107,23 +105,36 @@ final class ArchiveViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-  }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension ArchiveViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArchiveCollectionViewCell.identifier, for: indexPath) as? ArchiveCollectionViewCell
-    else {
-      fatalError()
+    defer {
+      // 해당 Observer는 한 번만 호출되면 되므로, bind 함수가 끝나기 전 completed 호출
+      viewModel.setCollectionViewObserver.onCompleted()
     }
+    // Diffable DataSource를 업데이트하기 위해 collectionView 제공
+    viewModel.setCollectionViewObserver.onNext(collectionView)
     
-    return cell
+    // pop up 창을 띄워줘야한다면 받은 값으로 프로퍼티 인자를 제공하여 Pop Up View를 띄움
+    viewModel.presentArchivePopUpObservable
+      .subscribe(with: self) { owner, tuple in
+        owner.present(ArchivePopUpViewController(
+          viewModel: ArchivePopUpViewModel(
+            getArchiveDetailUseCase: DefaultGetArchiveDetailUseCase(plubbingID: tuple.plubbingID,
+                                                                    archiveID: tuple.archiveID)
+          )
+        ), animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+    
+    // 페이징 처리
+    collectionView.rx.contentOffset
+      .distinctUntilChanged()
+      .compactMap { [weak self] offset in
+        guard let self else { return nil }
+        return (self.collectionView.contentSize.height, offset.y)
+      }
+      .bind(to: viewModel.offsetObserver)
+      .disposed(by: disposeBag)
   }
 }
 
@@ -146,6 +157,6 @@ extension ArchiveViewController: UICollectionViewDelegateFlowLayout {
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    present(ArchivePopUpViewController(), animated: true)
+    viewModel.selectedArchiveCellObserver.onNext(indexPath)
   }
 }

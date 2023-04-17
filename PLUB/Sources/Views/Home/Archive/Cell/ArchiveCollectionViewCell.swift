@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -46,16 +47,22 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
   private let firstContentImageView = UIImageView().then {
     $0.backgroundColor = .deepGray
     $0.layer.cornerRadius = 6
+    $0.clipsToBounds = true
+    $0.isHidden = true
   }
   private let secondContentImageView = UIImageView().then {
     $0.backgroundColor = .deepGray
     $0.alpha = 0.5
     $0.layer.cornerRadius = 6
+    $0.clipsToBounds = true
+    $0.isHidden = true
   }
   private let thirdContentImageView = UIImageView().then {
     $0.backgroundColor = .deepGray
     $0.alpha = 0.1
     $0.layer.cornerRadius = 6
+    $0.clipsToBounds = true
+    $0.isHidden = true
   }
   
   private let photoCountInformationStackView = UIStackView().then {
@@ -200,5 +207,29 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
   
   private func setupStyles() {
     
+  }
+  
+  func configure(with model: ArchiveContent) {
+    guard let date = DateFormatterFactory.dateWithHypen.date(from: model.postDate) else {
+      return
+    }
+    let dateString = DateFormatterFactory.dateWithDot.string(from: date)
+    datetimeLabel.text = "\(model.sequence)번째 기록 | \(dateString)"
+    titleLabel.text = model.title
+    photoCountLabel.text = "\(model.imageCount)"
+    
+    let imageViews = [firstContentImageView, secondContentImageView, thirdContentImageView]
+    
+    for (imageView, urlString) in zip(imageViews, model.images) {
+      imageView.isHidden = false
+      imageView.kf.setImage(with: URL(string: urlString))
+    }
+  }
+  
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    secondContentImageView.isHidden = true
+    thirdContentImageView.isHidden = true
   }
 }

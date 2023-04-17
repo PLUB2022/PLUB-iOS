@@ -47,6 +47,8 @@ struct ArchiveContent: Codable {
     case archiveID = "archiveId"
     case postDate = "createdAt"
   }
+  
+  private let identifier = UUID()
 }
 
 extension ArchiveContent {
@@ -62,5 +64,11 @@ extension ArchiveContent {
     
     /// 모임 호스트
     case host
+  }
+}
+
+extension ArchiveContent: Hashable {
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(identifier)
   }
 }
