@@ -287,7 +287,7 @@ extension BoardDetailViewModel {
   private func applyInitialSnapshots() {
     var snapshot = Snapshot()
     
-    var sections = [-1] // 최소한 하나의 Section이라도 존재해야 함
+    var sections = [Constants.boardSection] // 최소한 하나의 Section이라도 존재해야 함
     sections.append(contentsOf: Array(Set(comments.map { $0.groupID })).sorted())
     snapshot.appendSections(sections)
     
@@ -303,9 +303,20 @@ extension BoardDetailViewModel {
     guard let dataSource else { return }
     
     var snapshot = dataSource.snapshot()
+    
+    // 삭제해야할 section 조회
+    let commentsGroupIDs = Set(comments.map(\.groupID)).union([Constants.boardSection])
+    let sectionsToRemove = snapshot.sectionIdentifiers.filter { !commentsGroupIDs.contains($0) }
+    snapshot.deleteSections(sectionsToRemove)
+    
+    // snapshot에서 삭제해야할 아이템 조회
+    let itemsToRemove = snapshot.itemIdentifiers.filter { !comments.contains($0) }
+    snapshot.deleteItems(itemsToRemove)
+    
+    
     let items = snapshot.itemIdentifiers // 전체 Item을 가져옴
     
-    // snapshot에 적용되지 않은 item 선별
+    // snapshot에 추가해야할 item 선별
     for content in comments where items.contains(content) == false {
       // 댓글인 경우
       if snapshot.sectionIdentifiers.contains(content.groupID) == false {
@@ -351,5 +362,13 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
     }
     
     showBottomSheetSubject.onNext(accessType)
+  }
+}
+
+// MARK: - Constants
+
+private extension BoardDetailViewModel {
+  enum Constants {
+    static let boardSection = -1
   }
 }
