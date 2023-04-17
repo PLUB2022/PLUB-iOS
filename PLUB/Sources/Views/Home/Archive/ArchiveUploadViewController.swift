@@ -80,7 +80,7 @@ final class ArchiveUploadViewController: BaseViewController {
     
     collectionView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalToSuperview().inset(Margin.horizontal)
-      $0.top.equalTo(archiveTitleLabel.snp.bottom).offset(24)
+      $0.top.equalTo(archiveTitleLabel.snp.bottom)
       $0.bottom.equalTo(completeButton.snp.top)
     }
     
@@ -114,7 +114,11 @@ private extension ArchiveUploadViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     section.interGroupSpacing = 12
-    section.contentInsets = .init(top: 0, leading: 0, bottom: 32, trailing: 0)
+    section.contentInsets = .init(top: 8, leading: 0, bottom: 32, trailing: 0)
+    
+    let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(124)), elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+    section.boundarySupplementaryItems = [headerItem]
+    
     
     return UICollectionViewCompositionalLayout(section: section)
   }
