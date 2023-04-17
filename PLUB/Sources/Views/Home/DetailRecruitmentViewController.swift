@@ -94,8 +94,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: Int, isHost: Bool) {
-    self.isHost = isHost
+  init(viewModel: DetailRecruitmentViewModelType = DetailRecruitmentViewModel(), plubbingID: Int) {
     self.viewModel = viewModel
     self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
