@@ -179,29 +179,10 @@ final class CreateBoardViewController: BaseViewController {
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
         guard let title = owner.titleInputTextView.textView.text else { return }
-        let request: BoardsRequest
-        switch owner.type {
-        case .photo:
-          request = BoardsRequest(
-            title: title,
-            content: nil,
-            feedImage: ""
-          )
-        case .text:
-          request = BoardsRequest(
-            title: title,
-            content: owner.boardContentInputTextView.textView.text,
-            feedImage: nil
-          )
-        case .photoAndText:
-          request = BoardsRequest(
-            title: title,
-            content: owner.boardContentInputTextView.textView.text,
-            feedImage: ""
-          )
-        }
-        
-        owner.viewModel.whichUpload.onNext(request)
+        owner.viewModel.tappedUploadButton.onNext(())
+        owner.viewModel.writeTitle.onNext(title)
+        owner.viewModel.writeContent.onNext(owner.boardContentInputTextView.textView.text)
+        owner.viewModel.whichBoardImage.onNext(owner.addPhotoImageView.image)
       }
       .disposed(by: disposeBag)
     
@@ -233,7 +214,7 @@ final class CreateBoardViewController: BaseViewController {
     viewModel.uploadButtonIsActivated
       .drive(uploadButton.rx.isEnabled)
       .disposed(by: disposeBag)
-
+    
   }
   
   private func changedPostType(type: PostType) {
