@@ -26,7 +26,11 @@ protocol BoardDetailViewModelType {
   /// 답장할 대상자의 ID를 emit합니다.
   var replyIDObserver: AnyObserver<Int?> { get }
   
+  /// 삭제 버튼을 누른 경우 해당 옵저버를 이용하여 emit합니다.
   var deleteOptionObserver: AnyObserver<Void> { get }
+  
+  /// 수정 버튼을 누른 경우 해당 옵저버를 이용하여 emit합니다.
+  var editOptionObserver: AnyObserver<Void> { get }
   
   //Output
   
@@ -79,6 +83,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   private let showBottomSheetSubject          = PublishSubject<CommentOptionBottomSheetViewController.UserAccessType>()
   private let recentSelectedCommentIDSubject  = ReplaySubject<Int>.create(bufferSize: 1)
   private let deleteOptionSubject             = PublishSubject<Void>()
+  private let editOptionSubject               = PublishSubject<Void>()
   
   // MARK: - Initializations
   
@@ -238,6 +243,9 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   }
   var deleteOptionObserver: AnyObserver<Void> {
     deleteOptionSubject.asObserver()
+  }
+  var editOptionObserver: AnyObserver<Void> {
+    editOptionSubject.asObserver()
   }
 }
 

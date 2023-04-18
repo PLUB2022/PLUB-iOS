@@ -114,5 +114,12 @@ final class CommentOptionBottomSheetViewController: BottomSheetViewController {
         owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
+    
+    editCommentView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.editButtonTapped()
+        owner.dismiss(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }

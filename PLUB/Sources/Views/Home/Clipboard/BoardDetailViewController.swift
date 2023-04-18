@@ -183,7 +183,7 @@ extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
   }
   
   func editButtonTapped() {
-    print(#function)
+    viewModel.editOptionObserver.onNext(Void())
   }
   
   func reportButtonTapped() {
