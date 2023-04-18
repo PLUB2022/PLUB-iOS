@@ -1,5 +1,5 @@
 //
-//  ReplyView.swift
+//  CommentOptionDecoratorView.swift
 //  PLUB
 //
 //  Created by 홍승현 on 2023/04/14.
@@ -12,22 +12,29 @@ import RxCocoa
 import SnapKit
 import Then
 
-protocol ReplyViewDelegate: AnyObject {
+protocol CommentOptionViewDelegate: AnyObject {
   func cancelButtonTapped()
 }
 
-final class ReplyView: UIView {
+final class CommentOptionDecoratorView: UIView {
   
   // MARK: - Properties
   
-  /// 답글을 달 닉네임을 설정합니다.
-  var nickname: String = "Unknown" {
+  /// 왼쪽에 들어갈 label text를 설정합니다.
+  var labelText: String = "Unknown" {
     didSet {
-      replyIndicatorLabel.text = "\(nickname)님에게 답글 쓰는 중..."
+      indicatorLabel.text = labelText
     }
   }
   
-  weak var delegate: ReplyViewDelegate?
+  /// 오른쪽 버튼에 들어갈 text를 설정합니다.
+  var buttonText: String = "취소" {
+    didSet {
+      cancelButton.setTitle(buttonText, for: .normal)
+    }
+  }
+  
+  weak var delegate: CommentOptionViewDelegate?
   
   private let disposeBag = DisposeBag()
   
@@ -37,12 +44,12 @@ final class ReplyView: UIView {
     $0.backgroundColor = .lightGray
   }
   
-  private let replyIndicatorLabel = UILabel().then {
+  private let indicatorLabel = UILabel().then {
     $0.font = .overLine
     $0.textColor = .black
   }
   
-  private let replyCancelButton = UIButton().then {
+  private let cancelButton = UIButton().then {
     $0.setTitleColor(.main, for: .normal)
     $0.setTitle("답글 작성 취소", for: .normal)
     $0.titleLabel?.font = .overLine
@@ -64,18 +71,18 @@ final class ReplyView: UIView {
   // MARK: - Configuration
   
   private func setupLayouts() {
-    [replyIndicatorLabel, replyCancelButton, separatorLineView].forEach {
+    [indicatorLabel, cancelButton, separatorLineView].forEach {
       addSubview($0)
     }
   }
   
   private func setupConstraints() {
-    replyIndicatorLabel.snp.makeConstraints {
+    indicatorLabel.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(Metrics.directionalHorizontalInset)
       $0.centerY.equalToSuperview()
     }
     
-    replyCancelButton.snp.makeConstraints {
+    cancelButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
       $0.trailing.equalToSuperview().inset(Metrics.directionalHorizontalInset)
     }
@@ -87,7 +94,7 @@ final class ReplyView: UIView {
   }
   
   private func bind() {
-    replyCancelButton.rx.tap
+    cancelButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.cancelButtonTapped()
       }
@@ -95,7 +102,7 @@ final class ReplyView: UIView {
   }
 }
 
-extension ReplyView {
+extension CommentOptionDecoratorView {
   enum Metrics {
     static let directionalHorizontalInset = 24
     static let separatorHeight = 1

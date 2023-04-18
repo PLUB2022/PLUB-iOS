@@ -34,8 +34,8 @@ protocol BoardDetailViewModelType {
   
   //Output
   
-  /// 답장할 대상자의 닉네임을 받습니다.
-  var replyNicknameObserable: Observable<String> { get }
+  /// decoratorView에 들어갈 적절한 text를 처리합니다.
+  var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> { get }
   
   var showBottomSheetObservable: Observable<CommentOptionBottomSheetViewController.UserAccessType> { get }
 }
@@ -78,7 +78,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   private let collectionViewSubject           = PublishSubject<UICollectionView>()
   private let commentInputSubject             = PublishSubject<String>()
   private let replyIDSubject                  = BehaviorSubject<Int?>(value: nil)
-  private let replyNicknameSubject            = PublishSubject<String>()
+  private let decoratorNameSubject            = PublishSubject<(labelText: String, buttonText: String)>()
   private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   private let showBottomSheetSubject          = PublishSubject<CommentOptionBottomSheetViewController.UserAccessType>()
   private let recentSelectedCommentIDSubject  = ReplaySubject<Int>.create(bufferSize: 1)
@@ -235,8 +235,8 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   var replyIDObserver: AnyObserver<Int?> {
     replyIDSubject.asObserver()
   }
-  var replyNicknameObserable: Observable<String> {
-    replyNicknameSubject.asObservable()
+  var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> {
+    decoratorNameSubject.asObservable()
   }
   var showBottomSheetObservable: Observable<CommentOptionBottomSheetViewController.UserAccessType> {
     showBottomSheetSubject.asObservable()
@@ -345,8 +345,7 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
     else {
       return
     }
-    
-    replyNicknameSubject.onNext(commentValue.nickname)
+    decoratorNameSubject.onNext((labelText: "\(commentValue.nickname)에게 답글 쓰는 중...", buttonText: "답글 작성 취소"))
     replyIDSubject.onNext(commentID)
   }
   

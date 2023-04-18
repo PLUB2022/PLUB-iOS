@@ -32,7 +32,8 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: Comment Posting View (댓글 작성 UI)
   
-  private let replyView = ReplyView().then {
+  /// 답글을 달거나 댓글을 수정할 때 보여지는 데코레이터 뷰
+  private let decoratorView = CommentOptionDecoratorView().then {
     $0.backgroundColor = .background
     $0.isHidden = true
   }
@@ -68,7 +69,7 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [collectionView, commentInputView, replyView].forEach {
+    [collectionView, commentInputView, decoratorView].forEach {
       view.addSubview($0)
     }
   }
@@ -85,7 +86,7 @@ final class BoardDetailViewController: BaseViewController {
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
     
-    replyView.snp.makeConstraints {
+    decoratorView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(commentInputView.snp.top)
       $0.height.equalTo(28)
@@ -101,17 +102,18 @@ final class BoardDetailViewController: BaseViewController {
     
     // == comment posting delegate ==
     commentInputView.delegate = self
-    replyView.delegate = self
+    decoratorView.delegate = self
   }
   
   override func bind() {
     super.bind()
     collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
-    viewModel.replyNicknameObserable
-      .subscribe(with: self) { owner, nickname in
-        owner.replyView.nickname = nickname
-        owner.replyView.isHidden = false
+    viewModel.decoratorNameObserable
+      .subscribe(with: self) { owner, tuple in
+        owner.decoratorView.labelText = tuple.labelText
+        owner.decoratorView.buttonText = tuple.buttonText
+        owner.decoratorView.isHidden = false
       }
       .disposed(by: disposeBag)
     
@@ -166,12 +168,12 @@ extension BoardDetailViewController: CommentInputViewDelegate {
   }
 }
 
-// MARK: - ReplyViewDelegate
+// MARK: - CommentOptionViewDelegate
 
-extension BoardDetailViewController: ReplyViewDelegate {
+extension BoardDetailViewController: CommentOptionViewDelegate {
   func cancelButtonTapped() {
     viewModel.replyIDObserver.onNext(nil)
-    replyView.isHidden = true
+    decoratorView.isHidden = true
   }
 }
 
