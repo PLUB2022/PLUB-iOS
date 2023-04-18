@@ -94,7 +94,7 @@ final class ArchiveViewModel {
       .compactMap { [weak self] index in self?.archiveContents[index].archiveID }
       .compactMap { [weak self] in
         guard let self else { return nil }
-        return (plubbingID: plubbingID, archiveID: $0)
+        return (plubbingID: self.plubbingID, archiveID: $0)
       }
   }
   
