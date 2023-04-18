@@ -39,7 +39,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
   let uploadButtonIsActivated: Driver<Bool>
   
   init() {
-    let whichUploading = PublishSubject<BoardsRequest>()
+    let whichUploadingRequest = PublishSubject<BoardsRequest>()
     let whichPlubbingID = PublishSubject<Int>()
     let writingTitle = BehaviorSubject<String>(value: "")
     let writingContent = BehaviorSubject<String>(value: "")
@@ -57,7 +57,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     // Input
     let createBoard = Observable.zip(
       whichPlubbingID,
-      whichUploading
+      whichUploadingRequest
     )
       .flatMapLatest { plubbingID, request in
         return FeedsService.shared.createBoards(plubbingID: plubbingID, model: request)
