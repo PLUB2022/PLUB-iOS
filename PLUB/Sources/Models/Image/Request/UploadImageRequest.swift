@@ -19,4 +19,7 @@ enum ImageType: String, Codable {
   
   /// 플러빙 메인 이미지
   case plubbingMain = "plubbing-main"
+  
+  /// 게시판 이미지
+  case feed
 }
