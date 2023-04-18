@@ -52,6 +52,14 @@ struct Answer: Codable {
   /// 질문글
   let question: String
   
+  /// 질문 ID
+  let questionID: Int
+  
   /// 응답글
   let answer: String
+  
+  enum CodingKeys: String, CodingKey {
+    case questionID = "questionId"
+    case question, answer
+  }
 }
