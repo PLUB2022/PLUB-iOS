@@ -31,6 +31,9 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   
   //Output
   
+  /// 수정할 댓글의 정보를 전달합니다.
+  var editCommentTextObservable: Observable<String> { get }
+  
   /// decoratorView에 들어갈 적절한 text를 처리합니다.
   var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> { get }
   
@@ -74,6 +77,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   private let collectionViewSubject           = PublishSubject<UICollectionView>()
   private let commentInputSubject             = PublishSubject<String>()
+  private let editCommentTextSubject          = PublishSubject<String>()
   private let decoratorNameSubject            = PublishSubject<(labelText: String, buttonText: String)>()
   private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   private let showBottomSheetSubject          = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
@@ -98,6 +102,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
     createComments(plubbingID: plubbingID, content: content)
     pagingSetup(plubbingID: plubbingID, content: content)
     deleteComments(plubbingID: plubbingID, content: content)
+    editComments(plubbingID: plubbingID, content: content)
   }
   
   private let disposeBag = DisposeBag()
@@ -218,6 +223,24 @@ extension BoardDetailViewModel {
       }
       .disposed(by: disposeBag)
   }
+  
+  /// 댓글 수정 관련 파이프라인을 설정합니다.
+  private func editComments(plubbingID: Int, content: BoardModel) {
+    let editOption = commentOptionSubject.filter { $0 == .edit }.share()
+    
+    editOption
+      .map { _ in (labelText: "댓글 수정 중...", buttonText: "취소") }
+      .bind(to: decoratorNameSubject)
+      .disposed(by: disposeBag)
+    
+    editOption
+      .withLatestFrom(targetIDSubject)
+      .compactMap { [weak self] commentID in
+        self?.comments.first(where: { $0.commentID == commentID })?.content
+      }
+      .bind(to: editCommentTextSubject)
+      .disposed(by: disposeBag)
+  }
 }
 
 // MARK: - BoardDetailViewModelType
@@ -229,6 +252,9 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   }
   var commentsInput: AnyObserver<String> {
     commentInputSubject.asObserver()
+  }
+  var editCommentTextObservable: Observable<String> {
+    editCommentTextSubject.asObservable()
   }
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> {
     bottomCellSubject.asObserver()

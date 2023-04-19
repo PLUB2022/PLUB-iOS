@@ -24,6 +24,15 @@ final class CommentInputView: UIView {
   
   // MARK: - Properties
   
+  /// 댓글 작성란에 들어갈 텍스트를 입력합니다.
+  var commentText: String {
+    get {
+      textView.text
+    } set {
+      textView.text = newValue
+    }
+  }
+  
   private let disposeBag = DisposeBag()
   
   weak var delegate: CommentInputViewDelegate?
