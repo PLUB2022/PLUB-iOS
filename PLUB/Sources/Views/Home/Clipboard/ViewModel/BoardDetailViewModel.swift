@@ -288,28 +288,39 @@ extension BoardDetailViewModel {
 // MARK: - BoardDetailViewModelType
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
+  
   // Input
+  
   var setCollectionViewObserver: AnyObserver<UICollectionView> {
     collectionViewSubject.asObserver()
   }
+  
   var commentsInput: AnyObserver<String> {
     commentInputSubject.asObserver()
   }
-  var editCommentTextObservable: Observable<String> {
-    editCommentTextSubject.asObservable()
-  }
+  
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> {
     bottomCellSubject.asObserver()
   }
+  
   var targetIDObserver: AnyObserver<Int?> {
     targetIDSubject.asObserver()
   }
+  
   var commentOptionObserver: AnyObserver<CommentOption> {
     commentOptionSubject.asObserver()
   }
+  
+  // Output
+  
+  var editCommentTextObservable: Observable<String> {
+    editCommentTextSubject.asObservable()
+  }
+  
   var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> {
     decoratorNameSubject.asObservable()
   }
+  
   var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> {
     showBottomSheetSubject.asObservable()
   }
