@@ -171,6 +171,7 @@ extension BoardDetailViewController: CommentInputViewDelegate {
 
 extension BoardDetailViewController: CommentOptionViewDelegate {
   func cancelButtonTapped() {
+    viewModel.commentOptionObserver.onNext(.commentOrReply)
     viewModel.targetIDObserver.onNext(nil)
     decoratorView.isHidden = true
   }
@@ -180,13 +181,15 @@ extension BoardDetailViewController: CommentOptionViewDelegate {
 
 extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
   func deleteButtonTapped(commentID: Int) {
+    // 순서 중요
     viewModel.targetIDObserver.onNext(commentID)
-    viewModel.deleteOptionObserver.onNext(Void())
+    viewModel.commentOptionObserver.onNext(.delete)
   }
   
   func editButtonTapped(commentID: Int) {
+    // 순서 중요
     viewModel.targetIDObserver.onNext(commentID)
-    viewModel.editOptionObserver.onNext(Void())
+    viewModel.commentOptionObserver.onNext(.edit)
   }
   
   func reportButtonTapped(commentID: Int) {
