@@ -247,7 +247,8 @@ extension MainPageViewController: BoardViewControllerDelegate {
         content: content,
         getCommentsUseCase: DefaultGetCommentsUseCase(),
         postCommentUseCase: DefaultPostCommentUseCase(),
-        deleteCommentUseCase: DefaultDeleteCommentUseCase()
+        deleteCommentUseCase: DefaultDeleteCommentUseCase(),
+        editCommentUseCase: DefaultEditCommentUseCase()
       )
     )
     vc.navigationItem.largeTitleDisplayMode = .never

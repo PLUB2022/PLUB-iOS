@@ -105,7 +105,8 @@ final class ClipboardViewController: BaseViewController {
               content: model.toBoardModel,
               getCommentsUseCase: DefaultGetCommentsUseCase(),
               postCommentUseCase: DefaultPostCommentUseCase(),
-              deleteCommentUseCase: DefaultDeleteCommentUseCase()
+              deleteCommentUseCase: DefaultDeleteCommentUseCase(),
+              editCommentUseCase: DefaultEditCommentUseCase()
             )
           ),
           animated: true
