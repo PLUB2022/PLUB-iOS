@@ -160,6 +160,10 @@ extension BoardDetailViewModel {
       .filter { [weak self] _ in
         return self?.pagingManager.isLast ?? false
       }
+      .do(onNext: { [weak self] _ in  // API 호출을 위해 작업한 targetID와 commentOption을 기본값으로 초기화
+        self?.targetIDSubject.onNext(nil)
+        self?.commentOptionSubject.onNext(.commentOrReply)
+      })
       .subscribe(with: self) { owner, comment in
         // 일반 댓글은 단순 append
         if comment.type == .normal {
@@ -211,6 +215,10 @@ extension BoardDetailViewModel {
       .flatMap { [deleteCommentUseCase] commentID in
         deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
       }
+      .do(onNext: { [weak self] _ in // API 호출을 위해 작업한 targetID와 commentOption을 기본값으로 초기화
+        self?.targetIDSubject.onNext(nil)
+        self?.commentOptionSubject.onNext(.commentOrReply)
+      })
       .withLatestFrom(targetIDSubject)
       .subscribe(with: self) { owner, commentID in
         guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
@@ -262,6 +270,10 @@ extension BoardDetailViewModel {
       .flatMap { [editCommentUseCase] in
         editCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: $0.targetID, content: $0.comment)
       }
+      .do(onNext: { [weak self] _ in
+        self?.targetIDSubject.onNext(nil)
+        self?.commentOptionSubject.onNext(.commentOrReply)
+      })
       .subscribe(with: self) { owner, comment in
         guard let index = owner.comments.firstIndex(where: { $0.commentID == comment.commentID })
         else {
