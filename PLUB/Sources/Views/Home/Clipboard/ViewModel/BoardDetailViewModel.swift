@@ -23,8 +23,8 @@ protocol BoardDetailViewModelType {
   /// 사용자의 댓글을 입력합니다.
   var commentsInput: AnyObserver<String> { get }
   
-  /// 답장할 대상자의 ID를 emit합니다.
-  var replyIDObserver: AnyObserver<Int?> { get }
+  /// 댓글 관련 작업을 처리할 대상자의 ID를 emit합니다.
+  var targetIDObserver: AnyObserver<Int?> { get }
   
   /// 삭제 버튼을 누른 경우 해당 옵저버를 이용하여 emit합니다.
   var deleteOptionObserver: AnyObserver<Void> { get }
@@ -77,13 +77,12 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   private let collectionViewSubject           = PublishSubject<UICollectionView>()
   private let commentInputSubject             = PublishSubject<String>()
-  private let replyIDSubject                  = BehaviorSubject<Int?>(value: nil)
   private let decoratorNameSubject            = PublishSubject<(labelText: String, buttonText: String)>()
   private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   private let showBottomSheetSubject          = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
-  private let recentSelectedCommentIDSubject  = ReplaySubject<Int>.create(bufferSize: 1)
   private let deleteOptionSubject             = PublishSubject<Void>()
   private let editOptionSubject               = PublishSubject<Void>()
+  private let targetIDSubject                 = BehaviorSubject<Int?>(value: nil)
   
   // MARK: - Initializations
   
@@ -144,7 +143,7 @@ extension BoardDetailViewModel {
   ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
   private func createComments(plubbingID: Int, content: BoardModel) {
     commentInputSubject
-      .withLatestFrom(replyIDSubject) { comment, parentID in
+      .withLatestFrom(targetIDSubject) { comment, parentID in
         (comment: comment, parentID: parentID)
       }
       .flatMap { [postCommentUseCase] in
@@ -198,11 +197,12 @@ extension BoardDetailViewModel {
   ///   - content: 게시글 컨텐츠 모델
   private func deleteComments(plubbingID: Int, content: BoardModel) {
     deleteOptionSubject
-      .withLatestFrom(recentSelectedCommentIDSubject)
+      .withLatestFrom(targetIDSubject)
+      .compactMap { $0 }
       .flatMap { [deleteCommentUseCase] commentID in
         deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
       }
-      .withLatestFrom(recentSelectedCommentIDSubject)
+      .withLatestFrom(targetIDSubject)
       .subscribe(with: self) { owner, commentID in
         guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
         if content.type == .normal {
@@ -232,8 +232,8 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> {
     bottomCellSubject.asObserver()
   }
-  var replyIDObserver: AnyObserver<Int?> {
-    replyIDSubject.asObserver()
+  var targetIDObserver: AnyObserver<Int?> {
+    targetIDSubject.asObserver()
   }
   var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> {
     decoratorNameSubject.asObservable()
@@ -346,7 +346,7 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
       return
     }
     decoratorNameSubject.onNext((labelText: "\(commentValue.nickname)에게 답글 쓰는 중...", buttonText: "답글 작성 취소"))
-    replyIDSubject.onNext(commentID)
+    targetIDSubject.onNext(commentID)
   }
   
   func didTappedOptionButton(commentID: Int) {
@@ -354,9 +354,6 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
     else {
       return
     }
-    
-    // 옵션 버튼을 선택한 셀의 commentID를 emit
-    recentSelectedCommentIDSubject.onNext(commentID)
     
     let accessType: CommentOptionBottomSheetViewController.UserAccessType
     

@@ -171,7 +171,7 @@ extension BoardDetailViewController: CommentInputViewDelegate {
 
 extension BoardDetailViewController: CommentOptionViewDelegate {
   func cancelButtonTapped() {
-    viewModel.replyIDObserver.onNext(nil)
+    viewModel.targetIDObserver.onNext(nil)
     decoratorView.isHidden = true
   }
 }
@@ -180,10 +180,12 @@ extension BoardDetailViewController: CommentOptionViewDelegate {
 
 extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
   func deleteButtonTapped(commentID: Int) {
+    viewModel.targetIDObserver.onNext(commentID)
     viewModel.deleteOptionObserver.onNext(Void())
   }
   
   func editButtonTapped(commentID: Int) {
+    viewModel.targetIDObserver.onNext(commentID)
     viewModel.editOptionObserver.onNext(Void())
   }
   
