@@ -168,6 +168,7 @@ extension BoardDetailViewController: CommentInputViewDelegate {
   func commentInputView(_ textView: UITextView, writtenText: String) {
     textView.text = ""
     viewModel.commentsInput.onNext(writtenText)
+    decoratorView.isHidden = true
   }
 }
 
