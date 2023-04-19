@@ -215,11 +215,11 @@ extension BoardDetailViewModel {
       .flatMap { [deleteCommentUseCase] commentID in
         deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
       }
+      .withLatestFrom(targetIDSubject)
       .do(onNext: { [weak self] _ in // API 호출을 위해 작업한 targetID와 commentOption을 기본값으로 초기화
         self?.targetIDSubject.onNext(nil)
         self?.commentOptionSubject.onNext(.commentOrReply)
       })
-      .withLatestFrom(targetIDSubject)
       .subscribe(with: self) { owner, commentID in
         guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
         if content.type == .normal {
