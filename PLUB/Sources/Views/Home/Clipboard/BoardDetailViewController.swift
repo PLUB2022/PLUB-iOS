@@ -118,12 +118,11 @@ final class BoardDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.showBottomSheetObservable
-      .subscribe(with: self) { owner, userType in
-        let bottomSheetVC = CommentOptionBottomSheetViewController(userAccessType: userType).then {
+      .subscribe(with: self) { owner, tuple in
+        let bottomSheetVC = CommentOptionBottomSheetViewController(commentID: tuple.commentID, userAccessType: tuple.userType).then {
           $0.delegate = owner
         }
         owner.present(bottomSheetVC, animated: true)
-        
       }
       .disposed(by: disposeBag)
     
@@ -180,15 +179,15 @@ extension BoardDetailViewController: CommentOptionViewDelegate {
 // MARK: - CommentOptionBottomSheetDelegate
 
 extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
-  func deleteButtonTapped() {
+  func deleteButtonTapped(commentID: Int) {
     viewModel.deleteOptionObserver.onNext(Void())
   }
   
-  func editButtonTapped() {
+  func editButtonTapped(commentID: Int) {
     viewModel.editOptionObserver.onNext(Void())
   }
   
-  func reportButtonTapped() {
+  func reportButtonTapped(commentID: Int) {
     print(#function)
   }
 }
