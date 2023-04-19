@@ -231,17 +231,44 @@ extension BoardDetailViewModel {
   private func editComments(plubbingID: Int, content: BoardModel) {
     let editOption = commentOptionSubject.filter { $0 == .edit }.share()
     
+    // 댓글 수정 시 decorator view의 label과 button 텍스트 수정
     editOption
       .map { _ in (labelText: "댓글 수정 중...", buttonText: "취소") }
       .bind(to: decoratorNameSubject)
       .disposed(by: disposeBag)
     
+    // 댓글 수정 시 댓글작성란에 수정해야할 텍스트를 emit
     editOption
       .withLatestFrom(targetIDSubject)
       .compactMap { [weak self] commentID in
         self?.comments.first(where: { $0.commentID == commentID })?.content
       }
       .bind(to: editCommentTextSubject)
+      .disposed(by: disposeBag)
+    
+    // 댓글 수정 로직 시나리오
+    commentInputSubject
+      .filter { [commentOptionSubject] _ in
+        let value = try? commentOptionSubject.value()
+        return value == .edit
+      }
+      .withLatestFrom(targetIDSubject) {
+        (comment: $0, targetID: $1)
+      }
+      .compactMap { comment, targetID -> (comment: String, targetID: Int)? in
+        guard let targetID else { return nil }
+        return (comment: comment, targetID: targetID)
+      }
+      .flatMap { [editCommentUseCase] in
+        editCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: $0.targetID, content: $0.comment)
+      }
+      .subscribe(with: self) { owner, comment in
+        guard let index = owner.comments.firstIndex(where: { $0.commentID == comment.commentID })
+        else {
+          return
+        }
+        owner.comments[index].content = comment.content
+      }
       .disposed(by: disposeBag)
   }
 }
