@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol BoardDetailViewModelType {
+protocol BoardDetailViewModelType: BoardDetailViewModel {
   
   // Input
   
@@ -23,17 +23,21 @@ protocol BoardDetailViewModelType {
   /// 사용자의 댓글을 입력합니다.
   var commentsInput: AnyObserver<String> { get }
   
-  /// 답장할 대상자의 ID를 emit합니다.
-  var replyIDObserver: AnyObserver<Int?> { get }
+  /// 댓글 관련 작업을 처리할 대상자의 ID를 emit합니다.
+  var targetIDObserver: AnyObserver<Int?> { get }
   
-  var deleteOptionObserver: AnyObserver<Void> { get }
+  /// 삭제 버튼을 누른 경우 해당 옵저버를 이용하여 emit합니다.
+  var commentOptionObserver: AnyObserver<CommentOption> { get }
   
   //Output
   
-  /// 답장할 대상자의 닉네임을 받습니다.
-  var replyNicknameObserable: Observable<String> { get }
+  /// 수정할 댓글의 정보를 전달합니다.
+  var editCommentTextObservable: Observable<String> { get }
   
-  var showBottomSheetObservable: Observable<CommentOptionBottomSheetViewController.UserAccessType> { get }
+  /// decoratorView에 들어갈 적절한 text를 처리합니다.
+  var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> { get }
+  
+  var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
 }
 
 protocol BoardDetailDataStore {
@@ -68,17 +72,18 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   private let getCommentsUseCase: GetCommentsUseCase
   private let postCommentUseCase: PostCommentUseCase
   private let deleteCommentUseCase: DeleteCommentUseCase
+  private let editCommentUseCase: EditCommentUseCase
   
   // MARK: Subjects
   
   private let collectionViewSubject           = PublishSubject<UICollectionView>()
   private let commentInputSubject             = PublishSubject<String>()
-  private let replyIDSubject                  = BehaviorSubject<Int?>(value: nil)
-  private let replyNicknameSubject            = PublishSubject<String>()
+  private let editCommentTextSubject          = PublishSubject<String>()
+  private let decoratorNameSubject            = PublishSubject<(labelText: String, buttonText: String)>()
   private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
-  private let showBottomSheetSubject          = PublishSubject<CommentOptionBottomSheetViewController.UserAccessType>()
-  private let recentSelectedCommentIDSubject  = ReplaySubject<Int>.create(bufferSize: 1)
-  private let deleteOptionSubject             = PublishSubject<Void>()
+  private let showBottomSheetSubject          = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
+  private let targetIDSubject                 = BehaviorSubject<Int?>(value: nil)
+  private let commentOptionSubject            = BehaviorSubject<CommentOption>(value: .commentOrReply)
   
   // MARK: - Initializations
   
@@ -87,17 +92,20 @@ final class BoardDetailViewModel: BoardDetailDataStore {
     content: BoardModel,
     getCommentsUseCase: GetCommentsUseCase,
     postCommentUseCase: PostCommentUseCase,
-    deleteCommentUseCase: DeleteCommentUseCase
+    deleteCommentUseCase: DeleteCommentUseCase,
+    editCommentUseCase: EditCommentUseCase
   ) {
     self.content = content
     self.getCommentsUseCase   = getCommentsUseCase
     self.postCommentUseCase   = postCommentUseCase
     self.deleteCommentUseCase = deleteCommentUseCase
+    self.editCommentUseCase   = editCommentUseCase
     
     fetchComments(plubbingID: plubbingID, content: content)
     createComments(plubbingID: plubbingID, content: content)
     pagingSetup(plubbingID: plubbingID, content: content)
     deleteComments(plubbingID: plubbingID, content: content)
+    editComments(plubbingID: plubbingID, content: content)
   }
   
   private let disposeBag = DisposeBag()
@@ -139,7 +147,11 @@ extension BoardDetailViewModel {
   ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
   private func createComments(plubbingID: Int, content: BoardModel) {
     commentInputSubject
-      .withLatestFrom(replyIDSubject) { comment, parentID in
+      .filter { [commentOptionSubject] _ in
+        let value = try? commentOptionSubject.value()
+        return value == .commentOrReply
+      }
+      .withLatestFrom(targetIDSubject) { comment, parentID in
         (comment: comment, parentID: parentID)
       }
       .flatMap { [postCommentUseCase] in
@@ -148,6 +160,10 @@ extension BoardDetailViewModel {
       .filter { [weak self] _ in
         return self?.pagingManager.isLast ?? false
       }
+      .do(onNext: { [weak self] _ in  // API 호출을 위해 작업한 targetID와 commentOption을 기본값으로 초기화
+        self?.targetIDSubject.onNext(nil)
+        self?.commentOptionSubject.onNext(.commentOrReply)
+      })
       .subscribe(with: self) { owner, comment in
         // 일반 댓글은 단순 append
         if comment.type == .normal {
@@ -192,12 +208,18 @@ extension BoardDetailViewModel {
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
   private func deleteComments(plubbingID: Int, content: BoardModel) {
-    deleteOptionSubject
-      .withLatestFrom(recentSelectedCommentIDSubject)
+    commentOptionSubject
+      .filter { $0 == .delete }
+      .withLatestFrom(targetIDSubject)
+      .compactMap { $0 }
       .flatMap { [deleteCommentUseCase] commentID in
         deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
       }
-      .withLatestFrom(recentSelectedCommentIDSubject)
+      .withLatestFrom(targetIDSubject)
+      .do(onNext: { [weak self] _ in // API 호출을 위해 작업한 targetID와 commentOption을 기본값으로 초기화
+        self?.targetIDSubject.onNext(nil)
+        self?.commentOptionSubject.onNext(.commentOrReply)
+      })
       .subscribe(with: self) { owner, commentID in
         guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
         if content.type == .normal {
@@ -212,32 +234,95 @@ extension BoardDetailViewModel {
       }
       .disposed(by: disposeBag)
   }
+  
+  /// 댓글 수정 관련 파이프라인을 설정합니다.
+  private func editComments(plubbingID: Int, content: BoardModel) {
+    let editOption = commentOptionSubject.filter { $0 == .edit }.share()
+    
+    // 댓글 수정 시 decorator view의 label과 button 텍스트 수정
+    editOption
+      .map { _ in (labelText: "댓글 수정 중...", buttonText: "취소") }
+      .bind(to: decoratorNameSubject)
+      .disposed(by: disposeBag)
+    
+    // 댓글 수정 시 댓글작성란에 수정해야할 텍스트를 emit
+    editOption
+      .withLatestFrom(targetIDSubject)
+      .compactMap { [weak self] commentID in
+        self?.comments.first(where: { $0.commentID == commentID })?.content
+      }
+      .bind(to: editCommentTextSubject)
+      .disposed(by: disposeBag)
+    
+    // 댓글 수정 로직 시나리오
+    commentInputSubject
+      .filter { [commentOptionSubject] _ in
+        let value = try? commentOptionSubject.value()
+        return value == .edit
+      }
+      .withLatestFrom(targetIDSubject) {
+        (comment: $0, targetID: $1)
+      }
+      .compactMap { comment, targetID -> (comment: String, targetID: Int)? in
+        guard let targetID else { return nil }
+        return (comment: comment, targetID: targetID)
+      }
+      .flatMap { [editCommentUseCase] in
+        editCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: $0.targetID, content: $0.comment)
+      }
+      .do(onNext: { [weak self] _ in
+        self?.targetIDSubject.onNext(nil)
+        self?.commentOptionSubject.onNext(.commentOrReply)
+      })
+      .subscribe(with: self) { owner, comment in
+        guard let index = owner.comments.firstIndex(where: { $0.commentID == comment.commentID })
+        else {
+          return
+        }
+        owner.comments[index].content = comment.content
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 // MARK: - BoardDetailViewModelType
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
+  
   // Input
+  
   var setCollectionViewObserver: AnyObserver<UICollectionView> {
     collectionViewSubject.asObserver()
   }
+  
   var commentsInput: AnyObserver<String> {
     commentInputSubject.asObserver()
   }
+  
   var offsetObserver: AnyObserver<(collectionViewHeight: CGFloat, offset: CGFloat)> {
     bottomCellSubject.asObserver()
   }
-  var replyIDObserver: AnyObserver<Int?> {
-    replyIDSubject.asObserver()
+  
+  var targetIDObserver: AnyObserver<Int?> {
+    targetIDSubject.asObserver()
   }
-  var replyNicknameObserable: Observable<String> {
-    replyNicknameSubject.asObservable()
+  
+  var commentOptionObserver: AnyObserver<CommentOption> {
+    commentOptionSubject.asObserver()
   }
-  var showBottomSheetObservable: Observable<CommentOptionBottomSheetViewController.UserAccessType> {
+  
+  // Output
+  
+  var editCommentTextObservable: Observable<String> {
+    editCommentTextSubject.asObservable()
+  }
+  
+  var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> {
+    decoratorNameSubject.asObservable()
+  }
+  
+  var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> {
     showBottomSheetSubject.asObservable()
-  }
-  var deleteOptionObserver: AnyObserver<Void> {
-    deleteOptionSubject.asObserver()
   }
 }
 
@@ -338,8 +423,10 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
       return
     }
     
-    replyNicknameSubject.onNext(commentValue.nickname)
-    replyIDSubject.onNext(commentID)
+    // 현재 작성중인 옵션이 답글임을 명시
+    commentOptionSubject.onNext(.commentOrReply)
+    decoratorNameSubject.onNext((labelText: "\(commentValue.nickname)에게 답글 쓰는 중...", buttonText: "답글 작성 취소"))
+    targetIDSubject.onNext(commentID)
   }
   
   func didTappedOptionButton(commentID: Int) {
@@ -347,9 +434,6 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
     else {
       return
     }
-    
-    // 옵션 버튼을 선택한 셀의 commentID를 emit
-    recentSelectedCommentIDSubject.onNext(commentID)
     
     let accessType: CommentOptionBottomSheetViewController.UserAccessType
     
@@ -361,7 +445,23 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
       accessType = .normal
     }
     
-    showBottomSheetSubject.onNext(accessType)
+    showBottomSheetSubject.onNext((commentID, accessType))
+  }
+}
+
+// MARK: - DecoratorOption
+
+extension BoardDetailViewModel {
+  /// 댓글 옵션 열거형
+  enum CommentOption {
+    /// 단순 댓글 및 답글
+    case commentOrReply
+    
+    /// 댓글 수정
+    case edit
+    
+    // 댓글 삭제
+    case delete
   }
 }
 

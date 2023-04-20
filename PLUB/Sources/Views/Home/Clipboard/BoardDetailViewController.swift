@@ -32,7 +32,8 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: Comment Posting View (댓글 작성 UI)
   
-  private let replyView = ReplyView().then {
+  /// 답글을 달거나 댓글을 수정할 때 보여지는 데코레이터 뷰
+  private let decoratorView = CommentOptionDecoratorView().then {
     $0.backgroundColor = .background
     $0.isHidden = true
   }
@@ -68,7 +69,7 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [collectionView, commentInputView, replyView].forEach {
+    [collectionView, commentInputView, decoratorView].forEach {
       view.addSubview($0)
     }
   }
@@ -85,7 +86,7 @@ final class BoardDetailViewController: BaseViewController {
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
     
-    replyView.snp.makeConstraints {
+    decoratorView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(commentInputView.snp.top)
       $0.height.equalTo(28)
@@ -101,28 +102,32 @@ final class BoardDetailViewController: BaseViewController {
     
     // == comment posting delegate ==
     commentInputView.delegate = self
-    replyView.delegate = self
+    decoratorView.delegate = self
   }
   
   override func bind() {
     super.bind()
     collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
-    viewModel.replyNicknameObserable
-      .subscribe(with: self) { owner, nickname in
-        owner.replyView.nickname = nickname
-        owner.replyView.isHidden = false
+    viewModel.decoratorNameObserable
+      .subscribe(with: self) { owner, tuple in
+        owner.decoratorView.labelText = tuple.labelText
+        owner.decoratorView.buttonText = tuple.buttonText
+        owner.decoratorView.isHidden = false
       }
       .disposed(by: disposeBag)
     
     viewModel.showBottomSheetObservable
-      .subscribe(with: self) { owner, userType in
-        let bottomSheetVC = CommentOptionBottomSheetViewController(userAccessType: userType).then {
+      .subscribe(with: self) { owner, tuple in
+        let bottomSheetVC = CommentOptionBottomSheetViewController(commentID: tuple.commentID, userAccessType: tuple.userType).then {
           $0.delegate = owner
         }
         owner.present(bottomSheetVC, animated: true)
-        
       }
+      .disposed(by: disposeBag)
+    
+    viewModel.editCommentTextObservable
+      .bind(to: commentInputView.rx.commentText)
       .disposed(by: disposeBag)
     
     // ViewModel에게 `DiffableDataSource`처리를 해주기 위해 collectionView를 전달
@@ -163,30 +168,36 @@ extension BoardDetailViewController: CommentInputViewDelegate {
   func commentInputView(_ textView: UITextView, writtenText: String) {
     textView.text = ""
     viewModel.commentsInput.onNext(writtenText)
+    decoratorView.isHidden = true
   }
 }
 
-// MARK: - ReplyViewDelegate
+// MARK: - CommentOptionViewDelegate
 
-extension BoardDetailViewController: ReplyViewDelegate {
+extension BoardDetailViewController: CommentOptionViewDelegate {
   func cancelButtonTapped() {
-    viewModel.replyIDObserver.onNext(nil)
-    replyView.isHidden = true
+    viewModel.commentOptionObserver.onNext(.commentOrReply)
+    viewModel.targetIDObserver.onNext(nil)
+    decoratorView.isHidden = true
   }
 }
 
 // MARK: - CommentOptionBottomSheetDelegate
 
 extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
-  func deleteButtonTapped() {
-    viewModel.deleteOptionObserver.onNext(Void())
+  func deleteButtonTapped(commentID: Int) {
+    // 순서 중요
+    viewModel.targetIDObserver.onNext(commentID)
+    viewModel.commentOptionObserver.onNext(.delete)
   }
   
-  func editButtonTapped() {
-    print(#function)
+  func editButtonTapped(commentID: Int) {
+    // 순서 중요
+    viewModel.targetIDObserver.onNext(commentID)
+    viewModel.commentOptionObserver.onNext(.edit)
   }
   
-  func reportButtonTapped() {
+  func reportButtonTapped(commentID: Int) {
     print(#function)
   }
 }

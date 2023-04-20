@@ -13,9 +13,9 @@ import SnapKit
 import Then
 
 protocol CommentOptionBottomSheetDelegate: AnyObject {
-  func deleteButtonTapped()
-  func editButtonTapped()
-  func reportButtonTapped()
+  func deleteButtonTapped(commentID: Int)
+  func editButtonTapped(commentID: Int)
+  func reportButtonTapped(commentID: Int)
 }
 
 
@@ -35,6 +35,8 @@ final class CommentOptionBottomSheetViewController: BottomSheetViewController {
   
   // MARK: - Properties
   
+  private let commentID: Int
+  
   private let userAccessType: UserAccessType
   
   weak var delegate: CommentOptionBottomSheetDelegate?
@@ -53,7 +55,8 @@ final class CommentOptionBottomSheetViewController: BottomSheetViewController {
   
   // MARK: - Initializations
   
-  init(userAccessType: UserAccessType) {
+  init(commentID: Int, userAccessType: UserAccessType) {
+    self.commentID = commentID
     self.userAccessType = userAccessType
     super.init(nibName: nil, bundle: nil)
   }
@@ -110,7 +113,14 @@ final class CommentOptionBottomSheetViewController: BottomSheetViewController {
     
     deleteCommentView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.deleteButtonTapped()
+        owner.delegate?.deleteButtonTapped(commentID: owner.commentID)
+        owner.dismiss(animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    editCommentView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.editButtonTapped(commentID: owner.commentID)
         owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
