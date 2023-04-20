@@ -182,7 +182,6 @@ extension BoardDetailViewModel {
   /// - Parameters:
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
-  ///   - indexPathObservable: 컬렉션 뷰에서 하단 셀의 인덱스 경로를 전달받는 `Observable`
   private func pagingSetup(plubbingID: Int, content: BoardModel) {
     bottomCellSubject
       .filter { [pagingManager] in // pagingManager에게 fetching 가능한지 요청
