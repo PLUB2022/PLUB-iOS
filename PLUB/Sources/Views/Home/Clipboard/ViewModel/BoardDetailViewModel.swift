@@ -23,10 +23,13 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   /// 사용자의 댓글을 입력합니다.
   var commentsInput: AnyObserver<String> { get }
   
-  /// 댓글 관련 작업을 처리할 대상자의 ID를 emit합니다.
+  /// 댓(답)글, 댓글 수정 작업을 처리할 대상자의 ID를 emit합니다.
   var targetIDObserver: AnyObserver<Int?> { get }
   
-  /// 삭제 버튼을 누른 경우 해당 옵저버를 이용하여 emit합니다.
+  /// 삭제할 댓글의 ID를 emit합니다.
+  var deleteIDObserver: AnyObserver<Int> { get }
+  
+  /// 댓(답)글, 댓글 수정, 댓글 삭제의 옵션을 처리할 경우 해당 옵저버를 이용합니다.
   var commentOptionObserver: AnyObserver<CommentOption> { get }
   
   //Output
@@ -83,6 +86,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   private let showBottomSheetSubject          = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
   private let targetIDSubject                 = BehaviorSubject<Int?>(value: nil)
+  private let deleteIDSubject                 = PublishSubject<Int>()
   private let commentOptionSubject            = BehaviorSubject<CommentOption>(value: .commentOrReply)
   
   // MARK: - Initializations
@@ -201,18 +205,11 @@ extension BoardDetailViewModel {
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
   private func deleteComments(plubbingID: Int, content: BoardModel) {
-    commentOptionSubject
-      .filter { $0 == .delete }
-      .withLatestFrom(targetIDSubject)
-      .compactMap { $0 }
+    deleteIDSubject
       .flatMap { [deleteCommentUseCase] commentID in
         deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
       }
-      .withLatestFrom(targetIDSubject)
-      .do(onNext: { [weak self] _ in // API 호출을 위해 작업한 targetID와 commentOption을 기본값으로 초기화
-        self?.targetIDSubject.onNext(nil)
-        self?.commentOptionSubject.onNext(.commentOrReply)
-      })
+      .withLatestFrom(deleteIDSubject)
       .subscribe(with: self) { owner, commentID in
         guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
         // 차집합으로 자신과 자식 댓글까지 제거
@@ -292,6 +289,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   
   var targetIDObserver: AnyObserver<Int?> {
     targetIDSubject.asObserver()
+  }
+  
+  var deleteIDObserver: AnyObserver<Int> {
+    deleteIDSubject.asObserver()
   }
   
   var commentOptionObserver: AnyObserver<CommentOption> {
@@ -452,9 +453,6 @@ extension BoardDetailViewModel {
     
     /// 댓글 수정
     case edit
-    
-    // 댓글 삭제
-    case delete
   }
 }
 

@@ -186,9 +186,7 @@ extension BoardDetailViewController: CommentOptionViewDelegate {
 
 extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
   func deleteButtonTapped(commentID: Int) {
-    // 순서 중요
-    viewModel.targetIDObserver.onNext(commentID)
-    viewModel.commentOptionObserver.onNext(.delete)
+    viewModel.deleteIDObserver.onNext(commentID)
   }
   
   func editButtonTapped(commentID: Int) {
