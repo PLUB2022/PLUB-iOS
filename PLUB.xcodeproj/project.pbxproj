@@ -158,6 +158,10 @@
 		BA52778B28EECDC50036B825 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778228EECDC50036B825 /* Pretendard-Regular.otf */; };
 		BA52778C28EECDC50036B825 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = BA52778328EECDC50036B825 /* Pretendard-Light.otf */; };
 		BA52779028EECEB40036B825 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA52778F28EECEB40036B825 /* Ex+UIFont.swift */; };
+		BA57F3F929ED4EEC00A9F790 /* ArchiveUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F729ED4EEC00A9F790 /* ArchiveUploadViewController.swift */; };
+		BA57F3FA29ED4EEC00A9F790 /* ArchiveUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */; };
+		BA57F3FD29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */; };
+		BA57F3FF29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3FE29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift */; };
 		BA57F3F629ED30D200A9F790 /* DeleteCommentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F529ED30D200A9F790 /* DeleteCommentUseCase.swift */; };
 		BA590E7A29EBC6320017FAF1 /* GetArchiveDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */; };
 		BA590E7D29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */; };
@@ -525,6 +529,10 @@
 		BA52778228EECDC50036B825 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		BA52778328EECDC50036B825 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		BA52778F28EECEB40036B825 /* Ex+UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIFont.swift"; sourceTree = "<group>"; };
+		BA57F3F729ED4EEC00A9F790 /* ArchiveUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewController.swift; sourceTree = "<group>"; };
+		BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewModel.swift; sourceTree = "<group>"; };
+		BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadHeaderView.swift; sourceTree = "<group>"; };
+		BA57F3FE29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA57F3F529ED30D200A9F790 /* DeleteCommentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommentUseCase.swift; sourceTree = "<group>"; };
 		BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetArchiveDetailUseCase.swift; sourceTree = "<group>"; };
 		BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -892,9 +900,11 @@
 		702876BD29A374C500E57509 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
-				BA4CCDF829EAE6BC0040D0D7 /* ViewModel */,
+				BA57F3FB29ED5D5100A9F790 /* Component */,
 				BA590E7B29EBF2850017FAF1 /* Cell */,
+				BA4CCDF829EAE6BC0040D0D7 /* ViewModel */,
 				BA8D949929E96FF00075ACD8 /* ArchivePopUpViewController.swift */,
+				BA57F3F729ED4EEC00A9F790 /* ArchiveUploadViewController.swift */,
 				702876C129A3751400E57509 /* ArchiveViewController.swift */,
 			);
 			path = Archive;
@@ -1267,6 +1277,7 @@
 			isa = PBXGroup;
 			children = (
 				BA4CCDF929EAE6D50040D0D7 /* ArchivePopUpViewModel.swift */,
+				BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */,
 				BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */,
 			);
 			path = ViewModel;
@@ -1289,11 +1300,20 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		BA57F3FB29ED5D5100A9F790 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		BA590E7B29EBF2850017FAF1 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				BAAD0AD429BB2E72007B33D9 /* ArchiveCollectionViewCell.swift */,
 				BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */,
+				BA57F3FE29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2316,6 +2336,7 @@
 				70197B7D29549B96000503F6 /* SelectedCategoryFilterHeaderView.swift in Sources */,
 				C39E09B829C6089300ECAD11 /* RecruitingSectionFooterView.swift in Sources */,
 				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
+				BA57F3F929ED4EEC00A9F790 /* ArchiveUploadViewController.swift in Sources */,
 				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				70A420B429914B370026E9F9 /* AllCategoryListResponse.swift in Sources */,
@@ -2394,6 +2415,7 @@
 				705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */,
 				C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */,
 				BA340E2029782301002BAF2C /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				BA57F3FD29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift in Sources */,
 				C3EC027F29D958960024C962 /* WaitingViewModel.swift in Sources */,
 				BA8AA42D2988FCC3004E9403 /* OnboardingViewController.swift in Sources */,
 				C3413E15299548FB004B8DBD /* RecruitPostViewController.swift in Sources */,
@@ -2410,6 +2432,7 @@
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
 				C31605192997935100D27488 /* MeetingInfoViewModel.swift in Sources */,
 				C32AB19029DDB9000045B919 /* ProfileEditViewModel.swift in Sources */,
+				BA57F3FF29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift in Sources */,
 				70A420AB298FAD000026E9F9 /* TopTabCollectionViewCell.swift in Sources */,
 				70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */,
 				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
@@ -2489,6 +2512,7 @@
 				C307826329CF4B9B00E1D44B /* MeetingCollectionMoreCell.swift in Sources */,
 				705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */,
 				BAE5D3352975B10F00268D44 /* ReissuanceRequest.swift in Sources */,
+				BA57F3FA29ED4EEC00A9F790 /* ArchiveUploadViewModel.swift in Sources */,
 				70197B6E29535BAA000503F6 /* HomeViewModel.swift in Sources */,
 				BA5D9ED929E3F16900F06AB5 /* ArchiveContent.swift in Sources */,
 				70F1DFE0297A90AE00F9BC83 /* MeetingService.swift in Sources */,

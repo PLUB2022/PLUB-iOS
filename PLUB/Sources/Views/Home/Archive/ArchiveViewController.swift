@@ -135,6 +135,13 @@ final class ArchiveViewController: BaseViewController {
       }
       .bind(to: viewModel.offsetObserver)
       .disposed(by: disposeBag)
+    
+    uploadButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let uploadVC = ArchiveUploadViewController(viewModel: ArchiveUploadViewModel())
+        owner.navigationController?.pushViewController(uploadVC, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
 
