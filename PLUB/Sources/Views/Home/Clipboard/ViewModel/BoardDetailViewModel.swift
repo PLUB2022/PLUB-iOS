@@ -222,15 +222,7 @@ extension BoardDetailViewModel {
       })
       .subscribe(with: self) { owner, commentID in
         guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
-        if content.type == .normal {
-          owner.comments.removeAll {
-            $0.groupID == content.groupID
-          }
-        } else {
-          owner.comments.removeAll {
-            $0.commentID == content.commentID
-          }
-        }
+        owner.comments.removeAll { $0.parentCommentID == content.commentID || $0 == content }
       }
       .disposed(by: disposeBag)
   }
