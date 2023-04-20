@@ -109,7 +109,12 @@ final class MainPageViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    navigationController?.navigationBar.isHidden = true
+    if headerView.isHidden {
+      navigationController?.navigationBar.isHidden = false
+    } else {
+      navigationController?.navigationBar.isHidden = true
+    }
+    
   }
   
   override func viewWillDisappear(_ animated: Bool) {
