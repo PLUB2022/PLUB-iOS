@@ -63,7 +63,10 @@ final class EditApplicationViewController: BaseViewController {
   
   init(plubbingID: Int, answers: [Answer]) {
     self.answers = answers
-    self.viewModel = EditApplicationViewModel(plubbingID: plubbingID)
+    self.viewModel = EditApplicationViewModel(
+      plubbingID: plubbingID,
+      editApplicationUseCase: DefaultEditApplicationUseCase()
+    )
     super.init(nibName: nil, bundle: nil)
   }
   

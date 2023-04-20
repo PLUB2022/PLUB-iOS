@@ -14,6 +14,8 @@ final class EditApplicationViewModel {
   private let disposeBag = DisposeBag()
   private let plubbingID: Int
   
+  private let editApplicationUseCase: EditApplicationUseCase
+  
   // Input
   let answerText: AnyObserver<[Answer]>
   let editButtonTapped: AnyObserver<Void>
@@ -26,8 +28,12 @@ final class EditApplicationViewModel {
   private let editButtonTappedSubject = PublishSubject<Void>()
   private let successEditApplicationSubject = PublishSubject<Void>()
   
-  init(plubbingID: Int) {
+  init(
+    plubbingID: Int,
+    editApplicationUseCase: EditApplicationUseCase
+  ) {
     self.plubbingID = plubbingID
+    self.editApplicationUseCase = editApplicationUseCase
     
     answerText = answerSubject.asObserver()
     editButtonTapped = editButtonTappedSubject.asObserver()
@@ -52,12 +58,12 @@ final class EditApplicationViewModel {
   }
   
   private func editApplication(answer: [ApplyAnswer]) {
-    RecruitmentService.shared.editApplication(
-      plubbingID: plubbingID,
-      request: ApplyForRecruitmentRequest(answers: answer)
-    )
-    .map { _ in () }
-    .bind(to: successEditApplicationSubject)
-    .disposed(by: disposeBag)
+    editApplicationUseCase
+      .execute(
+        plubbingID: plubbingID,
+        answer: answer
+      )
+      .bind(to: successEditApplicationSubject)
+      .disposed(by: disposeBag)
   }
 }
