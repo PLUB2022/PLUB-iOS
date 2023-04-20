@@ -71,6 +71,16 @@ final class EditApplicationViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [scrollView, editButton].forEach {
@@ -122,7 +132,7 @@ final class EditApplicationViewController: BaseViewController {
     contentStackView.setCustomSpacing(37, after: titleStackView)
     
     editButton.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(26)
+      $0.bottom.equalToSuperview().inset(26)
       $0.horizontalEdges.equalToSuperview().inset(16)
       $0.height.equalTo(46)
     }
@@ -175,5 +185,46 @@ final class EditApplicationViewController: BaseViewController {
   @objc
   private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
+  }
+}
+
+extension EditApplicationViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillHide(_:)),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+      view.frame.origin.y == 0 {
+      let keyboardHeight: CGFloat = keyboardSize.height
+      editButton.snp.updateConstraints {
+        $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
+      }
+      view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    editButton.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+    }
+    view.layoutIfNeeded()
   }
 }
