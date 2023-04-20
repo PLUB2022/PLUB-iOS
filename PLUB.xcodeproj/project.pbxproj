@@ -354,6 +354,8 @@
 		C3CD674A29B4B37C0052087E /* ScheduleParticipantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */; };
 		C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */; };
 		C3CD675029B4E5970052087E /* ScheduleParticipantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */; };
+		C3D3EA2829EF0B8C00E7E5BB /* EditApplicationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D3EA2729EF0B8C00E7E5BB /* EditApplicationViewModel.swift */; };
+		C3D3EA2A29EF0B9C00E7E5BB /* EditApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D3EA2929EF0B9C00E7E5BB /* EditApplicationViewController.swift */; };
 		C3D9807A297D982E00B8F5DF /* MeetingQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */; };
 		C3DE688B2976CF120079B76F /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */; };
 		C3E0390829C208B700C4744C /* RecruitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0390729C208B700C4744C /* RecruitingViewController.swift */; };
@@ -711,6 +713,8 @@
 		C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewController.swift; sourceTree = "<group>"; };
 		C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantTopView.swift; sourceTree = "<group>"; };
 		C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewModel.swift; sourceTree = "<group>"; };
+		C3D3EA2729EF0B8C00E7E5BB /* EditApplicationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditApplicationViewModel.swift; sourceTree = "<group>"; };
+		C3D3EA2929EF0B9C00E7E5BB /* EditApplicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditApplicationViewController.swift; sourceTree = "<group>"; };
 		C3D98079297D982E00B8F5DF /* MeetingQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingQuestionViewModel.swift; sourceTree = "<group>"; };
 		C3DE688A2976CF120079B76F /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		C3E0390729C208B700C4744C /* RecruitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitingViewController.swift; sourceTree = "<group>"; };
@@ -2051,6 +2055,15 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		C3D3EA2629EF0B7300E7E5BB /* EditApplication */ = {
+			isa = PBXGroup;
+			children = (
+				C3D3EA2729EF0B8C00E7E5BB /* EditApplicationViewModel.swift */,
+				C3D3EA2929EF0B9C00E7E5BB /* EditApplicationViewController.swift */,
+			);
+			path = EditApplication;
+			sourceTree = "<group>";
+		};
 		C3E0390629C2087000C4744C /* Recruiting */ = {
 			isa = PBXGroup;
 			children = (
@@ -2098,6 +2111,7 @@
 		C3EC027B29D958070024C962 /* Waiting */ = {
 			isa = PBXGroup;
 			children = (
+				C3D3EA2629EF0B7300E7E5BB /* EditApplication */,
 				C3EC027C29D9582D0024C962 /* WaitingViewController.swift */,
 				C3EC027E29D958960024C962 /* WaitingViewModel.swift */,
 			);
@@ -2292,6 +2306,7 @@
 				C3413E122995450B004B8DBD /* UnderlineSegmentedControl.swift in Sources */,
 				BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */,
 				C38A5B9F297B022A00485355 /* SearchView.swift in Sources */,
+				C3D3EA2A29EF0B9C00E7E5BB /* EditApplicationViewController.swift in Sources */,
 				C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */,
 				BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */,
 				C384590429B91ECC00944CB5 /* AttendScheduleResponse.swift in Sources */,
@@ -2348,6 +2363,7 @@
 				C38A5B93297ACF5B00485355 /* LocationControl.swift in Sources */,
 				C38A5BA3297B17EF00485355 /* MeetingLocationViewModel.swift in Sources */,
 				C359FEA6299FDF2800B2F561 /* CreateScheduleViewController.swift in Sources */,
+				C3D3EA2829EF0B8C00E7E5BB /* EditApplicationViewModel.swift in Sources */,
 				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
 				BA780E0D297133F80032C178 /* Router.swift in Sources */,
 				BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */,
