@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class MainPageNavigationView: UIStackView {
+final class MainPageNavigationView: UIStackView {
   
   private let speakerBlack = UIButton().then {
     $0.setImage(UIImage(named: "speakerBlack"), for: .normal)
