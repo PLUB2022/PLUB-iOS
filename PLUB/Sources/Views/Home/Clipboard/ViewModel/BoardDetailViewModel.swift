@@ -325,11 +325,11 @@ extension BoardDetailViewModel {
   // MARK: Type Alias
   
   typealias Section = Int
-  typealias Item = CommentContent
+  typealias Item = Int
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
   
-  typealias CellRegistration = UICollectionView.CellRegistration<BoardDetailCollectionViewCell, CommentContent>
+  typealias CellRegistration = UICollectionView.CellRegistration<BoardDetailCollectionViewCell, Int>
   typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<BoardDetailCollectionHeaderView>
   
   // MARK: Snapshot & DataSource Part
@@ -338,8 +338,9 @@ extension BoardDetailViewModel {
   private func setCollectionView(_ collectionView: UICollectionView) {
     
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
-    let registration = CellRegistration { cell, _, item in
-      cell.configure(with: item)
+    let registration = CellRegistration { cell, indexPath, id in
+      let recentItem = self.comments.first(where: { $0.commentID == id })!
+      cell.configure(with: recentItem)
       cell.delegate = self
     }
     
@@ -369,7 +370,7 @@ extension BoardDetailViewModel {
     snapshot.appendSections(sections)
     
     sections.forEach { sectionGroupID in
-      snapshot.appendItems(comments.filter { $0.groupID == sectionGroupID }, toSection: sectionGroupID)
+      snapshot.appendItems(comments.filter({ $0.groupID == sectionGroupID }).map(\.commentID).sorted(), toSection: sectionGroupID)
     }
     dataSource?.apply(snapshot)
   }
@@ -387,19 +388,23 @@ extension BoardDetailViewModel {
     snapshot.deleteSections(sectionsToRemove)
     
     // snapshot에서 삭제해야할 아이템 조회
-    let itemsToRemove = snapshot.itemIdentifiers.filter { !comments.contains($0) }
+    let itemsToRemove = snapshot.itemIdentifiers.filter { commentID in
+      !comments.contains { commentContent in
+        commentContent.commentID == commentID
+      }
+    }
     snapshot.deleteItems(itemsToRemove)
     
     
     let items = snapshot.itemIdentifiers // 전체 Item을 가져옴
     
     // snapshot에 추가해야할 item 선별
-    for content in comments where items.contains(content) == false {
+    for content in comments.sorted(by: { $0.groupID < $1.groupID || $0.commentID < $1.commentID }) where snapshot.itemIdentifiers.contains(content.commentID) == false {
       // 댓글인 경우
       if snapshot.sectionIdentifiers.contains(content.groupID) == false {
         snapshot.appendSections([content.groupID])
       }
-      snapshot.appendItems([content], toSection: content.groupID)
+      snapshot.appendItems([content.commentID], toSection: content.groupID)
     }
     
     dataSource.apply(snapshot)
