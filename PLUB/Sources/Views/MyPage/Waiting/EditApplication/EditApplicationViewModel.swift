@@ -10,8 +10,9 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class EditApplicationViewModel {
+final class EditApplicationViewModel {
   private let disposeBag = DisposeBag()
+  private let plubbingID: Int
   
   // Input
   let answerText: AnyObserver<[Answer]>
@@ -22,7 +23,10 @@ class EditApplicationViewModel {
   
   private let answerSubject = PublishSubject<[Answer]>()
   private let editButtonTappedSubject = PublishSubject<Void>()
-  init() {
+  
+  init(plubbingID: Int) {
+    self.plubbingID = plubbingID
+    
     answerText = answerSubject.asObserver()
     editButtonTapped = editButtonTappedSubject.asObserver()
     
@@ -33,9 +37,25 @@ class EditApplicationViewModel {
     
     editButtonTappedSubject
       .withLatestFrom(answerSubject)
-      .subscribe(onNext: { anwers in
-        
+      .withUnretained(self)
+      .subscribe(onNext: { owner, anwers in
+        let applyAnswer = anwers.map {
+          ApplyAnswer(questionID: $0.questionID, answer: $0.answer)
+        }
+        owner.editApplication(answer: applyAnswer)
       })
       .disposed(by: disposeBag)
+  }
+  
+  private func editApplication(answer: [ApplyAnswer]) {
+    RecruitmentService.shared.editApplication(
+      plubbingID: plubbingID,
+      request: ApplyForRecruitmentRequest(answers: answer)
+    )
+    .withUnretained(self)
+    .subscribe(onNext: { owner, _ in
+      
+    })
+    .disposed(by: disposeBag)
   }
 }

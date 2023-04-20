@@ -9,7 +9,7 @@ import UIKit
 
 final class EditApplicationViewController: BaseViewController {
   private var answers: [Answer]
-  let viewModel = EditApplicationViewModel()
+  let viewModel: EditApplicationViewModel
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -34,8 +34,9 @@ final class EditApplicationViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  init(answers: [Answer]) {
+  init(plubbingID: Int, answers: [Answer]) {
     self.answers = answers
+    self.viewModel = EditApplicationViewModel(plubbingID: plubbingID)
     super.init(nibName: nil, bundle: nil)
   }
   
