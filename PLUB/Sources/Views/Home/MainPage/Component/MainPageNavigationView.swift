@@ -20,7 +20,7 @@ final class MainPageNavigationView: UIStackView {
     $0.setImage(UIImage(named: "speakerBlack"), for: .normal)
   }
   
-  private let photoStackBlack = UIButton().then {
+  private let archiveButton = UIButton().then {
     $0.setImage(UIImage(named: "photoStackBlack"), for: .normal)
   }
   
@@ -38,6 +38,6 @@ final class MainPageNavigationView: UIStackView {
   }
   
   private func configureUI() {
-    [speakerBlack, photoStackBlack, verticalEllipsisBlack].forEach { addArrangedSubview($0) }
+    [speakerBlack, archiveButton, verticalEllipsisBlack].forEach { addArrangedSubview($0) }
   }
 }
