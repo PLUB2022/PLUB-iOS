@@ -42,7 +42,7 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
 
 protocol BoardDetailDataStore {
   var content: BoardModel { get }
-  var comments: [CommentContent] { get }
+  var comments: Set<CommentContent> { get }
 }
 
 final class BoardDetailViewModel: BoardDetailDataStore {
@@ -55,7 +55,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   ///
   /// 댓글 순서는 작성 날짜를 기준으로 정렬되어있습니다.
   /// 답글은 댓글 사이에 들어갈 수도 있으며, 부모 댓글 다음에 존재하게 됩니다.
-  private(set) var comments: [CommentContent] = [] {
+  private(set) var comments: Set<CommentContent> = [] {
     didSet {
       updateSnapshots()
     }
@@ -133,7 +133,7 @@ extension BoardDetailViewModel {
     }
     .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
     .subscribe(with: self) { owner, tuple in
-      owner.comments.append(contentsOf: tuple.comments)
+      owner.comments.formUnion(tuple.comments) // 댓글 삽입
       owner.setCollectionView(tuple.collectionView)
       owner.applyInitialSnapshots()
     }
@@ -165,14 +165,7 @@ extension BoardDetailViewModel {
         self?.commentOptionSubject.onNext(.commentOrReply)
       })
       .subscribe(with: self) { owner, comment in
-        // 일반 댓글은 단순 append
-        if comment.type == .normal {
-          owner.comments.append(comment)
-        } else {
-          // 작성된 답글은 마지막 답글 뒤에 insert
-          let index = owner.comments.map { $0.groupID }.lastIndex(of: comment.groupID)!
-          owner.comments.insert(comment, at: index + 1)
-        }
+        owner.comments.insert(comment) // 댓글 삽입
       }
       .disposed(by: disposeBag)
   }
@@ -197,8 +190,8 @@ extension BoardDetailViewModel {
           self.getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
         }
       }
-      .subscribe(with: self) { owner, content in
-        owner.comments.append(contentsOf: content)
+      .subscribe(with: self) { owner, contents in
+        owner.comments.formUnion(contents) // 기존 댓글과 새롭게 받은 댓글을 합집합 연산으로 합침
       }
       .disposed(by: disposeBag)
   }
@@ -222,7 +215,8 @@ extension BoardDetailViewModel {
       })
       .subscribe(with: self) { owner, commentID in
         guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
-        owner.comments.removeAll { $0.parentCommentID == content.commentID || $0 == content }
+        // 차집합으로 자신과 자식 댓글까지 제거
+        owner.comments.subtract(owner.comments.filter { $0.parentCommentID == content.commentID || $0 == content })
       }
       .disposed(by: disposeBag)
   }
@@ -267,11 +261,12 @@ extension BoardDetailViewModel {
         self?.commentOptionSubject.onNext(.commentOrReply)
       })
       .subscribe(with: self) { owner, comment in
-        guard let index = owner.comments.firstIndex(where: { $0.commentID == comment.commentID })
+        guard let value = owner.comments.first(where: { $0.commentID == comment.commentID })
         else {
           return
         }
-        owner.comments[index].content = comment.content
+        // 배타적 논리합으로 기존 댓글을 제거하고 수정된 댓글을 추가
+        owner.comments.formSymmetricDifference([value, comment])
       }
       .disposed(by: disposeBag)
   }
@@ -384,19 +379,13 @@ extension BoardDetailViewModel {
     
     // 삭제해야할 section 조회
     let commentsGroupIDs = Set(comments.map(\.groupID)).union([Constants.boardSection])
-    let sectionsToRemove = snapshot.sectionIdentifiers.filter { !commentsGroupIDs.contains($0) }
-    snapshot.deleteSections(sectionsToRemove)
+    let sectionsToRemove = Set(snapshot.sectionIdentifiers).subtracting(commentsGroupIDs)
+    snapshot.deleteSections(Array(sectionsToRemove))
     
     // snapshot에서 삭제해야할 아이템 조회
-    let itemsToRemove = snapshot.itemIdentifiers.filter { commentID in
-      !comments.contains { commentContent in
-        commentContent.commentID == commentID
-      }
-    }
-    snapshot.deleteItems(itemsToRemove)
-    
-    
-    let items = snapshot.itemIdentifiers // 전체 Item을 가져옴
+    let commentIDs = Set(comments.map(\.commentID))
+    let itemsToRemove = Set(snapshot.itemIdentifiers).subtracting(commentIDs)
+    snapshot.deleteItems(Array(itemsToRemove))
     
     // snapshot에 추가해야할 item 선별
     for content in comments.sorted(by: { $0.groupID < $1.groupID || $0.commentID < $1.commentID }) where snapshot.itemIdentifiers.contains(content.commentID) == false {

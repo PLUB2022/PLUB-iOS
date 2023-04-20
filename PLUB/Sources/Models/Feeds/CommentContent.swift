@@ -24,7 +24,7 @@ struct CommentContent: Codable {
   let commentID: Int
   
   /// 댓글 내용
-  var content: String
+  let content: String
   
   /// 프로필 이미지 URL
   let profileImageURL: String?
