@@ -24,7 +24,7 @@ final class MainPageNavigationView: UIStackView {
   
   private let archiveButton = UIButton().then {
     $0.setImage(UIImage(named: "photoStackBlack"), for: .normal)
-    $0.addTarget(MainPageNavigationView.self, action: #selector(didTappedArchiveButton), for: .touchUpInside)
+    $0.addTarget(self, action: #selector(didTappedArchiveButton), for: .touchUpInside)
   }
   
   private let verticalEllipsisBlack = UIButton().then {
