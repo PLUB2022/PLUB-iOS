@@ -32,7 +32,11 @@ final class RecruitingSectionHeaderView: UITableViewHeaderFooterView {
     $0.backgroundColor = .white
   }
   
-  private let profileImageView = UIImageView()
+  private let profileImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+    $0.clipsToBounds = true
+    $0.layer.cornerRadius = 20
+  }
   
   private let textStackView = UIStackView().then {
     $0.axis = .vertical
