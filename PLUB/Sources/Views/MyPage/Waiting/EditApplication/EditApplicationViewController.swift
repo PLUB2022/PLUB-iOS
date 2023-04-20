@@ -26,6 +26,28 @@ final class EditApplicationViewController: BaseViewController {
     $0.spacing = 16
   }
   
+  private let titleStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 5
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = .init(top: 12, left: 0, bottom: 0, right: 0)
+  }
+  
+  private let titleLabel = UILabel().then {
+    $0.font = .h4
+    $0.textColor = .black
+    $0.textAlignment = .left
+    $0.text = "함께 하기 위한 질문"
+  }
+  
+  private let subLabel = UILabel().then {
+    $0.numberOfLines = 0
+    $0.font = .body2
+    $0.textColor = .deepGray
+    $0.textAlignment = .left
+    $0.text = "우리와 함께 하는 것에 대한 질문입니다. 상세하게 적어줄 수록 당신의 취미 레벨을 선정하기 쉬워집니다. "
+  }
+  
   private let editButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "수정하기")
   }
@@ -54,11 +76,22 @@ final class EditApplicationViewController: BaseViewController {
     [scrollView, editButton].forEach {
       view.addSubview($0)
     }
-    
     scrollView.addSubview(contentStackView)
+
+    // 제목
+    contentStackView.addArrangedSubview(titleStackView)
     
+    [titleLabel, subLabel].forEach {
+      titleStackView.addArrangedSubview($0)
+    }
+    
+    // 질문 리스트
     answers.enumerated().forEach { (index, answer) in
-      let textView = InputTextView(title: answer.question, placeHolder: "")
+      let textView = InputTextView(
+        title: "\(index + 1). " + answer.question,
+        placeHolder: "",
+        options: [.textCount]
+      )
       textView.setText(text: answer.answer)
       contentStackView.addArrangedSubview(textView)
       
@@ -85,6 +118,8 @@ final class EditApplicationViewController: BaseViewController {
       $0.directionalEdges.equalToSuperview()
       $0.width.equalTo(scrollView.snp.width)
     }
+    
+    contentStackView.setCustomSpacing(37, after: titleStackView)
     
     editButton.snp.makeConstraints {
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(26)
