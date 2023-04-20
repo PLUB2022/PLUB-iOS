@@ -65,9 +65,6 @@ final class ArchiveUploadViewController: BaseViewController {
   
   // MARK: - Life Cycles
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-  }
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
