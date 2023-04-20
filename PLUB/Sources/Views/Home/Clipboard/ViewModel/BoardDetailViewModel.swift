@@ -57,7 +57,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   /// 답글은 댓글 사이에 들어갈 수도 있으며, 부모 댓글 다음에 존재하게 됩니다.
   private(set) var comments: Set<CommentContent> = [] {
     didSet {
-      updateSnapshots()
+      updateSnapshots(oldComments: oldValue)
     }
   }
   
@@ -372,7 +372,7 @@ extension BoardDetailViewModel {
   
   /// comments의 내용이 변경되면, 변경점을 인지하고 snapshot을 재설정합니다.
   /// comments 프로퍼티가 변경되면 자동으로 호출되는 `didSet method` 입니다. 추가로 호출할 필요가 없습니다.
-  private func updateSnapshots() {
+  private func updateSnapshots(oldComments: Set<CommentContent>) {
     guard let dataSource else { return }
     
     var snapshot = dataSource.snapshot()
@@ -386,6 +386,13 @@ extension BoardDetailViewModel {
     let commentIDs = Set(comments.map(\.commentID))
     let itemsToRemove = Set(snapshot.itemIdentifiers).subtracting(commentIDs)
     snapshot.deleteItems(Array(itemsToRemove))
+    
+    // 수정이 필요한 아이템 선별
+    let itemsToEdit = oldComments.symmetricDifference(comments).map(\.commentID)
+    // 수정한 댓글은 (기존 댓글, 수정된 댓글)이 필터링되어 2개가 나오고, 그 두 개의 commentID값은 서로 같습니다.
+    if itemsToEdit.count == 2 && itemsToEdit.first == itemsToEdit.last {
+      snapshot.reconfigureItems([itemsToEdit.first!])
+    }
     
     // snapshot에 추가해야할 item 선별
     for content in comments.sorted(by: { $0.groupID < $1.groupID || $0.commentID < $1.commentID }) where snapshot.itemIdentifiers.contains(content.commentID) == false {
