@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol EditApplicationDelegate: AnyObject {
+  func editApplication()
+}
+
 final class EditApplicationViewController: BaseViewController {
   private var answers: [Answer]
   let viewModel: EditApplicationViewModel
+  weak var delegate: EditApplicationDelegate?
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -107,6 +112,7 @@ final class EditApplicationViewController: BaseViewController {
     
     viewModel.successEditApplication
       .drive(with: self) { owner, _ in
+        owner.delegate?.editApplication()
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
