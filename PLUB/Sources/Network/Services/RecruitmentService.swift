@@ -69,4 +69,8 @@ extension RecruitmentService {
   func endRecruitment(plubbingID: Int) -> Observable<EmptyModel> {
     return sendObservableRequest(RecruitmentRouter.endRecruitment(plubbingID))
   }
+  
+  func editApplication(plubbingID: Int, request: ApplyForRecruitmentRequest) -> Observable<EmptyModel> {
+    return sendObservableRequest(RecruitmentRouter.editApplication(plubbingID, request))
+  }
 }
