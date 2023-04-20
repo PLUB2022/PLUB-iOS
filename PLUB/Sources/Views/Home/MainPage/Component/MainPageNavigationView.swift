@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MainPageNavigationViewDelegate: AnyObject {
+  func didTappedArchiveButton()
+}
+
 final class MainPageNavigationView: UIStackView {
   
   private let speakerBlack = UIButton().then {
