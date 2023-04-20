@@ -95,7 +95,7 @@ final class EditApplicationViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.isButtonEnabled
+    viewModel.editButtonEnabled
       .drive(editButton.rx.isEnabled)
       .disposed(by: disposeBag)
     
@@ -105,6 +105,11 @@ final class EditApplicationViewController: BaseViewController {
         guard let self = self else { return }
         self.view.endEditing(true)
       })
+      .disposed(by: disposeBag)
+    
+    editButton.rx.tap
+      .asDriver()
+      .drive(viewModel.editButtonTapped)
       .disposed(by: disposeBag)
     
     scrollView.addGestureRecognizer(tapGesture)

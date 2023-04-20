@@ -15,18 +15,27 @@ class EditApplicationViewModel {
   
   // Input
   let answerText: AnyObserver<[Answer]>
+  let editButtonTapped: AnyObserver<Void>
   
   // Output
-  let isButtonEnabled: Driver<Bool>
+  let editButtonEnabled: Driver<Bool>
   
   private let answerSubject = PublishSubject<[Answer]>()
-  
+  private let editButtonTappedSubject = PublishSubject<Void>()
   init() {
     answerText = answerSubject.asObserver()
+    editButtonTapped = editButtonTappedSubject.asObserver()
     
-    isButtonEnabled = answerSubject
+    editButtonEnabled = answerSubject
       .map { $0.map { $0.answer } }
       .map { !$0.contains("") }
       .asDriver(onErrorDriveWith: .empty())
+    
+    editButtonTappedSubject
+      .withLatestFrom(answerSubject)
+      .subscribe(onNext: { anwers in
+        
+      })
+      .disposed(by: disposeBag)
   }
 }
