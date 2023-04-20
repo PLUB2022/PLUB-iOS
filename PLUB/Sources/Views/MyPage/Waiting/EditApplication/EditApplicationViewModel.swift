@@ -20,15 +20,19 @@ final class EditApplicationViewModel {
   
   // Output
   let editButtonEnabled: Driver<Bool>
+  let successEditApplication: Driver<Void>
   
   private let answerSubject = PublishSubject<[Answer]>()
   private let editButtonTappedSubject = PublishSubject<Void>()
+  private let successEditApplicationSubject = PublishSubject<Void>()
   
   init(plubbingID: Int) {
     self.plubbingID = plubbingID
     
     answerText = answerSubject.asObserver()
     editButtonTapped = editButtonTappedSubject.asObserver()
+    
+    successEditApplication = successEditApplicationSubject.asDriver(onErrorDriveWith: .empty())
     
     editButtonEnabled = answerSubject
       .map { $0.map { $0.answer } }
@@ -52,10 +56,8 @@ final class EditApplicationViewModel {
       plubbingID: plubbingID,
       request: ApplyForRecruitmentRequest(answers: answer)
     )
-    .withUnretained(self)
-    .subscribe(onNext: { owner, _ in
-      
-    })
+    .map { _ in () }
+    .bind(to: successEditApplicationSubject)
     .disposed(by: disposeBag)
   }
 }

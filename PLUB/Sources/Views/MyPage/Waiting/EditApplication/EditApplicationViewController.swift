@@ -99,6 +99,17 @@ final class EditApplicationViewController: BaseViewController {
     viewModel.editButtonEnabled
       .drive(editButton.rx.isEnabled)
       .disposed(by: disposeBag)
+
+    editButton.rx.tap
+      .asDriver()
+      .drive(viewModel.editButtonTapped)
+      .disposed(by: disposeBag)
+    
+    viewModel.successEditApplication
+      .drive(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
     
     tapGesture.rx.event
       .asDriver()
@@ -106,11 +117,6 @@ final class EditApplicationViewController: BaseViewController {
         guard let self = self else { return }
         self.view.endEditing(true)
       })
-      .disposed(by: disposeBag)
-    
-    editButton.rx.tap
-      .asDriver()
-      .drive(viewModel.editButtonTapped)
       .disposed(by: disposeBag)
     
     scrollView.addGestureRecognizer(tapGesture)
