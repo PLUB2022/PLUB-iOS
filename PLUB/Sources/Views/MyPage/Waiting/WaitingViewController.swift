@@ -228,5 +228,15 @@ extension WaitingViewController: RecruitingSectionFooterViewDelegate {
   }
   
   func secondButtonTapped(sectionIndex: Int) {
+    let answers = viewModel.applications[sectionIndex].data.answers
+    let vc = EditApplicationViewController(plubbingID: viewModel.plubbingID, answers: answers)
+    vc.delegate = self
+    navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension WaitingViewController: EditApplicationDelegate {
+  func editApplication() {
+    viewModel.fetchApplicants()
   }
 }

@@ -22,6 +22,7 @@ enum RecruitmentRouter {
   case inquireMyApplication(Int)
   case cancelApplication(Int)
   case endRecruitment(Int)
+  case editApplication(Int, ApplyForRecruitmentRequest)
 }
 
 extension RecruitmentRouter: Router {
@@ -31,7 +32,7 @@ extension RecruitmentRouter: Router {
       return .get
     case .requestBookmark, .applyForRecruitment, .approvalApplicant, .refuseApplicant:
       return .post
-    case .editMeetingPost, .editMeetingQuestion, .endRecruitment:
+    case .editMeetingPost, .editMeetingQuestion, .endRecruitment, .editApplication:
       return .put
     case .cancelApplication:
       return .delete
@@ -62,7 +63,7 @@ extension RecruitmentRouter: Router {
       return "/plubbings/\(plubbingID)/recruit/applicants/\(accountID)/approval"
     case .refuseApplicant(let plubbingID, let accountID):
       return "/plubbings/\(plubbingID)/recruit/applicants/\(accountID)/refuse"
-    case .inquireMyApplication(let plubbingID), .cancelApplication(let plubbingID):
+    case .inquireMyApplication(let plubbingID), .cancelApplication(let plubbingID), .editApplication(let plubbingID, _):
       return "/plubbings/\(plubbingID)/recruit/applicants/me"
     case .endRecruitment(let plubbingID):
       return "/plubbings/\(plubbingID)/recruit/end"
@@ -80,6 +81,8 @@ extension RecruitmentRouter: Router {
     case .editMeetingQuestion(_, let model):
       return .body(model)
     case .applyForRecruitment(_, let model):
+      return .body(model)
+    case .editApplication(_, let model):
       return .body(model)
     }
   }

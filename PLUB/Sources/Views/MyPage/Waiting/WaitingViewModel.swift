@@ -77,13 +77,14 @@ class WaitingViewModel {
       .disposed(by: disposeBag)
   }
   
-  private func fetchApplicants() {
+  func fetchApplicants() {
     RecruitmentService.shared.inquireMyApplication(plubbingID: plubbingID)
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
         switch result {
         case .success(let model):
-          print(model)
+          owner.applications.removeAll()
+          
           guard let data = model.data else { return }
           let plubbing = data.plubbingInfo
           owner.meetingInfoSubject.onNext(
@@ -104,7 +105,7 @@ class WaitingViewModel {
                 profileImage: owner.myInfo.profileImage,
                 date: data.date,
                 answers: data.answers),
-              true
+              false
             )
           )
           // 테이블 뷰 리로드
