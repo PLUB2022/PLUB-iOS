@@ -186,9 +186,7 @@ extension BoardDetailViewController: CommentOptionViewDelegate {
 
 extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
   func deleteButtonTapped(commentID: Int) {
-    // 순서 중요
-    viewModel.targetIDObserver.onNext(commentID)
-    viewModel.commentOptionObserver.onNext(.delete)
+    viewModel.deleteIDObserver.onNext(commentID)
   }
   
   func editButtonTapped(commentID: Int) {
@@ -212,8 +210,10 @@ extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
     // * 위 배열에서 section과 item의 맞는 모델을 찾아 사이즈를 구해야함
     // * 따라서 section값에 따른 groupID를 먼저 구하고, groupID가 동일한 배열만을 빼냄
     // * 빼낸 배열은 item을 인덱스로하여 모델을 가져오도록 구현
-    let groupID = Array(Set(viewModel.comments.map { $0.groupID })).sorted()[indexPath.section - 1]
-    let commentsModelsForSection = viewModel.comments.filter { $0.groupID == groupID }
+    let groupID = Set(viewModel.comments.map(\.groupID)).sorted()[indexPath.section - 1]
+    let commentsModelsForSection = viewModel.comments
+      .filter { $0.groupID == groupID }
+      .sorted { $0.commentID < $1.commentID }
     let size = BoardDetailCollectionViewCell.estimatedCommentCellSize(CGSize(width: view.bounds.width, height: 0), commentContent: commentsModelsForSection[indexPath.item])
     return size
   }

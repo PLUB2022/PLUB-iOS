@@ -131,6 +131,8 @@ final class CommentInputView: UIView {
       }
       .disposed(by: disposeBag)
     
+    textView.delegate = self
+    
     textView.rx.text
       .orEmpty
       .distinctUntilChanged()
@@ -148,6 +150,17 @@ final class CommentInputView: UIView {
         }
       }
       .disposed(by: disposeBag)
+  }
+}
+
+extension CommentInputView: UITextViewDelegate {
+  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    let currentText = textView.text ?? ""
+    guard let stringRange = Range(range, in: currentText) else { return false }
+
+    let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
+
+    return updatedText.count <= 300 // 300자 이내로만 작성 가능함
   }
 }
 

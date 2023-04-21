@@ -23,10 +23,13 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   /// 사용자의 댓글을 입력합니다.
   var commentsInput: AnyObserver<String> { get }
   
-  /// 댓글 관련 작업을 처리할 대상자의 ID를 emit합니다.
+  /// 댓(답)글, 댓글 수정 작업을 처리할 대상자의 ID를 emit합니다.
   var targetIDObserver: AnyObserver<Int?> { get }
   
-  /// 삭제 버튼을 누른 경우 해당 옵저버를 이용하여 emit합니다.
+  /// 삭제할 댓글의 ID를 emit합니다.
+  var deleteIDObserver: AnyObserver<Int> { get }
+  
+  /// 댓(답)글, 댓글 수정, 댓글 삭제의 옵션을 처리할 경우 해당 옵저버를 이용합니다.
   var commentOptionObserver: AnyObserver<CommentOption> { get }
   
   //Output
@@ -42,7 +45,7 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
 
 protocol BoardDetailDataStore {
   var content: BoardModel { get }
-  var comments: [CommentContent] { get }
+  var comments: Set<CommentContent> { get }
 }
 
 final class BoardDetailViewModel: BoardDetailDataStore {
@@ -55,9 +58,9 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   ///
   /// 댓글 순서는 작성 날짜를 기준으로 정렬되어있습니다.
   /// 답글은 댓글 사이에 들어갈 수도 있으며, 부모 댓글 다음에 존재하게 됩니다.
-  private(set) var comments: [CommentContent] = [] {
+  private(set) var comments: Set<CommentContent> = [] {
     didSet {
-      updateSnapshots()
+      updateSnapshots(oldComments: oldValue)
     }
   }
   
@@ -83,6 +86,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   private let showBottomSheetSubject          = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
   private let targetIDSubject                 = BehaviorSubject<Int?>(value: nil)
+  private let deleteIDSubject                 = PublishSubject<Int>()
   private let commentOptionSubject            = BehaviorSubject<CommentOption>(value: .commentOrReply)
   
   // MARK: - Initializations
@@ -133,7 +137,7 @@ extension BoardDetailViewModel {
     }
     .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
     .subscribe(with: self) { owner, tuple in
-      owner.comments.append(contentsOf: tuple.comments)
+      owner.comments.formUnion(tuple.comments) // 댓글 삽입
       owner.setCollectionView(tuple.collectionView)
       owner.applyInitialSnapshots()
     }
@@ -165,14 +169,7 @@ extension BoardDetailViewModel {
         self?.commentOptionSubject.onNext(.commentOrReply)
       })
       .subscribe(with: self) { owner, comment in
-        // 일반 댓글은 단순 append
-        if comment.type == .normal {
-          owner.comments.append(comment)
-        } else {
-          // 작성된 답글은 마지막 답글 뒤에 insert
-          let index = owner.comments.map { $0.groupID }.lastIndex(of: comment.groupID)!
-          owner.comments.insert(comment, at: index + 1)
-        }
+        owner.comments.insert(comment) // 댓글 삽입
       }
       .disposed(by: disposeBag)
   }
@@ -185,7 +182,6 @@ extension BoardDetailViewModel {
   /// - Parameters:
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
-  ///   - indexPathObservable: 컬렉션 뷰에서 하단 셀의 인덱스 경로를 전달받는 `Observable`
   private func pagingSetup(plubbingID: Int, content: BoardModel) {
     bottomCellSubject
       .filter { [pagingManager] in // pagingManager에게 fetching 가능한지 요청
@@ -197,8 +193,8 @@ extension BoardDetailViewModel {
           self.getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
         }
       }
-      .subscribe(with: self) { owner, content in
-        owner.comments.append(contentsOf: content)
+      .subscribe(with: self) { owner, contents in
+        owner.comments.formUnion(contents) // 기존 댓글과 새롭게 받은 댓글을 합집합 연산으로 합침
       }
       .disposed(by: disposeBag)
   }
@@ -208,29 +204,15 @@ extension BoardDetailViewModel {
   ///   - plubbingID: 플러빙 ID
   ///   - content: 게시글 컨텐츠 모델
   private func deleteComments(plubbingID: Int, content: BoardModel) {
-    commentOptionSubject
-      .filter { $0 == .delete }
-      .withLatestFrom(targetIDSubject)
-      .compactMap { $0 }
+    deleteIDSubject
       .flatMap { [deleteCommentUseCase] commentID in
         deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
       }
-      .withLatestFrom(targetIDSubject)
-      .do(onNext: { [weak self] _ in // API 호출을 위해 작업한 targetID와 commentOption을 기본값으로 초기화
-        self?.targetIDSubject.onNext(nil)
-        self?.commentOptionSubject.onNext(.commentOrReply)
-      })
+      .withLatestFrom(deleteIDSubject)
       .subscribe(with: self) { owner, commentID in
         guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
-        if content.type == .normal {
-          owner.comments.removeAll {
-            $0.groupID == content.groupID
-          }
-        } else {
-          owner.comments.removeAll {
-            $0.commentID == content.commentID
-          }
-        }
+        // 차집합으로 자신과 자식 댓글까지 제거
+        owner.comments.subtract(owner.comments.filter { $0.parentCommentID == content.commentID || $0 == content })
       }
       .disposed(by: disposeBag)
   }
@@ -275,11 +257,12 @@ extension BoardDetailViewModel {
         self?.commentOptionSubject.onNext(.commentOrReply)
       })
       .subscribe(with: self) { owner, comment in
-        guard let index = owner.comments.firstIndex(where: { $0.commentID == comment.commentID })
+        guard let value = owner.comments.first(where: { $0.commentID == comment.commentID })
         else {
           return
         }
-        owner.comments[index].content = comment.content
+        // 배타적 논리합으로 기존 댓글을 제거하고 수정된 댓글을 추가
+        owner.comments.formSymmetricDifference([value, comment])
       }
       .disposed(by: disposeBag)
   }
@@ -305,6 +288,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   
   var targetIDObserver: AnyObserver<Int?> {
     targetIDSubject.asObserver()
+  }
+  
+  var deleteIDObserver: AnyObserver<Int> {
+    deleteIDSubject.asObserver()
   }
   
   var commentOptionObserver: AnyObserver<CommentOption> {
@@ -333,11 +320,11 @@ extension BoardDetailViewModel {
   // MARK: Type Alias
   
   typealias Section = Int
-  typealias Item = CommentContent
+  typealias Item = Int
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
   
-  typealias CellRegistration = UICollectionView.CellRegistration<BoardDetailCollectionViewCell, CommentContent>
+  typealias CellRegistration = UICollectionView.CellRegistration<BoardDetailCollectionViewCell, Int>
   typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<BoardDetailCollectionHeaderView>
   
   // MARK: Snapshot & DataSource Part
@@ -346,8 +333,9 @@ extension BoardDetailViewModel {
   private func setCollectionView(_ collectionView: UICollectionView) {
     
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
-    let registration = CellRegistration { cell, _, item in
-      cell.configure(with: item)
+    let registration = CellRegistration { cell, indexPath, id in
+      let recentItem = self.comments.first(where: { $0.commentID == id })!
+      cell.configure(with: recentItem)
       cell.delegate = self
     }
     
@@ -377,37 +365,42 @@ extension BoardDetailViewModel {
     snapshot.appendSections(sections)
     
     sections.forEach { sectionGroupID in
-      snapshot.appendItems(comments.filter { $0.groupID == sectionGroupID }, toSection: sectionGroupID)
+      snapshot.appendItems(comments.filter({ $0.groupID == sectionGroupID }).map(\.commentID).sorted(), toSection: sectionGroupID)
     }
     dataSource?.apply(snapshot)
   }
   
   /// comments의 내용이 변경되면, 변경점을 인지하고 snapshot을 재설정합니다.
   /// comments 프로퍼티가 변경되면 자동으로 호출되는 `didSet method` 입니다. 추가로 호출할 필요가 없습니다.
-  private func updateSnapshots() {
+  private func updateSnapshots(oldComments: Set<CommentContent>) {
     guard let dataSource else { return }
     
     var snapshot = dataSource.snapshot()
     
     // 삭제해야할 section 조회
     let commentsGroupIDs = Set(comments.map(\.groupID)).union([Constants.boardSection])
-    let sectionsToRemove = snapshot.sectionIdentifiers.filter { !commentsGroupIDs.contains($0) }
-    snapshot.deleteSections(sectionsToRemove)
+    let sectionsToRemove = Set(snapshot.sectionIdentifiers).subtracting(commentsGroupIDs)
+    snapshot.deleteSections(Array(sectionsToRemove))
     
     // snapshot에서 삭제해야할 아이템 조회
-    let itemsToRemove = snapshot.itemIdentifiers.filter { !comments.contains($0) }
-    snapshot.deleteItems(itemsToRemove)
+    let commentIDs = Set(comments.map(\.commentID))
+    let itemsToRemove = Set(snapshot.itemIdentifiers).subtracting(commentIDs)
+    snapshot.deleteItems(Array(itemsToRemove))
     
-    
-    let items = snapshot.itemIdentifiers // 전체 Item을 가져옴
+    // 수정이 필요한 아이템 선별
+    let itemsToEdit = oldComments.symmetricDifference(comments).map(\.commentID)
+    // 수정한 댓글은 (기존 댓글, 수정된 댓글)이 필터링되어 2개가 나오고, 그 두 개의 commentID값은 서로 같습니다.
+    if itemsToEdit.count == 2 && itemsToEdit.first == itemsToEdit.last {
+      snapshot.reconfigureItems([itemsToEdit.first!])
+    }
     
     // snapshot에 추가해야할 item 선별
-    for content in comments where items.contains(content) == false {
+    for content in comments.sorted(by: { $0.groupID < $1.groupID || $0.commentID < $1.commentID }) where snapshot.itemIdentifiers.contains(content.commentID) == false {
       // 댓글인 경우
       if snapshot.sectionIdentifiers.contains(content.groupID) == false {
         snapshot.appendSections([content.groupID])
       }
-      snapshot.appendItems([content], toSection: content.groupID)
+      snapshot.appendItems([content.commentID], toSection: content.groupID)
     }
     
     dataSource.apply(snapshot)
@@ -459,9 +452,6 @@ extension BoardDetailViewModel {
     
     /// 댓글 수정
     case edit
-    
-    // 댓글 삭제
-    case delete
   }
 }
 

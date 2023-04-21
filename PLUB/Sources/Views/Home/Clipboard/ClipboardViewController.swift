@@ -100,14 +100,7 @@ final class ClipboardViewController: BaseViewController {
       .subscribe(with: self) { owner, model in
         owner.navigationController?.pushViewController(
           BoardDetailViewController(
-            viewModel: BoardDetailViewModel(
-              plubbingID: model.plubbingID!,
-              content: model.toBoardModel,
-              getCommentsUseCase: DefaultGetCommentsUseCase(),
-              postCommentUseCase: DefaultPostCommentUseCase(),
-              deleteCommentUseCase: DefaultDeleteCommentUseCase(),
-              editCommentUseCase: DefaultEditCommentUseCase()
-            )
+            viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: model.plubbingID!, boardModel: model.toBoardModel)
           ),
           animated: true
         )
