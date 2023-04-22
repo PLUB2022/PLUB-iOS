@@ -33,7 +33,13 @@ final class ArchiveUploadViewModel {
   
   private let setCollectionViewSubject = PublishSubject<UICollectionView>()
   
-  init() {
+  // MARK: Use Cases
+  
+  private let getArchiveDetailUseCase: GetArchiveDetailUseCase
+  
+  init(getArchiveDetailUseCase: GetArchiveDetailUseCase) {
+    self.getArchiveDetailUseCase = getArchiveDetailUseCase
+    
     setCollectionView()
   }
   

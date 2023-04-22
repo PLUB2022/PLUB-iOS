@@ -22,10 +22,16 @@ protocol ArchiveViewModelType {
   /// 페이징을 처리하기 위한 Observer입니다. 
   var offsetObserver: AnyObserver<(viewHeight: CGFloat, offset: CGFloat)> { get }
   
+  /// 업로드 버튼이 눌렸을 때를 인지하기 위한 Observer입니다.
+  var uploadButtonObserver: AnyObserver<Void> { get }
+  
   // Output
   
   /// ArchivePopUpVC를 처리하는데 필요한 인자를 받습니다.
   var presentArchivePopUpObservable: Observable<(plubbingID: Int, archiveID: Int)> { get }
+  
+  /// ArchiveUploadVC를 띄우기 위해 필요한 인자를 받습니다.
+  var presentArchiveUploadObservable: Observable<(plubbingID: Int, archiveID: Int)> { get }
 }
 
 final class ArchiveViewModel {
@@ -54,6 +60,7 @@ final class ArchiveViewModel {
   private let setCollectionViewSubject    = PublishSubject<UICollectionView>()
   private let selectedArchiveCellSubject  = PublishSubject<IndexPath>()
   private let offsetSubject               = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
+  private let uploadButtonTappedSubject   = PublishSubject<Void>()
   
   // MARK: - Initialization
   
@@ -120,6 +127,9 @@ final class ArchiveViewModel {
 // MARK: - ArchiveViewModelType
 
 extension ArchiveViewModel: ArchiveViewModelType {
+  
+  // MARK: Input
+  
   var setCollectionViewObserver: AnyObserver<UICollectionView> {
     setCollectionViewSubject.asObserver()
   }
@@ -132,8 +142,20 @@ extension ArchiveViewModel: ArchiveViewModelType {
     offsetSubject.asObserver()
   }
   
+  var uploadButtonObserver: AnyObserver<Void> {
+    uploadButtonTappedSubject.asObserver()
+  }
+  
+  // MARK: Output
+  
   var presentArchivePopUpObservable: Observable<(plubbingID: Int, archiveID: Int)> {
     findPlubbingIDAndArchiveID()
+  }
+  
+  var presentArchiveUploadObservable: Observable<(plubbingID: Int, archiveID: Int)> {
+    uploadButtonTappedSubject.compactMap { [plubbingID] _ in
+      (plubbingID, 0)
+    }
   }
 }
 
