@@ -15,7 +15,7 @@ struct AlertModel {
   let title: String // 알림창 제목
   let message: String? // 알림창 내용
   let cancelButton: String? // 취소 버튼 이름
-  let confirmButton: String // 확인 버튼 이름
+  let confirmButton: String? // 확인 버튼 이름
   let height: Int? // 알림창 높이
 }
 
@@ -73,7 +73,7 @@ final class CustomAlertView: UIView {
   }
   
   private lazy var confirmButton =  UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: model.confirmButton)
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: model.confirmButton ?? "")
   }
   
   init(
@@ -104,7 +104,7 @@ final class CustomAlertView: UIView {
     
     [
       model.cancelButton == nil ? nil : cancelButton,
-      confirmButton
+      model.confirmButton == nil ? nil : confirmButton
     ].compactMap { $0 }.forEach {
       buttonStackView.addArrangedSubview($0)
     }
