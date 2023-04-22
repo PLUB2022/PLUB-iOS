@@ -39,6 +39,10 @@ final class ArchiveUploadViewController: BaseViewController {
       forCellWithReuseIdentifier: ArchiveUploadedPictureCell.identifier
     )
     $0.register(
+      ArchiveUploadCell.self,
+      forCellWithReuseIdentifier: ArchiveUploadCell.identifier
+    )
+    $0.register(
       ArchiveUploadHeaderView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: ArchiveUploadHeaderView.identifier
