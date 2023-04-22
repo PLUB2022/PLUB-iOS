@@ -32,6 +32,7 @@ final class ArchiveUploadViewModel {
   // MARK: Subjects
   
   private let setCollectionViewSubject = PublishSubject<UICollectionView>()
+  private let archiveTitleSubject      = BehaviorSubject<String>(value: "")
   
   // MARK: Use Cases
   
@@ -59,6 +60,7 @@ private extension ArchiveUploadViewModel {
     .subscribe(with: self) { owner, tuple in
       owner.archivesContents = tuple.content.images
       owner.setCollectionView(tuple.collectionView, titleText: tuple.content.title)
+      owner.archiveTitleSubject.onNext(tuple.content.title)
     }
     .disposed(by: disposeBag)
   }
@@ -99,8 +101,10 @@ private extension ArchiveUploadViewModel {
       cell.configure(with: imageLink)
     }
     
-    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { supplementaryView, _, _ in
+    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] supplementaryView, _, _ in
+      guard let self else { return }
       supplementaryView.configure(with: titleText)
+      supplementaryView.delegate = self
     }
     
     // dataSource에 cell 등록
@@ -121,5 +125,13 @@ private extension ArchiveUploadViewModel {
     snapshot.appendSections([.main])
     snapshot.appendItems(archivesContents)
     dataSource?.apply(snapshot)
+  }
+}
+
+// MARK: - ArchiveUploadHeaderViewDelegate
+
+extension ArchiveUploadViewModel: ArchiveUploadHeaderViewDelegate {
+  func archiveTitle(text: String) {
+    archiveTitleSubject.onNext(text)
   }
 }

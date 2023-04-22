@@ -12,11 +12,19 @@ import RxCocoa
 import SnapKit
 import Then
 
+protocol ArchiveUploadHeaderViewDelegate: AnyObject {
+  /// 아카이브의 제목이 입력될 때마다 호출됩니다.
+  /// - Parameter text: 입력받은 제목 문자열
+  func archiveTitle(text: String)
+}
+
 final class ArchiveUploadHeaderView: UICollectionReusableView {
   
   // MARK: - Properties
   
   static let identifier = "\(ArchiveUploadHeaderView.self)"
+  
+  weak var delegate: ArchiveUploadHeaderViewDelegate?
   
   private let disposeBag = DisposeBag()
   
@@ -87,6 +95,19 @@ final class ArchiveUploadHeaderView: UICollectionReusableView {
   
   private func bind() {
     textField.delegate = self
+    
+    // textField의 텍스트 값을 전달
+    textField.rx.text
+      .orEmpty
+      .distinctUntilChanged()
+      .subscribe(with: self) { owner, text in
+        owner.delegate?.archiveTitle(text: text)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  func configure(with text: String) {
+    textField.text = text
   }
 }
 
@@ -99,6 +120,6 @@ extension ArchiveUploadHeaderView: UITextFieldDelegate {
 
     let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
 
-    return updatedText.count <= 16 // 300자 이내로만 작성 가능함
+    return updatedText.count <= 16 // 16자 이내로만 작성 가능함
   }
 }
