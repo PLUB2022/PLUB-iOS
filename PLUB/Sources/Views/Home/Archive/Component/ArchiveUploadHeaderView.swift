@@ -51,7 +51,7 @@ final class ArchiveUploadHeaderView: UICollectionReusableView {
     super.init(frame: frame)
     setupLayouts()
     setupConstraints()
-    setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -85,7 +85,20 @@ final class ArchiveUploadHeaderView: UICollectionReusableView {
     }
   }
   
-  private func setupStyles() {
-    backgroundColor = .systemGray // for test
+  private func bind() {
+    textField.delegate = self
+  }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension ArchiveUploadHeaderView: UITextFieldDelegate {
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    let currentText = textField.text ?? ""
+    guard let stringRange = Range(range, in: currentText) else { return false }
+
+    let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+    return updatedText.count <= 16 // 300자 이내로만 작성 가능함
   }
 }
