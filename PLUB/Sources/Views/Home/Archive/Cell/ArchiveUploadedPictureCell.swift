@@ -72,7 +72,7 @@ final class ArchiveUploadedPictureCell: UICollectionViewCell {
     
   }
   
-  func configure(with image: UIImage) {
-    archiveImageView.image = image
+  func configure(with imageLink: String) {
+    archiveImageView.kf.setImage(with: URL(string: imageLink))
   }
 }
