@@ -84,7 +84,11 @@ private extension ArchiveUploadViewModel {
     case main
   }
   
-  typealias Item = String
+  enum Item: Hashable {
+    case upload           // 사진 추가
+    case picture(String)  // 업로드된 사진
+  }
+  
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
   
@@ -97,8 +101,13 @@ private extension ArchiveUploadViewModel {
   /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
   func setCollectionView(_ collectionView: UICollectionView, titleText: String) {
     
-    let registration = UploadedCellRegistration { cell, _, imageLink in
+    let pictureRegistration = UploadedCellRegistration { cell, _, item in
+      guard case let .picture(imageLink) = item else { return }
       cell.configure(with: imageLink)
+    }
+    
+    let uploadRegistration = UploadCellRegistration { cell, _, _ in
+      
     }
     
     let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] supplementaryView, _, _ in
@@ -109,7 +118,10 @@ private extension ArchiveUploadViewModel {
     
     // dataSource에 cell 등록
     dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item in
-      return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
+      if item == .upload {
+        return collectionView.dequeueConfiguredReusableCell(using: uploadRegistration, for: indexPath, item: item)
+      }
+      return collectionView.dequeueConfiguredReusableCell(using: pictureRegistration, for: indexPath, item: item)
     }
     
     // dataSource에 headerView도 등록
@@ -123,7 +135,9 @@ private extension ArchiveUploadViewModel {
   func applyInitialSnapshots() {
     var snapshot = Snapshot()
     snapshot.appendSections([.main])
-    snapshot.appendItems(archivesContents)
+    let items = archivesContents.map { Item.picture($0) }
+    snapshot.appendItems(items)
+    snapshot.appendItems([.upload])
     dataSource?.apply(snapshot)
   }
 }
