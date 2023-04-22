@@ -145,12 +145,7 @@ final class ArchiveViewController: BaseViewController {
     viewModel.presentArchiveUploadObservable
       .subscribe(with: self) { owner, tuple in
         let uploadVC = ArchiveUploadViewController(
-          viewModel: ArchiveUploadViewModel(
-            getArchiveDetailUseCase: DefaultGetArchiveDetailUseCase(
-              plubbingID: tuple.plubbingID,
-              archiveID: tuple.archiveID
-            )
-          )
+          viewModel: ArchiveUploadViewModelWithUploadFactory.make(plubbingID: tuple.plubbingID)
         )
         owner.navigationController?.pushViewController(uploadVC, animated: true)
       }

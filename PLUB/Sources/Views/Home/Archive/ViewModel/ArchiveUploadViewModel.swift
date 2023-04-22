@@ -52,15 +52,15 @@ private extension ArchiveUploadViewModel {
   
   /// 아카이브를 조회한 결과 값을 토대로 View를 업데이트합니다.
   func fetchArchives() {
-    getArchiveDetailUseCase.execute()
-      .withLatestFrom(setCollectionViewSubject) {
-        (content: $0, collectionView: $1)
-      }
-      .subscribe(with: self) { owner, tuple in
-        owner.archivesContents = tuple.content.images
-        owner.setCollectionView(tuple.collectionView, titleText: tuple.content.title)
-      }
-      .disposed(by: disposeBag)
+    
+    Observable.combineLatest(getArchiveDetailUseCase.execute(), setCollectionViewSubject) {
+      (content: $0, collectionView: $1)
+    }
+    .subscribe(with: self) { owner, tuple in
+      owner.archivesContents = tuple.content.images
+      owner.setCollectionView(tuple.collectionView, titleText: tuple.content.title)
+    }
+    .disposed(by: disposeBag)
   }
 }
 

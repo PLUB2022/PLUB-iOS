@@ -225,6 +225,7 @@
 		BAB2E56C29E30A13006B7BDC /* PostCommentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */; };
 		BAB2E56E29E30F96006B7BDC /* GetCommentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */; };
 		BAB320EA29F3B6440056698C /* ArchiveUploadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB320E929F3B6440056698C /* ArchiveUploadCell.swift */; };
+		BAB320ED29F4216A0056698C /* ArchiveUploadViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB320EC29F4216A0056698C /* ArchiveUploadViewModelFactory.swift */; };
 		BAB9DFD229BB17B90062807C /* ArchiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */; };
 		BABB011A297ED415004178EC /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB0119297ED415004178EC /* InterestViewController.swift */; };
 		BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB011B297ED74C004178EC /* InterestViewModel.swift */; };
@@ -596,6 +597,7 @@
 		BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUseCase.swift; sourceTree = "<group>"; };
 		BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommentsUseCase.swift; sourceTree = "<group>"; };
 		BAB320E929F3B6440056698C /* ArchiveUploadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadCell.swift; sourceTree = "<group>"; };
+		BAB320EC29F4216A0056698C /* ArchiveUploadViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewModelFactory.swift; sourceTree = "<group>"; };
 		BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewModel.swift; sourceTree = "<group>"; };
 		BABB0119297ED415004178EC /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		BABB011B297ED74C004178EC /* InterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewModel.swift; sourceTree = "<group>"; };
@@ -1288,6 +1290,7 @@
 			children = (
 				BA4CCDF929EAE6D50040D0D7 /* ArchivePopUpViewModel.swift */,
 				BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */,
+				BAB320EC29F4216A0056698C /* ArchiveUploadViewModelFactory.swift */,
 				BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */,
 			);
 			path = ViewModel;
@@ -2462,6 +2465,7 @@
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
 				702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */,
 				705F81BF29AF35B700830C4F /* MainPageViewController.swift in Sources */,
+				BAB320ED29F4216A0056698C /* ArchiveUploadViewModelFactory.swift in Sources */,
 				C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */,
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
