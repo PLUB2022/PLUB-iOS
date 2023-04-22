@@ -17,7 +17,7 @@ final class ExportViewController: BaseViewController {
     $0.separatorStyle = .none
     $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
-    $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.identifier)
+    $0.register(ExportTableViewCell.self, forCellReuseIdentifier: ExportTableViewCell.identifier)
   }
   
   init(viewModel: ExportViewModel) {
@@ -31,10 +31,16 @@ final class ExportViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
+    [tableView].forEach {
+      view.addSubview($0)
+    }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    tableView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
   }
   
   override func setupStyles() {
@@ -47,22 +53,12 @@ final class ExportViewController: BaseViewController {
     viewModel.accountList
       .drive(tableView.rx.items) { tableView, row, item -> UITableViewCell in
         guard let cell = tableView.dequeueReusableCell(
-          withIdentifier: "LocationTableViewCell",
+          withIdentifier: ExportTableViewCell.identifier,
           for: IndexPath(row: row, section: 0)
-        ) as? LocationTableViewCell else { return UITableViewCell() }
-//        cell.setupData(
-//          with: LocationTableViewCellModel(
-//            title: item.placeName ?? "",
-//            subTitle: item.address ?? ""
-//          )
-//        )
+        ) as? ExportTableViewCell else { return UITableViewCell() }
+        cell.setupData(with: item, indexPathRow: row)
+        cell.delegate = self
         return cell
-      }
-      .disposed(by: disposeBag)
-    
-    tableView.rx.didScroll
-      .subscribe { [weak self] _ in
-
       }
       .disposed(by: disposeBag)
   }
