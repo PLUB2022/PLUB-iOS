@@ -35,8 +35,8 @@ final class ArchiveUploadViewController: BaseViewController {
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
     $0.register(
-      ArchiveUploadCollectionViewCell.self,
-      forCellWithReuseIdentifier: ArchiveUploadCollectionViewCell.identifier
+      ArchiveUploadedPictureCell.self,
+      forCellWithReuseIdentifier: ArchiveUploadedPictureCell.identifier
     )
     $0.register(
       ArchiveUploadHeaderView.self,
@@ -65,7 +65,6 @@ final class ArchiveUploadViewController: BaseViewController {
   }
   
   // MARK: - Life Cycles
-  
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()

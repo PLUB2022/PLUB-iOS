@@ -1,5 +1,5 @@
 //
-//  ArchiveUploadCollectionViewCell.swift
+//  ArchiveUploadedPictureCell.swift
 //  PLUB
 //
 //  Created by 홍승현 on 2023/04/17.
@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-final class ArchiveUploadCollectionViewCell: UICollectionViewCell {
+final class ArchiveUploadedPictureCell: UICollectionViewCell {
   
   // MARK: - Properties
   
-  static let identifier = "\(ArchiveUploadCollectionViewCell.self)"
+  static let identifier = "\(ArchiveUploadedPictureCell.self)"
   
   // MARK: - UI Components
   
