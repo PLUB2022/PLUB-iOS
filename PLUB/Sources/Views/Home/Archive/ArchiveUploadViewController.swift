@@ -120,6 +120,12 @@ final class ArchiveUploadViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    defer {
+      viewModel.collectionViewObserver.onCompleted()
+    }
+    
+    viewModel.collectionViewObserver.onNext(collectionView)
   }
 }
 
