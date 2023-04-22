@@ -12,7 +12,7 @@ import Then
 import RxSwift
 
 protocol ExportTableViewCellDelegate: AnyObject {
-  func didTappedExportButton(indexPathRow: Int)
+  func didTappedExportButton(nickname: String, indexPathRow: Int)
 }
 
 final class ExportTableViewCell: UITableViewCell {
@@ -94,8 +94,9 @@ final class ExportTableViewCell: UITableViewCell {
   private func bind() {
     exportButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        guard let indexPathRow = owner.indexPathRow else { return }
-        owner.delegate?.didTappedExportButton(indexPathRow: indexPathRow)
+        guard let indexPathRow = owner.indexPathRow,
+        let nickname = owner.nicknameLabel.text else { return }
+        owner.delegate?.didTappedExportButton(nickname: nickname, indexPathRow: indexPathRow)
       }
       .disposed(by: disposeBag)
   }
