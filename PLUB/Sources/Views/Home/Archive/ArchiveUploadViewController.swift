@@ -45,6 +45,7 @@ final class ArchiveUploadViewController: BaseViewController {
     )
     $0.backgroundColor = .background
     $0.showsVerticalScrollIndicator = false
+    $0.clipsToBounds = false
   }
   
   private let completeButton = UIButton(configuration: .plain()).then {

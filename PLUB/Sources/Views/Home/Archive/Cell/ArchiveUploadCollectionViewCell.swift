@@ -7,11 +7,30 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 final class ArchiveUploadCollectionViewCell: UICollectionViewCell {
   
   // MARK: - Properties
   
   static let identifier = "\(ArchiveUploadCollectionViewCell.self)"
+  
+  // MARK: - UI Components
+  
+  private let imageContainerView = UIView().then {
+    $0.layer.cornerRadius = 10
+    $0.backgroundColor = .deepGray
+    $0.clipsToBounds = true
+  }
+  
+  private let archiveImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+  }
+  
+  private let cancelButton = UIButton().then {
+    $0.setImage(.init(named: "xMarkCircle"), for: .normal)
+  }
   
   // MARK: - Initializations
   
@@ -29,14 +48,31 @@ final class ArchiveUploadCollectionViewCell: UICollectionViewCell {
   // MARK: - Configurations
   
   private func setupLayouts() {
-    
+    [imageContainerView, cancelButton].forEach {
+      contentView.addSubview($0)
+    }
+    imageContainerView.addSubview(archiveImageView)
   }
   
   private func setupConstraints() {
+    imageContainerView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
     
+    archiveImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    cancelButton.snp.makeConstraints {
+      $0.top.trailing.equalToSuperview().inset(-8)
+    }
   }
   
   private func setupStyles() {
     
+  }
+  
+  func configure(with image: UIImage) {
+    archiveImageView.image = image
   }
 }
