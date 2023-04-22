@@ -12,7 +12,10 @@ import RxCocoa
 
 protocol ArchiveUploadViewModelType {
   // Input
+  
   var collectionViewObserver: AnyObserver<UICollectionView> { get }
+  
+  var selectedCellIndexPathObserver: AnyObserver<IndexPath> { get }
   
   // Output
 }
@@ -31,8 +34,9 @@ final class ArchiveUploadViewModel {
   
   // MARK: Subjects
   
-  private let setCollectionViewSubject = PublishSubject<UICollectionView>()
-  private let archiveTitleSubject      = BehaviorSubject<String>(value: "")
+  private let setCollectionViewSubject     = PublishSubject<UICollectionView>()
+  private let selectedCellIndexPathSubject = PublishSubject<IndexPath>()
+  private let archiveTitleSubject          = BehaviorSubject<String>(value: "")
   
   // MARK: Use Cases
   
@@ -71,6 +75,10 @@ private extension ArchiveUploadViewModel {
 extension ArchiveUploadViewModel: ArchiveUploadViewModelType {
   var collectionViewObserver: AnyObserver<UICollectionView> {
     setCollectionViewSubject.asObserver()
+  }
+  
+  var selectedCellIndexPathObserver: AnyObserver<IndexPath> {
+    selectedCellIndexPathSubject.asObserver()
   }
 }
 

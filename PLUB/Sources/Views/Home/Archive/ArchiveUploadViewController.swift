@@ -112,6 +112,8 @@ final class ArchiveUploadViewController: BaseViewController {
       viewModel.collectionViewObserver.onCompleted()
     }
     
+    collectionView.delegate = self
+    
     viewModel.collectionViewObserver.onNext(collectionView)
   }
 }
@@ -136,6 +138,15 @@ private extension ArchiveUploadViewController {
     
     
     return UICollectionViewCompositionalLayout(section: section)
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ArchiveUploadViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    viewModel.selectedCellIndexPathObserver.onNext(indexPath)
+    collectionView.deselectItem(at: indexPath, animated: true)
   }
 }
 
