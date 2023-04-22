@@ -13,8 +13,10 @@ import RxCocoa
 protocol ArchiveUploadViewModelType {
   // Input
   
+  /// ViewController 단에서 initialized된 collectionView를 받습니다.
   var collectionViewObserver: AnyObserver<UICollectionView> { get }
   
+  /// 선택된 셀의 IndexPath를 전달합니다.
   var selectedCellIndexPathObserver: AnyObserver<IndexPath> { get }
   
   // Output
@@ -97,12 +99,12 @@ private extension ArchiveUploadViewModel {
     case picture(String)  // 업로드된 사진
   }
   
-  typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-  typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+  typealias DataSource                = UICollectionViewDiffableDataSource<Section, Item>
+  typealias Snapshot                  = NSDiffableDataSourceSnapshot<Section, Item>
   
-  typealias UploadedCellRegistration = UICollectionView.CellRegistration<ArchiveUploadedPictureCell, Item>
-  typealias UploadCellRegistration = UICollectionView.CellRegistration<ArchiveUploadCell, Item>
-  typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<ArchiveUploadHeaderView>
+  typealias UploadedCellRegistration  = UICollectionView.CellRegistration<ArchiveUploadedPictureCell, Item>
+  typealias UploadCellRegistration    = UICollectionView.CellRegistration<ArchiveUploadCell, Item>
+  typealias HeaderRegistration        = UICollectionView.SupplementaryRegistration<ArchiveUploadHeaderView>
   
   // MARK: Snapshot & DataSource Part
   

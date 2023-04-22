@@ -153,8 +153,9 @@ extension ArchiveViewModel: ArchiveViewModelType {
   }
   
   var presentArchiveUploadObservable: Observable<(plubbingID: Int, archiveID: Int)> {
+    // TODO: 승현 - 아카이브 수정 시 보내야하는 plubbingID와 archiveID도 같이 merge해야함
     uploadButtonTappedSubject.compactMap { [plubbingID] _ in
-      (plubbingID, 0)
+      (plubbingID, 0) // 업로드 버튼은 archiveID를 쓰지 않으므로 임의의 값 0을 주입
     }
   }
 }
