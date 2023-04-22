@@ -34,19 +34,6 @@ final class ArchiveUploadViewController: BaseViewController {
   }
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
-    $0.register(
-      ArchiveUploadedPictureCell.self,
-      forCellWithReuseIdentifier: ArchiveUploadedPictureCell.identifier
-    )
-    $0.register(
-      ArchiveUploadCell.self,
-      forCellWithReuseIdentifier: ArchiveUploadCell.identifier
-    )
-    $0.register(
-      ArchiveUploadHeaderView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: ArchiveUploadHeaderView.identifier
-    )
     $0.backgroundColor = .background
     $0.showsVerticalScrollIndicator = false
     $0.clipsToBounds = false
