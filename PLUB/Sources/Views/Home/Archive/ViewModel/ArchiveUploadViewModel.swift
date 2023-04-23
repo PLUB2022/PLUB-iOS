@@ -20,6 +20,9 @@ protocol ArchiveUploadViewModelType {
   var selectedCellIndexPathObserver: AnyObserver<IndexPath> { get }
   
   // Output
+  
+  /// 사진 업로드를 위해 바텀시트를 보여주어야할 때 사용됩니다.
+  var presentPhotoBottomSheetObservable: Observable<Void> { get }
 }
 
 final class ArchiveUploadViewModel {
@@ -81,6 +84,16 @@ extension ArchiveUploadViewModel: ArchiveUploadViewModelType {
   
   var selectedCellIndexPathObserver: AnyObserver<IndexPath> {
     selectedCellIndexPathSubject.asObserver()
+  }
+  
+  // MARK: Output
+  
+  var presentPhotoBottomSheetObservable: Observable<Void> {
+    selectedCellIndexPathSubject
+      .filter { [weak self] indexPath in
+        self?.archivesContents.count == indexPath.item // `사진 추가`셀은 항상 마지막에 존재
+      }
+      .map { _ in Void() }
   }
 }
 
