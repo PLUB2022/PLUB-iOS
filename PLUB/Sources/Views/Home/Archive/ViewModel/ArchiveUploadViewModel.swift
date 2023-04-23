@@ -50,6 +50,7 @@ final class ArchiveUploadViewModel {
   private let selectedCellIndexPathSubject = PublishSubject<IndexPath>()
   private let selectedImageSubject         = PublishSubject<UIImage>()
   private let archiveTitleSubject          = BehaviorSubject<String>(value: "")
+  private let deleteImageURLSubject        = PublishSubject<String>()
   
   // MARK: Use Cases
   
@@ -68,6 +69,7 @@ final class ArchiveUploadViewModel {
     
     fetchArchives()
     uploadImageAndUpdateView()
+    removeImagesAndUpdateView()
   }
   
   private let disposeBag = DisposeBag()
@@ -104,7 +106,18 @@ private extension ArchiveUploadViewModel {
         owner.archivesContents.append(imageLink)
       }
       .disposed(by: disposeBag)
-    
+  }
+  
+  /// 이미지를 제거하고, 뷰를 업데이트합니다.
+  func removeImagesAndUpdateView() {
+    deleteImageURLSubject
+      .flatMap { [deleteImageUseCase] imageURL in
+        deleteImageUseCase.execute(fileURL: imageURL, type: .archive).map { _ in imageURL }
+      }
+      .subscribe(with: self) { owner, imageURL in
+        owner.archivesContents.removeAll { $0 == imageURL }
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -161,9 +174,10 @@ private extension ArchiveUploadViewModel {
   /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
   func setCollectionView(_ collectionView: UICollectionView, titleText: String) {
     
-    let pictureRegistration = UploadedCellRegistration { cell, _, item in
+    let pictureRegistration = UploadedCellRegistration { [weak self] cell, _, item in
       guard case let .picture(imageLink) = item else { return }
       cell.configure(with: imageLink)
+      cell.delegate = self
     }
     
     let uploadRegistration = UploadCellRegistration { cell, _, _ in
@@ -237,5 +251,11 @@ private extension ArchiveUploadViewModel {
 extension ArchiveUploadViewModel: ArchiveUploadHeaderViewDelegate {
   func archiveTitle(text: String) {
     archiveTitleSubject.onNext(text)
+  }
+}
+
+extension ArchiveUploadViewModel: ArchiveUploadedPictureCellDelegate {
+  func cancelButtonTapped(imageURL: String) {
+    deleteImageURLSubject.onNext(imageURL)
   }
 }
