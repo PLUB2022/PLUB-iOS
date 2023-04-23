@@ -64,7 +64,7 @@ final class ExportViewController: BaseViewController {
   override func bind() {
     super.bind()
     viewModel.accountList
-      .drive(tableView.rx.items) { tableView, row, item -> UITableViewCell in
+      .drive(tableView.rx.items) { [weak self] tableView, row, item -> UITableViewCell in
         guard let cell = tableView.dequeueReusableCell(
           withIdentifier: ExportTableViewCell.identifier,
           for: IndexPath(row: row, section: 0)
