@@ -19,6 +19,9 @@ protocol ArchiveUploadViewModelType {
   /// 선택된 셀의 IndexPath를 전달합니다.
   var selectedCellIndexPathObserver: AnyObserver<IndexPath> { get }
   
+  /// 사용자가 아카이브에 올리기 위해 선택한 사진을 받습니다.
+  var selectedImageObserver: AnyObserver<UIImage> { get }
+  
   // Output
   
   /// 사진 업로드를 위해 바텀시트를 보여주어야할 때 사용됩니다.
@@ -35,22 +38,30 @@ final class ArchiveUploadViewModel {
     }
   }
   
-  private var archivesContents = [String]()
+  private var archivesContents = [String]() {
+    didSet {
+      updateSnapshots()
+    }
+  }
   
   // MARK: Subjects
   
   private let setCollectionViewSubject     = PublishSubject<UICollectionView>()
   private let selectedCellIndexPathSubject = PublishSubject<IndexPath>()
+  private let selectedImageSubject         = PublishSubject<UIImage>()
   private let archiveTitleSubject          = BehaviorSubject<String>(value: "")
   
   // MARK: Use Cases
   
   private let getArchiveDetailUseCase: GetArchiveDetailUseCase
+  private let uploadImageUseCase: UploadImageUseCase
   
-  init(getArchiveDetailUseCase: GetArchiveDetailUseCase) {
+  init(getArchiveDetailUseCase: GetArchiveDetailUseCase, uploadImageUseCase: UploadImageUseCase) {
     self.getArchiveDetailUseCase = getArchiveDetailUseCase
+    self.uploadImageUseCase = uploadImageUseCase
     
     fetchArchives()
+    uploadImageAndUpdateView()
   }
   
   private let disposeBag = DisposeBag()
@@ -73,6 +84,22 @@ private extension ArchiveUploadViewModel {
     }
     .disposed(by: disposeBag)
   }
+  
+  /// 선택된 이미지를 받아 업로드한 뒤 이미지를 뷰에 업데이트합니다.
+  func uploadImageAndUpdateView() {
+    selectedImageSubject
+      .flatMap { [uploadImageUseCase] in
+        uploadImageUseCase.execute(images: [$0], uploadType: .archive)
+      }
+      .compactMap {
+        $0.files.first?.fileURL
+      }
+      .subscribe(with: self) { owner, imageLink in
+        owner.archivesContents.append(imageLink)
+      }
+      .disposed(by: disposeBag)
+    
+  }
 }
 
 // MARK: - ArchiveUploadViewModelType
@@ -84,6 +111,10 @@ extension ArchiveUploadViewModel: ArchiveUploadViewModelType {
   
   var selectedCellIndexPathObserver: AnyObserver<IndexPath> {
     selectedCellIndexPathSubject.asObserver()
+  }
+  
+  var selectedImageObserver: AnyObserver<UIImage> {
+    selectedImageSubject.asObserver()
   }
   
   // MARK: Output
@@ -161,6 +192,36 @@ private extension ArchiveUploadViewModel {
     let items = archivesContents.map { Item.picture($0) }
     snapshot.appendItems(items)
     snapshot.appendItems([.upload])
+    dataSource?.apply(snapshot)
+  }
+  
+  func updateSnapshots() {
+    guard var snapshot = dataSource?.snapshot(),
+          let addPictureItem = snapshot.itemIdentifiers.last // 사진 추가를 보여주기 위한 아이템
+    else {
+      return
+    }
+    
+    
+    
+    var uploadedItems = Set(snapshot.itemIdentifiers
+      .compactMap { item -> String? in
+        guard case let .picture(imageLink) = item else { return nil }
+        return imageLink
+      })
+    
+    // 삭제될 아이템 찾기
+    let itemsToRemove = uploadedItems.subtracting(archivesContents)
+    snapshot.deleteItems(itemsToRemove.map({ Item.picture($0) }))
+    uploadedItems.subtract(itemsToRemove)
+    
+    // 추가할 아이템 찾기
+    let itemsToAdd = Set(archivesContents).subtracting(uploadedItems).map { Item.picture($0) }
+    snapshot.appendItems(itemsToAdd)
+    
+    snapshot.moveItem(addPictureItem, afterItem: snapshot.itemIdentifiers.last!)
+    
+    
     dataSource?.apply(snapshot)
   }
 }

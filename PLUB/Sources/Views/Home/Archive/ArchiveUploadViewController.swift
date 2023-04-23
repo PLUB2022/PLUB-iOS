@@ -162,7 +162,7 @@ extension ArchiveUploadViewController: UICollectionViewDelegate {
 
 extension ArchiveUploadViewController: PhotoBottomSheetDelegate {
   func selectImage(image: UIImage) {
-    
+    viewModel.selectedImageObserver.onNext(image)
   }
 }
 

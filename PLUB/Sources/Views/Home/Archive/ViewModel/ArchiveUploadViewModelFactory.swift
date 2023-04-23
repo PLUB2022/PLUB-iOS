@@ -20,7 +20,8 @@ final class ArchiveUploadViewModelWithEditFactory: ArchiveUploadViewModelFactory
   
   static func make(plubbingID: Int, archiveID: Int) -> ArchiveUploadViewModel {
     return ArchiveUploadViewModel(
-      getArchiveDetailUseCase: DefaultGetArchiveDetailUseCase(plubbingID: plubbingID, archiveID: archiveID)
+      getArchiveDetailUseCase: DefaultGetArchiveDetailUseCase(plubbingID: plubbingID, archiveID: archiveID),
+      uploadImageUseCase: DefaultUploadImageUseCase()
     )
   }
 }
@@ -32,7 +33,8 @@ final class ArchiveUploadViewModelWithUploadFactory: ArchiveUploadViewModelFacto
   
   static func make(plubbingID: Int, archiveID: Int = -1) -> ArchiveUploadViewModel {
     return ArchiveUploadViewModel(
-      getArchiveDetailUseCase: GetArchiveDetailUseCaseAdapter()
+      getArchiveDetailUseCase: GetArchiveDetailUseCaseAdapter(),
+      uploadImageUseCase: DefaultUploadImageUseCase()
     )
   }
   
