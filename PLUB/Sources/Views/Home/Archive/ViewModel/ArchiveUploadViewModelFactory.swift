@@ -21,7 +21,8 @@ final class ArchiveUploadViewModelWithEditFactory: ArchiveUploadViewModelFactory
   static func make(plubbingID: Int, archiveID: Int) -> ArchiveUploadViewModel {
     return ArchiveUploadViewModel(
       getArchiveDetailUseCase: DefaultGetArchiveDetailUseCase(plubbingID: plubbingID, archiveID: archiveID),
-      uploadImageUseCase: DefaultUploadImageUseCase()
+      uploadImageUseCase: DefaultUploadImageUseCase(),
+      deleteImageUseCase: DefaultDeleteImageUseCase()
     )
   }
 }
@@ -34,7 +35,8 @@ final class ArchiveUploadViewModelWithUploadFactory: ArchiveUploadViewModelFacto
   static func make(plubbingID: Int, archiveID: Int = -1) -> ArchiveUploadViewModel {
     return ArchiveUploadViewModel(
       getArchiveDetailUseCase: GetArchiveDetailUseCaseAdapter(),
-      uploadImageUseCase: DefaultUploadImageUseCase()
+      uploadImageUseCase: DefaultUploadImageUseCase(),
+      deleteImageUseCase: DefaultDeleteImageUseCase()
     )
   }
   
