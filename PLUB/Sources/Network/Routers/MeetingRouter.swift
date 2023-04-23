@@ -49,7 +49,7 @@ extension MeetingRouter: Router {
     case .exitMeeting(let plubbingID):
       return "/plubbings/\(plubbingID)/leave"
     case .exportMeetingMember(let plubbingID, let accountID):
-      return "/plubbings/\(plubbingID)/acoounts/\(accountID)"
+      return "/plubbings/\(plubbingID)/accounts/\(accountID)"
     case .inquireMeetingMember(let plubbingID):
       return "/plubbings/\(plubbingID)/members"
     case .endMeeting(let plubbingID):
