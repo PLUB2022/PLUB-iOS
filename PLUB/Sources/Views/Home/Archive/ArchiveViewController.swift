@@ -136,9 +136,17 @@ final class ArchiveViewController: BaseViewController {
       .bind(to: viewModel.offsetObserver)
       .disposed(by: disposeBag)
     
+    // 업로드 버튼 액션을 viewModel에게 전달
     uploadButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        let uploadVC = ArchiveUploadViewController(viewModel: ArchiveUploadViewModel())
+      .bind(to: viewModel.uploadButtonObserver)
+      .disposed(by: disposeBag)
+    
+    // 업로드 VC를 보여줘야하는 경우
+    viewModel.presentArchiveUploadObservable
+      .subscribe(with: self) { owner, tuple in
+        let uploadVC = ArchiveUploadViewController(
+          viewModel: ArchiveUploadViewModelWithUploadFactory.make(plubbingID: tuple.plubbingID)
+        )
         owner.navigationController?.pushViewController(uploadVC, animated: true)
       }
       .disposed(by: disposeBag)

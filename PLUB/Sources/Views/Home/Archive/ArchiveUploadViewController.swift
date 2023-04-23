@@ -34,17 +34,9 @@ final class ArchiveUploadViewController: BaseViewController {
   }
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
-    $0.register(
-      ArchiveUploadCollectionViewCell.self,
-      forCellWithReuseIdentifier: ArchiveUploadCollectionViewCell.identifier
-    )
-    $0.register(
-      ArchiveUploadHeaderView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: ArchiveUploadHeaderView.identifier
-    )
     $0.backgroundColor = .background
     $0.showsVerticalScrollIndicator = false
+    $0.clipsToBounds = false
   }
   
   private let completeButton = UIButton(configuration: .plain()).then {
@@ -64,7 +56,6 @@ final class ArchiveUploadViewController: BaseViewController {
   }
   
   // MARK: - Life Cycles
-  
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
@@ -116,6 +107,14 @@ final class ArchiveUploadViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    defer {
+      viewModel.collectionViewObserver.onCompleted()
+    }
+    
+    collectionView.delegate = self
+    
+    viewModel.collectionViewObserver.onNext(collectionView)
   }
 }
 
@@ -139,6 +138,15 @@ private extension ArchiveUploadViewController {
     
     
     return UICollectionViewCompositionalLayout(section: section)
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ArchiveUploadViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    viewModel.selectedCellIndexPathObserver.onNext(indexPath)
+    collectionView.deselectItem(at: indexPath, animated: true)
   }
 }
 

@@ -162,7 +162,7 @@
 		BA57F3F929ED4EEC00A9F790 /* ArchiveUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F729ED4EEC00A9F790 /* ArchiveUploadViewController.swift */; };
 		BA57F3FA29ED4EEC00A9F790 /* ArchiveUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */; };
 		BA57F3FD29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */; };
-		BA57F3FF29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3FE29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift */; };
+		BA57F3FF29ED814500A9F790 /* ArchiveUploadedPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA57F3FE29ED814500A9F790 /* ArchiveUploadedPictureCell.swift */; };
 		BA590E7A29EBC6320017FAF1 /* GetArchiveDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */; };
 		BA590E7D29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */; };
 		BA5D9ECF29E3E9A300F06AB5 /* ArchiveRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */; };
@@ -224,6 +224,8 @@
 		BAB033FA29B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */; };
 		BAB2E56C29E30A13006B7BDC /* PostCommentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */; };
 		BAB2E56E29E30F96006B7BDC /* GetCommentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */; };
+		BAB320EA29F3B6440056698C /* ArchiveUploadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB320E929F3B6440056698C /* ArchiveUploadCell.swift */; };
+		BAB320ED29F4216A0056698C /* ArchiveUploadViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB320EC29F4216A0056698C /* ArchiveUploadViewModelFactory.swift */; };
 		BAB9DFD229BB17B90062807C /* ArchiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */; };
 		BABB011A297ED415004178EC /* InterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB0119297ED415004178EC /* InterestViewController.swift */; };
 		BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABB011B297ED74C004178EC /* InterestViewModel.swift */; };
@@ -537,7 +539,7 @@
 		BA57F3F729ED4EEC00A9F790 /* ArchiveUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewController.swift; sourceTree = "<group>"; };
 		BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewModel.swift; sourceTree = "<group>"; };
 		BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadHeaderView.swift; sourceTree = "<group>"; };
-		BA57F3FE29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadCollectionViewCell.swift; sourceTree = "<group>"; };
+		BA57F3FE29ED814500A9F790 /* ArchiveUploadedPictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadedPictureCell.swift; sourceTree = "<group>"; };
 		BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetArchiveDetailUseCase.swift; sourceTree = "<group>"; };
 		BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA5D9ECD29E3E9A300F06AB5 /* ArchiveRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveRouter.swift; sourceTree = "<group>"; };
@@ -594,6 +596,8 @@
 		BAB033F929B5C5580077C4D9 /* BoardDetailCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionHeaderView.swift; sourceTree = "<group>"; };
 		BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentUseCase.swift; sourceTree = "<group>"; };
 		BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommentsUseCase.swift; sourceTree = "<group>"; };
+		BAB320E929F3B6440056698C /* ArchiveUploadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadCell.swift; sourceTree = "<group>"; };
+		BAB320EC29F4216A0056698C /* ArchiveUploadViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveUploadViewModelFactory.swift; sourceTree = "<group>"; };
 		BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewModel.swift; sourceTree = "<group>"; };
 		BABB0119297ED415004178EC /* InterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewController.swift; sourceTree = "<group>"; };
 		BABB011B297ED74C004178EC /* InterestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestViewModel.swift; sourceTree = "<group>"; };
@@ -1286,6 +1290,7 @@
 			children = (
 				BA4CCDF929EAE6D50040D0D7 /* ArchivePopUpViewModel.swift */,
 				BA57F3F829ED4EEC00A9F790 /* ArchiveUploadViewModel.swift */,
+				BAB320EC29F4216A0056698C /* ArchiveUploadViewModelFactory.swift */,
 				BAB9DFD029BB17B90062807C /* ArchiveViewModel.swift */,
 			);
 			path = ViewModel;
@@ -1321,7 +1326,8 @@
 			children = (
 				BAAD0AD429BB2E72007B33D9 /* ArchiveCollectionViewCell.swift */,
 				BA590E7C29EBF2940017FAF1 /* ArchiveDetailCollectionViewCell.swift */,
-				BA57F3FE29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift */,
+				BA57F3FE29ED814500A9F790 /* ArchiveUploadedPictureCell.swift */,
+				BAB320E929F3B6440056698C /* ArchiveUploadCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2437,6 +2443,7 @@
 				70727A4529D5E570003DE956 /* TodoAlertView.swift in Sources */,
 				C3AB7441296B21E6003DD5E2 /* MeetingQuestionViewController.swift in Sources */,
 				C3100CB729BD8A5B005FCCAD /* MyPageViewController.swift in Sources */,
+				BAB320EA29F3B6440056698C /* ArchiveUploadCell.swift in Sources */,
 				BAC8930929755B87000D44E2 /* SignUpRequest.swift in Sources */,
 				C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */,
 				70BD5F3929684EAC002CBA89 /* HomeAlertController.swift in Sources */,
@@ -2458,12 +2465,13 @@
 				BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */,
 				702876C029A374FE00E57509 /* ClipboardViewController.swift in Sources */,
 				705F81BF29AF35B700830C4F /* MainPageViewController.swift in Sources */,
+				BAB320ED29F4216A0056698C /* ArchiveUploadViewModelFactory.swift in Sources */,
 				C3158ECB297D50B60016E231 /* MeetingPeopleNumberViewModel.swift in Sources */,
 				C36CE39F29731A0700E3A68C /* PhotoSelectView.swift in Sources */,
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
 				C31605192997935100D27488 /* MeetingInfoViewModel.swift in Sources */,
 				C32AB19029DDB9000045B919 /* ProfileEditViewModel.swift in Sources */,
-				BA57F3FF29ED814500A9F790 /* ArchiveUploadCollectionViewCell.swift in Sources */,
+				BA57F3FF29ED814500A9F790 /* ArchiveUploadedPictureCell.swift in Sources */,
 				70A420AB298FAD000026E9F9 /* TopTabCollectionViewCell.swift in Sources */,
 				70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */,
 				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
