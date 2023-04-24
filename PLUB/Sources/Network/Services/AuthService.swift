@@ -21,8 +21,8 @@ extension AuthService {
     socialType: SocialType,
     token: String?,
     authorizationCode: String?
-  ) -> PLUBResult<SignInResponse> {
-    return sendRequest(
+  ) -> Observable<SignInResponse> {
+    return sendObservableRequest(
       AuthRouter.socialLogin(
         SignInRequest(
           fcmToken: UserManager.shared.fcmToken ?? "",
@@ -30,8 +30,7 @@ extension AuthService {
           authorizationCode: authorizationCode,
           socialType: socialType
         )
-      ),
-      type: SignInResponse.self
+      )
     )
   }
   
