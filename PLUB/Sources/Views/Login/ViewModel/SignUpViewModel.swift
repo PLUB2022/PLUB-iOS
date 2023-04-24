@@ -167,7 +167,7 @@ final class SignUpViewModel: SignUpViewModelType {
       .compactMap { owner, birthday in
         owner.signUpRelay.value.with {
           let formatter = DateFormatter().then {
-            $0.dateFormat = "yyyy-MM-dd"
+            $0.dateFormat = "yyyyMMdd"
           }
           $0.birthday = formatter.string(from: birthday)
         }
