@@ -216,9 +216,6 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     }
     commentLabel.text = model.content
     authorLabel.text = model.nickname
-    // TODO: 승현 - 날짜 처리는 정확하게 정해지지 않음, 기획안 나오면 그 때 처리할 예정
-    datetimeLabel.text = "방금 전"
-    
     
     // reply process
     replyImageView.isHidden = model.type == .normal
@@ -230,6 +227,14 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     
     // Inject comment ID
     commentID = model.commentID
+    
+    // posting date process
+    guard let date = DateFormatterFactory.dateTime.date(from: model.postDate) else {
+      Log.error("날짜 dateFormat이 이상하게 내려오거나 DateFormatter 처리를 잘못함\n내려온 댓글 날짜: \(model.postDate)\n작업하려는 날짜 포맷: \(DateFormatterFactory.dateTime.dateFormat ?? "None")", category: .ui)
+      return
+    }
+    
+    datetimeLabel.text = "\(DateFormatterFactory.commentDate.string(from: date))"
   }
 }
 
