@@ -135,6 +135,7 @@ private extension ArchiveUploadViewModel {
       .disposed(by: disposeBag)
   }
   
+  /// 아카이브 업로드를 시도하고, 성공했을 경우 ViewController를 Pop하는 로직을 처리합니다.
   func uploadAndDismissView() {
     completeButtonTappedSubject
       .withLatestFrom(archiveTitleSubject)
