@@ -126,7 +126,7 @@ final class CommentInputView: UIView {
   }
   
   private func bind() {
-    
+    // 프로필 이미지 설정
     AccountService.shared.inquireMyInfo()
       .compactMap { result -> String? in
         guard case let .success(response) = result else { return nil }
@@ -137,7 +137,7 @@ final class CommentInputView: UIView {
       }
       .disposed(by: disposeBag)
     
-    
+    // 댓글 작성 버튼 탭
     uploadButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
