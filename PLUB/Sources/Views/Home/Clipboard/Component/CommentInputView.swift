@@ -100,26 +100,26 @@ final class CommentInputView: UIView {
   private func setupConstraints() {
     
     commentStackView.snp.makeConstraints {
-      $0.directionalVerticalEdges.equalToSuperview().inset(8)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
+      $0.directionalVerticalEdges.equalToSuperview().inset(Margin.vertical)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Margin.horizontal)
     }
     
     profileImageView.snp.makeConstraints {
-      $0.size.equalTo(32)
+      $0.size.equalTo(Size.initialStateHeight)
     }
     
     textView.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(32)
+      $0.height.greaterThanOrEqualTo(Size.initialStateHeight)
     }
     
     uploadButton.snp.makeConstraints {
-      $0.size.equalTo(32)
+      $0.size.equalTo(Size.initialStateHeight)
     }
     
     commentSeparatorLineView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(1)
+      $0.height.equalTo(Size.barHeight)
     }
   }
   
@@ -157,13 +157,15 @@ final class CommentInputView: UIView {
         let size = CGSize(width: owner.textView.frame.width, height: .infinity)
         let estimatedSize = owner.textView.sizeThatFits(size)
         owner.textView.snp.remakeConstraints {
-          $0.height.greaterThanOrEqualTo(32).priority(.required)
+          $0.height.greaterThanOrEqualTo(Size.initialStateHeight).priority(.required)
           $0.height.equalTo(estimatedSize.height).priority(.high)
         }
       }
       .disposed(by: disposeBag)
   }
 }
+
+// MARK: - UITextViewDelegate
 
 extension CommentInputView: UITextViewDelegate {
   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -176,8 +178,20 @@ extension CommentInputView: UITextViewDelegate {
   }
 }
 
-extension CommentInputView {
+// MARK: - Constants
+
+private extension CommentInputView {
   enum Constants {
     static let placeholder = "댓글을 입력하세요"
+  }
+  
+  enum Size {
+    static let initialStateHeight = 32
+    static let barHeight          = 1
+  }
+  
+  enum Margin {
+    static let vertical   = 8
+    static let horizontal = 16
   }
 }
