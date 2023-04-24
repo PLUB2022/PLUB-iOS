@@ -127,6 +127,16 @@ final class ArchiveUploadViewController: BaseViewController {
     viewModel.buttonEnabledObservable
       .bind(to: completeButton.rx.isEnabled)
       .disposed(by: disposeBag)
+    
+    completeButton.rx.tap
+      .bind(to: viewModel.completeButtonTappedObserver)
+      .disposed(by: disposeBag)
+    
+    viewModel.popViewControllerObservable
+      .subscribe(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
 

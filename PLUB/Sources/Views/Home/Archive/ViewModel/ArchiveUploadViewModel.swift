@@ -22,6 +22,8 @@ protocol ArchiveUploadViewModelType {
   /// 사용자가 아카이브에 올리기 위해 선택한 사진을 받습니다.
   var selectedImageObserver: AnyObserver<UIImage> { get }
   
+  var completeButtonTappedObserver: AnyObserver<Void> { get }
+  
   // Output
   
   /// 사진 업로드를 위해 바텀시트를 보여주어야할 때 사용됩니다.
@@ -29,6 +31,8 @@ protocol ArchiveUploadViewModelType {
   
   /// 수정 및 업로드 버튼의 활성화 유무를 판단합니다.
   var buttonEnabledObservable: Observable<Bool> { get }
+  
+  var popViewControllerObservable: Observable<Void> { get }
 }
 
 final class ArchiveUploadViewModel {
@@ -50,12 +54,14 @@ final class ArchiveUploadViewModel {
   
   // MARK: Subjects
   
-  private let setCollectionViewSubject     = PublishSubject<UICollectionView>()
-  private let selectedCellIndexPathSubject = PublishSubject<IndexPath>()
-  private let selectedImageSubject         = PublishSubject<UIImage>()
-  private let archiveTitleSubject          = BehaviorSubject<String>(value: "")
-  private let deleteImageURLSubject        = PublishSubject<String>()
-  private let imagesStateSubject           = PublishSubject<[String]>()
+  private let setCollectionViewSubject          = PublishSubject<UICollectionView>()
+  private let selectedCellIndexPathSubject      = PublishSubject<IndexPath>()
+  private let selectedImageSubject              = PublishSubject<UIImage>()
+  private let archiveTitleSubject               = BehaviorSubject<String>(value: "")
+  private let deleteImageURLSubject             = PublishSubject<String>()
+  private let imagesStateSubject                = PublishSubject<[String]>()
+  private let completeButtonTappedSubject       = PublishSubject<Void>()
+  private let popViewControllerSubject          = PublishSubject<Void>()
   
   // MARK: Use Cases
   
@@ -78,6 +84,7 @@ final class ArchiveUploadViewModel {
     fetchArchives()
     uploadImageAndUpdateView()
     removeImagesAndUpdateView()
+    uploadAndDismissView()
   }
   
   private let disposeBag = DisposeBag()
@@ -127,11 +134,27 @@ private extension ArchiveUploadViewModel {
       }
       .disposed(by: disposeBag)
   }
+  
+  func uploadAndDismissView() {
+    completeButtonTappedSubject
+      .withLatestFrom(archiveTitleSubject)
+      .withLatestFrom(imagesStateSubject) {
+        (title: $0, images: $1)
+      }
+      .flatMap { [uploadArchiveUseCase] tuple in
+        uploadArchiveUseCase.execute(title: tuple.title, images: tuple.images).map { _ in Void() }
+      }
+      .bind(to: popViewControllerSubject)
+      .disposed(by: disposeBag)
+  }
 }
 
 // MARK: - ArchiveUploadViewModelType
 
 extension ArchiveUploadViewModel: ArchiveUploadViewModelType {
+  
+  // MARK: Input
+  
   var collectionViewObserver: AnyObserver<UICollectionView> {
     setCollectionViewSubject.asObserver()
   }
@@ -142,6 +165,10 @@ extension ArchiveUploadViewModel: ArchiveUploadViewModelType {
   
   var selectedImageObserver: AnyObserver<UIImage> {
     selectedImageSubject.asObserver()
+  }
+  
+  var completeButtonTappedObserver: AnyObserver<Void> {
+    completeButtonTappedSubject.asObserver()
   }
   
   // MARK: Output
@@ -158,6 +185,10 @@ extension ArchiveUploadViewModel: ArchiveUploadViewModelType {
     .combineLatest(imagesStateSubject, archiveTitleSubject) {
       !$0.isEmpty && !$1.isEmpty
     }
+  }
+  
+  var popViewControllerObservable: Observable<Void> {
+    popViewControllerSubject.asObservable()
   }
 }
 
