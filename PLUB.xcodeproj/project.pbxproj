@@ -131,6 +131,7 @@
 		BA2173B729F53685000D72B1 /* UploadImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2173B629F53685000D72B1 /* UploadImageUseCase.swift */; };
 		BA2173B929F57A97000D72B1 /* DeleteImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2173B829F57A97000D72B1 /* DeleteImageUseCase.swift */; };
 		BA2173BB29F61955000D72B1 /* UploadArchiveUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2173BA29F61955000D72B1 /* UploadArchiveUseCase.swift */; };
+		BA2173BD29F61A36000D72B1 /* EditArchiveUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2173BC29F61A36000D72B1 /* EditArchiveUseCase.swift */; };
 		BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */; };
 		BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */; };
 		BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */; };
@@ -512,6 +513,7 @@
 		BA2173B629F53685000D72B1 /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
 		BA2173B829F57A97000D72B1 /* DeleteImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteImageUseCase.swift; sourceTree = "<group>"; };
 		BA2173BA29F61955000D72B1 /* UploadArchiveUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadArchiveUseCase.swift; sourceTree = "<group>"; };
+		BA2173BC29F61A36000D72B1 /* EditArchiveUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditArchiveUseCase.swift; sourceTree = "<group>"; };
 		BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryInfoView.swift; sourceTree = "<group>"; };
 		BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryTitleView.swift; sourceTree = "<group>"; };
@@ -1294,6 +1296,7 @@
 		BA4CCDF529EAB93D0040D0D7 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				BA2173BC29F61A36000D72B1 /* EditArchiveUseCase.swift */,
 				BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */,
 				BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */,
 				BA2173BA29F61955000D72B1 /* UploadArchiveUseCase.swift */,
@@ -2385,6 +2388,7 @@
 				BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */,
 				C34F048429C715A800E5B67E /* SettingSubview.swift in Sources */,
 				BA46CC9F28EC9B05004953B1 /* Ex+UIColor.swift in Sources */,
+				BA2173BD29F61A36000D72B1 /* EditArchiveUseCase.swift in Sources */,
 				BAB2E56C29E30A13006B7BDC /* PostCommentUseCase.swift in Sources */,
 				C39E09B629C604DE00ECAD11 /* RecruitingFooterView.swift in Sources */,
 				BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */,
