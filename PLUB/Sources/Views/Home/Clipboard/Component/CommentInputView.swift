@@ -124,6 +124,18 @@ final class CommentInputView: UIView {
   }
   
   private func bind() {
+    
+    AccountService.shared.inquireMyInfo()
+      .compactMap { result -> String? in
+        guard case let .success(response) = result else { return nil }
+        return response.data?.profileImage
+      }
+      .subscribe(with: self) { owner, profileImage in
+        owner.profileImageView.kf.setImage(with: URL(string: profileImage))
+      }
+      .disposed(by: disposeBag)
+    
+    
     uploadButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
