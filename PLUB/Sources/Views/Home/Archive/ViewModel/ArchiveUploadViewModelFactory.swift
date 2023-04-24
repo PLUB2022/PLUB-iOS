@@ -22,8 +22,25 @@ final class ArchiveUploadViewModelWithEditFactory: ArchiveUploadViewModelFactory
     return ArchiveUploadViewModel(
       getArchiveDetailUseCase: DefaultGetArchiveDetailUseCase(plubbingID: plubbingID, archiveID: archiveID),
       uploadImageUseCase: DefaultUploadImageUseCase(),
-      deleteImageUseCase: DefaultDeleteImageUseCase()
+      deleteImageUseCase: DefaultDeleteImageUseCase(),
+      uploadArchiveUseCase: EditArchiveUseCaseAdapter(plubbingID: plubbingID, archiveID: archiveID)
     )
+  }
+  
+  /// Edit use case를 UploadUseCase와 연결하기 위한 Adapter
+  private class EditArchiveUseCaseAdapter: UploadArchiveUseCase {
+    
+    private let plubbingID: Int
+    private let archiveID: Int
+    
+    init(plubbingID: Int, archiveID: Int) {
+      self.plubbingID = plubbingID
+      self.archiveID = archiveID
+    }
+    
+    func execute(title: String, images: [String]) -> Observable<BaseService.EmptyModel> {
+      DefaultEditArchiveUseCase(plubbingID: plubbingID, archiveID: archiveID).execute(title: title, images: images)
+    }
   }
 }
 
@@ -36,7 +53,8 @@ final class ArchiveUploadViewModelWithUploadFactory: ArchiveUploadViewModelFacto
     return ArchiveUploadViewModel(
       getArchiveDetailUseCase: GetArchiveDetailUseCaseAdapter(),
       uploadImageUseCase: DefaultUploadImageUseCase(),
-      deleteImageUseCase: DefaultDeleteImageUseCase()
+      deleteImageUseCase: DefaultDeleteImageUseCase(),
+      uploadArchiveUseCase: DefaultUploadArchiveUseCase(plubbingID: plubbingID)
     )
   }
   

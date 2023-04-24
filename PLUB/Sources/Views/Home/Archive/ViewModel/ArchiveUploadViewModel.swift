@@ -62,15 +62,18 @@ final class ArchiveUploadViewModel {
   private let getArchiveDetailUseCase: GetArchiveDetailUseCase
   private let uploadImageUseCase: UploadImageUseCase
   private let deleteImageUseCase: DeleteImageUseCase
+  private let uploadArchiveUseCase: UploadArchiveUseCase
   
   init(
     getArchiveDetailUseCase: GetArchiveDetailUseCase,
     uploadImageUseCase: UploadImageUseCase,
-    deleteImageUseCase: DeleteImageUseCase
+    deleteImageUseCase: DeleteImageUseCase,
+    uploadArchiveUseCase: UploadArchiveUseCase
   ) {
     self.getArchiveDetailUseCase = getArchiveDetailUseCase
     self.uploadImageUseCase = uploadImageUseCase
     self.deleteImageUseCase = deleteImageUseCase
+    self.uploadArchiveUseCase = uploadArchiveUseCase
     
     fetchArchives()
     uploadImageAndUpdateView()
