@@ -54,13 +54,28 @@ final class ArchiveUploadViewModel {
   
   // MARK: Subjects
   
+  /// diffable datasource를 위한 collectionView 세팅 서브젝트
   private let setCollectionViewSubject          = PublishSubject<UICollectionView>()
+  
+  /// 선택된 CollectionViewCell의 IndexPath를 받고 처리하는 서브젝트
   private let selectedCellIndexPathSubject      = PublishSubject<IndexPath>()
+  
+  /// PhotoBottomSheet로부터 받은 이미지를 받고 처리하는 서브젝트
   private let selectedImageSubject              = PublishSubject<UIImage>()
+  
+  /// HeaderView의 제목 textfield를 Input으로 받아 가공하는 서브젝트
   private let archiveTitleSubject               = BehaviorSubject<String>(value: "")
+  
+  /// 이미지 CollectionViewCell의 cancelButton이 눌렸을 때 해당 이미지를 받아 처리하는 서브젝트
   private let deleteImageURLSubject             = PublishSubject<String>()
+  
+  /// 현재 저장되어있는 이미지의 상태를 받고 처리하는 서브젝트
   private let imagesStateSubject                = PublishSubject<[String]>()
+  
+  /// 업로드 또는 수정 버튼이 눌렸을 때를 받고, 파이프라인을 구성할 서브젝트
   private let completeButtonTappedSubject       = PublishSubject<Void>()
+  
+  /// 해당 ViewModel을 갖고있는 ViewController가 pop되어야할 때를 알려주기 위한 서브젝트
   private let popViewControllerSubject          = PublishSubject<Void>()
   
   // MARK: Use Cases
