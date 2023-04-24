@@ -50,6 +50,8 @@ final class CommentInputView: UIView {
   
   private let profileImageView = UIImageView(image: .init(named: "userDefaultImage")).then {
     $0.contentMode = .scaleAspectFit
+    $0.clipsToBounds = true
+    $0.layer.cornerRadius = CGFloat(Size.initialStateHeight) * 0.5
   }
   
   private let textViewContainerView = UIStackView().then {
