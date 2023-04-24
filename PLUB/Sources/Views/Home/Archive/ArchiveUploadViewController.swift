@@ -123,6 +123,10 @@ final class ArchiveUploadViewController: BaseViewController {
         owner.present(photoBottomSheetVC, animated: true)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.buttonEnabledObservable
+      .bind(to: completeButton.rx.isEnabled)
+      .disposed(by: disposeBag)
   }
 }
 

@@ -26,6 +26,9 @@ protocol ArchiveUploadViewModelType {
   
   /// 사진 업로드를 위해 바텀시트를 보여주어야할 때 사용됩니다.
   var presentPhotoBottomSheetObservable: Observable<Void> { get }
+  
+  /// 수정 및 업로드 버튼의 활성화 유무를 판단합니다.
+  var buttonEnabledObservable: Observable<Bool> { get }
 }
 
 final class ArchiveUploadViewModel {
@@ -41,6 +44,7 @@ final class ArchiveUploadViewModel {
   private var archivesContents = [String]() {
     didSet {
       updateSnapshots()
+      imagesStateSubject.onNext(archivesContents)
     }
   }
   
@@ -51,6 +55,7 @@ final class ArchiveUploadViewModel {
   private let selectedImageSubject         = PublishSubject<UIImage>()
   private let archiveTitleSubject          = BehaviorSubject<String>(value: "")
   private let deleteImageURLSubject        = PublishSubject<String>()
+  private let imagesStateSubject           = PublishSubject<[String]>()
   
   // MARK: Use Cases
   
@@ -144,6 +149,12 @@ extension ArchiveUploadViewModel: ArchiveUploadViewModelType {
         self?.archivesContents.count == indexPath.item // `사진 추가`셀은 항상 마지막에 존재
       }
       .map { _ in Void() }
+  }
+  
+  var buttonEnabledObservable: Observable<Bool> {
+    .combineLatest(imagesStateSubject, archiveTitleSubject) {
+      !$0.isEmpty && !$1.isEmpty
+    }
   }
 }
 
