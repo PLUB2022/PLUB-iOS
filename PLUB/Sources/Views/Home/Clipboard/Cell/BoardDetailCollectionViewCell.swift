@@ -115,8 +115,15 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   
+  private let footerSeparatorLabel = UILabel().then {
+    $0.text = "|"
+    $0.textColor = .mediumGray
+    $0.font = .overLine
+    $0.setContentHuggingPriority(.required, for: .horizontal)
+  }
+  
   private let datetimeLabel = UILabel().then {
-    $0.text = "| 방금 전"
+    $0.text = "방금 전"
     $0.textColor = .mediumGray
     $0.font = .overLine
   }
@@ -160,7 +167,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     }
     authorIndicationView.addSubview(authorIndicationLabel)
     
-    [replyButton, datetimeLabel].forEach {
+    [replyButton, footerSeparatorLabel, datetimeLabel].forEach {
       footerStackView.addArrangedSubview($0)
     }
   }
