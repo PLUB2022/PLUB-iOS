@@ -23,7 +23,8 @@ final class BoardDetailViewModelWithFeedsFactory: BoardDetailViewModelFactory {
       getCommentsUseCase: DefaultGetCommentsUseCase(),
       postCommentUseCase: DefaultPostCommentUseCase(),
       deleteCommentUseCase: DefaultDeleteCommentUseCase(),
-      editCommentUseCase: DefaultEditCommentUseCase()
+      editCommentUseCase: DefaultEditCommentUseCase(),
+      likeFeedUseCase: DefaultLikeFeedUseCase()
     )
   }
 }
