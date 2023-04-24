@@ -242,6 +242,14 @@ extension MeetingViewController: MeetingCollectionViewCellDelegate {
   }
   
   func didTappedExportButton(plubbingID: Int) {
+    let vc = ExportViewController(
+      viewModel: ExportViewModel(
+        plubbingID: plubbingID,
+        inquireMeetingMemberUseCase: DefaultInquireMeetingMemberUseCase(),
+        exportMeetingMemberUseCase: DefaultExportMeetingMemberUseCase())
+    )
+    vc.hidesBottomBarWhenPushed = true
+    navigationController?.pushViewController(vc, animated: true)
   }
   
   func didTappedEndButton(plubbingID: Int) {
