@@ -43,7 +43,7 @@ extension AuthService {
     return sendRequest(AuthRouter.reissuanceAccessToken, type: TokenResponse.self)
   }
   
-  func logout() -> PLUBResult<EmptyModel> {
-    return sendRequest(AuthRouter.logout)
+  func logout() -> Observable<EmptyModel> {
+    return sendObservableRequest(AuthRouter.logout)
   }
 }
