@@ -229,7 +229,7 @@ final class SignUpViewModel: SignUpViewModelType {
     stateList[index] = state
   }
   
-  func signUp() -> Observable<Bool> {
+  func signUp() -> Observable<Void> {
     // 1. 지금까지 초기화된 request model 등록
     var requestObservable = Observable<SignUpRequest>.just(signUpRelay.value)
     
@@ -257,21 +257,10 @@ final class SignUpViewModel: SignUpViewModelType {
     
     // 3. Sign Up 실행
     return requestObservable
-      .debug("SignUp")
       .flatMap { AuthService.shared.signUpToPLUB(request: $0) }
-      .compactMap { result in
-        print(result)
-        switch result {
-        case let .success(response):
-          guard let accessToken = response.data?.accessToken,
-                let refreshToken = response.data?.refreshToken else {
-            fatalError("성공했는데 Token값이 들어있지 않습니다. 이 경우는 발생할 수 없습니다.")
-          }
-          UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
-          return true // 토큰 저장 성공
-        default:
-          return false // 회원가입 실패
-        }
+      .do { data in
+        UserManager.shared.updatePLUBToken(accessToken: data.accessToken, refreshToken: data.refreshToken)
       }
+      .map { _ in Void() }
   }
 }

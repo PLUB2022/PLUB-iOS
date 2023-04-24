@@ -35,8 +35,8 @@ extension AuthService {
     )
   }
   
-  func signUpToPLUB(request: SignUpRequest) -> PLUBResult<TokenResponse> {
-    return sendRequest(AuthRouter.signUpPLUB(request), type: TokenResponse.self)
+  func signUpToPLUB(request: SignUpRequest) -> Observable<TokenResponse> {
+    return sendObservableRequest(AuthRouter.signUpPLUB(request))
   }
   
   func reissuanceAccessToken() -> PLUBResult<TokenResponse> {
