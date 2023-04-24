@@ -95,20 +95,10 @@ extension UserManager {
   }
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
-  func reissuanceAccessToken() -> Observable<Bool> {
+  func reissuanceAccessToken() -> Observable<Void> {
     return AuthService.shared.reissuanceAccessToken()
-      .map { result in
-        switch result {
-        case .success(let tokenModel):
-          guard let accessToken = tokenModel.data?.accessToken,
-                let refreshToken = tokenModel.data?.refreshToken else {
-            return false // 토큰이 존재하지 않음
-          }
-          self.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
-          return true // 토큰 갱신 성공
-        default:
-          return false // 에러
-        }
+      .map { tokenData in
+        self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)
       }
   }
   

@@ -39,8 +39,8 @@ extension AuthService {
     return sendObservableRequest(AuthRouter.signUpPLUB(request))
   }
   
-  func reissuanceAccessToken() -> PLUBResult<TokenResponse> {
-    return sendRequest(AuthRouter.reissuanceAccessToken, type: TokenResponse.self)
+  func reissuanceAccessToken() -> Observable<TokenResponse> {
+    return sendObservableRequest(AuthRouter.reissuanceAccessToken)
   }
   
   func logout() -> Observable<EmptyModel> {
