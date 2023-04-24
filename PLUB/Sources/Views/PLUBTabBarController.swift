@@ -32,7 +32,7 @@ final class PLUBTabBarController: UITabBarController {
         }
       ),
       BaseNavigationController(
-        rootViewController: ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: 59)).then {
+        rootViewController: NotificationViewController(viewModel: NotificationViewModel()).then {
           $0.tabBarItem = UITabBarItem(title: "알림", image: UIImage(named: "bell24"), tag: 2)
         }
       ),
