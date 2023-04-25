@@ -200,32 +200,37 @@ extension LoginViewController {
   
   private func requestPLUBTokens(socialType: SocialType, token: String? = nil, authorizationCode: String? = nil) {
     AuthService.shared.requestAuth(socialType: socialType, token: token, authorizationCode: authorizationCode)
-      .withUnretained(self)
-      .subscribe(onNext: { owner, result in
-        switch result {
-        case .success(let model):
-          guard let accessToken  = model.data?.accessToken,
-                let refreshToken = model.data?.refreshToken else {
-            fatalError("성공이면서 디코딩도 완료된 상태이면 토큰이 없을 수가 없음")
-          }
-          // accessToken, refreshToken 업데이트
-          UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
-          (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = PLUBTabBarController()
-          
-        case .requestError(let model):
-          guard let signToken = model.data?.signToken else {
-            // TODO: 승현 - PLUB 로그인 실패 Alert 띄우기
-            return
-          }
-          // Signin token 업데이트 및 소셜로그인 타입 업데이트
-          UserManager.shared.set(signToken: signToken)
-          UserManager.shared.set(socialType: socialType)
-          owner.navigationController?.pushViewController(SignUpViewController(), animated: true)
-        case .networkError, .serverError, .pathError:
-          // TODO: 승현 - PLUB 에러 Alert 띄우기
-          break
+      .subscribe(with: self) { owner, tokenData in
+        
+        guard let accessToken  = tokenData.accessToken,
+              let refreshToken = tokenData.refreshToken
+        else {
+          fatalError("성공이면서 디코딩도 완료된 상태이면 토큰이 없을 수가 없음")
         }
-      })
+        
+        // accessToken, refreshToken 업데이트
+        UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: refreshToken)
+        
+        // == Logging ==
+        Log.notice("accessToken: \(accessToken)")
+        Log.notice("refreshToken: \(refreshToken)")
+        
+        // 플럽 메인 화면으로 이동
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = PLUBTabBarController()
+        
+      } onError: { owner, error in
+        guard let error = error as? PLUBError<GeneralResponse<SignInResponse>>,
+              case let .requestError(response) = error,
+              let signToken = response.data?.signToken
+        else {
+          // TODO: 승현 - PLUB 로그인 실패 Alert 띄우기
+          return
+        }
+        // Signin token 업데이트 및 소셜로그인 타입 업데이트
+        UserManager.shared.set(signToken: signToken)
+        UserManager.shared.set(socialType: socialType)
+        owner.navigationController?.pushViewController(SignUpViewController(), animated: true)
+      }
       .disposed(by: disposeBag)
   }
 }
