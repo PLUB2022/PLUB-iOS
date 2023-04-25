@@ -20,6 +20,7 @@ final class BoardDetailViewModelWithFeedsFactory: BoardDetailViewModelFactory {
     return BoardDetailViewModel(
       plubbingID: plubbingID,
       content: boardModel,
+      getFeedDetailUseCase: DefaultGetFeedDetailUseCase(plubbingID: plubbingID, feedID: boardModel.feedID),
       getCommentsUseCase: DefaultGetCommentsUseCase(),
       postCommentUseCase: DefaultPostCommentUseCase(),
       deleteCommentUseCase: DefaultDeleteCommentUseCase(),

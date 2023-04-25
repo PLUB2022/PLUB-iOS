@@ -72,6 +72,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   // MARK: Use Cases
   
+  private let getFeedDetailUseCase: GetFeedDetailUseCase
   private let getCommentsUseCase: GetCommentsUseCase
   private let postCommentUseCase: PostCommentUseCase
   private let deleteCommentUseCase: DeleteCommentUseCase
@@ -95,6 +96,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   init(
     plubbingID: Int,
     content: BoardModel,
+    getFeedDetailUseCase: GetFeedDetailUseCase,
     getCommentsUseCase: GetCommentsUseCase,
     postCommentUseCase: PostCommentUseCase,
     deleteCommentUseCase: DeleteCommentUseCase,
@@ -102,6 +104,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
     likeFeedUseCase: LikeFeedUseCase
   ) {
     self.content = content
+    self.getFeedDetailUseCase = getFeedDetailUseCase
     self.getCommentsUseCase   = getCommentsUseCase
     self.postCommentUseCase   = postCommentUseCase
     self.deleteCommentUseCase = deleteCommentUseCase
