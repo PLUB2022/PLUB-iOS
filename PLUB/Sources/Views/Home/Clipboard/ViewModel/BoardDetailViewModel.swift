@@ -256,7 +256,7 @@ extension BoardDetailViewModel {
         return (comment: comment, targetID: targetID)
       }
       .flatMap { [editCommentUseCase] in
-        editCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: $0.targetID, content: $0.comment)
+        editCommentUseCase.execute(commentID: $0.targetID, content: $0.comment)
       }
       .do(onNext: { [weak self] _ in
         self?.targetIDSubject.onNext(nil)
