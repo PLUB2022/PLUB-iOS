@@ -61,7 +61,9 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
     $0.spacing = 2
   }
   
-  private let heartImageView = UIImageView(image: .init(named: "heartFilled"))
+  private let heartButton = UIButton().then {
+    $0.setImage(.init(named: "heartFilled"), for: .normal)
+  }
   
   private let heartCountLabel = UILabel().then {
     $0.font = .overLine
@@ -157,7 +159,7 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
       boardsInfoStackView.addArrangedSubview($0)
     }
     
-    [heartImageView, heartCountLabel, commentImageView, commentCountLabel, settingButton].forEach {
+    [heartButton, heartCountLabel, commentImageView, commentCountLabel, settingButton].forEach {
       likeCommentStackView.addArrangedSubview($0)
     }
     
