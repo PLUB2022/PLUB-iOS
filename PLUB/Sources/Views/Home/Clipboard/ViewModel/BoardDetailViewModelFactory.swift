@@ -19,7 +19,6 @@ final class BoardDetailViewModelWithFeedsFactory: BoardDetailViewModelFactory {
   static func make(plubbingID: Int, boardModel: BoardModel) -> BoardDetailViewModel {
     let feedID = boardModel.feedID
     return BoardDetailViewModel(
-      plubbingID: plubbingID,
       content: boardModel,
       getFeedDetailUseCase: DefaultGetFeedDetailUseCase(plubbingID: plubbingID, feedID: feedID),
       getCommentsUseCase: DefaultGetCommentsUseCase(plubbingID: plubbingID, feedID: feedID),
