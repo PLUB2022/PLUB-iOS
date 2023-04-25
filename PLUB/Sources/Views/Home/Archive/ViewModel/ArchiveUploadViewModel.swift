@@ -283,7 +283,10 @@ private extension ArchiveUploadViewModel {
       return
     }
     
-    
+    // 함수가 끝나면 snapshot apply 적용
+    defer {
+      dataSource?.apply(snapshot)
+    }
     
     var uploadedItems = Set(snapshot.itemIdentifiers
       .compactMap { item -> String? in
@@ -300,10 +303,12 @@ private extension ArchiveUploadViewModel {
     let itemsToAdd = Set(archivesContents).subtracting(uploadedItems).map { Item.picture($0) }
     snapshot.appendItems(itemsToAdd)
     
-    snapshot.moveItem(addPictureItem, afterItem: snapshot.itemIdentifiers.last!)
+    guard let lastItem = snapshot.itemIdentifiers.last
+    else {
+      return
+    }
     
-    
-    dataSource?.apply(snapshot)
+    snapshot.moveItem(addPictureItem, afterItem: lastItem)
   }
 }
 
