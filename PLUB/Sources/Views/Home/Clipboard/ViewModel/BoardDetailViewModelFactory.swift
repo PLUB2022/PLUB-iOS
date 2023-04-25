@@ -26,7 +26,7 @@ final class BoardDetailViewModelWithFeedsFactory: BoardDetailViewModelFactory {
       postCommentUseCase: DefaultPostCommentUseCase(plubbingID: plubbingID, feedID: feedID),
       deleteCommentUseCase: DefaultDeleteCommentUseCase(plubbingID: plubbingID, feedID: feedID),
       editCommentUseCase: DefaultEditCommentUseCase(plubbingID: plubbingID, feedID: feedID),
-      likeFeedUseCase: DefaultLikeFeedUseCase()
+      likeFeedUseCase: DefaultLikeFeedUseCase(plubbingID: plubbingID, feedID: feedID)
     )
   }
 }

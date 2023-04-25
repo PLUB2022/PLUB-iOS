@@ -8,12 +8,20 @@
 import RxSwift
 
 protocol LikeFeedUseCase {
-  func execute(plubbingID: Int, feedID: Int) -> Observable<Void>
+  func execute() -> Observable<Void>
 }
 
 final class DefaultLikeFeedUseCase: LikeFeedUseCase {
   
-  func execute(plubbingID: Int, feedID: Int) -> Observable<Void> {
+  private let plubbingID: Int
+  private let feedID: Int
+  
+  init(plubbingID: Int, feedID: Int) {
+    self.plubbingID = plubbingID
+    self.feedID = feedID
+  }
+  
+  func execute() -> Observable<Void> {
     FeedsService.shared.likeFeed(plubbingID: plubbingID, feedID: feedID).map { _ in Void() }
   }
 }
