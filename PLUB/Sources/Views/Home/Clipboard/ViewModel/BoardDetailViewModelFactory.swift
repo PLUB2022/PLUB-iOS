@@ -22,7 +22,7 @@ final class BoardDetailViewModelWithFeedsFactory: BoardDetailViewModelFactory {
       plubbingID: plubbingID,
       content: boardModel,
       getFeedDetailUseCase: DefaultGetFeedDetailUseCase(plubbingID: plubbingID, feedID: feedID),
-      getCommentsUseCase: DefaultGetCommentsUseCase(),
+      getCommentsUseCase: DefaultGetCommentsUseCase(plubbingID: plubbingID, feedID: feedID),
       postCommentUseCase: DefaultPostCommentUseCase(),
       deleteCommentUseCase: DefaultDeleteCommentUseCase(plubbingID: plubbingID, feedID: feedID),
       editCommentUseCase: DefaultEditCommentUseCase(),

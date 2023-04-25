@@ -134,7 +134,7 @@ extension BoardDetailViewModel {
     
     // PagingManager를 이용하여 댓글을 가져옴
     let commentsObservable = pagingManager.fetchNextPage { [getCommentsUseCase] cursorID in
-      getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
+      getCommentsUseCase.execute(nextCursorID: cursorID)
     }
     
     // 첫 세팅 작업
@@ -196,7 +196,7 @@ extension BoardDetailViewModel {
       .flatMap { [weak self] _ -> Observable<[CommentContent]> in
         guard let self else { return .empty() }
         return self.pagingManager.fetchNextPage { cursorID in
-          self.getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
+          self.getCommentsUseCase.execute(nextCursorID: cursorID)
         }
       }
       .subscribe(with: self) { owner, contents in
