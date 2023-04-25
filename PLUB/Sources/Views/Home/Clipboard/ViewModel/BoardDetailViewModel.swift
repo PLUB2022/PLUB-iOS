@@ -165,7 +165,7 @@ extension BoardDetailViewModel {
         (comment: comment, parentID: parentID)
       }
       .flatMap { [postCommentUseCase] in
-        postCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, context: $0.comment, commentParentID: $0.parentID)
+        postCommentUseCase.execute(context: $0.comment, commentParentID: $0.parentID)
       }
       .filter { [weak self] _ in
         return self?.pagingManager.isLast ?? false
