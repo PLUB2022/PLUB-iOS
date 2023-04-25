@@ -212,7 +212,7 @@ extension BoardDetailViewModel {
   private func deleteComments(plubbingID: Int, content: BoardModel) {
     deleteIDSubject
       .flatMap { [deleteCommentUseCase] commentID in
-        deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
+        deleteCommentUseCase.execute(commentID: commentID)
       }
       .withLatestFrom(deleteIDSubject)
       .subscribe(with: self) { owner, commentID in

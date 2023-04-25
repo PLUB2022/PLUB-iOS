@@ -8,12 +8,20 @@
 import RxSwift
 
 protocol DeleteCommentUseCase {
-  func execute(plubbingID: Int, feedID: Int, commentID: Int) -> Observable<BaseService.EmptyModel>
+  func execute(commentID: Int) -> Observable<BaseService.EmptyModel>
 }
 
 final class DefaultDeleteCommentUseCase: DeleteCommentUseCase {
   
-  func execute(plubbingID: Int, feedID: Int, commentID: Int) -> Observable<BaseService.EmptyModel> {
+  private let plubbingID: Int
+  private let feedID: Int
+  
+  init(plubbingID: Int, feedID: Int) {
+    self.plubbingID = plubbingID
+    self.feedID = feedID
+  }
+  
+  func execute(commentID: Int) -> Observable<BaseService.EmptyModel> {
     FeedsService.shared.deleteComment(plubbingID: plubbingID, feedID: feedID, commentID: commentID)
   }
 }
