@@ -14,14 +14,15 @@ protocol GetArchiveDetailUseCase {
 final class DefaultGetArchiveDetailUseCase: GetArchiveDetailUseCase {
   
   private let plubbingID: Int
-  private let archiveID: Int
+  private let archiveID: Int?
   
-  init(plubbingID: Int, archiveID: Int) {
+  init(plubbingID: Int, archiveID: Int?) {
     self.plubbingID = plubbingID
     self.archiveID  = archiveID
   }
   
   func execute() -> Observable<ArchiveContent> {
-    ArchiveService.shared.fetchArchiveDetails(plubbingID: plubbingID, archiveID: archiveID)
+    guard let archiveID else { return .error(PLUBError<GeneralResponse<ArchiveContent>>.unknownedError) }
+    return ArchiveService.shared.fetchArchiveDetails(plubbingID: plubbingID, archiveID: archiveID)
   }
 }
