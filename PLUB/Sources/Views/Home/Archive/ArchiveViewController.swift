@@ -44,6 +44,7 @@ final class ArchiveViewController: BaseViewController {
   )
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
     $0.register(ArchiveCollectionViewCell.self, forCellWithReuseIdentifier: ArchiveCollectionViewCell.identifier)
   }
@@ -148,6 +149,13 @@ final class ArchiveViewController: BaseViewController {
           viewModel: ArchiveUploadViewModelWithUploadFactory.make(plubbingID: tuple.plubbingID)
         )
         owner.navigationController?.pushViewController(uploadVC, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    // 바텀시트를 보여줘야 하는 경우
+    viewModel.presentBottomSheetObservable
+      .subscribe(with: self) { owner, accessType in
+        
       }
       .disposed(by: disposeBag)
   }

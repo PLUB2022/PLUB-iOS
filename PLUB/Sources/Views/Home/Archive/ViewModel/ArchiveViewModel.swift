@@ -32,6 +32,9 @@ protocol ArchiveViewModelType {
   
   /// ArchiveUploadVC를 띄우기 위해 필요한 인자를 받습니다.
   var presentArchiveUploadObservable: Observable<(plubbingID: Int, archiveID: Int)> { get }
+  
+  /// ArchiveBottomSheetVC를 띄웁니다.
+  var presentBottomSheetObservable: Observable<(ArchiveContent.AccessType)> { get }
 }
 
 final class ArchiveViewModel {
@@ -61,6 +64,8 @@ final class ArchiveViewModel {
   private let selectedArchiveCellSubject  = PublishSubject<IndexPath>()
   private let offsetSubject               = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
   private let uploadButtonTappedSubject   = PublishSubject<Void>()
+  private let recentTappedArchiveSubject  = PublishSubject<Int>()
+  private let presentBottomSheetSubject   = PublishSubject<ArchiveContent.AccessType>()
   
   // MARK: - Initialization
   
@@ -158,6 +163,10 @@ extension ArchiveViewModel: ArchiveViewModelType {
       (plubbingID, 0) // 업로드 버튼은 archiveID를 쓰지 않으므로 임의의 값 0을 주입
     }
   }
+  
+  var presentBottomSheetObservable: Observable<(ArchiveContent.AccessType)> {
+    presentBottomSheetSubject.asObservable()
+  }
 }
 
 // MARK: - Diffable DataSources
@@ -217,6 +226,12 @@ extension ArchiveViewModel: ArchiveCollectionViewCellDelegate {
       Log.error("아카이브 설정 버튼이 눌렸는데, archiveID값을 전달받지 못했습니다.")
       return
     }
+    recentTappedArchiveSubject.onNext(archiveID)
     
+    guard let accessType = archiveContents.first(where: { $0.archiveID == archiveID })?.accessType
+    else {
+      return
+    }
+    presentBottomSheetSubject.onNext(accessType)
   }
 }
