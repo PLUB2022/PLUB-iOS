@@ -25,6 +25,9 @@ protocol ArchiveViewModelType {
   /// 업로드 버튼이 눌렸을 때를 인지하기 위한 Observer입니다.
   var uploadButtonObserver: AnyObserver<Void> { get }
   
+  /// Bottom Sheet로부터 선택된 버튼 타입을 방출하는 Observer입니다.
+  var bottomSheetTypeObserver: AnyObserver<ArchiveBottomSheetViewController.SelectedType> { get }
+  
   // Output
   
   /// ArchivePopUpVC를 처리하는데 필요한 인자를 받습니다.
@@ -66,6 +69,7 @@ final class ArchiveViewModel {
   private let uploadButtonTappedSubject   = PublishSubject<Void>()
   private let recentTappedArchiveSubject  = PublishSubject<Int>()
   private let presentBottomSheetSubject   = PublishSubject<ArchiveContent.AccessType>()
+  private let bottomSheetTypeSubject      = PublishSubject<ArchiveBottomSheetViewController.SelectedType>()
   
   // MARK: - Initialization
   
@@ -149,6 +153,10 @@ extension ArchiveViewModel: ArchiveViewModelType {
   
   var uploadButtonObserver: AnyObserver<Void> {
     uploadButtonTappedSubject.asObserver()
+  }
+  
+  var bottomSheetTypeObserver: AnyObserver<ArchiveBottomSheetViewController.SelectedType> {
+    bottomSheetTypeSubject.asObserver()
   }
   
   // MARK: Output

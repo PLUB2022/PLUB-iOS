@@ -155,9 +155,19 @@ final class ArchiveViewController: BaseViewController {
     // 바텀시트를 보여줘야 하는 경우
     viewModel.presentBottomSheetObservable
       .subscribe(with: self) { owner, accessType in
-        
+        let bottomSheetVC = ArchiveBottomSheetViewController(accessType: accessType)
+        bottomSheetVC.delegate = owner
+        owner.present(bottomSheetVC, animated: true)
       }
       .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - ArchiveBottomSheetDelegate
+
+extension ArchiveViewController: ArchiveBottomSheetDelegate {
+  func buttonTapped(type: ArchiveBottomSheetViewController.SelectedType) {
+    viewModel.bottomSheetTypeObserver.onNext(type)
   }
 }
 
