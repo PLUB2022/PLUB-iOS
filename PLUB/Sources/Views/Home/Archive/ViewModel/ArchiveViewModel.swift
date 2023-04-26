@@ -175,7 +175,8 @@ extension ArchiveViewModel {
   func setCollectionView(_ collectionView: UICollectionView) {
     
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
-    let registration = CellRegistration { cell, _, item in
+    let registration = CellRegistration { [weak self] cell, _, item in
+      cell.delegate = self
       cell.configure(with: item)
     }
     
@@ -205,5 +206,17 @@ extension ArchiveViewModel {
     snapshot.appendItems(Array(archiveContents[index...]))
     
     dataSource?.apply(snapshot)
+  }
+}
+
+// MARK: - ArchiveCollectionViewCellDelegate
+
+extension ArchiveViewModel: ArchiveCollectionViewCellDelegate {
+  func settingButtonTapped(archiveID: Int?) {
+    guard let archiveID else {
+      Log.error("아카이브 설정 버튼이 눌렸는데, archiveID값을 전달받지 못했습니다.")
+      return
+    }
+    
   }
 }
