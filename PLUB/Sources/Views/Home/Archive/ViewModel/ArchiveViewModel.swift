@@ -63,13 +63,13 @@ final class ArchiveViewModel {
   
   // MARK: Subjects
   
-  private let setCollectionViewSubject    = PublishSubject<UICollectionView>()
-  private let selectedArchiveCellSubject  = PublishSubject<IndexPath>()
-  private let offsetSubject               = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
-  private let uploadButtonTappedSubject   = PublishSubject<Void>()
-  private let recentTappedArchiveSubject  = PublishSubject<Int>()
-  private let presentBottomSheetSubject   = PublishSubject<ArchiveContent.AccessType>()
-  private let bottomSheetTypeSubject      = PublishSubject<ArchiveBottomSheetViewController.SelectedType>()
+  private let setCollectionViewSubject      = PublishSubject<UICollectionView>()
+  private let selectedArchiveCellSubject    = PublishSubject<IndexPath>()
+  private let offsetSubject                 = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
+  private let uploadButtonTappedSubject     = PublishSubject<Void>()
+  private let recentTappedArchiveIDSubject  = PublishSubject<Int>()
+  private let presentBottomSheetSubject     = PublishSubject<ArchiveContent.AccessType>()
+  private let bottomSheetTypeSubject        = PublishSubject<ArchiveBottomSheetViewController.SelectedType>()
   
   // MARK: - Initialization
   
@@ -234,7 +234,7 @@ extension ArchiveViewModel: ArchiveCollectionViewCellDelegate {
       Log.error("아카이브 설정 버튼이 눌렸는데, archiveID값을 전달받지 못했습니다.")
       return
     }
-    recentTappedArchiveSubject.onNext(archiveID)
+    recentTappedArchiveIDSubject.onNext(archiveID)
     
     guard let accessType = archiveContents.first(where: { $0.archiveID == archiveID })?.accessType
     else {
