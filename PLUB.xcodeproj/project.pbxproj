@@ -239,6 +239,7 @@
 		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
 		BADCB3F229F6A008000B43D6 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */; };
 		BADCB3F329F6A008000B43D6 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3F129F6A008000B43D6 /* NotificationViewModel.swift */; };
+		BADD8B4429F81B3300C93C4A /* NotificationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD8B4329F81B3300C93C4A /* NotificationCollectionViewCell.swift */; };
 		BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */; };
 		BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */; };
 		BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */; };
@@ -617,6 +618,7 @@
 		BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BADCB3F129F6A008000B43D6 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		BADD8B4329F81B3300C93C4A /* NotificationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCollectionViewCell.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
 		BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
@@ -1591,6 +1593,7 @@
 		BADCB3EF29F69FFB000B43D6 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				BADD8B4329F81B3300C93C4A /* NotificationCollectionViewCell.swift */,
 				BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */,
 				BADCB3F129F6A008000B43D6 /* NotificationViewModel.swift */,
 			);
@@ -2491,6 +2494,7 @@
 				BA340E2529782356002BAF2C /* ProfileViewController.swift in Sources */,
 				70A4208B298535D10026E9F9 /* SearchInputViewModel.swift in Sources */,
 				C3AB743F296B21C1003DD5E2 /* MeetingDateViewController.swift in Sources */,
+				BADD8B4429F81B3300C93C4A /* NotificationCollectionViewCell.swift in Sources */,
 				BA1D4A7529A9D9EA00CBBCC6 /* ClipboardViewModel.swift in Sources */,
 				C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */,
 				C34F07F3297DAFD900C91E90 /* AddQuestionTableViewCell.swift in Sources */,
