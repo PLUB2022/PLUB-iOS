@@ -50,6 +50,30 @@ extension UIButton.Configuration {
     return style
   }
   
+  /// 검색 조건 필터링 또는 알림 필터링에 들어갈 버튼입니다.
+  ///
+  /// PLUB Main 색으로 테두리와 title 오른쪽에 아래 화살표 이미지로 구성되어있습니다.
+  /// - Parameter title: 버튼 내부에 들어갈 title
+  static func plubFilterButton(title: String) -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.strokeColor = .main
+      $0.strokeWidth = 1
+      $0.strokeOutset = -1 // inside 1px
+    }
+    style.cornerStyle = .capsule
+    
+    style.image = .init(named: "filledTriangleDown")
+    style.imagePlacement = .trailing
+    
+    style.contentInsets = .init(top: 2, leading: 12, bottom: 2, trailing: 4)
+    style.baseForegroundColor = .main
+    style.title = title
+    style.font = .caption
+    return style
+  }
+  
   private static func listDeselected() -> UIButton.Configuration {
     var style = UIButton.Configuration.plain()
     
