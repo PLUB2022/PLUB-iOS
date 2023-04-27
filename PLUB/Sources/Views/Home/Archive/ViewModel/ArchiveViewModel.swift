@@ -25,6 +25,9 @@ protocol ArchiveViewModelType {
   /// 업로드 버튼이 눌렸을 때를 인지하기 위한 Observer입니다.
   var uploadButtonObserver: AnyObserver<Void> { get }
   
+  /// Bottom Sheet로부터 선택된 버튼 타입을 방출하는 Observer입니다.
+  var bottomSheetTypeObserver: AnyObserver<ArchiveBottomSheetViewController.SelectedType> { get }
+  
   // Output
   
   /// ArchivePopUpVC를 처리하는데 필요한 인자를 받습니다.
@@ -32,6 +35,9 @@ protocol ArchiveViewModelType {
   
   /// ArchiveUploadVC를 띄우기 위해 필요한 인자를 받습니다.
   var presentArchiveUploadObservable: Observable<(plubbingID: Int, archiveID: Int)> { get }
+  
+  /// ArchiveBottomSheetVC를 띄웁니다.
+  var presentBottomSheetObservable: Observable<(ArchiveContent.AccessType)> { get }
 }
 
 final class ArchiveViewModel {
@@ -57,10 +63,13 @@ final class ArchiveViewModel {
   
   // MARK: Subjects
   
-  private let setCollectionViewSubject    = PublishSubject<UICollectionView>()
-  private let selectedArchiveCellSubject  = PublishSubject<IndexPath>()
-  private let offsetSubject               = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
-  private let uploadButtonTappedSubject   = PublishSubject<Void>()
+  private let setCollectionViewSubject      = PublishSubject<UICollectionView>()
+  private let selectedArchiveCellSubject    = PublishSubject<IndexPath>()
+  private let offsetSubject                 = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
+  private let uploadButtonTappedSubject     = PublishSubject<Void>()
+  private let recentTappedArchiveIDSubject  = PublishSubject<Int>()
+  private let presentBottomSheetSubject     = PublishSubject<ArchiveContent.AccessType>()
+  private let bottomSheetTypeSubject        = PublishSubject<ArchiveBottomSheetViewController.SelectedType>()
   
   // MARK: - Initialization
   
@@ -146,6 +155,10 @@ extension ArchiveViewModel: ArchiveViewModelType {
     uploadButtonTappedSubject.asObserver()
   }
   
+  var bottomSheetTypeObserver: AnyObserver<ArchiveBottomSheetViewController.SelectedType> {
+    bottomSheetTypeSubject.asObserver()
+  }
+  
   // MARK: Output
   
   var presentArchivePopUpObservable: Observable<(plubbingID: Int, archiveID: Int)> {
@@ -157,6 +170,10 @@ extension ArchiveViewModel: ArchiveViewModelType {
     uploadButtonTappedSubject.compactMap { [plubbingID] _ in
       (plubbingID, 0) // 업로드 버튼은 archiveID를 쓰지 않으므로 임의의 값 0을 주입
     }
+  }
+  
+  var presentBottomSheetObservable: Observable<(ArchiveContent.AccessType)> {
+    presentBottomSheetSubject.asObservable()
   }
 }
 
@@ -175,7 +192,8 @@ extension ArchiveViewModel {
   func setCollectionView(_ collectionView: UICollectionView) {
     
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
-    let registration = CellRegistration { cell, _, item in
+    let registration = CellRegistration { [weak self] cell, _, item in
+      cell.delegate = self
       cell.configure(with: item)
     }
     
@@ -205,5 +223,23 @@ extension ArchiveViewModel {
     snapshot.appendItems(Array(archiveContents[index...]))
     
     dataSource?.apply(snapshot)
+  }
+}
+
+// MARK: - ArchiveCollectionViewCellDelegate
+
+extension ArchiveViewModel: ArchiveCollectionViewCellDelegate {
+  func settingButtonTapped(archiveID: Int?) {
+    guard let archiveID else {
+      Log.error("아카이브 설정 버튼이 눌렸는데, archiveID값을 전달받지 못했습니다.")
+      return
+    }
+    recentTappedArchiveIDSubject.onNext(archiveID)
+    
+    guard let accessType = archiveContents.first(where: { $0.archiveID == archiveID })?.accessType
+    else {
+      return
+    }
+    presentBottomSheetSubject.onNext(accessType)
   }
 }

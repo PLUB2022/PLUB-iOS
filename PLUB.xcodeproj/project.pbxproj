@@ -241,6 +241,7 @@
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAC9794529CF0E9E00A5DF1B /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */; };
 		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
+		BADD8B4629F907F700C93C4A /* ArchiveBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD8B4529F907F700C93C4A /* ArchiveBottomSheetViewController.swift */; };
 		BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */; };
 		BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */; };
 		BAE0AC7729B5D67D00F46F3D /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7529B5D67D00F46F3D /* BoardDetailViewModel.swift */; };
@@ -621,6 +622,7 @@
 		BAC8930829755B87000D44E2 /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		BAC923DE29546BF500385841 /* BirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewController.swift; sourceTree = "<group>"; };
 		BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
+		BADD8B4529F907F700C93C4A /* ArchiveBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveBottomSheetViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
 		BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
@@ -1347,6 +1349,7 @@
 			isa = PBXGroup;
 			children = (
 				BA57F3FC29ED5D6600A9F790 /* ArchiveUploadHeaderView.swift */,
+				BADD8B4529F907F700C93C4A /* ArchiveBottomSheetViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2630,6 +2633,7 @@
 				C3E98EAD2974759800E36C45 /* MeetingNameViewModel.swift in Sources */,
 				C3ED8FB72989B87E002F689B /* CreateMeetingResponse.swift in Sources */,
 				BA88125028E48A2F00BD832A /* SceneDelegate.swift in Sources */,
+				BADD8B4629F907F700C93C4A /* ArchiveBottomSheetViewController.swift in Sources */,
 				C344E5412986B9D7009F73A9 /* MeetingCategoryViewModel.swift in Sources */,
 				BA4BD1AE29D6C4A800334C04 /* PagingManager.swift in Sources */,
 				7028770929AA6B3D00E57509 /* CategoryMeetingRequest.swift in Sources */,
