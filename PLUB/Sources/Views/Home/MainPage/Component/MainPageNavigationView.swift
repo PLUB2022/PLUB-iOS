@@ -10,14 +10,21 @@ import UIKit
 import SnapKit
 import Then
 
-class MainPageNavigationView: UIStackView {
+protocol MainPageNavigationViewDelegate: AnyObject {
+  func didTappedArchiveButton()
+}
+
+final class MainPageNavigationView: UIStackView {
+  
+  weak var delegate: MainPageNavigationViewDelegate?
   
   private let speakerBlack = UIButton().then {
     $0.setImage(UIImage(named: "speakerBlack"), for: .normal)
   }
   
-  private let photoStackBlack = UIButton().then {
+  private let archiveButton = UIButton().then {
     $0.setImage(UIImage(named: "photoStackBlack"), for: .normal)
+    $0.addTarget(self, action: #selector(didTappedArchiveButton), for: .touchUpInside)
   }
   
   private let verticalEllipsisBlack = UIButton().then {
@@ -34,6 +41,10 @@ class MainPageNavigationView: UIStackView {
   }
   
   private func configureUI() {
-    [speakerBlack, photoStackBlack, verticalEllipsisBlack].forEach { addArrangedSubview($0) }
+    [speakerBlack, archiveButton, verticalEllipsisBlack].forEach { addArrangedSubview($0) }
+  }
+  
+  @objc private func didTappedArchiveButton() {
+    delegate?.didTappedArchiveButton()
   }
 }

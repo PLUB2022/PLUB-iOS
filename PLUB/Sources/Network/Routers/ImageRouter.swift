@@ -10,7 +10,7 @@ import Alamofire
 enum ImageRouter {
   case uploadImage
   case updateImage
-  case deleteImage
+  case deleteImage(String, ImageType)
 }
 
 extension ImageRouter: Router {
@@ -37,8 +37,10 @@ extension ImageRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case .uploadImage, .updateImage, .deleteImage:
+    case .uploadImage, .updateImage:
       return .plain
+    case let .deleteImage(fileURL, imageType):
+      return .query(["fileUrl": fileURL, "type": imageType.rawValue])
     }
   }
   

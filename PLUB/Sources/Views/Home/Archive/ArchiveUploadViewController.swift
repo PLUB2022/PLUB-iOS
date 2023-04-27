@@ -115,6 +115,28 @@ final class ArchiveUploadViewController: BaseViewController {
     collectionView.delegate = self
     
     viewModel.collectionViewObserver.onNext(collectionView)
+    
+    viewModel.presentPhotoBottomSheetObservable
+      .subscribe(with: self) { owner, _ in
+        let photoBottomSheetVC = PhotoBottomSheetViewController()
+        photoBottomSheetVC.delegate = owner
+        owner.present(photoBottomSheetVC, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.buttonEnabledObservable
+      .bind(to: completeButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    completeButton.rx.tap
+      .bind(to: viewModel.completeButtonTappedObserver)
+      .disposed(by: disposeBag)
+    
+    viewModel.popViewControllerObservable
+      .subscribe(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -147,6 +169,14 @@ extension ArchiveUploadViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     viewModel.selectedCellIndexPathObserver.onNext(indexPath)
     collectionView.deselectItem(at: indexPath, animated: true)
+  }
+}
+
+// MARK: - PhotoBottomSheetDelegate
+
+extension ArchiveUploadViewController: PhotoBottomSheetDelegate {
+  func selectImage(image: UIImage) {
+    viewModel.selectedImageObserver.onNext(image)
   }
 }
 

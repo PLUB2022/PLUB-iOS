@@ -13,11 +13,21 @@ import RxCocoa
 import SnapKit
 import Then
 
+protocol ArchiveCollectionViewCellDelegate: AnyObject {
+  func settingButtonTapped(archiveID: Int?)
+}
+
 final class ArchiveCollectionViewCell: UICollectionViewCell {
   
   // MARK: - Properties
   
   static let identifier = "\(ArchiveCollectionViewCell.self)"
+  
+  private var archiveID: Int?
+  
+  weak var delegate: ArchiveCollectionViewCellDelegate?
+  
+  private let disposeBag = DisposeBag()
   
   // MARK: - UI Components
   
@@ -109,7 +119,7 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     super.init(frame: frame)
     setupLayouts()
     setupConstraints()
-    setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -205,8 +215,12 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  private func setupStyles() {
-    
+  private func bind() {
+    settingButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.settingButtonTapped(archiveID: owner.archiveID)
+      }
+      .disposed(by: disposeBag)
   }
   
   func configure(with model: ArchiveContent) {
@@ -224,6 +238,9 @@ final class ArchiveCollectionViewCell: UICollectionViewCell {
       imageView.isHidden = false
       imageView.kf.setImage(with: URL(string: urlString))
     }
+    
+    // inject archiveID
+    archiveID = model.archiveID
   }
   
   

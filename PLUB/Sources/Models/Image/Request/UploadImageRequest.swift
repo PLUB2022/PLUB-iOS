@@ -22,4 +22,7 @@ enum ImageType: String, Codable {
   
   /// 게시판 이미지
   case feed
+  
+  /// 아카이브 이미지
+  case archive
 }

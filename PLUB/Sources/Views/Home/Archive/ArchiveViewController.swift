@@ -44,6 +44,7 @@ final class ArchiveViewController: BaseViewController {
   )
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    $0.showsVerticalScrollIndicator = false
     $0.backgroundColor = .background
     $0.register(ArchiveCollectionViewCell.self, forCellWithReuseIdentifier: ArchiveCollectionViewCell.identifier)
   }
@@ -150,6 +151,23 @@ final class ArchiveViewController: BaseViewController {
         owner.navigationController?.pushViewController(uploadVC, animated: true)
       }
       .disposed(by: disposeBag)
+    
+    // 바텀시트를 보여줘야 하는 경우
+    viewModel.presentBottomSheetObservable
+      .subscribe(with: self) { owner, accessType in
+        let bottomSheetVC = ArchiveBottomSheetViewController(accessType: accessType)
+        bottomSheetVC.delegate = owner
+        owner.present(bottomSheetVC, animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - ArchiveBottomSheetDelegate
+
+extension ArchiveViewController: ArchiveBottomSheetDelegate {
+  func buttonTapped(type: ArchiveBottomSheetViewController.SelectedType) {
+    viewModel.bottomSheetTypeObserver.onNext(type)
   }
 }
 

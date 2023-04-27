@@ -21,8 +21,8 @@ extension AuthService {
     socialType: SocialType,
     token: String?,
     authorizationCode: String?
-  ) -> PLUBResult<SignInResponse> {
-    return sendRequest(
+  ) -> Observable<SignInResponse> {
+    return sendObservableRequest(
       AuthRouter.socialLogin(
         SignInRequest(
           fcmToken: UserManager.shared.fcmToken ?? "",
@@ -30,20 +30,19 @@ extension AuthService {
           authorizationCode: authorizationCode,
           socialType: socialType
         )
-      ),
-      type: SignInResponse.self
+      )
     )
   }
   
-  func signUpToPLUB(request: SignUpRequest) -> PLUBResult<TokenResponse> {
-    return sendRequest(AuthRouter.signUpPLUB(request), type: TokenResponse.self)
+  func signUpToPLUB(request: SignUpRequest) -> Observable<TokenResponse> {
+    return sendObservableRequest(AuthRouter.signUpPLUB(request))
   }
   
-  func reissuanceAccessToken() -> PLUBResult<TokenResponse> {
-    return sendRequest(AuthRouter.reissuanceAccessToken, type: TokenResponse.self)
+  func reissuanceAccessToken() -> Observable<TokenResponse> {
+    return sendObservableRequest(AuthRouter.reissuanceAccessToken)
   }
   
-  func logout() -> PLUBResult<EmptyModel> {
-    return sendRequest(AuthRouter.logout)
+  func logout() -> Observable<EmptyModel> {
+    return sendObservableRequest(AuthRouter.logout)
   }
 }
