@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ant-design_heart-filled.png",
+      "filename" : "heart.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ant-design_heart-filled@2x.png",
+      "filename" : "heart@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ant-design_heart-filled@3x.png",
+      "filename" : "heart@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

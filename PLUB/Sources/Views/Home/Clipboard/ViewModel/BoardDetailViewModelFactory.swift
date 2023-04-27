@@ -17,13 +17,15 @@ final class BoardDetailViewModelWithFeedsFactory: BoardDetailViewModelFactory {
   private init() { }
   
   static func make(plubbingID: Int, boardModel: BoardModel) -> BoardDetailViewModel {
+    let feedID = boardModel.feedID
     return BoardDetailViewModel(
-      plubbingID: plubbingID,
       content: boardModel,
-      getCommentsUseCase: DefaultGetCommentsUseCase(),
-      postCommentUseCase: DefaultPostCommentUseCase(),
-      deleteCommentUseCase: DefaultDeleteCommentUseCase(),
-      editCommentUseCase: DefaultEditCommentUseCase()
+      getFeedDetailUseCase: DefaultGetFeedDetailUseCase(plubbingID: plubbingID, feedID: feedID),
+      getCommentsUseCase: DefaultGetCommentsUseCase(plubbingID: plubbingID, feedID: feedID),
+      postCommentUseCase: DefaultPostCommentUseCase(plubbingID: plubbingID, feedID: feedID),
+      deleteCommentUseCase: DefaultDeleteCommentUseCase(plubbingID: plubbingID, feedID: feedID),
+      editCommentUseCase: DefaultEditCommentUseCase(plubbingID: plubbingID, feedID: feedID),
+      likeFeedUseCase: DefaultLikeFeedUseCase(plubbingID: plubbingID, feedID: feedID)
     )
   }
 }

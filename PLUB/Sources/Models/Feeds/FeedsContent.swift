@@ -102,6 +102,9 @@ struct FeedsContent: Codable {
   /// 호스트인지 아닌지를 나타냅니다.
   let isHost: Bool
   
+  /// 유저가 게시글에 좋아요를 눌렀는지 여부를 판단합니다.
+  let isLike: Bool?
+  
   enum CodingKeys: String, CodingKey {
     case viewType
     case title
@@ -112,6 +115,7 @@ struct FeedsContent: Codable {
     case plubbingName
     case isAuthor
     case isHost
+    case isLike
     case feedImageURL = "feedImage"
     case profileImageURL = "profileImage"
     case feedID = "feedId"

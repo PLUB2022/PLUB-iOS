@@ -61,7 +61,9 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
     $0.spacing = 2
   }
   
-  private let heartImageView = UIImageView(image: .init(named: "heartFilled"))
+  private let heartButton = UIButton().then {
+    $0.setImage(.init(named: "heartFilled"), for: .normal)
+  }
   
   private let heartCountLabel = UILabel().then {
     $0.font = .overLine
@@ -157,7 +159,7 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
       boardsInfoStackView.addArrangedSubview($0)
     }
     
-    [heartImageView, heartCountLabel, commentImageView, commentCountLabel, settingButton].forEach {
+    [heartButton, heartCountLabel, commentImageView, commentCountLabel, settingButton].forEach {
       likeCommentStackView.addArrangedSubview($0)
     }
     
@@ -177,16 +179,10 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
       $0.height.equalTo(32)
     }
     
-    profileImageView.snp.makeConstraints {
-      $0.size.equalTo(24)
-    }
-    
-    settingButton.snp.makeConstraints {
-      $0.size.equalTo(24)
-    }
-    
-    commentImageViewFooter.snp.makeConstraints {
-      $0.size.equalTo(24)
+    [profileImageView, heartButton, settingButton, commentImageViewFooter].forEach {
+      $0.snp.makeConstraints {
+        $0.size.equalTo(Size.assetSize)
+      }
     }
     
     contentImageView.snp.makeConstraints {
@@ -224,5 +220,13 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
       contentImageView.kf.setImage(with: URL(string: contentImageLink)!)
     }
     commentLabel.text = "달린 댓글 \(model.commentCount)"
+  }
+}
+
+// MARK: - Constants
+
+extension BoardDetailCollectionHeaderView {
+  enum Size {
+    static let assetSize = 24
   }
 }

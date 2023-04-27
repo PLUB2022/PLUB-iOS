@@ -179,6 +179,7 @@
 		BA5DEB3329751E5F00650788 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA5DEB3229751E5F00650788 /* GoogleSignIn */; };
 		BA5EC6C629EFD4E5000A68B7 /* EditCommentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC6C529EFD4E5000A68B7 /* EditCommentUseCase.swift */; };
 		BA5EC6CD29F167D7000A68B7 /* BoardDetailViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EC6CC29F167D7000A68B7 /* BoardDetailViewModelFactory.swift */; };
+		BA5F050229F7D26500A3FA14 /* GetFeedDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5F050129F7D26500A3FA14 /* GetFeedDetailUseCase.swift */; };
 		BA6D7C5329A7D46900D8E928 /* CommentsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D7C5229A7D46900D8E928 /* CommentsRequest.swift */; };
 		BA7255C12992445600A3E8F5 /* PLUBTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */; };
 		BA72BCF029BB03FF007165E5 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA72BCEF29BB03FF007165E5 /* BaseNavigationController.swift */; };
@@ -241,6 +242,7 @@
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAC9794529CF0E9E00A5DF1B /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */; };
 		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
+		BADCB3EE29F6683E000B43D6 /* LikeFeedUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */; };
 		BADD8B4629F907F700C93C4A /* ArchiveBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD8B4529F907F700C93C4A /* ArchiveBottomSheetViewController.swift */; };
 		BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */; };
 		BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */; };
@@ -565,6 +567,7 @@
 		BA5DEB2F2974D8E200650788 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		BA5EC6C529EFD4E5000A68B7 /* EditCommentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditCommentUseCase.swift; path = PLUB/Sources/UseCases/Feeds/EditCommentUseCase.swift; sourceTree = SOURCE_ROOT; };
 		BA5EC6CC29F167D7000A68B7 /* BoardDetailViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModelFactory.swift; sourceTree = "<group>"; };
+		BA5F050129F7D26500A3FA14 /* GetFeedDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedDetailUseCase.swift; sourceTree = "<group>"; };
 		BA6D7C5229A7D46900D8E928 /* CommentsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsRequest.swift; sourceTree = "<group>"; };
 		BA7255C02992445600A3E8F5 /* PLUBTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLUBTabBarController.swift; sourceTree = "<group>"; };
 		BA72BCEF29BB03FF007165E5 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
@@ -622,6 +625,7 @@
 		BAC8930829755B87000D44E2 /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		BAC923DE29546BF500385841 /* BirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewController.swift; sourceTree = "<group>"; };
 		BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
+		BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeFeedUseCase.swift; sourceTree = "<group>"; };
 		BADD8B4529F907F700C93C4A /* ArchiveBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveBottomSheetViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
 		BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1301,6 +1305,8 @@
 				BA57F3F529ED30D200A9F790 /* DeleteCommentUseCase.swift */,
 				BA5EC6C529EFD4E5000A68B7 /* EditCommentUseCase.swift */,
 				BAB2E56D29E30F96006B7BDC /* GetCommentsUseCase.swift */,
+				BA5F050129F7D26500A3FA14 /* GetFeedDetailUseCase.swift */,
+				BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */,
 				BAB2E56B29E30A13006B7BDC /* PostCommentUseCase.swift */,
 			);
 			path = Feeds;
@@ -2352,6 +2358,7 @@
 				C3100CBF29BD94FF005FCCAD /* MyPageTableViewCell.swift in Sources */,
 				C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */,
 				70197B7F29549C56000503F6 /* SelectedCategoryViewModel.swift in Sources */,
+				BADCB3EE29F6683E000B43D6 /* LikeFeedUseCase.swift in Sources */,
 				BAF54B7B29487CE900C59FBA /* PolicyViewModel.swift in Sources */,
 				BA1FC12729A5E1D900AB3F91 /* FeedsContent.swift in Sources */,
 				C344E53F2986B938009F73A9 /* MeetingCategoryViewController.swift in Sources */,
@@ -2402,6 +2409,7 @@
 				BA5D9ED529E3EE7400F06AB5 /* ArchiveRequest.swift in Sources */,
 				7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */,
 				C3B3435429BE3A1400935B73 /* MyPageRouter.swift in Sources */,
+				BA5F050229F7D26500A3FA14 /* GetFeedDetailUseCase.swift in Sources */,
 				BA780E0F297138F10032C178 /* HeaderType.swift in Sources */,
 				C385D10F29894BF200EF88EC /* CreateMeetingViewModel.swift in Sources */,
 				C333EEB929F45A7E00B3F84E /* ExportViewController.swift in Sources */,
