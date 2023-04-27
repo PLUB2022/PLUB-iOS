@@ -72,10 +72,12 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   
   // MARK: Use Cases
   
+  private let getFeedDetailUseCase: GetFeedDetailUseCase
   private let getCommentsUseCase: GetCommentsUseCase
   private let postCommentUseCase: PostCommentUseCase
   private let deleteCommentUseCase: DeleteCommentUseCase
   private let editCommentUseCase: EditCommentUseCase
+  private let likeFeedUseCase: LikeFeedUseCase
   
   // MARK: Subjects
   
@@ -92,24 +94,27 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   // MARK: - Initializations
   
   init(
-    plubbingID: Int,
     content: BoardModel,
+    getFeedDetailUseCase: GetFeedDetailUseCase,
     getCommentsUseCase: GetCommentsUseCase,
     postCommentUseCase: PostCommentUseCase,
     deleteCommentUseCase: DeleteCommentUseCase,
-    editCommentUseCase: EditCommentUseCase
+    editCommentUseCase: EditCommentUseCase,
+    likeFeedUseCase: LikeFeedUseCase
   ) {
     self.content = content
+    self.getFeedDetailUseCase = getFeedDetailUseCase
     self.getCommentsUseCase   = getCommentsUseCase
     self.postCommentUseCase   = postCommentUseCase
     self.deleteCommentUseCase = deleteCommentUseCase
     self.editCommentUseCase   = editCommentUseCase
+    self.likeFeedUseCase      = likeFeedUseCase
     
-    fetchComments(plubbingID: plubbingID, content: content)
-    createComments(plubbingID: plubbingID, content: content)
-    pagingSetup(plubbingID: plubbingID, content: content)
-    deleteComments(plubbingID: plubbingID, content: content)
-    editComments(plubbingID: plubbingID, content: content)
+    fetchComments()
+    createComments()
+    pagingSetup()
+    deleteComments()
+    editComments()
   }
   
   private let disposeBag = DisposeBag()
@@ -120,15 +125,11 @@ final class BoardDetailViewModel: BoardDetailDataStore {
 extension BoardDetailViewModel {
   
   /// 댓글 정보를 가져와 초기 상태의 UI를 업데이트합니다.
-  /// - Parameters:
-  ///   - plubbingID: 플러빙 ID
-  ///   - content: 게시글 컨텐츠 모델
-  ///   - collectionViewObservable: 게시글 UI에 사용되는 CollectionView Observable
-  private func fetchComments(plubbingID: Int, content: BoardModel) {
+  private func fetchComments() {
     
     // PagingManager를 이용하여 댓글을 가져옴
     let commentsObservable = pagingManager.fetchNextPage { [getCommentsUseCase] cursorID in
-      getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
+      getCommentsUseCase.execute(nextCursorID: cursorID)
     }
     
     // 첫 세팅 작업
@@ -145,11 +146,7 @@ extension BoardDetailViewModel {
   }
   
   /// 입력된 글을 가지고 댓글을 작성합니다.
-  /// - Parameters:
-  ///   - plubbingID: 플러빙 ID
-  ///   - content: 게시글 컨텐츠 모델
-  ///   - commentsObservable: 작성된 문자열과 부모 ID를 갖는 Observable
-  private func createComments(plubbingID: Int, content: BoardModel) {
+  private func createComments() {
     commentInputSubject
       .filter { [commentOptionSubject] _ in
         let value = try? commentOptionSubject.value()
@@ -159,7 +156,7 @@ extension BoardDetailViewModel {
         (comment: comment, parentID: parentID)
       }
       .flatMap { [postCommentUseCase] in
-        postCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, context: $0.comment, commentParentID: $0.parentID)
+        postCommentUseCase.execute(context: $0.comment, commentParentID: $0.parentID)
       }
       .filter { [weak self] _ in
         return self?.pagingManager.isLast ?? false
@@ -178,11 +175,7 @@ extension BoardDetailViewModel {
   ///
   /// 이 메서드는 `bottomCellSubject`를 관찰하여 페이징 동작을 설정합니다. 현재 아이템이 댓글 목록 끝에서 지정된 임계값 이내인지 확인합니다.
   /// 조건이 충족되고 다음 페이지를 가져올 수 있을 때, `fetchComments API`를 사용하여 다음 페이지를 가져옵니다.
-  ///
-  /// - Parameters:
-  ///   - plubbingID: 플러빙 ID
-  ///   - content: 게시글 컨텐츠 모델
-  private func pagingSetup(plubbingID: Int, content: BoardModel) {
+  private func pagingSetup() {
     bottomCellSubject
       .filter { [pagingManager] in // pagingManager에게 fetching 가능한지 요청
         return pagingManager.shouldFetchNextPage(totalHeight: $0, offset: $1)
@@ -190,7 +183,7 @@ extension BoardDetailViewModel {
       .flatMap { [weak self] _ -> Observable<[CommentContent]> in
         guard let self else { return .empty() }
         return self.pagingManager.fetchNextPage { cursorID in
-          self.getCommentsUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, nextCursorID: cursorID)
+          self.getCommentsUseCase.execute(nextCursorID: cursorID)
         }
       }
       .subscribe(with: self) { owner, contents in
@@ -200,13 +193,10 @@ extension BoardDetailViewModel {
   }
   
   /// 댓글 삭제 관련 파이프라인을 설정합니다.
-  /// - Parameters:
-  ///   - plubbingID: 플러빙 ID
-  ///   - content: 게시글 컨텐츠 모델
-  private func deleteComments(plubbingID: Int, content: BoardModel) {
+  private func deleteComments() {
     deleteIDSubject
       .flatMap { [deleteCommentUseCase] commentID in
-        deleteCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: commentID)
+        deleteCommentUseCase.execute(commentID: commentID)
       }
       .withLatestFrom(deleteIDSubject)
       .subscribe(with: self) { owner, commentID in
@@ -218,7 +208,7 @@ extension BoardDetailViewModel {
   }
   
   /// 댓글 수정 관련 파이프라인을 설정합니다.
-  private func editComments(plubbingID: Int, content: BoardModel) {
+  private func editComments() {
     let editOption = commentOptionSubject.filter { $0 == .edit }.share()
     
     // 댓글 수정 시 decorator view의 label과 button 텍스트 수정
@@ -250,7 +240,7 @@ extension BoardDetailViewModel {
         return (comment: comment, targetID: targetID)
       }
       .flatMap { [editCommentUseCase] in
-        editCommentUseCase.execute(plubbingID: plubbingID, feedID: content.feedID, commentID: $0.targetID, content: $0.comment)
+        editCommentUseCase.execute(commentID: $0.targetID, content: $0.comment)
       }
       .do(onNext: { [weak self] _ in
         self?.targetIDSubject.onNext(nil)

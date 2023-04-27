@@ -8,19 +8,20 @@
 import RxSwift
 
 protocol GetCommentsUseCase {
-  func execute(
-    plubbingID: Int,
-    feedID: Int,
-    nextCursorID: Int
-  ) -> Observable<(content: [CommentContent], nextCursorID: Int, isLast: Bool)>
+  func execute(nextCursorID: Int) -> Observable<(content: [CommentContent], nextCursorID: Int, isLast: Bool)>
 }
 
 final class DefaultGetCommentsUseCase: GetCommentsUseCase {
-  func execute(
-    plubbingID: Int,
-    feedID: Int,
-    nextCursorID: Int
-  ) -> Observable<(content: [CommentContent], nextCursorID: Int, isLast: Bool)> {
+  
+  private let plubbingID: Int
+  private let feedID: Int
+  
+  init(plubbingID: Int, feedID: Int) {
+    self.plubbingID = plubbingID
+    self.feedID = feedID
+  }
+  
+  func execute(nextCursorID: Int) -> Observable<(content: [CommentContent], nextCursorID: Int, isLast: Bool)> {
     FeedsService.shared.fetchComments(
       plubbingID: plubbingID,
       feedID: feedID,

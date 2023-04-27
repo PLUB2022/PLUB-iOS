@@ -8,16 +8,20 @@
 import RxSwift
 
 protocol PostCommentUseCase {
-  func execute(plubbingID: Int, feedID: Int, context: String, commentParentID: Int?) -> Observable<CommentContent>
+  func execute(context: String, commentParentID: Int?) -> Observable<CommentContent>
 }
 
 final class DefaultPostCommentUseCase: PostCommentUseCase {
-  func execute(
-    plubbingID: Int,
-    feedID: Int,
-    context: String,
-    commentParentID: Int?
-  ) -> Observable<CommentContent> {
+  
+  private let plubbingID: Int
+  private let feedID: Int
+  
+  init(plubbingID: Int, feedID: Int) {
+    self.plubbingID = plubbingID
+    self.feedID = feedID
+  }
+  
+  func execute(context: String, commentParentID: Int?) -> Observable<CommentContent> {
     FeedsService.shared.createComments(
       plubbingID: plubbingID,
       feedID: feedID,

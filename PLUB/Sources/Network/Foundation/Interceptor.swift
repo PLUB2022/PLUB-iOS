@@ -30,14 +30,12 @@ final class Interceptor: RequestInterceptor {
     }
     // 토큰 만료인 경우 토큰 값 갱신
     UserManager.shared.reissuanceAccessToken()
-      .subscribe { succeed in
-        if succeed {
-          // 재발급을 성공했다면 기존에 발생했던 요청 재시도
-          completion(.retry)
-        } else {
-          // 재발급 실패시 retry를 하지 않고 Error 전달
-          completion(.doNotRetryWithError(error))
-        }
+      .subscribe { _ in
+        // 재발급을 성공했다면 기존에 발생했던 요청 재시도
+        completion(.retry)
+      } onError: { plubError in
+        // 재발급 실패시 retry를 하지 않고 Error 전달
+        completion(.doNotRetryWithError(plubError))
       }
       .disposed(by: disposeBag)
   }

@@ -181,14 +181,9 @@ final class SignUpViewController: BaseViewController {
     nextButtonShareObservable
       .filter { owner, _ in return owner.lastPageIndex + 1 == owner.viewControllers.count }
       .flatMap { owner, _ in return owner.viewModel.signUp() }
-      .withUnretained(self)
-      .subscribe(onNext: { owner, succeed in
-        if succeed {
-          owner.navigationController?.setViewControllers([CongratulationViewController()], animated: true)
-        } else {
-          print("회원가입 실패")
-        }
-      })
+      .subscribe(with: self) { owner, _ in
+        owner.navigationController?.setViewControllers([CongratulationViewController()], animated: true)
+      }
       .disposed(by: disposeBag)
     
     // 아직 유저가 필요한 정보를 전부 기입하지 못한 경우(남은 페이지가 있는 경우를 뜻함)
@@ -260,12 +255,8 @@ final class SignUpViewController: BaseViewController {
       $0.addAction(UIAction { [weak self] _ in
         guard let self else { return }
         self.viewModel.signUp()
-          .subscribe(onNext: { succeed in
-            if succeed {
-              self.navigationController?.setViewControllers([CongratulationViewController()], animated: true)
-            } else {
-              print("회원가입 실패")
-            }
+          .subscribe(onNext: { _ in
+            self.navigationController?.setViewControllers([CongratulationViewController()], animated: true)
           })
           .disposed(by: self.disposeBag)
       }, for: .touchUpInside)

@@ -14,6 +14,7 @@ import Then
 
 protocol MainPageHeaderViewDelegate: AnyObject {
   func didTappedMainPageBackButton()
+  func didTappedArchiveButton()
 }
 
 class MainPageHeaderView: UIView {
@@ -36,8 +37,9 @@ class MainPageHeaderView: UIView {
     $0.setImage(UIImage(named: "speakerWhite"), for: .normal)
   }
   
-  private let photoStackButton = UIButton().then {
+  private let archiveButton = UIButton().then {
     $0.setImage(UIImage(named: "photoStackWhite"), for: .normal)
+    $0.addTarget(self, action: #selector(didTappedArchiveButton), for: .touchUpInside)
   }
   
   private let moreButton = UIButton().then {
@@ -70,7 +72,7 @@ class MainPageHeaderView: UIView {
       $0.height.equalTo(32)
     }
     
-    [speakerButton, photoStackButton, moreButton].forEach { view in
+    [speakerButton, archiveButton, moreButton].forEach { view in
       horizontalStackView.addArrangedSubview(view)
       view.snp.makeConstraints {
         $0.size.equalTo(32)
@@ -84,5 +86,9 @@ class MainPageHeaderView: UIView {
         owner.delegate?.didTappedMainPageBackButton()
       }
       .disposed(by: disposeBag)
+  }
+  
+  @objc private func didTappedArchiveButton() {
+    delegate?.didTappedArchiveButton()
   }
 }

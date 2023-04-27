@@ -95,6 +95,7 @@ final class MainPageViewController: BaseViewController {
   private lazy var mainpageNavigationView = MainPageNavigationView().then {
     $0.axis = .horizontal
     $0.spacing = 4
+    $0.delegate = self
   }
   
   init(plubbingID: Int) {
@@ -108,7 +109,12 @@ final class MainPageViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    navigationController?.navigationBar.isHidden = true
+    if headerView.isHidden {
+      navigationController?.navigationBar.isHidden = false
+    } else {
+      navigationController?.navigationBar.isHidden = true
+    }
+    
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -268,5 +274,14 @@ extension MainPageViewController: BoardViewControllerDelegate {
 extension MainPageViewController: MainPageHeaderViewDelegate {
   func didTappedMainPageBackButton() {
     self.navigationController?.popViewController(animated: true)
+  }
+}
+
+extension MainPageViewController: MainPageNavigationViewDelegate {
+  func didTappedArchiveButton() {
+    let vc = ArchiveViewController(viewModel: ArchiveViewModel(plubbingID: plubbingID, getArchiveUseCase: DefaultGetArchiveUseCase()))
+    vc.title = "" // 추후에 메인페이지헤더뷰에 대한 데이터를 올바르게 받아올 경우 코드 추가
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
   }
 }

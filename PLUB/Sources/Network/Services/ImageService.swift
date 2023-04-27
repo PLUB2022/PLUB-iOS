@@ -26,7 +26,7 @@ extension ImageService {
   func uploadImage(
     images: [UIImage],
     params: UploadImageRequest
-) -> PLUBResult<UploadImageResponse> {
+  ) -> PLUBResult<UploadImageResponse> {
     return sendRequestWithImage(
       setUpImageData(
         images: images,
@@ -40,7 +40,7 @@ extension ImageService {
   func updateImage(
     images: [UIImage],
     params: UpdateImageRequest
-) -> PLUBResult<UploadImageResponse> {
+  ) -> PLUBResult<UploadImageResponse> {
     return sendRequestWithImage(
       setUpImageData(
         images: images,
@@ -52,13 +52,17 @@ extension ImageService {
     )
   }
   
+  func deleteImage(fileURL: String, imageType: ImageType) -> Observable<EmptyModel> {
+    sendObservableRequest(ImageRouter.deleteImage(fileURL, imageType))
+  }
+  
   private func setUpImageData(
     images: [UIImage],
     params: [String: Any],
     type: ImageServiceType = .upload
   ) -> MultipartFormData {
     let formData = MultipartFormData()
-
+    
     for image in images {
       guard let imageData = image.jpegData(compressionQuality: 0.1) else { continue }
       formData.append(

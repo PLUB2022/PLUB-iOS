@@ -8,12 +8,21 @@
 import RxSwift
 
 protocol EditCommentUseCase {
-  func execute(plubbingID: Int, feedID: Int, commentID: Int, content: String) -> Observable<CommentContent>
+  func execute(commentID: Int, content: String) -> Observable<CommentContent>
 }
 
 final class DefaultEditCommentUseCase: EditCommentUseCase {
   
-  func execute(plubbingID: Int, feedID: Int, commentID: Int, content: String) -> Observable<CommentContent> {
+  
+  private let plubbingID: Int
+  private let feedID: Int
+  
+  init(plubbingID: Int, feedID: Int) {
+    self.plubbingID = plubbingID
+    self.feedID = feedID
+  }
+  
+  func execute(commentID: Int, content: String) -> Observable<CommentContent> {
     FeedsService.shared.updateComment(plubbingID: plubbingID, feedID: feedID, commentID: commentID, comment: content)
   }
 }

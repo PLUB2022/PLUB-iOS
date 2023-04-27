@@ -40,17 +40,9 @@ final class SplashViewModel: SplashViewModelType {
       return
     }
     
-    let reissueTokens = UserManager.shared.reissuanceAccessToken().share()
-    
-    reissueTokens
-      .filter { $0 } // 토큰 재발급 성공한 경우
-      .map { _ in HomeViewController(viewModel: HomeViewModel()) } // Home으로 이동할 준비
-      .bind(to: moveVCRelay)
-      .disposed(by: disposeBag)
-    
-    reissueTokens
-      .filter { $0 == false } // 토큰 재발급 실패한 경우
-      .map { _ in LoginViewController() }
+    UserManager.shared.reissuanceAccessToken()
+      .map { _ in HomeViewController(viewModel: HomeViewModel()) }  // 토큰 재발급 성공한 경우 Home으로 이동할 준비
+      .catchAndReturn(LoginViewController())                        // 토큰 재발급 실패한 경우 Login창으로 이동
       .bind(to: moveVCRelay)
       .disposed(by: disposeBag)
   }
