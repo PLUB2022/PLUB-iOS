@@ -81,6 +81,7 @@ final class ParticipantListView: UIView {
   }
   
   func configureUI(with model: [AccountInfo]) {
+    participantListStackView.subviews.forEach { $0.removeFromSuperview() }
     accountInfos = model
     let model = model.compactMap { $0 }
     let joinedCount = model.count
