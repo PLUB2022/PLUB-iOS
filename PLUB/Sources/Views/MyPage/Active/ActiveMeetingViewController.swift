@@ -23,6 +23,12 @@ final class ActiveMeetingViewController: BaseViewController {
     $0.register(MyTodoSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: MyTodoSectionHeaderView.identifier)
   }
   
+  private let recruitButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "모집글 바로가기")
+    $0.layer.cornerRadius = 16
+    $0.layer.masksToBounds = true
+  }
+  
   init(viewModel: ActiveMeetingViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -34,13 +40,21 @@ final class ActiveMeetingViewController: BaseViewController {
     
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(tableView)
+    [tableView, recruitButton].forEach {
+      view.addSubview($0)
+    }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     tableView.snp.makeConstraints {
       $0.edges.equalToSuperview()
+    }
+    
+    recruitButton.snp.makeConstraints {
+      $0.height.equalTo(32)
+      $0.centerX.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(24)
     }
   }
   
@@ -54,6 +68,15 @@ final class ActiveMeetingViewController: BaseViewController {
     viewModel.meetingInfo
       .drive(with: self) { owner, myInfo in
         owner.recruitingHeaderView.setupData(with: myInfo, type: .active)
+      }
+      .disposed(by: disposeBag)
+    
+    recruitButton
+      .rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        let vc = DetailRecruitmentViewController(plubbingID: owner.viewModel.plubbingID)
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
   }

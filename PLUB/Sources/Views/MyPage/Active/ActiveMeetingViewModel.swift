@@ -12,7 +12,7 @@ import RxCocoa
 
 class ActiveMeetingViewModel {
   private let disposeBag = DisposeBag()
-  private let plubbingID: Int
+  private(set) var plubbingID: Int
   
   // Output
   let meetingInfo: Driver<RecruitingModel> // 내 정보 데이터
