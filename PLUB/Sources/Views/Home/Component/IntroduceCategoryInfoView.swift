@@ -20,16 +20,19 @@ struct IntroduceCategoryInfoViewModel {
 final class IntroduceCategoryInfoView: UIView {
   
   private let meetingRecommendedLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 32)
+    $0.font = .appFont(family: .nanum, size: 32)
     $0.textColor = .main
     $0.textAlignment = .center
     $0.sizeToFit()
   }
   
-  private let categoryInfoListView = CategoryInfoListView(categoryAlignment: .horizontal, categoryListType: .noLocation)
+  private let categoryInfoListView = CategoryInfoListView(
+    categoryAlignment: .horizontal,
+    categoryListType: .noLocation
+  )
   
   private let meetingImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
   }
@@ -46,7 +49,7 @@ final class IntroduceCategoryInfoView: UIView {
   private func configureUI() {
     [meetingRecommendedLabel, categoryInfoListView, meetingImageView].forEach { addSubview($0) }
     meetingRecommendedLabel.snp.makeConstraints {
-      $0.leading.trailing.top.equalToSuperview()
+      $0.directionalHorizontalEdges.top.equalToSuperview()
       $0.height.equalTo(40)
     }
     
@@ -58,8 +61,9 @@ final class IntroduceCategoryInfoView: UIView {
     }
     
     meetingImageView.snp.makeConstraints {
-      $0.top.equalTo(categoryInfoListView.snp.bottom).offset(24)
-      $0.leading.trailing.bottom.equalToSuperview()
+      $0.top.equalTo(categoryInfoListView.snp.bottom).offset(8)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.equalTo(246)
     }
   }
   
