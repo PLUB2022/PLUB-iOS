@@ -123,14 +123,10 @@ final class ParticipantImageView: UIImageView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    let imageSize = self.bounds.size
-    layer.cornerRadius = imageSize.width / 2.0
-  }
-  
   private func configureUI() {
     layer.masksToBounds = true
+    layer.cornerRadius = 17
+    image = UIImage(named: "userDefaultImage")
     contentMode = .scaleAspectFill
     snp.makeConstraints {
       $0.size.equalTo(34)
