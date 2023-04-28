@@ -50,9 +50,9 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     let selectingCancelApplication = PublishSubject<Void>()
     let selectingEndRecruitment = PublishSubject<Void>()
     
-    self.selectPlubbingID = selectingPlubbingID.asObserver()
-    self.selectCancelApplication = selectingCancelApplication.asObserver()
-    self.selectEndRecruitment = selectingEndRecruitment.asObserver()
+    selectPlubbingID = selectingPlubbingID.asObserver()
+    selectCancelApplication = selectingCancelApplication.asObserver()
+    selectEndRecruitment = selectingEndRecruitment.asObserver()
     
     let fetchingDetail = selectingPlubbingID
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingID:))
