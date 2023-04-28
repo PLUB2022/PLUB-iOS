@@ -176,7 +176,10 @@ extension MyPageViewController: UITableViewDelegate {
       vc.delegate = self
       vc.hidesBottomBarWhenPushed = true
       navigationController?.pushViewController(vc, animated: true)
-    case .active: break
+    case .active:
+      let vc = ActiveMeetingViewController(viewModel: ActiveMeetingViewModel(plubbingID: plubbingID))
+      vc.hidesBottomBarWhenPushed = true
+      navigationController?.pushViewController(vc, animated: true)
     case .end: break
     }
   }
