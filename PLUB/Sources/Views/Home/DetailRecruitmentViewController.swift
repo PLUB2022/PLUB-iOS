@@ -207,6 +207,10 @@ final class DetailRecruitmentViewController: BaseViewController {
       })
       .disposed(by: disposeBag)
     
+    viewModel.categories
+      .drive(rx.model)
+      .disposed(by: disposeBag)
+    
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
         if !owner.isApplied && !owner.isHost {

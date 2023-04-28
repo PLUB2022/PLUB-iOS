@@ -19,6 +19,7 @@ protocol DetailRecruitmentViewModelType {
   var introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel> { get }
   var participantListViewModel: Driver<[AccountInfo]> { get }
   var meetingIntroduceModel: Driver<MeetingIntroduceModel> { get }
+  var categories: Driver<[String]> { get }
   var isApplied: Driver<Bool> { get }
   var successCancelApplication: Signal<Void> { get }
   var isHost: Signal<Bool> { get }
@@ -39,13 +40,13 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   let introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel> // 모집글 세부정보를 표시하기위한 UI 모델
   let participantListViewModel: Driver<[AccountInfo]> // 모집글 세부정보를 표시하기위한 UI 모델
   let meetingIntroduceModel: Driver<MeetingIntroduceModel> // 모집글 세부정보를 표시하기위한 UI 모델
+  let categories: Driver<[String]>
   let isApplied: Driver<Bool> // 해당 모집글을 신청했는지
   let successCancelApplication: Signal<Void> // [지원취소] 성공했는지
   let isHost: Signal<Bool> // 해당 모집글이 호스트인지
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
-    let successFetchingDetail = PublishRelay<DetailRecruitmentResponse>()
     let selectingCancelApplication = PublishSubject<Void>()
     let selectingEndRecruitment = PublishSubject<Void>()
     
@@ -57,12 +58,10 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingID:))
       .share()
     
-    fetchingDetail.compactMap { result -> DetailRecruitmentResponse? in
+    let successFetchingDetail = fetchingDetail.compactMap { result -> DetailRecruitmentResponse? in
       guard case .success(let detailRecruitmentResponse) = result else { return nil }
       return detailRecruitmentResponse.data
     }
-    .bind(to: successFetchingDetail)
-    .disposed(by: disposeBag)
     
     let requestCancelApplication = selectingCancelApplication
       .withLatestFrom(selectingPlubbingID)
@@ -120,6 +119,11 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
         title: response.title,
         introduce: response.introduce
       )
+    }
+    .asDriver(onErrorDriveWith: .empty())
+    
+    categories = successFetchingDetail.map { response -> [String] in
+      return response.categories
     }
     .asDriver(onErrorDriveWith: .empty())
     
