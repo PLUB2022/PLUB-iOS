@@ -93,7 +93,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     introduceCategoryInfoViewModel = successFetchingDetail.map { response -> IntroduceCategoryInfoViewModel in
       return IntroduceCategoryInfoViewModel(
         recommendedText: response.goal,
-        meetingImageURL: "",
+        meetingImageURL: response.mainImage,
         meetingImage: nil,
         categoryInfoListModel: .init(
           placeName: response.placeName,
