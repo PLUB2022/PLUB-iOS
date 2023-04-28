@@ -58,11 +58,10 @@ final class DetailRecruitmentViewController: BaseViewController {
     introduceCategoryTitleView, introduceCategoryInfoView, meetingIntroduceView, introduceTagCollectionView, participantListView, bottomStackView
   ]).then {
     $0.axis = .vertical
-    $0.alignment = .center
-    $0.distribution = .fill
+    $0.distribution = .equalSpacing
     $0.isLayoutMarginsRelativeArrangement = true
     $0.spacing = 24
-    $0.layoutMargins = UIEdgeInsets(top: Device.navigationBarHeight, left: 16.5, bottom: .zero, right: 16.5)
+    $0.layoutMargins = UIEdgeInsets(top: Device.navigationBarHeight, left: 16.5, bottom: 35 + Device.tabBarHeight, right: 16.5)
   }
   
   private lazy var bottomStackView = UIStackView(arrangedSubviews: [surroundMeetingButton, applyButton]).then {
