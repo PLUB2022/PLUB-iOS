@@ -329,6 +329,7 @@
 		C374E79329FC1E52004738C2 /* MyTodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C374E79229FC1E52004738C2 /* MyTodoTableViewCell.swift */; };
 		C374E79529FC1E7E004738C2 /* MyTodoSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C374E79429FC1E7E004738C2 /* MyTodoSectionHeaderView.swift */; };
 		C374E79729FC2F4D004738C2 /* MyTodoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C374E79629FC2F4D004738C2 /* MyTodoResponse.swift */; };
+		C374E79A29FC3BCA004738C2 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C374E79929FC3BCA004738C2 /* TodoListView.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
 		C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3775E2329C61B9C003A812F /* CustomAlertView.swift */; };
 		C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967529A25718005998A5 /* CreateScheduleRequest.swift */; };
@@ -711,6 +712,7 @@
 		C374E79229FC1E52004738C2 /* MyTodoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTodoTableViewCell.swift; sourceTree = "<group>"; };
 		C374E79429FC1E7E004738C2 /* MyTodoSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTodoSectionHeaderView.swift; sourceTree = "<group>"; };
 		C374E79629FC2F4D004738C2 /* MyTodoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTodoResponse.swift; sourceTree = "<group>"; };
+		C374E79929FC3BCA004738C2 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
 		C3775E2329C61B9C003A812F /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		C383967529A25718005998A5 /* CreateScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleRequest.swift; sourceTree = "<group>"; };
@@ -1720,6 +1722,7 @@
 				C3330AD229F9A16D0023CB04 /* ActiveMeetingViewController.swift */,
 				C3330AD429F9A1830023CB04 /* ActiveMeetingViewModel.swift */,
 				C374E79129FC1E36004738C2 /* Cell */,
+				C374E79829FC3BA7004738C2 /* Component */,
 			);
 			path = Active;
 			sourceTree = "<group>";
@@ -1875,6 +1878,14 @@
 				C374E79429FC1E7E004738C2 /* MyTodoSectionHeaderView.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		C374E79829FC3BA7004738C2 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C374E79929FC3BCA004738C2 /* TodoListView.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		C383967429A25701005998A5 /* Schedule */ = {
@@ -2722,6 +2733,7 @@
 				C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */,
 				702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
+				C374E79A29FC3BCA004738C2 /* TodoListView.swift in Sources */,
 				C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */,
 				C38C573E29EC5910002550DD /* MeetingMemberResponse.swift in Sources */,
 				70727A4329D5D679003DE956 /* TodoAlertController.swift in Sources */,
