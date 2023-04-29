@@ -43,12 +43,7 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
 }
 
-protocol BoardDetailDataStore {
-  var content: BoardModel { get }
-  var comments: Set<CommentContent> { get }
-}
-
-final class BoardDetailViewModel: BoardDetailDataStore {
+final class BoardDetailViewModel {
   
   // MARK: - Properties
   
