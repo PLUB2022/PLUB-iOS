@@ -28,4 +28,7 @@ struct ApplyAnswer: Codable, Equatable {
     case answer
   }
   
+  static func ==(lhs: ApplyAnswer, rhs: ApplyAnswer) -> Bool{
+    return lhs.questionID == rhs.questionID
+  }
 }
