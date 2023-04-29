@@ -75,8 +75,6 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     let contentNotEmpty = contentExceptPlaceholder
       .map { !$0.isEmpty }
     
-    let postType = selectingPostType.share()
-    
     let uploadImage = whichUploadingImage
       .compactMap { $0 }
       .flatMapLatest { image in
@@ -95,7 +93,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
       }
     
     tappedUploadingButton
-      .withLatestFrom(postType)
+      .withLatestFrom(selectingPostType)
       .flatMap { type in
         switch type {
         case .photo:
@@ -145,7 +143,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     isSuccessCreateBoard = isSuccessCreatingBoard
       .asSignal(onErrorSignalWith: .empty())
     
-    uploadButtonIsActivated = postType
+    uploadButtonIsActivated = selectingPostType
       .flatMap { type in
         switch type {
         case .photo:
