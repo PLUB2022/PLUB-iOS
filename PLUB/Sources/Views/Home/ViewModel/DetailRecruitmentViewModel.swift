@@ -122,10 +122,9 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     }
     .asDriver(onErrorDriveWith: .empty())
     
-    categories = successFetchingDetail.map { response -> [String] in
-      return response.categories
-    }
-    .asDriver(onErrorDriveWith: .empty())
+    categories = successFetchingDetail
+      .map(\.categories)
+      .asDriver(onErrorDriveWith: .empty())
     
     successCancelApplication = requestCancelApplication
       .compactMap { result -> Void? in
