@@ -65,9 +65,13 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     
     let titleExceptPlaceholder = writingTitle
       .filter { $0 != Constants.titlePlaceholder }
+      .share()
     
     let contentExceptPlaceholder = writingContent
       .filter { $0 != Constants.contentPlaceholder }
+      .share()
+    
+    let shareSelectingImage = isSelectingImage.share()
     
     let titleNotEmpty = titleExceptPlaceholder
       .map { !$0.isEmpty }
@@ -94,7 +98,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
     
     tappedUploadingButton
       .withLatestFrom(selectingPostType)
-      .flatMap { type in
+      .flatMapLatest { type in
         switch type {
         case .photo:
           return Observable.combineLatest(
@@ -120,9 +124,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
           }
         }
       }
-      .subscribe(onNext: { request in
-        whichUploadingRequest.onNext(request)
-      })
+      .bind(to: whichUploadingRequest)
       .disposed(by: disposeBag)
     
     let createBoard = Observable.combineLatest(
@@ -144,12 +146,12 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
       .asSignal(onErrorSignalWith: .empty())
     
     uploadButtonIsActivated = selectingPostType
-      .flatMap { type in
+      .flatMapLatest { type in
         switch type {
         case .photo:
           return Observable.combineLatest(
             titleNotEmpty,
-            isSelectingImage
+            shareSelectingImage
           )
           .map { $0 && $1 }
         case .text:
@@ -162,7 +164,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
           return Observable.combineLatest(
             titleNotEmpty,
             contentNotEmpty,
-            isSelectingImage
+            shareSelectingImage
           )
           .map { $0 && $1 && $2 }
         }
