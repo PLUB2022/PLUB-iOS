@@ -42,7 +42,7 @@ final class DetailRecruitmentViewController: BaseViewController {
     }
   }
   
-  private var model: DetailRecruitmentModel? {
+  private var model: [String] = [] {
     didSet {
       self.introduceTagCollectionView.reloadData()
     }
@@ -58,11 +58,10 @@ final class DetailRecruitmentViewController: BaseViewController {
     introduceCategoryTitleView, introduceCategoryInfoView, meetingIntroduceView, introduceTagCollectionView, participantListView, bottomStackView
   ]).then {
     $0.axis = .vertical
-    $0.alignment = .center
-    $0.distribution = .fill
+    $0.distribution = .equalSpacing
     $0.isLayoutMarginsRelativeArrangement = true
     $0.spacing = 24
-    $0.layoutMargins = UIEdgeInsets(top: Device.navigationBarHeight, left: 16.5, bottom: .zero, right: 16.5)
+    $0.layoutMargins = UIEdgeInsets(top: Device.navigationBarHeight, left: 16.5, bottom: 35 + Device.tabBarHeight, right: 16.5)
   }
   
   private lazy var bottomStackView = UIStackView(arrangedSubviews: [surroundMeetingButton, applyButton]).then {
@@ -131,15 +130,16 @@ final class DetailRecruitmentViewController: BaseViewController {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
-      $0.directionalEdges.width.equalToSuperview() // 타이틀에 대한 너비까지 잡아줌으로써 Vertical Enabled한 UI를 구성
+      $0.directionalEdges.equalToSuperview()
     }
     
     introduceTypeStackView.snp.makeConstraints {
-      $0.directionalEdges.width.equalToSuperview()
+      $0.directionalVerticalEdges.width.equalToSuperview()
     }
     
+    introduceTypeStackView.setCustomSpacing(16, after: introduceCategoryInfoView)
+    
     introduceTagCollectionView.snp.makeConstraints {
-      $0.leading.trailing.equalToSuperview().inset(16)
       $0.height.greaterThanOrEqualTo(48)
     }
     
@@ -150,7 +150,6 @@ final class DetailRecruitmentViewController: BaseViewController {
     }
     
     bottomStackView.snp.makeConstraints {
-      $0.trailing.equalToSuperview().offset(-16.5)
       $0.height.equalTo(46)
     }
   }
@@ -206,6 +205,10 @@ final class DetailRecruitmentViewController: BaseViewController {
       .subscribe(onNext: { owner, model in
         owner.meetingIntroduceView.configureUI(with: model)
       })
+      .disposed(by: disposeBag)
+    
+    viewModel.categories
+      .drive(rx.model)
       .disposed(by: disposeBag)
     
     applyButton.rx.tap
@@ -279,22 +282,19 @@ extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectio
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    guard let model = model else { return 0 }
-    return model.categories.count
+    return model.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let model = model else { return UICollectionViewCell() }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IntroduceTagCollectionViewCell.identifier, for: indexPath) as? IntroduceTagCollectionViewCell ?? IntroduceTagCollectionViewCell()
-    cell.configureUI(with: model.categories[indexPath.row])
+    cell.configureUI(with: model[indexPath.row])
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    guard let model = model else { return .zero }
     let label = UILabel().then {
       $0.font = .caption
-      $0.text = model.categories[indexPath.row]
+      $0.text = model[indexPath.row]
       $0.sizeToFit()
     }
     let size = label.frame.size

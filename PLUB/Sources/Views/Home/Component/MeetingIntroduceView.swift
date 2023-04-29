@@ -19,6 +19,7 @@ final class MeetingIntroduceView: UIView {
   
   private let meetingIntroduceLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 18)
+    $0.textAlignment = .justified
     $0.textColor = .black
     $0.sizeToFit()
   }
@@ -44,12 +45,13 @@ final class MeetingIntroduceView: UIView {
     [meetingIntroduceLabel, meetingDescriptionLabel].forEach { addSubview($0) }
     meetingIntroduceLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     meetingDescriptionLabel.snp.makeConstraints {
       $0.top.equalTo(meetingIntroduceLabel.snp.bottom).offset(16)
-      $0.leading.trailing.bottom.equalToSuperview()
-      $0.width.equalTo(Device.width)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
   }
   

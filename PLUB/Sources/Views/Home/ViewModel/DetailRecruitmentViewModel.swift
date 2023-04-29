@@ -19,6 +19,7 @@ protocol DetailRecruitmentViewModelType {
   var introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel> { get }
   var participantListViewModel: Driver<[AccountInfo]> { get }
   var meetingIntroduceModel: Driver<MeetingIntroduceModel> { get }
+  var categories: Driver<[String]> { get }
   var isApplied: Driver<Bool> { get }
   var successCancelApplication: Signal<Void> { get }
   var isHost: Signal<Bool> { get }
@@ -39,30 +40,28 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
   let introduceCategoryInfoViewModel: Driver<IntroduceCategoryInfoViewModel> // 모집글 세부정보를 표시하기위한 UI 모델
   let participantListViewModel: Driver<[AccountInfo]> // 모집글 세부정보를 표시하기위한 UI 모델
   let meetingIntroduceModel: Driver<MeetingIntroduceModel> // 모집글 세부정보를 표시하기위한 UI 모델
+  let categories: Driver<[String]>
   let isApplied: Driver<Bool> // 해당 모집글을 신청했는지
   let successCancelApplication: Signal<Void> // [지원취소] 성공했는지
   let isHost: Signal<Bool> // 해당 모집글이 호스트인지
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
-    let successFetchingDetail = PublishRelay<DetailRecruitmentResponse>()
     let selectingCancelApplication = PublishSubject<Void>()
     let selectingEndRecruitment = PublishSubject<Void>()
     
-    self.selectPlubbingID = selectingPlubbingID.asObserver()
-    self.selectCancelApplication = selectingCancelApplication.asObserver()
-    self.selectEndRecruitment = selectingEndRecruitment.asObserver()
+    selectPlubbingID = selectingPlubbingID.asObserver()
+    selectCancelApplication = selectingCancelApplication.asObserver()
+    selectEndRecruitment = selectingEndRecruitment.asObserver()
     
     let fetchingDetail = selectingPlubbingID
       .flatMapLatest(RecruitmentService.shared.inquireDetailRecruitment(plubbingID:))
       .share()
     
-    fetchingDetail.compactMap { result -> DetailRecruitmentResponse? in
+    let successFetchingDetail = fetchingDetail.compactMap { result -> DetailRecruitmentResponse? in
       guard case .success(let detailRecruitmentResponse) = result else { return nil }
       return detailRecruitmentResponse.data
     }
-    .bind(to: successFetchingDetail)
-    .disposed(by: disposeBag)
     
     let requestCancelApplication = selectingCancelApplication
       .withLatestFrom(selectingPlubbingID)
@@ -94,7 +93,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     introduceCategoryInfoViewModel = successFetchingDetail.map { response -> IntroduceCategoryInfoViewModel in
       return IntroduceCategoryInfoViewModel(
         recommendedText: response.goal,
-        meetingImageURL: "",
+        meetingImageURL: response.mainImage,
         meetingImage: nil,
         categoryInfoListModel: .init(
           placeName: response.placeName,
@@ -122,6 +121,10 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
       )
     }
     .asDriver(onErrorDriveWith: .empty())
+    
+    categories = successFetchingDetail
+      .map(\.categories)
+      .asDriver(onErrorDriveWith: .empty())
     
     successCancelApplication = requestCancelApplication
       .compactMap { result -> Void? in

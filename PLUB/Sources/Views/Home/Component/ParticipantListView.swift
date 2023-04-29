@@ -40,6 +40,7 @@ final class ParticipantListView: UIView {
     $0.titleLabel?.font = .overLine
     $0.titleLabel?.textAlignment = .center
     $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 17
     $0.clipsToBounds = true
     $0.isHidden = true
   }
@@ -51,12 +52,6 @@ final class ParticipantListView: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    let moreButtonSize = moreButton.bounds.size
-    moreButton.layer.cornerRadius = moreButtonSize.height / 2.0
   }
   
   private func configureUI() {
@@ -86,6 +81,7 @@ final class ParticipantListView: UIView {
   }
   
   func configureUI(with model: [AccountInfo]) {
+    participantListStackView.subviews.forEach { $0.removeFromSuperview() }
     accountInfos = model
     let model = model.compactMap { $0 }
     let joinedCount = model.count
@@ -123,14 +119,10 @@ final class ParticipantImageView: UIImageView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    let imageSize = self.bounds.size
-    layer.cornerRadius = imageSize.width / 2.0
-  }
-  
   private func configureUI() {
     layer.masksToBounds = true
+    layer.cornerRadius = 17
+    image = UIImage(named: "userDefaultImage")
     contentMode = .scaleAspectFill
     snp.makeConstraints {
       $0.size.equalTo(34)
