@@ -195,9 +195,29 @@ extension BoardDetailViewModel {
       }
       .withLatestFrom(deleteIDSubject)
       .subscribe(with: self) { owner, commentID in
-        guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
+        
+        var commentsToDelete = Set<CommentContent>() // 삭제할 댓글 집합
+        
+        func deleteComments(commentID: Int) {
+          guard let commentToDelete = owner.comments.first(where: { $0.commentID == commentID })
+          else {
+            return
+          }
+          
+          // 삭제할 댓글 집합에 자기 자신 추가
+          commentsToDelete.insert(commentToDelete)
+          
+          // 자식 댓글 삭제
+          let childCommentsToDelete = owner.comments.filter { $0.parentCommentID == commentID }
+          childCommentsToDelete.forEach {
+            deleteComments(commentID: $0.commentID)
+          }
+        }
+        
+        deleteComments(commentID: commentID)
+        
         // 차집합으로 자신과 자식 댓글까지 제거
-        owner.comments.subtract(owner.comments.filter { $0.parentCommentID == content.commentID || $0 == content })
+        owner.comments.subtract(commentsToDelete)
       }
       .disposed(by: disposeBag)
   }
@@ -318,7 +338,7 @@ extension BoardDetailViewModel {
   private func setCollectionView(_ collectionView: UICollectionView) {
     
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
-    let registration = CellRegistration { cell, indexPath, id in
+    let registration = CellRegistration { [unowned self] cell, indexPath, id in
       let recentItem = self.comments.first(where: { $0.commentID == id })!
       cell.configure(with: recentItem)
       cell.delegate = self
@@ -346,6 +366,7 @@ extension BoardDetailViewModel {
     var snapshot = Snapshot()
     
     var sections = [Constants.boardSection] // 최소한 하나의 Section이라도 존재해야 함
+    
     sections.append(contentsOf: Array(Set(comments.map { $0.groupID })).sorted())
     snapshot.appendSections(sections)
     
