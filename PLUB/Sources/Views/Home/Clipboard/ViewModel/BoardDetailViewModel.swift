@@ -351,6 +351,8 @@ extension BoardDetailViewModel {
     // Header View Registration, 헤더 뷰 후처리에 사용됨
     let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] supplementaryView, _, _ in
       supplementaryView.configure(with: content)
+      
+      supplementaryView.delegate = self
     }
     
     // dataSource에 cell 등록
@@ -420,6 +422,18 @@ extension BoardDetailViewModel {
     }
     
     dataSource.apply(snapshot)
+  }
+}
+
+// MARK: - BoardDetailCollectionHeaderViewDelegate
+
+extension BoardDetailViewModel: BoardDetailCollectionHeaderViewDelegate {
+  func didTappedHeartButton() {
+    
+  }
+  
+  func didTappedSettingButton() {
+    PLUBToast.makeToast(text: "Setting Button Tapped")
   }
 }
 

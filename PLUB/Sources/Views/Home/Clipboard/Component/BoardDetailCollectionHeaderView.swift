@@ -8,14 +8,25 @@
 import UIKit
 
 import Kingfisher
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
+
+protocol BoardDetailCollectionHeaderViewDelegate: AnyObject {
+  func didTappedHeartButton()
+  func didTappedSettingButton()
+}
 
 final class BoardDetailCollectionHeaderView: UICollectionReusableView {
   
   // MARK: - Properties
   
   static let identifier = "\(BoardDetailCollectionHeaderView.self)"
+  
+  private let disposeBag = DisposeBag()
+  
+  weak var delegate: BoardDetailCollectionHeaderViewDelegate?
   
   // MARK: - UI Components
   
@@ -135,6 +146,7 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
     setupLayouts()
     setupConstraints()
     setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -200,6 +212,20 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
   
   private func setupStyles() {
     backgroundColor = .white
+  }
+  
+  private func bind() {
+    heartButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedHeartButton()
+      }
+      .disposed(by: disposeBag)
+    
+    settingButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedSettingButton()
+      }
+      .disposed(by: disposeBag)
   }
   
   func configure(with model: BoardModel) {
