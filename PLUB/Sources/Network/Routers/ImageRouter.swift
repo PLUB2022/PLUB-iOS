@@ -31,7 +31,7 @@ extension ImageRouter: Router {
     case .updateImage:
       return "/files/change"
     case let .deleteImage(_, imageType):
-      return "/api/files/\(imageType.rawValue)"
+      return "/files/\(imageType.rawValue)"
     }
   }
   
