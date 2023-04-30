@@ -308,7 +308,9 @@ private extension ArchiveUploadViewModel {
       return
     }
     
-    snapshot.moveItem(addPictureItem, afterItem: lastItem)
+    if addPictureItem != lastItem {
+      snapshot.moveItem(addPictureItem, afterItem: lastItem)
+    }
   }
 }
 
