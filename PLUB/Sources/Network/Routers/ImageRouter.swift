@@ -30,8 +30,8 @@ extension ImageRouter: Router {
       return "/files"
     case .updateImage:
       return "/files/change"
-    case .deleteImage:
-      return "/api/files"
+    case let .deleteImage(_, imageType):
+      return "/api/files/\(imageType.rawValue)"
     }
   }
   
@@ -39,8 +39,8 @@ extension ImageRouter: Router {
     switch self {
     case .uploadImage, .updateImage:
       return .plain
-    case let .deleteImage(fileURL, imageType):
-      return .query(["fileUrl": fileURL, "type": imageType.rawValue])
+    case let .deleteImage(fileURL, _):
+      return .query(["fileUrl": fileURL])
     }
   }
   
