@@ -198,8 +198,8 @@ extension BoardDetailViewModel {
         
         var commentsToDelete = Set<CommentContent>() // 삭제할 댓글 집합
         
-        func deleteComments(commentID: Int) {
-          guard let commentToDelete = owner.comments.first(where: { $0.commentID == commentID })
+        func deleteComments(targetID: Int) {
+          guard let commentToDelete = owner.comments.first(where: { $0.commentID == targetID })
           else {
             return
           }
@@ -208,15 +208,15 @@ extension BoardDetailViewModel {
           commentsToDelete.insert(commentToDelete)
           
           // 자식 댓글 삭제
-          let childCommentsToDelete = owner.comments.filter { $0.parentCommentID == commentID }
+          let childCommentsToDelete = owner.comments.filter { $0.parentCommentID == targetID }
           childCommentsToDelete.forEach {
-            deleteComments(commentID: $0.commentID)
+            deleteComments(targetID: $0.commentID)
           }
         }
         
-        deleteComments(commentID: commentID)
+        deleteComments(targetID: commentID)
         
-        // 차집합으로 자신과 자식 댓글까지 제거
+        // 차집합으로 자신과 하위 댓글까지 제거
         owner.comments.subtract(commentsToDelete)
       }
       .disposed(by: disposeBag)
