@@ -324,7 +324,13 @@ extension BoardDetailViewModel {
   
   // MARK: Type Alias
   
-  typealias Section = Int
+  enum Section: Hashable {
+    /// 게시물 섹션
+    case board
+    
+    /// 댓글 섹션
+    case comment(groupID: Int)
+  }
   typealias Item = Int
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
@@ -365,13 +371,19 @@ extension BoardDetailViewModel {
   private func applyInitialSnapshots() {
     var snapshot = Snapshot()
     
-    var sections = [Constants.boardSection] // 최소한 하나의 Section이라도 존재해야 함
+    // 게시물 전용 섹션은 `default`임, 없으면 버그 발생합니다.
+    var sections = [Section.board]
     
-    sections.append(contentsOf: Array(Set(comments.map { $0.groupID })).sorted())
+    sections.append(contentsOf: Array(Set(comments.map(\.groupID))).sorted().map { Section.comment(groupID: $0) })
     snapshot.appendSections(sections)
     
-    sections.forEach { sectionGroupID in
-      snapshot.appendItems(comments.filter({ $0.groupID == sectionGroupID }).map(\.commentID).sorted(), toSection: sectionGroupID)
+    sections[1...].forEach { section in
+      guard case let .comment(groupID) = section else { return }
+      let items = comments
+        .filter { $0.groupID == groupID }
+        .map(\.commentID)
+        .sorted()
+      snapshot.appendItems(items, toSection: section)
     }
     dataSource?.apply(snapshot)
   }
@@ -384,7 +396,7 @@ extension BoardDetailViewModel {
     var snapshot = dataSource.snapshot()
     
     // 삭제해야할 section 조회
-    let commentsGroupIDs = Set(comments.map(\.groupID)).union([Constants.boardSection])
+    let commentsGroupIDs = Set(comments.map({ Section.comment(groupID: $0.groupID) })).union([.board])
     let sectionsToRemove = Set(snapshot.sectionIdentifiers).subtracting(commentsGroupIDs)
     snapshot.deleteSections(Array(sectionsToRemove))
     
@@ -403,10 +415,10 @@ extension BoardDetailViewModel {
     // snapshot에 추가해야할 item 선별
     for content in comments.sorted(by: { $0.groupID < $1.groupID || $0.commentID < $1.commentID }) where snapshot.itemIdentifiers.contains(content.commentID) == false {
       // 댓글인 경우
-      if snapshot.sectionIdentifiers.contains(content.groupID) == false {
-        snapshot.appendSections([content.groupID])
+      if snapshot.sectionIdentifiers.contains(.comment(groupID: content.groupID)) == false {
+        snapshot.appendSections([.comment(groupID: content.groupID)])
       }
-      snapshot.appendItems([content.commentID], toSection: content.groupID)
+      snapshot.appendItems([content.commentID], toSection: .comment(groupID: content.groupID))
     }
     
     dataSource.apply(snapshot)
@@ -458,13 +470,5 @@ extension BoardDetailViewModel {
     
     /// 댓글 수정
     case edit
-  }
-}
-
-// MARK: - Constants
-
-private extension BoardDetailViewModel {
-  enum Constants {
-    static let boardSection = -1
   }
 }
