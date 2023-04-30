@@ -43,9 +43,19 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
 }
 
+protocol FeedLikeDelegate: AnyObject {
+  /// 게시글 좋아요가 바뀌면 호출됩니다.
+  func likeChanged(_ boardLike: Bool)
+}
+
 final class BoardDetailViewModel {
   
   // MARK: - Properties
+  
+  /// 게시물 좋아요 값
+  private var boardLike = false
+  
+  weak var delegate: FeedLikeDelegate?
   
   /// 댓글 정보 모델입니다.
   ///
@@ -131,6 +141,9 @@ extension BoardDetailViewModel {
     }
     .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
     .subscribe(with: self) { owner, tuple in
+      if let like = tuple.feed.isLike {
+        owner.boardLike = like
+      }
       owner.comments.formUnion(tuple.comments) // 댓글 삽입
       owner.setCollectionView(tuple.collectionView, content: tuple.feed.toBoardModel)
       owner.applyInitialSnapshots()
@@ -352,6 +365,7 @@ extension BoardDetailViewModel {
     let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] supplementaryView, _, _ in
       supplementaryView.configure(with: content)
       
+      self?.delegate = supplementaryView
       supplementaryView.delegate = self
     }
     
@@ -429,7 +443,12 @@ extension BoardDetailViewModel {
 
 extension BoardDetailViewModel: BoardDetailCollectionHeaderViewDelegate {
   func didTappedHeartButton() {
-    
+    likeFeedUseCase.execute()
+      .subscribe(with: self) { owner, _ in
+        owner.boardLike.toggle()
+        owner.delegate?.likeChanged(owner.boardLike)
+      }
+      .disposed(by: disposeBag)
   }
   
   func didTappedSettingButton() {

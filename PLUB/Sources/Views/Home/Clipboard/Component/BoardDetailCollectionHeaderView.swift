@@ -246,6 +246,28 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
       contentImageView.kf.setImage(with: URL(string: contentImageLink)!)
     }
     commentLabel.text = "달린 댓글 \(model.commentCount)"
+    
+    // 좋아요 버튼 색상 변경
+    guard let isLike = model.isLike else { return }
+    let buttonImage = isLike ? UIImage(named: "heartFilled") : UIImage(named: "heart")
+    heartButton.setImage(buttonImage, for: .normal)
+  }
+}
+
+extension BoardDetailCollectionHeaderView: FeedLikeDelegate {
+  func likeChanged(_ boardLike: Bool) {
+    // heart image
+    let buttonImage = boardLike ? UIImage(named: "heartFilled") : UIImage(named: "heart")
+    heartButton.setImage(buttonImage, for: .normal)
+    
+    // heart count
+    guard let heartCountText = heartCountLabel.text,
+          let heartCount = Int(heartCountText)
+    else {
+      return
+    }
+    
+    heartCountLabel.text = "\(heartCount + (boardLike ? 1 : -1))"
   }
 }
 
