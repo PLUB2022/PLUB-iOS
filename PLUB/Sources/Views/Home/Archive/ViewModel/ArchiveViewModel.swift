@@ -93,14 +93,14 @@ final class ArchiveViewModel {
       getArchiveUseCase.execute(plubbingID: plubbingID, nextCursorID: cursorID)
     }
     
-    setCollectionViewSubject
-      .take(1)
-      .withLatestFrom(archivesObservable) { (collectionView: $0, archiveContents: $1) }
-      .subscribe(with: self) { owner, tuple in
-        owner.archiveContents = tuple.archiveContents
-        owner.setCollectionView(tuple.collectionView)
-      }
-      .disposed(by: disposeBag)
+    Observable.combineLatest(setCollectionViewSubject, archivesObservable) {
+      (collectionView: $0, archiveContents: $1)
+    }
+    .subscribe(with: self) { owner, tuple in
+      owner.archiveContents = tuple.archiveContents
+      owner.setCollectionView(tuple.collectionView)
+    }
+    .disposed(by: disposeBag)
   }
   
   /// 선택된 Cell의 IndexPath에 맞는 archiveID와 plubbingID를 emit합니다.
