@@ -46,6 +46,7 @@ final class ArchiveViewModel {
   
   private let plubbingID: Int
   private let getArchiveUseCase: GetArchiveUseCase
+  private let deleteArchiveUseCase: DeleteArchiveUseCase
   
   private var dataSource: DataSource? {
     didSet {
@@ -73,9 +74,14 @@ final class ArchiveViewModel {
   
   // MARK: - Initialization
   
-  init(plubbingID: Int, getArchiveUseCase: GetArchiveUseCase) {
+  init(
+    plubbingID: Int,
+    getArchiveUseCase: GetArchiveUseCase,
+    deleteArchiveUseCase: DeleteArchiveUseCase
+  ) {
     self.plubbingID = plubbingID
     self.getArchiveUseCase = getArchiveUseCase
+    self.deleteArchiveUseCase = deleteArchiveUseCase
     
     fetchArchive(plubbingID: plubbingID)
     pagingSetup(plubbingID: plubbingID)
