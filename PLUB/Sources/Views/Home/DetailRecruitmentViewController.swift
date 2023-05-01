@@ -226,15 +226,14 @@ final class DetailRecruitmentViewController: BaseViewController {
               confirmButton: "네",
               height: 210
             )
-          ) { [weak self] in
-            guard let self = self else { return }
+          ) {
             // 지원취소 [네] 선택했을때의 동작
-            self.viewModel.selectCancelApplication.onNext(())
+            owner.viewModel.selectCancelApplication.onNext(())
           }
           alert.show()
         }
         else { // 호스트일 경우, [모집 끝내기] 버튼을 선택했음에 따른 동작 구현
-          self.viewModel.selectEndRecruitment.onNext(())
+          owner.viewModel.selectEndRecruitment.onNext(())
         }
       }
       .disposed(by: disposeBag)
