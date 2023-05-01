@@ -144,11 +144,21 @@ final class ArchiveViewController: BaseViewController {
     
     // 업로드 VC를 보여줘야하는 경우
     viewModel.presentArchiveUploadObservable
-      .subscribe(with: self) { owner, tuple in
-        let uploadVC = ArchiveUploadViewController(
-          viewModel: ArchiveUploadViewModelWithUploadFactory.make(plubbingID: tuple.plubbingID)
+      .map {
+        if $0.archiveID == .min {
+          return ArchiveUploadViewModelWithUploadFactory.make(plubbingID: $0.plubbingID)
+        } else {
+          return ArchiveUploadViewModelWithEditFactory.make(
+            plubbingID: $0.plubbingID,
+            archiveID: $0.archiveID
+          )
+        }
+      }
+      .subscribe(with: self) { owner, viewModel in
+        owner.navigationController?.pushViewController(
+          ArchiveUploadViewController(viewModel: viewModel),
+          animated: true
         )
-        owner.navigationController?.pushViewController(uploadVC, animated: true)
       }
       .disposed(by: disposeBag)
     

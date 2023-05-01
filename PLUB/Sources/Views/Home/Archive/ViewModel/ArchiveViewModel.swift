@@ -114,6 +114,25 @@ final class ArchiveViewModel {
       }
   }
   
+  /// 업로드 버튼, 또는 아카이브 수정 버튼이 눌렸을 때를 처리하기 위한 파이프라인 구성 코드 입니다.
+  /// - Returns: ArchiveUploadViewModelFactory에 필요한 파라미터 인자인 `plubbingID`와 `archiveID`
+  private func uploadOrEditButtonLogic() -> Observable<(plubbingID: Int, archiveID: Int)> {
+    
+    // 업로드 버튼 클릭된 경우
+    let uploadPipeLine = uploadButtonTappedSubject.map { [plubbingID] _ in
+      (plubbingID: plubbingID, archiveID: Int.min) // 업로드 버튼은 archiveID를 쓰지 않으므로 최솟값으로 설정
+    }
+    
+    // 바텀시트로부터 아카이브 수정 버튼이 눌린 경우
+    let editPipeLine = Observable.zip(bottomSheetTypeSubject.filter { $0 == .edit }, recentTappedArchiveIDSubject)
+      .map { [plubbingID] in
+        (plubbingID: plubbingID, archiveID: $1)
+      }
+    
+    // 두 파이프라인을 합침
+    return Observable.merge(uploadPipeLine, editPipeLine)
+  }
+  
   /// 페이징 처리를 진행합니다.
   private func pagingSetup(plubbingID: Int) {
     offsetSubject
@@ -166,10 +185,7 @@ extension ArchiveViewModel: ArchiveViewModelType {
   }
   
   var presentArchiveUploadObservable: Observable<(plubbingID: Int, archiveID: Int)> {
-    // TODO: 승현 - 아카이브 수정 시 보내야하는 plubbingID와 archiveID도 같이 merge해야함
-    uploadButtonTappedSubject.compactMap { [plubbingID] _ in
-      (plubbingID, 0) // 업로드 버튼은 archiveID를 쓰지 않으므로 임의의 값 0을 주입
-    }
+    uploadOrEditButtonLogic()
   }
   
   var presentBottomSheetObservable: Observable<(ArchiveContent.AccessType)> {
