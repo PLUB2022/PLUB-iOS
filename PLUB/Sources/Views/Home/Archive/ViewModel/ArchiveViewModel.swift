@@ -220,7 +220,10 @@ extension ArchiveViewModel: ArchiveViewModelType {
 // MARK: - Diffable DataSources
 
 extension ArchiveViewModel {
-  typealias Section           = Int
+  
+  enum Section {
+    case main
+  }
   typealias Item              = ArchiveContent
   typealias DataSource        = UICollectionViewDiffableDataSource<Section, Item>
   typealias Snapshot          = NSDiffableDataSourceSnapshot<Section, Item>
@@ -247,7 +250,7 @@ extension ArchiveViewModel {
   /// 직접 이 메서드를 실행할 필요는 없습니다.
   func applyInitialSnapshots() {
     var snapshot = Snapshot()
-    snapshot.appendSections([0]) // 의무적으로 섹션 하나는 추가해야 함
+    snapshot.appendSections([.main])
     snapshot.appendItems(archiveContents)
     dataSource?.apply(snapshot)
   }
@@ -263,7 +266,7 @@ extension ArchiveViewModel {
     if let itemToDelete = snapshot.itemIdentifiers.first(where: { !archiveContents.contains($0) }) {
       snapshot.deleteItems([itemToDelete])
     }
-
+    
     dataSource?.apply(snapshot)
   }
 }
