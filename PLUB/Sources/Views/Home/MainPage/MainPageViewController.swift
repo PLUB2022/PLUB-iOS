@@ -248,7 +248,7 @@ extension MainPageViewController: BoardViewControllerDelegate {
   
   func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel) {
     let vc = BoardDetailViewController(
-      viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: plubbingID, boardModel: content)
+      viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: plubbingID, feedID: content.feedID)
     )
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)

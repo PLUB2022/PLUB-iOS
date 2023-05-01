@@ -100,7 +100,7 @@ final class ClipboardViewController: BaseViewController {
       .subscribe(with: self) { owner, model in
         owner.navigationController?.pushViewController(
           BoardDetailViewController(
-            viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: model.plubbingID!, boardModel: model.toBoardModel)
+            viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: model.plubbingID!, feedID: model.feedID)
           ),
           animated: true
         )
