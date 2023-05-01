@@ -66,6 +66,11 @@ final class ArchiveViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.viewWillAppearObserver.onNext(Void())
+  }
+  
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     var frame = headerStackView.bounds

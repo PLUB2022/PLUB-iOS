@@ -13,13 +13,15 @@ import RxCocoa
 protocol ArchiveViewModelType {
   // Input
   
+  var viewWillAppearObserver: AnyObserver<Void> { get }
+  
   /// ViewController 단에서 initialized된 collectionView를 받습니다.
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
   
   /// 선택된 셀의 IndexPath를 전달합니다.
   var selectedArchiveCellObserver: AnyObserver<IndexPath> { get }
   
-  /// 페이징을 처리하기 위한 Observer입니다. 
+  /// 페이징을 처리하기 위한 Observer입니다.
   var offsetObserver: AnyObserver<(viewHeight: CGFloat, offset: CGFloat)> { get }
   
   /// 업로드 버튼이 눌렸을 때를 인지하기 위한 Observer입니다.
@@ -64,6 +66,7 @@ final class ArchiveViewModel {
   
   // MARK: Subjects
   
+  private let viewWillAppearSubject         = PublishSubject<Void>()
   private let setCollectionViewSubject      = PublishSubject<UICollectionView>()
   private let selectedArchiveCellSubject    = PublishSubject<IndexPath>()
   private let offsetSubject                 = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
@@ -86,6 +89,7 @@ final class ArchiveViewModel {
     fetchArchive(plubbingID: plubbingID)
     pagingSetup(plubbingID: plubbingID)
     removeArchive()
+    refreshArchives(plubbingID: plubbingID)
   }
   
   private let disposeBag = DisposeBag()
@@ -157,6 +161,27 @@ final class ArchiveViewModel {
       .disposed(by: disposeBag)
   }
   
+  private func refreshArchives(plubbingID: Int) {
+    viewWillAppearSubject
+      .skip(1) // 첫 viewWillAppear일 때는 무시
+      .flatMap { [weak self] _ -> Observable<[ArchiveContent]> in
+        guard let self else { return .empty() }
+        // 페이징 초기화 -> 아카이브 API 재요청 -> 새롭게 데이터 받아온 뒤 UI 파싱
+        self.pagingManager.refreshPagingData()
+        return self.pagingManager.fetchNextPage { _ in
+          self.getArchiveUseCase.execute(plubbingID: plubbingID, nextCursorID: 0)
+        }
+      }
+      .subscribe(with: self) { owner, content in
+        guard var snapshot = owner.dataSource?.snapshot() else { return }
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
+        owner.dataSource?.apply(snapshot)
+        owner.archiveContents = content
+      }
+      .disposed(by: disposeBag)
+  }
+  
   /// 페이징 처리를 진행합니다.
   private func pagingSetup(plubbingID: Int) {
     offsetSubject
@@ -181,6 +206,10 @@ final class ArchiveViewModel {
 extension ArchiveViewModel: ArchiveViewModelType {
   
   // MARK: Input
+  
+  var viewWillAppearObserver: AnyObserver<Void> {
+    viewWillAppearSubject.asObserver()
+  }
   
   var setCollectionViewObserver: AnyObserver<UICollectionView> {
     setCollectionViewSubject.asObserver()
