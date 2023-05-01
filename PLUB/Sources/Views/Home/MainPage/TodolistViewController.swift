@@ -12,6 +12,8 @@ import Then
 
 final class TodolistViewController: BaseViewController {
   
+  private let viewModel: TodolistViewModelType
+  
   private let titleLabel = UILabel().then {
     $0.font = .appFont(family: .nanum, size: 32)
     $0.text = "“2주에 한 권씩”"
@@ -30,6 +32,15 @@ final class TodolistViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
+  }
+  
+  init(viewModel: TodolistViewModelType = TodolistViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setupLayouts() {
