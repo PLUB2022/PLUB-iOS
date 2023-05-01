@@ -149,19 +149,24 @@ final class ArchiveViewController: BaseViewController {
     
     // 업로드 VC를 보여줘야하는 경우
     viewModel.presentArchiveUploadObservable
-      .map {
-        if $0.archiveID == .min {
-          return ArchiveUploadViewModelWithUploadFactory.make(plubbingID: $0.plubbingID)
-        } else {
-          return ArchiveUploadViewModelWithEditFactory.make(
-            plubbingID: $0.plubbingID,
-            archiveID: $0.archiveID
+      .map { plubbingID, archiveID -> (text: String, viewModel: ArchiveUploadViewModelType) in
+        if archiveID == .min {
+          return (
+            text: "아카이브 업로드",
+            viewModel: ArchiveUploadViewModelWithUploadFactory.make(plubbingID: plubbingID)
           )
         }
+        return (
+          text: "아카이브 수정",
+          viewModel: ArchiveUploadViewModelWithEditFactory.make(
+            plubbingID: plubbingID,
+            archiveID: archiveID
+          )
+        )
       }
-      .subscribe(with: self) { owner, viewModel in
+      .subscribe(with: self) { owner, tuple in
         owner.navigationController?.pushViewController(
-          ArchiveUploadViewController(viewModel: viewModel),
+          ArchiveUploadViewController(archiveTitleText: tuple.text, viewModel: tuple.viewModel),
           animated: true
         )
       }

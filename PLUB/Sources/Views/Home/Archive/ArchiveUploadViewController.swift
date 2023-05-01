@@ -46,8 +46,13 @@ final class ArchiveUploadViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(viewModel: ArchiveUploadViewModelType) {
+  /// ArchiveUploadViewController initializer
+  /// - Parameters:
+  ///   - archiveTitleText: archiveTitleLabel에 들어갈 text
+  ///   - viewModel: ViewModel
+  init(archiveTitleText: String, viewModel: ArchiveUploadViewModelType) {
     self.viewModel = viewModel
+    archiveTitleLabel.text = archiveTitleText
     super.init(nibName: nil, bundle: nil)
   }
   
