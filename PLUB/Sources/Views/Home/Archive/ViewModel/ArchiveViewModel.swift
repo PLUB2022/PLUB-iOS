@@ -85,6 +85,7 @@ final class ArchiveViewModel {
     
     fetchArchive(plubbingID: plubbingID)
     pagingSetup(plubbingID: plubbingID)
+    removeArchive()
   }
   
   private let disposeBag = DisposeBag()
@@ -137,6 +138,23 @@ final class ArchiveViewModel {
     
     // 두 파이프라인을 합침
     return Observable.merge(uploadPipeLine, editPipeLine)
+  }
+  
+  /// 아카이브 삭제 파이프라인 코드
+  private func removeArchive() {
+    bottomSheetTypeSubject
+      .filter { $0 == .delete }
+      .withLatestFrom(recentTappedArchiveIDSubject)
+      .flatMap { [deleteArchiveUseCase] in
+        deleteArchiveUseCase.execute(archiveID: $0)
+      }
+      .withLatestFrom(recentTappedArchiveIDSubject)
+      .subscribe(with: self) { owner, archiveID in
+        owner.archiveContents.removeAll {
+          $0.archiveID == archiveID
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   /// 페이징 처리를 진행합니다.
@@ -237,13 +255,15 @@ extension ArchiveViewModel {
   func updateSnapshots() {
     guard var snapshot = dataSource?.snapshot() else { return }
     
-    guard let index = archiveContents.firstIndex(where: { !snapshot.itemIdentifiers.contains($0) })
-    else {
-      return
+    // 페이징 처리
+    if let index = archiveContents.firstIndex(where: { !snapshot.itemIdentifiers.contains($0) }) {
+      snapshot.appendItems(Array(archiveContents[index...]))
     }
-    
-    snapshot.appendItems(Array(archiveContents[index...]))
-    
+    // 아카이브 삭제 처리
+    if let itemToDelete = snapshot.itemIdentifiers.first(where: { !archiveContents.contains($0) }) {
+      snapshot.deleteItems([itemToDelete])
+    }
+
     dataSource?.apply(snapshot)
   }
 }
