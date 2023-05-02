@@ -151,7 +151,9 @@ class BaseService {
   func sendObservableRequest<T: Codable>(_ router: Router) -> Observable<T> {
     Single.create { observer in
       
-      self.session.request(router).responseData { response in
+      self.session.request(router)
+        .validate()
+        .responseData { response in
         switch response.result {
         case .success(let data):
           guard let statusCode = response.response?.statusCode
