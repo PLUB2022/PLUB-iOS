@@ -30,7 +30,6 @@ final class CheckTodoView: UIView {
   private let todoLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .systemFont(ofSize: 14)
-    $0.text = "독후감 쓴 내용 팀원들이랑 공유하기"
   }
   
   override init(frame: CGRect) {
