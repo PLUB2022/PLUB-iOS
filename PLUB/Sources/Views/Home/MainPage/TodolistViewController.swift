@@ -34,9 +34,10 @@ final class TodolistViewController: BaseViewController {
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
   }
   
-  init(viewModel: TodolistViewModelType = TodolistViewModel()) {
+  init(plubbingID: Int, viewModel: TodolistViewModelType = TodolistViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    bind(plubbindID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
@@ -68,6 +69,11 @@ final class TodolistViewController: BaseViewController {
       $0.top.equalTo(titleLabel.snp.bottom)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
+  }
+  
+  func bind(plubbindID: Int) {
+    super.bind()
+    viewModel.selectPlubbingID.onNext(plubbindID)
   }
 }
 
