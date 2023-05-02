@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import RxSwift
 import SnapKit
 import Then
@@ -18,9 +19,11 @@ protocol TodoCollectionViewCellDelegate: AnyObject {
 }
 
 struct TodoCollectionViewCellModel {
+  let date: String
   let profileImageString: String
-  let isLiked: Bool
-  let likeCount: Int
+  let totalLikes: Int
+  let isAuthor: Bool
+  let checkTodoVieModels: [CheckTodoViewModel]
 }
 
 final class TodoCollectionViewCell: UICollectionViewCell {
@@ -33,6 +36,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     $0.image = UIImage(systemName: "person.fill")
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 12
+    $0.contentMode = .scaleAspectFill
   }
   
   private let likeButton = ToggleButton(type: .like)
@@ -48,6 +52,8 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.axis = .vertical
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = .init(top: 8, left: 8, bottom: 8, right: 8)
   }
   
   private let moreButton = UIButton().then {
@@ -66,6 +72,9 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    likeCountLabel.text = nil
+    profileImageView.image = nil
+    likeButton.isSelected = false
     listContainerView.subviews.forEach { $0.removeFromSuperview() }
   }
   
@@ -74,29 +83,32 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     [profileImageView, likeButton, likeCountLabel, listContainerView, moreButton].forEach { contentView.addSubview($0) }
     
     profileImageView.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
+      $0.top.leading.equalToSuperview().inset(8)
       $0.size.equalTo(24)
     }
     
     likeButton.snp.makeConstraints {
-      $0.top.equalTo(profileImageView.snp.bottom).offset(10.67)
-      $0.trailing.equalTo(profileImageView.snp.centerX).offset(-1)
+      $0.top.equalTo(profileImageView.snp.bottom).offset(8)
+      $0.leading.equalToSuperview().inset(3)
+      $0.bottom.lessThanOrEqualToSuperview()
       $0.size.equalTo(16)
     }
     
     likeCountLabel.snp.makeConstraints {
-      $0.top.equalTo(likeButton)
+      $0.centerY.equalTo(likeButton)
       $0.leading.equalTo(likeButton.snp.trailing).offset(2)
     }
     
     listContainerView.snp.makeConstraints {
       $0.leading.equalTo(profileImageView.snp.trailing).offset(12)
-      $0.directionalVerticalEdges.trailing.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
+      $0.top.trailing.equalToSuperview()
     }
     
     moreButton.snp.makeConstraints {
       $0.size.equalTo(32)
-      $0.top.trailing.equalToSuperview().inset(8)
+      $0.top.equalToSuperview().inset(8)
+      $0.trailing.equalToSuperview().inset(7)
     }
   }
   
@@ -120,17 +132,21 @@ final class TodoCollectionViewCell: UICollectionViewCell {
       .disposed(by: disposeBag)
   }
   
-  func configureUI(with model: String) {
-    for _ in 0...5 {
-      let label = CheckTodoView()
-      label.delegate = self
-      listContainerView.addArrangedSubview(label)
+  func configureUI(with model: TodoCollectionViewCellModel) {
+    guard let url = URL(string: model.profileImageString) else { return }
+    profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
+    likeCountLabel.text = "\(model.totalLikes)"
+    model.checkTodoVieModels.forEach { checkTodoVieModel in
+      let todoView = CheckTodoView()
+      todoView.delegate = self
+      todoView.configureUI(with: checkTodoVieModel)
+      listContainerView.addArrangedSubview(todoView)
     }
   }
 }
 
 extension TodoCollectionViewCell {
-  static func estimatedCommentCellSize(_ targetSize: CGSize, model: String) -> CGSize {
+  static func estimatedCommentCellSize(_ targetSize: CGSize, model: TodoCollectionViewCellModel) -> CGSize {
     let view = TodoCollectionViewCell()
     view.configureUI(with: model)
     return view.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
