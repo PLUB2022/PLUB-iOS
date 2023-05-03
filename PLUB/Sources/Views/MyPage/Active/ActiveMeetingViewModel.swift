@@ -57,15 +57,11 @@ class ActiveMeetingViewModel {
       .map { $0.kor }
       .joined(separator: ", ")
     
-    let date = DateFormatter().then {
-      $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
-      $0.locale = Locale(identifier: "ko_KR")
-    }.date(from: time) ?? Date()
+    let date = DateFormatterFactory.dateTime
+      .date(from: time) ?? Date()
 
-    let timeStr = DateFormatter().then {
-      $0.dateFormat = "a h시 m분"
-      $0.locale = Locale(identifier: "ko_KR")
-    }.string(from: date)
+    let timeStr = DateFormatterFactory.koreanTime
+      .string(from: date)
     
     return (dateStr.isEmpty ? "온라인" : dateStr)  + " | " + timeStr
   }
