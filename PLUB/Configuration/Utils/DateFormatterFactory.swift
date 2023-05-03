@@ -35,4 +35,8 @@ enum DateFormatterFactory {
   static var commentDate: DateFormatter {
     dateFormatter.then { $0.dateFormat = "yy.MM.dd HH:mm" }
   }
+  
+  static var todolistDate: DateFormatter {
+    dateFormatter.then { $0.dateFormat = "MM.dd" }
+  }
 }
