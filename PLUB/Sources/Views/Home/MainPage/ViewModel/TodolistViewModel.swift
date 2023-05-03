@@ -15,7 +15,7 @@ protocol TodolistViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   
   // Output
-  var todolistDateModel: Driver<[TodoCollectionHeaderViewModel]> { get }
+  var todolistModel: Driver<[TodolistModel]> { get }
 }
 
 final class TodolistViewModel: TodolistViewModelType {
@@ -24,7 +24,7 @@ final class TodolistViewModel: TodolistViewModelType {
   
   let selectPlubbingID: AnyObserver<Int>
   
-  let todolistDateModel: Driver<[TodoCollectionHeaderViewModel]>
+  let todolistModel: Driver<[TodolistModel]>
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
@@ -47,16 +47,20 @@ final class TodolistViewModel: TodolistViewModelType {
       })
       .disposed(by: disposeBag)
     
-    todolistDateModel = allTodolist.map { result in
-      return result.compactMap { response -> TodoCollectionHeaderViewModel? in
+    todolistModel = allTodolist.map { result in
+      let todolistModel = result.compactMap { response -> TodolistModel? in
         guard let date = DateFormatterFactory.dateWithHypen.date(from: response.date) else {
           return nil
         }
-        return TodoCollectionHeaderViewModel(
+        let headerModel = TodoCollectionHeaderViewModel(
           isToday: Calendar.current.isDateInToday(date),
           date: DateFormatterFactory.todolistDate.string(from: date)
         )
+        
+        let cellModel = TodoCollectionViewCellModel(response: response)
+        return TodolistModel(headerModel: headerModel, cellModel: cellModel)
       }
+      return todolistModel.sorted(by: { $0.cellModel.isAuthor && !$1.cellModel.isAuthor})
     }
     .asDriver(onErrorDriveWith: .empty())
   }
