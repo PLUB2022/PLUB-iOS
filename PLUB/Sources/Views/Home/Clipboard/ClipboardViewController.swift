@@ -98,9 +98,10 @@ final class ClipboardViewController: BaseViewController {
     // BoardDetailViewController의 ViewModel에 전달하면서 navigation push 진행
     collectionView.rx.modelSelected(FeedsContent.self)
       .subscribe(with: self) { owner, model in
+        guard let plubbingID = model.plubbingID else { return }
         owner.navigationController?.pushViewController(
           BoardDetailViewController(
-            viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: model.plubbingID!, feedID: model.feedID)
+            viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: plubbingID, feedID: model.feedID)
           ),
           animated: true
         )

@@ -242,8 +242,10 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
     contentLabel.text = model.content
     
     contentImageView.isHidden = model.imageLink == nil
-    if let contentImageLink = model.imageLink, contentImageLink.isEmpty == false {
-      contentImageView.kf.setImage(with: URL(string: contentImageLink)!)
+    if let contentImageLink = model.imageLink,
+       contentImageLink.isEmpty == false,
+       let source = URL(string: contentImageLink) {
+      contentImageView.kf.setImage(with: source)
     }
     commentLabel.text = "달린 댓글 \(model.commentCount)"
     
