@@ -132,6 +132,7 @@
 		BA2173B929F57A97000D72B1 /* DeleteImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2173B829F57A97000D72B1 /* DeleteImageUseCase.swift */; };
 		BA2173BB29F61955000D72B1 /* UploadArchiveUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2173BA29F61955000D72B1 /* UploadArchiveUseCase.swift */; };
 		BA2173BD29F61A36000D72B1 /* EditArchiveUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2173BC29F61A36000D72B1 /* EditArchiveUseCase.swift */; };
+		BA3001E429FF98E300C3FB89 /* DeleteArchiveUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3001E329FF98E300C3FB89 /* DeleteArchiveUseCase.swift */; };
 		BA340E1629782207002BAF2C /* IntroduceTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */; };
 		BA340E1C297822CC002BAF2C /* IntroduceCategoryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */; };
 		BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */; };
@@ -242,10 +243,10 @@
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAC9794529CF0E9E00A5DF1B /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */; };
 		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
+		BADCB3EE29F6683E000B43D6 /* LikeFeedUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */; };
 		BADCB3F229F6A008000B43D6 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */; };
 		BADCB3F329F6A008000B43D6 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3F129F6A008000B43D6 /* NotificationViewModel.swift */; };
 		BADD8B4429F81B3300C93C4A /* NotificationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD8B4329F81B3300C93C4A /* NotificationCollectionViewCell.swift */; };
-		BADCB3EE29F6683E000B43D6 /* LikeFeedUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */; };
 		BADD8B4629F907F700C93C4A /* ArchiveBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD8B4529F907F700C93C4A /* ArchiveBottomSheetViewController.swift */; };
 		BAE0AC7129B5D61800F46F3D /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */; };
 		BAE0AC7629B5D67D00F46F3D /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0AC7429B5D67D00F46F3D /* BoardDetailViewController.swift */; };
@@ -525,6 +526,7 @@
 		BA2173B829F57A97000D72B1 /* DeleteImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteImageUseCase.swift; sourceTree = "<group>"; };
 		BA2173BA29F61955000D72B1 /* UploadArchiveUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadArchiveUseCase.swift; sourceTree = "<group>"; };
 		BA2173BC29F61A36000D72B1 /* EditArchiveUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditArchiveUseCase.swift; sourceTree = "<group>"; };
+		BA3001E329FF98E300C3FB89 /* DeleteArchiveUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteArchiveUseCase.swift; sourceTree = "<group>"; };
 		BA340E1529782207002BAF2C /* IntroduceTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		BA340E1B297822CC002BAF2C /* IntroduceCategoryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryInfoView.swift; sourceTree = "<group>"; };
 		BA340E1D297822ED002BAF2C /* IntroduceCategoryTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroduceCategoryTitleView.swift; sourceTree = "<group>"; };
@@ -628,10 +630,10 @@
 		BAC8930829755B87000D44E2 /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		BAC923DE29546BF500385841 /* BirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewController.swift; sourceTree = "<group>"; };
 		BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
+		BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeFeedUseCase.swift; sourceTree = "<group>"; };
 		BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BADCB3F129F6A008000B43D6 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		BADD8B4329F81B3300C93C4A /* NotificationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCollectionViewCell.swift; sourceTree = "<group>"; };
-		BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeFeedUseCase.swift; sourceTree = "<group>"; };
 		BADD8B4529F907F700C93C4A /* ArchiveBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveBottomSheetViewController.swift; sourceTree = "<group>"; };
 		BAE058E528EC7CEC00F09BD8 /* PLUB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PLUB.entitlements; sourceTree = "<group>"; };
 		BAE0AC7029B5D61800F46F3D /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1322,6 +1324,7 @@
 		BA4CCDF529EAB93D0040D0D7 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				BA3001E329FF98E300C3FB89 /* DeleteArchiveUseCase.swift */,
 				BA2173BC29F61A36000D72B1 /* EditArchiveUseCase.swift */,
 				BA590E7929EBC6320017FAF1 /* GetArchiveDetailUseCase.swift */,
 				BA4CCDF629EAB9540040D0D7 /* GetArchiveUseCase.swift */,
@@ -2418,6 +2421,7 @@
 				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
 				BA57F3F629ED30D200A9F790 /* DeleteCommentUseCase.swift in Sources */,
 				C3E0390F29C230F700C4744C /* RecruitingHeaderView.swift in Sources */,
+				BA3001E429FF98E300C3FB89 /* DeleteArchiveUseCase.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
 				C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */,
 				BA2173B929F57A97000D72B1 /* DeleteImageUseCase.swift in Sources */,

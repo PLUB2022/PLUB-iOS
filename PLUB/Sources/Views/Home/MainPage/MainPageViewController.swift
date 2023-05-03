@@ -279,7 +279,13 @@ extension MainPageViewController: MainPageHeaderViewDelegate {
 
 extension MainPageViewController: MainPageNavigationViewDelegate {
   func didTappedArchiveButton() {
-    let vc = ArchiveViewController(viewModel: ArchiveViewModel(plubbingID: plubbingID, getArchiveUseCase: DefaultGetArchiveUseCase()))
+    let vc = ArchiveViewController(
+      viewModel: ArchiveViewModel(
+        plubbingID: plubbingID,
+        getArchiveUseCase: DefaultGetArchiveUseCase(),
+        deleteArchiveUseCase: DefaultDeleteArchiveUseCase(plubbingID: plubbingID)
+      )
+    )
     vc.title = "" // 추후에 메인페이지헤더뷰에 대한 데이터를 올바르게 받아올 경우 코드 추가
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)

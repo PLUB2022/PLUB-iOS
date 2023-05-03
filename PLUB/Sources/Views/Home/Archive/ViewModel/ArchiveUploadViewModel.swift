@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import RxCocoa
+import Then
 
 protocol ArchiveUploadViewModelType {
   // Input
@@ -257,11 +258,11 @@ private extension ArchiveUploadViewModel {
         return collectionView.dequeueConfiguredReusableCell(using: uploadRegistration, for: indexPath, item: item)
       }
       return collectionView.dequeueConfiguredReusableCell(using: pictureRegistration, for: indexPath, item: item)
-    }
-    
-    // dataSource에 headerView도 등록
-    dataSource?.supplementaryViewProvider = .init { collectionView, _, indexPath in
-      return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+    }.then {
+      // dataSource에 headerView도 등록
+      $0.supplementaryViewProvider = .init { collectionView, _, indexPath in
+        return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+      }
     }
   }
   
@@ -308,7 +309,9 @@ private extension ArchiveUploadViewModel {
       return
     }
     
-    snapshot.moveItem(addPictureItem, afterItem: lastItem)
+    if addPictureItem != lastItem {
+      snapshot.moveItem(addPictureItem, afterItem: lastItem)
+    }
   }
 }
 
