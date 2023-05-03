@@ -10,11 +10,26 @@ import UIKit
 import SnapKit
 import Then
 
+struct TodolistModel {
+  let headerModel: TodoCollectionHeaderViewModel
+  let cellModel: TodoCollectionViewCellModel
+}
+
 final class TodolistViewController: BaseViewController {
   
   private let viewModel: TodolistViewModelType
   
-  private var headerModel: [TodoCollectionHeaderViewModel] = []
+  private var model: [TodolistModel] = [] {
+    didSet {
+      todoCollectionView.reloadData()
+    }
+  }
+  
+  private var headerModel: [TodoCollectionHeaderViewModel] = [] {
+    didSet {
+      todoCollectionView.reloadData()
+    }
+  }
   
   private let titleLabel = UILabel().then {
     $0.font = .appFont(family: .nanum, size: 32)
@@ -77,31 +92,32 @@ final class TodolistViewController: BaseViewController {
   func bind(plubbingID: Int) {
     super.bind()
     viewModel.selectPlubbingID.onNext(plubbingID)
-    viewModel.todolistDateModel
-      .drive(rx.headerModel)
+    
+    viewModel.todolistModel
+      .drive(rx.model)
       .disposed(by: disposeBag)
   }
 }
 
 extension TodolistViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return headerModel.count
+    return model.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return model.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodoCollectionViewCell.identifier, for: indexPath) as? TodoCollectionViewCell ?? TodoCollectionViewCell()
-    cell.configureUI(with: "")
+    cell.configureUI(with: model[indexPath.row].cellModel)
     cell.delegate = self
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TodoCollectionHeaderView.identifier, for: indexPath) as? TodoCollectionHeaderView ?? TodoCollectionHeaderView()
-    header.configureUI(with: headerModel[indexPath.section])
+    header.configureUI(with: model[indexPath.section].headerModel)
     return header
   }
   
@@ -119,7 +135,7 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
         width: view.bounds.width - 32,
         height: UIView.layoutFittingCompressedSize.height
       ),
-      model: "commentsModelsForSection[indexPath.item]"
+      model: model[indexPath.row].cellModel
     )
   }
 }
