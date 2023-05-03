@@ -34,7 +34,9 @@ final class TodolistViewController: BaseViewController {
   private let titleLabel = UILabel().then {
     $0.font = .appFont(family: .nanum, size: 32)
     $0.text = "“2주에 한 권씩”"
-    $0.addLineSpacing($0)
+    $0.textAlignment = .center
+    $0.numberOfLines = 0
+    $0.sizeToFit()
   }
   
   private let goalBackgroundView = UIView().then {
@@ -79,8 +81,7 @@ final class TodolistViewController: BaseViewController {
     
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(16)
-      $0.centerX.equalToSuperview()
-      $0.height.equalTo(40)
+      $0.directionalHorizontalEdges.equalToSuperview()
     }
     
     todoCollectionView.snp.makeConstraints {
@@ -96,6 +97,7 @@ final class TodolistViewController: BaseViewController {
     viewModel.todolistModel
       .drive(rx.model)
       .disposed(by: disposeBag)
+  
   }
 }
 
