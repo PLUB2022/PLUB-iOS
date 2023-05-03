@@ -81,8 +81,8 @@ final class MeetingViewController: BaseViewController {
     
     collectionView.snp.makeConstraints {
       $0.top.equalTo(meetingTypeControl.snp.bottom).offset(36)
-      $0.leading.trailing.equalToSuperview()
-      $0.height.equalTo(433)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(Metric.itemHeight)
     }
     
     pageControl.snp.makeConstraints {
@@ -209,7 +209,13 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
 
 extension MeetingViewController {
   private enum Metric {
-    static let itemSize = CGSize(width: 300, height: 433)
+    static let itemWidth = CGFloat(Device.width - 30 * 2)
+    static let itemHeight = itemWidth * 1.44
+    
+    static let itemSize = CGSize(
+      width: itemWidth,
+      height: itemHeight
+    )
     static let itemSpacing = CGFloat(16)
     
     static var insetX: CGFloat {
