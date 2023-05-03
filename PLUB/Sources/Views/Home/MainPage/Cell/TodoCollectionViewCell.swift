@@ -20,10 +20,18 @@ protocol TodoCollectionViewCellDelegate: AnyObject {
 
 struct TodoCollectionViewCellModel {
   let date: String
-  let profileImageString: String
+  let profileImageString: String?
   let totalLikes: Int
   let isAuthor: Bool
-  let checkTodoVieModels: [CheckTodoViewModel]
+  let checkTodoViewModels: [CheckTodoViewModel]
+  
+  init(response: InquireAllTodolistResponse) {
+    date = response.date
+    profileImageString = response.accountInfo?.profileImage
+    totalLikes = response.totalLikes
+    isAuthor = response.isAuthor
+    checkTodoViewModels = response.todoList.map { CheckTodoViewModel(todo: $0.content, isChecked: $0.isChecked) }
+  }
 }
 
 final class TodoCollectionViewCell: UICollectionViewCell {
@@ -131,10 +139,11 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: TodoCollectionViewCellModel) {
-    guard let url = URL(string: model.profileImageString) else { return }
+    guard let profileImageString = model.profileImageString,
+          let url = URL(string: profileImageString) else { return }
     profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
     likeCountLabel.text = "\(model.totalLikes)"
-    model.checkTodoVieModels.forEach { checkTodoVieModel in
+    model.checkTodoViewModels.forEach { checkTodoVieModel in
       let todoView = CheckTodoView()
       todoView.delegate = self
       todoView.configureUI(with: checkTodoVieModel)
