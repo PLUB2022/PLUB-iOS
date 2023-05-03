@@ -26,4 +26,11 @@ extension MyPageService {
         )
       ), type: MyPlubbingResponse.self)
   }
+  
+  func inquireMyTodo(
+    plubbingID: Int,
+    cursorID: Int
+  ) -> Observable<MyTodoResponse>  {
+    sendObservableRequest(MyPageRouter.inquireMyTodo(plubbingID, cursorID))
+  }
 }

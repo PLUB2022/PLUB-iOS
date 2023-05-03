@@ -9,12 +9,13 @@ import Alamofire
 
 enum MyPageRouter {
   case inquireMyMeeting(MyPlubbingParameter)
+  case inquireMyTodo(Int, Int)
 }
 
 extension MyPageRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .inquireMyMeeting:
+    case .inquireMyMeeting, .inquireMyTodo:
       return .get
     }
   }
@@ -23,6 +24,8 @@ extension MyPageRouter: Router {
     switch self {
     case .inquireMyMeeting:
       return "/plubbings/all/my"
+    case .inquireMyTodo(let plubbingID, _):
+      return "/plubbings/\(plubbingID)/timeline/my"
     }
   }
   
@@ -30,12 +33,14 @@ extension MyPageRouter: Router {
     switch self {
     case .inquireMyMeeting(let parameter):
       return .query(parameter)
+    case .inquireMyTodo(_, let cursorID):
+      return .query(["cursorId": cursorID])
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireMyMeeting:
+    case .inquireMyMeeting, .inquireMyTodo:
       return .withAccessToken
     }
   }

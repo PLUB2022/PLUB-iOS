@@ -283,6 +283,8 @@
 		C31D577429E16DBD00E056BA /* MyInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D577329E16DBD00E056BA /* MyInfoRequest.swift */; };
 		C32AB19029DDB9000045B919 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
+		C3330AD329F9A16D0023CB04 /* ActiveMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3330AD229F9A16D0023CB04 /* ActiveMeetingViewController.swift */; };
+		C3330AD529F9A1830023CB04 /* ActiveMeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3330AD429F9A1830023CB04 /* ActiveMeetingViewModel.swift */; };
 		C333EEB929F45A7E00B3F84E /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333EEB829F45A7E00B3F84E /* ExportViewController.swift */; };
 		C333EEBB29F45AB900B3F84E /* ExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333EEBA29F45AB900B3F84E /* ExportViewModel.swift */; };
 		C333EEBE29F4660800B3F84E /* ExportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333EEBD29F4660800B3F84E /* ExportTableViewCell.swift */; };
@@ -331,6 +333,11 @@
 		C36F31C729E3072800AC2C8A /* ScheduleBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F31C629E3072800AC2C8A /* ScheduleBottomSheetViewController.swift */; };
 		C36F31C929E3119200AC2C8A /* Ex+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36F31C829E3119200AC2C8A /* Ex+Collection.swift */; };
 		C371CDB229784F4E008950DD /* WeekDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */; };
+		C37237F32A02B0FF00328763 /* InquireMyTodoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37237F22A02B0FF00328763 /* InquireMyTodoUseCase.swift */; };
+		C374E79329FC1E52004738C2 /* MyTodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C374E79229FC1E52004738C2 /* MyTodoTableViewCell.swift */; };
+		C374E79529FC1E7E004738C2 /* MyTodoSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C374E79429FC1E7E004738C2 /* MyTodoSectionHeaderView.swift */; };
+		C374E79729FC2F4D004738C2 /* MyTodoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C374E79629FC2F4D004738C2 /* MyTodoResponse.swift */; };
+		C374E79A29FC3BCA004738C2 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C374E79929FC3BCA004738C2 /* TodoListView.swift */; };
 		C3757688296DC8E900406F39 /* CreateMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */; };
 		C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3775E2329C61B9C003A812F /* CustomAlertView.swift */; };
 		C383967629A25718005998A5 /* CreateScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C383967529A25718005998A5 /* CreateScheduleRequest.swift */; };
@@ -670,6 +677,8 @@
 		C31D577329E16DBD00E056BA /* MyInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoRequest.swift; sourceTree = "<group>"; };
 		C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
+		C3330AD229F9A16D0023CB04 /* ActiveMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMeetingViewController.swift; sourceTree = "<group>"; };
+		C3330AD429F9A1830023CB04 /* ActiveMeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMeetingViewModel.swift; sourceTree = "<group>"; };
 		C333EEB829F45A7E00B3F84E /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
 		C333EEBA29F45AB900B3F84E /* ExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewModel.swift; sourceTree = "<group>"; };
 		C333EEBD29F4660800B3F84E /* ExportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportTableViewCell.swift; sourceTree = "<group>"; };
@@ -715,6 +724,11 @@
 		C36F31C629E3072800AC2C8A /* ScheduleBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C36F31C829E3119200AC2C8A /* Ex+Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Collection.swift"; sourceTree = "<group>"; };
 		C371CDB129784F4E008950DD /* WeekDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCollectionViewCell.swift; sourceTree = "<group>"; };
+		C37237F22A02B0FF00328763 /* InquireMyTodoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireMyTodoUseCase.swift; sourceTree = "<group>"; };
+		C374E79229FC1E52004738C2 /* MyTodoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTodoTableViewCell.swift; sourceTree = "<group>"; };
+		C374E79429FC1E7E004738C2 /* MyTodoSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTodoSectionHeaderView.swift; sourceTree = "<group>"; };
+		C374E79629FC2F4D004738C2 /* MyTodoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTodoResponse.swift; sourceTree = "<group>"; };
+		C374E79929FC3BCA004738C2 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
 		C3757687296DC8E900406F39 /* CreateMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingViewController.swift; sourceTree = "<group>"; };
 		C3775E2329C61B9C003A812F /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		C383967529A25718005998A5 /* CreateScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleRequest.swift; sourceTree = "<group>"; };
@@ -1541,6 +1555,7 @@
 		BAB2E56A29E30053006B7BDC /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				C37237F12A02B0CA00328763 /* MyPage */,
 				BA2173B329F53657000D72B1 /* Image */,
 				C333EEBF29F48EB800B3F84E /* Meeting */,
 				C36E64CD29F1AECD00C6C3CF /* Recruitment */,
@@ -1681,13 +1696,14 @@
 		C3100CB529BD8A46005FCCAD /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				C34F047C29C7045100E5B67E /* Setting */,
 				C3100CB829BD8A7E005FCCAD /* MyPageViewModel.swift */,
 				C3100CB629BD8A5B005FCCAD /* MyPageViewController.swift */,
 				C3100CBD29BD94DC005FCCAD /* Cell */,
 				C3100CBA29BD8A96005FCCAD /* Component */,
+				C34F047C29C7045100E5B67E /* Setting */,
 				C3E0390629C2087000C4744C /* Recruiting */,
 				C3EC027B29D958070024C962 /* Waiting */,
+				C3330AD129F9A13A0023CB04 /* Active */,
 				C3C7197A29DC81A100A6DFD9 /* ProfileEdit */,
 			);
 			path = MyPage;
@@ -1730,6 +1746,17 @@
 				C316051A2997936200D27488 /* GuestQuestionViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C3330AD129F9A13A0023CB04 /* Active */ = {
+			isa = PBXGroup;
+			children = (
+				C3330AD229F9A16D0023CB04 /* ActiveMeetingViewController.swift */,
+				C3330AD429F9A1830023CB04 /* ActiveMeetingViewModel.swift */,
+				C374E79129FC1E36004738C2 /* Cell */,
+				C374E79829FC3BA7004738C2 /* Component */,
+			);
+			path = Active;
 			sourceTree = "<group>";
 		};
 		C333EEB729F45A5400B3F84E /* Export */ = {
@@ -1876,6 +1903,31 @@
 			path = Recruitment;
 			sourceTree = "<group>";
 		};
+		C37237F12A02B0CA00328763 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				C37237F22A02B0FF00328763 /* InquireMyTodoUseCase.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		C374E79129FC1E36004738C2 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C374E79229FC1E52004738C2 /* MyTodoTableViewCell.swift */,
+				C374E79429FC1E7E004738C2 /* MyTodoSectionHeaderView.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C374E79829FC3BA7004738C2 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				C374E79929FC3BCA004738C2 /* TodoListView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		C383967429A25701005998A5 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -1974,6 +2026,7 @@
 			isa = PBXGroup;
 			children = (
 				C3B3435A29BE3E5100935B73 /* MyPlubbingResponse.swift */,
+				C374E79629FC2F4D004738C2 /* MyTodoResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -2411,6 +2464,7 @@
 				C3EB29C829A9040600615B6B /* ScheduleTableViewCell.swift in Sources */,
 				C36CE39C29730B5000E3A68C /* MeetingIntroduceViewController.swift in Sources */,
 				C3B3435D29BE4A3000935B73 /* MyPlubbingParameter.swift in Sources */,
+				C374E79729FC2F4D004738C2 /* MyTodoResponse.swift in Sources */,
 				BA72BCF029BB03FF007165E5 /* BaseNavigationController.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				70727A2529C4C21A003DE956 /* CreateBoardViewModel.swift in Sources */,
@@ -2420,6 +2474,7 @@
 				701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */,
 				C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */,
 				BA57F3F629ED30D200A9F790 /* DeleteCommentUseCase.swift in Sources */,
+				C3330AD329F9A16D0023CB04 /* ActiveMeetingViewController.swift in Sources */,
 				C3E0390F29C230F700C4744C /* RecruitingHeaderView.swift in Sources */,
 				BA3001E429FF98E300C3FB89 /* DeleteArchiveUseCase.swift in Sources */,
 				BA814A3429890AB1003570D3 /* OnboardingViewModel.swift in Sources */,
@@ -2440,6 +2495,7 @@
 				70727A1F29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift in Sources */,
 				C333EEC129F48EF400B3F84E /* InquireMeetingMemberUseCase.swift in Sources */,
 				701A9C9E29BB2178006F53C2 /* BoardClipboardHeaderView.swift in Sources */,
+				C3330AD529F9A1830023CB04 /* ActiveMeetingViewModel.swift in Sources */,
 				70CF333929992FA60077FF47 /* RecruitmentFilterSlider.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
 				C3413E122995450B004B8DBD /* UnderlineSegmentedControl.swift in Sources */,
@@ -2570,6 +2626,7 @@
 				BA784FAE297937DA00E8B06F /* CalendarControl.swift in Sources */,
 				C31605192997935100D27488 /* MeetingInfoViewModel.swift in Sources */,
 				C32AB19029DDB9000045B919 /* ProfileEditViewModel.swift in Sources */,
+				C374E79329FC1E52004738C2 /* MyTodoTableViewCell.swift in Sources */,
 				BA57F3FF29ED814500A9F790 /* ArchiveUploadedPictureCell.swift in Sources */,
 				70A420AB298FAD000026E9F9 /* TopTabCollectionViewCell.swift in Sources */,
 				70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */,
@@ -2711,6 +2768,7 @@
 				C307826629CF5B6E00E1D44B /* MeetingTypeControl.swift in Sources */,
 				C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
+				C37237F32A02B0FF00328763 /* InquireMyTodoUseCase.swift in Sources */,
 				BA85BAA629A72D2400B4C59A /* BoardsRequest.swift in Sources */,
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,
@@ -2723,11 +2781,13 @@
 				C33FB0742993FAC600BEB15B /* EditMeetingInfoRequest.swift in Sources */,
 				702876B9299E459100E57509 /* BookmarkViewModel.swift in Sources */,
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
+				C374E79A29FC3BCA004738C2 /* TodoListView.swift in Sources */,
 				C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */,
 				C38C573E29EC5910002550DD /* MeetingMemberResponse.swift in Sources */,
 				70727A4329D5D679003DE956 /* TodoAlertController.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
 				C36E64CF29F1AEE300C6C3CF /* EditApplicationUseCase.swift in Sources */,
+				C374E79529FC1E7E004738C2 /* MyTodoSectionHeaderView.swift in Sources */,
 				BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */,
 				70727A2929C709E9003DE956 /* ApplyForRecruitmentResponse.swift in Sources */,
 				702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */,
