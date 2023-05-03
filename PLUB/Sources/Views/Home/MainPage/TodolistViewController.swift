@@ -14,6 +14,8 @@ final class TodolistViewController: BaseViewController {
   
   private let viewModel: TodolistViewModelType
   
+  private var headerModel: [TodoCollectionHeaderViewModel] = []
+  
   private let titleLabel = UILabel().then {
     $0.font = .appFont(family: .nanum, size: 32)
     $0.text = "“2주에 한 권씩”"
@@ -29,6 +31,7 @@ final class TodolistViewController: BaseViewController {
   }).then {
     $0.backgroundColor = .background
     $0.register(TodoCollectionViewCell.self, forCellWithReuseIdentifier: TodoCollectionViewCell.identifier)
+    $0.register(TodoCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TodoCollectionHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
@@ -37,7 +40,7 @@ final class TodolistViewController: BaseViewController {
   init(plubbingID: Int, viewModel: TodolistViewModelType = TodolistViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    bind(plubbindID: plubbingID)
+    bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
@@ -71,15 +74,18 @@ final class TodolistViewController: BaseViewController {
     }
   }
   
-  func bind(plubbindID: Int) {
+  func bind(plubbingID: Int) {
     super.bind()
-    viewModel.selectPlubbingID.onNext(plubbindID)
+    viewModel.selectPlubbingID.onNext(plubbingID)
+    viewModel.todolistDateModel
+      .drive(rx.headerModel)
+      .disposed(by: disposeBag)
   }
 }
 
 extension TodolistViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
+    return headerModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -92,6 +98,18 @@ extension TodolistViewController: UICollectionViewDelegate, UICollectionViewData
     cell.delegate = self
     return cell
   }
+  
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TodoCollectionHeaderView.identifier, for: indexPath) as? TodoCollectionHeaderView ?? TodoCollectionHeaderView()
+    header.configureUI(with: headerModel[indexPath.section])
+    return header
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    let width: CGFloat = collectionView.frame.width
+    let height: CGFloat = 8 + 21 + 8
+    return CGSize(width: width, height: height)
+  }
 }
 
 extension TodolistViewController: UICollectionViewDelegateFlowLayout {
@@ -99,7 +117,7 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
     return TodoCollectionViewCell.estimatedCommentCellSize(
       CGSize(
         width: view.bounds.width - 32,
-        height: 0
+        height: UIView.layoutFittingCompressedSize.height
       ),
       model: "commentsModelsForSection[indexPath.item]"
     )
