@@ -43,11 +43,19 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
 }
 
+protocol FeedLikeDelegate: AnyObject {
+  /// 게시글 좋아요가 바뀌면 호출됩니다.
+  func likeChanged(_ boardLike: Bool)
+}
+
 final class BoardDetailViewModel {
   
   // MARK: - Properties
   
-  let content: BoardModel
+  /// 게시물 좋아요 값
+  private var boardLike = false
+  
+  weak var delegate: FeedLikeDelegate?
   
   /// 댓글 정보 모델입니다.
   ///
@@ -89,7 +97,6 @@ final class BoardDetailViewModel {
   // MARK: - Initializations
   
   init(
-    content: BoardModel,
     getFeedDetailUseCase: GetFeedDetailUseCase,
     getCommentsUseCase: GetCommentsUseCase,
     postCommentUseCase: PostCommentUseCase,
@@ -97,7 +104,6 @@ final class BoardDetailViewModel {
     editCommentUseCase: EditCommentUseCase,
     likeFeedUseCase: LikeFeedUseCase
   ) {
-    self.content = content
     self.getFeedDetailUseCase = getFeedDetailUseCase
     self.getCommentsUseCase   = getCommentsUseCase
     self.postCommentUseCase   = postCommentUseCase
@@ -105,7 +111,7 @@ final class BoardDetailViewModel {
     self.editCommentUseCase   = editCommentUseCase
     self.likeFeedUseCase      = likeFeedUseCase
     
-    fetchComments()
+    fetchInitialStateUI()
     createComments()
     pagingSetup()
     deleteComments()
@@ -120,7 +126,9 @@ final class BoardDetailViewModel {
 extension BoardDetailViewModel {
   
   /// 댓글 정보를 가져와 초기 상태의 UI를 업데이트합니다.
-  private func fetchComments() {
+  private func fetchInitialStateUI() {
+    
+    let feedObservable = getFeedDetailUseCase.execute()
     
     // PagingManager를 이용하여 댓글을 가져옴
     let commentsObservable = pagingManager.fetchNextPage { [getCommentsUseCase] cursorID in
@@ -128,13 +136,16 @@ extension BoardDetailViewModel {
     }
     
     // 첫 세팅 작업
-    Observable.combineLatest(collectionViewSubject, commentsObservable) {
-      return (collectionView: $0, comments: $1)
+    Observable.combineLatest(collectionViewSubject, feedObservable, commentsObservable) {
+      return (collectionView: $0, feed: $1, comments: $2)
     }
     .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
     .subscribe(with: self) { owner, tuple in
+      if let like = tuple.feed.isLike {
+        owner.boardLike = like
+      }
       owner.comments.formUnion(tuple.comments) // 댓글 삽입
-      owner.setCollectionView(tuple.collectionView)
+      owner.setCollectionView(tuple.collectionView, content: tuple.feed.toBoardModel)
       owner.applyInitialSnapshots()
     }
     .disposed(by: disposeBag)
@@ -341,7 +352,7 @@ extension BoardDetailViewModel {
   // MARK: Snapshot & DataSource Part
   
   /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
-  private func setCollectionView(_ collectionView: UICollectionView) {
+  private func setCollectionView(_ collectionView: UICollectionView, content: BoardModel) {
     
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
     let registration = CellRegistration { [unowned self] cell, indexPath, id in
@@ -351,8 +362,11 @@ extension BoardDetailViewModel {
     }
     
     // Header View Registration, 헤더 뷰 후처리에 사용됨
-    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [content] supplementaryView, elementKind, indexPath in
+    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] supplementaryView, _, _ in
       supplementaryView.configure(with: content)
+      
+      self?.delegate = supplementaryView
+      supplementaryView.delegate = self
     }
     
     // dataSource에 cell 등록
@@ -422,6 +436,23 @@ extension BoardDetailViewModel {
     }
     
     dataSource.apply(snapshot)
+  }
+}
+
+// MARK: - BoardDetailCollectionHeaderViewDelegate
+
+extension BoardDetailViewModel: BoardDetailCollectionHeaderViewDelegate {
+  func didTappedHeartButton() {
+    likeFeedUseCase.execute()
+      .subscribe(with: self) { owner, _ in
+        owner.boardLike.toggle()
+        owner.delegate?.likeChanged(owner.boardLike)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  func didTappedSettingButton() {
+    PLUBToast.makeToast(text: "Setting Button Tapped")
   }
 }
 

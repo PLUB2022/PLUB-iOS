@@ -8,14 +8,25 @@
 import UIKit
 
 import Kingfisher
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
+
+protocol BoardDetailCollectionHeaderViewDelegate: AnyObject {
+  func didTappedHeartButton()
+  func didTappedSettingButton()
+}
 
 final class BoardDetailCollectionHeaderView: UICollectionReusableView {
   
   // MARK: - Properties
   
   static let identifier = "\(BoardDetailCollectionHeaderView.self)"
+  
+  private let disposeBag = DisposeBag()
+  
+  weak var delegate: BoardDetailCollectionHeaderViewDelegate?
   
   // MARK: - UI Components
   
@@ -135,6 +146,7 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
     setupLayouts()
     setupConstraints()
     setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -202,6 +214,20 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
     backgroundColor = .white
   }
   
+  private func bind() {
+    heartButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedHeartButton()
+      }
+      .disposed(by: disposeBag)
+    
+    settingButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedSettingButton()
+      }
+      .disposed(by: disposeBag)
+  }
+  
   func configure(with model: BoardModel) {
     if let imageLink = model.authorProfileImageLink, imageLink.isEmpty == false {
       profileImageView.kf.setImage(with: URL(string: imageLink)!)
@@ -216,10 +242,34 @@ final class BoardDetailCollectionHeaderView: UICollectionReusableView {
     contentLabel.text = model.content
     
     contentImageView.isHidden = model.imageLink == nil
-    if let contentImageLink = model.imageLink, contentImageLink.isEmpty == false {
-      contentImageView.kf.setImage(with: URL(string: contentImageLink)!)
+    if let contentImageLink = model.imageLink,
+       contentImageLink.isEmpty == false,
+       let source = URL(string: contentImageLink) {
+      contentImageView.kf.setImage(with: source)
     }
     commentLabel.text = "달린 댓글 \(model.commentCount)"
+    
+    // 좋아요 버튼 색상 변경
+    guard let isLike = model.isLike else { return }
+    let buttonImage = isLike ? UIImage(named: "heartFilled") : UIImage(named: "heart")
+    heartButton.setImage(buttonImage, for: .normal)
+  }
+}
+
+extension BoardDetailCollectionHeaderView: FeedLikeDelegate {
+  func likeChanged(_ boardLike: Bool) {
+    // heart image
+    let buttonImage = boardLike ? UIImage(named: "heartFilled") : UIImage(named: "heart")
+    heartButton.setImage(buttonImage, for: .normal)
+    
+    // heart count
+    guard let heartCountText = heartCountLabel.text,
+          let heartCount = Int(heartCountText)
+    else {
+      return
+    }
+    
+    heartCountLabel.text = "\(heartCount + (boardLike ? 1 : -1))"
   }
 }
 
