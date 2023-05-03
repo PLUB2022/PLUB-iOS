@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class ActiveMeetingViewModel {
+final class ActiveMeetingViewModel {
   private let disposeBag = DisposeBag()
   private(set) var plubbingID: Int
   
