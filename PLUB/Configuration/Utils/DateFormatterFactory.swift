@@ -35,4 +35,9 @@ enum DateFormatterFactory {
   static var commentDate: DateFormatter {
     dateFormatter.then { $0.dateFormat = "yy.MM.dd HH:mm" }
   }
+  
+  /// `a h시 m분`
+  static var koreanTime: DateFormatter {
+    dateFormatter.then { $0.dateFormat = "a h시 m분" }
+  }
 }
