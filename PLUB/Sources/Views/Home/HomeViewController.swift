@@ -159,14 +159,15 @@ final class HomeViewController: BaseViewController {
   }
   
   @objc private func didTappedSearchButton() {
+    navigationItem.backButtonTitle = ""
     let vc = SearchInputViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
   
   @objc private func didTappedBookmarkButton() {
+    navigationItem.backButtonTitle = "북마크"
     let vc = BookmarkViewController()
-    vc.title = "북마크"
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
@@ -324,15 +325,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     let homeSection = HomeSectionType.allCases[indexPath.section]
     switch homeSection {
     case .mainCategoryList:
+      navigationItem.backButtonTitle = mainCategoryList[indexPath.row].name
       let vc = SelectedCategoryViewController(viewModel: SelectedCategoryViewModel(), categoryID: "\(mainCategoryList[indexPath.row].id)")
-      vc.title = mainCategoryList[indexPath.row].name
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     case .interestSelect:
+      navigationItem.backButtonTitle = ""
       let vc = RegisterInterestViewController(viewModel: RegisterInterestViewModel())
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     case .recommendedMeeting:
+      navigationItem.backButtonTitle = ""
       let recommendationList = recommendationList[indexPath.row]
       let vc = DetailRecruitmentViewController(plubbingID: recommendationList.plubbingID)
       vc.navigationItem.largeTitleDisplayMode = .never
@@ -345,6 +348,7 @@ extension HomeViewController: InterestSelectCollectionViewCellDelegate {
   func didTappedRegisterInterestView() {
     let vc = RegisterInterestViewController(viewModel: RegisterInterestViewModel())
     vc.navigationItem.largeTitleDisplayMode = .never
+    navigationItem.backButtonTitle = ""
     self.navigationController?.pushViewController(vc, animated: true)
   }
 }

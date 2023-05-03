@@ -157,12 +157,6 @@ final class DetailRecruitmentViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "checkBookmark"),
       style: .plain,
@@ -264,10 +258,6 @@ final class DetailRecruitmentViewController: BaseViewController {
     viewModel.isHost
       .emit(to: rx.isHost)
       .disposed(by: disposeBag)
-  }
-  
-  @objc private func didTappedBackButton() {
-    self.navigationController?.popViewController(animated: true)
   }
   
   @objc private func didTappedComponentButton() {

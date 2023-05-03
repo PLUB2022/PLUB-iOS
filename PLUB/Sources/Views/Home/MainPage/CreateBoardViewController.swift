@@ -96,8 +96,6 @@ final class CreateBoardViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    
-    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
     addPhotoImageView.addGestureRecognizer(tapGesture)
   }
   
@@ -241,11 +239,6 @@ final class CreateBoardViewController: BaseViewController {
       boardTypeStackView.setCustomSpacing(24, after: addPhotoImageView)
     }
   }
-  
-  @objc private func didTappedBackButton() {
-    self.navigationController?.popViewController(animated: true)
-  }
-  
 }
 
 extension CreateBoardViewController: PhotoBottomSheetDelegate {

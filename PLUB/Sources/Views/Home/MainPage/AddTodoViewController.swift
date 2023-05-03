@@ -13,15 +13,5 @@ import Then
 final class AddTodoViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
-    navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-  }
-  
-  @objc private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
 }

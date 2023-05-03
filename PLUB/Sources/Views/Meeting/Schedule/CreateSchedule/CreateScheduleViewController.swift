@@ -302,17 +302,6 @@ final class CreateScheduleViewController: BaseViewController {
   
   private func setupNavigationBar() {
     title = "요란한 한줄"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "backButton"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-  }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
   
   private func addSubViews(stackView: UIStackView, type: MeetingScheduleType) {

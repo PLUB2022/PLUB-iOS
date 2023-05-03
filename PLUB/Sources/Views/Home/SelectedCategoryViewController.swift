@@ -68,22 +68,6 @@ final class SelectedCategoryViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    self.navigationItem.title = nil
-    self.navigationItem.leftBarButtonItems = [
-      UIBarButtonItem(image: UIImage(named: "back"), style: .done, target: self, action: #selector(didTappedBackButton)),
-      UIBarButtonItem(title: title, style: .done, target: nil, action: nil)
-    ]
-    
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "search"),
-      style: .done,
-      target: self,
-      action: nil
-    )
-  }
-  
   override func setupLayouts() {
     [selectedCategoryFilterHeaderView, interestListCollectionView, noSelectedCategoryView].forEach { view.addSubview($0) }
   }
@@ -134,10 +118,6 @@ final class SelectedCategoryViewController: BaseViewController {
         }
       })
       .disposed(by: disposeBag)
-  }
-  
-  @objc private func didTappedBackButton() {
-    self.navigationController?.popViewController(animated: true)
   }
 }
 
