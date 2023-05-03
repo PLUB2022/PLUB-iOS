@@ -106,14 +106,6 @@ final class CreateMeetingViewController: BaseViewController {
   //TODO: 수빈 - viewModel로 빼기
   private var isNextButtonEnable = [Bool]()
   
-  init() {
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   // MARK: - Life Cycle
   
   override func viewDidLoad() {
@@ -199,8 +191,6 @@ final class CreateMeetingViewController: BaseViewController {
   }
   
   private func setupNavigationBar() {
-    navigationController?.navigationBar.tintColor = .black
-    navigationController?.navigationBar.backgroundColor = .background
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "backButton"),
       style: .plain,

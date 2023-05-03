@@ -125,13 +125,6 @@ final class MainPageViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
-      style: .done,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-    
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
     title = "요란한 밧줄"
     
@@ -200,10 +193,6 @@ final class MainPageViewController: BaseViewController {
         }
       }
       .disposed(by: disposeBag)
-  }
-  
-  @objc func didTappedBackButton() {
-    self.navigationController?.popViewController(animated: true)
   }
 }
 

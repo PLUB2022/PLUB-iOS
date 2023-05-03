@@ -106,11 +106,6 @@ final class SettingViewController: BaseViewController {
     contentStackView.setCustomSpacing(32, after: titleLabel)
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    setupNavigationBar()
-  }
-  
   private func addSubViews(stackView: UIStackView, type: SettingType) {
     switch type {
     case .use:
@@ -138,19 +133,5 @@ final class SettingViewController: BaseViewController {
         }
       }
     }
-  }
-  
-  private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "backButton"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-  }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
 }

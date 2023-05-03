@@ -56,11 +56,6 @@ final class ExportViewController: BaseViewController {
     }
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    setupNavigationBar()
-  }
-  
   override func bind() {
     super.bind()
     viewModel.accountList
@@ -84,20 +79,6 @@ final class ExportViewController: BaseViewController {
 }
 
 extension ExportViewController {
-  private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "backButton"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-  }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
-  }
-  
   private func showSuccessExportMemberAlert(nickname: String) {
     let alert = CustomAlertView(
       AlertModel(

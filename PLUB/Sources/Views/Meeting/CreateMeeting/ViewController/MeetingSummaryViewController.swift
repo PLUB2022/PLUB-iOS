@@ -123,26 +123,12 @@ final class MeetingSummaryViewController: BaseViewController {
 
 extension MeetingSummaryViewController {
   private func setupNavigationBar() {
-    navigationController?.navigationBar.tintColor = .black
-    navigationController?.navigationBar.backgroundColor = .background
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "backButton"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "blackBookmark"),
       style: .plain,
       target: self,
       action: #selector(didTappedBookmarkButton)
     )
-  }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
   
   @objc

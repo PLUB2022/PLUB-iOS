@@ -78,12 +78,6 @@ final class RegisterInterestViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
-      style: .done,
-      target: self,
-      action: #selector(didTappedLeftButton)
-    )
   }
   
   override func bind() {
@@ -116,10 +110,6 @@ final class RegisterInterestViewController: BaseViewController {
     
     registerTableView.rx.setDelegate(self).disposed(by: disposeBag)
     registerTableView.rx.setDataSource(self).disposed(by: disposeBag)
-  }
-  
-  @objc private func didTappedLeftButton() {
-    self.navigationController?.popViewController(animated: true)
   }
 }
 
