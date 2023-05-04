@@ -38,7 +38,8 @@ enum DateFormatterFactory {
   
   static var todolistDate: DateFormatter {
     dateFormatter.then { $0.dateFormat = "MM.dd" }
-
+  }
+    
   /// `a h시 m분`
   static var koreanTime: DateFormatter {
     dateFormatter.then { $0.dateFormat = "a h시 m분" }
