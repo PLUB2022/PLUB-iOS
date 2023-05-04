@@ -60,7 +60,7 @@ final class TodolistViewModel: TodolistViewModelType {
         let cellModel = TodoCollectionViewCellModel(response: response)
         return TodolistModel(headerModel: headerModel, cellModel: cellModel)
       }
-      return todolistModel.sorted(by: { $0.cellModel.isAuthor && !$1.cellModel.isAuthor})
+      return todolistModel
     }
     .asDriver(onErrorDriveWith: .empty())
   }
