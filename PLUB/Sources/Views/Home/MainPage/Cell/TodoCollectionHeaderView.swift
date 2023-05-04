@@ -21,7 +21,6 @@ final class TodoCollectionHeaderView: UICollectionReusableView {
   
   private let dateLabel = UILabel().then {
     $0.font = .body1
-    $0.sizeToFit()
   }
   
   override init(frame: CGRect) {
