@@ -12,12 +12,13 @@ struct InquireAllTodoTimelineResponse: Codable {
   let date: String
   let totalLikes: Int
   let isAuthor: Bool
+  let isLike: Bool
   let accountInfo: AccountInfo?
   let todoList: [Todo]
   
   enum CodingKeys: String, CodingKey {
     case todoTimelineID = "todoTimelineId"
-    case date, totalLikes, isAuthor, accountInfo, todoList
+    case date, totalLikes, isAuthor, isLike, accountInfo, todoList
   }
   
   init(from decoder: Decoder) throws {
@@ -27,6 +28,7 @@ struct InquireAllTodoTimelineResponse: Codable {
     date = try values.decodeIfPresent(String.self, forKey: .date) ?? ""
     totalLikes = try values.decodeIfPresent(Int.self, forKey: .totalLikes) ?? 0
     isAuthor = try values.decodeIfPresent(Bool.self, forKey: .isAuthor) ?? false
+    isLike = try values.decodeIfPresent(Bool.self, forKey: .isLike) ?? false
     accountInfo = try values.decodeIfPresent(AccountInfo.self, forKey: .accountInfo)
     todoList = try values.decodeIfPresent([Todo].self, forKey: .todoList) ?? []
   }
