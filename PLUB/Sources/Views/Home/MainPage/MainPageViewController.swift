@@ -126,13 +126,6 @@ final class MainPageViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
-      style: .done,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-    
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
     title = "요란한 밧줄"
     
@@ -202,10 +195,6 @@ final class MainPageViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
   }
-  
-  @objc func didTappedBackButton() {
-    self.navigationController?.popViewController(animated: true)
-  }
 }
 
 extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
@@ -249,7 +238,7 @@ extension MainPageViewController: BoardViewControllerDelegate {
   
   func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel) {
     let vc = BoardDetailViewController(
-      viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: plubbingID, boardModel: content)
+      viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: plubbingID, feedID: content.feedID)
     )
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
@@ -280,7 +269,13 @@ extension MainPageViewController: MainPageHeaderViewDelegate {
 
 extension MainPageViewController: MainPageNavigationViewDelegate {
   func didTappedArchiveButton() {
-    let vc = ArchiveViewController(viewModel: ArchiveViewModel(plubbingID: plubbingID, getArchiveUseCase: DefaultGetArchiveUseCase()))
+    let vc = ArchiveViewController(
+      viewModel: ArchiveViewModel(
+        plubbingID: plubbingID,
+        getArchiveUseCase: DefaultGetArchiveUseCase(),
+        deleteArchiveUseCase: DefaultDeleteArchiveUseCase(plubbingID: plubbingID)
+      )
+    )
     vc.title = "" // 추후에 메인페이지헤더뷰에 대한 데이터를 올바르게 받아올 경우 코드 추가
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)

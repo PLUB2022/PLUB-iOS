@@ -237,19 +237,3 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     datetimeLabel.text = "\(DateFormatterFactory.commentDate.string(from: date))"
   }
 }
-
-// MARK: - Dynamic Height Sizing
-
-extension BoardDetailCollectionViewCell {
-  
-  /// 댓글을 포함한 셀의 대략적인 높이를 포함한 view의 크기를 리턴합니다.
-  /// - Parameters:
-  ///   - targetSize: 원하는 view의 크기,
-  ///   - comment: 댓글 내용
-  /// - Returns: 댓글 내용이 전부 보일 정도의 대략적인 view의 크기
-  static func estimatedCommentCellSize(_ targetSize: CGSize, commentContent: CommentContent) -> CGSize {
-    let view = BoardDetailCollectionViewCell()
-    view.configure(with: commentContent)
-    return view.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-  }
-}

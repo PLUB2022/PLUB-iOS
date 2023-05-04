@@ -13,13 +13,15 @@ import RxCocoa
 protocol ArchiveViewModelType {
   // Input
   
+  var viewWillAppearObserver: AnyObserver<Void> { get }
+  
   /// ViewController 단에서 initialized된 collectionView를 받습니다.
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
   
   /// 선택된 셀의 IndexPath를 전달합니다.
   var selectedArchiveCellObserver: AnyObserver<IndexPath> { get }
   
-  /// 페이징을 처리하기 위한 Observer입니다. 
+  /// 페이징을 처리하기 위한 Observer입니다.
   var offsetObserver: AnyObserver<(viewHeight: CGFloat, offset: CGFloat)> { get }
   
   /// 업로드 버튼이 눌렸을 때를 인지하기 위한 Observer입니다.
@@ -46,6 +48,7 @@ final class ArchiveViewModel {
   
   private let plubbingID: Int
   private let getArchiveUseCase: GetArchiveUseCase
+  private let deleteArchiveUseCase: DeleteArchiveUseCase
   
   private var dataSource: DataSource? {
     didSet {
@@ -63,6 +66,7 @@ final class ArchiveViewModel {
   
   // MARK: Subjects
   
+  private let viewWillAppearSubject         = PublishSubject<Void>()
   private let setCollectionViewSubject      = PublishSubject<UICollectionView>()
   private let selectedArchiveCellSubject    = PublishSubject<IndexPath>()
   private let offsetSubject                 = PublishSubject<(viewHeight: CGFloat, offset: CGFloat)>()
@@ -73,12 +77,19 @@ final class ArchiveViewModel {
   
   // MARK: - Initialization
   
-  init(plubbingID: Int, getArchiveUseCase: GetArchiveUseCase) {
+  init(
+    plubbingID: Int,
+    getArchiveUseCase: GetArchiveUseCase,
+    deleteArchiveUseCase: DeleteArchiveUseCase
+  ) {
     self.plubbingID = plubbingID
     self.getArchiveUseCase = getArchiveUseCase
+    self.deleteArchiveUseCase = deleteArchiveUseCase
     
     fetchArchive(plubbingID: plubbingID)
     pagingSetup(plubbingID: plubbingID)
+    removeArchive()
+    refreshArchives(plubbingID: plubbingID)
   }
   
   private let disposeBag = DisposeBag()
@@ -93,14 +104,14 @@ final class ArchiveViewModel {
       getArchiveUseCase.execute(plubbingID: plubbingID, nextCursorID: cursorID)
     }
     
-    setCollectionViewSubject
-      .take(1)
-      .withLatestFrom(archivesObservable) { (collectionView: $0, archiveContents: $1) }
-      .subscribe(with: self) { owner, tuple in
-        owner.archiveContents = tuple.archiveContents
-        owner.setCollectionView(tuple.collectionView)
-      }
-      .disposed(by: disposeBag)
+    Observable.combineLatest(setCollectionViewSubject, archivesObservable) {
+      (collectionView: $0, archiveContents: $1)
+    }
+    .subscribe(with: self) { owner, tuple in
+      owner.archiveContents = tuple.archiveContents
+      owner.setCollectionView(tuple.collectionView)
+    }
+    .disposed(by: disposeBag)
   }
   
   /// 선택된 Cell의 IndexPath에 맞는 archiveID와 plubbingID를 emit합니다.
@@ -112,6 +123,63 @@ final class ArchiveViewModel {
         guard let self else { return nil }
         return (plubbingID: self.plubbingID, archiveID: $0)
       }
+  }
+  
+  /// 업로드 버튼, 또는 아카이브 수정 버튼이 눌렸을 때를 처리하기 위한 파이프라인 구성 코드 입니다.
+  /// - Returns: ArchiveUploadViewModelFactory에 필요한 파라미터 인자인 `plubbingID`와 `archiveID`
+  private func uploadOrEditButtonLogic() -> Observable<(plubbingID: Int, archiveID: Int)> {
+    
+    // 업로드 버튼 클릭된 경우
+    let uploadPipeLine = uploadButtonTappedSubject.map { [plubbingID] _ in
+      (plubbingID: plubbingID, archiveID: Int.min) // 업로드 버튼은 archiveID를 쓰지 않으므로 최솟값으로 설정
+    }
+    
+    // 바텀시트로부터 아카이브 수정 버튼이 눌린 경우
+    let editPipeLine = Observable.zip(bottomSheetTypeSubject.filter { $0 == .edit }, recentTappedArchiveIDSubject)
+      .map { [plubbingID] in
+        (plubbingID: plubbingID, archiveID: $1)
+      }
+    
+    // 두 파이프라인을 합침
+    return Observable.merge(uploadPipeLine, editPipeLine)
+  }
+  
+  /// 아카이브 삭제 파이프라인 코드
+  private func removeArchive() {
+    bottomSheetTypeSubject
+      .filter { $0 == .delete }
+      .withLatestFrom(recentTappedArchiveIDSubject)
+      .flatMap { [deleteArchiveUseCase] in
+        deleteArchiveUseCase.execute(archiveID: $0)
+      }
+      .withLatestFrom(recentTappedArchiveIDSubject)
+      .subscribe(with: self) { owner, archiveID in
+        owner.archiveContents.removeAll {
+          $0.archiveID == archiveID
+        }
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func refreshArchives(plubbingID: Int) {
+    viewWillAppearSubject
+      .skip(1) // 첫 viewWillAppear일 때는 무시
+      .flatMap { [weak self] _ -> Observable<[ArchiveContent]> in
+        guard let self else { return .empty() }
+        // 페이징 초기화 -> 아카이브 API 재요청 -> 새롭게 데이터 받아온 뒤 UI 파싱
+        self.pagingManager.refreshPagingData()
+        return self.pagingManager.fetchNextPage { _ in
+          self.getArchiveUseCase.execute(plubbingID: plubbingID, nextCursorID: 0)
+        }
+      }
+      .subscribe(with: self) { owner, content in
+        guard var snapshot = owner.dataSource?.snapshot() else { return }
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
+        owner.dataSource?.apply(snapshot)
+        owner.archiveContents = content
+      }
+      .disposed(by: disposeBag)
   }
   
   /// 페이징 처리를 진행합니다.
@@ -138,6 +206,10 @@ final class ArchiveViewModel {
 extension ArchiveViewModel: ArchiveViewModelType {
   
   // MARK: Input
+  
+  var viewWillAppearObserver: AnyObserver<Void> {
+    viewWillAppearSubject.asObserver()
+  }
   
   var setCollectionViewObserver: AnyObserver<UICollectionView> {
     setCollectionViewSubject.asObserver()
@@ -166,10 +238,7 @@ extension ArchiveViewModel: ArchiveViewModelType {
   }
   
   var presentArchiveUploadObservable: Observable<(plubbingID: Int, archiveID: Int)> {
-    // TODO: 승현 - 아카이브 수정 시 보내야하는 plubbingID와 archiveID도 같이 merge해야함
-    uploadButtonTappedSubject.compactMap { [plubbingID] _ in
-      (plubbingID, 0) // 업로드 버튼은 archiveID를 쓰지 않으므로 임의의 값 0을 주입
-    }
+    uploadOrEditButtonLogic()
   }
   
   var presentBottomSheetObservable: Observable<(ArchiveContent.AccessType)> {
@@ -180,7 +249,10 @@ extension ArchiveViewModel: ArchiveViewModelType {
 // MARK: - Diffable DataSources
 
 extension ArchiveViewModel {
-  typealias Section           = Int
+  
+  enum Section {
+    case main
+  }
   typealias Item              = ArchiveContent
   typealias DataSource        = UICollectionViewDiffableDataSource<Section, Item>
   typealias Snapshot          = NSDiffableDataSourceSnapshot<Section, Item>
@@ -207,7 +279,7 @@ extension ArchiveViewModel {
   /// 직접 이 메서드를 실행할 필요는 없습니다.
   func applyInitialSnapshots() {
     var snapshot = Snapshot()
-    snapshot.appendSections([0]) // 의무적으로 섹션 하나는 추가해야 함
+    snapshot.appendSections([.main])
     snapshot.appendItems(archiveContents)
     dataSource?.apply(snapshot)
   }
@@ -215,12 +287,14 @@ extension ArchiveViewModel {
   func updateSnapshots() {
     guard var snapshot = dataSource?.snapshot() else { return }
     
-    guard let index = archiveContents.firstIndex(where: { !snapshot.itemIdentifiers.contains($0) })
-    else {
-      return
+    // 페이징 처리
+    if let index = archiveContents.firstIndex(where: { !snapshot.itemIdentifiers.contains($0) }) {
+      snapshot.appendItems(Array(archiveContents[index...]))
     }
-    
-    snapshot.appendItems(Array(archiveContents[index...]))
+    // 아카이브 삭제 처리
+    if let itemToDelete = snapshot.itemIdentifiers.first(where: { !archiveContents.contains($0) }) {
+      snapshot.deleteItems([itemToDelete])
+    }
     
     dataSource?.apply(snapshot)
   }

@@ -88,12 +88,6 @@ final class SearchInputViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     self.navigationItem.titleView = searchBar
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
     interestListCollectionView.isHidden = true
     searchOutputHeaderView.isHidden = true
     noResultSearchView.isHidden = true
@@ -162,6 +156,7 @@ final class SearchInputViewController: BaseViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         owner.dismissSearchOutput()
+        
       })
       .disposed(by: disposeBag)
     
@@ -206,15 +201,6 @@ final class SearchInputViewController: BaseViewController {
     interestListCollectionView.isHidden = true
     searchOutputHeaderView.isHidden = true
     noResultSearchView.isHidden = true
-  }
-  
-  @objc private func didTappedBackButton() {
-    if interestListCollectionView.isHidden == false || noResultSearchView.isHidden == false {
-      dismissSearchOutput()
-    }
-    else {
-      self.navigationController?.popViewController(animated: true)
-    }
   }
 }
 

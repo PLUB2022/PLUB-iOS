@@ -46,8 +46,13 @@ final class ArchiveUploadViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(viewModel: ArchiveUploadViewModelType) {
+  /// ArchiveUploadViewController initializer
+  /// - Parameters:
+  ///   - archiveTitleText: archiveTitleLabel에 들어갈 text
+  ///   - viewModel: ViewModel
+  init(archiveTitleText: String, viewModel: ArchiveUploadViewModelType) {
     self.viewModel = viewModel
+    archiveTitleLabel.text = archiveTitleText
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -79,7 +84,7 @@ final class ArchiveUploadViewController: BaseViewController {
     super.setupConstraints()
     
     archiveTitleLabelContainerView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(14)
+      $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.directionalHorizontalEdges.equalToSuperview().inset(Margin.horizontal)
     }
     

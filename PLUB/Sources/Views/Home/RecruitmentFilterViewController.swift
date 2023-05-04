@@ -124,14 +124,7 @@ final class RecruitmentFilterViewController: BaseViewController {
   }
   
   override func setupStyles() {
-    super.setupStyles()
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-    
+    super.setupStyles()    
     self.navigationItem.title = nil
     titleLabel.text = title
   }
@@ -166,12 +159,6 @@ final class RecruitmentFilterViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     [titleLabel, filterCollectionView, recruitmentFilterSlider, confirmButton].forEach { view.addSubview($0) }
-  }
-  
-  // MARK: - Selector Method
-  
-  @objc private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
 }
 

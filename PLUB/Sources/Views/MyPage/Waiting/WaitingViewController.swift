@@ -67,10 +67,6 @@ final class WaitingViewController: BaseViewController {
     }
   }
   
-  override func setupStyles() {
-    setupNavigationBar()
-  }
-  
   override func bind() {
     viewModel.meetingInfo
       .drive(with: self) { owner, myInfo in
@@ -109,20 +105,6 @@ final class WaitingViewController: BaseViewController {
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
-  }
-  
-  private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "backButton"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-  }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
 }
 

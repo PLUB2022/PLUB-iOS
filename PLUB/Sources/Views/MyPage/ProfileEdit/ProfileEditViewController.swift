@@ -189,7 +189,6 @@ final class ProfileEditViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     configureInitialUI()
-    setupNavigationBar()
   }
   
   override func bind() {
@@ -280,20 +279,6 @@ final class ProfileEditViewController: BaseViewController {
     alertLabel.textColor = .mediumGray
     
     alertImageView.image = UIImage(named: "bubbleWarning")
-  }
-  
-  private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "backButton"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-  }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
   
   private func setupPreData(myInfoData: MyInfoResponse) {

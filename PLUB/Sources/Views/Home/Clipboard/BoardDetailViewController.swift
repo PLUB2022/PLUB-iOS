@@ -1,4 +1,4 @@
-// 
+//
 //  BoardDetailViewController.swift
 //  PLUB
 //
@@ -16,7 +16,7 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - Properties
   
-  private let viewModel: BoardDetailViewModelType & BoardDetailDataStore
+  private let viewModel: BoardDetailViewModelType
   
   /// 터치 및 아래로 스와이프를 인식하기 위한 gesture recognizer
   private let panGesture = UIPanGestureRecognizer(target: BoardDetailViewController.self, action: nil)
@@ -25,8 +25,6 @@ final class BoardDetailViewController: BaseViewController {
   // MARK: - UI Components
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
-    $0.register(BoardDetailCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailCollectionHeaderView.identifier)
-    $0.register(BoardDetailCollectionViewCell.self, forCellWithReuseIdentifier: BoardDetailCollectionViewCell.identifier)
     $0.backgroundColor = .background
   }
   
@@ -44,7 +42,7 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(viewModel: BoardDetailViewModelType & BoardDetailDataStore) {
+  init(viewModel: BoardDetailViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -99,6 +97,7 @@ final class BoardDetailViewController: BaseViewController {
     panGesture.delegate = self
     collectionView.addGestureRecognizer(tapGesture)
     collectionView.addGestureRecognizer(panGesture)
+    collectionView.collectionViewLayout = createLayouts()
     
     // == comment posting delegate ==
     commentInputView.delegate = self
@@ -107,7 +106,6 @@ final class BoardDetailViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
     viewModel.decoratorNameObserable
       .subscribe(with: self) { owner, tuple in
@@ -200,34 +198,31 @@ extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
   }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewLayout
 
-extension BoardDetailViewController: UICollectionViewDelegateFlowLayout {
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    // * section은 1부터 시작, section 순서는 groupID 순과 동일함
-    // * viewModel의 `comments`는 section, item과 상관없이 일차원 배열로 나열되어있음
-    // * 위 배열에서 section과 item의 맞는 모델을 찾아 사이즈를 구해야함
-    // * 따라서 section값에 따른 groupID를 먼저 구하고, groupID가 동일한 배열만을 빼냄
-    // * 빼낸 배열은 item을 인덱스로하여 모델을 가져오도록 구현
-    let groupID = Set(viewModel.comments.map(\.groupID)).sorted()[indexPath.section - 1]
-    let commentsModelsForSection = viewModel.comments
-      .filter { $0.groupID == groupID }
-      .sorted { $0.commentID < $1.commentID }
-    let size = BoardDetailCollectionViewCell.estimatedCommentCellSize(CGSize(width: view.bounds.width, height: 0), commentContent: commentsModelsForSection[indexPath.item])
-    return size
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    // 첫 번째 section에만 게시글이 보이도록 설정
-    guard section == 0 else { return .zero }
-    // 동적 높이 처리
-    let headerRegistration = BoardDetailViewModel.HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [viewModel] supplementaryView, elementKind, indexPath in
-      supplementaryView.configure(with: viewModel.content)
+extension BoardDetailViewController {
+  func createLayouts() -> UICollectionViewLayout {
+    return UICollectionViewCompositionalLayout { sectionNumber, _ in
+
+      let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80)))
+      
+      let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80)), subitems: [item])
+      
+      let section = NSCollectionLayoutSection(group: group)
+      
+      if sectionNumber == 0 {
+        section.boundarySupplementaryItems = [.init(
+          layoutSize: .init(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(100)
+          ),
+          elementKind: UICollectionView.elementKindSectionHeader,
+          alignment: .top
+        )]
+      }
+      
+      return section
     }
-    let indexPath = IndexPath(row: 0, section: section)
-    let headerView = collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-    return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
   }
 }
 

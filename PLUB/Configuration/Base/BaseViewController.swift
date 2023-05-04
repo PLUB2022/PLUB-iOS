@@ -62,6 +62,8 @@ class BaseViewController: UIViewController {
   /// ```
   func setupStyles() {
     view.backgroundColor = .background
+    navigationItem.backButtonTitle = ""
+    navigationItem.title = nil
   }
   
   /// Action, State 스트림을 bind합니다.

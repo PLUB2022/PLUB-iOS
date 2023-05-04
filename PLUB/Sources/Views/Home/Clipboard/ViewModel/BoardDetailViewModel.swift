@@ -43,16 +43,19 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
 }
 
-protocol BoardDetailDataStore {
-  var content: BoardModel { get }
-  var comments: Set<CommentContent> { get }
+protocol FeedLikeDelegate: AnyObject {
+  /// 게시글 좋아요가 바뀌면 호출됩니다.
+  func likeChanged(_ boardLike: Bool)
 }
 
-final class BoardDetailViewModel: BoardDetailDataStore {
+final class BoardDetailViewModel {
   
   // MARK: - Properties
   
-  let content: BoardModel
+  /// 게시물 좋아요 값
+  private var boardLike = false
+  
+  weak var delegate: FeedLikeDelegate?
   
   /// 댓글 정보 모델입니다.
   ///
@@ -94,7 +97,6 @@ final class BoardDetailViewModel: BoardDetailDataStore {
   // MARK: - Initializations
   
   init(
-    content: BoardModel,
     getFeedDetailUseCase: GetFeedDetailUseCase,
     getCommentsUseCase: GetCommentsUseCase,
     postCommentUseCase: PostCommentUseCase,
@@ -102,7 +104,6 @@ final class BoardDetailViewModel: BoardDetailDataStore {
     editCommentUseCase: EditCommentUseCase,
     likeFeedUseCase: LikeFeedUseCase
   ) {
-    self.content = content
     self.getFeedDetailUseCase = getFeedDetailUseCase
     self.getCommentsUseCase   = getCommentsUseCase
     self.postCommentUseCase   = postCommentUseCase
@@ -110,7 +111,7 @@ final class BoardDetailViewModel: BoardDetailDataStore {
     self.editCommentUseCase   = editCommentUseCase
     self.likeFeedUseCase      = likeFeedUseCase
     
-    fetchComments()
+    fetchInitialStateUI()
     createComments()
     pagingSetup()
     deleteComments()
@@ -125,7 +126,9 @@ final class BoardDetailViewModel: BoardDetailDataStore {
 extension BoardDetailViewModel {
   
   /// 댓글 정보를 가져와 초기 상태의 UI를 업데이트합니다.
-  private func fetchComments() {
+  private func fetchInitialStateUI() {
+    
+    let feedObservable = getFeedDetailUseCase.execute()
     
     // PagingManager를 이용하여 댓글을 가져옴
     let commentsObservable = pagingManager.fetchNextPage { [getCommentsUseCase] cursorID in
@@ -133,13 +136,16 @@ extension BoardDetailViewModel {
     }
     
     // 첫 세팅 작업
-    Observable.combineLatest(collectionViewSubject, commentsObservable) {
-      return (collectionView: $0, comments: $1)
+    Observable.combineLatest(collectionViewSubject, feedObservable, commentsObservable) {
+      return (collectionView: $0, feed: $1, comments: $2)
     }
     .take(1)  // 첫 세팅 작업이니만큼 한 번만 실행되어야 합니다.
     .subscribe(with: self) { owner, tuple in
+      if let like = tuple.feed.isLike {
+        owner.boardLike = like
+      }
       owner.comments.formUnion(tuple.comments) // 댓글 삽입
-      owner.setCollectionView(tuple.collectionView)
+      owner.setCollectionView(tuple.collectionView, content: tuple.feed.toBoardModel)
       owner.applyInitialSnapshots()
     }
     .disposed(by: disposeBag)
@@ -200,9 +206,29 @@ extension BoardDetailViewModel {
       }
       .withLatestFrom(deleteIDSubject)
       .subscribe(with: self) { owner, commentID in
-        guard let content = owner.comments.first(where: { $0.commentID == commentID }) else { return }
-        // 차집합으로 자신과 자식 댓글까지 제거
-        owner.comments.subtract(owner.comments.filter { $0.parentCommentID == content.commentID || $0 == content })
+        
+        var commentsToDelete = Set<CommentContent>() // 삭제할 댓글 집합
+        
+        func deleteComments(targetID: Int) {
+          guard let commentToDelete = owner.comments.first(where: { $0.commentID == targetID })
+          else {
+            return
+          }
+          
+          // 삭제할 댓글 집합에 자기 자신 추가
+          commentsToDelete.insert(commentToDelete)
+          
+          // 자식 댓글 삭제
+          let childCommentsToDelete = owner.comments.filter { $0.parentCommentID == targetID }
+          childCommentsToDelete.forEach {
+            deleteComments(targetID: $0.commentID)
+          }
+        }
+        
+        deleteComments(targetID: commentID)
+        
+        // 차집합으로 자신과 하위 댓글까지 제거
+        owner.comments.subtract(commentsToDelete)
       }
       .disposed(by: disposeBag)
   }
@@ -309,7 +335,13 @@ extension BoardDetailViewModel {
   
   // MARK: Type Alias
   
-  typealias Section = Int
+  enum Section: Hashable {
+    /// 게시물 섹션
+    case board
+    
+    /// 댓글 섹션
+    case comment(groupID: Int)
+  }
   typealias Item = Int
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
@@ -320,18 +352,21 @@ extension BoardDetailViewModel {
   // MARK: Snapshot & DataSource Part
   
   /// Collection View를 세팅하며, `DiffableDataSource`를 초기화하여 해당 Collection View에 데이터를 지닌 셀을 처리합니다.
-  private func setCollectionView(_ collectionView: UICollectionView) {
+  private func setCollectionView(_ collectionView: UICollectionView, content: BoardModel) {
     
     // 단어 그대로 `등록`처리 코드, 셀 후처리할 때 사용됨
-    let registration = CellRegistration { cell, indexPath, id in
+    let registration = CellRegistration { [unowned self] cell, indexPath, id in
       let recentItem = self.comments.first(where: { $0.commentID == id })!
       cell.configure(with: recentItem)
       cell.delegate = self
     }
     
     // Header View Registration, 헤더 뷰 후처리에 사용됨
-    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [content] supplementaryView, elementKind, indexPath in
+    let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] supplementaryView, _, _ in
       supplementaryView.configure(with: content)
+      
+      self?.delegate = supplementaryView
+      supplementaryView.delegate = self
     }
     
     // dataSource에 cell 등록
@@ -350,12 +385,19 @@ extension BoardDetailViewModel {
   private func applyInitialSnapshots() {
     var snapshot = Snapshot()
     
-    var sections = [Constants.boardSection] // 최소한 하나의 Section이라도 존재해야 함
-    sections.append(contentsOf: Array(Set(comments.map { $0.groupID })).sorted())
+    // 게시물 전용 섹션은 `default`임, 없으면 버그 발생합니다.
+    var sections = [Section.board]
+    
+    sections.append(contentsOf: Array(Set(comments.map(\.groupID))).sorted().map { Section.comment(groupID: $0) })
     snapshot.appendSections(sections)
     
-    sections.forEach { sectionGroupID in
-      snapshot.appendItems(comments.filter({ $0.groupID == sectionGroupID }).map(\.commentID).sorted(), toSection: sectionGroupID)
+    sections[1...].forEach { section in
+      guard case let .comment(groupID) = section else { return }
+      let items = comments
+        .filter { $0.groupID == groupID }
+        .map(\.commentID)
+        .sorted()
+      snapshot.appendItems(items, toSection: section)
     }
     dataSource?.apply(snapshot)
   }
@@ -368,7 +410,7 @@ extension BoardDetailViewModel {
     var snapshot = dataSource.snapshot()
     
     // 삭제해야할 section 조회
-    let commentsGroupIDs = Set(comments.map(\.groupID)).union([Constants.boardSection])
+    let commentsGroupIDs = Set(comments.map({ Section.comment(groupID: $0.groupID) })).union([.board])
     let sectionsToRemove = Set(snapshot.sectionIdentifiers).subtracting(commentsGroupIDs)
     snapshot.deleteSections(Array(sectionsToRemove))
     
@@ -387,13 +429,30 @@ extension BoardDetailViewModel {
     // snapshot에 추가해야할 item 선별
     for content in comments.sorted(by: { $0.groupID < $1.groupID || $0.commentID < $1.commentID }) where snapshot.itemIdentifiers.contains(content.commentID) == false {
       // 댓글인 경우
-      if snapshot.sectionIdentifiers.contains(content.groupID) == false {
-        snapshot.appendSections([content.groupID])
+      if snapshot.sectionIdentifiers.contains(.comment(groupID: content.groupID)) == false {
+        snapshot.appendSections([.comment(groupID: content.groupID)])
       }
-      snapshot.appendItems([content.commentID], toSection: content.groupID)
+      snapshot.appendItems([content.commentID], toSection: .comment(groupID: content.groupID))
     }
     
     dataSource.apply(snapshot)
+  }
+}
+
+// MARK: - BoardDetailCollectionHeaderViewDelegate
+
+extension BoardDetailViewModel: BoardDetailCollectionHeaderViewDelegate {
+  func didTappedHeartButton() {
+    likeFeedUseCase.execute()
+      .subscribe(with: self) { owner, _ in
+        owner.boardLike.toggle()
+        owner.delegate?.likeChanged(owner.boardLike)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  func didTappedSettingButton() {
+    PLUBToast.makeToast(text: "Setting Button Tapped")
   }
 }
 
@@ -442,13 +501,5 @@ extension BoardDetailViewModel {
     
     /// 댓글 수정
     case edit
-  }
-}
-
-// MARK: - Constants
-
-private extension BoardDetailViewModel {
-  enum Constants {
-    static let boardSection = -1
   }
 }

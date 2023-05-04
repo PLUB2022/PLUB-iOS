@@ -141,11 +141,6 @@ final class EditApplicationViewController: BaseViewController {
     }
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    setupNavigationBar()
-  }
-  
   override func bind() {
     super.bind()
     
@@ -174,20 +169,6 @@ final class EditApplicationViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     scrollView.addGestureRecognizer(tapGesture)
-  }
-  
-  private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "backButton"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-  }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
 }
 

@@ -208,8 +208,6 @@ final class SignUpViewController: BaseViewController {
   
   /// 네비게이션바 세팅 메서드
   private func setupNavigationBar() {
-    navigationController?.navigationBar.tintColor = .black
-    navigationController?.navigationBar.backgroundColor = .background
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "backButton"),
       style: .plain,

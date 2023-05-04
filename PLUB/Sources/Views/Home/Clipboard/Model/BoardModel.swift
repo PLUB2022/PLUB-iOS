@@ -25,6 +25,9 @@ struct BoardModel {
   /// 작성날짜
   let date: Date
   
+  /// 유저가 게시글에 좋아요를 눌렀는지 여부를 판단합니다.
+  var isLike: Bool?
+  
   /// 좋아요 수
   let likeCount: Int
   
@@ -69,6 +72,7 @@ extension FeedsContent {
       author: nickname,
       authorProfileImageLink: profileImageURL,
       date: dateFormatter.date(from: postDate)!,
+      isLike: isLike,
       likeCount: likeCount,
       commentCount: commentCount,
       title: title,

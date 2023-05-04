@@ -72,7 +72,6 @@ extension RecruitingHeaderView {
       $0.top.equalToSuperview().inset(24)
       $0.leading.equalToSuperview().inset(16)
       $0.trailing.equalToSuperview().inset(155)
-      $0.bottom.equalToSuperview().inset(15)
     }
     
     titleLabel.snp.makeConstraints {
@@ -108,6 +107,8 @@ extension RecruitingHeaderView {
       locationView.setText(data.address, false)
     }
     scheduleView.setText(data.schedule, false)
+    
+    subtitleLabel.isHidden = type == .active ? true : false
     subtitleLabel.text = type.subtitle
   }
 }

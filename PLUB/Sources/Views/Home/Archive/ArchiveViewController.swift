@@ -66,6 +66,11 @@ final class ArchiveViewController: BaseViewController {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.viewWillAppearObserver.onNext(Void())
+  }
+  
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     var frame = headerStackView.bounds
@@ -144,11 +149,26 @@ final class ArchiveViewController: BaseViewController {
     
     // 업로드 VC를 보여줘야하는 경우
     viewModel.presentArchiveUploadObservable
-      .subscribe(with: self) { owner, tuple in
-        let uploadVC = ArchiveUploadViewController(
-          viewModel: ArchiveUploadViewModelWithUploadFactory.make(plubbingID: tuple.plubbingID)
+      .map { plubbingID, archiveID -> (text: String, viewModel: ArchiveUploadViewModelType) in
+        if archiveID == .min {
+          return (
+            text: "아카이브 업로드",
+            viewModel: ArchiveUploadViewModelWithUploadFactory.make(plubbingID: plubbingID)
+          )
+        }
+        return (
+          text: "아카이브 수정",
+          viewModel: ArchiveUploadViewModelWithEditFactory.make(
+            plubbingID: plubbingID,
+            archiveID: archiveID
+          )
         )
-        owner.navigationController?.pushViewController(uploadVC, animated: true)
+      }
+      .subscribe(with: self) { owner, tuple in
+        owner.navigationController?.pushViewController(
+          ArchiveUploadViewController(archiveTitleText: tuple.text, viewModel: tuple.viewModel),
+          animated: true
+        )
       }
       .disposed(by: disposeBag)
     
