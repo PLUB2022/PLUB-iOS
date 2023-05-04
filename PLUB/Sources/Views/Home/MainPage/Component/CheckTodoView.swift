@@ -15,6 +15,11 @@ protocol CheckTodoViewDelegate: AnyObject {
   func didTappedCheckboxButton()
 }
 
+struct CheckTodoViewModel {
+  let todo: String
+  let isChecked: Bool
+}
+
 final class CheckTodoView: UIView {
   
   weak var delegate: CheckTodoViewDelegate?
@@ -25,7 +30,6 @@ final class CheckTodoView: UIView {
   private let todoLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .systemFont(ofSize: 14)
-    $0.text = "독후감 쓴 내용 팀원들이랑 공유하기"
   }
   
   override init(frame: CGRect) {
@@ -38,25 +42,30 @@ final class CheckTodoView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func configureUI() {
-    [checkboxButton, todoLabel].forEach { addSubview($0) }
-    checkboxButton.snp.makeConstraints {
-      $0.directionalVerticalEdges.leading.equalToSuperview().inset(8)
-      $0.size.equalTo(24)
-    }
-    
-    todoLabel.snp.makeConstraints {
-      $0.leading.equalTo(checkboxButton.snp.trailing).offset(8)
-      $0.directionalVerticalEdges.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
-    }
-  }
-  
   private func bind() {
     checkboxButton.rx.isChecked
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedCheckboxButton()
       }
       .disposed(by: disposeBag)
+  }
+  
+  private func configureUI() {
+    [checkboxButton, todoLabel].forEach { addSubview($0) }
+    checkboxButton.snp.makeConstraints {
+      $0.directionalVerticalEdges.leading.equalToSuperview().inset(6)
+      $0.size.equalTo(12)
+    }
+    
+    todoLabel.snp.makeConstraints {
+      $0.leading.equalTo(checkboxButton.snp.trailing).offset(14)
+      $0.directionalVerticalEdges.equalToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
+    }
+  }
+  
+  func configureUI(with model: CheckTodoViewModel) {
+    todoLabel.text = model.todo
+    checkboxButton.isChecked = model.isChecked
   }
 }

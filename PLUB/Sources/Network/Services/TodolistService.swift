@@ -14,10 +14,14 @@ final class TodolistService: BaseService {
 }
 
 extension TodolistService {
-  func inquireAllTodolist(plubbingID: Int, cursorID: Int = 0) -> PLUBResult<PaginatedDataResponse<InquireAllTodolistResponse>> {
+  func inquireAllTodoTimeline(plubbingID: Int, cursorID: Int = 0) -> PLUBResult<PaginatedDataResponse<InquireAllTodoTimelineResponse>> {
     sendRequest(
-      TodolistRouter.inquireAllTodolist(plubbingID, cursorID),
-      type: PaginatedDataResponse<InquireAllTodolistResponse>.self
+      TodolistRouter.inquireAllTodoTimeline(plubbingID, cursorID),
+      type: PaginatedDataResponse<InquireAllTodoTimelineResponse>.self
     )
+  }
+  
+  func inquireTodolist(plubbingID: Int, timelineID: Int) -> Observable<InquireTodolistResponse> {
+    sendObservableRequest(TodolistRouter.inquireTodolist(plubbingID, timelineID))
   }
 }

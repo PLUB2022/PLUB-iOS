@@ -8,34 +8,39 @@
 import Alamofire
 
 enum TodolistRouter {
-  case inquireAllTodolist(Int, Int)
+  case inquireAllTodoTimeline(Int, Int)
+  case inquireTodolist(Int, Int)
 }
 
 extension TodolistRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .inquireAllTodolist:
+    case .inquireAllTodoTimeline, .inquireTodolist:
       return .get
     }
   }
   
   var path: String {
     switch self {
-    case .inquireAllTodolist(let plubbingID, _):
+    case .inquireAllTodoTimeline(let plubbingID, _):
       return "/plubbings/\(plubbingID)/timeline"
+    case .inquireTodolist(let plubbingID, let timelineID):
+      return "/plubbings/\(plubbingID)/timeline/\(timelineID)/todolist"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireAllTodolist(_, let cursorID):
+    case .inquireAllTodoTimeline(_, let cursorID):
       return .query(["cursorId": cursorID])
+    case .inquireTodolist:
+      return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireAllTodolist:
+    case .inquireAllTodoTimeline, .inquireTodolist:
       return .withAccessToken
     }
   }

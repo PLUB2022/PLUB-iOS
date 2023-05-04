@@ -104,11 +104,16 @@ struct DetailRecruitmentResponse: Codable {
 struct AccountInfo: Codable {
   
   /// 계정 ID
-  let accountId: Int
+  let accountID: Int
   
   /// 프로필 이미지
   let profileImage: String?
   
   /// 닉네임
   let nickname: String
+  
+  enum CodingKeys: String, CodingKey {
+    case accountID = "accountId"
+    case profileImage, nickname
+  }
 }
