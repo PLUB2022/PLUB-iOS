@@ -21,7 +21,7 @@ extension TodolistService {
     )
   }
   
-  func inquireTodolist(plubbingID: Int, timelineID: Int) -> Observable<ArchiveContent> {
+  func inquireTodolist(plubbingID: Int, timelineID: Int) -> Observable<InquireTodolistResponse> {
     sendObservableRequest(TodolistRouter.inquireTodolist(plubbingID, timelineID))
   }
 }
