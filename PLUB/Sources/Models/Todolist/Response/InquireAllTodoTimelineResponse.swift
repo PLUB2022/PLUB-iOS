@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireAllTodolistResponse: Codable {
+struct InquireAllTodoTimelineResponse: Codable {
   let todoTimelineID: Int
   let date: String
   let totalLikes: Int

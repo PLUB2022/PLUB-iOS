@@ -28,7 +28,7 @@ final class TodolistViewModel: TodolistViewModelType {
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
-    let allTodolist = BehaviorSubject<[InquireAllTodolistResponse]>(value: [])
+    let allTodolist = BehaviorSubject<[InquireAllTodoTimelineResponse]>(value: [])
     self.selectPlubbingID = selectingPlubbingID.asObserver()
     
     let inquireAllTodolist = selectingPlubbingID.flatMapLatest {
@@ -36,7 +36,7 @@ final class TodolistViewModel: TodolistViewModelType {
     }
       .share()
     
-    let successInquireAllTodolist = inquireAllTodolist.compactMap { result -> [InquireAllTodolistResponse]? in
+    let successInquireAllTodolist = inquireAllTodolist.compactMap { result -> [InquireAllTodoTimelineResponse]? in
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }

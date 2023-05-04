@@ -25,7 +25,7 @@ struct TodoCollectionViewCellModel {
   let isAuthor: Bool
   let checkTodoViewModels: [CheckTodoViewModel]
   
-  init(response: InquireAllTodolistResponse) {
+  init(response: InquireAllTodoTimelineResponse) {
     date = response.date
     profileImageString = response.accountInfo?.profileImage
     totalLikes = response.totalLikes
