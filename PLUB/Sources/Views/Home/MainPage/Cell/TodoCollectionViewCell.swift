@@ -113,8 +113,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     
     moreButton.snp.makeConstraints {
       $0.size.equalTo(32)
-      $0.top.equalToSuperview().inset(8)
-      $0.trailing.equalToSuperview().inset(7)
+      $0.top.trailing.equalToSuperview().inset(8)
     }
   }
   

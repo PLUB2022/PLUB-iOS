@@ -20,7 +20,6 @@ final class TodoCollectionHeaderView: UICollectionReusableView {
   static let identifier = "TodoCollectionHeaderView"
   
   private let dateLabel = UILabel().then {
-    $0.textColor = .black
     $0.font = .body1
     $0.sizeToFit()
   }
