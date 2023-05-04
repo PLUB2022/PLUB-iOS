@@ -103,6 +103,7 @@
 		70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */; };
 		70C9CC8F2A00864400BEB5F2 /* TodolistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC8E2A00864400BEB5F2 /* TodolistViewModel.swift */; };
 		70C9CC932A01CE8B00BEB5F2 /* TodoCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC922A01CE8B00BEB5F2 /* TodoCollectionHeaderView.swift */; };
+		70C9CC952A03720200BEB5F2 /* InquireTodolistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC942A03720200BEB5F2 /* InquireTodolistResponse.swift */; };
 		70CF3330299793220077FF47 /* RegisterInterestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF332F299793220077FF47 /* RegisterInterestRequest.swift */; };
 		70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */; };
 		70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */; };
@@ -500,6 +501,7 @@
 		70C42453296C86A400DECA0D /* HomeMainCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainCollectionHeaderView.swift; sourceTree = "<group>"; };
 		70C9CC8E2A00864400BEB5F2 /* TodolistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodolistViewModel.swift; sourceTree = "<group>"; };
 		70C9CC922A01CE8B00BEB5F2 /* TodoCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCollectionHeaderView.swift; sourceTree = "<group>"; };
+		70C9CC942A03720200BEB5F2 /* InquireTodolistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireTodolistResponse.swift; sourceTree = "<group>"; };
 		70CF332F299793220077FF47 /* RegisterInterestRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestRequest.swift; sourceTree = "<group>"; };
 		70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterViewController.swift; sourceTree = "<group>"; };
 		70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1045,6 +1047,7 @@
 			isa = PBXGroup;
 			children = (
 				70727A3A29D32E4C003DE956 /* InquireAllTodoTimelineResponse.swift */,
+				70C9CC942A03720200BEB5F2 /* InquireTodolistResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -2489,6 +2492,7 @@
 				C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */,
 				C38A5B9D297AFDCD00485355 /* LocationBottomSheetViewController.swift in Sources */,
 				705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */,
+				70C9CC952A03720200BEB5F2 /* InquireTodolistResponse.swift in Sources */,
 				C33EF37D29A1DFD100D7A5CA /* ScheduleAlarmView.swift in Sources */,
 				BAB9DFD229BB17B90062807C /* ArchiveViewModel.swift in Sources */,
 				BAC5EF2D298A9E4300F3955E /* SplashViewController.swift in Sources */,
