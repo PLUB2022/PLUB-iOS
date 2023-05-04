@@ -18,19 +18,18 @@ protocol TodolistViewModelType {
   var todoTimelineModel: Driver<[TodolistModel]> { get }
 }
 
-final class TodolistViewModel: TodolistViewModelType {
+final class TodolistViewModel {
   
   private let disposeBag = DisposeBag()
   
-  let selectPlubbingID: AnyObserver<Int>
-  
-  let todoTimelineModel: Driver<[TodolistModel]>
+  private let selectingPlubbingID = PublishSubject<Int>()
+  private let allTodoTimeline = BehaviorSubject<[InquireAllTodoTimelineResponse]>(value: [])
   
   init() {
-    let selectingPlubbingID = PublishSubject<Int>()
-    let allTodoTimeline = BehaviorSubject<[InquireAllTodoTimelineResponse]>(value: [])
-    self.selectPlubbingID = selectingPlubbingID.asObserver()
-    
+    inquireAllTodoTimeline()
+  }
+  
+  private func inquireAllTodoTimeline() {
     let inquireAllTodoTimeline = selectingPlubbingID.flatMapLatest {
       return TodolistService.shared.inquireAllTodoTimeline(plubbingID: $0, cursorID: 0)
     }
@@ -42,12 +41,18 @@ final class TodolistViewModel: TodolistViewModelType {
     }
     
     successInquireAllTodoTimeline
-      .subscribe(onNext: { response in
-        allTodoTimeline.onNext(response)
-      })
+      .bind(to: allTodoTimeline)
       .disposed(by: disposeBag)
-    
-    todoTimelineModel = allTodoTimeline.map { result in
+  }
+}
+
+extension TodolistViewModel: TodolistViewModelType {
+  var selectPlubbingID: AnyObserver<Int> { // 선택한 plubbingID가 무엇인지
+    selectingPlubbingID.asObserver()
+  }
+  
+  var todoTimelineModel: Driver<[TodolistModel]> { // 조회한 투두타임라인에 대한 데이터를 TodolistModel로 파싱한 값
+    allTodoTimeline.map { result in
       let todolistModel = result.compactMap { response -> TodolistModel? in
         guard let date = DateFormatterFactory.dateWithHypen.date(from: response.date) else {
           return nil
