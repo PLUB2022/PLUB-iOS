@@ -22,6 +22,7 @@ struct TodoCollectionViewCellModel {
   let date: String
   let profileImageString: String?
   let totalLikes: Int
+  let isLike: Bool
   let isAuthor: Bool
   let checkTodoViewModels: [CheckTodoViewModel]
   
@@ -29,6 +30,7 @@ struct TodoCollectionViewCellModel {
     date = response.date
     profileImageString = response.accountInfo?.profileImage
     totalLikes = response.totalLikes
+    isLike = response.isLike
     isAuthor = response.isAuthor
     checkTodoViewModels = response.todoList.map { CheckTodoViewModel(todo: $0.content, isChecked: $0.isChecked) }
   }
@@ -142,6 +144,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
           let url = URL(string: profileImageString) else { return }
     profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
     likeCountLabel.text = "\(model.totalLikes)"
+    likeButton.isSelected = model.isLike
     model.checkTodoViewModels.forEach { checkTodoVieModel in
       let todoView = CheckTodoView()
       todoView.delegate = self
