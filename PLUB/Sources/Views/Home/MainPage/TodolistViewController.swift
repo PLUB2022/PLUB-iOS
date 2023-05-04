@@ -94,7 +94,7 @@ final class TodolistViewController: BaseViewController {
     super.bind()
     viewModel.selectPlubbingID.onNext(plubbingID)
     
-    viewModel.todolistModel
+    viewModel.todoTimelineModel
       .drive(rx.model)
       .disposed(by: disposeBag)
   

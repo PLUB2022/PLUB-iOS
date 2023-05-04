@@ -15,7 +15,7 @@ protocol TodolistViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   
   // Output
-  var todolistModel: Driver<[TodolistModel]> { get }
+  var todoTimelineModel: Driver<[TodolistModel]> { get }
 }
 
 final class TodolistViewModel: TodolistViewModelType {
@@ -24,30 +24,30 @@ final class TodolistViewModel: TodolistViewModelType {
   
   let selectPlubbingID: AnyObserver<Int>
   
-  let todolistModel: Driver<[TodolistModel]>
+  let todoTimelineModel: Driver<[TodolistModel]>
   
   init() {
     let selectingPlubbingID = PublishSubject<Int>()
-    let allTodolist = BehaviorSubject<[InquireAllTodoTimelineResponse]>(value: [])
+    let allTodoTimeline = BehaviorSubject<[InquireAllTodoTimelineResponse]>(value: [])
     self.selectPlubbingID = selectingPlubbingID.asObserver()
     
-    let inquireAllTodolist = selectingPlubbingID.flatMapLatest {
+    let inquireAllTodoTimeline = selectingPlubbingID.flatMapLatest {
       return TodolistService.shared.inquireAllTodoTimeline(plubbingID: $0, cursorID: 0)
     }
       .share()
     
-    let successInquireAllTodolist = inquireAllTodolist.compactMap { result -> [InquireAllTodoTimelineResponse]? in
+    let successInquireAllTodoTimeline = inquireAllTodoTimeline.compactMap { result -> [InquireAllTodoTimelineResponse]? in
       guard case .success(let response) = result else { return nil }
       return response.data?.content
     }
     
-    successInquireAllTodolist
+    successInquireAllTodoTimeline
       .subscribe(onNext: { response in
-        allTodolist.onNext(response)
+        allTodoTimeline.onNext(response)
       })
       .disposed(by: disposeBag)
     
-    todolistModel = allTodolist.map { result in
+    todoTimelineModel = allTodoTimeline.map { result in
       let todolistModel = result.compactMap { response -> TodolistModel? in
         guard let date = DateFormatterFactory.dateWithHypen.date(from: response.date) else {
           return nil
