@@ -14,9 +14,9 @@ final class TodolistService: BaseService {
 }
 
 extension TodolistService {
-  func inquireAllTodolist(plubbingID: Int, cursorID: Int = 0) -> PLUBResult<PaginatedDataResponse<InquireAllTodolistResponse>> {
+  func inquireAllTodoTimeline(plubbingID: Int, cursorID: Int = 0) -> PLUBResult<PaginatedDataResponse<InquireAllTodolistResponse>> {
     sendRequest(
-      TodolistRouter.inquireAllTodolist(plubbingID, cursorID),
+      TodolistRouter.inquireAllTodoTimeline(plubbingID, cursorID),
       type: PaginatedDataResponse<InquireAllTodolistResponse>.self
     )
   }

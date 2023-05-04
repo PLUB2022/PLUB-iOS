@@ -32,7 +32,7 @@ final class TodolistViewModel: TodolistViewModelType {
     self.selectPlubbingID = selectingPlubbingID.asObserver()
     
     let inquireAllTodolist = selectingPlubbingID.flatMapLatest {
-      return TodolistService.shared.inquireAllTodolist(plubbingID: $0, cursorID: 0)
+      return TodolistService.shared.inquireAllTodoTimeline(plubbingID: $0, cursorID: 0)
     }
       .share()
     
