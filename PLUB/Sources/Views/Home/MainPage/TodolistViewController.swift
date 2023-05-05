@@ -167,15 +167,8 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
     }
   }
   
-  func didTappedLikeButton(isLiked: Bool) {
-    if isLiked {
-      /// 해당 투두리스트 좋아요 눌렀을 때
-      print("좋아요")
-    }
-    else {
-      /// 해당 투두리스트 좋아요 취소했을 때
-      print("좋아요 취소")
-    }
+  func didTappedLikeButton(timelineID: Int) {
+    viewModel.selectLikeButton.onNext(timelineID)
   }
   
   func didTappedMoreButton() { /// 투두리스트 작성자에 따른 type 지정해줘야함
