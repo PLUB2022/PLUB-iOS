@@ -14,11 +14,12 @@ import Then
 
 protocol TodoCollectionViewCellDelegate: AnyObject {
   func didTappedMoreButton()
-  func didTappedLikeButton(isLiked: Bool)
+  func didTappedLikeButton(timelineID: Int)
   func didTappedTodo(todoID: Int, isCompleted: Bool)
 }
 
 struct TodoCollectionViewCellModel {
+  let todoTimelineID: Int
   let date: String
   let profileImageString: String?
   let totalLikes: Int
@@ -27,6 +28,7 @@ struct TodoCollectionViewCellModel {
   let checkTodoViewModels: [CheckTodoViewModel]
   
   init(response: InquireAllTodoTimelineResponse) {
+    todoTimelineID = response.todoTimelineID
     date = response.date
     profileImageString = response.accountInfo?.profileImage
     totalLikes = response.totalLikes
@@ -48,6 +50,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "TodoCollectionViewCell"
   private let disposeBag = DisposeBag()
+  private var timelineID: Int?
   weak var delegate: TodoCollectionViewCellDelegate?
   
   private let profileImageView = UIImageView().then {
@@ -150,6 +153,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   func configureUI(with model: TodoCollectionViewCellModel) {
     guard let profileImageString = model.profileImageString,
           let url = URL(string: profileImageString) else { return }
+    timelineID = model.todoTimelineID
     profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
     likeCountLabel.text = "\(model.totalLikes)"
     likeButton.isSelected = model.isLike
