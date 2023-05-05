@@ -49,8 +49,10 @@ final class CheckTodoView: UIView {
   private func bind() {
     checkboxButton.rx.isChecked
       .subscribe(with: self) { owner, _ in
-        guard let todoID = owner.todoID else { return }
-        owner.delegate?.didTappedCheckboxButton(todoID: todoID, isCompleted: owner.checkboxButton.isChecked)
+        guard let model = owner.model else { return }
+        if model.isAuthor && !model.isProof { // 내가 작성했고 인증되있지않은 투두만 완료/인증 가능
+          owner.delegate?.didTappedCheckboxButton(todoID: model.todoID, isCompleted: owner.checkboxButton.isChecked)
+        }
       }
       .disposed(by: disposeBag)
   }
@@ -73,5 +75,9 @@ final class CheckTodoView: UIView {
     self.model = model
     todoLabel.text = model.todo
     checkboxButton.isChecked = model.isChecked
+    
+    // 해당 투두가 인증되었거나 작성자가 아니라면 -> 체크버튼 비활성화
+    checkboxButton.isEnabled = model.isProof || !model.isAuthor ? false : true
+    
   }
 }
