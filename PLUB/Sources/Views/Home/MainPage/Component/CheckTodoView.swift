@@ -19,6 +19,8 @@ struct CheckTodoViewModel {
   let todoID: Int
   let todo: String
   let isChecked: Bool
+  let isAuthor: Bool
+  let isProof: Bool
 }
 
 final class CheckTodoView: UIView {
