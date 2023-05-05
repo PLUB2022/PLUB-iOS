@@ -24,4 +24,18 @@ extension TodolistService {
   func inquireTodolist(plubbingID: Int, timelineID: Int) -> Observable<InquireTodolistResponse> {
     sendObservableRequest(TodolistRouter.inquireTodolist(plubbingID, timelineID))
   }
+  
+  func completeTodolist(plubbingID: Int, todolistID: Int) -> Observable<CompleteProofTodolistResponse> {
+    sendObservableRequest(TodolistRouter.completeTodolist(plubbingID, todolistID))
+  }
+  
+  func cancelCompleteTodolist(plubbingID: Int, todolistID: Int) -> Observable<CompleteProofTodolistResponse> {
+    sendObservableRequest(TodolistRouter.cancelCompleteTodolist(plubbingID, todolistID))
+  }
+  
+  func proofTodolist(plubbingID: Int, todolistID: Int, request: ProofTodolistRequest) -> Observable<CompleteProofTodolistResponse> {
+    sendObservableRequest(TodolistRouter.proofTodolist(plubbingID, todolistID, request))
+  }
+  
+  
 }
