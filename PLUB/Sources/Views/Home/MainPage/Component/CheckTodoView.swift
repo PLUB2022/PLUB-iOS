@@ -26,7 +26,7 @@ struct CheckTodoViewModel {
 final class CheckTodoView: UIView {
   
   weak var delegate: CheckTodoViewDelegate?
-  private var todoID: Int?
+  private var model: CheckTodoViewModel?
   private let disposeBag = DisposeBag()
   
   private let checkboxButton = CheckBoxButton(type: .none)
@@ -70,7 +70,7 @@ final class CheckTodoView: UIView {
   }
   
   func configureUI(with model: CheckTodoViewModel) {
-    self.todoID = model.todoID
+    self.model = model
     todoLabel.text = model.todo
     checkboxButton.isChecked = model.isChecked
   }
