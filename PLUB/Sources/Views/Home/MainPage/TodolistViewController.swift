@@ -152,9 +152,11 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
   func didTappedTodo(todoID: Int, isCompleted: Bool) {
     viewModel.selectTodolistID.onNext(todoID)
     viewModel.selectComplete.onNext(isCompleted)
-    let alert = TodoAlertController()
-    alert.modalPresentationStyle = .overFullScreen
-    present(alert, animated: false)
+    if isCompleted {
+      let alert = TodoAlertController()
+      alert.modalPresentationStyle = .overFullScreen
+      present(alert, animated: false)
+    }
   }
   
   func didTappedLikeButton(isLiked: Bool) {
