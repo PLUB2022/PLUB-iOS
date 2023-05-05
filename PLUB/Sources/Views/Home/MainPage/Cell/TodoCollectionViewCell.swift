@@ -53,6 +53,12 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   private var timelineID: Int?
   weak var delegate: TodoCollectionViewCellDelegate?
   
+  private var likeCount: Int = 0 {
+    didSet {
+      likeCountLabel.text = "\(likeCount)"
+    }
+  }
+  
   private let profileImageView = UIImageView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 12
@@ -139,13 +145,17 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     
     likeButton.buttonTapObservable
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedLikeButton(isLiked: true)
+        guard let timelineID = owner.timelineID else { return }
+        owner.delegate?.didTappedLikeButton(timelineID: timelineID)
+        owner.likeCount += 1
       }
       .disposed(by: disposeBag)
     
     likeButton.buttonUnTapObservable
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedLikeButton(isLiked: false)
+        guard let timelineID = owner.timelineID else { return }
+        owner.delegate?.didTappedLikeButton(timelineID: timelineID)
+        owner.likeCount -= 1
       }
       .disposed(by: disposeBag)
   }
@@ -155,7 +165,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
           let url = URL(string: profileImageString) else { return }
     timelineID = model.todoTimelineID
     profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
-    likeCountLabel.text = "\(model.totalLikes)"
+    likeCount = model.totalLikes
     likeButton.isSelected = model.isLike
     model.checkTodoViewModels.forEach { checkTodoVieModel in
       let todoView = CheckTodoView()
