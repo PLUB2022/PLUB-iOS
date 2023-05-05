@@ -12,10 +12,11 @@ import SnapKit
 import Then
 
 protocol CheckTodoViewDelegate: AnyObject {
-  func didTappedCheckboxButton()
+  func didTappedCheckboxButton(todoID: Int, isCompleted: Bool)
 }
 
 struct CheckTodoViewModel {
+  let todoID: Int
   let todo: String
   let isChecked: Bool
 }
@@ -23,6 +24,7 @@ struct CheckTodoViewModel {
 final class CheckTodoView: UIView {
   
   weak var delegate: CheckTodoViewDelegate?
+  private var todoID: Int?
   private let disposeBag = DisposeBag()
   
   private let checkboxButton = CheckBoxButton(type: .none)
@@ -45,7 +47,8 @@ final class CheckTodoView: UIView {
   private func bind() {
     checkboxButton.rx.isChecked
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedCheckboxButton()
+        guard let todoID = owner.todoID else { return }
+        owner.delegate?.didTappedCheckboxButton(todoID: todoID, isCompleted: owner.checkboxButton.isChecked)
       }
       .disposed(by: disposeBag)
   }
@@ -65,6 +68,7 @@ final class CheckTodoView: UIView {
   }
   
   func configureUI(with model: CheckTodoViewModel) {
+    self.todoID = model.todoID
     todoLabel.text = model.todo
     checkboxButton.isChecked = model.isChecked
   }

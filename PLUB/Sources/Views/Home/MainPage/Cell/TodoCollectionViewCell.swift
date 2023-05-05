@@ -15,7 +15,7 @@ import Then
 protocol TodoCollectionViewCellDelegate: AnyObject {
   func didTappedMoreButton()
   func didTappedLikeButton(isLiked: Bool)
-  func didTappedTodo()
+  func didTappedTodo(todoID: Int, isCompleted: Bool)
 }
 
 struct TodoCollectionViewCellModel {
@@ -32,7 +32,7 @@ struct TodoCollectionViewCellModel {
     totalLikes = response.totalLikes
     isLike = response.isLike
     isAuthor = response.isAuthor
-    checkTodoViewModels = response.todoList.map { CheckTodoViewModel(todo: $0.content, isChecked: $0.isChecked) }
+    checkTodoViewModels = response.todoList.map { CheckTodoViewModel(todoID: $0.todoID, todo: $0.content, isChecked: $0.isChecked) }
   }
 }
 
@@ -163,7 +163,7 @@ extension TodoCollectionViewCell {
 }
 
 extension TodoCollectionViewCell: CheckTodoViewDelegate {
-  func didTappedCheckboxButton() {
-    delegate?.didTappedTodo()
+  func didTappedCheckboxButton(todoID: Int, isCompleted: Bool) {
+    delegate?.didTappedTodo(todoID: todoID, isCompleted: isCompleted)
   }
 }

@@ -97,6 +97,12 @@ final class TodolistViewController: BaseViewController {
     viewModel.todoTimelineModel
       .drive(rx.model)
       .disposed(by: disposeBag)
+    
+    viewModel.successCompleteTodolist
+      .emit(onNext: { success in
+        print("성공했니 \(success)")
+      })
+      .disposed(by: disposeBag)
   
   }
 }
@@ -143,7 +149,9 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TodolistViewController: TodoCollectionViewCellDelegate {
-  func didTappedTodo() {
+  func didTappedTodo(todoID: Int, isCompleted: Bool) {
+    viewModel.selectTodolistID.onNext(todoID)
+    viewModel.selectComplete.onNext(isCompleted)
     let alert = TodoAlertController()
     alert.modalPresentationStyle = .overFullScreen
     present(alert, animated: false)
