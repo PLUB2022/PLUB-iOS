@@ -32,7 +32,15 @@ struct TodoCollectionViewCellModel {
     totalLikes = response.totalLikes
     isLike = response.isLike
     isAuthor = response.isAuthor
-    checkTodoViewModels = response.todoList.map { CheckTodoViewModel(todoID: $0.todoID, todo: $0.content, isChecked: $0.isChecked) }
+    checkTodoViewModels = response.todoList.map {
+      CheckTodoViewModel(
+        todoID: $0.todoID,
+        todo: $0.content,
+        isChecked: $0.isChecked,
+        isAuthor: $0.isAuthor,
+        isProof: $0.isProof
+      )
+    }
   }
 }
 
