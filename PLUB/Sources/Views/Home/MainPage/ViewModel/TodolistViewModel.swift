@@ -16,6 +16,7 @@ protocol TodolistViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   var selectTodolistID: AnyObserver<Int> { get }
   var whichProofImage: AnyObserver<UIImage?> { get }
+  var selectLikeButton: AnyObserver<Int> { get }
   
   // Output
   var todoTimelineModel: Driver<[TodolistModel]> { get }
@@ -32,12 +33,14 @@ final class TodolistViewModel {
   private let allTodoTimeline = BehaviorSubject<[InquireAllTodoTimelineResponse]>(value: [])
   private let completeTodolist = PublishSubject<CompleteProofTodolistResponse>()
   private let whichUploadingImage = PublishSubject<UIImage?>()
+  private let selectingLikeButton = PublishSubject<Int>()
   
   init() {
     inquireAllTodoTimeline()
     tryCompleteTodolist()
     tryCancelCompleteTodolist()
     tryProofTodolist()
+    tryLikeTodolist()
   }
   
   private func inquireAllTodoTimeline() {
@@ -130,6 +133,17 @@ final class TodolistViewModel {
     })
     .disposed(by: disposeBag)
   }
+  
+  private func tryLikeTodolist() {
+    let likeTodolist = selectingLikeButton
+      .withLatestFrom(selectingPlubbingID) { ($0, $1) }
+      .flatMapLatest { TodolistService.shared.likeTodolist(plubbingID: $1, timelineID: $0) }
+    
+    likeTodolist.subscribe(onNext: { response in
+      print("좋아요 응답값 \(response)")
+    })
+    .disposed(by: disposeBag)
+  }
 }
 
 extension TodolistViewModel: TodolistViewModelType {
@@ -148,6 +162,10 @@ extension TodolistViewModel: TodolistViewModelType {
   
   var whichProofImage: AnyObserver<UIImage?> {
     whichUploadingImage.asObserver()
+  }
+  
+  var selectLikeButton: AnyObserver<Int> {
+    selectingLikeButton.asObserver()
   }
   
   var todoTimelineModel: Driver<[TodolistModel]> { // 조회한 투두타임라인에 대한 데이터를 TodolistModel로 파싱한 값
@@ -171,7 +189,6 @@ extension TodolistViewModel: TodolistViewModelType {
   
   var successCompleteTodolist: Signal<Bool> {
     completeTodolist
-      .do(onNext: { print("응답 \($0)") })
       .map { $0.isChecked }
       .asSignal(onErrorSignalWith: .empty())
   }
