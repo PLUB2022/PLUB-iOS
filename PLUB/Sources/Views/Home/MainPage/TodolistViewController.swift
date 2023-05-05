@@ -19,6 +19,8 @@ final class TodolistViewController: BaseViewController {
   
   private let viewModel: TodolistViewModelType
   
+  private let plubbingID: Int
+  
   private var model: [TodolistModel] = [] {
     didSet {
       todoCollectionView.reloadData()
@@ -56,12 +58,18 @@ final class TodolistViewController: BaseViewController {
   
   init(plubbingID: Int, viewModel: TodolistViewModelType = TodolistViewModel()) {
     self.viewModel = viewModel
+    self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.selectPlubbingID.onNext(plubbingID)
   }
   
   override func setupLayouts() {
