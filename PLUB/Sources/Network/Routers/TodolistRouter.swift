@@ -13,6 +13,7 @@ enum TodolistRouter {
   case completeTodolist(Int, Int)
   case cancelCompleteTodolist(Int, Int)
   case proofTodolist(Int, Int, ProofTodolistRequest)
+  case likeTodolist(Int, Int)
 }
 
 extension TodolistRouter: Router {
@@ -20,7 +21,7 @@ extension TodolistRouter: Router {
     switch self {
     case .inquireAllTodoTimeline, .inquireTodolist:
       return .get
-    case .completeTodolist, .cancelCompleteTodolist:
+    case .completeTodolist, .cancelCompleteTodolist, .likeTodolist:
       return .put
     case .proofTodolist:
       return .post
@@ -39,6 +40,8 @@ extension TodolistRouter: Router {
       return "/plubbings/\(plubbingID)/todolist/\(todolistID)/proof"
     case .cancelCompleteTodolist(let plubbingID, let todolistID):
       return "/plubbings/\(plubbingID)/todolist/\(todolistID)/cancel"
+    case .likeTodolist(let plubbingID, let timelineID):
+      return "/plubbings/\(plubbingID)/timeline/\(timelineID)/like"
     }
   }
   
@@ -46,7 +49,7 @@ extension TodolistRouter: Router {
     switch self {
     case .inquireAllTodoTimeline(_, let cursorID):
       return .query(["cursorId": cursorID])
-    case .inquireTodolist, .completeTodolist, .cancelCompleteTodolist:
+    case .inquireTodolist, .completeTodolist, .cancelCompleteTodolist, .likeTodolist:
       return .plain
     case .proofTodolist(_, _, let request):
       return .body(request)
@@ -55,7 +58,7 @@ extension TodolistRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireAllTodoTimeline, .inquireTodolist, .completeTodolist, .proofTodolist, .cancelCompleteTodolist:
+    case .inquireAllTodoTimeline, .inquireTodolist, .completeTodolist, .proofTodolist, .cancelCompleteTodolist, .likeTodolist:
       return .withAccessToken
     }
   }

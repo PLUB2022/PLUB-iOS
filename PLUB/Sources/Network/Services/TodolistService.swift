@@ -37,5 +37,7 @@ extension TodolistService {
     sendObservableRequest(TodolistRouter.proofTodolist(plubbingID, todolistID, request))
   }
   
-  
+  func likeTodolist(plubbingID: Int, timelineID: Int) -> Observable<LikeTodolistResponse> {
+    sendObservableRequest(TodolistRouter.likeTodolist(plubbingID, timelineID))
+  }
 }
