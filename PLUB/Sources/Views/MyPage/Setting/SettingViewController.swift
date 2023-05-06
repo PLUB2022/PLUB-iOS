@@ -109,20 +109,35 @@ final class SettingViewController: BaseViewController {
   private func addSubViews(stackView: UIStackView, type: SettingType) {
     switch type {
     case .use:
-      SettingUseType.allCases.forEach {
-        let detailSubview = SettingDetailSubView($0.rawValue)
+      SettingUseType.allCases.forEach { useType in
+        let detailSubview = SettingDetailSubView(useType.rawValue)
         stackView.addArrangedSubview(detailSubview)
         detailSubview.snp.makeConstraints {
           $0.height.equalTo(52)
         }
       }
     case .account:
-      SettingAccountType.allCases.forEach {
-        let detailSubview = SettingDetailSubView($0.rawValue)
+      SettingAccountType.allCases.forEach { accountType in
+        let detailSubview = SettingDetailSubView(accountType.rawValue)
         stackView.addArrangedSubview(detailSubview)
         detailSubview.snp.makeConstraints {
           $0.height.equalTo(52)
         }
+        
+        detailSubview.button
+          .rx.tap
+          .asDriver()
+          .drive(with: self) { owner, _ in
+            switch accountType {
+            case .logout:
+              owner.logout()
+            case .inactive:
+              break
+            case .withdraw:
+              break
+            }
+          }
+          .disposed(by: disposeBag)
       }
     case .version:
       SettingVersionType.allCases.forEach {
@@ -133,5 +148,32 @@ final class SettingViewController: BaseViewController {
         }
       }
     }
+  }
+}
+
+extension SettingViewController {
+  private func logout() {
+    let alert = CustomAlertView(
+      AlertModel(
+        title: "지금 로그아웃 할까요?",
+        message: nil,
+        cancelButton: "취소",
+        confirmButton: "네, 할게요",
+        height: 150
+      )
+    ) { [weak self] in
+      guard let self else { return }
+      self.moveToLoginViewController()
+    }
+    alert.show()
+  }
+  
+  private func moveToLoginViewController() {
+    UserManager.shared.clearUserInformations()
+    UserManager.shared.set(isLaunchedBefore: true)
+    
+    let navigationController = UINavigationController(rootViewController: SplashViewController())
+    navigationController.modalPresentationStyle = .fullScreen
+    (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = navigationController
   }
 }
