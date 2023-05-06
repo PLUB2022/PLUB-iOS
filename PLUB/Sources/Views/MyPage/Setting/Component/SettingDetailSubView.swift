@@ -21,6 +21,8 @@ final class SettingDetailSubView: UIView {
     $0.image = UIImage(named: "arrowRightGray")
   }
   
+  let button = UIButton()
+  
   private let lineView = UIView().then {
     $0.backgroundColor = .lightGray
   }
@@ -37,7 +39,7 @@ final class SettingDetailSubView: UIView {
   }
 
   private func setupLayouts(isLast: Bool) {
-    [label, arrowImageView].forEach {
+    [label, arrowImageView, button].forEach {
       addSubview($0)
     }
     
@@ -58,6 +60,10 @@ final class SettingDetailSubView: UIView {
       $0.trailing.equalToSuperview().inset(12)
       $0.centerY.equalToSuperview()
       $0.size.equalTo(20)
+    }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     if !isLast {
