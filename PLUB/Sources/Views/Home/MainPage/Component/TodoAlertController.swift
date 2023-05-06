@@ -11,6 +11,17 @@ import RxSwift
 import SnapKit
 import Then
 
+struct TodoAlertModel {
+  let profileImage: String
+  let date: String
+  let name: String
+  let content: String
+}
+
+protocol TodoAlertDelegate: AnyObject {
+  func whichProofImage(image: UIImage)
+}
+
 final class TodoAlertController: BaseViewController {
   
   private let dimmedView = UIView().then {
