@@ -208,11 +208,29 @@ final class TodoAlertController: BaseViewController {
         owner.present(bottomSheet, animated: false)
       }
       .disposed(by: disposeBag)
+    
+    completedButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        guard let image = owner.proofImage else { return }
+        owner.delegate?.whichProofImage(image: image)
+        owner.dismiss(animated: false)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  func configureUI(with model: TodoAlertModel) {
+    let url = URL(string: model.profileImage)
+    profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
+    dateLabel.text = model.date
+    nameLabel.text = model.name
+    todoInfoView.configureUI(with: model.content)
   }
 }
 
 extension TodoAlertController: PhotoBottomSheetDelegate {
   func selectImage(image: UIImage) {
+    self.proofImage = image
     todoAlertView.image = image
+    completedButton.isEnabled = true
   }
 }
