@@ -48,4 +48,8 @@ final class TodoInfoView: UIView {
       $0.trailing.lessThanOrEqualToSuperview()
     }
   }
+  
+  func configureUI(with model: String) {
+    todoLabel.text = model
+  }
 }
