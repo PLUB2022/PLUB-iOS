@@ -10,22 +10,26 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+protocol ActiveMeetingViewModelType {
+  // MARK: Input
+  
+  // MARK: Output
+  var meetingInfoDriver: Driver<RecruitingModel> { get } // 내 정보 데이터
+}
+
 final class ActiveMeetingViewModel {
   private let disposeBag = DisposeBag()
   private(set) var plubbingID: Int
   
   private let inquireMyTodoUseCase: InquireMyTodoUseCase
   
-  // Output
-  let meetingInfo: Driver<RecruitingModel> // 내 정보 데이터
+  // MARK: Subjects
   
   private let meetingInfoSubject = PublishSubject<RecruitingModel>()
   
   init(plubbingID: Int, inquireMyTodoUseCase: InquireMyTodoUseCase) {
     self.plubbingID = plubbingID
     self.inquireMyTodoUseCase = inquireMyTodoUseCase
-    
-    meetingInfo = meetingInfoSubject.asDriver(onErrorDriveWith: .empty())
     
     fetchMyTodo()
   }
@@ -64,5 +68,14 @@ final class ActiveMeetingViewModel {
       .string(from: date)
     
     return (dateStr.isEmpty ? "온라인" : dateStr)  + " | " + timeStr
+  }
+}
+
+
+extension ActiveMeetingViewModel: ActiveMeetingViewModelType {
+  // MARK: Input
+  
+  // MARK: Output
+  var meetingInfoDriver: Driver<RecruitingModel> { meetingInfoSubject.asDriver(onErrorDriveWith: .empty())
   }
 }

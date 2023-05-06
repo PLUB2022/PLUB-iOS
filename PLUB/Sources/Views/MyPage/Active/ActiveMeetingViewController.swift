@@ -65,7 +65,7 @@ final class ActiveMeetingViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.meetingInfo
+    viewModel.meetingInfoDriver
       .drive(with: self) { owner, myInfo in
         owner.recruitingHeaderView.setupData(with: myInfo, type: .active)
       }
