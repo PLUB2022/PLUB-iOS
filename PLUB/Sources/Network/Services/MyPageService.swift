@@ -33,4 +33,11 @@ extension MyPageService {
   ) -> Observable<MyTodoResponse>  {
     sendObservableRequest(MyPageRouter.inquireMyTodo(plubbingID, cursorID))
   }
+  
+  func inquireMyFeed(
+    plubbingID: Int,
+    cursorID: Int
+  ) -> Observable<MyFeedResponse>  {
+    sendObservableRequest(MyPageRouter.inquireMyFeed(plubbingID, cursorID))
+  }
 }

@@ -411,6 +411,7 @@
 		C3FA748C2974984800A8BE4C /* MeetingIntroduceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */; };
 		C3FC1815298509C50083039A /* QuestionDeleteBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FC1814298509C50083039A /* QuestionDeleteBottomSheetViewController.swift */; };
 		C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FC181629852D370083039A /* QuestionHeaderView.swift */; };
+		C3FF87AC2A06572000DA6017 /* MyFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FF87AB2A06572000DA6017 /* MyFeedResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -805,6 +806,7 @@
 		C3FA748B2974984800A8BE4C /* MeetingIntroduceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingIntroduceViewModel.swift; sourceTree = "<group>"; };
 		C3FC1814298509C50083039A /* QuestionDeleteBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionDeleteBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C3FC181629852D370083039A /* QuestionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionHeaderView.swift; sourceTree = "<group>"; };
+		C3FF87AB2A06572000DA6017 /* MyFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2036,6 +2038,7 @@
 			children = (
 				C3B3435A29BE3E5100935B73 /* MyPlubbingResponse.swift */,
 				C374E79629FC2F4D004738C2 /* MyTodoResponse.swift */,
+				C3FF87AB2A06572000DA6017 /* MyFeedResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -2508,6 +2511,7 @@
 				C3330AD529F9A1830023CB04 /* ActiveMeetingViewModel.swift in Sources */,
 				70CF333929992FA60077FF47 /* RecruitmentFilterSlider.swift in Sources */,
 				BA42D1F328EDE10F00C20061 /* LoginViewController.swift in Sources */,
+				C3FF87AC2A06572000DA6017 /* MyFeedResponse.swift in Sources */,
 				C3413E122995450B004B8DBD /* UnderlineSegmentedControl.swift in Sources */,
 				BAE5D3372975B20000268D44 /* TokenResponse.swift in Sources */,
 				C38A5B9F297B022A00485355 /* SearchView.swift in Sources */,
