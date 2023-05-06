@@ -19,6 +19,8 @@ final class TodolistViewController: BaseViewController {
   
   private let viewModel: TodolistViewModelType
   
+  private let plubbingID: Int
+  
   private var model: [TodolistModel] = [] {
     didSet {
       todoCollectionView.reloadData()
@@ -56,12 +58,18 @@ final class TodolistViewController: BaseViewController {
   
   init(plubbingID: Int, viewModel: TodolistViewModelType = TodolistViewModel()) {
     self.viewModel = viewModel
+    self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.selectPlubbingID.onNext(plubbingID)
   }
   
   override func setupLayouts() {
@@ -96,6 +104,12 @@ final class TodolistViewController: BaseViewController {
     
     viewModel.todoTimelineModel
       .drive(rx.model)
+      .disposed(by: disposeBag)
+    
+    viewModel.successCompleteTodolist
+      .emit(onNext: { success in
+        print("성공했니 \(success)")
+      })
       .disposed(by: disposeBag)
   
   }
@@ -143,21 +157,18 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TodolistViewController: TodoCollectionViewCellDelegate {
-  func didTappedTodo() {
-    let alert = TodoAlertController()
-    alert.modalPresentationStyle = .overFullScreen
-    present(alert, animated: false)
+  func didTappedTodo(todoID: Int, isCompleted: Bool) {
+    viewModel.selectTodolistID.onNext(todoID)
+    viewModel.selectComplete.onNext(isCompleted)
+    if isCompleted {
+      let alert = TodoAlertController()
+      alert.modalPresentationStyle = .overFullScreen
+      present(alert, animated: false)
+    }
   }
   
-  func didTappedLikeButton(isLiked: Bool) {
-    if isLiked {
-      /// 해당 투두리스트 좋아요 눌렀을 때
-      print("좋아요")
-    }
-    else {
-      /// 해당 투두리스트 좋아요 취소했을 때
-      print("좋아요 취소")
-    }
+  func didTappedLikeButton(timelineID: Int) {
+    viewModel.selectLikeButton.onNext(timelineID)
   }
   
   func didTappedMoreButton() { /// 투두리스트 작성자에 따른 type 지정해줘야함

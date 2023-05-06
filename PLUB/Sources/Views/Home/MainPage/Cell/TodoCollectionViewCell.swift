@@ -14,11 +14,12 @@ import Then
 
 protocol TodoCollectionViewCellDelegate: AnyObject {
   func didTappedMoreButton()
-  func didTappedLikeButton(isLiked: Bool)
-  func didTappedTodo()
+  func didTappedLikeButton(timelineID: Int)
+  func didTappedTodo(todoID: Int, isCompleted: Bool)
 }
 
 struct TodoCollectionViewCellModel {
+  let todoTimelineID: Int
   let date: String
   let profileImageString: String?
   let totalLikes: Int
@@ -27,12 +28,21 @@ struct TodoCollectionViewCellModel {
   let checkTodoViewModels: [CheckTodoViewModel]
   
   init(response: InquireAllTodoTimelineResponse) {
+    todoTimelineID = response.todoTimelineID
     date = response.date
     profileImageString = response.accountInfo?.profileImage
     totalLikes = response.totalLikes
     isLike = response.isLike
     isAuthor = response.isAuthor
-    checkTodoViewModels = response.todoList.map { CheckTodoViewModel(todo: $0.content, isChecked: $0.isChecked) }
+    checkTodoViewModels = response.todoList.map {
+      CheckTodoViewModel(
+        todoID: $0.todoID,
+        todo: $0.content,
+        isChecked: $0.isChecked,
+        isAuthor: $0.isAuthor,
+        isProof: $0.isProof
+      )
+    }
   }
 }
 
@@ -40,7 +50,14 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "TodoCollectionViewCell"
   private let disposeBag = DisposeBag()
+  private var timelineID: Int?
   weak var delegate: TodoCollectionViewCellDelegate?
+  
+  private var likeCount: Int = 0 {
+    didSet {
+      likeCountLabel.text = "\(likeCount)"
+    }
+  }
   
   private let profileImageView = UIImageView().then {
     $0.layer.masksToBounds = true
@@ -128,13 +145,17 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     
     likeButton.buttonTapObservable
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedLikeButton(isLiked: true)
+        guard let timelineID = owner.timelineID else { return }
+        owner.delegate?.didTappedLikeButton(timelineID: timelineID)
+        owner.likeCount += 1
       }
       .disposed(by: disposeBag)
     
     likeButton.buttonUnTapObservable
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedLikeButton(isLiked: false)
+        guard let timelineID = owner.timelineID else { return }
+        owner.delegate?.didTappedLikeButton(timelineID: timelineID)
+        owner.likeCount -= 1
       }
       .disposed(by: disposeBag)
   }
@@ -142,8 +163,9 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   func configureUI(with model: TodoCollectionViewCellModel) {
     guard let profileImageString = model.profileImageString,
           let url = URL(string: profileImageString) else { return }
+    timelineID = model.todoTimelineID
     profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
-    likeCountLabel.text = "\(model.totalLikes)"
+    likeCount = model.totalLikes
     likeButton.isSelected = model.isLike
     model.checkTodoViewModels.forEach { checkTodoVieModel in
       let todoView = CheckTodoView()
@@ -163,7 +185,7 @@ extension TodoCollectionViewCell {
 }
 
 extension TodoCollectionViewCell: CheckTodoViewDelegate {
-  func didTappedCheckboxButton() {
-    delegate?.didTappedTodo()
+  func didTappedCheckboxButton(todoID: Int, isCompleted: Bool) {
+    delegate?.didTappedTodo(todoID: todoID, isCompleted: isCompleted)
   }
 }

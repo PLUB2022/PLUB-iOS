@@ -10,6 +10,10 @@ import Alamofire
 enum TodolistRouter {
   case inquireAllTodoTimeline(Int, Int)
   case inquireTodolist(Int, Int)
+  case completeTodolist(Int, Int)
+  case cancelCompleteTodolist(Int, Int)
+  case proofTodolist(Int, Int, ProofTodolistRequest)
+  case likeTodolist(Int, Int)
 }
 
 extension TodolistRouter: Router {
@@ -17,6 +21,10 @@ extension TodolistRouter: Router {
     switch self {
     case .inquireAllTodoTimeline, .inquireTodolist:
       return .get
+    case .completeTodolist, .cancelCompleteTodolist, .likeTodolist:
+      return .put
+    case .proofTodolist:
+      return .post
     }
   }
   
@@ -26,6 +34,14 @@ extension TodolistRouter: Router {
       return "/plubbings/\(plubbingID)/timeline"
     case .inquireTodolist(let plubbingID, let timelineID):
       return "/plubbings/\(plubbingID)/timeline/\(timelineID)/todolist"
+    case .completeTodolist(let plubbingID, let todolistID):
+      return "/plubbings/\(plubbingID)/todolist/\(todolistID)/complete"
+    case .proofTodolist(let plubbingID, let todolistID, _):
+      return "/plubbings/\(plubbingID)/todolist/\(todolistID)/proof"
+    case .cancelCompleteTodolist(let plubbingID, let todolistID):
+      return "/plubbings/\(plubbingID)/todolist/\(todolistID)/cancel"
+    case .likeTodolist(let plubbingID, let timelineID):
+      return "/plubbings/\(plubbingID)/timeline/\(timelineID)/like"
     }
   }
   
@@ -33,14 +49,16 @@ extension TodolistRouter: Router {
     switch self {
     case .inquireAllTodoTimeline(_, let cursorID):
       return .query(["cursorId": cursorID])
-    case .inquireTodolist:
+    case .inquireTodolist, .completeTodolist, .cancelCompleteTodolist, .likeTodolist:
       return .plain
+    case .proofTodolist(_, _, let request):
+      return .body(request)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireAllTodoTimeline, .inquireTodolist:
+    case .inquireAllTodoTimeline, .inquireTodolist, .completeTodolist, .proofTodolist, .cancelCompleteTodolist, .likeTodolist:
       return .withAccessToken
     }
   }
