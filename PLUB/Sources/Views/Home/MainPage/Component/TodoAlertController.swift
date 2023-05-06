@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import RxSwift
 import SnapKit
 import Then
@@ -23,6 +24,10 @@ protocol TodoAlertDelegate: AnyObject {
 }
 
 final class TodoAlertController: BaseViewController {
+  
+  weak var delegate: TodoAlertDelegate?
+  
+  private var proofImage: UIImage?
   
   private let dimmedView = UIView().then {
     $0.backgroundColor = .black.withAlphaComponent(0.45)
@@ -77,8 +82,8 @@ final class TodoAlertController: BaseViewController {
   }
   
   private let completedButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.detailRecruitment(label: "완료!")
-    $0.isSelected = true
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "완료!")
+    $0.isEnabled = false
   }
   
   private let tapGesture = UITapGestureRecognizer(target: TodoAlertController.self, action: nil)
