@@ -163,6 +163,7 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
     if isCompleted {
       let alert = TodoAlertController()
       alert.modalPresentationStyle = .overFullScreen
+      alert.delegate = self
       present(alert, animated: false)
     }
   }
@@ -175,5 +176,11 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
     let bottomSheet = TodolistBottomSheetViewController(type: .report)
     bottomSheet.modalPresentationStyle = .overFullScreen
     present(bottomSheet, animated: false)
+  }
+}
+
+extension TodolistViewController: TodoAlertDelegate {
+  func whichProofImage(image: UIImage) {
+    viewModel.whichProofImage.onNext(image)
   }
 }
