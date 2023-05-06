@@ -22,16 +22,23 @@ final class ActiveMeetingViewModel {
   private(set) var plubbingID: Int
   
   private let inquireMyTodoUseCase: InquireMyTodoUseCase
+  private let inquireMyFeedUseCase: InquireMyFeedUseCase
   
   // MARK: Subjects
   
   private let meetingInfoSubject = PublishSubject<RecruitingModel>()
   
-  init(plubbingID: Int, inquireMyTodoUseCase: InquireMyTodoUseCase) {
+  init(
+    plubbingID: Int,
+    inquireMyTodoUseCase: InquireMyTodoUseCase,
+    inquireMyFeedUseCase: InquireMyFeedUseCase
+  ) {
     self.plubbingID = plubbingID
     self.inquireMyTodoUseCase = inquireMyTodoUseCase
+    self.inquireMyFeedUseCase = inquireMyFeedUseCase
     
     fetchMyTodo()
+    fetchMyFeed()
   }
   
   private func fetchMyTodo() {
@@ -40,6 +47,16 @@ final class ActiveMeetingViewModel {
       .withUnretained(self)
       .subscribe(onNext: { owner, model in
         owner.handleMeetingInfo(plubbing: model.plubbingInfo)
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func fetchMyFeed() {
+    inquireMyFeedUseCase
+      .execute(plubbingID: plubbingID, cursorID: 0)
+      .withUnretained(self)
+      .subscribe(onNext: { owner, model in
+        
       })
       .disposed(by: disposeBag)
   }

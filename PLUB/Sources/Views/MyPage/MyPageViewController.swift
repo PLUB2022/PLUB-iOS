@@ -180,7 +180,8 @@ extension MyPageViewController: UITableViewDelegate {
       let vc = ActiveMeetingViewController(
         viewModel: ActiveMeetingViewModel(
           plubbingID: plubbingID,
-          inquireMyTodoUseCase: DefaultInquireMyTodoUseCase()
+          inquireMyTodoUseCase: DefaultInquireMyTodoUseCase(),
+          inquireMyFeedUseCase: DefaultInquireMyFeedUseCase()
         )
       )
       vc.hidesBottomBarWhenPushed = true
