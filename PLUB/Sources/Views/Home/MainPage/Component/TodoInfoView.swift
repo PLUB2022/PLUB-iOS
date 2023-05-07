@@ -13,9 +13,10 @@ import Then
 final class TodoInfoView: UIView {
   
   private let checkImageView = UIImageView().then {
-    $0.image = UIImage(named: "Check")
-    $0.backgroundColor = .main
-    $0.contentMode = .scaleAspectFit
+    $0.image = UIImage(named: "checkFilledMain")
+    $0.backgroundColor = .clear
+    $0.contentMode = .scaleAspectFill
+    $0.layer.masksToBounds = true
   }
   
   private let todoLabel = UILabel().then {
