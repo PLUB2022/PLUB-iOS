@@ -131,13 +131,13 @@ final class BoardViewController: BaseViewController {
     
     viewModel.isPinnedFeed
       .drive(onNext: { isPinned in
-        print("고정 성공 !! \(isPinned)")
+        Log.debug("고정 성공 !! \(isPinned)")
       })
       .disposed(by: disposeBag)
     
     viewModel.successDeleteFeed
       .drive(onNext: { success in
-        print("해당 게시글 삭제 성공")
+        Log.debug("해당 게시글 삭제 성공")
       })
       .disposed(by: disposeBag)
   }

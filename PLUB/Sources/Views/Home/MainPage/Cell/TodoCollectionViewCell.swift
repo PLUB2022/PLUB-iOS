@@ -15,7 +15,7 @@ import Then
 protocol TodoCollectionViewCellDelegate: AnyObject {
   func didTappedMoreButton()
   func didTappedLikeButton(timelineID: Int)
-  func didTappedTodo(todoID: Int, isCompleted: Bool)
+  func didTappedTodo(todoID: Int, isCompleted: Bool, model: TodoAlertModel)
 }
 
 struct TodoCollectionViewCellModel {
@@ -26,6 +26,7 @@ struct TodoCollectionViewCellModel {
   let isLike: Bool
   let isAuthor: Bool
   let checkTodoViewModels: [CheckTodoViewModel]
+  let nickname: String?
   
   init(response: InquireAllTodoTimelineResponse) {
     todoTimelineID = response.todoTimelineID
@@ -43,6 +44,7 @@ struct TodoCollectionViewCellModel {
         isProof: $0.isProof
       )
     }
+    nickname = response.accountInfo?.nickname
   }
 }
 
@@ -50,7 +52,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "TodoCollectionViewCell"
   private let disposeBag = DisposeBag()
-  private var timelineID: Int?
+  private var model: TodoCollectionViewCellModel?
   weak var delegate: TodoCollectionViewCellDelegate?
   
   private var likeCount: Int = 0 {
@@ -145,16 +147,16 @@ final class TodoCollectionViewCell: UICollectionViewCell {
     
     likeButton.buttonTapObservable
       .subscribe(with: self) { owner, _ in
-        guard let timelineID = owner.timelineID else { return }
-        owner.delegate?.didTappedLikeButton(timelineID: timelineID)
+        guard let model = owner.model else { return }
+        owner.delegate?.didTappedLikeButton(timelineID: model.todoTimelineID)
         owner.likeCount += 1
       }
       .disposed(by: disposeBag)
     
     likeButton.buttonUnTapObservable
       .subscribe(with: self) { owner, _ in
-        guard let timelineID = owner.timelineID else { return }
-        owner.delegate?.didTappedLikeButton(timelineID: timelineID)
+        guard let model = owner.model else { return }
+        owner.delegate?.didTappedLikeButton(timelineID: model.todoTimelineID)
         owner.likeCount -= 1
       }
       .disposed(by: disposeBag)
@@ -163,7 +165,7 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   func configureUI(with model: TodoCollectionViewCellModel) {
     guard let profileImageString = model.profileImageString,
           let url = URL(string: profileImageString) else { return }
-    timelineID = model.todoTimelineID
+    self.model = model
     profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
     likeCount = model.totalLikes
     likeButton.isSelected = model.isLike
@@ -185,7 +187,17 @@ extension TodoCollectionViewCell {
 }
 
 extension TodoCollectionViewCell: CheckTodoViewDelegate {
-  func didTappedCheckboxButton(todoID: Int, isCompleted: Bool) {
-    delegate?.didTappedTodo(todoID: todoID, isCompleted: isCompleted)
+  func didTappedCheckboxButton(todoID: Int, isCompleted: Bool, todo: String) {
+    guard let model = model,
+          let name = model.nickname else { return }
+    delegate?.didTappedTodo(
+      todoID: todoID,
+      isCompleted: isCompleted,
+      model: .init(
+        profileImage: model.profileImageString ?? "",
+        date: model.date,
+        name: name,
+        content: todo)
+    )
   }
 }

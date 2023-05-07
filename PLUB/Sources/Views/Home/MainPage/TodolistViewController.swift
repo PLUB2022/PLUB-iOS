@@ -108,8 +108,15 @@ final class TodolistViewController: BaseViewController {
     
     viewModel.successCompleteTodolist
       .emit(onNext: { success in
-        print("성공했니 \(success)")
+        Log.debug("투두완료성공 \(success)")
       })
+      .disposed(by: disposeBag)
+    
+    viewModel.successProofTodolist
+      .emit(with: self) { owner, success in
+        Log.debug("투두인증성공 \(success)")
+        owner.viewModel.selectPlubbingID.onNext(plubbingID)
+      }
       .disposed(by: disposeBag)
   
   }
@@ -157,12 +164,15 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TodolistViewController: TodoCollectionViewCellDelegate {
-  func didTappedTodo(todoID: Int, isCompleted: Bool) {
+  func didTappedTodo(todoID: Int, isCompleted: Bool, model: TodoAlertModel) {
     viewModel.selectTodolistID.onNext(todoID)
     viewModel.selectComplete.onNext(isCompleted)
+    
     if isCompleted {
       let alert = TodoAlertController()
       alert.modalPresentationStyle = .overFullScreen
+      alert.delegate = self
+      alert.configureUI(with: model)
       present(alert, animated: false)
     }
   }
@@ -175,5 +185,11 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
     let bottomSheet = TodolistBottomSheetViewController(type: .report)
     bottomSheet.modalPresentationStyle = .overFullScreen
     present(bottomSheet, animated: false)
+  }
+}
+
+extension TodolistViewController: TodoAlertDelegate {
+  func whichProofImage(image: UIImage) {
+    viewModel.whichProofImage.onNext(image)
   }
 }

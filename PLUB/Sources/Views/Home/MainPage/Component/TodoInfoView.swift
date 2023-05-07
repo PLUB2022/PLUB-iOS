@@ -13,17 +13,15 @@ import Then
 final class TodoInfoView: UIView {
   
   private let checkImageView = UIImageView().then {
-    $0.image = UIImage(named: "Check")
-    $0.backgroundColor = .main
-    $0.contentMode = .scaleAspectFit
+    $0.image = UIImage(named: "checkFilledMain")
+    $0.backgroundColor = .clear
+    $0.contentMode = .scaleAspectFill
+    $0.layer.masksToBounds = true
   }
   
   private let todoLabel = UILabel().then {
-    var paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineHeightMultiple = 1.25
     $0.textColor = .deepGray
     $0.font = .systemFont(ofSize: 14)
-    $0.attributedText = NSMutableAttributedString(string: "독후감 쓴 내용 팀원들이랑 공유하기", attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.kern: -0.21, NSAttributedString.Key.paragraphStyle: paragraphStyle])
   }
   
   override init(frame: CGRect) {
@@ -47,5 +45,9 @@ final class TodoInfoView: UIView {
       $0.centerY.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
+  }
+  
+  func configureUI(with model: String) {
+    todoLabel.attributedText = model.strikeThrough()
   }
 }

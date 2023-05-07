@@ -73,7 +73,7 @@ final class DetailRecruitmentViewModel: DetailRecruitmentViewModelType {
     
     requestEndRecruitment
       .subscribe(onNext: { _ in
-        print("[모집 끝내기] 성공했습니다")
+        Log.debug("[모집 끝내기] 성공했습니다")
       })
       .disposed(by: disposeBag)
     

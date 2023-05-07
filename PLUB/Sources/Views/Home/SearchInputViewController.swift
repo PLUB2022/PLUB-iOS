@@ -171,7 +171,7 @@ final class SearchInputViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isBookmarked.emit(onNext: { isBookmarked in
-      print("해당 모집글을 북마크 \(isBookmarked)")
+      Log.debug("해당 모집글을 북마크 \(isBookmarked)")
     })
     .disposed(by: disposeBag)
     
