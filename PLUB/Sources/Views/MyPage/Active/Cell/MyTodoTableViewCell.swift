@@ -128,10 +128,49 @@ final class MyTodoTableViewCell: UITableViewCell {
     selectionStyle = .none
   }
   
-  func setupData() {
-    for _ in 0...5 {
-      let todoListView = TodoListView()
+  func setupData(with todo: TodoContent) {
+    let date = DateFormatterFactory
+      .dateWithHypen
+      .date(from: todo.date) ?? Date()
+    
+    let isPast = (Date().compare(date) == .orderedDescending) ? true : false
+    
+    setupLineAndPointView(isPast: isPast)
+    setupTodoViewStyle(isPast: isPast)
+    setupDateLabel(date: date, isPast: isPast)
+    setupLikeButton(totalLikes: todo.totalLikes)
+    
+    for todoItem in todo.todoList {
+      let todoListView = TodoListView(todo: todoItem)
       todoStackView.addArrangedSubview(todoListView)
     }
+  }
+  
+  private func setupLineAndPointView(isPast: Bool) {
+    lineView.backgroundColor = isPast ? UIColor(hex: 0xD9D9D9): .main
+    let pointImage = isPast ? UIImage(named: "pointInactived") : UIImage(named: "pointActived")
+    pointImageView.image = pointImage
+  }
+  
+  private func setupTodoViewStyle(isPast: Bool) {
+    todoView.backgroundColor = isPast ? .white : .subBackground
+    todoView.layer.borderColor = isPast ? UIColor.white.cgColor : UIColor.main.cgColor
+  }
+  
+  private func setupDateLabel(date: Date, isPast: Bool) {
+    dateLabel.textColor = isPast ? .deepGray : .main
+    
+    let todoDateText =  Calendar.current.isDateInToday(date)
+    ?  "오늘"
+    : DateFormatterFactory
+      .todolistDate.string(from: date)
+    
+    dateLabel.text = todoDateText
+  }
+  
+  private func setupLikeButton(totalLikes: Int) {
+    likeLabel.text = "\(totalLikes)"
+    let buttonImage = totalLikes > 0 ? UIImage(named: "heartFilled") : UIImage(named: "heart")
+    likeButton.setImage(buttonImage, for: .normal)
   }
 }

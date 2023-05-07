@@ -19,10 +19,11 @@ final class TodoListView: UIView {
     $0.text = "독후감 쓴 내용 팀원들이랑 공유하기"
   }
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(todo: Todo) {
+    super.init(frame: .zero)
     setupLayouts()
     setupConstraints()
+    setupData(todo: todo)
   }
   
   required init?(coder: NSCoder) {
@@ -47,5 +48,20 @@ final class TodoListView: UIView {
       $0.leading.equalTo(checkButton.snp.trailing).offset(14)
       $0.trailing.equalToSuperview()
     }
+  }
+  
+  private func setupData(todo: Todo) {
+    let attributeString: NSAttributedString
+    if todo.isChecked {
+      attributeString = NSAttributedString(
+        string: todo.content,
+        attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+      )
+    } else {
+      attributeString = NSAttributedString(string: todo.content)
+    }
+    todoLabel.attributedText = attributeString
+    
+    checkButton.isChecked = todo.isChecked
   }
 }

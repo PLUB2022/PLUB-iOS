@@ -150,12 +150,13 @@ extension ActiveMeetingViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     switch MyActivityType.allCases[indexPath.section] {
     case .todo:
+      let todo = viewModel.todoList[indexPath.row]
       guard let cell = tableView.dequeueReusableCell(
         withIdentifier: MyTodoTableViewCell.identifier,
         for: indexPath
       ) as? MyTodoTableViewCell else { return UITableViewCell() }
 
-      cell.setupData()
+      cell.setupData(with: todo)
 
       return cell
       
