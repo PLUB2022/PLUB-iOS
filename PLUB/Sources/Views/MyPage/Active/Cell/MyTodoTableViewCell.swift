@@ -31,7 +31,6 @@ final class MyTodoTableViewCell: UITableViewCell {
   private let dateLabel = UILabel().then {
     $0.font = .subtitle
     $0.textColor = .main
-    $0.text = "오늘"
   }
   
   private let likeButton = UIButton().then {
@@ -42,7 +41,6 @@ final class MyTodoTableViewCell: UITableViewCell {
   private let likeLabel = UILabel().then {
     $0.textColor = .deepGray
     $0.font = .overLine
-    $0.text = "3"
   }
   
   private let todoStackView = UIStackView().then {
