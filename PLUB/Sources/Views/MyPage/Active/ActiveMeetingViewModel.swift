@@ -82,10 +82,15 @@ final class ActiveMeetingViewModel {
   
   private func handleMyTodoInfo(todoInfo: TodoInfo) {
     todoList = todoInfo.todoContent
+      .prefix(2)
+      .map { $0 }
   }
   
   private func handleMyFeedInfo(feedInfo: FeedInfo) {
     feedList = feedInfo.feedList
+      .filter { $0.viewType != .system }
+      .prefix(2)
+      .map { $0 }
   }
   
   private func createScheduleString(days: [Day], time: String) -> String {
