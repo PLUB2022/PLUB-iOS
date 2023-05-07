@@ -76,7 +76,7 @@ final class TodolistViewModel {
       .flatMapLatest(TodolistService.shared.completeTodolist)
       
     completeTodolist.subscribe(onNext: { response in
-      print("완료 \(response) ")
+      Log.debug("완료 \(response) ")
     })
     .disposed(by: disposeBag)
   }
@@ -93,7 +93,7 @@ final class TodolistViewModel {
       .flatMapLatest(TodolistService.shared.cancelCompleteTodolist)
     
     cancelCompleteTodolist.subscribe(onNext: { response in
-      print("취소완료 \(response) ")
+      Log.debug("취소완료 \(response) ")
     })
     .disposed(by: disposeBag)
   }
@@ -142,7 +142,7 @@ final class TodolistViewModel {
       .flatMapLatest { TodolistService.shared.likeTodolist(plubbingID: $1, timelineID: $0) }
     
     likeTodolist.subscribe(onNext: { response in
-      print("좋아요 응답값 \(response)")
+      Log.debug("좋아요 응답값 \(response)")
     })
     .disposed(by: disposeBag)
   }
