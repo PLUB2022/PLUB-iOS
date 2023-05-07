@@ -37,6 +37,7 @@ final class CheckTodoView: UIView {
       checkboxButton.isChecked = isChecked
     }
   }
+  
   private let disposeBag = DisposeBag()
   
   private let checkboxButton = CheckBoxButton(type: .none)
@@ -60,8 +61,9 @@ final class CheckTodoView: UIView {
     checkboxButton.rx.isChecked
       .subscribe(with: self) { owner, isChecked in
         guard let model = owner.model else { return }
+        owner.isChecked = isChecked
         if model.isAuthor && !model.isProof { // 내가 작성했고 인증되있지않은 투두만 완료/인증 가능
-          owner.delegate?.didTappedCheckboxButton(todoID: model.todoID, isCompleted: owner.checkboxButton.isChecked)
+          owner.delegate?.didTappedCheckboxButton(todoID: model.todoID, isCompleted: owner.checkboxButton.isChecked, todo: model.todo)
         }
       }
       .disposed(by: disposeBag)
