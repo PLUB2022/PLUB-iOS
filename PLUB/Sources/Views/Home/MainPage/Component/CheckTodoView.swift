@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 protocol CheckTodoViewDelegate: AnyObject {
-  func didTappedCheckboxButton(todoID: Int, isCompleted: Bool)
+  func didTappedCheckboxButton(todoID: Int, isCompleted: Bool, todo: String)
 }
 
 struct CheckTodoViewModel {
@@ -27,6 +27,16 @@ final class CheckTodoView: UIView {
   
   weak var delegate: CheckTodoViewDelegate?
   private var model: CheckTodoViewModel?
+  private var isChecked: Bool = false {
+    didSet {
+      if isChecked {
+        todoLabel.attributedText = todoLabel.text?.strikeThrough()
+      } else {
+        todoLabel.attributedText = NSAttributedString(string: todoLabel.text ?? "")
+      }
+      checkboxButton.isChecked = isChecked
+    }
+  }
   private let disposeBag = DisposeBag()
   
   private let checkboxButton = CheckBoxButton(type: .none)
@@ -48,7 +58,7 @@ final class CheckTodoView: UIView {
   
   private func bind() {
     checkboxButton.rx.isChecked
-      .subscribe(with: self) { owner, _ in
+      .subscribe(with: self) { owner, isChecked in
         guard let model = owner.model else { return }
         if model.isAuthor && !model.isProof { // 내가 작성했고 인증되있지않은 투두만 완료/인증 가능
           owner.delegate?.didTappedCheckboxButton(todoID: model.todoID, isCompleted: owner.checkboxButton.isChecked)
@@ -74,7 +84,7 @@ final class CheckTodoView: UIView {
   func configureUI(with model: CheckTodoViewModel) {
     self.model = model
     todoLabel.text = model.todo
-    checkboxButton.isChecked = model.isChecked
+    self.isChecked = model.isChecked
     
     // 해당 투두가 인증되었거나 작성자가 아니라면 -> 체크버튼 비활성화
     checkboxButton.isEnabled = model.isProof || !model.isAuthor ? false : true
