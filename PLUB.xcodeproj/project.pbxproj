@@ -309,6 +309,7 @@
 		C346B4AC29B1079900884E4F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = C346B4AB29B1079900884E4F /* FirebaseMessaging */; };
 		C34C097029773860001AFF16 /* DateBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */; };
 		C34D41F22A07395500F9E7AF /* MyFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34D41F12A07395500F9E7AF /* MyFeedTableViewCell.swift */; };
+		C34D41F42A07666D00F9E7AF /* NoActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34D41F32A07666D00F9E7AF /* NoActivityTableViewCell.swift */; };
 		C34F047E29C7049400E5B67E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F047D29C7049400E5B67E /* SettingViewController.swift */; };
 		C34F048129C70FB900E5B67E /* SettingDetailSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F048029C70FB900E5B67E /* SettingDetailSubView.swift */; };
 		C34F048429C715A800E5B67E /* SettingSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34F048329C715A800E5B67E /* SettingSubview.swift */; };
@@ -706,6 +707,7 @@
 		C344E5402986B9D7009F73A9 /* MeetingCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingCategoryViewModel.swift; sourceTree = "<group>"; };
 		C34C096F29773860001AFF16 /* DateBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C34D41F12A07395500F9E7AF /* MyFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedTableViewCell.swift; sourceTree = "<group>"; };
+		C34D41F32A07666D00F9E7AF /* NoActivityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoActivityTableViewCell.swift; sourceTree = "<group>"; };
 		C34F047D29C7049400E5B67E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		C34F048029C70FB900E5B67E /* SettingDetailSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailSubView.swift; sourceTree = "<group>"; };
 		C34F048329C715A800E5B67E /* SettingSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSubview.swift; sourceTree = "<group>"; };
@@ -1933,6 +1935,7 @@
 				C374E79229FC1E52004738C2 /* MyTodoTableViewCell.swift */,
 				C374E79429FC1E7E004738C2 /* MyTodoSectionHeaderView.swift */,
 				C34D41F12A07395500F9E7AF /* MyFeedTableViewCell.swift */,
+				C34D41F32A07666D00F9E7AF /* NoActivityTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2793,6 +2796,7 @@
 				C31605172997934100D27488 /* RecruitPostViewModel.swift in Sources */,
 				7095A58C292FB0B6002A52E6 /* InterestTypeCollectionViewCell.swift in Sources */,
 				C37237F32A02B0FF00328763 /* InquireMyTodoUseCase.swift in Sources */,
+				C34D41F42A07666D00F9E7AF /* NoActivityTableViewCell.swift in Sources */,
 				BA85BAA629A72D2400B4C59A /* BoardsRequest.swift in Sources */,
 				BA780E1129713BF30032C178 /* ParameterType.swift in Sources */,
 				BABB011C297ED74C004178EC /* InterestViewModel.swift in Sources */,

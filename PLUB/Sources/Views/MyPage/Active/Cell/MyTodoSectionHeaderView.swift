@@ -22,6 +22,15 @@ enum MyActivityType: CaseIterable {
       return "MY 게시글"
     }
   }
+  
+  var noneText: String {
+    switch self {
+    case .todo:
+      return "To-Do 추가하러 가기"
+    case .post:
+      return "새 게시글 작성하기"
+    }
+  }
 }
 
 protocol MyTodoSectionHeaderViewDelegate: AnyObject {
