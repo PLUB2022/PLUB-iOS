@@ -21,6 +21,7 @@ protocol TodolistViewModelType {
   // Output
   var todoTimelineModel: Driver<[TodolistModel]> { get }
   var successCompleteTodolist: Signal<Bool> { get }
+  var successProofTodolist: Signal<CompleteProofTodolistResponse> { get }
 }
 
 final class TodolistViewModel {
@@ -32,6 +33,7 @@ final class TodolistViewModel {
   private let selectingTodolistID = PublishSubject<Int>()
   private let allTodoTimeline = BehaviorSubject<[InquireAllTodoTimelineResponse]>(value: [])
   private let completeTodolist = PublishSubject<CompleteProofTodolistResponse>()
+  private let proofTodolist = PublishSubject<CompleteProofTodolistResponse>()
   private let whichUploadingImage = PublishSubject<UIImage?>()
   private let selectingLikeButton = PublishSubject<Int>()
   
@@ -54,6 +56,7 @@ final class TodolistViewModel {
     
     let successInquireAllTodoTimeline = inquireAllTodoTimeline.compactMap { result -> [InquireAllTodoTimelineResponse]? in
       guard case .success(let response) = result else { return nil }
+      print("응답 \(response)")
       return response.data?.content
     }
     
@@ -128,9 +131,9 @@ final class TodolistViewModel {
     )
       .flatMapLatest(TodolistService.shared.proofTodolist)
     
-    proofTodolist.subscribe(onNext: { response in
-      print("인증 \(response) ")
-    })
+    proofTodolist.subscribe(with: self) { owner, response in
+      owner.proofTodolist.onNext(response)
+    }
     .disposed(by: disposeBag)
   }
   
@@ -190,6 +193,11 @@ extension TodolistViewModel: TodolistViewModelType {
   var successCompleteTodolist: Signal<Bool> {
     completeTodolist
       .map { $0.isChecked }
+      .asSignal(onErrorSignalWith: .empty())
+  }
+  
+  var successProofTodolist: Signal<CompleteProofTodolistResponse> {
+    proofTodolist
       .asSignal(onErrorSignalWith: .empty())
   }
 }
