@@ -107,6 +107,7 @@
 		70C9CC9F2A03FE8200BEB5F2 /* CompleteTodolistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9E2A03FE8200BEB5F2 /* CompleteTodolistResponse.swift */; };
 		70C9CCA42A03FFC000BEB5F2 /* ProofTodolistRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA32A03FFC000BEB5F2 /* ProofTodolistRequest.swift */; };
 		70C9CCA62A05044400BEB5F2 /* LikeTodolistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA52A05044400BEB5F2 /* LikeTodolistResponse.swift */; };
+		70C9CCB82A07865700BEB5F2 /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB72A07865700BEB5F2 /* Ex+String.swift */; };
 		70CF3330299793220077FF47 /* RegisterInterestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF332F299793220077FF47 /* RegisterInterestRequest.swift */; };
 		70CF33322998EBC30077FF47 /* RecruitmentFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */; };
 		70CF3335299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */; };
@@ -516,6 +517,7 @@
 		70C9CC9E2A03FE8200BEB5F2 /* CompleteTodolistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteTodolistResponse.swift; sourceTree = "<group>"; };
 		70C9CCA32A03FFC000BEB5F2 /* ProofTodolistRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProofTodolistRequest.swift; sourceTree = "<group>"; };
 		70C9CCA52A05044400BEB5F2 /* LikeTodolistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeTodolistResponse.swift; sourceTree = "<group>"; };
+		70C9CCB72A07865700BEB5F2 /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
 		70CF332F299793220077FF47 /* RegisterInterestRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInterestRequest.swift; sourceTree = "<group>"; };
 		70CF33312998EBC30077FF47 /* RecruitmentFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterViewController.swift; sourceTree = "<group>"; };
 		70CF3334299920CD0077FF47 /* RecruitmentFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecruitmentFilterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1344,6 +1346,7 @@
 				70727A2029BF8F2A003DE956 /* Ex+Date.swift */,
 				C307826729CF5D9700E1D44B /* Ex+UIImage.swift */,
 				C36F31C829E3119200AC2C8A /* Ex+Collection.swift */,
+				70C9CCB72A07865700BEB5F2 /* Ex+String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2518,6 +2521,7 @@
 				C333EEB929F45A7E00B3F84E /* ExportViewController.swift in Sources */,
 				70F1DFEF297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift in Sources */,
 				BA8AA42A29863ABC004E9403 /* Interceptor.swift in Sources */,
+				70C9CCB82A07865700BEB5F2 /* Ex+String.swift in Sources */,
 				C307826829CF5D9700E1D44B /* Ex+UIImage.swift in Sources */,
 				70727A1F29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift in Sources */,
 				C333EEC129F48EF400B3F84E /* InquireMeetingMemberUseCase.swift in Sources */,

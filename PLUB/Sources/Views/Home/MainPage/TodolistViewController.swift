@@ -157,13 +157,15 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TodolistViewController: TodoCollectionViewCellDelegate {
-  func didTappedTodo(todoID: Int, isCompleted: Bool) {
+  func didTappedTodo(todoID: Int, isCompleted: Bool, model: TodoAlertModel) {
     viewModel.selectTodolistID.onNext(todoID)
     viewModel.selectComplete.onNext(isCompleted)
+    
     if isCompleted {
       let alert = TodoAlertController()
       alert.modalPresentationStyle = .overFullScreen
       alert.delegate = self
+      alert.configureUI(with: model)
       present(alert, animated: false)
     }
   }
