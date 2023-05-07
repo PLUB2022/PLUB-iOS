@@ -11,6 +11,11 @@ import RxSwift
 import RxCocoa
 
 protocol ActiveMeetingViewModelType {
+  // MARK: Property
+  var plumbingID: Int { get }
+  var todoList: [TodoContent] { get }
+  var feedList: [FeedsContent] { get }
+  
   // MARK: Input
   
   // MARK: Output
@@ -20,15 +25,17 @@ protocol ActiveMeetingViewModelType {
 
 final class ActiveMeetingViewModel {
   private let disposeBag = DisposeBag()
+  
+  // MARK: Property
   private(set) var plubbingID: Int
   private(set) var todoList = [TodoContent]()
   private(set) var feedList = [FeedsContent]()
   
+  // MARK: UseCase
   private let inquireMyTodoUseCase: InquireMyTodoUseCase
   private let inquireMyFeedUseCase: InquireMyFeedUseCase
   
   // MARK: Subjects
-  
   private let meetingInfoSubject = PublishSubject<RecruitingModel>()
   private let reloadTaleViewSubject = PublishSubject<Void>()
   
@@ -98,6 +105,11 @@ final class ActiveMeetingViewModel {
 
 
 extension ActiveMeetingViewModel: ActiveMeetingViewModelType {
+  // MARK: Property
+  var plumbingID: Int {
+    plubbingID
+  }
+  
   // MARK: Input
   
   // MARK: Output

@@ -8,7 +8,7 @@
 import UIKit
 
 final class ActiveMeetingViewController: BaseViewController {
-  private let viewModel: ActiveMeetingViewModel
+  private let viewModel: ActiveMeetingViewModelType
   private let recruitingHeaderView = RecruitingHeaderView()
     
   private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
@@ -30,7 +30,7 @@ final class ActiveMeetingViewController: BaseViewController {
     $0.layer.masksToBounds = true
   }
   
-  init(viewModel: ActiveMeetingViewModel) {
+  init(viewModel: ActiveMeetingViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -82,7 +82,7 @@ final class ActiveMeetingViewController: BaseViewController {
       .rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        let vc = DetailRecruitmentViewController(plubbingID: owner.viewModel.plubbingID)
+        let vc = DetailRecruitmentViewController(plubbingID: owner.viewModel.plumbingID)
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
