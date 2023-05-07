@@ -20,6 +20,7 @@ final class ActiveMeetingViewController: BaseViewController {
     $0.tableHeaderView = recruitingHeaderView
     $0.tableHeaderView?.frame.size.height = 114
     $0.register(MyTodoTableViewCell.self, forCellReuseIdentifier: MyTodoTableViewCell.identifier)
+    $0.register(MyFeedTableViewCell.self, forCellReuseIdentifier: MyFeedTableViewCell.identifier)
     $0.register(MyTodoSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: MyTodoSectionHeaderView.identifier)
   }
   
@@ -68,6 +69,12 @@ final class ActiveMeetingViewController: BaseViewController {
     viewModel.meetingInfoDriver
       .drive(with: self) { owner, myInfo in
         owner.recruitingHeaderView.setupData(with: myInfo, type: .active)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.reloadTaleViewDriver
+      .drive(with: self) { owner, myInfo in
+        owner.tableView.reloadData()
       }
       .disposed(by: disposeBag)
     
@@ -137,21 +144,40 @@ extension ActiveMeetingViewController: UITableViewDelegate {
 
 extension ActiveMeetingViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-    return 2
+    return MyActivityType.allCases.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(
-      withIdentifier: MyTodoTableViewCell.identifier,
-      for: indexPath
-    ) as? MyTodoTableViewCell else { return UITableViewCell() }
+    switch MyActivityType.allCases[indexPath.section] {
+    case .todo:
+      guard let cell = tableView.dequeueReusableCell(
+        withIdentifier: MyTodoTableViewCell.identifier,
+        for: indexPath
+      ) as? MyTodoTableViewCell else { return UITableViewCell() }
 
-    cell.setupData()
+      cell.setupData()
 
-    return cell
+      return cell
+      
+    case .post:
+      let feed = viewModel.feedList[indexPath.row]
+      guard let cell = tableView.dequeueReusableCell(
+        withIdentifier: MyFeedTableViewCell.identifier,
+        for: indexPath
+      ) as? MyFeedTableViewCell else { return UITableViewCell() }
+
+      cell.configure(with: feed.toBoardModel)
+
+      return cell
+    }
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 2
+    switch MyActivityType.allCases[section] {
+    case .todo:
+      return viewModel.todoList.count
+    case .post:
+      return viewModel.feedList.count
+    }
   }
 }
