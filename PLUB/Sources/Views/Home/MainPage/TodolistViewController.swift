@@ -108,8 +108,15 @@ final class TodolistViewController: BaseViewController {
     
     viewModel.successCompleteTodolist
       .emit(onNext: { success in
-        print("성공했니 \(success)")
+        print("투두완료성공 \(success)")
       })
+      .disposed(by: disposeBag)
+    
+    viewModel.successProofTodolist
+      .emit(with: self) { owner, success in
+        print("투두인증성공 \(success)")
+        owner.viewModel.selectPlubbingID.onNext(plubbingID)
+      }
       .disposed(by: disposeBag)
   
   }
