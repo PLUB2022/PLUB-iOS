@@ -56,7 +56,6 @@ final class TodolistViewModel {
     
     let successInquireAllTodoTimeline = inquireAllTodoTimeline.compactMap { result -> [InquireAllTodoTimelineResponse]? in
       guard case .success(let response) = result else { return nil }
-      print("응답 \(response)")
       return response.data?.content
     }
     
