@@ -13,6 +13,8 @@ import Then
 
 final class AddTodoViewController: BaseViewController {
   
+  private let scrollView = UIScrollView()
+  
   private let containerStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 16
@@ -46,16 +48,21 @@ final class AddTodoViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(containerStackView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(containerStackView)
     [textLabel, calendarView, addTodoView].forEach { containerStackView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    scrollView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
     containerStackView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
