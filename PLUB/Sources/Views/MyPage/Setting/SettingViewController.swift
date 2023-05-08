@@ -35,6 +35,7 @@ enum SettingVersionType: String, CaseIterable {
 }
 
 final class SettingViewController: BaseViewController {
+  private let viewModel: SettingViewModelType
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -51,6 +52,15 @@ final class SettingViewController: BaseViewController {
   private let titleLabel = UILabel().then {
     $0.text = "설정"
     $0.font = .h2
+  }
+  
+  init(viewModel: SettingViewModelType) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewDidLoad() {
@@ -104,6 +114,15 @@ final class SettingViewController: BaseViewController {
     }
     
     contentStackView.setCustomSpacing(32, after: titleLabel)
+  }
+  
+  override func bind() {
+    super.bind()
+    viewModel.successLogout
+      .drive(with: self) { owner, _ in
+        owner.moveToLoginViewController()
+      }
+      .disposed(by: disposeBag)
   }
   
   private func addSubViews(stackView: UIStackView, type: SettingType) {
@@ -167,7 +186,7 @@ extension SettingViewController {
       )
     ) { [weak self] in
       guard let self else { return }
-      self.moveToLoginViewController()
+      self.viewModel.logoutButtonTapped.onNext(())
     }
     alert.show()
   }
