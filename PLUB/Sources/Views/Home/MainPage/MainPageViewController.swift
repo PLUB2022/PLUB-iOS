@@ -78,7 +78,8 @@ final class MainPageViewController: BaseViewController {
   private lazy var boardViewController = BoardViewController(plubbingID: plubbingID).then {
     $0.delegate = self
   }
-  private let todolistViewController = TodolistViewController()
+  
+  private lazy var todolistViewController = TodolistViewController(plubbingID: plubbingID)
   
   private var viewControllers: [UIViewController] {
     [

@@ -8,34 +8,57 @@
 import Alamofire
 
 enum TodolistRouter {
-  case inquireAllTodolist(Int, Int)
+  case inquireAllTodoTimeline(Int, Int)
+  case inquireTodolist(Int, Int)
+  case completeTodolist(Int, Int)
+  case cancelCompleteTodolist(Int, Int)
+  case proofTodolist(Int, Int, ProofTodolistRequest)
+  case likeTodolist(Int, Int)
 }
 
 extension TodolistRouter: Router {
   var method: HTTPMethod {
     switch self {
-    case .inquireAllTodolist:
+    case .inquireAllTodoTimeline, .inquireTodolist:
       return .get
+    case .completeTodolist, .cancelCompleteTodolist, .likeTodolist:
+      return .put
+    case .proofTodolist:
+      return .post
     }
   }
   
   var path: String {
     switch self {
-    case .inquireAllTodolist(let plubbingID, _):
+    case .inquireAllTodoTimeline(let plubbingID, _):
       return "/plubbings/\(plubbingID)/timeline"
+    case .inquireTodolist(let plubbingID, let timelineID):
+      return "/plubbings/\(plubbingID)/timeline/\(timelineID)/todolist"
+    case .completeTodolist(let plubbingID, let todolistID):
+      return "/plubbings/\(plubbingID)/todolist/\(todolistID)/complete"
+    case .proofTodolist(let plubbingID, let todolistID, _):
+      return "/plubbings/\(plubbingID)/todolist/\(todolistID)/proof"
+    case .cancelCompleteTodolist(let plubbingID, let todolistID):
+      return "/plubbings/\(plubbingID)/todolist/\(todolistID)/cancel"
+    case .likeTodolist(let plubbingID, let timelineID):
+      return "/plubbings/\(plubbingID)/timeline/\(timelineID)/like"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireAllTodolist(_, let cursorID):
+    case .inquireAllTodoTimeline(_, let cursorID):
       return .query(["cursorId": cursorID])
+    case .inquireTodolist, .completeTodolist, .cancelCompleteTodolist, .likeTodolist:
+      return .plain
+    case .proofTodolist(_, _, let request):
+      return .body(request)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireAllTodolist:
+    case .inquireAllTodoTimeline, .inquireTodolist, .completeTodolist, .proofTodolist, .cancelCompleteTodolist, .likeTodolist:
       return .withAccessToken
     }
   }

@@ -49,13 +49,13 @@ final class ExportViewModel {
   
   func exportMember(indexPathRow: Int) {
     let account = accountListRelay.value[indexPathRow]
-    let accountID = account.accountId
+    let accountID = account.accountID
     exportMeetingMemberUseCase
       .execute(plubbingID: plubbingID, accountID: accountID)
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         let oldValue = owner.accountListRelay.value
-          .filter { $0.accountId != accountID }
+          .filter { $0.accountID != accountID }
         
         owner.accountListRelay.accept(oldValue)
         

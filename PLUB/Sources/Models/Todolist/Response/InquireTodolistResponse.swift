@@ -1,49 +1,33 @@
 //
-//  InquireAllTodolistResponse.swift
+//  InquireTodolistResponse.swift
 //  PLUB
 //
-//  Created by 이건준 on 2023/03/28.
+//  Created by 이건준 on 2023/05/04.
 //
 
 import Foundation
 
-struct InquireAllTodolistResponse: Codable {
+struct InquireTodolistResponse: Codable {
   let todoTimelineID: Int
-  let date: String
+  let accountInfo: AccountInfo?
   let totalLikes: Int
   let isAuthor: Bool
-  let accountInfo: AccountInfo?
+  let isLike: Bool
   let todoList: [Todo]
   
   enum CodingKeys: String, CodingKey {
     case todoTimelineID = "todoTimelineId"
-    case date, totalLikes, isAuthor, accountInfo, todoList
+    case isLike, totalLikes, isAuthor, accountInfo, todoList
   }
   
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
     todoTimelineID = try values.decodeIfPresent(Int.self, forKey: .todoTimelineID) ?? 0
-    date = try values.decodeIfPresent(String.self, forKey: .date) ?? ""
+    isLike = try values.decodeIfPresent(Bool.self, forKey: .isLike) ?? false
     totalLikes = try values.decodeIfPresent(Int.self, forKey: .totalLikes) ?? 0
     isAuthor = try values.decodeIfPresent(Bool.self, forKey: .isAuthor) ?? false
     accountInfo = try values.decodeIfPresent(AccountInfo.self, forKey: .accountInfo)
     todoList = try values.decodeIfPresent([Todo].self, forKey: .todoList) ?? []
   }
 }
-
-struct Todo: Codable {
-  let todoID: Int
-  let content: String
-  let date: String
-  let isChecked: Bool
-  let isProof: Bool
-  let proofImage: String
-  let isAuthor: Bool
-  
-  enum CodingKeys: String, CodingKey {
-    case todoID = "todoId"
-    case content, date, isChecked, isProof, proofImage, isAuthor
-  }
-}
-

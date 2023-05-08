@@ -152,7 +152,13 @@ class BaseService {
     Single.create { observer in
       
       self.session.request(router)
-        .validate()
+        .validate({ request, response, data in
+          if response.statusCode != 401 {
+            return .success(Void())
+          }
+          let reason = AFError.ResponseValidationFailureReason.unacceptableStatusCode(code: response.statusCode)
+          return .failure(AFError.responseValidationFailed(reason: reason))
+        })
         .responseData { response in
         switch response.result {
         case .success(let data):

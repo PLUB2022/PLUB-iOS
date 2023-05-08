@@ -12,6 +12,12 @@ import SnapKit
 final class MeetingCollectionMoreCell: UICollectionViewCell {
   static let identifier = "MeetingCollectionMoreCell"
   
+  private let contentStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 23
+    $0.alignment = .center
+  }
+  
   private let imageView = UIImageView().then {
     $0.image = UIImage(named: "plusCircle")
   }
@@ -48,22 +54,26 @@ final class MeetingCollectionMoreCell: UICollectionViewCell {
   }
     
   private func setupLayouts() {
-    [imageView, titleLabel, dimmedView].forEach {
-      addSubview($0)
+    [contentStackView, dimmedView].forEach {
+      contentView.addSubview($0)
+    }
+    
+    [imageView, titleLabel].forEach {
+      contentStackView.addArrangedSubview($0)
     }
   }
     
   private func setupConstraints() {
+    contentStackView.snp.makeConstraints {
+      $0.center.equalToSuperview()
+    }
+    
     imageView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(163)
       $0.size.equalTo(40)
-      $0.centerX.equalToSuperview()
     }
     
     titleLabel.snp.makeConstraints {
-      $0.top.equalTo(imageView.snp.bottom).offset(23)
-      $0.centerX.equalToSuperview()
-      $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(50)
     }
     
     dimmedView.snp.makeConstraints {

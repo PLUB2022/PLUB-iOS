@@ -8,7 +8,7 @@
 import UIKit
 
 final class ActiveMeetingViewController: BaseViewController {
-  private let viewModel: ActiveMeetingViewModel
+  private let viewModel: ActiveMeetingViewModelType
   private let recruitingHeaderView = RecruitingHeaderView()
     
   private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
@@ -20,6 +20,8 @@ final class ActiveMeetingViewController: BaseViewController {
     $0.tableHeaderView = recruitingHeaderView
     $0.tableHeaderView?.frame.size.height = 114
     $0.register(MyTodoTableViewCell.self, forCellReuseIdentifier: MyTodoTableViewCell.identifier)
+    $0.register(MyFeedTableViewCell.self, forCellReuseIdentifier: MyFeedTableViewCell.identifier)
+    $0.register(NoActivityTableViewCell.self, forCellReuseIdentifier: NoActivityTableViewCell.identifier)
     $0.register(MyTodoSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: MyTodoSectionHeaderView.identifier)
   }
   
@@ -29,7 +31,7 @@ final class ActiveMeetingViewController: BaseViewController {
     $0.layer.masksToBounds = true
   }
   
-  init(viewModel: ActiveMeetingViewModel) {
+  init(viewModel: ActiveMeetingViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -65,9 +67,15 @@ final class ActiveMeetingViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.meetingInfo
+    viewModel.meetingInfoDriver
       .drive(with: self) { owner, myInfo in
         owner.recruitingHeaderView.setupData(with: myInfo, type: .active)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.reloadTaleViewDriver
+      .drive(with: self) { owner, myInfo in
+        owner.tableView.reloadData()
       }
       .disposed(by: disposeBag)
     
@@ -137,21 +145,65 @@ extension ActiveMeetingViewController: UITableViewDelegate {
 
 extension ActiveMeetingViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-    return 2
+    return MyActivityType.allCases.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(
-      withIdentifier: MyTodoTableViewCell.identifier,
-      for: indexPath
-    ) as? MyTodoTableViewCell else { return UITableViewCell() }
+    switch MyActivityType.allCases[indexPath.section] {
+    case .todo:
+      if viewModel.todoList.isEmpty {
+        guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: NoActivityTableViewCell.identifier,
+          for: indexPath
+        ) as? NoActivityTableViewCell else { return UITableViewCell() }
 
-    cell.setupData()
+        cell.setupData(type: .todo)
 
-    return cell
+        return cell
+      } else {
+        let todo = viewModel.todoList[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: MyTodoTableViewCell.identifier,
+          for: indexPath
+        ) as? MyTodoTableViewCell else { return UITableViewCell() }
+
+        cell.setupData(with: todo)
+
+        return cell
+      }
+      
+    case .post:
+      if viewModel.feedList.isEmpty {
+        guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: NoActivityTableViewCell.identifier,
+          for: indexPath
+        ) as? NoActivityTableViewCell else { return UITableViewCell() }
+
+        cell.setupData(type: .post)
+
+        return cell
+      } else {
+        let feed = viewModel.feedList[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(
+          withIdentifier: MyFeedTableViewCell.identifier,
+          for: indexPath
+        ) as? MyFeedTableViewCell else { return UITableViewCell() }
+
+        cell.configure(with: feed.toBoardModel)
+
+        return cell
+      }
+    }
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 2
+    switch MyActivityType.allCases[section] {
+    case .todo:
+      let todoCount = viewModel.todoList.count
+      return todoCount == 0 ? 1 : todoCount
+    case .post:
+      let feedCount = viewModel.feedList.count
+      return feedCount == 0 ? 1 : feedCount
+    }
   }
 }

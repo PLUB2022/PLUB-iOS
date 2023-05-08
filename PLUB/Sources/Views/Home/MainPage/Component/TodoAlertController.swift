@@ -7,11 +7,27 @@
 
 import UIKit
 
+import Kingfisher
 import RxSwift
 import SnapKit
 import Then
 
+struct TodoAlertModel {
+  let profileImage: String
+  let date: String
+  let name: String
+  let content: String
+}
+
+protocol TodoAlertDelegate: AnyObject {
+  func whichProofImage(image: UIImage)
+}
+
 final class TodoAlertController: BaseViewController {
+  
+  weak var delegate: TodoAlertDelegate?
+  
+  private var proofImage: UIImage?
   
   private let dimmedView = UIView().then {
     $0.backgroundColor = .black.withAlphaComponent(0.45)
@@ -66,8 +82,8 @@ final class TodoAlertController: BaseViewController {
   }
   
   private let completedButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.detailRecruitment(label: "완료!")
-    $0.isSelected = true
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "완료!")
+    $0.isEnabled = false
   }
   
   private let tapGesture = UITapGestureRecognizer(target: TodoAlertController.self, action: nil)
@@ -192,11 +208,29 @@ final class TodoAlertController: BaseViewController {
         owner.present(bottomSheet, animated: false)
       }
       .disposed(by: disposeBag)
+    
+    completedButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        guard let image = owner.proofImage else { return }
+        owner.delegate?.whichProofImage(image: image)
+        owner.dismiss(animated: false)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  func configureUI(with model: TodoAlertModel) {
+    let url = URL(string: model.profileImage)
+    profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
+    dateLabel.text = model.date
+    nameLabel.text = model.name
+    todoInfoView.configureUI(with: model.content)
   }
 }
 
 extension TodoAlertController: PhotoBottomSheetDelegate {
   func selectImage(image: UIImage) {
+    self.proofImage = image
     todoAlertView.image = image
+    completedButton.isEnabled = true
   }
 }
