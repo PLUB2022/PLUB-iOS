@@ -32,6 +32,11 @@ final class TodoView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    todoTextField.addUnderline(color: .deepGray)
+  }
+  
   private func configureUI() {
     [emptyCheckView, todoTextField].forEach { addSubview($0) }
     
