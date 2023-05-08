@@ -117,28 +117,7 @@ final class SettingViewController: BaseViewController {
         }
       }
     case .account:
-      SettingAccountType.allCases.forEach { accountType in
-        let detailSubview = SettingDetailSubView(accountType.rawValue)
-        stackView.addArrangedSubview(detailSubview)
-        detailSubview.snp.makeConstraints {
-          $0.height.equalTo(52)
-        }
-        
-        detailSubview.button
-          .rx.tap
-          .asDriver()
-          .drive(with: self) { owner, _ in
-            switch accountType {
-            case .logout:
-              owner.logout()
-            case .inactive:
-              break
-            case .withdraw:
-              break
-            }
-          }
-          .disposed(by: disposeBag)
-      }
+      addAccountViews(stackView: stackView)
     case .version:
       SettingVersionType.allCases.forEach {
         let detailSubview = SettingDetailSubView($0.rawValue)
@@ -152,6 +131,31 @@ final class SettingViewController: BaseViewController {
 }
 
 extension SettingViewController {
+  private func addAccountViews(stackView: UIStackView) {
+    SettingAccountType.allCases.forEach { accountType in
+      let detailSubview = SettingDetailSubView(accountType.rawValue)
+      stackView.addArrangedSubview(detailSubview)
+      detailSubview.snp.makeConstraints {
+        $0.height.equalTo(52)
+      }
+      
+      detailSubview.button
+        .rx.tap
+        .asDriver()
+        .drive(with: self) { owner, _ in
+          switch accountType {
+          case .logout:
+            owner.logout()
+          case .inactive:
+            break
+          case .withdraw:
+            break
+          }
+        }
+        .disposed(by: disposeBag)
+    }
+  }
+  
   private func logout() {
     let alert = CustomAlertView(
       AlertModel(
