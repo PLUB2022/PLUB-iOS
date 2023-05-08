@@ -38,6 +38,6 @@ struct TodoContent: Codable {
   
   enum CodingKeys: String, CodingKey {
     case date, totalLikes, isAuthor, todoList
-    case todoID = "todoTimelineID"
+    case todoID = "todoTimelineId"
   }
 }
