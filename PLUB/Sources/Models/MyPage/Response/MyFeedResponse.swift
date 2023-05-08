@@ -19,11 +19,12 @@ struct MyFeedResponse: Codable {
 
 struct FeedInfo: Codable {
   let totalElements: Int
-  let last: Bool
+  let isLast: Bool
   let feedList: [FeedsContent]
   
   enum CodingKeys: String, CodingKey {
-    case totalElements, last
+    case totalElements
+    case isLast = "last"
     case feedList = "content"
   }
 }

@@ -12,7 +12,7 @@ import RxCocoa
 
 protocol ActiveMeetingViewModelType {
   // MARK: Property
-  var plumbingID: Int { get }
+  var plubbingID: Int { get }
   var todoList: [TodoContent] { get }
   var feedList: [FeedsContent] { get }
   
@@ -110,11 +110,6 @@ final class ActiveMeetingViewModel {
 
 
 extension ActiveMeetingViewModel: ActiveMeetingViewModelType {
-  // MARK: Property
-  var plumbingID: Int {
-    plubbingID
-  }
-  
   // MARK: Input
   
   // MARK: Output

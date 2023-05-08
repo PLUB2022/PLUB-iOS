@@ -21,6 +21,11 @@ final class MyFeedTableViewCell: UITableViewCell {
   
   // MARK: - UI Components
   
+  private let backView = UIView().then {
+    $0.backgroundColor = .white
+    $0.layer.cornerRadius = 10
+  }
+  
   private let wholeStackView = UIStackView().then {
     $0.alignment = .top
     $0.spacing = 8
@@ -108,15 +113,11 @@ final class MyFeedTableViewCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16))
-  }
-  
   // MARK: - Configuration
   
   private func setupLayouts() {
-    contentView.addSubview(wholeStackView)
+    contentView.addSubview(backView)
+    backView.addSubview(wholeStackView)
     wholeStackView.addArrangedSubview(containerStackView)
     wholeStackView.addArrangedSubview(contentImageView)
     
@@ -137,6 +138,11 @@ final class MyFeedTableViewCell: UITableViewCell {
   }
   
   private func setupConstraints() {
+    backView.snp.makeConstraints {
+      $0.directionalVerticalEdges.equalToSuperview().inset(4)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+    }
+    
     wholeStackView.snp.makeConstraints {
       $0.directionalVerticalEdges.equalToSuperview().inset(12)
       $0.directionalHorizontalEdges.equalToSuperview().inset(16)
@@ -149,8 +155,6 @@ final class MyFeedTableViewCell: UITableViewCell {
   
   private func setupStyles() {
     backgroundColor = .background
-    contentView.backgroundColor = .white
-    contentView.layer.cornerRadius = 10
     selectionStyle = .none
   }
   
