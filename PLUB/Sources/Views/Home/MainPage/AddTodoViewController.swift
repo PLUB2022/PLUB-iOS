@@ -85,10 +85,10 @@ final class AddTodoViewController: BaseViewController {
     }
     
     calendarView.snp.makeConstraints {
-      $0.height.equalTo(357.29)
+      $0.height.equalTo(357)
     }
     
-    containerStackView.setCustomSpacing(13.71, after: calendarView)
+    containerStackView.setCustomSpacing(14, after: calendarView)
   }
 }
 
