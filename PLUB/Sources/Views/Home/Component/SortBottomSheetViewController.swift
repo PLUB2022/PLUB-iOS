@@ -12,18 +12,20 @@ import RxCocoa
 import SnapKit
 import Then
 
-final class SortBottomSheetView: UIControl {
+final class BottomSheetFilterView: UIControl {
   
-  private let type: SortType
+  // MARK: - Properties
   
   var isTapped: Bool = false {
     didSet {
-      sortLabel.textColor = isTapped ? .main : .black
-      selectImageView.isHidden = !isTapped
+      label.textColor           = isTapped ? .main : .black
+      selectImageView.isHidden  = !isTapped
     }
   }
   
-  private let sortLabel = UILabel().then {
+  // MARK: - UI Components
+  
+  private let label = UILabel().then {
     $0.font = .body1
     $0.textColor = .black
     $0.sizeToFit()
@@ -34,35 +36,38 @@ final class SortBottomSheetView: UIControl {
     $0.contentMode = .scaleAspectFit
   }
   
-  init(type: SortType) {
-    self.type = type
+  // MARK: - Initializations
+  
+  init(text: String) {
     super.init(frame: .zero)
-    configureUI()
+    configureUI(text: text)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func configureUI() {
-    [sortLabel, selectImageView].forEach { addSubview($0) }
+  // MARK: - Configuration
+  
+  private func configureUI(text: String) {
+    [label, selectImageView].forEach { addSubview($0) }
     
-    sortLabel.snp.makeConstraints {
+    label.snp.makeConstraints {
       $0.leading.top.bottom.equalToSuperview()
     }
     
     selectImageView.snp.makeConstraints {
-      $0.leading.equalTo(sortLabel.snp.trailing).offset(8)
+      $0.leading.equalTo(label.snp.trailing).offset(8)
       $0.top.bottom.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
     
-    sortLabel.text = type.text
+    label.text = text
     selectImageView.isHidden = true
   }
 }
 
-extension Reactive where Base: SortBottomSheetView {
+extension Reactive where Base: BottomSheetFilterView {
   var tap: ControlEvent<Void> {
     controlEvent(.touchUpInside)
   }
@@ -89,8 +94,8 @@ final class SortBottomSheetViewController: BottomSheetViewController {
     $0.sizeToFit()
   }
   
-  private let popularButton = SortBottomSheetView(type: .popular)
-  private let newButton = SortBottomSheetView(type: .new)
+  private let popularButton = BottomSheetFilterView(text: SortType.popular.text)
+  private let newButton     = BottomSheetFilterView(text: SortType.new.text)
   
   override func setupLayouts() {
     super.setupLayouts()
@@ -102,17 +107,17 @@ final class SortBottomSheetViewController: BottomSheetViewController {
     super.setupConstraints()
     
     stackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(36)
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(24)
+      $0.top.equalToSuperview().inset(Metrics.Margin.top)
+      $0.leading.trailing.equalToSuperview().inset(Metrics.Margin.horizontal)
+      $0.bottom.equalToSuperview().inset(Metrics.Margin.bottom)
     }
     
     popularButton.snp.makeConstraints {
-      $0.height.equalTo(32)
+      $0.height.equalTo(Metrics.Size.filterHeight)
     }
     
     newButton.snp.makeConstraints {
-      $0.height.equalTo(32)
+      $0.height.equalTo(Metrics.Size.filterHeight)
     }
   }
   

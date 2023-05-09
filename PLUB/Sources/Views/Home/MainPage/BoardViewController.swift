@@ -151,9 +151,8 @@ final class BoardViewController: BaseViewController {
     if gestureRecognizer.state == .began {
       // 롱 프레스 터치가 시작될 떄
       let bottomSheet = BoardBottomSheetViewController()
-      bottomSheet.modalPresentationStyle = .overFullScreen
       bottomSheet.delegate = self
-      present(bottomSheet, animated: false)
+      present(bottomSheet, animated: true)
     } else if gestureRecognizer.state == .ended {
       // 롱 프레스 터치가 끝날 떄
       guard let feedID = cell.feedID else { return }
@@ -267,7 +266,7 @@ extension BoardViewController: BoardBottomSheetDelegate {
     case .delete:
       viewModel.selectDelete.onNext(())
     }
-    dismiss(animated: false)
+    dismiss(animated: true)
   }
   
 }

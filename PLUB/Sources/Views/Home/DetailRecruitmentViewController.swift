@@ -294,7 +294,6 @@ extension DetailRecruitmentViewController: UICollectionViewDelegate, UICollectio
 extension DetailRecruitmentViewController: ParticipantListViewDelegate {
   func didTappedMoreButton(accountInfos: [AccountInfo]) {
     let vc = ParticipantBottomSheetViewController(model: accountInfos)
-    vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: false)
+    present(vc, animated: true)
   }
 }

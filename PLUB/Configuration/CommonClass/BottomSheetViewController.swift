@@ -23,7 +23,7 @@ class BottomSheetViewController: BaseViewController {
     super.setupConstraints()
     contentView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview()
-      $0.bottom.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalTo(view.safeAreaLayoutGuide)
     }
   }
   
@@ -52,13 +52,15 @@ extension UISheetPresentationController.Detent.Identifier {
 extension BottomSheetViewController {
   enum Metrics {
     enum Margin {
-      static let horizontal = 16
-      static let top        = 36
-      static let bottom     = 24
+      static let horizontal   = 16
+      static let top          = 36
+      static let bottom       = 24
     }
     
     enum Size {
-      static let height     = 48
+      static let listHeight   = 48
+      static let filterHeight = 32
+      static let button       = 48
     }
   }
 }

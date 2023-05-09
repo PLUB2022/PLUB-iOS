@@ -126,8 +126,7 @@ final class MeetingScheduleViewController: BaseViewController {
           let calendarID = viewModel.getCellScheduleID(indexPath) else { return }
     let vc = ScheduleBottomSheetViewController(calendarID: calendarID)
     vc.delegate = self
-    vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: false)
+    present(vc, animated: true)
   }
 }
 

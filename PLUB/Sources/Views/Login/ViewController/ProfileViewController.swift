@@ -160,9 +160,8 @@ final class ProfileViewController: BaseViewController {
       .asDriver()
       .drive(with: self, onNext: { owner, _ in
         let photoVC = PhotoBottomSheetViewController()
-        photoVC.modalPresentationStyle = .overFullScreen
         photoVC.delegate = owner
-        owner.parent?.present(photoVC, animated: false)
+        owner.parent?.present(photoVC, animated: true)
       })
       .disposed(by: disposeBag)
     

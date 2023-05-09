@@ -334,10 +334,9 @@ extension SearchInputViewController: SearchOutputHeaderViewDelegate {
   
   func didTappedSortControl() {
     let vc = SortBottomSheetViewController()
-    vc.modalPresentationStyle = .overFullScreen
     vc.delegate = self
     vc.configureUI(with: type)
-    present(vc, animated: false)
+    present(vc, animated: true)
   }
   
   func didTappedInterestListChartButton() {
@@ -354,7 +353,7 @@ extension SearchInputViewController: SearchOutputHeaderViewDelegate {
 extension SearchInputViewController: SortBottomSheetViewControllerDelegate {
   func didTappedSortButton(type: SortType) {
     self.type = type
-    dismiss(animated: false)
+    dismiss(animated: true)
   }
 }
 

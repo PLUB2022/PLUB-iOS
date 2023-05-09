@@ -197,9 +197,8 @@ final class CreateBoardViewController: BaseViewController {
     tapGesture.rx.event
       .subscribe(with: self) { owner, _ in
         let bottomSheet = PhotoBottomSheetViewController()
-        bottomSheet.modalPresentationStyle = .overFullScreen
         bottomSheet.delegate = owner
-        owner.present(bottomSheet, animated: false)
+        owner.present(bottomSheet, animated: true)
       }
       .disposed(by: disposeBag)
     

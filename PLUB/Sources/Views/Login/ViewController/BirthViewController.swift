@@ -143,9 +143,8 @@ final class BirthViewController: BaseViewController {
       .subscribe(onNext: { owner, _ in
         let date14YearsBefore = Calendar.current.date(byAdding: .year, value: -14, to: Date())!
         let vc = DateBottomSheetViewController(maximumDate: date14YearsBefore, buttonTitle: "생일 입력 완료")
-        vc.modalPresentationStyle = .overFullScreen
         vc.delegate = owner
-        owner.parent?.present(vc, animated: false)
+        owner.parent?.present(vc, animated: true)
       })
       .disposed(by: disposeBag)
     

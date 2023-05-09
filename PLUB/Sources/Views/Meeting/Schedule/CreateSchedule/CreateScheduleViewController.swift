@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
@@ -233,9 +235,8 @@ final class CreateScheduleViewController: BaseViewController {
       .drive(with: self) { owner, _ in
         owner.view.endEditing(true)
         let vc = LocationBottomSheetViewController()
-        vc.modalPresentationStyle = .overFullScreen
         vc.delegate = owner
-        owner.parent?.present(vc, animated: false)
+        owner.parent?.present(vc, animated: true)
       }
       .disposed(by: disposeBag)
     

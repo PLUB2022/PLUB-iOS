@@ -53,17 +53,17 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
     super.setupConstraints()
     
     contentStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(36)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(24)
+      $0.top.equalToSuperview().inset(Metrics.Margin.top)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Metrics.Margin.horizontal)
+      $0.bottom.equalToSuperview().inset(Metrics.Margin.bottom)
     }
     
     cameraView.snp.makeConstraints {
-      $0.height.equalTo(48)
+      $0.height.equalTo(Metrics.Size.listHeight)
     }
     
     albumView.snp.makeConstraints {
-      $0.height.equalTo(48)
+      $0.height.equalTo(Metrics.Size.listHeight)
     }
   }
   

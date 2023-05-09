@@ -242,9 +242,8 @@ final class MeetingInfoViewController: BaseViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         let vc = LocationBottomSheetViewController()
-        vc.modalPresentationStyle = .overFullScreen
         vc.delegate = owner
-        owner.parent?.present(vc, animated: false)
+        owner.parent?.present(vc, animated: true)
       })
       .disposed(by: disposeBag)
     
