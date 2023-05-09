@@ -115,6 +115,7 @@ final class MeetingSummaryViewController: BaseViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         let vc = MeetingCreateSuccessViewController()
+        NotificationCenter.default.post(name: .refreshMeeting, object: nil)
         owner.navigationController?.pushViewController(vc, animated: true)
       })
       .disposed(by: disposeBag)
