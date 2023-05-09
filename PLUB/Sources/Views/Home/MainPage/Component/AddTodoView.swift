@@ -22,11 +22,12 @@ struct TodoViewModel {
 }
 
 struct AddTodoViewModel {
-  let date: String
   let todoViewModel: [TodoViewModel]
 }
 
 final class AddTodoView: UIView {
+  
+  var completionHandler: ((Date) -> Void)?
   
   private let todoContainerView = UIStackView().then {
     $0.axis = .vertical
@@ -38,12 +39,19 @@ final class AddTodoView: UIView {
   private let dateLabel = UILabel().then {
     $0.textColor = .main
     $0.font = .h5
-    $0.text = "04.05(오늘)"
   }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    completionHandler = { [weak self] date in
+      let dateString = DateFormatterFactory.todolistDate.string(from: date)
+      if Calendar.current.isDateInToday(date) {
+        self?.dateLabel.text = "\(dateString) (오늘)"
+      } else {
+        self?.dateLabel.text = dateString
+      }
+    }
   }
   
   required init(coder: NSCoder) {
@@ -65,7 +73,8 @@ final class AddTodoView: UIView {
   }
   
   func configureUI(with model: AddTodoViewModel) {
-    dateLabel.text = model.date
+    let today = DateFormatterFactory.todolistDate.string(from: Date())
+    dateLabel.text = "\(today) (오늘)"
     model.todoViewModel.forEach { model in
       let todoView = TodoView(type: .todo)
       todoView.configureUI(with: .init(
