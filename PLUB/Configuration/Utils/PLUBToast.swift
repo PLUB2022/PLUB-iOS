@@ -15,6 +15,23 @@ final class PLUBToast: UIView {
   
   // MARK: - Properties
   
+  enum ToastType {
+    /// 토스트 성공 메시지
+    case success
+    
+    /// 토스트 실패 메시지
+    case failure
+    
+    fileprivate var image: UIImage? {
+      switch self {
+      case .success:
+        return .init(named: "checkCircle")
+      case .failure:
+        return .init(named: "exclamationCircle")
+      }
+    }
+  }
+  
   /// Toast에 들어갈 text
   private var text: String? {
     get { label.text }
@@ -24,10 +41,22 @@ final class PLUBToast: UIView {
   /// Toast의 지속 시간
   private var duration: Duration
   
+  /// 토스트 타입
+  private var toastType: ToastType
+  
   // MARK: - UI Components
   
+  private let stackView = UIStackView().then {
+    $0.alignment = .center
+    $0.spacing = 4
+  }
+  
+  private let indicationImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
+  }
+  
   private let label = UILabel().then {
-    $0.font = .button
+    $0.font = .caption2
     $0.numberOfLines = 0
     $0.textColor = .white
   }
@@ -36,8 +65,9 @@ final class PLUBToast: UIView {
   
   /// private init입니다. Toast를 만들고 싶다면
   /// `makeToast`를 이용해주세요.
-  private init(text: String?, duration: Duration) {
+  private init(text: String?, duration: Duration, toastType: ToastType) {
     self.duration = duration
+    self.toastType = toastType
     super.init(frame: .zero)
     self.text = text
     setupLayouts()
@@ -54,10 +84,10 @@ final class PLUBToast: UIView {
   /// - Parameters:
   ///   - text: Toast 내부에 들어갈 텍스트
   ///   - duration: Toast의 지속시간, `.short`는 1.5초, `.long`은 3초입니다.
-  static func makeToast(text: String?, duration: Duration = .long) {
+  static func makeToast(text: String?, duration: Duration = .long, toastType: ToastType = .success) {
     guard let text, !text.isEmpty else { return }
     
-    let toast = PLUBToast(text: text, duration: duration)
+    let toast = PLUBToast(text: text, duration: duration, toastType: toastType)
     
     guard let window = UIApplication.shared.connectedScenes
       .compactMap({ $0 as? UIWindowScene })
@@ -79,7 +109,10 @@ final class PLUBToast: UIView {
   // MARK: - Configurations
   
   private func setupLayouts() {
-    addSubview(label)
+    addSubview(stackView)
+    [indicationImageView, label].forEach {
+      stackView.addArrangedSubview($0)
+    }
   }
   
   /// 오토레이아웃을 세팅합니다.
@@ -87,14 +120,18 @@ final class PLUBToast: UIView {
   /// label의 width에 lessThanOrEqualToSuperview()를 사용함으로써
   /// 1줄일 때 중앙정렬, 2줄 이상일 때 좌측정렬이 됩니다.
   private func setupConstraints() {
-    label.snp.makeConstraints {
-      $0.width.lessThanOrEqualToSuperview().inset(Metrics.Padding.horizontal)
-      $0.height.equalToSuperview().inset(Metrics.Padding.vertical)
-      $0.center.equalToSuperview()
+    stackView.snp.makeConstraints {
+      $0.directionalVerticalEdges.equalToSuperview().inset(Metrics.Padding.vertical)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Metrics.Padding.horizontal)
+    }
+    
+    indicationImageView.snp.makeConstraints {
+      $0.size.equalTo(Metrics.Size.image)
     }
   }
   
   private func setupStyles() {
+    indicationImageView.image = toastType.image
     backgroundColor = .black
     layer.cornerRadius = 8
     clipsToBounds = true
@@ -157,8 +194,12 @@ extension PLUBToast {
     }
     
     enum Padding {
-      static let horizontal   = 24
-      static let vertical     = 16
+      static let horizontal   = 10
+      static let vertical     = 4
+    }
+    
+    enum Size {
+      static let image        = 32
     }
   }
 }
