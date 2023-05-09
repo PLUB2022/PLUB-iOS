@@ -68,7 +68,7 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     
     searchView.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(24)
-      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.leading.trailing.equalToSuperview().inset(Metrics.Margin.horizontal)
       $0.height.equalTo(40)
     }
     
@@ -90,14 +90,14 @@ final class LocationBottomSheetViewController: BottomSheetViewController {
     
     tableView.snp.makeConstraints {
       $0.top.equalTo(searchCountLabel.snp.bottom).offset(16)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Metrics.Margin.horizontal)
       $0.bottom.equalTo(nextButton.snp.top).offset(-6)
       $0.height.equalTo(352)
     }
     
     nextButton.snp.makeConstraints {
-      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(24)
-      $0.height.equalTo(46)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(Metrics.Margin.horizontal)
+      $0.height.equalTo(Metrics.Size.button)
     }
   }
   
