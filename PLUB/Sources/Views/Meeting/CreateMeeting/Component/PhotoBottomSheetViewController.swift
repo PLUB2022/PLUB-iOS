@@ -59,11 +59,11 @@ final class PhotoBottomSheetViewController: BottomSheetViewController {
     }
     
     cameraView.snp.makeConstraints {
-      $0.height.equalTo(Metrics.Size.height)
+      $0.height.equalTo(Metrics.Size.listHeight)
     }
     
     albumView.snp.makeConstraints {
-      $0.height.equalTo(Metrics.Size.height)
+      $0.height.equalTo(Metrics.Size.listHeight)
     }
   }
   

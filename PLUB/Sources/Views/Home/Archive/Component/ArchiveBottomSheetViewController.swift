@@ -70,7 +70,7 @@ final class ArchiveBottomSheetViewController: BottomSheetViewController {
     super.setupConstraints()
     
     let heightConstraints: (ConstraintMaker) -> Void = {
-      $0.height.equalTo(Metrics.Size.height)
+      $0.height.equalTo(Metrics.Size.listHeight)
     }
     
     contentStackView.snp.makeConstraints {

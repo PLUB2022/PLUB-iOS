@@ -61,7 +61,7 @@ final class TodolistBottomSheetViewController: BottomSheetViewController {
     bottomSheetView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(Metrics.Margin.top)
       $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(Metrics.Margin.horizontal)
-      $0.height.equalTo(Metrics.Size.height)
+      $0.height.equalTo(Metrics.Size.listHeight)
     }
   }
 }

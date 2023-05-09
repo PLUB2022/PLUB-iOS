@@ -50,7 +50,7 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
     
     [clipboardFixView, modifyBoardView, reportBoardView, deleteBoardView].forEach {
       $0.snp.makeConstraints {
-        $0.height.equalTo(Metrics.Size.height)
+        $0.height.equalTo(Metrics.Size.listHeight)
       }
     }
     

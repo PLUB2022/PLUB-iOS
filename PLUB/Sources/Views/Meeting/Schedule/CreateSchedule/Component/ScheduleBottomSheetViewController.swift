@@ -66,11 +66,11 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
     }
     
     editView.snp.makeConstraints {
-      $0.height.equalTo(Metrics.Size.height)
+      $0.height.equalTo(Metrics.Size.listHeight)
     }
     
     deleteView.snp.makeConstraints {
-      $0.height.equalTo(Metrics.Size.height)
+      $0.height.equalTo(Metrics.Size.listHeight)
     }
   }
   
