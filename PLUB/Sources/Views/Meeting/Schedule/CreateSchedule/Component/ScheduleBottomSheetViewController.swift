@@ -60,16 +60,17 @@ final class ScheduleBottomSheetViewController: BottomSheetViewController {
     super.setupConstraints()
     
     contentStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(36)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(24)
+      $0.top.equalToSuperview().inset(Metrics.Margin.top)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Metrics.Margin.horizontal)
+      $0.bottom.equalToSuperview().inset(Metrics.Margin.bottom)
     }
     
     editView.snp.makeConstraints {
-      $0.height.equalTo(52)
+      $0.height.equalTo(Metrics.Size.height)
     }
     
     deleteView.snp.makeConstraints {
-      $0.height.equalTo(52)
+      $0.height.equalTo(Metrics.Size.height)
     }
   }
   
