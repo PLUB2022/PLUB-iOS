@@ -60,6 +60,7 @@ extension BottomSheetViewController {
     enum Size {
       static let height       = 48
       static let filterHeight = 32
+      static let button       = 48
     }
   }
 }

@@ -67,8 +67,8 @@ final class DateBottomSheetViewController: BottomSheetViewController {
     
     
     contentStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(36)
-      $0.leading.trailing.bottom.equalToSuperview().inset(24)
+      $0.top.equalToSuperview().inset(Metrics.Margin.top)
+      $0.leading.trailing.bottom.equalToSuperview().inset(Metrics.Margin.horizontal)
     }
     
     datePicker.snp.makeConstraints {
@@ -76,7 +76,7 @@ final class DateBottomSheetViewController: BottomSheetViewController {
     }
     
     nextButton.snp.makeConstraints {
-      $0.height.equalTo(48)
+      $0.height.equalTo(Metrics.Size.button)
     }
   }
   
