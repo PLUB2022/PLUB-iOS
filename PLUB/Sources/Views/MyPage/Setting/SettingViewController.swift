@@ -196,7 +196,6 @@ extension SettingViewController {
     UserManager.shared.set(isLaunchedBefore: true)
     
     let navigationController = UINavigationController(rootViewController: SplashViewController())
-    navigationController.modalPresentationStyle = .fullScreen
     (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = navigationController
   }
 }
