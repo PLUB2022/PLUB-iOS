@@ -214,9 +214,8 @@ final class MeetingDateViewController: BaseViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         let vc = DateBottomSheetViewController(type: .time, buttonTitle: "시간 입력 완료")
-        vc.modalPresentationStyle = .overFullScreen
         vc.delegate = owner
-        owner.parent?.present(vc, animated: false)
+        owner.parent?.present(vc, animated: true)
       })
       .disposed(by: disposeBag)
     
@@ -224,9 +223,8 @@ final class MeetingDateViewController: BaseViewController {
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         let vc = LocationBottomSheetViewController()
-        vc.modalPresentationStyle = .overFullScreen
         vc.delegate = owner
-        owner.parent?.present(vc, animated: false)
+        owner.parent?.present(vc, animated: true)
       })
       .disposed(by: disposeBag)
     

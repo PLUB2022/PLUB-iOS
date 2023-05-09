@@ -157,9 +157,8 @@ final class RecruitPostViewController: BaseViewController {
       .drive(onNext: {[weak self] in
         guard let self = self else { return }
         let vc = PhotoBottomSheetViewController()
-        vc.modalPresentationStyle = .overFullScreen
         vc.delegate = self
-        self.parent?.present(vc, animated: false)
+        self.parent?.present(vc, animated: true)
       })
       .disposed(by: disposeBag)
     

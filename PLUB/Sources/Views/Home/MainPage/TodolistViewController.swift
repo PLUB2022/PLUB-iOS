@@ -173,7 +173,6 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
   
   func didTappedMoreButton() { /// 투두리스트 작성자에 따른 type 지정해줘야함
     let bottomSheet = TodolistBottomSheetViewController(type: .report)
-    bottomSheet.modalPresentationStyle = .overFullScreen
-    present(bottomSheet, animated: false)
+    present(bottomSheet, animated: true)
   }
 }

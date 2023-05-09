@@ -292,8 +292,7 @@ extension GuestQuestionViewController: QuestionTableViewCellDelegate {
     
     let vc = QuestionDeleteBottomSheetViewController(index: index, lastQuestion: lastQuestion)
     vc.delegate = self
-    vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: false)
+    present(vc, animated: true)
   }
   
   func updateHeightOfRow(_ cell: QuestionTableViewCell, _ textView: UITextView) {
