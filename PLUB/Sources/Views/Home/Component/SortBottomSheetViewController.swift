@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-final class SortBottomSheetView: UIControl {
+final class BottomSheetFilterView: UIControl {
   
   private let type: SortType
   
@@ -62,7 +62,7 @@ final class SortBottomSheetView: UIControl {
   }
 }
 
-extension Reactive where Base: SortBottomSheetView {
+extension Reactive where Base: BottomSheetFilterView {
   var tap: ControlEvent<Void> {
     controlEvent(.touchUpInside)
   }
@@ -89,8 +89,8 @@ final class SortBottomSheetViewController: BottomSheetViewController {
     $0.sizeToFit()
   }
   
-  private let popularButton = SortBottomSheetView(type: .popular)
-  private let newButton = SortBottomSheetView(type: .new)
+  private let popularButton = BottomSheetFilterView(text: SortType.popular.text)
+  private let newButton = BottomSheetFilterView(text: SortType.new.text)
   
   override func setupLayouts() {
     super.setupLayouts()
