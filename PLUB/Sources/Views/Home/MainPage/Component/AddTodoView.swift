@@ -130,17 +130,11 @@ extension AddTodoView {
       fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-      super.layoutSubviews()
-      if type == .input {
-        todoTextField.addUnderline(color: .lightGray)
-      }
-    }
-    
     private func configureUI() {
       switch type {
       case .input:
         [emptyCheckView, todoTextField].forEach { addSubview($0) }
+        todoTextField.addSubview(bottomLineView)
         
         emptyCheckView.snp.makeConstraints {
           $0.size.equalTo(18)
@@ -151,6 +145,12 @@ extension AddTodoView {
           $0.leading.equalTo(emptyCheckView.snp.trailing).offset(7)
           $0.directionalVerticalEdges.trailing.equalToSuperview()
         }
+        
+        bottomLineView.snp.makeConstraints {
+          $0.directionalHorizontalEdges.bottom.equalToSuperview()
+          $0.height.equalTo(1)
+        }
+        
       case .todo:
         [checkBoxButton, contentLabel].forEach { addSubview($0) }
         contentLabel.addSubview(bottomLineView)
