@@ -59,9 +59,9 @@ final class TodolistBottomSheetViewController: BottomSheetViewController {
   override func setupConstraints() {
     super.setupConstraints()
     bottomSheetView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(36)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(24)
-      $0.height.equalTo(48)
+      $0.top.equalToSuperview().inset(Metrics.Margin.top)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(Metrics.Margin.horizontal)
+      $0.height.equalTo(Metrics.Size.height)
     }
   }
 }
