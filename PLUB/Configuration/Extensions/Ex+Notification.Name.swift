@@ -8,5 +8,5 @@
 import Foundation
 
 extension Notification.Name {
-  static let refreshMeeting = Notification.Name(rawValue: "refreshMeeting")
+  static let refreshMeeting = Notification.Name(rawValue: "refreshMeeting") // 내모임 리스트 갱신
 }
