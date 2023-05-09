@@ -135,7 +135,7 @@ final class PLUBToast: UIView {
   
   private func setupStyles() {
     indicationImageView.image = toastType.image
-    backgroundColor = .black
+    backgroundColor = .black.withAlphaComponent(0.8)
     layer.cornerRadius = 8
     clipsToBounds = true
     alpha = 0
@@ -203,6 +203,7 @@ extension PLUBToast {
     
     enum Size {
       static let image        = 32
+      static let height       = 40
     }
   }
 }
