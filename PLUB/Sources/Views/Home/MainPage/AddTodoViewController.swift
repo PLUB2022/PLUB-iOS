@@ -50,14 +50,6 @@ final class AddTodoViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    addTodoView.configureUI(with: AddTodoViewModel(date: "04.05(오늘)", todoViewModel: [
-      TodoViewModel(isChecked: false, content: "투두컨텐츠1"),
-      TodoViewModel(isChecked: true, content: "투두컨텐츠2"),
-      TodoViewModel(isChecked: false, content: "투두컨텐츠3"),
-      TodoViewModel(isChecked: true, content: "투두컨텐츠4"),
-      TodoViewModel(isChecked: true, content: "투두컨텐츠5"),
-      TodoViewModel(isChecked: false, content: "투두컨텐츠6"),
-    ]))
   }
   
   override func setupLayouts() {
