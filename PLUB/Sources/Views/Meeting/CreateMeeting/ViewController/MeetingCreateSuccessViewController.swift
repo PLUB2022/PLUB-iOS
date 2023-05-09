@@ -7,10 +7,13 @@
 
 import UIKit
 
+import Lottie
+
 final class MeetingCreateSuccessViewController: BaseViewController {
   
-  private let successImageView = UIImageView().then {
-    $0.image = UIImage() //TODO: 수빈 - 모임 생성 완료 이미지 추가하기
+  private let animationView = LottieAnimationView().then {
+    $0.contentMode = .scaleAspectFill
+    $0.animation = .named("CreateMeeting")
   }
   
   private let successTitleLabel = UILabel().then {
@@ -40,7 +43,7 @@ final class MeetingCreateSuccessViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [successImageView, successTitleLabel, buttonStackView].forEach {
+    [animationView, successTitleLabel, buttonStackView].forEach {
       view.addSubview($0)
     }
     
@@ -51,15 +54,17 @@ final class MeetingCreateSuccessViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    successImageView.snp.makeConstraints {
-      $0.leading.trailing.equalToSuperview().inset(50)
-      $0.height.equalTo(Device.width - 50 * 2)
-      $0.center.equalToSuperview()
+    animationView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(Device.width)
+      $0.centerX.equalToSuperview()
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(26)
     }
     
     successTitleLabel.snp.makeConstraints {
-      $0.top.equalTo(successImageView.snp.bottom).offset(16)
+      $0.bottom.equalTo(animationView.snp.bottom)
       $0.centerX.equalToSuperview()
+      $0.height.equalTo(29)
     }
     
     buttonStackView.snp.makeConstraints {
@@ -77,6 +82,7 @@ final class MeetingCreateSuccessViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     navigationItem.setHidesBackButton(true, animated: true)
+    animationView.play()
   }
   
   override func bind() {
