@@ -24,6 +24,8 @@ final class AddTodoViewController: BaseViewController {
   
   private let textLabel = UILabel().then {
     $0.text = "새 To-Do 추가하기"
+    $0.font = .h3
+    $0.textColor = .black
   }
   
   private lazy var calendarView = FSCalendar().then {
