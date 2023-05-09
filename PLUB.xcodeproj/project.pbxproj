@@ -287,6 +287,8 @@
 		C316051B2997936200D27488 /* GuestQuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316051A2997936200D27488 /* GuestQuestionViewModel.swift */; };
 		C316051F2997F92200D27488 /* EditMeetingPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316051E2997F92200D27488 /* EditMeetingPostRequest.swift */; };
 		C31605212997F9C800D27488 /* EditMeetingQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */; };
+		C318CEBE2A09461500F959D3 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C318CEBD2A09461500F959D3 /* SettingViewModel.swift */; };
+		C318CEC12A09487400F959D3 /* LogoutUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C318CEC02A09487400F959D3 /* LogoutUseCase.swift */; };
 		C31D577429E16DBD00E056BA /* MyInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D577329E16DBD00E056BA /* MyInfoRequest.swift */; };
 		C32AB19029DDB9000045B919 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
@@ -692,6 +694,8 @@
 		C316051A2997936200D27488 /* GuestQuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestQuestionViewModel.swift; sourceTree = "<group>"; };
 		C316051E2997F92200D27488 /* EditMeetingPostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingPostRequest.swift; sourceTree = "<group>"; };
 		C31605202997F9C800D27488 /* EditMeetingQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingQuestionRequest.swift; sourceTree = "<group>"; };
+		C318CEBD2A09461500F959D3 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		C318CEC02A09487400F959D3 /* LogoutUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUseCase.swift; sourceTree = "<group>"; };
 		C31D577329E16DBD00E056BA /* MyInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoRequest.swift; sourceTree = "<group>"; };
 		C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -1592,6 +1596,7 @@
 		BAB2E56A29E30053006B7BDC /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				C318CEBF2A09486100F959D3 /* Auth */,
 				C37237F12A02B0CA00328763 /* MyPage */,
 				BA2173B329F53657000D72B1 /* Image */,
 				C333EEBF29F48EB800B3F84E /* Meeting */,
@@ -1785,6 +1790,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		C318CEBF2A09486100F959D3 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C318CEC02A09487400F959D3 /* LogoutUseCase.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		C3330AD129F9A13A0023CB04 /* Active */ = {
 			isa = PBXGroup;
 			children = (
@@ -1857,6 +1870,7 @@
 			children = (
 				C34F047D29C7049400E5B67E /* SettingViewController.swift */,
 				C34F047F29C70F7200E5B67E /* Component */,
+				C318CEBD2A09461500F959D3 /* SettingViewModel.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -2551,6 +2565,7 @@
 				BA340E1E297822ED002BAF2C /* IntroduceCategoryTitleView.swift in Sources */,
 				BADCB3F329F6A008000B43D6 /* NotificationViewModel.swift in Sources */,
 				C384590429B91ECC00944CB5 /* AttendScheduleResponse.swift in Sources */,
+				C318CEBE2A09461500F959D3 /* SettingViewModel.swift in Sources */,
 				BAE16029292221ED00D595FF /* CheckBoxButton.swift in Sources */,
 				70727A2B29C81DCE003DE956 /* BoardBottomSheetViewController.swift in Sources */,
 				C33FB0722993F84A00BEB15B /* EditMeetingViewController.swift in Sources */,
@@ -2746,6 +2761,7 @@
 				BA784FAA2978EB9900E8B06F /* SignUpViewModel.swift in Sources */,
 				702876C229A3751400E57509 /* ArchiveViewController.swift in Sources */,
 				C3394CB929E177D2005EECD7 /* UpdateImageRequest.swift in Sources */,
+				C318CEC12A09487400F959D3 /* LogoutUseCase.swift in Sources */,
 				BA340E2229782311002BAF2C /* MeetingIntroduceView.swift in Sources */,
 				C38D65622987F0990052013F /* CategoryHeaderView.swift in Sources */,
 				C3EB29CB29A91CC600615B6B /* MeetingScheduleViewModel.swift in Sources */,

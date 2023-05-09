@@ -35,6 +35,7 @@ enum SettingVersionType: String, CaseIterable {
 }
 
 final class SettingViewController: BaseViewController {
+  private let viewModel: SettingViewModelType
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -51,6 +52,15 @@ final class SettingViewController: BaseViewController {
   private let titleLabel = UILabel().then {
     $0.text = "설정"
     $0.font = .h2
+  }
+  
+  init(viewModel: SettingViewModelType) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewDidLoad() {
@@ -106,24 +116,27 @@ final class SettingViewController: BaseViewController {
     contentStackView.setCustomSpacing(32, after: titleLabel)
   }
   
+  override func bind() {
+    super.bind()
+    viewModel.successLogout
+      .drive(with: self) { owner, _ in
+        owner.moveToLoginViewController()
+      }
+      .disposed(by: disposeBag)
+  }
+  
   private func addSubViews(stackView: UIStackView, type: SettingType) {
     switch type {
     case .use:
-      SettingUseType.allCases.forEach {
-        let detailSubview = SettingDetailSubView($0.rawValue)
+      SettingUseType.allCases.forEach { useType in
+        let detailSubview = SettingDetailSubView(useType.rawValue)
         stackView.addArrangedSubview(detailSubview)
         detailSubview.snp.makeConstraints {
           $0.height.equalTo(52)
         }
       }
     case .account:
-      SettingAccountType.allCases.forEach {
-        let detailSubview = SettingDetailSubView($0.rawValue)
-        stackView.addArrangedSubview(detailSubview)
-        detailSubview.snp.makeConstraints {
-          $0.height.equalTo(52)
-        }
-      }
+      addAccountViews(stackView: stackView)
     case .version:
       SettingVersionType.allCases.forEach {
         let detailSubview = SettingDetailSubView($0.rawValue)
@@ -133,5 +146,56 @@ final class SettingViewController: BaseViewController {
         }
       }
     }
+  }
+}
+
+extension SettingViewController {
+  private func addAccountViews(stackView: UIStackView) {
+    SettingAccountType.allCases.forEach { accountType in
+      let detailSubview = SettingDetailSubView(accountType.rawValue)
+      stackView.addArrangedSubview(detailSubview)
+      detailSubview.snp.makeConstraints {
+        $0.height.equalTo(52)
+      }
+      
+      detailSubview.button
+        .rx.tap
+        .asDriver()
+        .drive(with: self) { owner, _ in
+          switch accountType {
+          case .logout:
+            owner.logout()
+          case .inactive:
+            break
+          case .withdraw:
+            break
+          }
+        }
+        .disposed(by: disposeBag)
+    }
+  }
+  
+  private func logout() {
+    let alert = CustomAlertView(
+      AlertModel(
+        title: "지금 로그아웃 할까요?",
+        message: nil,
+        cancelButton: "취소",
+        confirmButton: "네, 할게요",
+        height: 150
+      )
+    ) { [weak self] in
+      guard let self else { return }
+      self.viewModel.logoutButtonTapped.onNext(())
+    }
+    alert.show()
+  }
+  
+  private func moveToLoginViewController() {
+    UserManager.shared.clearUserInformations()
+    UserManager.shared.set(isLaunchedBefore: true)
+    
+    let navigationController = UINavigationController(rootViewController: SplashViewController())
+    (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = navigationController
   }
 }
