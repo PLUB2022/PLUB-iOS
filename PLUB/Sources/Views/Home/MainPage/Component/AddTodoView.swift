@@ -27,7 +27,7 @@ struct AddTodoViewModel {
 
 final class AddTodoView: UIView {
   
-  var completionHandler: ((Date) -> Void)?
+  private(set) var completionHandler: ((Date) -> Void)?
   
   private let todoContainerView = UIStackView().then {
     $0.axis = .vertical
