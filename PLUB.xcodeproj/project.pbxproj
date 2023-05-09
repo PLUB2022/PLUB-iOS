@@ -123,7 +123,6 @@
 		70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */; };
 		70FE55302A08C7CE00F11097 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 70FE552F2A08C7CE00F11097 /* FSCalendar */; };
 		70FE55322A08CC5E00F11097 /* AddTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FE55312A08CC5E00F11097 /* AddTodoView.swift */; };
-		70FE55342A08DCA000F11097 /* Ex+UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FE55332A08DCA000F11097 /* Ex+UITextField.swift */; };
 		BA034D3229E864CA003B7192 /* CommentOptionDecoratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA034D3129E864CA003B7192 /* CommentOptionDecoratorView.swift */; };
 		BA117A3B297440B500B37E03 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */; };
 		BA117A3D297440D900B37E03 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA117A3C297440D900B37E03 /* UserManager.swift */; };
@@ -535,7 +534,6 @@
 		70F1DFEE297D9E1C00F9BC83 /* DetailRecruitmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewModel.swift; sourceTree = "<group>"; };
 		70F1DFF0297DA3CE00F9BC83 /* DetailRecruitmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentModel.swift; sourceTree = "<group>"; };
 		70FE55312A08CC5E00F11097 /* AddTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoView.swift; sourceTree = "<group>"; };
-		70FE55332A08DCA000F11097 /* Ex+UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UITextField.swift"; sourceTree = "<group>"; };
 		BA034D3129E864CA003B7192 /* CommentOptionDecoratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentOptionDecoratorView.swift; sourceTree = "<group>"; };
 		BA117A3A297440B500B37E03 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		BA117A3C297440D900B37E03 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -1354,7 +1352,6 @@
 				C307826729CF5D9700E1D44B /* Ex+UIImage.swift */,
 				C36F31C829E3119200AC2C8A /* Ex+Collection.swift */,
 				70C9CCB72A07865700BEB5F2 /* Ex+String.swift */,
-				70FE55332A08DCA000F11097 /* Ex+UITextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2607,7 +2604,6 @@
 				C3D3EA2829EF0B8C00E7E5BB /* EditApplicationViewModel.swift in Sources */,
 				7095A58A292E58F9002A52E6 /* ToggleButton.swift in Sources */,
 				BA780E0D297133F80032C178 /* Router.swift in Sources */,
-				70FE55342A08DCA000F11097 /* Ex+UITextField.swift in Sources */,
 				BA4DADB3295747E700C7ABD7 /* PageControl.swift in Sources */,
 				704AC7952938E800008C3A88 /* RegisterInterestModel.swift in Sources */,
 				C34F71C129798C87003DB376 /* MeetingDateViewModel.swift in Sources */,
