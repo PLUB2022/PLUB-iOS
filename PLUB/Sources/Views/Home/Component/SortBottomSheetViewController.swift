@@ -18,8 +18,8 @@ final class BottomSheetFilterView: UIControl {
   
   var isTapped: Bool = false {
     didSet {
-      label.textColor      = isTapped ? .main : .black
-      selectImageView.isHidden = !isTapped
+      label.textColor           = isTapped ? .main : .black
+      selectImageView.isHidden  = !isTapped
     }
   }
   
