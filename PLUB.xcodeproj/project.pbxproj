@@ -291,6 +291,7 @@
 		C318CEC12A09487400F959D3 /* LogoutUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C318CEC02A09487400F959D3 /* LogoutUseCase.swift */; };
 		C31D577429E16DBD00E056BA /* MyInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31D577329E16DBD00E056BA /* MyInfoRequest.swift */; };
 		C328B4812A0AAB11000856BB /* Ex+Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328B4802A0AAB11000856BB /* Ex+Notification.Name.swift */; };
+		C328B4842A0AB4A2000856BB /* CreateMeeting.json in Resources */ = {isa = PBXBuildFile; fileRef = C328B4832A0AB4A1000856BB /* CreateMeeting.json */; };
 		C32AB19029DDB9000045B919 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */; };
 		C332DFD52976E5440023B70B /* PhotoBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */; };
 		C3330AD329F9A16D0023CB04 /* ActiveMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3330AD229F9A16D0023CB04 /* ActiveMeetingViewController.swift */; };
@@ -699,6 +700,7 @@
 		C318CEC02A09487400F959D3 /* LogoutUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUseCase.swift; sourceTree = "<group>"; };
 		C31D577329E16DBD00E056BA /* MyInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoRequest.swift; sourceTree = "<group>"; };
 		C328B4802A0AAB11000856BB /* Ex+Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Notification.Name.swift"; sourceTree = "<group>"; };
+		C328B4832A0AB4A1000856BB /* CreateMeeting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CreateMeeting.json; sourceTree = "<group>"; };
 		C32AB18F29DDB9000045B919 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		C332DFD42976E5440023B70B /* PhotoBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBottomSheetViewController.swift; sourceTree = "<group>"; };
 		C3330AD229F9A16D0023CB04 /* ActiveMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMeetingViewController.swift; sourceTree = "<group>"; };
@@ -1589,6 +1591,7 @@
 		BA8AA43329890172004E9403 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				C328B4822A0AB482000856BB /* Meeting */,
 				70727AB929DAA6F6003DE956 /* Recruitment */,
 				BAC5EF33298B714600F3955E /* Login */,
 				BAC5EF2A2989F58900F3955E /* Onboarding */,
@@ -1799,6 +1802,14 @@
 				C318CEC02A09487400F959D3 /* LogoutUseCase.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		C328B4822A0AB482000856BB /* Meeting */ = {
+			isa = PBXGroup;
+			children = (
+				C328B4832A0AB4A1000856BB /* CreateMeeting.json */,
+			);
+			path = Meeting;
 			sourceTree = "<group>";
 		};
 		C3330AD129F9A13A0023CB04 /* Active */ = {
@@ -2463,6 +2474,7 @@
 				BA8AA43229890083004E9403 /* NanumPen.otf in Resources */,
 				70727ABB29DAA745003DE956 /* SuccessApply.json in Resources */,
 				705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */,
+				C328B4842A0AB4A2000856BB /* CreateMeeting.json in Resources */,
 				BA52778A28EECDC50036B825 /* Pretendard-Bold.otf in Resources */,
 				BA52778428EECDC50036B825 /* Pretendard-Medium.otf in Resources */,
 				BA8AA439298901B9004E9403 /* Onboarding3.json in Resources */,
