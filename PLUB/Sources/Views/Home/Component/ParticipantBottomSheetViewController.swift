@@ -48,15 +48,15 @@ final class ParticipantBottomSheetViewController: BottomSheetViewController {
     super.setupConstraints()
     
     titleLabel.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(28)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(24)
+      $0.top.equalToSuperview().inset(Metrics.Margin.top)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(Metrics.Margin.horizontal)
       $0.height.equalTo(23)
     }
     
     participantCollectionView.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(24)
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(24)
+      $0.leading.trailing.equalToSuperview().inset(Metrics.Margin.horizontal)
+      $0.bottom.equalToSuperview().inset(Metrics.Margin.bottom)
       $0.height.equalTo(ceil(Double(model.count) / Double(4)) * (48 + 4 + 21) + (ceil(Double(model.count) / Double(4)) - 1) * 16)
       // (총 참여자 수 / 행 최대 인원 수) * (참여자프로필높이 + 프로필, 라벨 offset + 라벨높이) + ((총 참여자 수 / 행 최대 인원 수) - 1) * minimumLine
     }
