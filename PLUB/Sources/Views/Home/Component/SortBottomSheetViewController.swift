@@ -95,7 +95,7 @@ final class SortBottomSheetViewController: BottomSheetViewController {
   }
   
   private let popularButton = BottomSheetFilterView(text: SortType.popular.text)
-  private let newButton = BottomSheetFilterView(text: SortType.new.text)
+  private let newButton     = BottomSheetFilterView(text: SortType.new.text)
   
   override func setupLayouts() {
     super.setupLayouts()
@@ -107,17 +107,17 @@ final class SortBottomSheetViewController: BottomSheetViewController {
     super.setupConstraints()
     
     stackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(36)
-      $0.leading.trailing.equalToSuperview().inset(24)
-      $0.bottom.equalToSuperview().inset(24)
+      $0.top.equalToSuperview().inset(Metrics.Margin.top)
+      $0.leading.trailing.equalToSuperview().inset(Metrics.Margin.horizontal)
+      $0.bottom.equalToSuperview().inset(Metrics.Margin.bottom)
     }
     
     popularButton.snp.makeConstraints {
-      $0.height.equalTo(32)
+      $0.height.equalTo(Metrics.Size.filterHeight)
     }
     
     newButton.snp.makeConstraints {
-      $0.height.equalTo(32)
+      $0.height.equalTo(Metrics.Size.filterHeight)
     }
   }
   
