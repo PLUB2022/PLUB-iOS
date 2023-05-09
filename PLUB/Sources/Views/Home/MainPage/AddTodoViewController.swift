@@ -32,6 +32,10 @@ final class AddTodoViewController: BaseViewController {
     $0.backgroundColor = .white
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
+    $0.appearance.headerTitleColor = UIColor.black
+    $0.appearance.todayColor = .white
+    $0.appearance.weekdayTextColor = .gray
+    $0.appearance.titleWeekendColor = .red
   }
   
   private let addTodoView = AddTodoView().then {
@@ -79,5 +83,38 @@ final class AddTodoViewController: BaseViewController {
 }
 
 extension AddTodoViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+  func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
+      return .main
+  }
+  
+  func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
+    if Calendar.current.isDateInToday(date) {
+      return .white
+    }
+      return nil
+  }
+  
+  func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+    if Calendar.current.isDateInToday(date) {
+      addTodoView.layer.borderColor = UIColor.main.cgColor
+      addTodoView.backgroundColor = .subMain
+    } else {
+      addTodoView.layer.borderColor = UIColor.lightGray.cgColor
+      addTodoView.backgroundColor = .white
+    }
+  }
+  func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
+    if Calendar.current.isDateInToday(date) {
+      return "오늘"
+    }
+    return nil
+  }
+  
+  func calendar(_ calendar: FSCalendar, borderDefaultColorForDate date: Date) -> UIColor? {
+    if Calendar.current.isDateInToday(date) {
+      return .main
+    }
+    return nil
+  }
   
 }
