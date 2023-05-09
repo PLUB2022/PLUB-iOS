@@ -85,7 +85,7 @@ extension AddTodoView {
     
     private lazy var emptyCheckView = UIView().then {
       $0.layer.borderWidth = 1
-      $0.layer.borderColor = UIColor.gray.cgColor
+      $0.layer.borderColor = UIColor.lightGray.cgColor
       $0.layer.cornerRadius = 3
       $0.layer.masksToBounds = true
     }
@@ -98,6 +98,14 @@ extension AddTodoView {
     
     private let todoTextField = UITextField().then {
       $0.placeholder = "새로운 TO-DO 추가하기"
+    }
+    
+    private lazy var moreButton = UIButton().then {
+      $0.setImage(UIImage(named: "meatballMenuBlack"), for: .normal)
+    }
+    
+    private lazy var bottomLineView = UIView().then {
+      $0.backgroundColor = .lightGray
     }
     
     init(type: TodoViewType) {
@@ -114,7 +122,7 @@ extension AddTodoView {
     override func layoutSubviews() {
       super.layoutSubviews()
       if type == .input {
-        todoTextField.addUnderline(color: .deepGray)
+        todoTextField.addUnderline(color: .lightGray)
       }
     }
     
@@ -134,6 +142,8 @@ extension AddTodoView {
         }
       case .todo:
         [checkBoxButton, contentLabel].forEach { addSubview($0) }
+        contentLabel.addSubview(bottomLineView)
+        contentLabel.addSubview(moreButton)
         checkBoxButton.snp.makeConstraints {
           $0.size.equalTo(18)
           $0.leading.directionalVerticalEdges.equalToSuperview().inset(7)
@@ -142,7 +152,18 @@ extension AddTodoView {
         contentLabel.snp.makeConstraints {
           $0.leading.equalTo(checkBoxButton.snp.trailing).offset(7)
           $0.directionalVerticalEdges.equalToSuperview()
-          $0.trailing.lessThanOrEqualToSuperview()
+          $0.trailing.equalToSuperview()
+        }
+        
+        bottomLineView.snp.makeConstraints {
+          $0.width.equalToSuperview()
+          $0.height.equalTo(1)
+          $0.bottom.equalToSuperview()
+        }
+        
+        moreButton.snp.makeConstraints {
+          $0.size.equalTo(32)
+          $0.directionalVerticalEdges.trailing.equalToSuperview()
         }
       }
     }
@@ -150,6 +171,7 @@ extension AddTodoView {
     func configureUI(with model: TodoViewModel) {
       contentLabel.text = model.content
       checkBoxButton.isChecked = model.isChecked
+      contentLabel.attributedText = model.isChecked ? contentLabel.text?.strikeThrough() : NSAttributedString(string: contentLabel.text ?? "")
     }
     
     func bind() {
