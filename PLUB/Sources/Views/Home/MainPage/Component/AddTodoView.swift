@@ -70,11 +70,12 @@ final class AddTodoView: UIView {
     
     let todoView = TodoView(type: .input)
     todoContainerView.addArrangedSubview(todoView)
+    
+    let today = DateFormatterFactory.todolistDate.string(from: Date())
+    dateLabel.text = "\(today) (오늘)"
   }
   
   func configureUI(with model: AddTodoViewModel) {
-    let today = DateFormatterFactory.todolistDate.string(from: Date())
-    dateLabel.text = "\(today) (오늘)"
     model.todoViewModel.forEach { model in
       let todoView = TodoView(type: .todo)
       todoView.configureUI(with: .init(
