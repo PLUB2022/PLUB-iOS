@@ -7,10 +7,14 @@
 
 import UIKit
 
+import Lottie
+
 final class MeetingCreateSuccessViewController: BaseViewController {
+  private let plubbingID: Int
   
-  private let successImageView = UIImageView().then {
-    $0.image = UIImage() //TODO: 수빈 - 모임 생성 완료 이미지 추가하기
+  private let animationView = LottieAnimationView().then {
+    $0.contentMode = .scaleAspectFill
+    $0.animation = .named("CreateMeeting")
   }
   
   private let successTitleLabel = UILabel().then {
@@ -26,12 +30,24 @@ final class MeetingCreateSuccessViewController: BaseViewController {
   }
   
   private var myPostButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "내가 쓴 글 보기")
-    $0.isEnabled = false
+    $0.configuration?.title = "내가 쓴 글 보기"
+    $0.configuration?.font = .button
+    $0.configuration?.background.backgroundColor = .lightGray
+    $0.configuration?.background.cornerRadius = 10
+    $0.configuration?.baseForegroundColor = .deepGray
   }
   
   private var mainPageButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "메인으로")
+  }
+  
+  init(plubbingID: Int) {
+    self.plubbingID = plubbingID
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func viewDidLoad() {
@@ -40,7 +56,7 @@ final class MeetingCreateSuccessViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [successImageView, successTitleLabel, buttonStackView].forEach {
+    [animationView, successTitleLabel, buttonStackView].forEach {
       view.addSubview($0)
     }
     
@@ -51,15 +67,17 @@ final class MeetingCreateSuccessViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    successImageView.snp.makeConstraints {
-      $0.leading.trailing.equalToSuperview().inset(50)
-      $0.height.equalTo(Device.width - 50 * 2)
-      $0.center.equalToSuperview()
+    animationView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(Device.width)
+      $0.centerX.equalToSuperview()
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(26)
     }
     
     successTitleLabel.snp.makeConstraints {
-      $0.top.equalTo(successImageView.snp.bottom).offset(16)
+      $0.bottom.equalTo(animationView.snp.bottom)
       $0.centerX.equalToSuperview()
+      $0.height.equalTo(29)
     }
     
     buttonStackView.snp.makeConstraints {
@@ -77,6 +95,7 @@ final class MeetingCreateSuccessViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     navigationItem.setHidesBackButton(true, animated: true)
+    animationView.play()
   }
   
   override func bind() {
@@ -84,7 +103,8 @@ final class MeetingCreateSuccessViewController: BaseViewController {
     myPostButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        //TODO: 수빈 - 내가 쓴 글 보기 화면 이동 추가
+        let vc = DetailRecruitmentViewController(plubbingID: owner.plubbingID)
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
     

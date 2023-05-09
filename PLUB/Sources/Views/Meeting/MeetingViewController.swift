@@ -59,8 +59,17 @@ final class MeetingViewController: BaseViewController {
     super.viewDidLoad()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+  init() {
+    super.init(nibName: nil, bundle: nil)
+    addObserver()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  deinit {
+    removeObserver()
   }
   
   override func setupLayouts() {
@@ -122,6 +131,21 @@ final class MeetingViewController: BaseViewController {
         owner.viewModel.fetchMyMeeting(isHost: isHost)
       }
       .disposed(by: disposeBag)
+  }
+}
+
+extension MeetingViewController {
+  private func addObserver() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshMeeting), name: .refreshMeeting, object: nil)
+  }
+  
+  private func removeObserver() {
+    NotificationCenter.default.removeObserver(self, name: .refreshMeeting, object: nil)
+  }
+  
+  @objc
+  private func refreshMeeting() {
+    viewModel.fetchMyMeeting(isHost: true)
   }
 }
 

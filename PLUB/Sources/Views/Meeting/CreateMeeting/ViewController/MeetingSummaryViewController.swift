@@ -113,8 +113,9 @@ final class MeetingSummaryViewController: BaseViewController {
     super.bind()
     viewModel.presentSuccessPage
       .withUnretained(self)
-      .subscribe(onNext: { owner, _ in
-        let vc = MeetingCreateSuccessViewController()
+      .subscribe(onNext: { owner, plubbingID in
+        NotificationCenter.default.post(name: .refreshMeeting, object: nil)
+        let vc = MeetingCreateSuccessViewController(plubbingID: plubbingID)
         owner.navigationController?.pushViewController(vc, animated: true)
       })
       .disposed(by: disposeBag)

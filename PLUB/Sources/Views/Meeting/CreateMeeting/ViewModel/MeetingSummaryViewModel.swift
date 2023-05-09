@@ -20,7 +20,7 @@ final class MeetingSummaryViewModel {
   let time: String
   
   // Output
-  let presentSuccessPage = PublishSubject<Void>()
+  let presentSuccessPage = PublishSubject<Int>()
   
   init(
     meetingData: CreateMeetingRequest,
@@ -69,8 +69,8 @@ final class MeetingSummaryViewModel {
       .subscribe(onNext: { owner, result in
         switch result {
         case .success(let model):
-          owner.presentSuccessPage.onNext(())
-          print(model.data?.plubbingID)
+          guard let plubbingID = model.data?.plubbingID else { return }
+          owner.presentSuccessPage.onNext(plubbingID)
         default: break // TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })
