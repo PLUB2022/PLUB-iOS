@@ -108,6 +108,7 @@ extension AddTodoView {
     
     private let todoTextField = UITextField().then {
       $0.placeholder = "새로운 TO-DO 추가하기"
+      $0.layer.shouldRasterize = true
     }
     
     private lazy var moreButton = UIButton().then {
