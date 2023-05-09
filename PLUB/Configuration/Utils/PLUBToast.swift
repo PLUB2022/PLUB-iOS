@@ -100,7 +100,8 @@ final class PLUBToast: UIView {
     window.addSubview(toast)
     toast.snp.makeConstraints {
       $0.bottom.equalTo(window.safeAreaLayoutGuide).inset(Metrics.Margin.vertical)
-      $0.directionalHorizontalEdges.equalTo(window.safeAreaLayoutGuide).inset(Metrics.Margin.horizontal)
+      $0.centerX.equalToSuperview()
+      $0.width.lessThanOrEqualTo(window.safeAreaLayoutGuide).inset(Metrics.Margin.horizontal)
     }
     
     toast.showToast()
@@ -123,6 +124,8 @@ final class PLUBToast: UIView {
     stackView.snp.makeConstraints {
       $0.directionalVerticalEdges.equalToSuperview().inset(Metrics.Padding.vertical)
       $0.directionalHorizontalEdges.equalToSuperview().inset(Metrics.Padding.horizontal)
+      $0.height.greaterThanOrEqualTo(Metrics.Size.height)
+      $0.centerX.equalToSuperview()
     }
     
     indicationImageView.snp.makeConstraints {
@@ -189,8 +192,8 @@ extension PLUBToast {
   
   private enum Metrics {
     enum Margin {
-      static let horizontal   = 24
-      static let vertical     = 60
+      static let horizontal   = 16
+      static let vertical     = 24 + 46 + 24
     }
     
     enum Padding {
