@@ -14,16 +14,18 @@ import Then
 
 final class BottomSheetFilterView: UIControl {
   
-  private let type: SortType
+  // MARK: - Properties
   
   var isTapped: Bool = false {
     didSet {
-      sortLabel.textColor = isTapped ? .main : .black
+      label.textColor      = isTapped ? .main : .black
       selectImageView.isHidden = !isTapped
     }
   }
   
-  private let sortLabel = UILabel().then {
+  // MARK: - UI Components
+  
+  private let label = UILabel().then {
     $0.font = .body1
     $0.textColor = .black
     $0.sizeToFit()
@@ -34,30 +36,33 @@ final class BottomSheetFilterView: UIControl {
     $0.contentMode = .scaleAspectFit
   }
   
-  init(type: SortType) {
-    self.type = type
+  // MARK: - Initializations
+  
+  init(text: String) {
     super.init(frame: .zero)
-    configureUI()
+    configureUI(text: text)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func configureUI() {
-    [sortLabel, selectImageView].forEach { addSubview($0) }
+  // MARK: - Configuration
+  
+  private func configureUI(text: String) {
+    [label, selectImageView].forEach { addSubview($0) }
     
-    sortLabel.snp.makeConstraints {
+    label.snp.makeConstraints {
       $0.leading.top.bottom.equalToSuperview()
     }
     
     selectImageView.snp.makeConstraints {
-      $0.leading.equalTo(sortLabel.snp.trailing).offset(8)
+      $0.leading.equalTo(label.snp.trailing).offset(8)
       $0.top.bottom.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
     
-    sortLabel.text = type.text
+    label.text = text
     selectImageView.isHidden = true
   }
 }
