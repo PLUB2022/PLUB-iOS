@@ -103,6 +103,7 @@ extension AddTodoViewController: FSCalendarDelegate, FSCalendarDataSource, FSCal
   }
   
   func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+    addTodoView.completionHandler?(date)
     if Calendar.current.isDateInToday(date) {
       addTodoView.layer.borderColor = UIColor.main.cgColor
       addTodoView.backgroundColor = .subMain
