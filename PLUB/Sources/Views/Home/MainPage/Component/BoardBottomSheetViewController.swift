@@ -24,17 +24,39 @@ enum BoardBottomSheetType {
 
 final class BoardBottomSheetViewController: BottomSheetViewController {
   
+  // MARK: - Properties
+  
   weak var delegate: BoardBottomSheetDelegate?
+  
+  private let accessType: AccessType
+  private let accessViewControllerType: AccessViewControllerType
+  
+  // MARK: - UI Components
   
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 8
   }
   
-  private let clipboardFixView = BottomSheetListView(text: "클립보드에 고정", image: "pinBlack")
-  private let modifyBoardView  = BottomSheetListView(text: "게시글 수정", image: "editBlack")
-  private let reportBoardView  = BottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
-  private let deleteBoardView  = BottomSheetListView(text: "게시글 삭제", image: "trashRed", textColor: .error)
+  private lazy var clipboardFixView = BottomSheetListView(text: accessViewControllerType.text, image: "pinBlack")
+  private lazy var modifyBoardView  = BottomSheetListView(text: "게시글 수정", image: "editBlack")
+  private lazy var reportBoardView  = BottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
+  private lazy var deleteBoardView  = BottomSheetListView(text: "게시글 삭제", image: "trashRed", textColor: .error)
+  
+  
+  // MARK: - Initializations
+  
+  init(accessType: AccessType = .normal, in accessViewControllerType: AccessViewControllerType = .mainPage) {
+    self.accessType = accessType
+    self.accessViewControllerType = accessViewControllerType
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Configurations
   
   override func setupLayouts() {
     super.setupLayouts()
