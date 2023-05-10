@@ -11,7 +11,9 @@ import FSCalendar
 import SnapKit
 import Then
 
-final class AddTodoViewController: BaseViewController {
+final class AddTodoListViewController: BaseViewController {
+  
+  private let viewModel: AddTodoListViewModelType
   
   private let scrollView = UIScrollView()
   
@@ -85,7 +87,7 @@ final class AddTodoViewController: BaseViewController {
   }
 }
 
-extension AddTodoViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
   func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
       return .main
   }
