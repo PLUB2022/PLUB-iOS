@@ -42,7 +42,7 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   
   var showCommentBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
   
-  var showBoardBottomSheetObservable: Observable<BoardBottomSheetViewController.AccessType> { get }
+  var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewController.AccessType, Bool)> { get }
 }
 
 protocol FeedLikeDelegate: AnyObject {
@@ -92,7 +92,7 @@ final class BoardDetailViewModel {
   private let decoratorNameSubject              = PublishSubject<(labelText: String, buttonText: String)>()
   private let bottomCellSubject                 = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   private let showCommentBottomSheetSubject     = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
-  private let boardBottomSheetAccessTypeSubject = ReplaySubject<BoardBottomSheetViewController.AccessType>.create(bufferSize: 1)
+  private let boardBottomSheetParameterSubject = ReplaySubject<(BoardBottomSheetViewController.AccessType, Bool)>.create(bufferSize: 1)
   private let boardOptionTappedSubject          = PublishSubject<Void>()
   private let targetIDSubject                   = BehaviorSubject<Int?>(value: nil)
   private let deleteIDSubject                   = PublishSubject<Int>()
@@ -157,7 +157,7 @@ extension BoardDetailViewModel {
       } else {
         accessType = .normal
       }
-      owner.boardBottomSheetAccessTypeSubject.onNext(accessType)
+      owner.boardBottomSheetParameterSubject.onNext((accessType, tuple.feed.isPinned))
       
       owner.comments.formUnion(tuple.comments) // 댓글 삽입
       owner.setCollectionView(tuple.collectionView, content: tuple.feed.toBoardModel)
@@ -343,9 +343,9 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     showCommentBottomSheetSubject.asObservable()
   }
   
-  var showBoardBottomSheetObservable: Observable<BoardBottomSheetViewController.AccessType> {
+  var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewController.AccessType, Bool)> {
     boardOptionTappedSubject
-      .withLatestFrom(boardBottomSheetAccessTypeSubject)
+      .withLatestFrom(boardBottomSheetParameterSubject)
   }
 }
 
