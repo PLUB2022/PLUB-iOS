@@ -159,8 +159,11 @@ final class BoardDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.showBoardBottomSheetObservable
-      .subscribe(with: self) { owner, accessType in
-        PLUBToast.makeToast(text: "\(accessType)")
+      .subscribe(with: self) { owner, tuple in
+        let (accessType, isPinned) = tuple
+        let viewController = BoardBottomSheetViewController(accessType: accessType, isPinned: isPinned)
+        viewController.delegate = owner
+        owner.present(viewController, animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -200,7 +203,15 @@ extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
   }
   
   func reportButtonTapped(commentID: Int) {
-    print(#function)
+    PLUBToast.makeToast(text: "commentID: \(commentID) report tapped")
+  }
+}
+
+// MARK: - BoardBottomSheetDelegate
+
+extension BoardDetailViewController: BoardBottomSheetDelegate {
+  func selectedBoardSheetType(type: BoardBottomSheetType) {
+    PLUBToast.makeToast(text: "\(type)")
   }
 }
 
