@@ -40,7 +40,7 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   /// decoratorView에 들어갈 적절한 text를 처리합니다.
   var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> { get }
   
-  var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
+  var showCommentBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
 }
 
 protocol FeedLikeDelegate: AnyObject {
@@ -89,7 +89,7 @@ final class BoardDetailViewModel {
   private let editCommentTextSubject          = PublishSubject<String>()
   private let decoratorNameSubject            = PublishSubject<(labelText: String, buttonText: String)>()
   private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
-  private let showBottomSheetSubject          = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
+  private let showCommentBottomSheetSubject   = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
   private let targetIDSubject                 = BehaviorSubject<Int?>(value: nil)
   private let deleteIDSubject                 = PublishSubject<Int>()
   private let commentOptionSubject            = BehaviorSubject<CommentOption>(value: .commentOrReply)
@@ -324,8 +324,8 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     decoratorNameSubject.asObservable()
   }
   
-  var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> {
-    showBottomSheetSubject.asObservable()
+  var showCommentBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> {
+    showCommentBottomSheetSubject.asObservable()
   }
 }
 
@@ -487,7 +487,7 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
       accessType = .normal
     }
     
-    showBottomSheetSubject.onNext((commentID, accessType))
+    showCommentBottomSheetSubject.onNext((commentID, accessType))
   }
 }
 

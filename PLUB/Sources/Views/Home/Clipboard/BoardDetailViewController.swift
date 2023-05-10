@@ -115,7 +115,7 @@ final class BoardDetailViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    viewModel.showBottomSheetObservable
+    viewModel.showCommentBottomSheetObservable
       .subscribe(with: self) { owner, tuple in
         let bottomSheetVC = CommentOptionBottomSheetViewController(commentID: tuple.commentID, userAccessType: tuple.userType).then {
           $0.delegate = owner
