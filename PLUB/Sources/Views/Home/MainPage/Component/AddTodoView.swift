@@ -185,7 +185,7 @@ extension AddTodoView {
       contentLabel.attributedText = model.isChecked ? contentLabel.text?.strikeThrough() : NSAttributedString(string: contentLabel.text ?? "")
     }
     
-    func bind() {
+    private func bind() {
       checkBoxButton.rx.isChecked
         .subscribe(with: self) { owner, isChecked in
           owner.contentLabel.attributedText = isChecked ? owner.contentLabel.text?.strikeThrough() : NSAttributedString(string: owner.contentLabel.text ?? "")
