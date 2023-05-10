@@ -65,18 +65,32 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
     super.setupLayouts()
     contentView.addSubview(contentStackView)
     
-    [clipboardFixView, modifyBoardView, reportBoardView, deleteBoardView].forEach {
-      contentStackView.addArrangedSubview($0)
+    if accessType != .normal {
+      contentStackView.addArrangedSubview(clipboardFixView)
+    }
+    
+    if accessType == .author {
+      contentStackView.addArrangedSubview(modifyBoardView)
+      contentStackView.addArrangedSubview(deleteBoardView)
+    } else {
+      contentStackView.addArrangedSubview(reportBoardView)
     }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    [clipboardFixView, modifyBoardView, reportBoardView, deleteBoardView].forEach {
-      $0.snp.makeConstraints {
-        $0.height.equalTo(Metrics.Size.listHeight)
-      }
+    let heightConstraint: (ConstraintMaker) -> Void = { $0.height.equalTo(Metrics.Size.listHeight) }
+    
+    if accessType != .normal {
+      clipboardFixView.snp.makeConstraints(heightConstraint)
+    }
+    
+    if accessType == .author {
+      modifyBoardView.snp.makeConstraints(heightConstraint)
+      deleteBoardView.snp.makeConstraints(heightConstraint)
+    } else {
+      reportBoardView.snp.makeConstraints(heightConstraint)
     }
     
     contentStackView.snp.makeConstraints {
@@ -88,29 +102,33 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
   
   override func bind() {
     super.bind()
-    clipboardFixView.button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.selectedBoardSheetType(type: .fix)
-      }
-      .disposed(by: disposeBag)
+    if accessType != .normal {
+      clipboardFixView.button.rx.tap
+        .subscribe(with: self) { owner, _ in
+          owner.delegate?.selectedBoardSheetType(type: .fix)
+        }
+        .disposed(by: disposeBag)
+    }
     
-    modifyBoardView.button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.selectedBoardSheetType(type: .modify)
-      }
-      .disposed(by: disposeBag)
-    
-    reportBoardView.button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.selectedBoardSheetType(type: .report)
-      }
-      .disposed(by: disposeBag)
-    
-    deleteBoardView.button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.selectedBoardSheetType(type: .delete)
-      }
-      .disposed(by: disposeBag)
+    if accessType == .author {
+      modifyBoardView.button.rx.tap
+        .subscribe(with: self) { owner, _ in
+          owner.delegate?.selectedBoardSheetType(type: .modify)
+        }
+        .disposed(by: disposeBag)
+      
+      deleteBoardView.button.rx.tap
+        .subscribe(with: self) { owner, _ in
+          owner.delegate?.selectedBoardSheetType(type: .delete)
+        }
+        .disposed(by: disposeBag)
+    } else {
+      reportBoardView.button.rx.tap
+        .subscribe(with: self) { owner, _ in
+          owner.delegate?.selectedBoardSheetType(type: .report)
+        }
+        .disposed(by: disposeBag)
+    }
   }
 }
 
