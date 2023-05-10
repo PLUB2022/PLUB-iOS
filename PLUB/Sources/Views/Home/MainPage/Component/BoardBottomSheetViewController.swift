@@ -29,7 +29,7 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
   weak var delegate: BoardBottomSheetDelegate?
   
   private let accessType: AccessType
-  private let accessViewControllerType: AccessViewControllerType
+  private let isPinned: Bool
   
   // MARK: - UI Components
   
@@ -38,7 +38,10 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
     $0.spacing = 8
   }
   
-  private lazy var clipboardFixView = BottomSheetListView(text: accessViewControllerType.text, image: "pinBlack")
+  private lazy var clipboardFixView = BottomSheetListView(
+    text: isPinned ? "클립보드 고정 해제" : "클립보드에 고정",
+    image: "pinBlack"
+  )
   private lazy var modifyBoardView  = BottomSheetListView(text: "게시글 수정", image: "editBlack")
   private lazy var reportBoardView  = BottomSheetListView(text: "게시글 신고", image: "lightBeaconMain")
   private lazy var deleteBoardView  = BottomSheetListView(text: "게시글 삭제", image: "trashRed", textColor: .error)
@@ -46,9 +49,9 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
   
   // MARK: - Initializations
   
-  init(accessType: AccessType = .normal, in accessViewControllerType: AccessViewControllerType = .mainPage) {
+  init(accessType: AccessType, isPinned: Bool) {
     self.accessType = accessType
-    self.accessViewControllerType = accessViewControllerType
+    self.isPinned = isPinned
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -124,22 +127,5 @@ extension BoardBottomSheetViewController {
     
     /// 일반
     case normal
-  }
-  
-  /// 접근한 뷰 컨트롤러
-  enum AccessViewControllerType {
-    
-    case mainPage
-    
-    case clipboard
-    
-    fileprivate var text: String {
-      switch self {
-      case .clipboard:
-        return "클립보드 고정 해제"
-      case .mainPage:
-        return "클립보드에 고정"
-      }
-    }
   }
 }

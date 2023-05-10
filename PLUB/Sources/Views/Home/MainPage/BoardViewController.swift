@@ -150,7 +150,7 @@ final class BoardViewController: BaseViewController {
     
     if gestureRecognizer.state == .began {
       // 롱 프레스 터치가 시작될 떄
-      let bottomSheet = BoardBottomSheetViewController()
+      let bottomSheet = BoardBottomSheetViewController(accessType: .normal, isPinned: false)
       bottomSheet.delegate = self
       present(bottomSheet, animated: true)
     } else if gestureRecognizer.state == .ended {
