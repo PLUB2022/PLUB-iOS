@@ -157,6 +157,12 @@ final class BoardDetailViewController: BaseViewController {
         owner.commentInputView.endEditing(true)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.showBoardBottomSheetObservable
+      .subscribe(with: self) { owner, accessType in
+        PLUBToast.makeToast(text: "\(accessType)")
+      }
+      .disposed(by: disposeBag)
   }
 }
 
