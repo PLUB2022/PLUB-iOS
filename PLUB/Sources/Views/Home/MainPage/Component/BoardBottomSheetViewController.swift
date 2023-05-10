@@ -88,3 +88,19 @@ final class BoardBottomSheetViewController: BottomSheetViewController {
       .disposed(by: disposeBag)
   }
 }
+
+// MARK: - Enum Type
+
+extension BoardBottomSheetViewController {
+  enum AccessType {
+    
+    /// 호스트
+    case host
+    
+    /// 게시글 저자
+    case author
+    
+    /// 일반
+    case normal
+  }
+}
