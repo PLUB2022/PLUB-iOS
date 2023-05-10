@@ -103,4 +103,21 @@ extension BoardBottomSheetViewController {
     /// 일반
     case normal
   }
+  
+  /// 접근한 뷰 컨트롤러
+  enum AccessViewControllerType {
+    
+    case mainPage
+    
+    case clipboard
+    
+    fileprivate var text: String {
+      switch self {
+      case .clipboard:
+        return "클립보드 고정 해제"
+      case .mainPage:
+        return "클립보드에 고정"
+      }
+    }
+  }
 }
