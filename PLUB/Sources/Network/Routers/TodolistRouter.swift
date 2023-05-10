@@ -14,6 +14,7 @@ enum TodolistRouter {
   case cancelCompleteTodolist(Int, Int)
   case proofTodolist(Int, Int, ProofTodolistRequest)
   case likeTodolist(Int, Int)
+  case createTodo(Int, CreateTodoRequest)
 }
 
 extension TodolistRouter: Router {
@@ -23,7 +24,7 @@ extension TodolistRouter: Router {
       return .get
     case .completeTodolist, .cancelCompleteTodolist, .likeTodolist:
       return .put
-    case .proofTodolist:
+    case .proofTodolist, .createTodo:
       return .post
     }
   }
@@ -42,6 +43,8 @@ extension TodolistRouter: Router {
       return "/plubbings/\(plubbingID)/todolist/\(todolistID)/cancel"
     case .likeTodolist(let plubbingID, let timelineID):
       return "/plubbings/\(plubbingID)/timeline/\(timelineID)/like"
+    case .createTodo(let plubbingID, _):
+      return "/plubbings/\(plubbingID)/todolist"
     }
   }
   
@@ -53,12 +56,14 @@ extension TodolistRouter: Router {
       return .plain
     case .proofTodolist(_, _, let request):
       return .body(request)
+    case .createTodo(_, let request):
+      return .body(request)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireAllTodoTimeline, .inquireTodolist, .completeTodolist, .proofTodolist, .cancelCompleteTodolist, .likeTodolist:
+    case .inquireAllTodoTimeline, .inquireTodolist, .completeTodolist, .proofTodolist, .cancelCompleteTodolist, .likeTodolist, .createTodo:
       return .withAccessToken
     }
   }
