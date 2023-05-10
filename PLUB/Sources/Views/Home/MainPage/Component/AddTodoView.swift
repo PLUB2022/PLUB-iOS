@@ -46,11 +46,9 @@ final class AddTodoView: UIView {
     configureUI()
     completionHandler = { [weak self] date in
       let dateString = DateFormatterFactory.todolistDate.string(from: date)
-      if Calendar.current.isDateInToday(date) {
-        self?.dateLabel.text = "\(dateString) (오늘)"
-      } else {
-        self?.dateLabel.text = dateString
-      }
+      let isToday = Calendar.current.isDateInToday(date)
+      self?.dateLabel.text = isToday ? "\(dateString) (오늘)" : dateString
+      self?.dateLabel.textColor = isToday ? .main : .black
     }
   }
   
