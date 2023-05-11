@@ -15,6 +15,15 @@ final class AddTodoListViewController: BaseViewController {
   
   private let viewModel: AddTodoListViewModelType
   
+  private let plubbingID: Int
+  
+  private var todolistModel: AddTodoViewModel? {
+    didSet {
+      guard let todolistModel = todolistModel else { return }
+      addTodoView.configureUI(with: todolistModel)
+    }
+  }
+  
   private let scrollView = UIScrollView()
   
   private let containerStackView = UIStackView().then {
@@ -51,13 +60,25 @@ final class AddTodoListViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(viewModel: AddTodoListViewModelType) {
+  init(viewModel: AddTodoListViewModelType = AddTodoListViewModel(), plubbingID: Int) {
+    self.plubbingID = plubbingID
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    bind(plubbingID: plubbingID)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  func bind(plubbingID: Int) {
+    super.bind()
+    
+    viewModel.selectPlubbingID.onNext(plubbingID)
+    
+    viewModel.todolistModelByDate
+      .drive(rx.todolistModel)
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -111,6 +132,7 @@ extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, F
   
   func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
     addTodoView.completionHandler?(date)
+    viewModel.whichInquireDate.onNext(date)
     if Calendar.current.isDateInToday(date) {
       addTodoView.layer.borderColor = UIColor.main.cgColor
       addTodoView.backgroundColor = .subMain
@@ -152,5 +174,12 @@ extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, F
       return .main
     }
     return nil
+  }
+}
+
+extension AddTodoListViewController: AddTodoViewDelegate {
+  func whichCreateTodoRequest(request: CreateTodoRequest) {
+    Log.debug("투두생성리퀘스트 \(request)")
+    viewModel.whichCreateTodoRequest.onNext(request)
   }
 }
