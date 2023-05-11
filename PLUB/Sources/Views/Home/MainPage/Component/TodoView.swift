@@ -16,8 +16,21 @@ protocol TodoViewDelegate: AnyObject {
 }
 
 struct TodoViewModel {
+  let todoID: Int
   let isChecked: Bool
   let content: String
+  
+  init(todoID: Int, isChecked: Bool, content: String) {
+    self.todoID = todoID
+    self.isChecked = isChecked
+    self.content = content
+  }
+  
+  init(response: CreateTodoResponse) {
+    todoID = response.todoID
+    isChecked = response.isChecked
+    content = response.content
+  }
 }
 
 final class TodoView: UIView {
