@@ -18,6 +18,10 @@ enum TodoViewType {
 
 struct AddTodoViewModel {
   let todoViewModel: [TodoViewModel]
+  
+  init(response: InquireTodolistByDateResponse) {
+    todoViewModel = response.todoList.map { TodoViewModel(isChecked: $0.isChecked, content: $0.content) }
+  }
 }
 
 protocol AddTodoViewDelegate: AnyObject {
