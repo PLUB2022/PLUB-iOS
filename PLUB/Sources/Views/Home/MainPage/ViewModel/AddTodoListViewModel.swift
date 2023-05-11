@@ -43,9 +43,13 @@ final class AddTodoListViewModel: AddTodoListViewModelType {
         TodolistService.shared.createTodo(plubbingID: plubbingID, request: request)
       }
     
-    requestCreateTodo.subscribe(onNext: { response in
-      Log.debug("투두생성응답값 \(response)")
-    })
+    requestCreateTodo
+      .withLatestFrom(todolistModelByCurrentDate) { ($0, $1) }
+      .subscribe(with: self) { (owner: AddTodoListViewModel, result: (CreateTodoResponse, AddTodoViewModel)) in
+        let (response, model) = result
+        let todoViewModel = TodoViewModel(response: response)
+        owner.addTodoViewModel(what: todoViewModel, where: model)
+      }
       .disposed(by: disposeBag)
   }
   
@@ -63,9 +67,28 @@ final class AddTodoListViewModel: AddTodoListViewModelType {
       }
     
     inquireTodolistByDate
-      .map { AddTodoViewModel(response: $0) }
+      .withUnretained(self)
+      .map { owner, model -> AddTodoViewModel in
+        let addTodoViewModel = AddTodoViewModel(response: model)
+        return owner.sortedAddTodoViewModelByIsChecked(addTodoViewModel: addTodoViewModel)
+      }
       .bind(to: todolistModelByCurrentDate)
       .disposed(by: disposeBag)
+  }
+  
+  private func addTodoViewModel(what todoViewModel: TodoViewModel, where addTodoViewModel: AddTodoViewModel) {
+    var changedModel = addTodoViewModel.todoViewModel
+    changedModel.append(todoViewModel)
+    
+    let addTodoViewModel = AddTodoViewModel(todoViewModel: changedModel)
+    let sortedModel = sortedAddTodoViewModelByIsChecked(addTodoViewModel: addTodoViewModel)
+    todolistModelByCurrentDate.accept(sortedModel)
+  }
+  
+  private func sortedAddTodoViewModelByIsChecked(addTodoViewModel: AddTodoViewModel) -> AddTodoViewModel {
+    let sortedModel = addTodoViewModel.todoViewModel.sorted(by: { $0.isChecked || $1.isChecked })
+    let result = AddTodoViewModel(todoViewModel: sortedModel)
+    return result
   }
 }
 
