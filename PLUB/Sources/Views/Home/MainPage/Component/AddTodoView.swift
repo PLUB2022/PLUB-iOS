@@ -80,7 +80,12 @@ final class AddTodoView: UIView {
   }
   
   func configureUI(with model: AddTodoViewModel) {
-    model.todoViewModel.forEach { model in
+    todoContainerView
+      .arrangedSubviews.dropFirst(2)
+      .forEach { $0.removeFromSuperview() }
+    
+    let sortedModel = model.todoViewModel.sorted { $0.isChecked || $1.isChecked }
+    sortedModel.forEach { model in
       let todoView = TodoView(type: .todo)
       todoView.delegate = self
       todoView.configureUI(with: .init(
