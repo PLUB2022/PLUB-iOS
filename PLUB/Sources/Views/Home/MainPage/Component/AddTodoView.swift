@@ -94,13 +94,11 @@ final class AddTodoView: UIView {
       .arrangedSubviews.dropFirst()
       .forEach { $0.removeFromSuperview() }
     
-    let sortedModel = model.todoViewModel.sorted { $0.isChecked || $1.isChecked }
-    
     let inputTodoView = TodoView(type: .input)
     inputTodoView.delegate = self
     todoContainerView.addArrangedSubview(inputTodoView)
     
-    sortedModel.forEach { model in
+    model.todoViewModel.forEach { model in
       let todoView = TodoView(type: .todo)
       todoView.configureUI(with: .init(
         todoID: model.todoID,
