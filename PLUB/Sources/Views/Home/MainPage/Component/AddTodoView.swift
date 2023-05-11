@@ -20,7 +20,17 @@ struct AddTodoViewModel {
   let todoViewModel: [TodoViewModel]
   
   init(response: InquireTodolistByDateResponse) {
-    todoViewModel = response.todoList.map { TodoViewModel(isChecked: $0.isChecked, content: $0.content) }
+    todoViewModel = response.todoList.map {
+      TodoViewModel(
+        todoID: $0.todoID,
+        isChecked: $0.isChecked,
+        content: $0.content
+      )
+    }
+  }
+  
+  init(todoViewModel: [TodoViewModel]) {
+    self.todoViewModel = todoViewModel
   }
 }
 
@@ -81,14 +91,19 @@ final class AddTodoView: UIView {
   
   func configureUI(with model: AddTodoViewModel) {
     todoContainerView
-      .arrangedSubviews.dropFirst(2)
+      .arrangedSubviews.dropFirst()
       .forEach { $0.removeFromSuperview() }
     
     let sortedModel = model.todoViewModel.sorted { $0.isChecked || $1.isChecked }
+    
+    let inputTodoView = TodoView(type: .input)
+    inputTodoView.delegate = self
+    todoContainerView.addArrangedSubview(inputTodoView)
+    
     sortedModel.forEach { model in
       let todoView = TodoView(type: .todo)
-      todoView.delegate = self
       todoView.configureUI(with: .init(
+        todoID: model.todoID,
         isChecked: model.isChecked,
         content: model.content)
       )
