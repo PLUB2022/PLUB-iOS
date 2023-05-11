@@ -83,7 +83,7 @@ final class AddTodoListViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-
+    viewModel.whichInquireDate.onNext(Date())
   }
   
   override func setupLayouts() {
