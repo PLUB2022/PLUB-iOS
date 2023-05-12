@@ -13,21 +13,33 @@ import Then
 
 protocol TodoViewDelegate: AnyObject {
   func whichTodoContent(content: String)
+  func whichTodoChecked(isChecked: Bool, todoID: Int)
+  func tappedMoreButton()
 }
 
 struct TodoViewModel {
   let todoID: Int
+  let date: String
   let isChecked: Bool
   let content: String
   
-  init(todoID: Int, isChecked: Bool, content: String) {
+  init(todoID: Int, date: String, isChecked: Bool, content: String) {
     self.todoID = todoID
+    self.date = date
     self.isChecked = isChecked
     self.content = content
   }
   
   init(response: CreateTodoResponse) {
     todoID = response.todoID
+    date = response.date
+    isChecked = response.isChecked
+    content = response.content
+  }
+  
+  init(response: CompleteProofTodolistResponse) {
+    todoID = response.todoID
+    date = response.date
     isChecked = response.isChecked
     content = response.content
   }
@@ -38,6 +50,7 @@ final class TodoView: UIView {
   weak var delegate: TodoViewDelegate?
   private let disposeBag = DisposeBag()
   private let type: TodoViewType
+  private var todoID: Int?
   
   private lazy var emptyCheckView = UIView().then {
     $0.layer.borderWidth = 1
@@ -48,6 +61,7 @@ final class TodoView: UIView {
   
   private lazy var contentLabel = UILabel().then {
     $0.text = "투두리스트목록"
+    $0.isUserInteractionEnabled = true
   }
   
   private lazy var checkBoxButton = CheckBoxButton(type: .none)
@@ -101,8 +115,7 @@ final class TodoView: UIView {
       
     case .todo:
       [checkBoxButton, contentLabel].forEach { addSubview($0) }
-      contentLabel.addSubview(bottomLineView)
-      contentLabel.addSubview(moreButton)
+      [bottomLineView, moreButton].forEach { contentLabel.addSubview($0) }
       checkBoxButton.snp.makeConstraints {
         $0.size.equalTo(18)
         $0.leading.directionalVerticalEdges.equalToSuperview().inset(7)
@@ -122,12 +135,13 @@ final class TodoView: UIView {
       
       moreButton.snp.makeConstraints {
         $0.size.equalTo(32)
-        $0.directionalVerticalEdges.trailing.equalToSuperview()
+        $0.centerY.trailing.equalToSuperview()
       }
     }
   }
   
   func configureUI(with model: TodoViewModel) {
+    todoID = model.todoID
     contentLabel.text = model.content
     checkBoxButton.isChecked = model.isChecked
     contentLabel.attributedText = model.isChecked ? contentLabel.text?.strikeThrough() : NSAttributedString(string: contentLabel.text ?? "")
@@ -136,7 +150,16 @@ final class TodoView: UIView {
   private func bind() {
     checkBoxButton.rx.isChecked
       .subscribe(with: self) { owner, isChecked in
+        guard let todoID = owner.todoID else { return }
         owner.contentLabel.attributedText = isChecked ? owner.contentLabel.text?.strikeThrough() : NSAttributedString(string: owner.contentLabel.text ?? "")
+        
+        owner.delegate?.whichTodoChecked(isChecked: isChecked, todoID: todoID)
+      }
+      .disposed(by: disposeBag)
+    
+    moreButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.tappedMoreButton()
       }
       .disposed(by: disposeBag)
   }
