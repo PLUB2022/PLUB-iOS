@@ -40,7 +40,9 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   /// decoratorView에 들어갈 적절한 text를 처리합니다.
   var decoratorNameObserable: Observable<(labelText: String, buttonText: String)> { get }
   
-  var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
+  var showCommentBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
+  
+  var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewController.AccessType, Bool)> { get }
 }
 
 protocol FeedLikeDelegate: AnyObject {
@@ -84,15 +86,17 @@ final class BoardDetailViewModel {
   
   // MARK: Subjects
   
-  private let collectionViewSubject           = PublishSubject<UICollectionView>()
-  private let commentInputSubject             = PublishSubject<String>()
-  private let editCommentTextSubject          = PublishSubject<String>()
-  private let decoratorNameSubject            = PublishSubject<(labelText: String, buttonText: String)>()
-  private let bottomCellSubject               = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
-  private let showBottomSheetSubject          = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
-  private let targetIDSubject                 = BehaviorSubject<Int?>(value: nil)
-  private let deleteIDSubject                 = PublishSubject<Int>()
-  private let commentOptionSubject            = BehaviorSubject<CommentOption>(value: .commentOrReply)
+  private let collectionViewSubject             = PublishSubject<UICollectionView>()
+  private let commentInputSubject               = PublishSubject<String>()
+  private let editCommentTextSubject            = PublishSubject<String>()
+  private let decoratorNameSubject              = PublishSubject<(labelText: String, buttonText: String)>()
+  private let bottomCellSubject                 = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
+  private let showCommentBottomSheetSubject     = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
+  private let boardBottomSheetParameterSubject = ReplaySubject<(BoardBottomSheetViewController.AccessType, Bool)>.create(bufferSize: 1)
+  private let boardOptionTappedSubject          = PublishSubject<Void>()
+  private let targetIDSubject                   = BehaviorSubject<Int?>(value: nil)
+  private let deleteIDSubject                   = PublishSubject<Int>()
+  private let commentOptionSubject              = BehaviorSubject<CommentOption>(value: .commentOrReply)
   
   // MARK: - Initializations
   
@@ -144,6 +148,17 @@ extension BoardDetailViewModel {
       if let like = tuple.feed.isLike {
         owner.boardLike = like
       }
+      
+      let accessType: BoardBottomSheetViewController.AccessType
+      if tuple.feed.isAuthor {
+        accessType = .author
+      } else if tuple.feed.isHost {
+        accessType = .host
+      } else {
+        accessType = .normal
+      }
+      owner.boardBottomSheetParameterSubject.onNext((accessType, tuple.feed.isPinned))
+      
       owner.comments.formUnion(tuple.comments) // 댓글 삽입
       owner.setCollectionView(tuple.collectionView, content: tuple.feed.toBoardModel)
       owner.applyInitialSnapshots()
@@ -324,8 +339,13 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     decoratorNameSubject.asObservable()
   }
   
-  var showBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> {
-    showBottomSheetSubject.asObservable()
+  var showCommentBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> {
+    showCommentBottomSheetSubject.asObservable()
+  }
+  
+  var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewController.AccessType, Bool)> {
+    boardOptionTappedSubject
+      .withLatestFrom(boardBottomSheetParameterSubject)
   }
 }
 
@@ -452,7 +472,7 @@ extension BoardDetailViewModel: BoardDetailCollectionHeaderViewDelegate {
   }
   
   func didTappedSettingButton() {
-    PLUBToast.makeToast(text: "Setting Button Tapped")
+    boardOptionTappedSubject.onNext(Void())
   }
 }
 
@@ -487,7 +507,7 @@ extension BoardDetailViewModel: BoardDetailCollectionViewCellDelegate {
       accessType = .normal
     }
     
-    showBottomSheetSubject.onNext((commentID, accessType))
+    showCommentBottomSheetSubject.onNext((commentID, accessType))
   }
 }
 
