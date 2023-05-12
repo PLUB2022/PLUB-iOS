@@ -178,6 +178,14 @@ extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, F
 }
 
 extension AddTodoListViewController: AddTodoViewDelegate {
+  func tappedMoreButton() {
+    print("탭")
+  }
+  
+  func whichTodoChecked(isChecked: Bool, todoID: Int) {
+    viewModel.whichTodoChecked.onNext((isChecked, todoID))
+  }
+  
   func whichCreateTodoRequest(request: CreateTodoRequest) {
     Log.debug("투두생성리퀘스트 \(request)")
     viewModel.whichCreateTodoRequest.onNext(request)
