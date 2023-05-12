@@ -15,7 +15,8 @@ protocol AddTodoListViewModelType {
   var whichCreateTodoRequest: AnyObserver<CreateTodoRequest> { get }
   var whichInquireDate: AnyObserver<Date> { get }
   var selectPlubbingID: AnyObserver<Int> { get }
-  
+  var whichTodoChecked: AnyObserver<(Bool, Int)> { get }
+ 
   var todolistModelByDate: Driver<AddTodoViewModel> { get }
 }
 
@@ -27,10 +28,35 @@ final class AddTodoListViewModel: AddTodoListViewModelType {
   private let createTodoRequst = PublishSubject<CreateTodoRequest>()
   private let inquireDate = PublishSubject<Date>()
   private let todolistModelByCurrentDate = PublishRelay<AddTodoViewModel>()
+  private let selectTodo = PublishSubject<(Bool, Int)>()
   
   init() {
     tryCreateTodo()
     tryInquireTodolistByDate()
+    tryTodoCompleteOrCancel()
+  }
+  
+  private func tryTodoCompleteOrCancel() {
+    let requestCompleteOrCancelTodo = selectTodo
+      .withLatestFrom(whichPlubbingID) { ($0, $1) }
+      .flatMapLatest { (result, plubbingID) in
+        let (completed, todoID) = result
+        if completed {
+          return TodolistService.shared.completeTodolist(plubbingID: plubbingID, todolistID: todoID)
+        } else {
+          return TodolistService.shared.cancelCompleteTodolist(plubbingID: plubbingID, todolistID: todoID)
+        }
+      }
+    
+    requestCompleteOrCancelTodo
+      .withLatestFrom(todolistModelByCurrentDate) { ($0, $1) }
+      .do(onNext: { Log.debug("투두완성 혹은 취소 성공 \($0.1)") })
+      .subscribe(with: self) { (owner: AddTodoListViewModel, result: (CompleteProofTodolistResponse, AddTodoViewModel)) in
+        let (response, model) = result
+        let todoViewModel = TodoViewModel(response: response)
+        owner.addTodoViewModel(what: todoViewModel, where: model)
+    }
+    .disposed(by: disposeBag)
   }
   
   private func tryCreateTodo() {
@@ -77,16 +103,27 @@ final class AddTodoListViewModel: AddTodoListViewModelType {
   }
   
   private func addTodoViewModel(what todoViewModel: TodoViewModel, where addTodoViewModel: AddTodoViewModel) {
-    var changedModel = addTodoViewModel.todoViewModel
-    changedModel.append(todoViewModel)
     
-    let addTodoViewModel = AddTodoViewModel(todoViewModel: changedModel)
-    let sortedModel = sortedAddTodoViewModelByIsChecked(addTodoViewModel: addTodoViewModel)
-    todolistModelByCurrentDate.accept(sortedModel)
+    var model = addTodoViewModel.todoViewModel
+    
+    if let index = model.firstIndex(where: { $0.todoID == todoViewModel.todoID }) {
+      model[index] = todoViewModel
+    } else {
+      model.append(todoViewModel)
+    }
+    
+    let addTodoViewModel = AddTodoViewModel(todoViewModel: model)
+    todolistModelByCurrentDate.accept(addTodoViewModel)
   }
   
   private func sortedAddTodoViewModelByIsChecked(addTodoViewModel: AddTodoViewModel) -> AddTodoViewModel {
-    let sortedModel = addTodoViewModel.todoViewModel.sorted(by: { $0.isChecked || $1.isChecked })
+    let sortedModel = addTodoViewModel.todoViewModel.sorted { (first, second) -> Bool in
+      if first.isChecked != second.isChecked {
+          return first.isChecked
+      }
+      return !first.isChecked
+//      return first.date < second.date
+    }
     let result = AddTodoViewModel(todoViewModel: sortedModel)
     return result
   }
@@ -108,6 +145,12 @@ extension AddTodoListViewModel {
   
   var todolistModelByDate: Driver<AddTodoViewModel> {
     todolistModelByCurrentDate
+      .withUnretained(self)
+      .map { $0.sortedAddTodoViewModelByIsChecked(addTodoViewModel: $1) }
       .asDriver(onErrorDriveWith: .empty())
+  }
+  
+  var whichTodoChecked: AnyObserver<(Bool, Int)> {
+    selectTodo.asObserver()
   }
 }
