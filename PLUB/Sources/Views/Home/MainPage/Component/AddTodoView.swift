@@ -38,7 +38,7 @@ struct AddTodoViewModel {
 protocol AddTodoViewDelegate: AnyObject {
   func whichCreateTodoRequest(request: CreateTodoRequest)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
-  func tappedMoreButton()
+  func tappedMoreButton(todoID: Int, isChecked: Bool)
 }
 
 final class AddTodoView: UIView {
@@ -116,8 +116,8 @@ final class AddTodoView: UIView {
 }
 
 extension AddTodoView: TodoViewDelegate {
-  func tappedMoreButton() {
-    delegate?.tappedMoreButton()
+  func tappedMoreButton(todoID: Int, isChecked: Bool) {
+    delegate?.tappedMoreButton(todoID: todoID, isChecked: isChecked)
   }
   
   func whichTodoChecked(isChecked: Bool, todoID: Int) {
