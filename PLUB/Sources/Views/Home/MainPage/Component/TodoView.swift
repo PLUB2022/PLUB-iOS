@@ -14,7 +14,7 @@ import Then
 protocol TodoViewDelegate: AnyObject {
   func whichTodoContent(content: String)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
-  func tappedMoreButton()
+  func tappedMoreButton(todoID: Int, isChecked: Bool)
 }
 
 struct TodoViewModel {
@@ -159,7 +159,8 @@ final class TodoView: UIView {
     
     moreButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.tappedMoreButton()
+        guard let todoID = owner.todoID else { return }
+        owner.delegate?.tappedMoreButton(todoID: todoID, isChecked: owner.checkBoxButton.isChecked)
       }
       .disposed(by: disposeBag)
   }
