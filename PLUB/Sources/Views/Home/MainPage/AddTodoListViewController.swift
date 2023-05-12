@@ -178,8 +178,10 @@ extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, F
 }
 
 extension AddTodoListViewController: AddTodoViewDelegate {
-  func tappedMoreButton() {
-    print("탭")
+  func tappedMoreButton(todoID: Int, isChecked: Bool) {
+    let bottomSheet = AddTodolistBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID)
+    bottomSheet.delegate = self
+    present(bottomSheet, animated: true)
   }
   
   func whichTodoChecked(isChecked: Bool, todoID: Int) {
@@ -189,5 +191,19 @@ extension AddTodoListViewController: AddTodoViewDelegate {
   func whichCreateTodoRequest(request: CreateTodoRequest) {
     Log.debug("투두생성리퀘스트 \(request)")
     viewModel.whichCreateTodoRequest.onNext(request)
+  }
+}
+
+extension AddTodoListViewController: AddTodolistBottomSheetDelegate {
+  func proofImage(todoID: Int) {
+    
+  }
+  
+  func editTodo(todoID: Int) {
+    
+  }
+  
+  func deleteTodo(todoID: Int) {
+    
   }
 }
