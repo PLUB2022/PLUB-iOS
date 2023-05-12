@@ -23,6 +23,7 @@ struct AddTodoViewModel {
     todoViewModel = response.todoList.map {
       TodoViewModel(
         todoID: $0.todoID,
+        date: $0.date,
         isChecked: $0.isChecked,
         content: $0.content
       )
@@ -36,6 +37,8 @@ struct AddTodoViewModel {
 
 protocol AddTodoViewDelegate: AnyObject {
   func whichCreateTodoRequest(request: CreateTodoRequest)
+  func whichTodoChecked(isChecked: Bool, todoID: Int)
+  func tappedMoreButton()
 }
 
 final class AddTodoView: UIView {
@@ -100,8 +103,10 @@ final class AddTodoView: UIView {
     
     model.todoViewModel.forEach { model in
       let todoView = TodoView(type: .todo)
+      todoView.delegate = self
       todoView.configureUI(with: .init(
         todoID: model.todoID,
+        date: model.date,
         isChecked: model.isChecked,
         content: model.content)
       )
@@ -111,6 +116,14 @@ final class AddTodoView: UIView {
 }
 
 extension AddTodoView: TodoViewDelegate {
+  func tappedMoreButton() {
+    delegate?.tappedMoreButton()
+  }
+  
+  func whichTodoChecked(isChecked: Bool, todoID: Int) {
+    delegate?.whichTodoChecked(isChecked: isChecked, todoID: todoID)
+  }
+  
   func whichTodoContent(content: String) {
     guard let date = self.date else { return }
     let dateString = DateFormatterFactory.dateWithHypen.string(from: date)
