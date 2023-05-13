@@ -146,6 +146,35 @@ final class TodolistViewModel {
     })
     .disposed(by: disposeBag)
   }
+  
+  private func parseFromResponseToModel(response: [InquireAllTodoTimelineResponse]) -> [TodolistModel] {
+    let todolistModel = response.compactMap { response -> TodolistModel? in
+      guard let date = DateFormatterFactory.dateWithHypen.date(from: response.date) else {
+        return nil
+      }
+      let headerModel = TodoCollectionHeaderViewModel(
+        isToday: Calendar.current.isDateInToday(date),
+        date: DateFormatterFactory.todolistDate.string(from: date)
+      )
+      
+      let cellModel = TodoCollectionViewCellModel(response: response)
+      return TodolistModel(headerModel: headerModel, cellModel: cellModel)
+    }
+    return todolistModel
+  }
+  
+  private func sortedModelByDate(model: [TodolistModel]) -> [TodolistModel] {
+    return model.sorted { first, second in
+      
+      guard let firstDate = DateFormatterFactory.todolistDate.date(from: first.headerModel.date),
+            let secondDate = DateFormatterFactory.todolistDate.date(from: second.headerModel.date) else { return false }
+      
+      if first.headerModel.isToday != second.headerModel.isToday {
+          return first.headerModel.isToday
+      }
+      return firstDate > secondDate
+    }
+  }
 }
 
 extension TodolistViewModel: TodolistViewModelType {
@@ -171,22 +200,13 @@ extension TodolistViewModel: TodolistViewModelType {
   }
   
   var todoTimelineModel: Driver<[TodolistModel]> { // 조회한 투두타임라인에 대한 데이터를 TodolistModel로 파싱한 값
-    allTodoTimeline.map { result in
-      let todolistModel = result.compactMap { response -> TodolistModel? in
-        guard let date = DateFormatterFactory.dateWithHypen.date(from: response.date) else {
-          return nil
-        }
-        let headerModel = TodoCollectionHeaderViewModel(
-          isToday: Calendar.current.isDateInToday(date),
-          date: DateFormatterFactory.todolistDate.string(from: date)
-        )
-        
-        let cellModel = TodoCollectionViewCellModel(response: response)
-        return TodolistModel(headerModel: headerModel, cellModel: cellModel)
+    allTodoTimeline
+      .withUnretained(self)
+      .map { owner, response in
+        let model = owner.parseFromResponseToModel(response: response)
+        return owner.sortedModelByDate(model: model)
       }
-      return todolistModel
-    }
-    .asDriver(onErrorDriveWith: .empty())
+      .asDriver(onErrorDriveWith: .empty())
   }
   
   var successCompleteTodolist: Signal<Bool> {
