@@ -19,6 +19,7 @@ final class BoardDetailViewModelWithFeedsFactory: BoardDetailViewModelFactory {
   static func make(plubbingID: Int, feedID: Int) -> BoardDetailViewModelType {
     return BoardDetailViewModel(
       boardBottomSheetController: BoardBottomSheetViewController.self,
+      deleteFeedUseCase: DefaultDeleteFeedUseCase(plubbingID: plubbingID, feedID: feedID),
       getFeedDetailUseCase: DefaultGetFeedDetailUseCase(plubbingID: plubbingID, feedID: feedID),
       getCommentsUseCase: DefaultGetCommentsUseCase(plubbingID: plubbingID, feedID: feedID),
       postCommentUseCase: DefaultPostCommentUseCase(plubbingID: plubbingID, feedID: feedID),

@@ -77,12 +77,13 @@ final class BoardDetailViewModel {
   
   // MARK: Use Cases
   
+  private let deleteFeedUseCase:    DeleteFeedUseCase
   private let getFeedDetailUseCase: GetFeedDetailUseCase
-  private let getCommentsUseCase: GetCommentsUseCase
-  private let postCommentUseCase: PostCommentUseCase
+  private let getCommentsUseCase:   GetCommentsUseCase
+  private let postCommentUseCase:   PostCommentUseCase
   private let deleteCommentUseCase: DeleteCommentUseCase
-  private let editCommentUseCase: EditCommentUseCase
-  private let likeFeedUseCase: LikeFeedUseCase
+  private let editCommentUseCase:   EditCommentUseCase
+  private let likeFeedUseCase:      LikeFeedUseCase
   
   // MARK: Subjects
   
@@ -102,6 +103,7 @@ final class BoardDetailViewModel {
   
   init(
     boardBottomSheetController: BoardBottomSheetViewControllerType.Type,
+    deleteFeedUseCase: DeleteFeedUseCase,
     getFeedDetailUseCase: GetFeedDetailUseCase,
     getCommentsUseCase: GetCommentsUseCase,
     postCommentUseCase: PostCommentUseCase,
@@ -109,6 +111,7 @@ final class BoardDetailViewModel {
     editCommentUseCase: EditCommentUseCase,
     likeFeedUseCase: LikeFeedUseCase
   ) {
+    self.deleteFeedUseCase    = deleteFeedUseCase
     self.getFeedDetailUseCase = getFeedDetailUseCase
     self.getCommentsUseCase   = getCommentsUseCase
     self.postCommentUseCase   = postCommentUseCase
