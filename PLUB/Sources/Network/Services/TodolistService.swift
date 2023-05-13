@@ -66,4 +66,12 @@ extension TodolistService {
   func likeTodolist(plubbingID: Int, timelineID: Int) -> Observable<LikeTodolistResponse> {
     sendObservableRequest(TodolistRouter.likeTodolist(plubbingID, timelineID))
   }
+  
+  func createTodo(plubbingID: Int, request: CreateTodoRequest) -> Observable<CreateTodoResponse> {
+    sendObservableRequest(TodolistRouter.createTodo(plubbingID, request))
+  }
+  
+  func inquireTodolistByDate(plubbingID: Int, todoDate: String) -> Observable<InquireTodolistByDateResponse> {
+    sendObservableRequest(TodolistRouter.inquireTodolistByDate(plubbingID, todoDate))
+  }
 }
