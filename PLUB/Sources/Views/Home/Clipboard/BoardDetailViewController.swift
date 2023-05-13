@@ -166,6 +166,12 @@ final class BoardDetailViewController: BaseViewController {
         owner.present(viewController, animated: true)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.popViewControllerByMySelfObservable
+      .subscribe(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -211,7 +217,8 @@ extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
 
 extension BoardDetailViewController: BoardBottomSheetDelegate {
   func selectedBoardSheetType(type: BoardBottomSheetType) {
-    PLUBToast.makeToast(text: "\(type)")
+    viewModel.boardOptionObserver.onNext(type)
+    dismiss(animated: true)
   }
 }
 

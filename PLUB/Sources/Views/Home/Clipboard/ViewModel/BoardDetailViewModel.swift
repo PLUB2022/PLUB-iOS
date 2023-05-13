@@ -32,6 +32,8 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   /// 댓(답)글, 댓글 수정, 댓글 삭제의 옵션을 처리할 경우 해당 옵저버를 이용합니다.
   var commentOptionObserver: AnyObserver<CommentOption> { get }
   
+  var boardOptionObserver: AnyObserver<BoardBottomSheetType> { get }
+  
   //Output
   
   /// 수정할 댓글의 정보를 전달합니다.
@@ -43,6 +45,8 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   var showCommentBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
   
   var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewControllerType.Type, BoardBottomSheetViewController.AccessType, Bool)> { get }
+  
+  var popViewControllerByMySelfObservable: Observable<Void> { get }
 }
 
 protocol FeedLikeDelegate: AnyObject {
@@ -95,6 +99,8 @@ final class BoardDetailViewModel {
   private let showCommentBottomSheetSubject     = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
   private let boardBottomSheetParameterSubject  = PublishSubject<(BoardBottomSheetViewControllerType.Type, BoardBottomSheetViewController.AccessType, Bool)>()
   private let boardOptionTappedSubject          = PublishSubject<Void>()
+  private let popViewControllerByMySelfSubject  = PublishSubject<Void>()
+  private let boardOptionInputSubject           = PublishSubject<BoardBottomSheetType>()
   private let targetIDSubject                   = BehaviorSubject<Int?>(value: nil)
   private let deleteIDSubject                   = PublishSubject<Int>()
   private let commentOptionSubject              = BehaviorSubject<CommentOption>(value: .commentOrReply)
@@ -124,6 +130,7 @@ final class BoardDetailViewModel {
     pagingSetup()
     deleteComments()
     editComments()
+    boardOptionProcess()
   }
   
   private let disposeBag = DisposeBag()
@@ -301,6 +308,20 @@ extension BoardDetailViewModel {
       }
       .disposed(by: disposeBag)
   }
+  
+  /// 게시글 설정 파이프라인입니다.
+  /// 게시글 삭제, 게시글 수정, 게시글 신고 로직이 들어가 있습니다.
+  private func boardOptionProcess() {
+    let sharedBoardOptionSubject = boardOptionInputSubject.share()
+    
+    sharedBoardOptionSubject
+      .filter { $0 == .delete }
+      .flatMap { [deleteFeedUseCase] _ in deleteFeedUseCase.execute() }
+      .do { _ in PLUBToast.makeToast(text: "게시글이 삭제되었습니다.") }
+      .bind(to: popViewControllerByMySelfSubject)
+      .disposed(by: disposeBag)
+    
+  }
 }
 
 // MARK: - BoardDetailViewModelType
@@ -333,6 +354,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     commentOptionSubject.asObserver()
   }
   
+  var boardOptionObserver: AnyObserver<BoardBottomSheetType> {
+    boardOptionInputSubject.asObserver()
+  }
+  
   // Output
   
   var editCommentTextObservable: Observable<String> {
@@ -350,6 +375,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewControllerType.Type, BoardBottomSheetViewController.AccessType, Bool)> {
     boardOptionTappedSubject
       .withLatestFrom(boardBottomSheetParameterSubject)
+  }
+  
+  var popViewControllerByMySelfObservable: Observable<Void> {
+    popViewControllerByMySelfSubject.asObservable()
   }
 }
 
