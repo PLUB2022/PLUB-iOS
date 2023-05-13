@@ -15,6 +15,16 @@ protocol BoardBottomSheetDelegate: AnyObject {
   func selectedBoardSheetType(type: BoardBottomSheetType)
 }
 
+
+// MARK: 바텀시트 추상화
+
+protocol BoardBottomSheetViewControllerType: BottomSheetViewController {
+  
+  init(accessType: BoardBottomSheetViewController.AccessType, isPinned: Bool)
+  
+  var delegate: BoardBottomSheetDelegate? { get set }
+}
+
 enum BoardBottomSheetType {
   case fix // 클립보드 고정
   case modify // 게시글 수정
@@ -22,7 +32,7 @@ enum BoardBottomSheetType {
   case delete // 게시글 삭제
 }
 
-final class BoardBottomSheetViewController: BottomSheetViewController {
+final class BoardBottomSheetViewController: BottomSheetViewController, BoardBottomSheetViewControllerType {
   
   // MARK: - Properties
   

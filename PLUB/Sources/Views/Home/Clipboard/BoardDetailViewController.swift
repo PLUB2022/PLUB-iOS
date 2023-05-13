@@ -160,8 +160,8 @@ final class BoardDetailViewController: BaseViewController {
     
     viewModel.showBoardBottomSheetObservable
       .subscribe(with: self) { owner, tuple in
-        let (accessType, isPinned) = tuple
-        let viewController = BoardBottomSheetViewController(accessType: accessType, isPinned: isPinned)
+        let (bottomSheetType, accessType, isPinned) = tuple
+        let viewController = bottomSheetType.init(accessType: accessType, isPinned: isPinned)
         viewController.delegate = owner
         owner.present(viewController, animated: true)
       }

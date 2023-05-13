@@ -42,7 +42,7 @@ protocol BoardDetailViewModelType: BoardDetailViewModel {
   
   var showCommentBottomSheetObservable: Observable<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)> { get }
   
-  var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewController.AccessType, Bool)> { get }
+  var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewControllerType.Type, BoardBottomSheetViewController.AccessType, Bool)> { get }
 }
 
 protocol FeedLikeDelegate: AnyObject {
@@ -92,7 +92,7 @@ final class BoardDetailViewModel {
   private let decoratorNameSubject              = PublishSubject<(labelText: String, buttonText: String)>()
   private let bottomCellSubject                 = PublishSubject<(collectionViewHeight: CGFloat, offset: CGFloat)>()
   private let showCommentBottomSheetSubject     = PublishSubject<(commentID: Int, userType: CommentOptionBottomSheetViewController.UserAccessType)>()
-  private let boardBottomSheetParameterSubject = ReplaySubject<(BoardBottomSheetViewController.AccessType, Bool)>.create(bufferSize: 1)
+  private let boardBottomSheetParameterSubject  = PublishSubject<(BoardBottomSheetViewControllerType.Type, BoardBottomSheetViewController.AccessType, Bool)>()
   private let boardOptionTappedSubject          = PublishSubject<Void>()
   private let targetIDSubject                   = BehaviorSubject<Int?>(value: nil)
   private let deleteIDSubject                   = PublishSubject<Int>()
@@ -101,6 +101,7 @@ final class BoardDetailViewModel {
   // MARK: - Initializations
   
   init(
+    boardBottomSheetController: BoardBottomSheetViewControllerType.Type,
     getFeedDetailUseCase: GetFeedDetailUseCase,
     getCommentsUseCase: GetCommentsUseCase,
     postCommentUseCase: PostCommentUseCase,
@@ -115,7 +116,7 @@ final class BoardDetailViewModel {
     self.editCommentUseCase   = editCommentUseCase
     self.likeFeedUseCase      = likeFeedUseCase
     
-    fetchInitialStateUI()
+    fetchInitialStateUI(boardBottomSheetController: boardBottomSheetController)
     createComments()
     pagingSetup()
     deleteComments()
@@ -130,7 +131,7 @@ final class BoardDetailViewModel {
 extension BoardDetailViewModel {
   
   /// 댓글 정보를 가져와 초기 상태의 UI를 업데이트합니다.
-  private func fetchInitialStateUI() {
+  private func fetchInitialStateUI(boardBottomSheetController: BoardBottomSheetViewControllerType.Type) {
     
     let feedObservable = getFeedDetailUseCase.execute()
     
@@ -157,7 +158,7 @@ extension BoardDetailViewModel {
       } else {
         accessType = .normal
       }
-      owner.boardBottomSheetParameterSubject.onNext((accessType, tuple.feed.isPinned))
+      owner.boardBottomSheetParameterSubject.onNext((boardBottomSheetController, accessType, tuple.feed.isPinned))
       
       owner.comments.formUnion(tuple.comments) // 댓글 삽입
       owner.setCollectionView(tuple.collectionView, content: tuple.feed.toBoardModel)
@@ -343,7 +344,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     showCommentBottomSheetSubject.asObservable()
   }
   
-  var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewController.AccessType, Bool)> {
+  var showBoardBottomSheetObservable: Observable<(BoardBottomSheetViewControllerType.Type, BoardBottomSheetViewController.AccessType, Bool)> {
     boardOptionTappedSubject
       .withLatestFrom(boardBottomSheetParameterSubject)
   }
