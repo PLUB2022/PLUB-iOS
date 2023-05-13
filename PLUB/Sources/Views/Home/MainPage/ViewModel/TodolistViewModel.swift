@@ -21,7 +21,6 @@ protocol TodolistViewModelType {
   // Output
   var todoTimelineModel: Driver<[TodolistModel]> { get }
   var successCompleteTodolist: Signal<Bool> { get }
-  var successProofTodolist: Signal<CompleteProofTodolistResponse> { get }
 }
 
 final class TodolistViewModel {
@@ -31,9 +30,8 @@ final class TodolistViewModel {
   private let selectingComplete = PublishSubject<Bool>()
   private let selectingPlubbingID = PublishSubject<Int>()
   private let selectingTodolistID = PublishSubject<Int>()
-  private let allTodoTimeline = BehaviorSubject<[InquireAllTodoTimelineResponse]>(value: [])
+  private let allTodoTimeline = BehaviorSubject<[TodolistModel]>(value: [])
   private let completeTodolist = PublishSubject<CompleteProofTodolistResponse>()
-  private let proofTodolist = PublishSubject<CompleteProofTodolistResponse>()
   private let whichUploadingImage = PublishSubject<UIImage?>()
   private let selectingLikeButton = PublishSubject<Int>()
   
@@ -60,6 +58,8 @@ final class TodolistViewModel {
     }
     
     successInquireAllTodoTimeline
+      .withUnretained(self)
+      .map { $0.parseFromResponseToModel(response: $1) }
       .bind(to: allTodoTimeline)
       .disposed(by: disposeBag)
   }
@@ -130,8 +130,21 @@ final class TodolistViewModel {
     )
       .flatMapLatest(TodolistService.shared.proofTodolist)
     
-    proofTodolist.subscribe(with: self) { owner, response in
-      owner.proofTodolist.onNext(response)
+    proofTodolist
+      .withLatestFrom(allTodoTimeline) { ($0, $1) }
+      .subscribe(with: self) { owner, result in
+        let (response, model) = result
+        
+        let changedModel = model.map { element in
+          guard let index = element.cellModel.checkTodoViewModels.firstIndex(where: { $0.todoID == response.todoID }) else {
+            return element
+          }
+          var element = element
+          element.cellModel.checkTodoViewModels[index].isProof = true
+          return element
+        }
+        
+        owner.allTodoTimeline.onNext(changedModel)
     }
     .disposed(by: disposeBag)
   }
@@ -202,21 +215,13 @@ extension TodolistViewModel: TodolistViewModelType {
   var todoTimelineModel: Driver<[TodolistModel]> { // 조회한 투두타임라인에 대한 데이터를 TodolistModel로 파싱한 값
     allTodoTimeline
       .withUnretained(self)
-      .map { owner, response in
-        let model = owner.parseFromResponseToModel(response: response)
-        return owner.sortedModelByDate(model: model)
-      }
+      .map { $0.sortedModelByDate(model: $1) }
       .asDriver(onErrorDriveWith: .empty())
   }
   
   var successCompleteTodolist: Signal<Bool> {
     completeTodolist
       .map { $0.isChecked }
-      .asSignal(onErrorSignalWith: .empty())
-  }
-  
-  var successProofTodolist: Signal<CompleteProofTodolistResponse> {
-    proofTodolist
       .asSignal(onErrorSignalWith: .empty())
   }
 }
