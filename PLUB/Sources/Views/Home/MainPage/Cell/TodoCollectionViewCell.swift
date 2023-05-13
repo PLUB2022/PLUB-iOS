@@ -25,7 +25,7 @@ struct TodoCollectionViewCellModel {
   let totalLikes: Int
   let isLike: Bool
   let isAuthor: Bool
-  let checkTodoViewModels: [CheckTodoViewModel]
+  var checkTodoViewModels: [CheckTodoViewModel]
   let nickname: String?
   
   init(response: InquireAllTodoTimelineResponse) {
