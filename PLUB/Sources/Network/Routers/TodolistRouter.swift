@@ -65,10 +65,7 @@ extension TodolistRouter: Router {
   }
   
   var headers: HeaderType {
-    switch self {
-    case .inquireAllTodoTimeline, .inquireTodolist, .completeTodolist, .proofTodolist, .cancelCompleteTodolist, .likeTodolist, .createTodo, .inquireTodolistByDate:
-      return .withAccessToken
-    }
+    return .withAccessToken
   }
 }
 
