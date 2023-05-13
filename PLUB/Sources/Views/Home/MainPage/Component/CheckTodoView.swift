@@ -20,7 +20,7 @@ struct CheckTodoViewModel {
   let todo: String
   let isChecked: Bool
   let isAuthor: Bool
-  let isProof: Bool
+  var isProof: Bool
 }
 
 final class CheckTodoView: UIView {
@@ -86,7 +86,7 @@ final class CheckTodoView: UIView {
   func configureUI(with model: CheckTodoViewModel) {
     self.model = model
     todoLabel.text = model.todo
-    self.isChecked = model.isChecked
+    self.isChecked = model.isChecked || model.isProof
     
     // 해당 투두가 인증되었거나 작성자가 아니라면 -> 체크버튼 비활성화
     checkboxButton.isEnabled = model.isProof || !model.isAuthor ? false : true
