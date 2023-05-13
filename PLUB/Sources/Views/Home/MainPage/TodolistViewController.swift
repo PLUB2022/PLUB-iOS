@@ -128,12 +128,12 @@ extension TodolistViewController: UICollectionViewDelegate, UICollectionViewData
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return model.count
+    return model[section].cellModel.checkTodoViewModels.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodoCollectionViewCell.identifier, for: indexPath) as? TodoCollectionViewCell ?? TodoCollectionViewCell()
-    cell.configureUI(with: model[indexPath.row].cellModel)
+    cell.configureUI(with: model[indexPath.section].cellModel)
     cell.delegate = self
     return cell
   }
@@ -158,7 +158,7 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
         width: view.bounds.width - 32,
         height: UIView.layoutFittingCompressedSize.height
       ),
-      model: model[indexPath.row].cellModel
+      model: model[indexPath.section].cellModel
     )
   }
 }

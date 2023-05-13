@@ -163,9 +163,9 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: TodoCollectionViewCellModel) {
-    guard let profileImageString = model.profileImageString,
-          let url = URL(string: profileImageString) else { return }
     self.model = model
+    
+    let url = URL(string: model.profileImageString ?? "")
     profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
     likeCount = model.totalLikes
     likeButton.isSelected = model.isLike
