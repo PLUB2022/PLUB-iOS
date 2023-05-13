@@ -12,7 +12,7 @@ import Then
 
 struct TodolistModel {
   let headerModel: TodoCollectionHeaderViewModel
-  let cellModel: TodoCollectionViewCellModel
+  var cellModel: TodoCollectionViewCellModel
 }
 
 final class TodolistViewController: BaseViewController {
@@ -111,13 +111,6 @@ final class TodolistViewController: BaseViewController {
         Log.debug("투두완료성공 \(success)")
       })
       .disposed(by: disposeBag)
-    
-    viewModel.successProofTodolist
-      .emit(with: self) { owner, success in
-        Log.debug("투두인증성공 \(success)")
-        owner.viewModel.selectPlubbingID.onNext(plubbingID)
-      }
-      .disposed(by: disposeBag)
   
   }
 }
@@ -128,7 +121,7 @@ extension TodolistViewController: UICollectionViewDelegate, UICollectionViewData
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return model[section].cellModel.checkTodoViewModels.count
+    return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
