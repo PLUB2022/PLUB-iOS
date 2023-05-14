@@ -179,13 +179,14 @@ final class MyFeedTableViewCell: UITableViewCell {
     wholeStackView.alignment = model.type == .photoAndText ? .top : .fill
     
     // change constraints according to `model.type`
-    if model.type != .photo {
+    switch model.type {
+    case .text, .photoAndText:
       contentImageView.snp.remakeConstraints {
         $0.size.lessThanOrEqualTo(90)
       }
-    } else {
+    case .photo:
       contentImageView.snp.remakeConstraints {
-        $0.height.lessThanOrEqualTo(222)
+        $0.size.equalTo(222)
       }
     }
   }
