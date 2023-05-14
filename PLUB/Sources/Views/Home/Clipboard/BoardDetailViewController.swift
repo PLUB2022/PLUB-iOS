@@ -160,10 +160,16 @@ final class BoardDetailViewController: BaseViewController {
     
     viewModel.showBoardBottomSheetObservable
       .subscribe(with: self) { owner, tuple in
-        let (accessType, isPinned) = tuple
-        let viewController = BoardBottomSheetViewController(accessType: accessType, isPinned: isPinned)
+        let (bottomSheetType, accessType, isPinned) = tuple
+        let viewController = bottomSheetType.init(accessType: accessType, isPinned: isPinned)
         viewController.delegate = owner
         owner.present(viewController, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.popViewControllerByMySelfObservable
+      .subscribe(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -211,7 +217,8 @@ extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
 
 extension BoardDetailViewController: BoardBottomSheetDelegate {
   func selectedBoardSheetType(type: BoardBottomSheetType) {
-    PLUBToast.makeToast(text: "\(type)")
+    viewModel.boardOptionObserver.onNext(type)
+    dismiss(animated: true)
   }
 }
 
