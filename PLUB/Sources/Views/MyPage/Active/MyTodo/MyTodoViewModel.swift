@@ -60,7 +60,7 @@ final class MyTodoViewModel {
               (
                 content: data.todoInfo.todoContent,
                 nextCursorID: data.todoInfo.todoContent.last?.todoID ?? 0,
-                isLast: data.todoInfo.last
+                isLast: data.todoInfo.isLast
               )
             }
         }
