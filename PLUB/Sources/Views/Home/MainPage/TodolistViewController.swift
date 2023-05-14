@@ -12,7 +12,7 @@ import Then
 
 struct TodolistModel {
   let headerModel: TodoCollectionHeaderViewModel
-  let cellModel: TodoCollectionViewCellModel
+  var cellModel: TodoCollectionViewCellModel
 }
 
 final class TodolistViewController: BaseViewController {
@@ -111,13 +111,6 @@ final class TodolistViewController: BaseViewController {
         Log.debug("투두완료성공 \(success)")
       })
       .disposed(by: disposeBag)
-    
-    viewModel.successProofTodolist
-      .emit(with: self) { owner, success in
-        Log.debug("투두인증성공 \(success)")
-        owner.viewModel.selectPlubbingID.onNext(plubbingID)
-      }
-      .disposed(by: disposeBag)
   
   }
 }
@@ -128,12 +121,12 @@ extension TodolistViewController: UICollectionViewDelegate, UICollectionViewData
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return model.count
+    return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodoCollectionViewCell.identifier, for: indexPath) as? TodoCollectionViewCell ?? TodoCollectionViewCell()
-    cell.configureUI(with: model[indexPath.row].cellModel)
+    cell.configureUI(with: model[indexPath.section].cellModel)
     cell.delegate = self
     return cell
   }
@@ -158,7 +151,7 @@ extension TodolistViewController: UICollectionViewDelegateFlowLayout {
         width: view.bounds.width - 32,
         height: UIView.layoutFittingCompressedSize.height
       ),
-      model: model[indexPath.row].cellModel
+      model: model[indexPath.section].cellModel
     )
   }
 }
@@ -181,8 +174,9 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
     viewModel.selectLikeButton.onNext(timelineID)
   }
   
-  func didTappedMoreButton() { /// 투두리스트 작성자에 따른 type 지정해줘야함
-    let bottomSheet = TodolistBottomSheetViewController(type: .report)
+  func didTappedMoreButton(isAuthor: Bool) { /// 투두리스트 작성자에 따른 type 지정해줘야함
+    ///
+    let bottomSheet = isAuthor ? TodolistBottomSheetViewController(type: .todoPlanner) : TodolistBottomSheetViewController(type: .report)
     present(bottomSheet, animated: true)
   }
 }

@@ -13,7 +13,7 @@ import SnapKit
 import Then
 
 protocol TodoCollectionViewCellDelegate: AnyObject {
-  func didTappedMoreButton()
+  func didTappedMoreButton(isAuthor: Bool)
   func didTappedLikeButton(timelineID: Int)
   func didTappedTodo(todoID: Int, isCompleted: Bool, model: TodoAlertModel)
 }
@@ -25,7 +25,7 @@ struct TodoCollectionViewCellModel {
   let totalLikes: Int
   let isLike: Bool
   let isAuthor: Bool
-  let checkTodoViewModels: [CheckTodoViewModel]
+  var checkTodoViewModels: [CheckTodoViewModel]
   let nickname: String?
   
   init(response: InquireAllTodoTimelineResponse) {
@@ -141,7 +141,8 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   private func bind() {
     moreButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedMoreButton()
+        guard let isAuthor = owner.model?.isAuthor else { return }
+        owner.delegate?.didTappedMoreButton(isAuthor: isAuthor)
       }
       .disposed(by: disposeBag)
     
@@ -163,9 +164,9 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: TodoCollectionViewCellModel) {
-    guard let profileImageString = model.profileImageString,
-          let url = URL(string: profileImageString) else { return }
     self.model = model
+    
+    let url = URL(string: model.profileImageString ?? "")
     profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "userDefaultImage"))
     likeCount = model.totalLikes
     likeButton.isSelected = model.isLike
