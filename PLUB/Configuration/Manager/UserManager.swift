@@ -108,6 +108,9 @@ extension UserManager {
     let recentKeywordList = recentKeywordList ?? []
     var filterList = recentKeywordList.filter { $0 != keyword }
     filterList.insert(keyword, at: 0)
+    if filterList.count > 10 {
+      filterList.removeLast()
+    }
     self.recentKeywordList = filterList
   }
   
