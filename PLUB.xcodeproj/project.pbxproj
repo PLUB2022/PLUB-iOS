@@ -406,6 +406,8 @@
 		C3B3435D29BE4A3000935B73 /* MyPlubbingParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B3435C29BE4A3000935B73 /* MyPlubbingParameter.swift */; };
 		C3C24CD3298FBA6D00056313 /* PeopleNumberToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */; };
 		C3C7197C29DC81C700A6DFD9 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C7197B29DC81C700A6DFD9 /* ProfileEditViewController.swift */; };
+		C3C8A71B2A10CF6500780DB0 /* MyTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8A71A2A10CF6500780DB0 /* MyTodoViewController.swift */; };
+		C3C8A71F2A10D54600780DB0 /* MyTodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8A71E2A10D54600780DB0 /* MyTodoViewModel.swift */; };
 		C3CD674A29B4B37C0052087E /* ScheduleParticipantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */; };
 		C3CD674E29B4DD9C0052087E /* ScheduleParticipantTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */; };
 		C3CD675029B4E5970052087E /* ScheduleParticipantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */; };
@@ -820,6 +822,8 @@
 		C3B3435C29BE4A3000935B73 /* MyPlubbingParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlubbingParameter.swift; sourceTree = "<group>"; };
 		C3C24CD2298FBA6D00056313 /* PeopleNumberToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleNumberToolTip.swift; sourceTree = "<group>"; };
 		C3C7197B29DC81C700A6DFD9 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		C3C8A71A2A10CF6500780DB0 /* MyTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTodoViewController.swift; sourceTree = "<group>"; };
+		C3C8A71E2A10D54600780DB0 /* MyTodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTodoViewModel.swift; sourceTree = "<group>"; };
 		C3CD674929B4B37C0052087E /* ScheduleParticipantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewController.swift; sourceTree = "<group>"; };
 		C3CD674D29B4DD9C0052087E /* ScheduleParticipantTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantTopView.swift; sourceTree = "<group>"; };
 		C3CD674F29B4E5970052087E /* ScheduleParticipantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleParticipantViewModel.swift; sourceTree = "<group>"; };
@@ -1845,6 +1849,7 @@
 				C3330AD429F9A1830023CB04 /* ActiveMeetingViewModel.swift */,
 				C374E79129FC1E36004738C2 /* Cell */,
 				C374E79829FC3BA7004738C2 /* Component */,
+				C3C8A7182A10CF3D00780DB0 /* MyTodo */,
 			);
 			path = Active;
 			sourceTree = "<group>";
@@ -2315,6 +2320,15 @@
 			path = ProfileEdit;
 			sourceTree = "<group>";
 		};
+		C3C8A7182A10CF3D00780DB0 /* MyTodo */ = {
+			isa = PBXGroup;
+			children = (
+				C3C8A71A2A10CF6500780DB0 /* MyTodoViewController.swift */,
+				C3C8A71E2A10D54600780DB0 /* MyTodoViewModel.swift */,
+			);
+			path = MyTodo;
+			sourceTree = "<group>";
+		};
 		C3CD675229B4FB3E0052087E /* ScheduleParticipant */ = {
 			isa = PBXGroup;
 			children = (
@@ -2581,6 +2595,7 @@
 				C3B3435B29BE3E5100935B73 /* MyPlubbingResponse.swift in Sources */,
 				BA2173B929F57A97000D72B1 /* DeleteImageUseCase.swift in Sources */,
 				BA8E2B40297461E6009DDF32 /* SignInRequest.swift in Sources */,
+				C3C8A71B2A10CF6500780DB0 /* MyTodoViewController.swift in Sources */,
 				70F1DFD6297950DD00F9BC83 /* CategoryRouter.swift in Sources */,
 				BA5D9ED529E3EE7400F06AB5 /* ArchiveRequest.swift in Sources */,
 				7085678828EEACFB008047DC /* InterestSelectCollectionViewCell.swift in Sources */,
@@ -2637,6 +2652,7 @@
 				BA5D9ECF29E3E9A300F06AB5 /* ArchiveRouter.swift in Sources */,
 				C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */,
 				BA876BA4296529100029CF34 /* IntroductionViewController.swift in Sources */,
+				C3C8A71F2A10D54600780DB0 /* MyTodoViewModel.swift in Sources */,
 				C3158EC9297D20C80016E231 /* QuestionTableViewCell.swift in Sources */,
 				BA4CCDFA29EAE6D50040D0D7 /* ArchivePopUpViewModel.swift in Sources */,
 				7085678E28EFC4FB008047DC /* RegisterInterestTableViewCell.swift in Sources */,
