@@ -50,7 +50,7 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
   
   private let moreButton = UIButton().then {
     $0.titleLabel?.font = .caption
-    $0.setTitle("전체 보기", for: .normal)
+    $0.setTitle("전체보기", for: .normal)
     $0.setTitleColor(.black, for: .normal)
   }
   
@@ -95,8 +95,18 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
       .disposed(by: disposeBag)
   }
   
-  func setupData(type: MyActivityType) {
+  func setupData(
+    type: MyActivityType,
+    isViewAll: Bool = true,
+    isDetail: Bool = false
+  ) {
     self.type = type
     titleLabel.text = type.titleText
+    moreButton.isHidden = !isViewAll
+    if isDetail {
+      titleLabel.snp.updateConstraints {
+        $0.top.equalToSuperview()
+      }
+    }
   }
 }

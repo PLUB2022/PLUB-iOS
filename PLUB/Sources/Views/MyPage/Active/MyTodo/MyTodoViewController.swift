@@ -84,7 +84,7 @@ extension MyTodoViewController: UITableViewDelegate {
         return UIView()
     }
 
-    headerView.setupData(type: .todo)
+    headerView.setupData(type: .todo, isViewAll: false, isDetail: true)
     return headerView
   }
 
