@@ -84,7 +84,7 @@ extension MyFeedViewController: UITableViewDelegate {
         return UIView()
     }
 
-    headerView.setupData(type: .post, isViewAll: false, isDetail: true)
+    headerView.setupData(type: .feed, isViewAll: false, isDetail: true)
     return headerView
   }
 
@@ -115,7 +115,7 @@ extension MyFeedViewController: UITableViewDataSource {
         for: indexPath
       ) as? NoActivityTableViewCell else { return UITableViewCell() }
 
-      cell.setupData(type: .post)
+      cell.setupData(type: .feed)
 
       return cell
     } else {

@@ -122,7 +122,7 @@ extension ActiveMeetingViewController: UITableViewDelegate {
     headerView.delegate = self
     switch MyActivityType.allCases[section] {
     case .todo: headerView.setupData(type: .todo, isViewAll: !viewModel.todoList.isEmpty)
-    case .post: headerView.setupData(type: .post, isViewAll: !viewModel.feedList.isEmpty)
+    case .feed: headerView.setupData(type: .feed, isViewAll: !viewModel.feedList.isEmpty)
     }
 
     return headerView
@@ -172,14 +172,14 @@ extension ActiveMeetingViewController: UITableViewDataSource {
         return cell
       }
       
-    case .post:
+    case .feed:
       if viewModel.feedList.isEmpty {
         guard let cell = tableView.dequeueReusableCell(
           withIdentifier: NoActivityTableViewCell.identifier,
           for: indexPath
         ) as? NoActivityTableViewCell else { return UITableViewCell() }
 
-        cell.setupData(type: .post)
+        cell.setupData(type: .feed)
 
         return cell
       } else {
@@ -201,7 +201,7 @@ extension ActiveMeetingViewController: UITableViewDataSource {
     case .todo:
       let todoCount = viewModel.todoList.count
       return todoCount == 0 ? 1 : todoCount
-    case .post:
+    case .feed:
       let feedCount = viewModel.feedList.count
       return feedCount == 0 ? 1 : feedCount
     }
@@ -220,7 +220,7 @@ extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
           )
       )
       navigationController?.pushViewController(vc, animated: true)
-    case .post:
+    case .feed:
       let vc = MyFeedViewController(
       viewModel:
         MyFeedViewModel(

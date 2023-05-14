@@ -12,13 +12,13 @@ import RxCocoa
 
 enum MyActivityType: CaseIterable {
   case todo
-  case post
+  case feed
   
   var titleText: String {
     switch self {
     case .todo:
       return "MY To-Do"
-    case .post:
+    case .feed:
       return "MY 게시글"
     }
   }
@@ -27,7 +27,7 @@ enum MyActivityType: CaseIterable {
     switch self {
     case .todo:
       return "To-Do 추가하러 가기"
-    case .post:
+    case .feed:
       return "새 게시글 작성하기"
     }
   }
