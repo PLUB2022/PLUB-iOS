@@ -121,8 +121,8 @@ extension ActiveMeetingViewController: UITableViewDelegate {
     }
     headerView.delegate = self
     switch MyActivityType.allCases[section] {
-    case .todo: headerView.setupData(type: .todo)
-    case .post: headerView.setupData(type: .post)
+    case .todo: headerView.setupData(type: .todo, isViewAll: !viewModel.todoList.isEmpty)
+    case .post: headerView.setupData(type: .post, isViewAll: !viewModel.feedList.isEmpty)
     }
 
     return headerView
