@@ -220,7 +220,15 @@ extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
           )
       )
       navigationController?.pushViewController(vc, animated: true)
-    case .post: break
+    case .post:
+      let vc = MyFeedViewController(
+      viewModel:
+        MyFeedViewModel(
+          plubbingID: viewModel.plubbingID,
+          inquireMyFeedUseCase: DefaultInquireMyFeedUseCase()
+        )
+    )
+    navigationController?.pushViewController(vc, animated: true)
     }
   }
 }
