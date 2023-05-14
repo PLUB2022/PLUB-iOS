@@ -174,8 +174,9 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
     viewModel.selectLikeButton.onNext(timelineID)
   }
   
-  func didTappedMoreButton() { /// 투두리스트 작성자에 따른 type 지정해줘야함
-    let bottomSheet = TodolistBottomSheetViewController(type: .report)
+  func didTappedMoreButton(isAuthor: Bool) { /// 투두리스트 작성자에 따른 type 지정해줘야함
+    ///
+    let bottomSheet = isAuthor ? TodolistBottomSheetViewController(type: .todoPlanner) : TodolistBottomSheetViewController(type: .report)
     present(bottomSheet, animated: true)
   }
 }
