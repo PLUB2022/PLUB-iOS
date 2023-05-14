@@ -50,7 +50,7 @@ final class ActiveMeetingViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     tableView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     recruitButton.snp.makeConstraints {
@@ -62,7 +62,6 @@ final class ActiveMeetingViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    setupNavigationBar()
   }
   
   override func bind() {
@@ -88,20 +87,6 @@ final class ActiveMeetingViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
   }
-  
-  private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "backButton"),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-  }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
-  }
 }
 
 // MARK: - UITableViewDelegate
@@ -119,10 +104,10 @@ extension ActiveMeetingViewController: UITableViewDelegate {
     guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyTodoSectionHeaderView.identifier) as? MyTodoSectionHeaderView else {
         return UIView()
     }
-
+    headerView.delegate = self
     switch MyActivityType.allCases[section] {
-    case .todo: headerView.setupData(type: .todo)
-    case .post: headerView.setupData(type: .post)
+    case .todo: headerView.setupData(type: .todo, isViewAll: !viewModel.todoList.isEmpty)
+    case .feed: headerView.setupData(type: .feed, isViewAll: !viewModel.feedList.isEmpty)
     }
 
     return headerView
@@ -172,14 +157,14 @@ extension ActiveMeetingViewController: UITableViewDataSource {
         return cell
       }
       
-    case .post:
+    case .feed:
       if viewModel.feedList.isEmpty {
         guard let cell = tableView.dequeueReusableCell(
           withIdentifier: NoActivityTableViewCell.identifier,
           for: indexPath
         ) as? NoActivityTableViewCell else { return UITableViewCell() }
 
-        cell.setupData(type: .post)
+        cell.setupData(type: .feed)
 
         return cell
       } else {
@@ -201,9 +186,34 @@ extension ActiveMeetingViewController: UITableViewDataSource {
     case .todo:
       let todoCount = viewModel.todoList.count
       return todoCount == 0 ? 1 : todoCount
-    case .post:
+    case .feed:
       let feedCount = viewModel.feedList.count
       return feedCount == 0 ? 1 : feedCount
+    }
+  }
+}
+
+extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
+  func moreButtonTapped(type: MyActivityType) {
+    switch type {
+    case .todo:
+      let vc = MyTodoViewController(
+        viewModel:
+          MyTodoViewModel(
+            plubbingID: viewModel.plubbingID,
+            inquireMyTodoUseCase: DefaultInquireMyTodoUseCase()
+          )
+      )
+      navigationController?.pushViewController(vc, animated: true)
+    case .feed:
+      let vc = MyFeedViewController(
+      viewModel:
+        MyFeedViewModel(
+          plubbingID: viewModel.plubbingID,
+          inquireMyFeedUseCase: DefaultInquireMyFeedUseCase()
+        )
+    )
+    navigationController?.pushViewController(vc, animated: true)
     }
   }
 }

@@ -20,11 +20,12 @@ struct MyTodoResponse: Codable {
 
 struct TodoInfo: Codable {
   let totalElements: Int
-  let last: Bool
+  let isLast: Bool
   let todoContent: [TodoContent]
   
   enum CodingKeys: String, CodingKey {
-    case totalElements, last
+    case totalElements
+    case isLast = "last"
     case todoContent = "content"
   }
 }

@@ -12,13 +12,13 @@ import RxCocoa
 
 enum MyActivityType: CaseIterable {
   case todo
-  case post
+  case feed
   
   var titleText: String {
     switch self {
     case .todo:
       return "MY To-Do"
-    case .post:
+    case .feed:
       return "MY 게시글"
     }
   }
@@ -27,7 +27,7 @@ enum MyActivityType: CaseIterable {
     switch self {
     case .todo:
       return "To-Do 추가하러 가기"
-    case .post:
+    case .feed:
       return "새 게시글 작성하기"
     }
   }
@@ -50,7 +50,7 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
   
   private let moreButton = UIButton().then {
     $0.titleLabel?.font = .caption
-    $0.setTitle("전체 보기", for: .normal)
+    $0.setTitle("전체보기", for: .normal)
     $0.setTitleColor(.black, for: .normal)
   }
   
@@ -95,8 +95,18 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
       .disposed(by: disposeBag)
   }
   
-  func setupData(type: MyActivityType) {
+  func setupData(
+    type: MyActivityType,
+    isViewAll: Bool = true,
+    isDetail: Bool = false
+  ) {
     self.type = type
     titleLabel.text = type.titleText
+    moreButton.isHidden = !isViewAll
+    if isDetail {
+      titleLabel.snp.updateConstraints {
+        $0.top.equalToSuperview()
+      }
+    }
   }
 }
