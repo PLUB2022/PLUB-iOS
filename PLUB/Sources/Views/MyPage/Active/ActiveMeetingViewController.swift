@@ -50,7 +50,7 @@ final class ActiveMeetingViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     tableView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     recruitButton.snp.makeConstraints {
