@@ -119,7 +119,7 @@ extension ActiveMeetingViewController: UITableViewDelegate {
     guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyTodoSectionHeaderView.identifier) as? MyTodoSectionHeaderView else {
         return UIView()
     }
-
+    headerView.delegate = self
     switch MyActivityType.allCases[section] {
     case .todo: headerView.setupData(type: .todo)
     case .post: headerView.setupData(type: .post)
@@ -204,6 +204,23 @@ extension ActiveMeetingViewController: UITableViewDataSource {
     case .post:
       let feedCount = viewModel.feedList.count
       return feedCount == 0 ? 1 : feedCount
+    }
+  }
+}
+
+extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
+  func moreButtonTapped(type: MyActivityType) {
+    switch type {
+    case .todo:
+      let vc = MyTodoViewController(
+        viewModel:
+          MyTodoViewModel(
+            plubbingID: viewModel.plubbingID,
+            inquireMyTodoUseCase: DefaultInquireMyTodoUseCase()
+          )
+      )
+      navigationController?.pushViewController(vc, animated: true)
+    case .post: break
     }
   }
 }
