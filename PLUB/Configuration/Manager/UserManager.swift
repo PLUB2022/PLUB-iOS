@@ -108,7 +108,12 @@ extension UserManager {
     let recentKeywordList = recentKeywordList ?? []
     var filterList = recentKeywordList.filter { $0 != keyword }
     filterList.insert(keyword, at: 0)
-    self.recentKeywordList = filterList
+    if filterList.count > 10 {
+      _ = filterList.popLast()
+      self.recentKeywordList = filterList
+    } else {
+      self.recentKeywordList = filterList
+    }
   }
   
   /// 최근 검색어목록에 특정 인덱스에 위치한 키워드를 삭제합니다
