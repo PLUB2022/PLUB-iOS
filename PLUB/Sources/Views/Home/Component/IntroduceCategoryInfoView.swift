@@ -11,13 +11,15 @@ import SnapKit
 import Then
 
 struct IntroduceCategoryInfoViewModel {
-  let recommendedText: String
+  let goal: String
   let meetingImageURL: String? // 이미지 URL
   let meetingImage: UIImage? // 원본 이미지
   let categoryInfoListModel: CategoryInfoListModel
 }
 
 final class IntroduceCategoryInfoView: UIView {
+  
+  private(set) var goal: String?
   
   private let meetingRecommendedLabel = UILabel().then {
     $0.font = .appFont(family: .nanum, size: 32)
@@ -68,7 +70,8 @@ final class IntroduceCategoryInfoView: UIView {
   }
   
   func configureUI(with model: IntroduceCategoryInfoViewModel) {
-    meetingRecommendedLabel.text = model.recommendedText
+    goal = model.goal
+    meetingRecommendedLabel.text = model.goal
     categoryInfoListView.configureUI(with: model.categoryInfoListModel)
     
     if let urlStr = model.meetingImageURL, let url = URL(string: urlStr) {

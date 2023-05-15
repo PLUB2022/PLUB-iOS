@@ -178,7 +178,7 @@ extension MeetingViewController: UICollectionViewDelegate, UICollectionViewDataS
     if indexPath.row < meetingList.count - 1 {
       guard let plubbing = meetingList[indexPath.row].plubbing else { return }
       // 플러빙 메인
-      let vc = MainPageViewController(plubbingID: plubbing.plubbingID)
+      let vc = MainPageViewController(plubbingID: plubbing.plubbingID, goal: plubbing.goal)
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
       self.navigationController?.pushViewController(vc, animated: true)

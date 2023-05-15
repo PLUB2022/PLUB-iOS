@@ -235,7 +235,8 @@ final class DetailRecruitmentViewController: BaseViewController {
     surroundMeetingButton.rx.tap
       .subscribe(with: self) { owner, _ in
         if !owner.isHost {
-          let vc = MainPageViewController(plubbingID: Int(owner.plubbingID))
+          guard let goal = owner.introduceCategoryInfoView.goal else { return }
+          let vc = MainPageViewController(plubbingID: Int(owner.plubbingID), goal: goal)
           vc.navigationItem.largeTitleDisplayMode = .never
           owner.navigationController?.pushViewController(vc, animated: true)
         }

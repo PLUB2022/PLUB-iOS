@@ -148,7 +148,7 @@ extension MeetingSummaryViewController {
     
     introduceCategoryInfoView.configureUI(
       with: IntroduceCategoryInfoViewModel(
-        recommendedText: "\"\(data.goal)\"",
+        goal: "\"\(data.goal)\"",
         meetingImageURL: nil,
         meetingImage: viewModel.mainImage,
         categoryInfoListModel: CategoryInfoListModel(
