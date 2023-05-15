@@ -37,6 +37,7 @@ enum MainPageFilterType: CaseIterable {
 final class MainPageViewController: BaseViewController {
   
   private let plubbingID: Int
+  private let recommendedText: String
   
   var currentPage = 0 {
     didSet {
@@ -79,7 +80,7 @@ final class MainPageViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private lazy var todolistViewController = TodolistViewController(plubbingID: plubbingID)
+  private lazy var todolistViewController = TodolistViewController(plubbingID: plubbingID, recommendedText: recommendedText)
   
   private var viewControllers: [UIViewController] {
     [
@@ -101,6 +102,7 @@ final class MainPageViewController: BaseViewController {
   
   init(plubbingID: Int, recommendedText: String) {
     self.plubbingID = plubbingID
+    self.recommendedText = recommendedText
     super.init(nibName: nil, bundle: nil)
   }
   

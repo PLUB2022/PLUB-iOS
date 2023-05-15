@@ -35,7 +35,6 @@ final class TodolistViewController: BaseViewController {
   
   private let titleLabel = UILabel().then {
     $0.font = .appFont(family: .nanum, size: 32)
-    $0.text = "“2주에 한 권씩”"
     $0.textAlignment = .center
     $0.numberOfLines = 0
     $0.sizeToFit()
@@ -56,9 +55,10 @@ final class TodolistViewController: BaseViewController {
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
   }
   
-  init(plubbingID: Int, viewModel: TodolistViewModelType = TodolistViewModel()) {
+  init(plubbingID: Int, recommendedText: String, viewModel: TodolistViewModelType = TodolistViewModel()) {
     self.viewModel = viewModel
     self.plubbingID = plubbingID
+    titleLabel.text = recommendedText
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
