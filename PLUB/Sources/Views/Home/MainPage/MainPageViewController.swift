@@ -29,7 +29,7 @@ enum MainPageFilterType: CaseIterable {
     case .board:
       return "+ 새 글 작성"
     case .todoList:
-      return "TO-DO 추가"
+      return "+ TO-DO 플래너"
     }
   }
 }
@@ -165,7 +165,7 @@ final class MainPageViewController: BaseViewController {
     writeButton.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(24)
       $0.centerX.equalToSuperview()
-      $0.width.equalTo(110)
+      $0.width.greaterThanOrEqualTo(110)
       $0.height.equalTo(32)
     }
   }
