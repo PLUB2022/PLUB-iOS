@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxRelay
 
-protocol AddTodoListViewModelType {
+protocol TodoPlannerViewModelType {
   var whichCreateTodoRequest: AnyObserver<CreateTodoRequest> { get }
   var whichInquireDate: AnyObserver<Date> { get }
   var selectPlubbingID: AnyObserver<Int> { get }
@@ -20,7 +20,7 @@ protocol AddTodoListViewModelType {
   var todolistModelByDate: Driver<AddTodoViewModel> { get }
 }
 
-final class AddTodoListViewModel: AddTodoListViewModelType {
+final class TodoPlannerViewModel: TodoPlannerViewModelType {
   
   private let disposeBag = DisposeBag()
   
@@ -51,7 +51,7 @@ final class AddTodoListViewModel: AddTodoListViewModelType {
     requestCompleteOrCancelTodo
       .withLatestFrom(todolistModelByCurrentDate) { ($0, $1) }
       .do(onNext: { Log.debug("투두완성 혹은 취소 성공 \($0.1)") })
-      .subscribe(with: self) { (owner: AddTodoListViewModel, result: (CompleteProofTodolistResponse, AddTodoViewModel)) in
+      .subscribe(with: self) { (owner: TodoPlannerViewModel, result: (CompleteProofTodolistResponse, AddTodoViewModel)) in
         let (response, model) = result
         let todoViewModel = TodoViewModel(response: response)
         owner.addTodoViewModel(what: todoViewModel, where: model)
@@ -71,7 +71,7 @@ final class AddTodoListViewModel: AddTodoListViewModelType {
     
     requestCreateTodo
       .withLatestFrom(todolistModelByCurrentDate) { ($0, $1) }
-      .subscribe(with: self) { (owner: AddTodoListViewModel, result: (CreateTodoResponse, AddTodoViewModel)) in
+      .subscribe(with: self) { (owner: TodoPlannerViewModel, result: (CreateTodoResponse, AddTodoViewModel)) in
         let (response, model) = result
         let todoViewModel = TodoViewModel(response: response)
         owner.addTodoViewModel(what: todoViewModel, where: model)
@@ -129,7 +129,7 @@ final class AddTodoListViewModel: AddTodoListViewModelType {
   }
 }
 
-extension AddTodoListViewModel {
+extension TodoPlannerViewModel {
   
   var selectPlubbingID: AnyObserver<Int> {
     whichPlubbingID.asObserver()

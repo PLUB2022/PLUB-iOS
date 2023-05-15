@@ -13,7 +13,7 @@ import Then
 
 final class TodoPlannerViewController: BaseViewController {
   
-  private let viewModel: AddTodoListViewModelType
+  private let viewModel: TodoPlannerViewModelType
   
   private let plubbingID: Int
   
@@ -60,7 +60,7 @@ final class TodoPlannerViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(viewModel: AddTodoListViewModelType = AddTodoListViewModel(), plubbingID: Int) {
+  init(viewModel: TodoPlannerViewModelType = TodoPlannerViewModel(), plubbingID: Int) {
     self.plubbingID = plubbingID
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
