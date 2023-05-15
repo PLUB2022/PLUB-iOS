@@ -180,7 +180,7 @@ extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, F
 
 extension TodoPlannerViewController: AddTodoViewDelegate {
   func tappedMoreButton(todoID: Int, isChecked: Bool) {
-    let bottomSheet = AddTodolistBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID)
+    let bottomSheet = TodoPlannerBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID)
     bottomSheet.delegate = self
     present(bottomSheet, animated: true)
   }
@@ -195,7 +195,7 @@ extension TodoPlannerViewController: AddTodoViewDelegate {
   }
 }
 
-extension TodoPlannerViewController: AddTodolistBottomSheetDelegate {
+extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
   func proofImage(todoID: Int) {
     
   }

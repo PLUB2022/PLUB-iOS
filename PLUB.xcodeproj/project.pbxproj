@@ -42,7 +42,7 @@
 		705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820D29B1142800830C4F /* MainPageHeaderView.swift */; };
 		705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820F29B127DF00830C4F /* MainPageNavigationView.swift */; };
 		705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 705F821129B2FCEC00830C4F /* GoogleService-Info.plist */; };
-		705FD2742A0E895800F353FE /* AddTodolistBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2732A0E895800F353FE /* AddTodolistBottomSheetViewController.swift */; };
+		705FD2742A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2732A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift */; };
 		706315962A0BA93400DD8EFE /* TodoPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315952A0BA93400DD8EFE /* TodoPlannerViewModel.swift */; };
 		706315982A0BAA6000DD8EFE /* CreateTodoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315972A0BAA6000DD8EFE /* CreateTodoRequest.swift */; };
 		7063159A2A0BAAE200DD8EFE /* CreateTodoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315992A0BAAE200DD8EFE /* CreateTodoResponse.swift */; };
@@ -470,7 +470,7 @@
 		705F820D29B1142800830C4F /* MainPageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageHeaderView.swift; sourceTree = "<group>"; };
 		705F820F29B127DF00830C4F /* MainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageNavigationView.swift; sourceTree = "<group>"; };
 		705F821129B2FCEC00830C4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		705FD2732A0E895800F353FE /* AddTodolistBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodolistBottomSheetViewController.swift; sourceTree = "<group>"; };
+		705FD2732A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPlannerBottomSheetViewController.swift; sourceTree = "<group>"; };
 		706315952A0BA93400DD8EFE /* TodoPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPlannerViewModel.swift; sourceTree = "<group>"; };
 		706315972A0BAA6000DD8EFE /* CreateTodoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTodoRequest.swift; sourceTree = "<group>"; };
 		706315992A0BAAE200DD8EFE /* CreateTodoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTodoResponse.swift; sourceTree = "<group>"; };
@@ -1092,7 +1092,7 @@
 				70727A4629D6D507003DE956 /* TodoInfoView.swift */,
 				70FE55312A08CC5E00F11097 /* AddTodoView.swift */,
 				7063159B2A0BB0E700DD8EFE /* TodoView.swift */,
-				705FD2732A0E895800F353FE /* AddTodolistBottomSheetViewController.swift */,
+				705FD2732A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2901,7 +2901,7 @@
 				C3FC181729852D370083039A /* QuestionHeaderView.swift in Sources */,
 				C374E79A29FC3BCA004738C2 /* TodoListView.swift in Sources */,
 				C34F048829C7203600E5B67E /* MeetingCreateSuccessViewController.swift in Sources */,
-				705FD2742A0E895800F353FE /* AddTodolistBottomSheetViewController.swift in Sources */,
+				705FD2742A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift in Sources */,
 				C38C573E29EC5910002550DD /* MeetingMemberResponse.swift in Sources */,
 				706315982A0BAA6000DD8EFE /* CreateTodoRequest.swift in Sources */,
 				70727A4329D5D679003DE956 /* TodoAlertController.swift in Sources */,
