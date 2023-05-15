@@ -188,7 +188,7 @@ final class MainPageViewController: BaseViewController {
           owner.navigationController?.pushViewController(vc, animated: true)
         }
         else {
-          let vc = AddTodoListViewController(plubbingID: owner.plubbingID)
+          let vc = TodoPlannerViewController(plubbingID: owner.plubbingID)
           vc.navigationItem.largeTitleDisplayMode = .never
           vc.title = owner.title
           owner.navigationController?.pushViewController(vc, animated: true)

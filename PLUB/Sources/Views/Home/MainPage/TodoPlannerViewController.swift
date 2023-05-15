@@ -11,7 +11,7 @@ import FSCalendar
 import SnapKit
 import Then
 
-final class AddTodoListViewController: BaseViewController {
+final class TodoPlannerViewController: BaseViewController {
   
   private let viewModel: AddTodoListViewModelType
   
@@ -119,7 +119,7 @@ final class AddTodoListViewController: BaseViewController {
   }
 }
 
-extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
   func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
       return .main
   }
@@ -178,7 +178,7 @@ extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, F
   }
 }
 
-extension AddTodoListViewController: AddTodoViewDelegate {
+extension TodoPlannerViewController: AddTodoViewDelegate {
   func tappedMoreButton(todoID: Int, isChecked: Bool) {
     let bottomSheet = AddTodolistBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID)
     bottomSheet.delegate = self
@@ -195,7 +195,7 @@ extension AddTodoListViewController: AddTodoViewDelegate {
   }
 }
 
-extension AddTodoListViewController: AddTodolistBottomSheetDelegate {
+extension TodoPlannerViewController: AddTodolistBottomSheetDelegate {
   func proofImage(todoID: Int) {
     
   }
