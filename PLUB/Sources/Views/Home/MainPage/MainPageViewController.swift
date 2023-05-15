@@ -100,7 +100,7 @@ final class MainPageViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(plubbingID: Int, recommendedText: String, meetingTitle: String) {
+  init(plubbingID: Int, recommendedText: String) {
     self.plubbingID = plubbingID
     self.recommendedText = recommendedText
     super.init(nibName: nil, bundle: nil)
@@ -127,9 +127,8 @@ final class MainPageViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
-    title = "요란한 밧줄"
+    navigationItem.title = title
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
     
     let scrollView = pageViewController.view.subviews
       .compactMap { $0 as? UIScrollView }
@@ -185,13 +184,13 @@ final class MainPageViewController: BaseViewController {
         if owner.currentPage == 0 {
           let vc = CreateBoardViewController(plubbingID: owner.plubbingID)
           vc.navigationItem.largeTitleDisplayMode = .never
-          vc.title = "요란한 밧줄"
+          vc.title = owner.title
           owner.navigationController?.pushViewController(vc, animated: true)
         }
         else {
           let vc = AddTodoListViewController(plubbingID: owner.plubbingID)
           vc.navigationItem.largeTitleDisplayMode = .never
-          vc.title = "요란한 밧줄"
+          vc.title = owner.title
           owner.navigationController?.pushViewController(vc, animated: true)
         }
       }
@@ -234,6 +233,7 @@ extension MainPageViewController: UIScrollViewDelegate {
 extension MainPageViewController: BoardViewControllerDelegate {
   func didTappedBoardClipboardHeaderView() {
     let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: plubbingID))
+    vc.title = title
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
@@ -242,6 +242,7 @@ extension MainPageViewController: BoardViewControllerDelegate {
     let vc = BoardDetailViewController(
       viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: plubbingID, feedID: content.feedID)
     )
+    vc.title = title
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

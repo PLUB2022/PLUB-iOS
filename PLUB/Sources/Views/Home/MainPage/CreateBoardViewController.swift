@@ -97,6 +97,7 @@ final class CreateBoardViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     addPhotoImageView.addGestureRecognizer(tapGesture)
+    navigationItem.title = title
   }
   
   override func setupLayouts() {

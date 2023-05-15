@@ -84,6 +84,7 @@ final class AddTodoListViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     viewModel.whichInquireDate.onNext(Date())
+    navigationItem.title = title
   }
   
   override func setupLayouts() {
