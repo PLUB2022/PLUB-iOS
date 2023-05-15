@@ -100,7 +100,7 @@ final class MainPageViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(plubbingID: Int, recommendedText: String) {
+  init(plubbingID: Int, recommendedText: String, meetingTitle: String) {
     self.plubbingID = plubbingID
     self.recommendedText = recommendedText
     super.init(nibName: nil, bundle: nil)
