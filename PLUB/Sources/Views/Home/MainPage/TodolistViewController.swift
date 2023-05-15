@@ -55,10 +55,10 @@ final class TodolistViewController: BaseViewController {
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
   }
   
-  init(plubbingID: Int, recommendedText: String, viewModel: TodolistViewModelType = TodolistViewModel()) {
+  init(plubbingID: Int, goal: String, viewModel: TodolistViewModelType = TodolistViewModel()) {
     self.viewModel = viewModel
     self.plubbingID = plubbingID
-    titleLabel.text = recommendedText
+    titleLabel.text = goal
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
