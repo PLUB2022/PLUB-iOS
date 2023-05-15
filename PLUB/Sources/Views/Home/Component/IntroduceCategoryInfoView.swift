@@ -19,6 +19,8 @@ struct IntroduceCategoryInfoViewModel {
 
 final class IntroduceCategoryInfoView: UIView {
   
+  private(set) var recommendedText: String?
+  
   private let meetingRecommendedLabel = UILabel().then {
     $0.font = .appFont(family: .nanum, size: 32)
     $0.textColor = .main
@@ -68,6 +70,7 @@ final class IntroduceCategoryInfoView: UIView {
   }
   
   func configureUI(with model: IntroduceCategoryInfoViewModel) {
+    recommendedText = model.recommendedText
     meetingRecommendedLabel.text = model.recommendedText
     categoryInfoListView.configureUI(with: model.categoryInfoListModel)
     

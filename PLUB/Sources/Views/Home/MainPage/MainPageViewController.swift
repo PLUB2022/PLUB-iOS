@@ -99,7 +99,7 @@ final class MainPageViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(plubbingID: Int) {
+  init(plubbingID: Int, recommendedText: String) {
     self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
   }

@@ -235,7 +235,8 @@ final class DetailRecruitmentViewController: BaseViewController {
     surroundMeetingButton.rx.tap
       .subscribe(with: self) { owner, _ in
         if !owner.isHost {
-          let vc = MainPageViewController(plubbingID: Int(owner.plubbingID))
+          guard let recommendText = owner.introduceCategoryInfoView.recommendedText else { return }
+          let vc = MainPageViewController(plubbingID: Int(owner.plubbingID), recommendedText: recommendText)
           vc.navigationItem.largeTitleDisplayMode = .never
           owner.navigationController?.pushViewController(vc, animated: true)
         }
