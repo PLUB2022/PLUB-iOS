@@ -12,6 +12,10 @@ import Then
 
 final class AnnouncementViewController: BaseViewController {
   
+  // MARK: - Properties
+  
+  private let viewModel: AnnouncementViewModelType
+  
   // MARK: - UI Components
   
   // MARK: Header
@@ -42,6 +46,17 @@ final class AnnouncementViewController: BaseViewController {
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
     $0.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: .init(appearance: .insetGrouped))
     $0.showsVerticalScrollIndicator = false
+  }
+  
+  // MARK: - Initializations
+  
+  init(viewModel: AnnouncementViewModelType) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   // MARK: - Life Cycles
