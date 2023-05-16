@@ -20,7 +20,7 @@
 		70197B812955A68C000503F6 /* CategoryInfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70197B802955A68C000503F6 /* CategoryInfoListView.swift */; };
 		701A9C9C29B72656006F53C2 /* MainPageClipboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701A9C9B29B72656006F53C2 /* MainPageClipboardView.swift */; };
 		701A9C9E29BB2178006F53C2 /* BoardClipboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701A9C9D29BB2178006F53C2 /* BoardClipboardHeaderView.swift */; };
-		702876B1299B788400E57509 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B0299B788400E57509 /* NoticeViewController.swift */; };
+		702876B1299B788400E57509 /* AnnouncementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B0299B788400E57509 /* AnnouncementViewController.swift */; };
 		702876B3299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */; };
 		702876B5299BAD0A00E57509 /* ParticipantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B4299BAD0A00E57509 /* ParticipantCollectionViewCell.swift */; };
 		702876B7299E429C00E57509 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702876B6299E429C00E57509 /* BookmarkViewController.swift */; };
@@ -452,7 +452,7 @@
 		70197B802955A68C000503F6 /* CategoryInfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInfoListView.swift; sourceTree = "<group>"; };
 		701A9C9B29B72656006F53C2 /* MainPageClipboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageClipboardView.swift; sourceTree = "<group>"; };
 		701A9C9D29BB2178006F53C2 /* BoardClipboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardClipboardHeaderView.swift; sourceTree = "<group>"; };
-		702876B0299B788400E57509 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
+		702876B0299B788400E57509 /* AnnouncementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewController.swift; sourceTree = "<group>"; };
 		702876B2299BA8AB00E57509 /* ParticipantBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantBottomSheetViewController.swift; sourceTree = "<group>"; };
 		702876B4299BAD0A00E57509 /* ParticipantCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantCollectionViewCell.swift; sourceTree = "<group>"; };
 		702876B6299E429C00E57509 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
@@ -991,12 +991,12 @@
 			path = SelectCategory;
 			sourceTree = "<group>";
 		};
-		702876AF299B787700E57509 /* Notice */ = {
+		702876AF299B787700E57509 /* Announcement */ = {
 			isa = PBXGroup;
 			children = (
-				702876B0299B788400E57509 /* NoticeViewController.swift */,
+				702876B0299B788400E57509 /* AnnouncementViewController.swift */,
 			);
-			path = Notice;
+			path = Announcement;
 			sourceTree = "<group>";
 		};
 		702876BC29A374B100E57509 /* MeetingSchedule */ = {
@@ -1339,7 +1339,7 @@
 				702876BE29A374E900E57509 /* Clipboard */,
 				702876BD29A374C500E57509 /* Archive */,
 				702876BC29A374B100E57509 /* MeetingSchedule */,
-				702876AF299B787700E57509 /* Notice */,
+				702876AF299B787700E57509 /* Announcement */,
 				70197B6C29535BA2000503F6 /* ViewModel */,
 				704AC7932938E7EA008C3A88 /* Model */,
 				7095A588292E58EE002A52E6 /* Component */,
@@ -2742,7 +2742,7 @@
 				BADCB3F229F6A008000B43D6 /* NotificationViewController.swift in Sources */,
 				70BD5F3929684EAC002CBA89 /* HomeAlertController.swift in Sources */,
 				BA771652296FBF4400762362 /* KeyChainWrapper.swift in Sources */,
-				702876B1299B788400E57509 /* NoticeViewController.swift in Sources */,
+				702876B1299B788400E57509 /* AnnouncementViewController.swift in Sources */,
 				C3B04E4429816C7E00188E60 /* ImageService.swift in Sources */,
 				C328B4812A0AAB11000856BB /* Ex+Notification.Name.swift in Sources */,
 				705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */,
