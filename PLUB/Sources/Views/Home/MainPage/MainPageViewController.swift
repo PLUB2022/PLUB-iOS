@@ -268,6 +268,13 @@ extension MainPageViewController: MainPageHeaderViewDelegate {
   func didTappedMainPageBackButton() {
     self.navigationController?.popViewController(animated: true)
   }
+  
+  func didTappedNoticeButton() {
+    let vc = NotificationViewController(viewModel: NotificationViewModel())
+    vc.title = title
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
+  }
 }
 
 extension MainPageViewController: MainPageNavigationViewDelegate {
@@ -279,7 +286,7 @@ extension MainPageViewController: MainPageNavigationViewDelegate {
         deleteArchiveUseCase: DefaultDeleteArchiveUseCase(plubbingID: plubbingID)
       )
     )
-    vc.title = "" // 추후에 메인페이지헤더뷰에 대한 데이터를 올바르게 받아올 경우 코드 추가
+    vc.title = title
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
