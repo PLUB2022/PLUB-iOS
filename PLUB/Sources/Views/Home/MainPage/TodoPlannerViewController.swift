@@ -121,14 +121,14 @@ final class TodoPlannerViewController: BaseViewController {
 
 extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
   func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
-      return .main
+    return .main
   }
   
   func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
     if Calendar.current.isDateInToday(date) {
       return .white
     }
-      return nil
+    return nil
   }
   
   func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -197,14 +197,14 @@ extension TodoPlannerViewController: AddTodoViewDelegate {
 
 extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
   func proofImage(todoID: Int) {
-    
+    Log.debug("투두인증 \(todoID)")
   }
   
   func editTodo(todoID: Int) {
-    
+    Log.debug("투두작성 \(todoID)")
   }
   
   func deleteTodo(todoID: Int) {
-    
+    Log.debug("투두삭제 \(todoID)")
   }
 }
