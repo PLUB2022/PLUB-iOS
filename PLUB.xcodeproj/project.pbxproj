@@ -259,6 +259,7 @@
 		BAC923DF29546BF500385841 /* BirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC923DE29546BF500385841 /* BirthViewController.swift */; };
 		BAC9794529CF0E9E00A5DF1B /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */; };
 		BACDD13D2A1395460095DD1B /* AnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD13C2A1395460095DD1B /* AnnouncementViewModel.swift */; };
+		BACDD1402A148ECB0095DD1B /* AnnouncementContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD13F2A148ECB0095DD1B /* AnnouncementContent.swift */; };
 		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
 		BADCB3EE29F6683E000B43D6 /* LikeFeedUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */; };
 		BADCB3F229F6A008000B43D6 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */; };
@@ -682,6 +683,7 @@
 		BAC923DE29546BF500385841 /* BirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthViewController.swift; sourceTree = "<group>"; };
 		BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BACDD13C2A1395460095DD1B /* AnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewModel.swift; sourceTree = "<group>"; };
+		BACDD13F2A148ECB0095DD1B /* AnnouncementContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementContent.swift; sourceTree = "<group>"; };
 		BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeFeedUseCase.swift; sourceTree = "<group>"; };
 		BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BADCB3F129F6A008000B43D6 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -1308,6 +1310,7 @@
 			children = (
 				BA3D300A29DDBA4700B56E98 /* GeneralModels */,
 				C3C24CD42990078700056313 /* Account */,
+				BACDD13E2A148EAD0095DD1B /* Announcement */,
 				BA5D9ED129E3EE4000F06AB5 /* Archive */,
 				C3C24CD52990079900056313 /* Auth */,
 				C3C24CD7299007DE00056313 /* Category */,
@@ -1675,6 +1678,14 @@
 				BAC5EF34298B719A00F3955E /* Congratuation.json */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		BACDD13E2A148EAD0095DD1B /* Announcement */ = {
+			isa = PBXGroup;
+			children = (
+				BACDD13F2A148ECB0095DD1B /* AnnouncementContent.swift */,
+			);
+			path = Announcement;
 			sourceTree = "<group>";
 		};
 		BAD32EEA29921D3800EBF230 /* ViewModel */ = {
@@ -2942,6 +2953,7 @@
 				706315982A0BAA6000DD8EFE /* CreateTodoRequest.swift in Sources */,
 				70727A4329D5D679003DE956 /* TodoAlertController.swift in Sources */,
 				7085678C28EFBDC1008047DC /* RegisterInterestViewController.swift in Sources */,
+				BACDD1402A148ECB0095DD1B /* AnnouncementContent.swift in Sources */,
 				C36E64CF29F1AEE300C6C3CF /* EditApplicationUseCase.swift in Sources */,
 				C374E79529FC1E7E004738C2 /* MyTodoSectionHeaderView.swift in Sources */,
 				BA1FC12129A5E0DF00AB3F91 /* FeedsRouter.swift in Sources */,
