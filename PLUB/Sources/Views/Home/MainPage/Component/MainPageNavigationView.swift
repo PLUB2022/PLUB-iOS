@@ -7,24 +7,26 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
 protocol MainPageNavigationViewDelegate: AnyObject {
   func didTappedArchiveButton()
+  func didTappedNoticeButton()
 }
 
 final class MainPageNavigationView: UIStackView {
   
   weak var delegate: MainPageNavigationViewDelegate?
+  private let disposeBag = DisposeBag()
   
-  private let speakerBlack = UIButton().then {
+  private let speakerButton = UIButton().then {
     $0.setImage(UIImage(named: "speakerBlack"), for: .normal)
   }
   
   private let archiveButton = UIButton().then {
     $0.setImage(UIImage(named: "photoStackBlack"), for: .normal)
-    $0.addTarget(self, action: #selector(didTappedArchiveButton), for: .touchUpInside)
   }
   
   private let verticalEllipsisBlack = UIButton().then {
@@ -34,6 +36,7 @@ final class MainPageNavigationView: UIStackView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init(coder: NSCoder) {
@@ -41,10 +44,20 @@ final class MainPageNavigationView: UIStackView {
   }
   
   private func configureUI() {
-    [speakerBlack, archiveButton, verticalEllipsisBlack].forEach { addArrangedSubview($0) }
+    [speakerButton, archiveButton, verticalEllipsisBlack].forEach { addArrangedSubview($0) }
   }
   
-  @objc private func didTappedArchiveButton() {
-    delegate?.didTappedArchiveButton()
+  private func bind() {
+    speakerButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedNoticeButton()
+      }
+      .disposed(by: disposeBag)
+    
+    archiveButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedArchiveButton()
+      }
+      .disposed(by: disposeBag)
   }
 }

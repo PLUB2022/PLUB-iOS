@@ -29,7 +29,7 @@ enum MainPageFilterType: CaseIterable {
     case .board:
       return "+ 새 글 작성"
     case .todoList:
-      return "TO-DO 추가"
+      return "+ TO-DO 플래너"
     }
   }
 }
@@ -127,9 +127,8 @@ final class MainPageViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
-    title = "요란한 밧줄"
+    navigationItem.title = title
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: mainpageNavigationView)
     
     let scrollView = pageViewController.view.subviews
       .compactMap { $0 as? UIScrollView }
@@ -166,7 +165,7 @@ final class MainPageViewController: BaseViewController {
     writeButton.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(24)
       $0.centerX.equalToSuperview()
-      $0.width.equalTo(110)
+      $0.width.greaterThanOrEqualTo(110)
       $0.height.equalTo(32)
     }
   }
@@ -185,13 +184,13 @@ final class MainPageViewController: BaseViewController {
         if owner.currentPage == 0 {
           let vc = CreateBoardViewController(plubbingID: owner.plubbingID)
           vc.navigationItem.largeTitleDisplayMode = .never
-          vc.title = "요란한 밧줄"
+          vc.title = owner.title
           owner.navigationController?.pushViewController(vc, animated: true)
         }
         else {
-          let vc = AddTodoListViewController(plubbingID: owner.plubbingID)
+          let vc = TodoPlannerViewController(plubbingID: owner.plubbingID)
           vc.navigationItem.largeTitleDisplayMode = .never
-          vc.title = "요란한 밧줄"
+          vc.title = owner.title
           owner.navigationController?.pushViewController(vc, animated: true)
         }
       }
@@ -234,6 +233,7 @@ extension MainPageViewController: UIScrollViewDelegate {
 extension MainPageViewController: BoardViewControllerDelegate {
   func didTappedBoardClipboardHeaderView() {
     let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: plubbingID))
+    vc.title = title
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }
@@ -242,6 +242,7 @@ extension MainPageViewController: BoardViewControllerDelegate {
     let vc = BoardDetailViewController(
       viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: plubbingID, feedID: content.feedID)
     )
+    vc.title = title
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
@@ -267,6 +268,13 @@ extension MainPageViewController: MainPageHeaderViewDelegate {
   func didTappedMainPageBackButton() {
     self.navigationController?.popViewController(animated: true)
   }
+  
+  func didTappedNoticeButton() {
+    let vc = NotificationViewController(viewModel: NotificationViewModel())
+    vc.title = title
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
+  }
 }
 
 extension MainPageViewController: MainPageNavigationViewDelegate {
@@ -278,7 +286,7 @@ extension MainPageViewController: MainPageNavigationViewDelegate {
         deleteArchiveUseCase: DefaultDeleteArchiveUseCase(plubbingID: plubbingID)
       )
     )
-    vc.title = "" // 추후에 메인페이지헤더뷰에 대한 데이터를 올바르게 받아올 경우 코드 추가
+    vc.title = title
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

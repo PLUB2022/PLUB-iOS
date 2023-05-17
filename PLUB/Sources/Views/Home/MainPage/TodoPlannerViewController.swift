@@ -11,9 +11,9 @@ import FSCalendar
 import SnapKit
 import Then
 
-final class AddTodoListViewController: BaseViewController {
+final class TodoPlannerViewController: BaseViewController {
   
-  private let viewModel: AddTodoListViewModelType
+  private let viewModel: TodoPlannerViewModelType
   
   private let plubbingID: Int
   
@@ -60,7 +60,7 @@ final class AddTodoListViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(viewModel: AddTodoListViewModelType = AddTodoListViewModel(), plubbingID: Int) {
+  init(viewModel: TodoPlannerViewModelType = TodoPlannerViewModel(), plubbingID: Int) {
     self.plubbingID = plubbingID
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -84,6 +84,7 @@ final class AddTodoListViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     viewModel.whichInquireDate.onNext(Date())
+    navigationItem.title = title
   }
   
   override func setupLayouts() {
@@ -118,16 +119,16 @@ final class AddTodoListViewController: BaseViewController {
   }
 }
 
-extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
   func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
-      return .main
+    return .main
   }
   
   func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
     if Calendar.current.isDateInToday(date) {
       return .white
     }
-      return nil
+    return nil
   }
   
   func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -177,9 +178,9 @@ extension AddTodoListViewController: FSCalendarDelegate, FSCalendarDataSource, F
   }
 }
 
-extension AddTodoListViewController: AddTodoViewDelegate {
+extension TodoPlannerViewController: AddTodoViewDelegate {
   func tappedMoreButton(todoID: Int, isChecked: Bool) {
-    let bottomSheet = AddTodolistBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID)
+    let bottomSheet = TodoPlannerBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID)
     bottomSheet.delegate = self
     present(bottomSheet, animated: true)
   }
@@ -194,16 +195,16 @@ extension AddTodoListViewController: AddTodoViewDelegate {
   }
 }
 
-extension AddTodoListViewController: AddTodolistBottomSheetDelegate {
+extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
   func proofImage(todoID: Int) {
-    
+    Log.debug("투두인증 \(todoID)")
   }
   
   func editTodo(todoID: Int) {
-    
+    Log.debug("투두작성 \(todoID)")
   }
   
   func deleteTodo(todoID: Int) {
-    
+    Log.debug("투두삭제 \(todoID)")
   }
 }

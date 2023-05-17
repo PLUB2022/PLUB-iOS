@@ -15,6 +15,7 @@ import Then
 protocol MainPageHeaderViewDelegate: AnyObject {
   func didTappedMainPageBackButton()
   func didTappedArchiveButton()
+  func didTappedNoticeButton()
 }
 
 class MainPageHeaderView: UIView {
@@ -39,7 +40,6 @@ class MainPageHeaderView: UIView {
   
   private let archiveButton = UIButton().then {
     $0.setImage(UIImage(named: "photoStackWhite"), for: .normal)
-    $0.addTarget(self, action: #selector(didTappedArchiveButton), for: .touchUpInside)
   }
   
   private let moreButton = UIButton().then {
@@ -86,9 +86,17 @@ class MainPageHeaderView: UIView {
         owner.delegate?.didTappedMainPageBackButton()
       }
       .disposed(by: disposeBag)
-  }
-  
-  @objc private func didTappedArchiveButton() {
-    delegate?.didTappedArchiveButton()
+    
+    archiveButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedArchiveButton()
+      }
+      .disposed(by: disposeBag)
+    
+    speakerButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedNoticeButton()
+      }
+      .disposed(by: disposeBag)
   }
 }

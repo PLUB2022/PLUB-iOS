@@ -18,6 +18,8 @@ struct IntroduceCategoryTitleViewModel {
 
 final class IntroduceCategoryTitleView: UIView {
   
+  private(set) var meetingTitle: String?
+  
   private let meetingTitleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .systemFont(ofSize: 18)
@@ -65,6 +67,7 @@ final class IntroduceCategoryTitleView: UIView {
   }
   
   func configureUI(with model: IntroduceCategoryTitleViewModel) {
+    meetingTitle = model.title
     meetingTitleLabel.text = model.title
     introduceTitleLabel.text = model.name
     

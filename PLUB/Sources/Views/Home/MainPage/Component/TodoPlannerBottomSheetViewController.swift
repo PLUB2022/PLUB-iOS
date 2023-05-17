@@ -11,22 +11,22 @@ import RxSwift
 import SnapKit
 import Then
 
-enum AddTodolistBottomSheetType {
+enum TodoPlannerBottomSheetType {
   case complete
   case noComplete
 }
 
-protocol AddTodolistBottomSheetDelegate: AnyObject {
+protocol TodoPlannerBottomSheetDelegate: AnyObject {
   func proofImage(todoID: Int)
   func editTodo(todoID: Int)
   func deleteTodo(todoID: Int)
 }
 
-final class AddTodolistBottomSheetViewController: BottomSheetViewController {
+final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
   
-  weak var delegate: AddTodolistBottomSheetDelegate?
+  weak var delegate: TodoPlannerBottomSheetDelegate?
   
-  private let type: AddTodolistBottomSheetType
+  private let type: TodoPlannerBottomSheetType
   private let todoID: Int
   
   private let stackView = UIStackView().then {
@@ -38,7 +38,7 @@ final class AddTodolistBottomSheetViewController: BottomSheetViewController {
   private let editTodoListView = BottomSheetListView(text: "TO-DO 수정", image: "editBlack")
   private let deleteTodoListView = BottomSheetListView(text: "TO-DO 삭제", image: "trashRed", textColor: .error)
   
-  init(type: AddTodolistBottomSheetType, todoID: Int) {
+  init(type: TodoPlannerBottomSheetType, todoID: Int) {
     self.type = type
     self.todoID = todoID
     super.init(nibName: nil, bundle: nil)
