@@ -15,6 +15,8 @@ protocol AnnouncementViewModelType {
   
   var setCollectionViewObserver: AnyObserver<UICollectionView> { get }
   
+  var requestFetchingAnnouncement: AnyObserver<Void> { get }
+  
   // Output
 }
 
@@ -22,13 +24,24 @@ final class AnnouncementViewModel {
   
   private var dataSource: DataSource?
   
+  private let pagingManager = PagingManager<AnnouncementContent>(threshold: 700)
+  
+  private var contentModels: Set<AnnouncementContent> = []
+  
+  // MARK: - Use Cases
+  
+  private let getAnnouncementUseCase: GetAnnouncementUseCase
+  
   // MARK: - Subjects
   
-  private let collectionViewSubject = PublishSubject<UICollectionView>()
+  private let collectionViewSubject     = PublishSubject<UICollectionView>()
+  private let fetchAnnouncementSubject  = PublishSubject<Void>()
   
   // MARK: - Initialization
   
-  init() {
+  init(getAnnouncementUseCase: GetAnnouncementUseCase) {
+    self.getAnnouncementUseCase = getAnnouncementUseCase
+    fetchAnnouncement()
     setCollectionDataSource()
   }
   
@@ -37,6 +50,18 @@ final class AnnouncementViewModel {
 
 
 private extension AnnouncementViewModel {
+  
+  /// 공지 API를 호출하여 값을 가져옵니다.
+  func fetchAnnouncement() {
+    fetchAnnouncementSubject
+      .flatMap { [getAnnouncementUseCase] _ in getAnnouncementUseCase.execute(nextCursorID: 0) }
+      .subscribe(with: self) { owner, tuple in
+        owner.contentModels.formUnion(tuple.content)
+        owner.addNewItemsToSnapshots()
+      }
+      .disposed(by: disposeBag)
+  }
+  
   func setCollectionDataSource() {
     collectionViewSubject
       .subscribe(with: self) { owner, collectionView in
@@ -69,6 +94,10 @@ extension AnnouncementViewModel: AnnouncementViewModelType {
     collectionViewSubject.asObserver()
   }
   
+  var requestFetchingAnnouncement: AnyObserver<Void> {
+    fetchAnnouncementSubject.asObserver()
+  }
+  
   // MARK: Output
   
 }
@@ -86,4 +115,22 @@ extension AnnouncementViewModel {
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
   typealias SectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>
   typealias CellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item>
+  
+  
+  func addNewItemsToSnapshots() {
+    guard let dataSource else { return }
+    var snapshot = dataSource.snapshot(for: .main)
+    
+    let newItems = Set(contentModels.map(\.noticeID)).subtracting(Set(snapshot.items))
+    
+    // 값이 존재하면 새로운 아이템을 맨 앞에 insert
+    if let firstItem = snapshot.items.first {
+      snapshot.insert(Array(newItems), before: firstItem)
+    } else {
+      // snapshot에 값이 없으면 단순 append
+      snapshot.append(Array(newItems))
+    }
+    
+    dataSource.apply(snapshot, to: .main)
+  }
 }
