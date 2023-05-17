@@ -44,7 +44,7 @@ final class AnnouncementViewController: BaseViewController {
   // MARK: Body
   
   private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init()).then {
-    $0.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: .init(appearance: .insetGrouped))
+    $0.backgroundColor = .background
     $0.showsVerticalScrollIndicator = false
   }
   
@@ -100,9 +100,28 @@ final class AnnouncementViewController: BaseViewController {
     }
   }
   
+  override func setupStyles() {
+    super.setupStyles()
+    collectionView.collectionViewLayout = createLayouts()
+  }
+  
   override func bind() {
     super.bind()
     viewModel.setCollectionViewObserver.onNext(collectionView)
     viewModel.setCollectionViewObserver.onCompleted()
+  }
+  
+  private func createLayouts() -> UICollectionViewLayout {
+    
+    let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80)))
+    let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80)), subitems: [item])
+    
+    let section = NSCollectionLayoutSection(group: group)
+    // top: 헤더뷰의 높이(30) + 헤더뷰와 첫 번째 셀 사이의 거리(32)
+    // 이렇게 처리한 이유: collectionView의 top constraint가 헤더뷰의 top과 같기 때문
+    section.contentInsets = .init(top: 30 + 32, leading: 0, bottom: 0, trailing: 0)
+    section.interGroupSpacing = 8
+    
+    return UICollectionViewCompositionalLayout(section: section)
   }
 }
