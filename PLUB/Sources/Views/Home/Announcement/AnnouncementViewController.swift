@@ -94,4 +94,10 @@ final class AnnouncementViewController: BaseViewController {
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
   }
+  
+  override func bind() {
+    super.bind()
+    viewModel.setCollectionViewObserver.onNext(collectionView)
+    viewModel.setCollectionViewObserver.onCompleted()
+  }
 }
