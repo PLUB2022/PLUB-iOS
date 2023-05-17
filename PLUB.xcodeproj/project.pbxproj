@@ -261,6 +261,7 @@
 		BACDD13D2A1395460095DD1B /* AnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD13C2A1395460095DD1B /* AnnouncementViewModel.swift */; };
 		BACDD1402A148ECB0095DD1B /* AnnouncementContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD13F2A148ECB0095DD1B /* AnnouncementContent.swift */; };
 		BACDD1452A1494600095DD1B /* GetAnnouncementUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD1442A1494600095DD1B /* GetAnnouncementUseCase.swift */; };
+		BACDD1472A14AF230095DD1B /* AnnouncementCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD1462A14AF230095DD1B /* AnnouncementCollectionViewCell.swift */; };
 		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
 		BADCB3EE29F6683E000B43D6 /* LikeFeedUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */; };
 		BADCB3F229F6A008000B43D6 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */; };
@@ -686,6 +687,7 @@
 		BACDD13C2A1395460095DD1B /* AnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewModel.swift; sourceTree = "<group>"; };
 		BACDD13F2A148ECB0095DD1B /* AnnouncementContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementContent.swift; sourceTree = "<group>"; };
 		BACDD1442A1494600095DD1B /* GetAnnouncementUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAnnouncementUseCase.swift; sourceTree = "<group>"; };
+		BACDD1462A14AF230095DD1B /* AnnouncementCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementCollectionViewCell.swift; sourceTree = "<group>"; };
 		BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeFeedUseCase.swift; sourceTree = "<group>"; };
 		BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BADCB3F129F6A008000B43D6 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -1002,6 +1004,7 @@
 			children = (
 				702876B0299B788400E57509 /* AnnouncementViewController.swift */,
 				BACDD13C2A1395460095DD1B /* AnnouncementViewModel.swift */,
+				BACDD1462A14AF230095DD1B /* AnnouncementCollectionViewCell.swift */,
 			);
 			path = Announcement;
 			sourceTree = "<group>";
@@ -2935,6 +2938,7 @@
 				70A420B829914B5B0026E9F9 /* SearchParameter.swift in Sources */,
 				BA98B34929AC956A00307073 /* CommentContent.swift in Sources */,
 				70A420AD299002490026E9F9 /* NoResultSearchView.swift in Sources */,
+				BACDD1472A14AF230095DD1B /* AnnouncementCollectionViewCell.swift in Sources */,
 				70727A3329D2C635003DE956 /* TodoCollectionViewCell.swift in Sources */,
 				BABB011A297ED415004178EC /* InterestViewController.swift in Sources */,
 				C333EEBE29F4660800B3F84E /* ExportTableViewCell.swift in Sources */,

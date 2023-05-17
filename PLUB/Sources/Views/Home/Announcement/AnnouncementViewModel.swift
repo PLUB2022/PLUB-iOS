@@ -67,9 +67,8 @@ private extension AnnouncementViewModel {
       .subscribe(with: self) { owner, collectionView in
         
         let registration = CellRegistration { cell, indexPath, itemIdentifier in
-          var config = cell.defaultContentConfiguration()
-          config.text = "Hello, World \(itemIdentifier)"
-          cell.contentConfiguration = config
+          guard let model = owner.contentModels.first(where: { $0.noticeID == itemIdentifier }) else { return }
+          cell.configure(with: model)
         }
         
         owner.dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
@@ -114,7 +113,7 @@ extension AnnouncementViewModel {
   
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
   typealias SectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>
-  typealias CellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item>
+  typealias CellRegistration = UICollectionView.CellRegistration<AnnouncementCollectionViewCell, Item>
   
   
   func addNewItemsToSnapshots() {
