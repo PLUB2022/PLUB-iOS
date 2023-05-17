@@ -113,7 +113,7 @@ final class AnnouncementViewController: BaseViewController {
   
   private func createLayouts() -> UICollectionViewLayout {
     
-    let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80)))
+    let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(80)))
     let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80)), subitems: [item])
     
     let section = NSCollectionLayoutSection(group: group)

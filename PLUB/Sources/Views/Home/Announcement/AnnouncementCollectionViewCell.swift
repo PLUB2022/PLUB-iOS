@@ -70,7 +70,8 @@ final class AnnouncementCollectionViewCell: UICollectionViewCell {
   
   private func setupConstraints() {
     wholeStackView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview().inset(8)
+      $0.top.directionalHorizontalEdges.equalToSuperview().inset(8)
+      $0.bottom.lessThanOrEqualToSuperview().inset(8)
     }
   }
   
