@@ -19,12 +19,12 @@ final class DefaultGetAnnouncementUseCase: GetAnnouncementUseCase {
     self.plubbingID = plubbingID
   }
   
-  func execute(nextCursorID: Int = 0) -> Observable<(content: [AnnouncementContent], nextCursorID: Int, isLast: Bool)> {
+  func execute(nextCursorID: Int) -> Observable<(content: [AnnouncementContent], nextCursorID: Int, isLast: Bool)> {
     Observable<PaginatedDataResponse<AnnouncementContent>>.just(
       PaginatedDataResponse<AnnouncementContent>.init(
-        totalElements: 10,
+        totalElements: 30,
         isLast: true,
-        content: [AnnouncementContent](repeating: AnnouncementContent.mockUp, count: 10)
+        content: (0..<30).map { _ in AnnouncementContent.mockUp }
       )
     )
     .map { data in
