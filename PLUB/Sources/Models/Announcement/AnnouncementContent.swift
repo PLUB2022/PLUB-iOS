@@ -57,12 +57,23 @@ extension AnnouncementContent: Codable {
   }
 }
 
+extension AnnouncementContent: Hashable {
+  
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(noticeID)
+  }
+  
+  static func == (lhs: AnnouncementContent, rhs: AnnouncementContent) -> Bool {
+    return lhs.noticeID == rhs.noticeID
+  }
+}
+
 //TODO: 승현 - API 연동 후 제거할 예정
 
 extension AnnouncementContent {
   static var mockUp: Self {
     AnnouncementContent(
-      noticeID: 0,
+      noticeID: (0...100).randomElement()!,
       title: "공지입니다.",
       content: "공지 내용입니다.",
       isHost: true,
