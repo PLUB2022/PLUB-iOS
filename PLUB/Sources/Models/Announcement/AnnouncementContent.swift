@@ -56,3 +56,20 @@ extension AnnouncementContent: Codable {
     case postDateString = "createdAt"
   }
 }
+
+//TODO: 승현 - API 연동 후 제거할 예정
+
+extension AnnouncementContent {
+  static var mockUp: Self {
+    AnnouncementContent(
+      noticeID: 0,
+      title: "공지입니다.",
+      content: "공지 내용입니다.",
+      isHost: true,
+      postDateString: "2023-03-21 16:36:47",
+      accountInfo: nil,
+      likeCount: nil,
+      commentCount: nil
+    )
+  }
+}

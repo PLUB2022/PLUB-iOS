@@ -260,6 +260,7 @@
 		BAC9794529CF0E9E00A5DF1B /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */; };
 		BACDD13D2A1395460095DD1B /* AnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD13C2A1395460095DD1B /* AnnouncementViewModel.swift */; };
 		BACDD1402A148ECB0095DD1B /* AnnouncementContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD13F2A148ECB0095DD1B /* AnnouncementContent.swift */; };
+		BACDD1452A1494600095DD1B /* GetAnnouncementUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDD1442A1494600095DD1B /* GetAnnouncementUseCase.swift */; };
 		BACEE33329E6F393009FAB98 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = BACEE33229E6F393009FAB98 /* CropViewController */; };
 		BADCB3EE29F6683E000B43D6 /* LikeFeedUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */; };
 		BADCB3F229F6A008000B43D6 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */; };
@@ -684,6 +685,7 @@
 		BAC9794429CF0E9E00A5DF1B /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		BACDD13C2A1395460095DD1B /* AnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewModel.swift; sourceTree = "<group>"; };
 		BACDD13F2A148ECB0095DD1B /* AnnouncementContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementContent.swift; sourceTree = "<group>"; };
+		BACDD1442A1494600095DD1B /* GetAnnouncementUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAnnouncementUseCase.swift; sourceTree = "<group>"; };
 		BADCB3ED29F6683E000B43D6 /* LikeFeedUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeFeedUseCase.swift; sourceTree = "<group>"; };
 		BADCB3F029F6A008000B43D6 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BADCB3F129F6A008000B43D6 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -1642,13 +1644,14 @@
 		BAB2E56A29E30053006B7BDC /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				BACDD1412A14941D0095DD1B /* Announcement */,
+				BA4CCDF529EAB93D0040D0D7 /* Archive */,
 				C318CEBF2A09486100F959D3 /* Auth */,
-				C37237F12A02B0CA00328763 /* MyPage */,
+				BA4CCDF429EAB91D0040D0D7 /* Feeds */,
 				BA2173B329F53657000D72B1 /* Image */,
 				C333EEBF29F48EB800B3F84E /* Meeting */,
+				C37237F12A02B0CA00328763 /* MyPage */,
 				C36E64CD29F1AECD00C6C3CF /* Recruitment */,
-				BA4CCDF529EAB93D0040D0D7 /* Archive */,
-				BA4CCDF429EAB91D0040D0D7 /* Feeds */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -1684,6 +1687,14 @@
 			isa = PBXGroup;
 			children = (
 				BACDD13F2A148ECB0095DD1B /* AnnouncementContent.swift */,
+			);
+			path = Announcement;
+			sourceTree = "<group>";
+		};
+		BACDD1412A14941D0095DD1B /* Announcement */ = {
+			isa = PBXGroup;
+			children = (
+				BACDD1442A1494600095DD1B /* GetAnnouncementUseCase.swift */,
 			);
 			path = Announcement;
 			sourceTree = "<group>";
@@ -2806,6 +2817,7 @@
 				70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */,
 				7085678628EE9A92008047DC /* HomeCollectionViewCell.swift in Sources */,
 				BA780E09297133220032C178 /* Config.swift in Sources */,
+				BACDD1452A1494600095DD1B /* GetAnnouncementUseCase.swift in Sources */,
 				70727A2129BF8F2A003DE956 /* Ex+Date.swift in Sources */,
 				BA88124E28E48A2F00BD832A /* AppDelegate.swift in Sources */,
 				C361743129AF95E2006AEAB1 /* MyMeetingResponse.swift in Sources */,
