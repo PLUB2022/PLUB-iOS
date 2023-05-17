@@ -21,6 +21,7 @@ protocol TodolistViewModelType {
   // Output
   var todoTimelineModel: Driver<[TodolistModel]> { get }
   var successCompleteTodolist: Signal<Bool> { get }
+  var successProofTodolist: Signal<String> { get }
 }
 
 final class TodolistViewModel {
@@ -34,6 +35,7 @@ final class TodolistViewModel {
   private let completeTodolist = PublishSubject<CompleteProofTodolistResponse>()
   private let whichUploadingImage = PublishSubject<UIImage?>()
   private let selectingLikeButton = PublishSubject<Int>()
+  private let successProofImage = PublishSubject<String>()
   
   init() {
     inquireAllTodoTimeline()
@@ -143,7 +145,7 @@ final class TodolistViewModel {
           element.cellModel.checkTodoViewModels[index].isProof = true
           return element
         }
-        
+        owner.successProofImage.onNext(response.proofImage)
         owner.allTodoTimeline.onNext(changedModel)
     }
     .disposed(by: disposeBag)
@@ -223,5 +225,9 @@ extension TodolistViewModel: TodolistViewModelType {
     completeTodolist
       .map { $0.isChecked }
       .asSignal(onErrorSignalWith: .empty())
+  }
+  
+  var successProofTodolist: Signal<String> {
+    successProofImage.asSignal(onErrorSignalWith: .empty())
   }
 }

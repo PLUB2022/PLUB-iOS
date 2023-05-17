@@ -111,6 +111,15 @@ final class TodolistViewController: BaseViewController {
         Log.debug("투두완료성공 \(success)")
       })
       .disposed(by: disposeBag)
+    
+    viewModel.successProofTodolist
+      .emit(with: self) { owner, image in
+        let alert = ProofTodoAlertViewController()
+        alert.modalPresentationStyle = .overFullScreen
+        alert.configureUI(with: image)
+        owner.present(alert, animated: false)
+      }
+      .disposed(by: disposeBag)
   
   }
 }
