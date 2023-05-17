@@ -8,11 +8,11 @@
 import UIKit
 
 extension UILabel {
-  func addLineSpacing(_ label: UILabel) {
-    let attrString = NSMutableAttributedString(string: label.text!)
+  func addLineSpacing(lineSpacing: CGFloat = 4) {
+    let attrString = NSMutableAttributedString(string: self.text!)
     let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 4
+    paragraphStyle.lineSpacing = lineSpacing
     attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
-    label.attributedText = attrString
+    self.attributedText = attrString
   }
 }

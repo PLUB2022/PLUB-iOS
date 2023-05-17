@@ -43,6 +43,7 @@
 		705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820F29B127DF00830C4F /* MainPageNavigationView.swift */; };
 		705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 705F821129B2FCEC00830C4F /* GoogleService-Info.plist */; };
 		705FD2742A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2732A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift */; };
+		705FD29D2A14E06900F353FE /* ProofTodoAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29C2A14E06900F353FE /* ProofTodoAlertViewController.swift */; };
 		706315962A0BA93400DD8EFE /* TodoPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315952A0BA93400DD8EFE /* TodoPlannerViewModel.swift */; };
 		706315982A0BAA6000DD8EFE /* CreateTodoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315972A0BAA6000DD8EFE /* CreateTodoRequest.swift */; };
 		7063159A2A0BAAE200DD8EFE /* CreateTodoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315992A0BAAE200DD8EFE /* CreateTodoResponse.swift */; };
@@ -475,6 +476,7 @@
 		705F820F29B127DF00830C4F /* MainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageNavigationView.swift; sourceTree = "<group>"; };
 		705F821129B2FCEC00830C4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		705FD2732A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPlannerBottomSheetViewController.swift; sourceTree = "<group>"; };
+		705FD29C2A14E06900F353FE /* ProofTodoAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProofTodoAlertViewController.swift; sourceTree = "<group>"; };
 		706315952A0BA93400DD8EFE /* TodoPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPlannerViewModel.swift; sourceTree = "<group>"; };
 		706315972A0BAA6000DD8EFE /* CreateTodoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTodoRequest.swift; sourceTree = "<group>"; };
 		706315992A0BAAE200DD8EFE /* CreateTodoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTodoResponse.swift; sourceTree = "<group>"; };
@@ -1101,6 +1103,7 @@
 				70FE55312A08CC5E00F11097 /* AddTodoView.swift */,
 				7063159B2A0BB0E700DD8EFE /* TodoView.swift */,
 				705FD2732A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift */,
+				705FD29C2A14E06900F353FE /* ProofTodoAlertViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -2730,6 +2733,7 @@
 				BA1D4A7529A9D9EA00CBBCC6 /* ClipboardViewModel.swift in Sources */,
 				C38A5BA9297C60A000485355 /* Ex+UILabel.swift in Sources */,
 				C34F07F3297DAFD900C91E90 /* AddQuestionTableViewCell.swift in Sources */,
+				705FD29D2A14E06900F353FE /* ProofTodoAlertViewController.swift in Sources */,
 				7085678A28EEB73F008047DC /* InterestSelectCollectionHeaderView.swift in Sources */,
 				C383967E29A25D67005998A5 /* CreateScheduleResponse.swift in Sources */,
 				70727A4529D5E570003DE956 /* TodoAlertView.swift in Sources */,
