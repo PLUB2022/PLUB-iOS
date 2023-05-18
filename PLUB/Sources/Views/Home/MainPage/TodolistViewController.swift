@@ -15,9 +15,14 @@ struct TodolistModel {
   var cellModel: TodoCollectionViewCellModel
 }
 
+protocol TodolistDelegate: AnyObject {
+  func didTappedTodoPlanner()
+}
+
 final class TodolistViewController: BaseViewController {
   
   private let viewModel: TodolistViewModelType
+  weak var delegate: TodolistDelegate?
   
   private let plubbingID: Int
   
@@ -186,6 +191,7 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
   func didTappedMoreButton(isAuthor: Bool) { /// 투두리스트 작성자에 따른 type 지정해줘야함
     ///
     let bottomSheet = isAuthor ? TodolistBottomSheetViewController(type: .todoPlanner) : TodolistBottomSheetViewController(type: .report)
+    bottomSheet.delegate = self
     present(bottomSheet, animated: true)
   }
 }
@@ -193,5 +199,15 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
 extension TodolistViewController: TodoAlertDelegate {
   func whichProofImage(image: UIImage) {
     viewModel.whichProofImage.onNext(image)
+  }
+}
+
+extension TodolistViewController: TodolistBottomSheetDelegate {
+  func didTappedTodoPlanner() {
+    delegate?.didTappedTodoPlanner()
+  }
+  
+  func didTappedReport() {
+    Log.debug("투두리스트 바텀시트 신고 클릭")
   }
 }
