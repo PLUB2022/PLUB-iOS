@@ -11,9 +11,24 @@ import FSCalendar
 import SnapKit
 import Then
 
+enum TodoPlannerType {
+  case addNewTodo
+  case manageMyPlanner
+  
+  var title: String {
+    switch self {
+    case .addNewTodo:
+      return "새 To-Do 추가하기"
+    case .manageMyPlanner:
+      return "내 Planner 관리하기"
+    }
+  }
+}
+
 final class TodoPlannerViewController: BaseViewController {
   
   private let viewModel: TodoPlannerViewModelType
+  private let type: TodoPlannerType
   
   private let plubbingID: Int
   
@@ -33,8 +48,8 @@ final class TodoPlannerViewController: BaseViewController {
     $0.layoutMargins = .init(top: .zero, left: 16, bottom: .zero, right: 16)
   }
   
-  private let textLabel = UILabel().then {
-    $0.text = "새 To-Do 추가하기"
+  private lazy var textLabel = UILabel().then {
+    $0.text = type.title
     $0.font = .h3
     $0.textColor = .black
   }
@@ -60,9 +75,10 @@ final class TodoPlannerViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(viewModel: TodoPlannerViewModelType = TodoPlannerViewModel(), plubbingID: Int) {
+  init(viewModel: TodoPlannerViewModelType = TodoPlannerViewModel(), plubbingID: Int, type: TodoPlannerType = .addNewTodo) {
     self.plubbingID = plubbingID
     self.viewModel = viewModel
+    self.type = type
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
