@@ -10,7 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-final class TodoAlertView: UIImageView {
+final class TodoAlertView: UIView {
+  
+  private let containerImageView = UIImageView().then {
+    $0.backgroundColor = .clear
+  }
   
   private let addPhotoImageView = UIImageView().then {
     $0.image = UIImage(named: "selectPhotoBlack")
@@ -39,7 +43,7 @@ final class TodoAlertView: UIImageView {
     layer.masksToBounds = true
     layer.cornerRadius = 8
     
-    [addPhotoImageView, addPhotoLabel, button].forEach { addSubview($0) }
+    [addPhotoImageView, addPhotoLabel, containerImageView, button].forEach { addSubview($0) }
     addPhotoImageView.snp.makeConstraints {
       $0.size.equalTo(44)
       $0.centerX.equalToSuperview()
@@ -51,8 +55,16 @@ final class TodoAlertView: UIImageView {
       $0.top.equalTo(addPhotoImageView.snp.bottom).offset(10)
     }
     
+    containerImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
     button.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+  }
+  
+  func configureUI(with model: UIImage) {
+    containerImageView.image = model
   }
 }
