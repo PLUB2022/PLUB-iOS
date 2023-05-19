@@ -205,9 +205,15 @@ extension TodoPlannerViewController: AddTodoViewDelegate {
     viewModel.whichTodoChecked.onNext((isChecked, todoID))
   }
   
-  func whichCreateTodoRequest(request: CreateTodoRequest) {
-    Log.debug("투두생성리퀘스트 \(request)")
-    viewModel.whichCreateTodoRequest.onNext(request)
+  func whichCreateTodoRequest(request: CreateTodoRequest, type: AddTodoType) {
+    Log.debug("투두생성리퀘스트 \(type)")
+    switch type {
+    case .create:
+      viewModel.whichCreateTodoRequest.onNext(request)
+    case .edit:
+      viewModel.whichEditRequest.onNext(EditTodolistRequest(content: request.content, date: request.date))
+      addTodoView.todoHandler?(.create)
+    }
   }
 }
 
@@ -218,8 +224,8 @@ extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
   
   func editTodo(todoID: Int) {
     Log.debug("투두작성 \(todoID)")
-    addTodoView.todoHandler?(())
-//    viewModel.whichEditTodolist.onNext((todoID, ))
+    addTodoView.todoHandler?(.edit)
+    viewModel.whichTodoID.onNext(todoID)
   }
   
   func deleteTodo(todoID: Int) {
