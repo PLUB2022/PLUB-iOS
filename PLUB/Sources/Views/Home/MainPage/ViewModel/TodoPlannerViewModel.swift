@@ -16,7 +16,8 @@ protocol TodoPlannerViewModelType {
   var whichInquireDate: AnyObserver<Date> { get }
   var selectPlubbingID: AnyObserver<Int> { get }
   var whichTodoChecked: AnyObserver<(Bool, Int)> { get }
-  var whichEditTodolist: AnyObserver<(Int, EditTodolistRequest)> { get }
+  var whichTodoID: AnyObserver<Int> { get }
+  var whichEditRequest: AnyObserver<EditTodolistRequest> { get }
  
   var todolistModelByDate: Driver<AddTodoViewModel> { get }
 }
@@ -30,7 +31,8 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
   private let inquireDate = PublishSubject<Date>()
   private let todolistModelByCurrentDate = PublishRelay<AddTodoViewModel>()
   private let selectTodo = PublishSubject<(Bool, Int)>()
-  private let editTodolist = PublishSubject<(Int, EditTodolistRequest)>()
+  private let editRequest = PublishSubject<EditTodolistRequest>()
+  private let selectTodoID = PublishSubject<Int>()
   
   init() {
     tryCreateTodo()
@@ -42,12 +44,16 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
   private func tryEditTodolist() {
     let editTodolist = Observable.combineLatest(
       whichPlubbingID,
-      editTodolist
-    )
+      selectTodoID,
+      editRequest
+    ) { ($0, $1, $2) }
       .flatMapLatest { result in
-        let (plubbingID, editTodo) = result
-        let (todoID, request) = editTodo
-        return TodolistService.shared.editTodolist(plubbingID: plubbingID, todoID: todoID, request: request)
+        let (plubbingID, todoID, request) = result
+        return TodolistService.shared.editTodolist(
+          plubbingID: plubbingID,
+          todoID: todoID,
+          request: request
+        )
       }
     
     editTodolist
@@ -156,8 +162,16 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
 
 extension TodoPlannerViewModel {
   
-  var whichEditTodolist: AnyObserver<(Int, EditTodolistRequest)> {
-    editTodolist.asObserver()
+  var whichTodoID: AnyObserver<Int> {
+    selectTodoID.asObserver()
+  }
+  
+  var whichEditRequest: AnyObserver<EditTodolistRequest> {
+    editRequest.asObserver()
+  }
+  
+  var whichEditTodolist: AnyObserver<EditTodolistRequest> {
+    editRequest.asObserver()
   }
   
   var selectPlubbingID: AnyObserver<Int> {
