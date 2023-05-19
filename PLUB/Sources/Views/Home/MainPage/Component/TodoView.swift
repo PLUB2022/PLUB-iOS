@@ -140,6 +140,10 @@ final class TodoView: UIView {
     }
   }
   
+  func clearTextField() {
+    todoTextField.text = nil
+  }
+  
   func becomeResponder() {
     todoTextField.becomeFirstResponder()
   }
