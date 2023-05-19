@@ -16,6 +16,7 @@ protocol TodoPlannerViewModelType {
   var whichInquireDate: AnyObserver<Date> { get }
   var selectPlubbingID: AnyObserver<Int> { get }
   var whichTodoChecked: AnyObserver<(Bool, Int)> { get }
+  var whichEditTodolist: AnyObserver<(Int, EditTodolistRequest)> { get }
  
   var todolistModelByDate: Driver<AddTodoViewModel> { get }
 }
@@ -29,11 +30,35 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
   private let inquireDate = PublishSubject<Date>()
   private let todolistModelByCurrentDate = PublishRelay<AddTodoViewModel>()
   private let selectTodo = PublishSubject<(Bool, Int)>()
+  private let editTodolist = PublishSubject<(Int, EditTodolistRequest)>()
   
   init() {
     tryCreateTodo()
     tryInquireTodolistByDate()
     tryTodoCompleteOrCancel()
+    tryEditTodolist()
+  }
+  
+  private func tryEditTodolist() {
+    let editTodolist = Observable.combineLatest(
+      whichPlubbingID,
+      editTodolist
+    )
+      .flatMapLatest { result in
+        let (plubbingID, editTodo) = result
+        let (todoID, request) = editTodo
+        return TodolistService.shared.editTodolist(plubbingID: plubbingID, todoID: todoID, request: request)
+      }
+    
+    editTodolist
+      .withLatestFrom(todolistModelByCurrentDate) { ($0, $1) }
+      .subscribe(with: self) { owner, result in
+        Log.debug("투두수정")
+        let (response, model) = result
+        let todoViewModel = TodoViewModel(response: response)
+        owner.addTodoViewModel(what: todoViewModel, where: model)
+      }
+      .disposed(by: disposeBag)
   }
   
   private func tryTodoCompleteOrCancel() {
@@ -130,6 +155,10 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
 }
 
 extension TodoPlannerViewModel {
+  
+  var whichEditTodolist: AnyObserver<(Int, EditTodolistRequest)> {
+    editTodolist.asObserver()
+  }
   
   var selectPlubbingID: AnyObserver<Int> {
     whichPlubbingID.asObserver()
