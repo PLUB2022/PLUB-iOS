@@ -54,18 +54,21 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
     proofImageListView.button.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.proofImage(todoID: owner.todoID)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
     
     editTodoListView.button.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.editTodo(todoID: owner.todoID)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
     
     deleteTodoListView.button.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.deleteTodo(todoID: owner.todoID)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
   }
