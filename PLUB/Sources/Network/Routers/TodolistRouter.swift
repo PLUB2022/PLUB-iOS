@@ -16,6 +16,7 @@ enum TodolistRouter {
   case likeTodolist(Int, Int)
   case createTodo(Int, CreateTodoRequest)
   case inquireTodolistByDate(Int, String)
+  case editTodolist(Int, Int, EditTodolistRequest)
 }
 
 extension TodolistRouter: Router {
@@ -23,7 +24,7 @@ extension TodolistRouter: Router {
     switch self {
     case .inquireAllTodoTimeline, .inquireTodolist, .inquireTodolistByDate:
       return .get
-    case .completeTodolist, .cancelCompleteTodolist, .likeTodolist:
+    case .completeTodolist, .cancelCompleteTodolist, .likeTodolist, .editTodolist:
       return .put
     case .proofTodolist, .createTodo:
       return .post
@@ -48,6 +49,8 @@ extension TodolistRouter: Router {
       return "/plubbings/\(plubbingID)/todolist"
     case .inquireTodolistByDate(let plubbingID, let todoDate):
       return "/plubbings/\(plubbingID)/timeline/\(todoDate)"
+    case .editTodolist(let plubbingID, let todoID, _):
+      return "/plubbings/\(plubbingID)/todolist/\(todoID)"
     }
   }
   
@@ -60,6 +63,8 @@ extension TodolistRouter: Router {
     case .proofTodolist(_, _, let request):
       return .body(request)
     case .createTodo(_, let request):
+      return .body(request)
+    case .editTodolist(_, _, let request):
       return .body(request)
     }
   }
