@@ -218,6 +218,8 @@ extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
   
   func editTodo(todoID: Int) {
     Log.debug("투두작성 \(todoID)")
+    addTodoView.todoHandler?(())
+//    viewModel.whichEditTodolist.onNext((todoID, ))
   }
   
   func deleteTodo(todoID: Int) {

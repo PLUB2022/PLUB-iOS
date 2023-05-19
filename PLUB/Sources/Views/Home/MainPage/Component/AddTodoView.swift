@@ -46,6 +46,7 @@ final class AddTodoView: UIView {
   weak var delegate: AddTodoViewDelegate?
   private var date: Date?
   private(set) var completionHandler: ((Date) -> Void)?
+  private(set) var todoHandler: (() -> Void)?
   
   private let todoContainerView = UIStackView().then {
     $0.axis = .vertical
@@ -100,6 +101,9 @@ final class AddTodoView: UIView {
     let inputTodoView = TodoView(type: .input)
     inputTodoView.delegate = self
     todoContainerView.addArrangedSubview(inputTodoView)
+    todoHandler = { _ in
+      inputTodoView.becomeResponder()
+    }
     
     model.todoViewModel.forEach { model in
       let todoView = TodoView(type: .todo)

@@ -68,9 +68,9 @@ final class TodoView: UIView {
   
   private lazy var todoTextField = UITextField().then {
     $0.placeholder = "새로운 TO-DO 추가하기"
-    $0.layer.shouldRasterize = true
     $0.delegate = self
     $0.returnKeyType = .done
+    $0.isUserInteractionEnabled = true
   }
   
   private lazy var moreButton = UIButton().then {
@@ -138,6 +138,10 @@ final class TodoView: UIView {
         $0.centerY.trailing.equalToSuperview()
       }
     }
+  }
+  
+  func becomeResponder() {
+    todoTextField.becomeFirstResponder()
   }
   
   func configureUI(with model: TodoViewModel) {
