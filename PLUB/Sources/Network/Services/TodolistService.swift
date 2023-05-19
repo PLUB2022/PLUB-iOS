@@ -78,4 +78,8 @@ extension TodolistService {
   func editTodolist(plubbingID: Int, todoID: Int, request: EditTodolistRequest) -> Observable<CompleteProofTodolistResponse> {
     sendObservableRequest(TodolistRouter.editTodolist(plubbingID, todoID, request))
   }
+  
+  func deleteTodolist(plubbingID: Int, todoID: Int) -> Observable<DeleteTodolistResponse> {
+    sendObservableRequest(TodolistRouter.deleteTodolist(plubbingID, todoID))
+  }
 }
