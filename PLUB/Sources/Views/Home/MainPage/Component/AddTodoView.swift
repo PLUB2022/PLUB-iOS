@@ -36,17 +36,23 @@ struct AddTodoViewModel {
 }
 
 protocol AddTodoViewDelegate: AnyObject {
-  func whichCreateTodoRequest(request: CreateTodoRequest)
+  func whichCreateTodoRequest(request: CreateTodoRequest, type: AddTodoType)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
   func tappedMoreButton(todoID: Int, isChecked: Bool)
+}
+
+enum AddTodoType {
+  case create
+  case edit
 }
 
 final class AddTodoView: UIView {
   
   weak var delegate: AddTodoViewDelegate?
+  private var type: AddTodoType = .create
   private var date: Date?
   private(set) var completionHandler: ((Date) -> Void)?
-  private(set) var todoHandler: (() -> Void)?
+  private(set) var todoHandler: ((AddTodoType) -> Void)?
   
   private let todoContainerView = UIStackView().then {
     $0.axis = .vertical
@@ -58,6 +64,10 @@ final class AddTodoView: UIView {
   private let dateLabel = UILabel().then {
     $0.textColor = .main
     $0.font = .h5
+  }
+  
+  private lazy var inputTodoView = TodoView(type: .input).then {
+    $0.delegate = self
   }
   
   override init(frame: CGRect) {
@@ -85,9 +95,7 @@ final class AddTodoView: UIView {
     }
     
     todoContainerView.addArrangedSubview(dateLabel)
-    
-    let todoView = TodoView(type: .input)
-    todoContainerView.addArrangedSubview(todoView)
+    todoContainerView.addArrangedSubview(inputTodoView)
     
     let today = DateFormatterFactory.todolistDate.string(from: Date())
     dateLabel.text = "\(today) (오늘)"
@@ -95,14 +103,15 @@ final class AddTodoView: UIView {
   
   func configureUI(with model: AddTodoViewModel) {
     todoContainerView
-      .arrangedSubviews.dropFirst()
+      .arrangedSubviews[2...]
       .forEach { $0.removeFromSuperview() }
     
-    let inputTodoView = TodoView(type: .input)
-    inputTodoView.delegate = self
-    todoContainerView.addArrangedSubview(inputTodoView)
-    todoHandler = { _ in
-      inputTodoView.becomeResponder()
+    inputTodoView.clearTextField()
+    
+    todoHandler = { [weak self] type in
+      guard let self = self else { return }
+      self.type = type
+      self.inputTodoView.becomeResponder()
     }
     
     model.todoViewModel.forEach { model in
@@ -131,6 +140,6 @@ extension AddTodoView: TodoViewDelegate {
   func whichTodoContent(content: String) {
     guard let date = self.date else { return }
     let dateString = DateFormatterFactory.dateWithHypen.string(from: date)
-    delegate?.whichCreateTodoRequest(request: .init(content: content, date: dateString))
+    delegate?.whichCreateTodoRequest(request: .init(content: content, date: dateString), type: type)
   }
 }
