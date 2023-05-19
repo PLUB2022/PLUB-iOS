@@ -18,6 +18,7 @@ protocol TodoPlannerViewModelType {
   var whichTodoChecked: AnyObserver<(Bool, Int)> { get }
   var whichTodoID: AnyObserver<Int> { get }
   var whichEditRequest: AnyObserver<EditTodolistRequest> { get }
+  var whichDeleteTodo: AnyObserver<Int> { get }
  
   var todolistModelByDate: Driver<AddTodoViewModel> { get }
 }
@@ -33,12 +34,29 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
   private let selectTodo = PublishSubject<(Bool, Int)>()
   private let editRequest = PublishSubject<EditTodolistRequest>()
   private let selectTodoID = PublishSubject<Int>()
+  private let deleteTodo = PublishSubject<Int>()
   
   init() {
     tryCreateTodo()
     tryInquireTodolistByDate()
     tryTodoCompleteOrCancel()
     tryEditTodolist()
+    tryDeleteTodo()
+  }
+  
+  private func tryDeleteTodo() {
+    let deleteTodo = deleteTodo
+      .withLatestFrom(whichPlubbingID) { ($0, $1) }
+      .flatMapLatest { result in
+        let (todoID, plubbingID) = result
+        return TodolistService.shared.deleteTodolist(plubbingID: plubbingID, todoID: todoID)
+      }
+    
+    deleteTodo
+      .subscribe(onNext: { response in
+        print("투두 삭제 \(response)")
+      })
+      .disposed(by: disposeBag)
   }
   
   private func tryEditTodolist() {
@@ -161,6 +179,10 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
 }
 
 extension TodoPlannerViewModel {
+  
+  var whichDeleteTodo: AnyObserver<Int> {
+    deleteTodo.asObserver()
+  }
   
   var whichTodoID: AnyObserver<Int> {
     selectTodoID.asObserver()

@@ -230,5 +230,6 @@ extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
   
   func deleteTodo(todoID: Int) {
     Log.debug("투두삭제 \(todoID)")
+    viewModel.whichDeleteTodo.onNext(todoID)
   }
 }
