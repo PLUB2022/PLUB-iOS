@@ -25,7 +25,9 @@ struct AddTodoViewModel {
         todoID: $0.todoID,
         date: $0.date,
         isChecked: $0.isChecked,
-        content: $0.content
+        content: $0.content,
+        isAuthor: $0.isAuthor,
+        isProof: $0.isProof
       )
     }
   }
@@ -121,7 +123,9 @@ final class AddTodoView: UIView {
         todoID: model.todoID,
         date: model.date,
         isChecked: model.isChecked,
-        content: model.content)
+        content: model.content,
+        isAuthor: model.isAuthor,
+        isProof: model.isProof)
       )
       todoContainerView.addArrangedSubview(todoView)
     }

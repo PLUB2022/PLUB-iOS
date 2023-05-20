@@ -22,12 +22,16 @@ struct TodoViewModel {
   let date: String
   let isChecked: Bool
   let content: String
+  let isAuthor: Bool
+  let isProof: Bool
   
-  init(todoID: Int, date: String, isChecked: Bool, content: String) {
+  init(todoID: Int, date: String, isChecked: Bool, content: String, isAuthor: Bool, isProof: Bool) {
     self.todoID = todoID
     self.date = date
     self.isChecked = isChecked
     self.content = content
+    self.isAuthor = isAuthor
+    self.isProof = isProof
   }
   
   init(response: CreateTodoResponse) {
@@ -35,6 +39,8 @@ struct TodoViewModel {
     date = response.date
     isChecked = response.isChecked
     content = response.content
+    isAuthor = response.isAuthor
+    isProof = response.isProof
   }
   
   init(response: CompleteProofTodolistResponse) {
@@ -42,6 +48,8 @@ struct TodoViewModel {
     date = response.date
     isChecked = response.isChecked
     content = response.content
+    isAuthor = response.isAuthor
+    isProof = response.isProof
   }
 }
 
@@ -151,8 +159,11 @@ final class TodoView: UIView {
   func configureUI(with model: TodoViewModel) {
     todoID = model.todoID
     contentLabel.text = model.content
-    checkBoxButton.isChecked = model.isChecked
+    checkBoxButton.isChecked = model.isChecked || model.isProof
     contentLabel.attributedText = model.isChecked ? contentLabel.text?.strikeThrough() : NSAttributedString(string: contentLabel.text ?? "")
+    
+    // 해당 투두가 인증되었거나 작성자가 아니라면 -> 체크버튼 비활성화
+    checkBoxButton.isEnabled = model.isProof || !model.isAuthor ? false : true
   }
   
   private func bind() {
