@@ -202,14 +202,14 @@ extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, F
 }
 
 extension TodoPlannerViewController: AddTodoViewDelegate {
-  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool) {
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String) {
     
     if isProof {
-      let bottomSheet = TodoPlannerBottomSheetViewController(type: .proof, todoID: todoID)
+      let bottomSheet = TodoPlannerBottomSheetViewController(type: .proof, todoID: todoID, content: nil)
       bottomSheet.delegate = self
       present(bottomSheet, animated: true)
     } else {
-      let bottomSheet = TodoPlannerBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID)
+      let bottomSheet = TodoPlannerBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID, content: content)
       bottomSheet.delegate = self
       present(bottomSheet, animated: true)
     }
@@ -226,7 +226,7 @@ extension TodoPlannerViewController: AddTodoViewDelegate {
       viewModel.whichCreateTodoRequest.onNext(request)
     case .edit:
       viewModel.whichEditRequest.onNext(EditTodolistRequest(content: request.content, date: request.date))
-      addTodoView.todoHandler?(.create)
+      addTodoView.todoHandler?(.create, nil)
     }
   }
 }
@@ -236,9 +236,9 @@ extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
     Log.debug("투두인증 \(todoID)")
   }
   
-  func editTodo(todoID: Int) {
+  func editTodo(todoID: Int, content: String) {
     Log.debug("투두작성 \(todoID)")
-    addTodoView.todoHandler?(.edit)
+    addTodoView.todoHandler?(.edit, content)
     viewModel.whichTodoID.onNext(todoID)
   }
   

@@ -19,7 +19,7 @@ enum TodoPlannerBottomSheetType {
 
 protocol TodoPlannerBottomSheetDelegate: AnyObject {
   func proofImage(todoID: Int)
-  func editTodo(todoID: Int)
+  func editTodo(todoID: Int, content: String)
   func deleteTodo(todoID: Int)
 }
 
@@ -29,6 +29,7 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
   
   private let type: TodoPlannerBottomSheetType
   private let todoID: Int
+  private let content: String?
   
   private let stackView = UIStackView().then {
     $0.axis = .vertical
@@ -39,9 +40,10 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
   private let editTodoListView = BottomSheetListView(text: "TO-DO 수정", image: "editBlack")
   private let deleteTodoListView = BottomSheetListView(text: "TO-DO 삭제", image: "trashRed", textColor: .error)
   
-  init(type: TodoPlannerBottomSheetType, todoID: Int) {
+  init(type: TodoPlannerBottomSheetType, todoID: Int, content: String?) {
     self.type = type
     self.todoID = todoID
+    self.content = content
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -61,7 +63,8 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
     
     editTodoListView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.editTodo(todoID: owner.todoID)
+        guard let content = owner.content else { return }
+        owner.delegate?.editTodo(todoID: owner.todoID, content: content)
         owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)

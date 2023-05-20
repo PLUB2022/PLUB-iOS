@@ -14,7 +14,7 @@ import Then
 protocol TodoViewDelegate: AnyObject {
   func whichTodoContent(content: String)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
-  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool)
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String)
 }
 
 struct TodoViewModel {
@@ -148,6 +148,11 @@ final class TodoView: UIView {
     }
   }
   
+  func changedTextForEdit(content: String?) {
+    guard let content = content else { return }
+    todoTextField.text = content
+  }
+  
   func clearTextField() {
     todoTextField.text = nil
   }
@@ -179,7 +184,7 @@ final class TodoView: UIView {
     moreButton.rx.tap
       .subscribe(with: self) { owner, _ in
         guard let model = owner.model else { return }
-        owner.delegate?.tappedMoreButton(todoID: model.todoID, isChecked: owner.checkBoxButton.isChecked, isProof: model.isProof)
+        owner.delegate?.tappedMoreButton(todoID: model.todoID, isChecked: owner.checkBoxButton.isChecked, isProof: model.isProof, content: model.content)
       }
       .disposed(by: disposeBag)
   }

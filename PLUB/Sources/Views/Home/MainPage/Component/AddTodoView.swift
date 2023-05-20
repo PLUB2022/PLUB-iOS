@@ -40,7 +40,7 @@ struct AddTodoViewModel {
 protocol AddTodoViewDelegate: AnyObject {
   func whichCreateTodoRequest(request: CreateTodoRequest, type: AddTodoType)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
-  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool)
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String)
 }
 
 enum AddTodoType {
@@ -54,7 +54,7 @@ final class AddTodoView: UIView {
   private var type: AddTodoType = .create
   private var date: Date?
   private(set) var completionHandler: ((Date) -> Void)?
-  private(set) var todoHandler: ((AddTodoType) -> Void)?
+  private(set) var todoHandler: ((AddTodoType, String?) -> Void)?
   
   private let todoContainerView = UIStackView().then {
     $0.axis = .vertical
@@ -110,9 +110,10 @@ final class AddTodoView: UIView {
     
     inputTodoView.clearTextField()
     
-    todoHandler = { [weak self] type in
+    todoHandler = { [weak self] type, content in
       guard let self = self else { return }
       self.type = type
+      self.inputTodoView.changedTextForEdit(content: content)
       self.inputTodoView.becomeResponder()
     }
     
@@ -133,8 +134,8 @@ final class AddTodoView: UIView {
 }
 
 extension AddTodoView: TodoViewDelegate {
-  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool) {
-    delegate?.tappedMoreButton(todoID: todoID, isChecked: isChecked, isProof: isProof)
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String) {
+    delegate?.tappedMoreButton(todoID: todoID, isChecked: isChecked, isProof: isProof, content: content)
   }
   
   func whichTodoChecked(isChecked: Bool, todoID: Int) {
