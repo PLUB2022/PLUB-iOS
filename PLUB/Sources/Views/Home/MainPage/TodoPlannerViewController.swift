@@ -95,6 +95,13 @@ final class TodoPlannerViewController: BaseViewController {
     viewModel.todolistModelByDate
       .drive(rx.todolistModel)
       .disposed(by: disposeBag)
+    
+    viewModel.successDeleteTodo
+      .emit(with: self) { owner, success in
+        Log.debug(success)
+        owner.viewModel.selectPlubbingID.onNext(owner.plubbingID)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

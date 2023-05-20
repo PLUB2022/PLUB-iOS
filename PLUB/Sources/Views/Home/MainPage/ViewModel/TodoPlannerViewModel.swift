@@ -21,6 +21,7 @@ protocol TodoPlannerViewModelType {
   var whichDeleteTodo: AnyObserver<Int> { get }
  
   var todolistModelByDate: Driver<AddTodoViewModel> { get }
+  var successDeleteTodo: Signal<String> { get }
 }
 
 final class TodoPlannerViewModel: TodoPlannerViewModelType {
@@ -35,6 +36,7 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
   private let editRequest = PublishSubject<EditTodolistRequest>()
   private let selectTodoID = PublishSubject<Int>()
   private let deleteTodo = PublishSubject<Int>()
+  private let successDeleteMessage = PublishSubject<String>()
   
   init() {
     tryCreateTodo()
@@ -53,9 +55,9 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
       }
     
     deleteTodo
-      .subscribe(onNext: { response in
-        print("투두 삭제 \(response)")
-      })
+      .subscribe(with: self) { owner, response in
+        owner.successDeleteMessage.onNext(response.result)
+      }
       .disposed(by: disposeBag)
   }
   
@@ -208,6 +210,10 @@ extension TodoPlannerViewModel {
     inquireDate.asObserver()
   }
   
+  var whichTodoChecked: AnyObserver<(Bool, Int)> {
+    selectTodo.asObserver()
+  }
+  
   var todolistModelByDate: Driver<AddTodoViewModel> {
     todolistModelByCurrentDate
       .withUnretained(self)
@@ -215,7 +221,8 @@ extension TodoPlannerViewModel {
       .asDriver(onErrorDriveWith: .empty())
   }
   
-  var whichTodoChecked: AnyObserver<(Bool, Int)> {
-    selectTodo.asObserver()
+  var successDeleteTodo: Signal<String> {
+    successDeleteMessage.asSignal(onErrorSignalWith: .empty())
   }
+  
 }
