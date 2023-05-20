@@ -132,17 +132,17 @@ class BaseService {
             let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .prettyPrinted),
             let formattedString = String(data: prettyJsonData, encoding: .utf8)
       else {
-        Log.fault("\(name) decodingError: \n\(data)", category: .network, fileID: fileID, line: line)
+        Log.fault("decodingError: \n\(data)", category: .network, fileID: fileID, line: line, function: name)
         return .failure(.decodingError(raw: data))
       }
       if decodedData.data != nil {
-        Log.notice("\(name) Success: \n\(formattedString)", category: .network, fileID: fileID, line: line)
+        Log.notice("Success: \n\(formattedString)", category: .network, fileID: fileID, line: line, function: name)
         return .success(decodedData)
       }
-      Log.fault("\(name) decodingError: \n\(formattedString)", category: .network, fileID: fileID, line: line)
+      Log.fault("decodingError: \n\(formattedString)", category: .network, fileID: fileID, line: line, function: name)
       return .failure(.decodingError(raw: data))
     case 400..<500:
-      Log.error("\(name) Request Error: \n\(decodedData)", category: .network, fileID: fileID, line: line)
+      Log.error("Request Error: \n\(decodedData)", category: .network, fileID: fileID, line: line, function: name)
       return .failure(.requestError(decodedData))
     case 500..<600:
       return .failure(.serverError)

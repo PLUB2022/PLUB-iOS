@@ -16,48 +16,53 @@ enum Log {
     return .init(subsystem: subsystem, category: category)
   }
   
-  static func debug<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func debug<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line, function: String = #function) {
     let message = String(describing: value)
+    let fileIDAndLine = "[\(fileID):\(line)]"
     switch privacy {
-    case .auto:       logger(category: category.rawValue).debug("[\(fileID):\(line)] \(message, privacy: .auto)")
-    case .public:     logger(category: category.rawValue).debug("[\(fileID):\(line)] \(message, privacy: .public)")
-    case .private:    logger(category: category.rawValue).debug("[\(fileID):\(line)] \(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).debug("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).debug("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).debug("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .private)")
     }
   }
   
-  static func info<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func info<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line, function: String = #function) {
     let message = String(describing: value)
+    let fileIDAndLine = "[\(fileID):\(line)]"
     switch privacy {
-    case .auto:       logger(category: category.rawValue).info("[\(fileID):\(line)] \(message, privacy: .auto)")
-    case .public:     logger(category: category.rawValue).info("[\(fileID):\(line)] \(message, privacy: .public)")
-    case .private:    logger(category: category.rawValue).info("[\(fileID):\(line)] \(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).info("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).info("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).info("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .private)")
     }
   }
   
-  static func notice<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func notice<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line, function: String = #function) {
     let message = String(describing: value)
+    let fileIDAndLine = "[\(fileID):\(line)]"
     switch privacy {
-    case .auto:       logger(category: category.rawValue).notice("[\(fileID):\(line)] \(message, privacy: .auto)")
-    case .public:     logger(category: category.rawValue).notice("[\(fileID):\(line)] \(message, privacy: .public)")
-    case .private:    logger(category: category.rawValue).notice("[\(fileID):\(line)] \(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).notice("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).notice("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).notice("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .private)")
     }
   }
   
-  static func error<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func error<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line, function: String = #function) {
     let message = String(describing: value)
+    let fileIDAndLine = "[\(fileID):\(line)]"
     switch privacy {
-    case .auto:       logger(category: category.rawValue).error("[\(fileID):\(line)] \(message, privacy: .auto)")
-    case .public:     logger(category: category.rawValue).error("[\(fileID):\(line)] \(message, privacy: .public)")
-    case .private:    logger(category: category.rawValue).error("[\(fileID):\(line)] \(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).error("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).error("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).error("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .private)")
     }
   }
   
-  static func fault<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line) {
+  static func fault<T>(_ value: T, category: Category = .default, privacy: Privacy = .auto, fileID: String = #fileID, line: Int = #line, function: String = #function) {
     let message = String(describing: value)
+    let fileIDAndLine = "[\(fileID):\(line)]"
     switch privacy {
-    case .auto:       logger(category: category.rawValue).fault("[\(fileID):\(line)] \(message, privacy: .auto)")
-    case .public:     logger(category: category.rawValue).fault("[\(fileID):\(line)] \(message, privacy: .public)")
-    case .private:    logger(category: category.rawValue).fault("[\(fileID):\(line)] \(message, privacy: .private)")
+    case .auto:       logger(category: category.rawValue).fault("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .auto)")
+    case .public:     logger(category: category.rawValue).fault("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .public)")
+    case .private:    logger(category: category.rawValue).fault("\(fileIDAndLine, align: .left(columns: 30)) \(function, align: .left(columns: 50)) \(message, privacy: .private)")
     }
   }
 }
