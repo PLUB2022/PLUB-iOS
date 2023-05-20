@@ -33,7 +33,9 @@ final class ProofTodoAlertViewController: BaseViewController {
   
   private let animationView = LottieAnimationView().then {
     $0.contentMode = .scaleAspectFill
+    $0.layer.masksToBounds = true
     $0.animation = .named("CreateMeeting")
+    $0.play()
   }
   
   private let successGoalLabel = UILabel().then {
@@ -106,15 +108,6 @@ final class ProofTodoAlertViewController: BaseViewController {
       $0.center.equalToSuperview()
     }
     
-    animationView.snp.makeConstraints {
-      $0.height.equalTo(259)
-    }
-  
-    containerView.setCustomSpacing(8, after: animationView)
-  }
-  
-  func configureUI(with model: String) {
-    let url = URL(string: model)
-//    animationView.kf.setImage(with: url)
+    containerView.setCustomSpacing(0, after: animationView)
   }
 }

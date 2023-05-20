@@ -116,7 +116,6 @@ final class TodolistViewController: BaseViewController {
       .emit(with: self) { owner, image in
         let alert = ProofTodoAlertViewController()
         alert.modalPresentationStyle = .overFullScreen
-        alert.configureUI(with: image)
         owner.present(alert, animated: false)
       }
       .disposed(by: disposeBag)
