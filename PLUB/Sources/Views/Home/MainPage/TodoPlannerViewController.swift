@@ -234,6 +234,12 @@ extension TodoPlannerViewController: AddTodoViewDelegate {
 extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
   func proofImage(todoID: Int) {
     Log.debug("투두인증 \(todoID)")
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      guard let self = self else { return }
+      let alert = TodoAlertController()
+      alert.modalPresentationStyle = .overFullScreen
+      self.present(alert, animated: true)
+    }
   }
   
   func editTodo(todoID: Int, content: String) {
