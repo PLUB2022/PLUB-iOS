@@ -14,7 +14,7 @@ import Then
 protocol TodoViewDelegate: AnyObject {
   func whichTodoContent(content: String)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
-  func tappedMoreButton(todoID: Int, isChecked: Bool)
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool)
 }
 
 struct TodoViewModel {
@@ -58,7 +58,7 @@ final class TodoView: UIView {
   weak var delegate: TodoViewDelegate?
   private let disposeBag = DisposeBag()
   private let type: TodoViewType
-  private var todoID: Int?
+  private var model: TodoViewModel?
   
   private lazy var emptyCheckView = UIView().then {
     $0.layer.borderWidth = 1
@@ -157,7 +157,7 @@ final class TodoView: UIView {
   }
   
   func configureUI(with model: TodoViewModel) {
-    todoID = model.todoID
+    self.model = model
     contentLabel.text = model.content
     checkBoxButton.isChecked = model.isChecked || model.isProof
     contentLabel.attributedText = model.isChecked ? contentLabel.text?.strikeThrough() : NSAttributedString(string: contentLabel.text ?? "")
@@ -169,7 +169,7 @@ final class TodoView: UIView {
   private func bind() {
     checkBoxButton.rx.isChecked
       .subscribe(with: self) { owner, isChecked in
-        guard let todoID = owner.todoID else { return }
+        guard let todoID = owner.model?.todoID else { return }
         owner.contentLabel.attributedText = isChecked ? owner.contentLabel.text?.strikeThrough() : NSAttributedString(string: owner.contentLabel.text ?? "")
         
         owner.delegate?.whichTodoChecked(isChecked: isChecked, todoID: todoID)
@@ -178,8 +178,8 @@ final class TodoView: UIView {
     
     moreButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        guard let todoID = owner.todoID else { return }
-        owner.delegate?.tappedMoreButton(todoID: todoID, isChecked: owner.checkBoxButton.isChecked)
+        guard let model = owner.model else { return }
+        owner.delegate?.tappedMoreButton(todoID: model.todoID, isChecked: owner.checkBoxButton.isChecked, isProof: model.isProof)
       }
       .disposed(by: disposeBag)
   }
