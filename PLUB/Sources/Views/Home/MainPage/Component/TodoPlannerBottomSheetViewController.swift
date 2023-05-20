@@ -14,6 +14,7 @@ import Then
 enum TodoPlannerBottomSheetType {
   case complete
   case noComplete
+  case proof
 }
 
 protocol TodoPlannerBottomSheetDelegate: AnyObject {
@@ -82,6 +83,8 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
       [proofImageListView, editTodoListView, deleteTodoListView].forEach { stackView.addArrangedSubview($0) }
     case .noComplete:
       [editTodoListView, deleteTodoListView].forEach { stackView.addArrangedSubview($0) }
+    case .proof:
+      stackView.addArrangedSubview(deleteTodoListView)
     }
   }
   
@@ -106,6 +109,10 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
         $0.snp.makeConstraints {
           $0.height.equalTo(Metrics.Size.listHeight)
         }
+      }
+    case .proof:
+      deleteTodoListView.snp.makeConstraints {
+        $0.height.equalTo(Metrics.Size.listHeight)
       }
     }
   }
