@@ -35,7 +35,7 @@ struct TodoContent: Codable {
   let date: String
   let totalLikes: Int
   let isAuthor: Bool
-  let todoList: [Todo]
+  var todoList: [Todo]
   
   enum CodingKeys: String, CodingKey {
     case date, totalLikes, isAuthor, todoList

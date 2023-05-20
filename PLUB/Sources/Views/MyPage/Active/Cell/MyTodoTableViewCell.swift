@@ -10,8 +10,13 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MyTodoTableViewCellDelegate: AnyObject {
+  func didTappedCheckButton(todo: Todo)
+}
+
 final class MyTodoTableViewCell: UITableViewCell {
   static let identifier = "MyTodoTableViewCell"
+  weak var delegate: MyTodoTableViewCellDelegate?
   
   private let pointImageView = UIImageView().then {
     $0.image = UIImage(named: "pointActived")
@@ -140,6 +145,7 @@ final class MyTodoTableViewCell: UITableViewCell {
     
     for todoItem in todo.todoList {
       let todoListView = TodoListView(todo: todoItem)
+      todoListView.delegate = self
       todoStackView.addArrangedSubview(todoListView)
     }
   }
@@ -170,5 +176,11 @@ final class MyTodoTableViewCell: UITableViewCell {
     likeLabel.text = "\(totalLikes)"
     let buttonImage = totalLikes > 0 ? UIImage(named: "heartFilled") : UIImage(named: "heart")
     likeButton.setImage(buttonImage, for: .normal)
+  }
+}
+
+extension MyTodoTableViewCell: TodoListViewDelegate {
+  func didTappedCheckButton(todo: Todo) {
+    delegate?.didTappedCheckButton(todo: todo)
   }
 }

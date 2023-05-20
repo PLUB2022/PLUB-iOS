@@ -126,7 +126,8 @@ extension MyTodoViewController: UITableViewDataSource {
       ) as? MyTodoTableViewCell else { return UITableViewCell() }
 
       cell.setupData(with: todo)
-
+      cell.delegate = self
+      
       return cell
     }
   }
@@ -134,5 +135,27 @@ extension MyTodoViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       let todoCount = viewModel.todoList.count
       return todoCount == 0 ? 1 : todoCount
+  }
+}
+
+extension MyTodoViewController: MyTodoTableViewCellDelegate {
+  func didTappedCheckButton(todo: Todo) {
+    viewModel.selectTodolistID.onNext(todo.todoID)
+    viewModel.selectComplete.onNext(!todo.isChecked)
+    
+    if !todo.isChecked {
+      let alert = TodoAlertController()
+      alert.modalPresentationStyle = .overFullScreen
+      alert.delegate = self
+      alert.configureUI(with: todo.toTodoAlertModel)
+      present(alert, animated: false)
+    }
+  }
+}
+
+
+extension MyTodoViewController: TodoAlertDelegate {
+  func whichProofImage(image: UIImage) {
+    viewModel.whichProofImage.onNext(image)
   }
 }
