@@ -8,6 +8,7 @@
 import UIKit
 
 import Kingfisher
+import Lottie
 import RxSwift
 import SnapKit
 import Then
@@ -30,9 +31,9 @@ final class ProofTodoAlertViewController: BaseViewController {
     $0.layoutMargins = .init(top: .zero, left: .zero, bottom: 12, right: .zero)
   }
   
-  private let proofImageView = UIImageView().then {
+  private let animationView = LottieAnimationView().then {
     $0.contentMode = .scaleAspectFill
-    $0.layer.masksToBounds = true
+    $0.animation = .named("CreateMeeting")
   }
   
   private let successGoalLabel = UILabel().then {
@@ -89,7 +90,7 @@ final class ProofTodoAlertViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(dimmedView)
     dimmedView.addSubview(containerView)
-    [proofImageView, successGoalLabel, alertLabel].forEach { containerView.addArrangedSubview($0) }
+    [animationView, successGoalLabel, alertLabel].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -105,15 +106,15 @@ final class ProofTodoAlertViewController: BaseViewController {
       $0.center.equalToSuperview()
     }
     
-    proofImageView.snp.makeConstraints {
+    animationView.snp.makeConstraints {
       $0.height.equalTo(259)
     }
   
-    containerView.setCustomSpacing(8, after: proofImageView)
+    containerView.setCustomSpacing(8, after: animationView)
   }
   
   func configureUI(with model: String) {
     let url = URL(string: model)
-    proofImageView.kf.setImage(with: url)
+//    animationView.kf.setImage(with: url)
   }
 }

@@ -52,16 +52,10 @@ final class TodolistViewModel {
         cursorID: 0
       )
     }
-      .share()
     
-    let successInquireAllTodoTimeline = inquireAllTodoTimeline.compactMap { result -> [InquireAllTodoTimelineResponse]? in
-      guard case .success(let response) = result else { return nil }
-      return response.data?.content
-    }
-    
-    successInquireAllTodoTimeline
+    inquireAllTodoTimeline
       .withUnretained(self)
-      .map { $0.parseFromResponseToModel(response: $1) }
+      .map { $0.parseFromResponseToModel(response: $1.content) }
       .bind(to: allTodoTimeline)
       .disposed(by: disposeBag)
   }
