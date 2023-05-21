@@ -128,15 +128,7 @@ final class SettingViewController: BaseViewController {
   private func addSubViews(stackView: UIStackView, type: SettingType) {
     switch type {
     case .use:
-      SettingUseType.allCases.enumerated().forEach { index, useType in
-        let isLast = index == SettingUseType.allCases.count - 1
-        
-        let detailSubview = SettingDetailSubView(useType.rawValue, isLast: isLast)
-        stackView.addArrangedSubview(detailSubview)
-        detailSubview.snp.makeConstraints {
-          $0.height.equalTo(52)
-        }
-      }
+      addUseViews(stackView: stackView)
     case .account:
       addAccountViews(stackView: stackView)
     case .version:
@@ -146,6 +138,31 @@ final class SettingViewController: BaseViewController {
 }
 
 extension SettingViewController {
+  private func addUseViews(stackView: UIStackView) {
+    SettingUseType.allCases.enumerated().forEach { index, useType in
+      let isLast = index == SettingUseType.allCases.count - 1
+      
+      let detailSubview = SettingDetailSubView(useType.rawValue, isLast: isLast)
+      stackView.addArrangedSubview(detailSubview)
+      detailSubview.snp.makeConstraints {
+        $0.height.equalTo(52)
+      }
+      
+      detailSubview.button
+        .rx.tap
+        .asDriver()
+        .drive(with: self) { owner, _ in
+          switch useType {
+          case .notice: break
+          case .email: break
+          case .qna: break
+          case .alarm: break
+          }
+        }
+        .disposed(by: disposeBag)
+    }
+  }
+  
   private func addAccountViews(stackView: UIStackView) {
     SettingAccountType.allCases.enumerated().forEach { index, accountType in
       let isLast = index == SettingAccountType.allCases.count - 1
