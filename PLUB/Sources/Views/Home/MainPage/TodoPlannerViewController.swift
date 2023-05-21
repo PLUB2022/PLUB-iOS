@@ -124,7 +124,6 @@ final class TodoPlannerViewController: BaseViewController {
     viewModel.whichInquireDate.onNext(Date())
     navigationItem.title = title
     view.addGestureRecognizer(tapGesture)
-    view.isUserInteractionEnabled = true
   }
   
   override func setupLayouts() {
@@ -172,6 +171,7 @@ extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, F
   }
   
   func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+    print("데이트 \(date)")
     addTodoView.completionHandler?(date)
     viewModel.whichInquireDate.onNext(date)
     if Calendar.current.isDateInToday(date) {
@@ -237,7 +237,7 @@ extension TodoPlannerViewController: AddTodoViewDelegate {
   }
   
   func whichCreateTodoRequest(request: CreateTodoRequest, type: AddTodoType) {
-    Log.debug("투두생성리퀘스트 \(type)")
+    Log.debug("투두생성리퀘스트 \(type)\n 투두생성요청 \(request)")
     switch type {
     case .create:
       viewModel.whichCreateTodoRequest.onNext(request)

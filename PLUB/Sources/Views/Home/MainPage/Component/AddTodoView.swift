@@ -147,8 +147,7 @@ extension AddTodoView: TodoViewDelegate {
   }
   
   func whichTodoContent(content: String) {
-    guard let date = self.date else { return }
-    let dateString = DateFormatterFactory.dateWithHypen.string(from: date)
+    let dateString = DateFormatterFactory.dateWithHypen.string(from: date ?? Date())
     delegate?.whichCreateTodoRequest(request: .init(content: content, date: dateString), type: type)
     inputTodoView.clearTextField()
   }
