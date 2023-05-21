@@ -85,7 +85,7 @@ final class SettingViewController: BaseViewController {
       }
       contentStackView.addArrangedSubview(subStackView)
       
-      let subView = SettingSubview($0.rawValue)
+      let subView = SettingSubview($0)
       subStackView.addArrangedSubview(subView)
       subView.snp.makeConstraints {
         $0.height.equalTo(50)
