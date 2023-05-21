@@ -126,7 +126,7 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
     self.type = type
     titleLabel.text = type.titleText
     moreButton.isHidden = !isViewAll
-    todoPlannerButton.isHidden = !(!isViewAll && type == .todo)
+    todoPlannerButton.isHidden = !(isDetail && type == .todo)
     if isDetail {
       titleLabel.snp.updateConstraints {
         $0.top.equalToSuperview()
