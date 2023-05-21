@@ -243,7 +243,6 @@ extension TodoPlannerViewController: AddTodoViewDelegate {
       viewModel.whichCreateTodoRequest.onNext(request)
     case .edit:
       viewModel.whichEditRequest.onNext(EditTodolistRequest(content: request.content, date: request.date))
-      addTodoView.todoHandler?(.create, nil)
     }
   }
 }

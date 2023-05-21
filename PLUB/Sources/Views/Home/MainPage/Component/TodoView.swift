@@ -12,6 +12,7 @@ import SnapKit
 import Then
 
 protocol TodoViewDelegate: AnyObject {
+  func inputTextIsEmpty(isEmpty: Bool)
   func whichTodoContent(content: String)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
   func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String)
@@ -185,6 +186,15 @@ final class TodoView: UIView {
       .subscribe(with: self) { owner, _ in
         guard let model = owner.model else { return }
         owner.delegate?.tappedMoreButton(todoID: model.todoID, isChecked: owner.checkBoxButton.isChecked, isProof: model.isProof, content: model.content)
+      }
+      .disposed(by: disposeBag)
+    
+    todoTextField.rx.text
+      .orEmpty
+      .map { $0.isEmpty }
+      .distinctUntilChanged()
+      .subscribe(with: self) { owner, isEmpty in
+        owner.delegate?.inputTextIsEmpty(isEmpty: isEmpty)
       }
       .disposed(by: disposeBag)
   }

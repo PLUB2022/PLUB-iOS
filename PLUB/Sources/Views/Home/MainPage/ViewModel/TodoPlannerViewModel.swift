@@ -62,13 +62,15 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
   }
   
   private func tryEditTodolist() {
-    let editTodolist = Observable.combineLatest(
-      whichPlubbingID,
-      selectTodoID,
-      editRequest
-    ) { ($0, $1, $2) }
-      .flatMapLatest { result in
-        let (plubbingID, todoID, request) = result
+    let editTodolist = editRequest
+      .withLatestFrom(
+        Observable.combineLatest(
+          whichPlubbingID,
+          selectTodoID
+        ) { ($0, $1) }
+      ) { ($0, $1) }
+      .flatMapLatest { (request: EditTodolistRequest, result: (Int, Int)) in
+        let (plubbingID, todoID) = result
         return TodolistService.shared.editTodolist(
           plubbingID: plubbingID,
           todoID: todoID,

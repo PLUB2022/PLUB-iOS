@@ -51,7 +51,7 @@ enum AddTodoType {
 final class AddTodoView: UIView {
   
   weak var delegate: AddTodoViewDelegate?
-  private var type: AddTodoType = .create
+  private var type: AddTodoType = .create 
   private var date: Date?
   private(set) var completionHandler: ((Date) -> Void)?
   private(set) var todoHandler: ((AddTodoType, String?) -> Void)?
@@ -108,8 +108,6 @@ final class AddTodoView: UIView {
       .arrangedSubviews[2...]
       .forEach { $0.removeFromSuperview() }
     
-    inputTodoView.clearTextField()
-    
     todoHandler = { [weak self] type, content in
       guard let self = self else { return }
       self.type = type
@@ -134,6 +132,12 @@ final class AddTodoView: UIView {
 }
 
 extension AddTodoView: TodoViewDelegate {
+  func inputTextIsEmpty(isEmpty: Bool) {
+    if type == .edit && isEmpty {
+      type = .create
+    }
+  }
+  
   func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String) {
     delegate?.tappedMoreButton(todoID: todoID, isChecked: isChecked, isProof: isProof, content: content)
   }
@@ -146,5 +150,6 @@ extension AddTodoView: TodoViewDelegate {
     guard let date = self.date else { return }
     let dateString = DateFormatterFactory.dateWithHypen.string(from: date)
     delegate?.whichCreateTodoRequest(request: .init(content: content, date: dateString), type: type)
+    inputTodoView.clearTextField()
   }
 }
