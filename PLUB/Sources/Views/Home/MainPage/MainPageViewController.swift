@@ -80,7 +80,9 @@ final class MainPageViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private lazy var todolistViewController = TodolistViewController(plubbingID: plubbingID, goal: goal)
+  private lazy var todolistViewController = TodolistViewController(plubbingID: plubbingID, goal: goal).then {
+    $0.delegate = self
+  }
   
   private var viewControllers: [UIViewController] {
     [
@@ -289,5 +291,14 @@ extension MainPageViewController: MainPageNavigationViewDelegate {
     vc.title = title
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension MainPageViewController: TodolistDelegate {
+  func didTappedTodoPlanner() {
+    let vc = TodoPlannerViewController(plubbingID: plubbingID, type: .manageMyPlanner)
+    vc.navigationItem.largeTitleDisplayMode = .never
+    vc.title = title
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 }

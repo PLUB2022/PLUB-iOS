@@ -14,11 +14,12 @@ import Then
 enum TodoPlannerBottomSheetType {
   case complete
   case noComplete
+  case proof
 }
 
 protocol TodoPlannerBottomSheetDelegate: AnyObject {
   func proofImage(todoID: Int)
-  func editTodo(todoID: Int)
+  func editTodo(todoID: Int, content: String)
   func deleteTodo(todoID: Int)
 }
 
@@ -28,6 +29,7 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
   
   private let type: TodoPlannerBottomSheetType
   private let todoID: Int
+  private let content: String?
   
   private let stackView = UIStackView().then {
     $0.axis = .vertical
@@ -38,9 +40,10 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
   private let editTodoListView = BottomSheetListView(text: "TO-DO 수정", image: "editBlack")
   private let deleteTodoListView = BottomSheetListView(text: "TO-DO 삭제", image: "trashRed", textColor: .error)
   
-  init(type: TodoPlannerBottomSheetType, todoID: Int) {
+  init(type: TodoPlannerBottomSheetType, todoID: Int, content: String?) {
     self.type = type
     self.todoID = todoID
+    self.content = content
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -54,18 +57,22 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
     proofImageListView.button.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.proofImage(todoID: owner.todoID)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
     
     editTodoListView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.editTodo(todoID: owner.todoID)
+        guard let content = owner.content else { return }
+        owner.delegate?.editTodo(todoID: owner.todoID, content: content)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
     
     deleteTodoListView.button.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.deleteTodo(todoID: owner.todoID)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -76,9 +83,11 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
     
     switch type {
     case .complete:
-      [proofImageListView, editTodoListView, deleteTodoListView].forEach { stackView.addArrangedSubview($0) }
+      [proofImageListView, deleteTodoListView].forEach { stackView.addArrangedSubview($0) }
     case .noComplete:
       [editTodoListView, deleteTodoListView].forEach { stackView.addArrangedSubview($0) }
+    case .proof:
+      stackView.addArrangedSubview(deleteTodoListView)
     }
   }
   
@@ -103,6 +112,10 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
         $0.snp.makeConstraints {
           $0.height.equalTo(Metrics.Size.listHeight)
         }
+      }
+    case .proof:
+      deleteTodoListView.snp.makeConstraints {
+        $0.height.equalTo(Metrics.Size.listHeight)
       }
     }
   }

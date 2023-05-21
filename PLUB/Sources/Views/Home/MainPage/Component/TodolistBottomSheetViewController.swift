@@ -33,9 +33,15 @@ enum TodolistBottomSheetType {
   }
 }
 
+protocol TodolistBottomSheetDelegate: AnyObject {
+  func didTappedTodoPlanner()
+  func didTappedReport()
+}
+
 final class TodolistBottomSheetViewController: BottomSheetViewController {
   
   private let type: TodolistBottomSheetType
+  weak var delegate: TodolistBottomSheetDelegate?
   
   private lazy var bottomSheetView = BottomSheetListView(
     text: type.text,
@@ -49,6 +55,20 @@ final class TodolistBottomSheetViewController: BottomSheetViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func bind() {
+    bottomSheetView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        switch owner.type {
+        case .todoPlanner:
+          owner.delegate?.didTappedTodoPlanner()
+        case .report:
+          owner.delegate?.didTappedReport()
+        }
+        owner.dismiss(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {

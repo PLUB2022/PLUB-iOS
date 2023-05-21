@@ -25,7 +25,9 @@ struct AddTodoViewModel {
         todoID: $0.todoID,
         date: $0.date,
         isChecked: $0.isChecked,
-        content: $0.content
+        content: $0.content,
+        isAuthor: $0.isAuthor,
+        isProof: $0.isProof
       )
     }
   }
@@ -36,16 +38,23 @@ struct AddTodoViewModel {
 }
 
 protocol AddTodoViewDelegate: AnyObject {
-  func whichCreateTodoRequest(request: CreateTodoRequest)
+  func whichCreateTodoRequest(request: CreateTodoRequest, type: AddTodoType)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
-  func tappedMoreButton(todoID: Int, isChecked: Bool)
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String)
+}
+
+enum AddTodoType {
+  case create
+  case edit
 }
 
 final class AddTodoView: UIView {
   
   weak var delegate: AddTodoViewDelegate?
+  private var type: AddTodoType = .create 
   private var date: Date?
   private(set) var completionHandler: ((Date) -> Void)?
+  private(set) var todoHandler: ((AddTodoType, String?) -> Void)?
   
   private let todoContainerView = UIStackView().then {
     $0.axis = .vertical
@@ -57,6 +66,10 @@ final class AddTodoView: UIView {
   private let dateLabel = UILabel().then {
     $0.textColor = .main
     $0.font = .h5
+  }
+  
+  private lazy var inputTodoView = TodoView(type: .input).then {
+    $0.delegate = self
   }
   
   override init(frame: CGRect) {
@@ -84,9 +97,7 @@ final class AddTodoView: UIView {
     }
     
     todoContainerView.addArrangedSubview(dateLabel)
-    
-    let todoView = TodoView(type: .input)
-    todoContainerView.addArrangedSubview(todoView)
+    todoContainerView.addArrangedSubview(inputTodoView)
     
     let today = DateFormatterFactory.todolistDate.string(from: Date())
     dateLabel.text = "\(today) (오늘)"
@@ -94,12 +105,15 @@ final class AddTodoView: UIView {
   
   func configureUI(with model: AddTodoViewModel) {
     todoContainerView
-      .arrangedSubviews.dropFirst()
+      .arrangedSubviews[2...]
       .forEach { $0.removeFromSuperview() }
     
-    let inputTodoView = TodoView(type: .input)
-    inputTodoView.delegate = self
-    todoContainerView.addArrangedSubview(inputTodoView)
+    todoHandler = { [weak self] type, content in
+      guard let self = self else { return }
+      self.type = type
+      self.inputTodoView.changedTextForEdit(content: content)
+      self.inputTodoView.becomeResponder()
+    }
     
     model.todoViewModel.forEach { model in
       let todoView = TodoView(type: .todo)
@@ -108,7 +122,9 @@ final class AddTodoView: UIView {
         todoID: model.todoID,
         date: model.date,
         isChecked: model.isChecked,
-        content: model.content)
+        content: model.content,
+        isAuthor: model.isAuthor,
+        isProof: model.isProof)
       )
       todoContainerView.addArrangedSubview(todoView)
     }
@@ -116,8 +132,14 @@ final class AddTodoView: UIView {
 }
 
 extension AddTodoView: TodoViewDelegate {
-  func tappedMoreButton(todoID: Int, isChecked: Bool) {
-    delegate?.tappedMoreButton(todoID: todoID, isChecked: isChecked)
+  func inputTextIsEmpty(isEmpty: Bool) {
+    if type == .edit && isEmpty {
+      type = .create
+    }
+  }
+  
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String) {
+    delegate?.tappedMoreButton(todoID: todoID, isChecked: isChecked, isProof: isProof, content: content)
   }
   
   func whichTodoChecked(isChecked: Bool, todoID: Int) {
@@ -125,8 +147,8 @@ extension AddTodoView: TodoViewDelegate {
   }
   
   func whichTodoContent(content: String) {
-    guard let date = self.date else { return }
-    let dateString = DateFormatterFactory.dateWithHypen.string(from: date)
-    delegate?.whichCreateTodoRequest(request: .init(content: content, date: dateString))
+    let dateString = DateFormatterFactory.dateWithHypen.string(from: date ?? Date())
+    delegate?.whichCreateTodoRequest(request: .init(content: content, date: dateString), type: type)
+    inputTodoView.clearTextField()
   }
 }

@@ -11,9 +11,24 @@ import FSCalendar
 import SnapKit
 import Then
 
+enum TodoPlannerType {
+  case addNewTodo
+  case manageMyPlanner
+  
+  var title: String {
+    switch self {
+    case .addNewTodo:
+      return "새 To-Do 추가하기"
+    case .manageMyPlanner:
+      return "내 Planner 관리하기"
+    }
+  }
+}
+
 final class TodoPlannerViewController: BaseViewController {
   
   private let viewModel: TodoPlannerViewModelType
+  private let type: TodoPlannerType
   
   private let plubbingID: Int
   
@@ -33,8 +48,8 @@ final class TodoPlannerViewController: BaseViewController {
     $0.layoutMargins = .init(top: .zero, left: 16, bottom: .zero, right: 16)
   }
   
-  private let textLabel = UILabel().then {
-    $0.text = "새 To-Do 추가하기"
+  private lazy var textLabel = UILabel().then {
+    $0.text = type.title
     $0.font = .h3
     $0.textColor = .black
   }
@@ -49,6 +64,7 @@ final class TodoPlannerViewController: BaseViewController {
     $0.appearance.todayColor = .white
     $0.appearance.weekdayTextColor = .gray
     $0.appearance.titleWeekendColor = .red
+    $0.select(Date())
   }
   
   private lazy var addTodoView = AddTodoView().then {
@@ -60,9 +76,16 @@ final class TodoPlannerViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(viewModel: TodoPlannerViewModelType = TodoPlannerViewModel(), plubbingID: Int) {
+  private let tapGesture = UITapGestureRecognizer(target: TodoPlannerViewController.self, action: nil).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
+  init(viewModel: TodoPlannerViewModelType = TodoPlannerViewModel(), plubbingID: Int, type: TodoPlannerType = .addNewTodo) {
     self.plubbingID = plubbingID
     self.viewModel = viewModel
+    self.type = type
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
@@ -79,12 +102,27 @@ final class TodoPlannerViewController: BaseViewController {
     viewModel.todolistModelByDate
       .drive(rx.todolistModel)
       .disposed(by: disposeBag)
+    
+    viewModel.successDeleteTodo
+      .emit(with: self) { owner, success in
+        Log.debug(success)
+        owner.viewModel.selectPlubbingID.onNext(owner.plubbingID)
+      }
+      .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
     super.setupStyles()
     viewModel.whichInquireDate.onNext(Date())
     navigationItem.title = title
+    view.addGestureRecognizer(tapGesture)
   }
   
   override func setupLayouts() {
@@ -179,32 +217,53 @@ extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, F
 }
 
 extension TodoPlannerViewController: AddTodoViewDelegate {
-  func tappedMoreButton(todoID: Int, isChecked: Bool) {
-    let bottomSheet = TodoPlannerBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID)
-    bottomSheet.delegate = self
-    present(bottomSheet, animated: true)
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String) {
+    
+    if isProof {
+      let bottomSheet = TodoPlannerBottomSheetViewController(type: .proof, todoID: todoID, content: nil)
+      bottomSheet.delegate = self
+      present(bottomSheet, animated: true)
+    } else {
+      let bottomSheet = TodoPlannerBottomSheetViewController(type: isChecked ? .complete : .noComplete, todoID: todoID, content: content)
+      bottomSheet.delegate = self
+      present(bottomSheet, animated: true)
+    }
   }
   
   func whichTodoChecked(isChecked: Bool, todoID: Int) {
     viewModel.whichTodoChecked.onNext((isChecked, todoID))
   }
   
-  func whichCreateTodoRequest(request: CreateTodoRequest) {
-    Log.debug("투두생성리퀘스트 \(request)")
-    viewModel.whichCreateTodoRequest.onNext(request)
+  func whichCreateTodoRequest(request: CreateTodoRequest, type: AddTodoType) {
+    Log.debug("투두생성리퀘스트 \(type)\n 투두생성요청 \(request)")
+    switch type {
+    case .create:
+      viewModel.whichCreateTodoRequest.onNext(request)
+    case .edit:
+      viewModel.whichEditRequest.onNext(EditTodolistRequest(content: request.content, date: request.date))
+    }
   }
 }
 
 extension TodoPlannerViewController: TodoPlannerBottomSheetDelegate {
   func proofImage(todoID: Int) {
     Log.debug("투두인증 \(todoID)")
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      guard let self = self else { return }
+      let alert = TodoAlertController()
+      alert.modalPresentationStyle = .overFullScreen
+      self.present(alert, animated: true)
+    }
   }
   
-  func editTodo(todoID: Int) {
+  func editTodo(todoID: Int, content: String) {
     Log.debug("투두작성 \(todoID)")
+    addTodoView.todoHandler?(.edit, content)
+    viewModel.whichTodoID.onNext(todoID)
   }
   
   func deleteTodo(todoID: Int) {
     Log.debug("투두삭제 \(todoID)")
+    viewModel.whichDeleteTodo.onNext(todoID)
   }
 }

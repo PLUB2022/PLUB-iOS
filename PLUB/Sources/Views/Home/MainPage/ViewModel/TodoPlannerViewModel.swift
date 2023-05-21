@@ -16,8 +16,12 @@ protocol TodoPlannerViewModelType {
   var whichInquireDate: AnyObserver<Date> { get }
   var selectPlubbingID: AnyObserver<Int> { get }
   var whichTodoChecked: AnyObserver<(Bool, Int)> { get }
+  var whichTodoID: AnyObserver<Int> { get }
+  var whichEditRequest: AnyObserver<EditTodolistRequest> { get }
+  var whichDeleteTodo: AnyObserver<Int> { get }
  
   var todolistModelByDate: Driver<AddTodoViewModel> { get }
+  var successDeleteTodo: Signal<String> { get }
 }
 
 final class TodoPlannerViewModel: TodoPlannerViewModelType {
@@ -29,11 +33,60 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
   private let inquireDate = PublishSubject<Date>()
   private let todolistModelByCurrentDate = PublishRelay<AddTodoViewModel>()
   private let selectTodo = PublishSubject<(Bool, Int)>()
+  private let editRequest = PublishSubject<EditTodolistRequest>()
+  private let selectTodoID = PublishSubject<Int>()
+  private let deleteTodo = PublishSubject<Int>()
+  private let successDeleteMessage = PublishSubject<String>()
   
   init() {
     tryCreateTodo()
     tryInquireTodolistByDate()
     tryTodoCompleteOrCancel()
+    tryEditTodolist()
+    tryDeleteTodo()
+  }
+  
+  private func tryDeleteTodo() {
+    let deleteTodo = deleteTodo
+      .withLatestFrom(whichPlubbingID) { ($0, $1) }
+      .flatMapLatest { result in
+        let (todoID, plubbingID) = result
+        return TodolistService.shared.deleteTodolist(plubbingID: plubbingID, todoID: todoID)
+      }
+    
+    deleteTodo
+      .subscribe(with: self) { owner, response in
+        owner.successDeleteMessage.onNext(response.result)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func tryEditTodolist() {
+    let editTodolist = editRequest
+      .withLatestFrom(
+        Observable.combineLatest(
+          whichPlubbingID,
+          selectTodoID
+        ) { ($0, $1) }
+      ) { ($0, $1) }
+      .flatMapLatest { (request: EditTodolistRequest, result: (Int, Int)) in
+        let (plubbingID, todoID) = result
+        return TodolistService.shared.editTodolist(
+          plubbingID: plubbingID,
+          todoID: todoID,
+          request: request
+        )
+      }
+    
+    editTodolist
+      .withLatestFrom(todolistModelByCurrentDate) { ($0, $1) }
+      .subscribe(with: self) { owner, result in
+        Log.debug("투두수정")
+        let (response, model) = result
+        let todoViewModel = TodoViewModel(response: response)
+        owner.addTodoViewModel(what: todoViewModel, where: model)
+      }
+      .disposed(by: disposeBag)
   }
   
   private func tryTodoCompleteOrCancel() {
@@ -131,6 +184,22 @@ final class TodoPlannerViewModel: TodoPlannerViewModelType {
 
 extension TodoPlannerViewModel {
   
+  var whichDeleteTodo: AnyObserver<Int> {
+    deleteTodo.asObserver()
+  }
+  
+  var whichTodoID: AnyObserver<Int> {
+    selectTodoID.asObserver()
+  }
+  
+  var whichEditRequest: AnyObserver<EditTodolistRequest> {
+    editRequest.asObserver()
+  }
+  
+  var whichEditTodolist: AnyObserver<EditTodolistRequest> {
+    editRequest.asObserver()
+  }
+  
   var selectPlubbingID: AnyObserver<Int> {
     whichPlubbingID.asObserver()
   }
@@ -143,6 +212,10 @@ extension TodoPlannerViewModel {
     inquireDate.asObserver()
   }
   
+  var whichTodoChecked: AnyObserver<(Bool, Int)> {
+    selectTodo.asObserver()
+  }
+  
   var todolistModelByDate: Driver<AddTodoViewModel> {
     todolistModelByCurrentDate
       .withUnretained(self)
@@ -150,7 +223,8 @@ extension TodoPlannerViewModel {
       .asDriver(onErrorDriveWith: .empty())
   }
   
-  var whichTodoChecked: AnyObserver<(Bool, Int)> {
-    selectTodo.asObserver()
+  var successDeleteTodo: Signal<String> {
+    successDeleteMessage.asSignal(onErrorSignalWith: .empty())
   }
+  
 }

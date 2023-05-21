@@ -12,9 +12,10 @@ import SnapKit
 import Then
 
 protocol TodoViewDelegate: AnyObject {
+  func inputTextIsEmpty(isEmpty: Bool)
   func whichTodoContent(content: String)
   func whichTodoChecked(isChecked: Bool, todoID: Int)
-  func tappedMoreButton(todoID: Int, isChecked: Bool)
+  func tappedMoreButton(todoID: Int, isChecked: Bool, isProof: Bool, content: String)
 }
 
 struct TodoViewModel {
@@ -22,12 +23,16 @@ struct TodoViewModel {
   let date: String
   let isChecked: Bool
   let content: String
+  let isAuthor: Bool
+  let isProof: Bool
   
-  init(todoID: Int, date: String, isChecked: Bool, content: String) {
+  init(todoID: Int, date: String, isChecked: Bool, content: String, isAuthor: Bool, isProof: Bool) {
     self.todoID = todoID
     self.date = date
     self.isChecked = isChecked
     self.content = content
+    self.isAuthor = isAuthor
+    self.isProof = isProof
   }
   
   init(response: CreateTodoResponse) {
@@ -35,6 +40,8 @@ struct TodoViewModel {
     date = response.date
     isChecked = response.isChecked
     content = response.content
+    isAuthor = response.isAuthor
+    isProof = response.isProof
   }
   
   init(response: CompleteProofTodolistResponse) {
@@ -42,6 +49,8 @@ struct TodoViewModel {
     date = response.date
     isChecked = response.isChecked
     content = response.content
+    isAuthor = response.isAuthor
+    isProof = response.isProof
   }
 }
 
@@ -50,7 +59,7 @@ final class TodoView: UIView {
   weak var delegate: TodoViewDelegate?
   private let disposeBag = DisposeBag()
   private let type: TodoViewType
-  private var todoID: Int?
+  private var model: TodoViewModel?
   
   private lazy var emptyCheckView = UIView().then {
     $0.layer.borderWidth = 1
@@ -68,9 +77,9 @@ final class TodoView: UIView {
   
   private lazy var todoTextField = UITextField().then {
     $0.placeholder = "새로운 TO-DO 추가하기"
-    $0.layer.shouldRasterize = true
     $0.delegate = self
     $0.returnKeyType = .done
+    $0.isUserInteractionEnabled = true
   }
   
   private lazy var moreButton = UIButton().then {
@@ -140,17 +149,33 @@ final class TodoView: UIView {
     }
   }
   
+  func changedTextForEdit(content: String?) {
+    guard let content = content else { return }
+    todoTextField.text = content
+  }
+  
+  func clearTextField() {
+    todoTextField.text = nil
+  }
+  
+  func becomeResponder() {
+    todoTextField.becomeFirstResponder()
+  }
+  
   func configureUI(with model: TodoViewModel) {
-    todoID = model.todoID
+    self.model = model
     contentLabel.text = model.content
-    checkBoxButton.isChecked = model.isChecked
+    checkBoxButton.isChecked = model.isChecked || model.isProof
     contentLabel.attributedText = model.isChecked ? contentLabel.text?.strikeThrough() : NSAttributedString(string: contentLabel.text ?? "")
+    
+    // 해당 투두가 인증되었거나 작성자가 아니라면 -> 체크버튼 비활성화
+    checkBoxButton.isEnabled = model.isProof || !model.isAuthor ? false : true
   }
   
   private func bind() {
     checkBoxButton.rx.isChecked
       .subscribe(with: self) { owner, isChecked in
-        guard let todoID = owner.todoID else { return }
+        guard let todoID = owner.model?.todoID else { return }
         owner.contentLabel.attributedText = isChecked ? owner.contentLabel.text?.strikeThrough() : NSAttributedString(string: owner.contentLabel.text ?? "")
         
         owner.delegate?.whichTodoChecked(isChecked: isChecked, todoID: todoID)
@@ -159,8 +184,17 @@ final class TodoView: UIView {
     
     moreButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        guard let todoID = owner.todoID else { return }
-        owner.delegate?.tappedMoreButton(todoID: todoID, isChecked: owner.checkBoxButton.isChecked)
+        guard let model = owner.model else { return }
+        owner.delegate?.tappedMoreButton(todoID: model.todoID, isChecked: owner.checkBoxButton.isChecked, isProof: model.isProof, content: model.content)
+      }
+      .disposed(by: disposeBag)
+    
+    todoTextField.rx.text
+      .orEmpty
+      .map { $0.isEmpty }
+      .distinctUntilChanged()
+      .subscribe(with: self) { owner, isEmpty in
+        owner.delegate?.inputTextIsEmpty(isEmpty: isEmpty)
       }
       .disposed(by: disposeBag)
   }
