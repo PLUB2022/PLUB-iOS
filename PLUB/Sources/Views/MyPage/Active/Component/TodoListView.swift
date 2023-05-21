@@ -16,7 +16,7 @@ protocol TodoListViewDelegate: AnyObject {
 }
 
 final class TodoListView: UIView {
-  private let checkButton = CheckBoxButton(type: .full)
+  private let checkButton = UIButton()
   private let todo: Todo
   private let disposeBag = DisposeBag()
   weak var delegate: TodoListViewDelegate?
@@ -79,6 +79,7 @@ final class TodoListView: UIView {
     }
     todoLabel.attributedText = attributeString
     
-    checkButton.isChecked = todo.isChecked
+    let checkImageName = todo.isChecked ? "checkboxActivated" : "checkboxInactivated"
+    checkButton.setImage(UIImage(named: checkImageName), for: .normal)
   }
 }
