@@ -122,7 +122,19 @@ extension ActiveMeetingViewController: UITableViewDelegate {
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+    switch MyActivityType.allCases[indexPath.section] {
+    case .todo:
+      guard !viewModel.todoList.isEmpty else { return }
+      //TODO: 수빈 자세히보기 페이지 이동 코드 추가
+    case .feed:
+      guard !viewModel.feedList.isEmpty else { return }
+      let feed = viewModel.feedList[indexPath.row]
+      let vc = BoardDetailViewController(
+        viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: viewModel.plubbingID, feedID: feed.feedID)
+      )
+      vc.title = title
+      navigationController?.pushViewController(vc, animated: true)
+    }
   }
 }
 
