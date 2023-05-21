@@ -128,8 +128,10 @@ final class SettingViewController: BaseViewController {
   private func addSubViews(stackView: UIStackView, type: SettingType) {
     switch type {
     case .use:
-      SettingUseType.allCases.forEach { useType in
-        let detailSubview = SettingDetailSubView(useType.rawValue)
+      SettingUseType.allCases.enumerated().forEach { index, useType in
+        let isLast = index == SettingUseType.allCases.count - 1
+        
+        let detailSubview = SettingDetailSubView(useType.rawValue, isLast: isLast)
         stackView.addArrangedSubview(detailSubview)
         detailSubview.snp.makeConstraints {
           $0.height.equalTo(52)
@@ -145,8 +147,10 @@ final class SettingViewController: BaseViewController {
 
 extension SettingViewController {
   private func addAccountViews(stackView: UIStackView) {
-    SettingAccountType.allCases.forEach { accountType in
-      let detailSubview = SettingDetailSubView(accountType.rawValue)
+    SettingAccountType.allCases.enumerated().forEach { index, accountType in
+      let isLast = index == SettingAccountType.allCases.count - 1
+      
+      let detailSubview = SettingDetailSubView(accountType.rawValue, isLast: isLast)
       stackView.addArrangedSubview(detailSubview)
       detailSubview.snp.makeConstraints {
         $0.height.equalTo(52)
@@ -170,8 +174,10 @@ extension SettingViewController {
   }
   
   private func addVersionViews(stackView: UIStackView) {
-    SettingVersionType.allCases.forEach { versionType in
-      let detailSubview = SettingDetailSubView(versionType.rawValue)
+    SettingVersionType.allCases.enumerated().forEach { index, versionType in
+      let isLast = index == SettingVersionType.allCases.count - 1
+      
+      let detailSubview = SettingDetailSubView(versionType.rawValue, isLast: isLast)
       stackView.addArrangedSubview(detailSubview)
       detailSubview.snp.makeConstraints {
         $0.height.equalTo(52)
