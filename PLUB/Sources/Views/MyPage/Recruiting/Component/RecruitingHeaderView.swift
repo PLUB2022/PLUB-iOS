@@ -111,4 +111,8 @@ extension RecruitingHeaderView {
     subtitleLabel.isHidden = type == .active ? true : false
     subtitleLabel.text = type.subtitle
   }
+  
+  func getPlubbingTitle() -> String {
+    return titleLabel.text ?? ""
+  }
 }

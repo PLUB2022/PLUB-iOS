@@ -9,9 +9,17 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
+
+protocol TodoListViewDelegate: AnyObject {
+  func didTappedCheckButton(todo: Todo)
+}
 
 final class TodoListView: UIView {
-  private let checkButton = CheckBoxButton(type: .full)
+  private let checkButton = UIButton()
+  private let todo: Todo
+  private let disposeBag = DisposeBag()
+  weak var delegate: TodoListViewDelegate?
   
   private let todoLabel = UILabel().then {
     $0.textColor = .black
@@ -19,9 +27,11 @@ final class TodoListView: UIView {
   }
   
   init(todo: Todo) {
+    self.todo = todo
     super.init(frame: .zero)
     setupLayouts()
     setupConstraints()
+    bind()
     setupData(todo: todo)
   }
   
@@ -49,6 +59,14 @@ final class TodoListView: UIView {
     }
   }
   
+  private func bind() {
+    checkButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedCheckButton(todo: owner.todo)
+      }
+      .disposed(by: disposeBag)
+  }
+  
   private func setupData(todo: Todo) {
     let attributeString: NSAttributedString
     if todo.isChecked {
@@ -61,6 +79,7 @@ final class TodoListView: UIView {
     }
     todoLabel.attributedText = attributeString
     
-    checkButton.isChecked = todo.isChecked
+    let checkImageName = todo.isChecked ? "checkboxActivated" : "checkboxInactivated"
+    checkButton.setImage(UIImage(named: checkImageName), for: .normal)
   }
 }

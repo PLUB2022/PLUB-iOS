@@ -38,8 +38,8 @@ struct Todo: Codable {
   let todoID: Int
   let content: String
   let date: String
-  let isChecked: Bool
-  let isProof: Bool
+  var isChecked: Bool
+  var isProof: Bool
   let proofImage: String
   let isAuthor: Bool
   
@@ -49,3 +49,13 @@ struct Todo: Codable {
   }
 }
 
+extension Todo {
+  var toTodoAlertModel: TodoAlertModel {
+    return TodoAlertModel(
+      profileImage: proofImage,
+      date: date,
+      name: content,
+      content: content
+    )
+  }
+}

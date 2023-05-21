@@ -33,12 +33,13 @@ struct TodoInfo: Codable {
 struct TodoContent: Codable {
   let todoID: Int
   let date: String
-  let totalLikes: Int
+  var totalLikes: Int
   let isAuthor: Bool
-  let todoList: [Todo]
+  var isLike: Bool
+  var todoList: [Todo]
   
   enum CodingKeys: String, CodingKey {
-    case date, totalLikes, isAuthor, todoList
+    case date, totalLikes, isAuthor, todoList, isLike
     case todoID = "todoTimelineId"
   }
 }

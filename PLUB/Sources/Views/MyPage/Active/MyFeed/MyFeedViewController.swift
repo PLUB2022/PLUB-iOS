@@ -97,7 +97,12 @@ extension MyFeedViewController: UITableViewDelegate {
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+    let feed = viewModel.feedList[indexPath.row]
+    let vc = BoardDetailViewController(
+      viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: viewModel.plubbingID, feedID: feed.feedID)
+    )
+    vc.title = viewModel.plubbingTitle
+    navigationController?.pushViewController(vc, animated: true)
   }
 }
 

@@ -39,6 +39,11 @@ final class ActiveMeetingViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.fetchActiveMeetingData()
+  }
     
   override func setupLayouts() {
     super.setupLayouts()
@@ -122,7 +127,19 @@ extension ActiveMeetingViewController: UITableViewDelegate {
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+    switch MyActivityType.allCases[indexPath.section] {
+    case .todo:
+      guard !viewModel.todoList.isEmpty else { return }
+      //TODO: 수빈 자세히보기 페이지 이동 코드 추가
+    case .feed:
+      guard !viewModel.feedList.isEmpty else { return }
+      let feed = viewModel.feedList[indexPath.row]
+      let vc = BoardDetailViewController(
+        viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: viewModel.plubbingID, feedID: feed.feedID)
+      )
+      vc.title = recruitingHeaderView.getPlubbingTitle()
+      navigationController?.pushViewController(vc, animated: true)
+    }
   }
 }
 
@@ -153,7 +170,8 @@ extension ActiveMeetingViewController: UITableViewDataSource {
         ) as? MyTodoTableViewCell else { return UITableViewCell() }
 
         cell.setupData(with: todo)
-
+        cell.delegate = self
+        
         return cell
       }
       
@@ -165,7 +183,7 @@ extension ActiveMeetingViewController: UITableViewDataSource {
         ) as? NoActivityTableViewCell else { return UITableViewCell() }
 
         cell.setupData(type: .feed)
-
+        
         return cell
       } else {
         let feed = viewModel.feedList[indexPath.row]
@@ -201,6 +219,7 @@ extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
         viewModel:
           MyTodoViewModel(
             plubbingID: viewModel.plubbingID,
+            plubbingTitle: recruitingHeaderView.getPlubbingTitle(),
             inquireMyTodoUseCase: DefaultInquireMyTodoUseCase()
           )
       )
@@ -210,10 +229,39 @@ extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
       viewModel:
         MyFeedViewModel(
           plubbingID: viewModel.plubbingID,
+          plubbingTitle: recruitingHeaderView.getPlubbingTitle(),
           inquireMyFeedUseCase: DefaultInquireMyFeedUseCase()
         )
     )
     navigationController?.pushViewController(vc, animated: true)
     }
+  }
+}
+
+extension ActiveMeetingViewController: MyTodoTableViewCellDelegate {
+  func didTappedLikeButton(timelineID: Int) {
+    viewModel.selectLikeButton.onNext(timelineID)
+  }
+  
+  func didTappedCheckButton(todo: Todo) {
+    if todo.isProof { return } // 이미 인증된 TODO는 체크 해제 불가
+    
+    viewModel.selectTodolistID.onNext(todo.todoID)
+    viewModel.selectComplete.onNext(!todo.isChecked)
+    
+    if !todo.isChecked {
+      let alert = TodoAlertController()
+      alert.modalPresentationStyle = .overFullScreen
+      alert.delegate = self
+      alert.configureUI(with: todo.toTodoAlertModel)
+      present(alert, animated: false)
+    }
+  }
+}
+
+
+extension ActiveMeetingViewController: TodoAlertDelegate {
+  func whichProofImage(image: UIImage) {
+    viewModel.whichProofImage.onNext(image)
   }
 }

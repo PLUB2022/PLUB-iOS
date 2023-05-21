@@ -85,6 +85,8 @@ extension MyTodoViewController: UITableViewDelegate {
     }
 
     headerView.setupData(type: .todo, isViewAll: false, isDetail: true)
+    headerView.plannerDelegate = self
+    
     return headerView
   }
 
@@ -126,7 +128,8 @@ extension MyTodoViewController: UITableViewDataSource {
       ) as? MyTodoTableViewCell else { return UITableViewCell() }
 
       cell.setupData(with: todo)
-
+      cell.delegate = self
+      
       return cell
     }
   }
@@ -134,5 +137,42 @@ extension MyTodoViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       let todoCount = viewModel.todoList.count
       return todoCount == 0 ? 1 : todoCount
+  }
+}
+
+extension MyTodoViewController: MyTodoTableViewCellDelegate {
+  func didTappedCheckButton(todo: Todo) {
+    if todo.isProof { return } // 이미 인증된 TODO는 체크 해제 불가
+    
+    viewModel.selectTodolistID.onNext(todo.todoID)
+    viewModel.selectComplete.onNext(!todo.isChecked)
+    
+    if !todo.isChecked {
+      let alert = TodoAlertController()
+      alert.modalPresentationStyle = .overFullScreen
+      alert.delegate = self
+      alert.configureUI(with: todo.toTodoAlertModel)
+      present(alert, animated: false)
+    }
+  }
+  
+  func didTappedLikeButton(timelineID: Int) {
+    viewModel.selectLikeButton.onNext(timelineID)
+  }
+}
+
+
+extension MyTodoViewController: TodoAlertDelegate {
+  func whichProofImage(image: UIImage) {
+    viewModel.whichProofImage.onNext(image)
+  }
+}
+
+extension MyTodoViewController: MyTodoSectionHeaderViewPlannerDelegate {
+  func todoPlannerButtonTapped() {
+    let vc = TodoPlannerViewController(plubbingID: viewModel.plubbingID)
+    vc.title = viewModel.plubbingTitle
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
   }
 }
