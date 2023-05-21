@@ -100,7 +100,6 @@ final class TodoPlannerViewController: BaseViewController {
     viewModel.selectPlubbingID.onNext(plubbingID)
     
     viewModel.todolistModelByDate
-      .do(onNext: { _ in print("데이터나오는중") })
       .drive(rx.todolistModel)
       .disposed(by: disposeBag)
     
@@ -171,7 +170,6 @@ extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, F
   }
   
   func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-    print("데이트 \(date)")
     addTodoView.completionHandler?(date)
     viewModel.whichInquireDate.onNext(date)
     if Calendar.current.isDateInToday(date) {
