@@ -77,8 +77,9 @@ final class AnnouncementViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(collectionView)
-    view.addSubview(headerStackView)
+    [collectionView, headerStackView].forEach {
+      view.addSubview($0)
+    }
     
     headerStackView.layer.addSublayer(gradientLayer)
     [titleLabel, uploadButton].forEach {
