@@ -138,13 +138,7 @@ final class SettingViewController: BaseViewController {
     case .account:
       addAccountViews(stackView: stackView)
     case .version:
-      SettingVersionType.allCases.forEach {
-        let detailSubview = SettingDetailSubView($0.rawValue)
-        stackView.addArrangedSubview(detailSubview)
-        detailSubview.snp.makeConstraints {
-          $0.height.equalTo(52)
-        }
-      }
+      addVersionViews(stackView: stackView)
     }
   }
 }
@@ -169,6 +163,33 @@ extension SettingViewController {
             break
           case .withdraw:
             break
+          }
+        }
+        .disposed(by: disposeBag)
+    }
+  }
+  
+  private func addVersionViews(stackView: UIStackView) {
+    SettingVersionType.allCases.forEach { versionType in
+      let detailSubview = SettingDetailSubView(versionType.rawValue)
+      stackView.addArrangedSubview(detailSubview)
+      detailSubview.snp.makeConstraints {
+        $0.height.equalTo(52)
+      }
+      
+      detailSubview.button
+        .rx.tap
+        .asDriver()
+        .drive(with: self) { owner, _ in
+          let url: URL?
+          switch versionType {
+          case .termsOfService:
+            url = URL(string: "https://www.notion.so/2098cfa15876455085ebcc7de6a2ab27?pvs=4")
+          case .privacyPolicy:
+            url = URL(string: "https://www.notion.so/803896b9686a4acdad1c56cb18eab17a?pvs=4")
+          }
+          if let url = url {
+              UIApplication.shared.open(url)
           }
         }
         .disposed(by: disposeBag)
