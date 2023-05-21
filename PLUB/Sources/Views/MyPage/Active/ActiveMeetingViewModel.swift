@@ -22,6 +22,7 @@ protocol ActiveMeetingViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   var selectTodolistID: AnyObserver<Int> { get }
   var whichProofImage: AnyObserver<UIImage?> { get }
+  var selectLikeButton: AnyObserver<Int> { get }
   
   // MARK: Output
   var meetingInfoDriver: Driver<RecruitingModel> { get } // 내 정보 데이터
@@ -64,6 +65,7 @@ final class ActiveMeetingViewModel {
     tryCompleteTodolist()
     tryCancelCompleteTodolist()
     tryProofTodolist()
+    tryLikeTodolist()
     
     selectingPlubbingID.onNext(plubbingID)
   }
@@ -226,6 +228,39 @@ final class ActiveMeetingViewModel {
     todoList = changedModel
     reloadTaleViewSubject.onNext(())
   }
+  
+  private func tryLikeTodolist() {
+    let likeTodolist = selectingLikeButton
+      .withLatestFrom(selectingPlubbingID) { ($0, $1) }
+      .flatMapLatest { TodolistService.shared.likeTodolist(plubbingID: $1, timelineID: $0) }
+    
+    likeTodolist
+      .withLatestFrom(selectingLikeButton) { ($0, $1) }
+      .subscribe(with: self) { owner, response in
+        let (result, timelineID) = response
+        Log.debug("좋아요 응답값 \(result)")
+        owner.changeTodoLikeState(timelineID: timelineID)
+      }
+    .disposed(by: disposeBag)
+  }
+  
+  private func changeTodoLikeState(timelineID: Int) {
+    let changedModel = todoList.map { element in
+      guard element.todoID == timelineID else {
+        return element
+      }
+      var element = element
+      element.isLike = !element.isLike
+      if element.isLike {
+        element.totalLikes += 1
+      } else {
+        element.totalLikes -= 1
+      }
+      return element
+    }
+    todoList = changedModel
+    reloadTaleViewSubject.onNext(())
+  }
 }
 
 
@@ -245,6 +280,10 @@ extension ActiveMeetingViewModel: ActiveMeetingViewModelType {
   
   var whichProofImage: AnyObserver<UIImage?> {
     whichUploadingImage.asObserver()
+  }
+  
+  var selectLikeButton: AnyObserver<Int> {
+    selectingLikeButton.asObserver()
   }
   
   // MARK: Output

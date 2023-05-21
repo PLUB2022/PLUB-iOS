@@ -9,14 +9,18 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 protocol MyTodoTableViewCellDelegate: AnyObject {
   func didTappedCheckButton(todo: Todo)
+  func didTappedLikeButton(timelineID: Int)
 }
 
 final class MyTodoTableViewCell: UITableViewCell {
   static let identifier = "MyTodoTableViewCell"
   weak var delegate: MyTodoTableViewCellDelegate?
+  private var timelineID: Int?
+  private let disposeBag = DisposeBag()
   
   private let pointImageView = UIImageView().then {
     $0.image = UIImage(named: "pointActived")
@@ -58,6 +62,7 @@ final class MyTodoTableViewCell: UITableViewCell {
     setupLayouts()
     setupConstraints()
     setupStyles()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -131,7 +136,18 @@ final class MyTodoTableViewCell: UITableViewCell {
     selectionStyle = .none
   }
   
+  private func bind() {
+    likeButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        guard let timelineID = owner.timelineID else { return }
+        owner.delegate?.didTappedLikeButton(timelineID: timelineID)
+      }
+      .disposed(by: disposeBag)
+  }
+  
   func setupData(with todo: TodoContent) {
+    timelineID = todo.todoID
+    
     let date = DateFormatterFactory
       .dateWithHypen
       .date(from: todo.date) ?? Date()
@@ -143,7 +159,7 @@ final class MyTodoTableViewCell: UITableViewCell {
     setupLineAndPointView(isPast: isPast)
     setupTodoViewStyle(isPast: isPast)
     setupDateLabel(date: date, isPast: isPast)
-    setupLikeButton(totalLikes: todo.totalLikes)
+    setupLikeButton(isLike: todo.isLike, totalLikes: todo.totalLikes)
     
     for todoItem in todo.todoList {
       let todoListView = TodoListView(todo: todoItem)
@@ -174,9 +190,9 @@ final class MyTodoTableViewCell: UITableViewCell {
     dateLabel.text = todoDateText
   }
   
-  private func setupLikeButton(totalLikes: Int) {
+  private func setupLikeButton(isLike: Bool, totalLikes: Int) {
     likeLabel.text = "\(totalLikes)"
-    let buttonImage = totalLikes > 0 ? UIImage(named: "heartFilled") : UIImage(named: "heart")
+    let buttonImage = isLike ? UIImage(named: "heartFilled") : UIImage(named: "heart")
     likeButton.setImage(buttonImage, for: .normal)
   }
 }

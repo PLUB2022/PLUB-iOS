@@ -153,6 +153,10 @@ extension MyTodoViewController: MyTodoTableViewCellDelegate {
       present(alert, animated: false)
     }
   }
+  
+  func didTappedLikeButton(timelineID: Int) {
+    viewModel.selectLikeButton.onNext(timelineID)
+  }
 }
 
 

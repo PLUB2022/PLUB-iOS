@@ -21,6 +21,7 @@ protocol MyTodoViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   var selectTodolistID: AnyObserver<Int> { get }
   var whichProofImage: AnyObserver<UIImage?> { get }
+  var selectLikeButton: AnyObserver<Int> { get }
   
   // MARK: Output
   var reloadTaleViewDriver: Driver<Void> { get } // 테이블 뷰 리로드
@@ -43,6 +44,7 @@ final class MyTodoViewModel {
   private let selectingComplete = PublishSubject<Bool>()
   private let selectingTodolistID = PublishSubject<Int>()
   private let whichUploadingImage = PublishSubject<UIImage?>()
+  private let selectingLikeButton = PublishSubject<Int>()
   private let reloadTaleViewSubject = PublishSubject<Void>()
   
   init(
@@ -56,6 +58,7 @@ final class MyTodoViewModel {
     tryCompleteTodolist()
     tryCancelCompleteTodolist()
     tryProofTodolist()
+    tryLikeTodolist()
     
     selectingPlubbingID.onNext(plubbingID)
   }
@@ -187,6 +190,39 @@ final class MyTodoViewModel {
     todoList = changedModel
     reloadTaleViewSubject.onNext(())
   }
+  
+  private func tryLikeTodolist() {
+    let likeTodolist = selectingLikeButton
+      .withLatestFrom(selectingPlubbingID) { ($0, $1) }
+      .flatMapLatest { TodolistService.shared.likeTodolist(plubbingID: $1, timelineID: $0) }
+    
+    likeTodolist
+      .withLatestFrom(selectingLikeButton) { ($0, $1) }
+      .subscribe(with: self) { owner, response in
+        let (result, timelineID) = response
+        Log.debug("좋아요 응답값 \(result)")
+        owner.changeTodoLikeState(timelineID: timelineID)
+      }
+    .disposed(by: disposeBag)
+  }
+  
+  private func changeTodoLikeState(timelineID: Int) {
+    let changedModel = todoList.map { element in
+      guard element.todoID == timelineID else {
+        return element
+      }
+      var element = element
+      element.isLike = !element.isLike
+      if element.isLike {
+        element.totalLikes += 1
+      } else {
+        element.totalLikes -= 1
+      }
+      return element
+    }
+    todoList = changedModel
+    reloadTaleViewSubject.onNext(())
+  }
 }
 
 extension MyTodoViewModel: MyTodoViewModelType {
@@ -209,6 +245,10 @@ extension MyTodoViewModel: MyTodoViewModelType {
   
   var whichProofImage: AnyObserver<UIImage?> {
     whichUploadingImage.asObserver()
+  }
+  
+  var selectLikeButton: AnyObserver<Int> {
+    selectingLikeButton.asObserver()
   }
   
   // MARK: Output
