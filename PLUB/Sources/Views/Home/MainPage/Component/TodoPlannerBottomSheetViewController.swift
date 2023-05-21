@@ -83,7 +83,7 @@ final class TodoPlannerBottomSheetViewController: BottomSheetViewController {
     
     switch type {
     case .complete:
-      [proofImageListView, editTodoListView, deleteTodoListView].forEach { stackView.addArrangedSubview($0) }
+      [proofImageListView, deleteTodoListView].forEach { stackView.addArrangedSubview($0) }
     case .noComplete:
       [editTodoListView, deleteTodoListView].forEach { stackView.addArrangedSubview($0) }
     case .proof:
