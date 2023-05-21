@@ -107,6 +107,9 @@ class BaseService {
   ///   - statusCode: http 상태 코드
   ///   - data: 응답값으로 받아온 `Data`
   ///   - type: Data 내부를 구성하는 타입
+  ///   - name: API를 호출한 함수 이름
+  ///   - fileID: API를 호출한 함수가 있는 파일 이름
+  ///   - line: API를 호출한 함수의 코드 실행 라인
   /// - Returns: GeneralResponse 또는 Plub Error
   ///
   /// 해당 메서드는 검증을 위해 사용됩니다.
@@ -114,26 +117,32 @@ class BaseService {
   private func validateHTTPResponse<T: Codable>(
     by statusCode: Int,
     _ data: Data,
-    type: T.Type
+    type: T.Type,
+    name: String,
+    fileID: String,
+    line: Int
   ) -> Result<GeneralResponse<T>, PLUBError<GeneralResponse<T>>> {
     guard let decodedData = try? JSONDecoder().decode(GeneralResponse<T>.self, from: data) else {
       return .failure(.decodingError(raw: data))
     }
     switch statusCode {
-    case 200..<300 where decodedData.data != nil:
-      return .success(decodedData)
-    case 200..<300 where decodedData.data == nil:
+    case 200..<300:
       // 로깅을 위해 json을 이쁘게 포맷팅
       guard let jsonData = try? JSONSerialization.jsonObject(with: data),
             let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .prettyPrinted),
             let formattedString = String(data: prettyJsonData, encoding: .utf8)
       else {
+        Log.fault("decodingError: \n\(data)", category: .network, fileID: fileID, line: line, function: name)
         return .failure(.decodingError(raw: data))
       }
-      Log.fault("decodingError: \(formattedString)", category: .network)
+      if decodedData.data != nil {
+        Log.notice("Success: \n\(formattedString)", category: .network, fileID: fileID, line: line, function: name)
+        return .success(decodedData)
+      }
+      Log.fault("decodingError: \n\(formattedString)", category: .network, fileID: fileID, line: line, function: name)
       return .failure(.decodingError(raw: data))
     case 400..<500:
-      Log.error("Request Error: \(decodedData)", category: .network)
+      Log.error("Request Error: \n\(decodedData)", category: .network, fileID: fileID, line: line, function: name)
       return .failure(.requestError(decodedData))
     case 500..<600:
       return .failure(.serverError)
@@ -144,11 +153,19 @@ class BaseService {
   
   /// PLUB 서버에 필요한 값을 동봉하여 요청합니다.
   /// - Parameters:
-  ///   - target: Router를 채택한 인스턴스(instance)
+  ///   - router: Router를 채택한 인스턴스(instance)
+  ///   - name: API를 호출한 함수 이름
+  ///   - fileID: API를 호출한 함수가 있는 파일 이름
+  ///   - line: API를 호출한 함수의 코드 실행 라인
   ///
-  /// 해당 메서드로 파이프라인을 시작하게 되면, [weak self]를 통한 retain cycle를 고려하지 않아도 됩니다.
-  /// 값을 파이프라인에 전달하게 되면 그 뒤 바로 종료되는 것을 보장하기 때문입니다.
-  func sendObservableRequest<T: Codable>(_ router: Router) -> Observable<T> {
+  /// 해당 메서드로 단일 파이프라인을 구성한다면, [weak self]를 통한 retain cycle를 고려하지 않아도 됩니다.
+  /// 값을 받으면, 파이프라인에 전달하고 난 뒤 `Completed` 이후 곧바로 `Disposed`되기 때문입니다.
+  func sendObservableRequest<T: Codable>(
+    _ router: Router,
+    name: String = #function,
+    fileID: String = #fileID,
+    line: Int = #line
+  ) -> Observable<T> {
     Single.create { observer in
       
       self.session.request(router)
@@ -168,7 +185,14 @@ class BaseService {
             return
           }
           
-          switch self.validateHTTPResponse(by: statusCode, data, type: T.self) {
+          switch self.validateHTTPResponse(
+            by: statusCode,
+            data,
+            type: T.self,
+            name: name,
+            fileID: fileID,
+            line: line
+          ) {
           case .success(let decodedData):
             // validateHTTPResponse에서 success인 경우 Data값을 보장함
             observer(.success(decodedData.data!))
