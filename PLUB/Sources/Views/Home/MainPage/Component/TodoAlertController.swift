@@ -229,7 +229,7 @@ final class TodoAlertController: BaseViewController {
 extension TodoAlertController: PhotoBottomSheetDelegate {
   func selectImage(image: UIImage) {
     self.proofImage = image
-    todoAlertView.image = image
+    todoAlertView.configureUI(with: image)
     completedButton.isEnabled = true
   }
 }

@@ -19,11 +19,8 @@ extension TodolistService {
   /// - Parameters:
   ///   - plubbingID: 플럽 모임 ID
   ///   - cursorID: 타임라인 페이징을 위한 커서 ID
-  func inquireAllTodoTimeline(plubbingID: Int, cursorID: Int = 0) -> PLUBResult<PaginatedDataResponse<InquireAllTodoTimelineResponse>> {
-    sendRequest(
-      TodolistRouter.inquireAllTodoTimeline(plubbingID, cursorID),
-      type: PaginatedDataResponse<InquireAllTodoTimelineResponse>.self
-    )
+  func inquireAllTodoTimeline(plubbingID: Int, cursorID: Int = 0) -> Observable<PaginatedDataResponse<InquireAllTodoTimelineResponse>> {
+    sendObservableRequest(TodolistRouter.inquireAllTodoTimeline(plubbingID, cursorID))
   }
   
   /// 투두 상세조회합니다.

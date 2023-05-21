@@ -32,7 +32,7 @@ final class NoLocationView: UIView {
     $0.font = .caption
     $0.numberOfLines = 0
     $0.textAlignment = .left
-    $0.addLineSpacing($0)
+    $0.addLineSpacing()
   }
   
   init() {
