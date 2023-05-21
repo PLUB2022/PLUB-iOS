@@ -76,6 +76,12 @@ final class TodoPlannerViewController: BaseViewController {
     $0.delegate = self
   }
   
+  private let tapGesture = UITapGestureRecognizer(target: TodoPlannerViewController.self, action: nil).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
   init(viewModel: TodoPlannerViewModelType = TodoPlannerViewModel(), plubbingID: Int, type: TodoPlannerType = .addNewTodo) {
     self.plubbingID = plubbingID
     self.viewModel = viewModel
@@ -94,6 +100,7 @@ final class TodoPlannerViewController: BaseViewController {
     viewModel.selectPlubbingID.onNext(plubbingID)
     
     viewModel.todolistModelByDate
+      .do(onNext: { _ in print("데이터나오는중") })
       .drive(rx.todolistModel)
       .disposed(by: disposeBag)
     
@@ -103,12 +110,21 @@ final class TodoPlannerViewController: BaseViewController {
         owner.viewModel.selectPlubbingID.onNext(owner.plubbingID)
       }
       .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
     super.setupStyles()
     viewModel.whichInquireDate.onNext(Date())
     navigationItem.title = title
+    view.addGestureRecognizer(tapGesture)
+    view.isUserInteractionEnabled = true
   }
   
   override func setupLayouts() {
