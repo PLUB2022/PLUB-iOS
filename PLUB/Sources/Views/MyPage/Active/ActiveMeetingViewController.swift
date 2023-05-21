@@ -221,6 +221,8 @@ extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
 
 extension ActiveMeetingViewController: MyTodoTableViewCellDelegate {
   func didTappedCheckButton(todo: Todo) {
+    if todo.isProof { return } // 이미 인증된 TODO는 체크 해제 불가
+    
     viewModel.selectTodolistID.onNext(todo.todoID)
     viewModel.selectComplete.onNext(!todo.isChecked)
     
