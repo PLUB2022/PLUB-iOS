@@ -64,6 +64,7 @@ final class TodoPlannerViewController: BaseViewController {
     $0.appearance.todayColor = .white
     $0.appearance.weekdayTextColor = .gray
     $0.appearance.titleWeekendColor = .red
+    $0.select(Date())
   }
   
   private lazy var addTodoView = AddTodoView().then {
