@@ -27,6 +27,9 @@ protocol ActiveMeetingViewModelType {
   // MARK: Output
   var meetingInfoDriver: Driver<RecruitingModel> { get } // 내 정보 데이터
   var reloadTaleViewDriver: Driver<Void> { get } // 테이블 뷰 리로드
+  
+  // MARK: - Methods
+  func fetchActiveMeetingData()
 }
 
 final class ActiveMeetingViewModel {
@@ -60,8 +63,7 @@ final class ActiveMeetingViewModel {
     self.plubbingID = plubbingID
     self.inquireMyTodoUseCase = inquireMyTodoUseCase
     self.inquireMyFeedUseCase = inquireMyFeedUseCase
-    
-    fetchActiveMeetingData()
+
     tryCompleteTodolist()
     tryCancelCompleteTodolist()
     tryProofTodolist()
@@ -70,7 +72,7 @@ final class ActiveMeetingViewModel {
     selectingPlubbingID.onNext(plubbingID)
   }
   
-  private func fetchActiveMeetingData(){
+  func fetchActiveMeetingData(){
     let myTodo = inquireMyTodoUseCase
       .execute(plubbingID: plubbingID, cursorID: 0)
     let myFeed = inquireMyFeedUseCase
