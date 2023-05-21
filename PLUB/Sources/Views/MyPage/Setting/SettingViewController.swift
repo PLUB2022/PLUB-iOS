@@ -85,7 +85,7 @@ final class SettingViewController: BaseViewController {
       }
       contentStackView.addArrangedSubview(subStackView)
       
-      let subView = SettingSubview($0.rawValue)
+      let subView = SettingSubview($0)
       subStackView.addArrangedSubview(subView)
       subView.snp.makeConstraints {
         $0.height.equalTo(50)
@@ -128,31 +128,46 @@ final class SettingViewController: BaseViewController {
   private func addSubViews(stackView: UIStackView, type: SettingType) {
     switch type {
     case .use:
-      SettingUseType.allCases.forEach { useType in
-        let detailSubview = SettingDetailSubView(useType.rawValue)
-        stackView.addArrangedSubview(detailSubview)
-        detailSubview.snp.makeConstraints {
-          $0.height.equalTo(52)
-        }
-      }
+      addUseViews(stackView: stackView)
     case .account:
       addAccountViews(stackView: stackView)
     case .version:
-      SettingVersionType.allCases.forEach {
-        let detailSubview = SettingDetailSubView($0.rawValue)
-        stackView.addArrangedSubview(detailSubview)
-        detailSubview.snp.makeConstraints {
-          $0.height.equalTo(52)
-        }
-      }
+      addVersionViews(stackView: stackView)
     }
   }
 }
 
 extension SettingViewController {
+  private func addUseViews(stackView: UIStackView) {
+    SettingUseType.allCases.enumerated().forEach { index, useType in
+      let isLast = index == SettingUseType.allCases.count - 1
+      
+      let detailSubview = SettingDetailSubView(useType.rawValue, isLast: isLast)
+      stackView.addArrangedSubview(detailSubview)
+      detailSubview.snp.makeConstraints {
+        $0.height.equalTo(52)
+      }
+      
+      detailSubview.button
+        .rx.tap
+        .asDriver()
+        .drive(with: self) { owner, _ in
+          switch useType {
+          case .notice: break
+          case .email: break
+          case .qna: break
+          case .alarm: break
+          }
+        }
+        .disposed(by: disposeBag)
+    }
+  }
+  
   private func addAccountViews(stackView: UIStackView) {
-    SettingAccountType.allCases.forEach { accountType in
-      let detailSubview = SettingDetailSubView(accountType.rawValue)
+    SettingAccountType.allCases.enumerated().forEach { index, accountType in
+      let isLast = index == SettingAccountType.allCases.count - 1
+      
+      let detailSubview = SettingDetailSubView(accountType.rawValue, isLast: isLast)
       stackView.addArrangedSubview(detailSubview)
       detailSubview.snp.makeConstraints {
         $0.height.equalTo(52)
@@ -169,6 +184,35 @@ extension SettingViewController {
             break
           case .withdraw:
             break
+          }
+        }
+        .disposed(by: disposeBag)
+    }
+  }
+  
+  private func addVersionViews(stackView: UIStackView) {
+    SettingVersionType.allCases.enumerated().forEach { index, versionType in
+      let isLast = index == SettingVersionType.allCases.count - 1
+      
+      let detailSubview = SettingDetailSubView(versionType.rawValue, isLast: isLast)
+      stackView.addArrangedSubview(detailSubview)
+      detailSubview.snp.makeConstraints {
+        $0.height.equalTo(52)
+      }
+      
+      detailSubview.button
+        .rx.tap
+        .asDriver()
+        .drive(with: self) { owner, _ in
+          let url: URL?
+          switch versionType {
+          case .termsOfService:
+            url = URL(string: "https://www.notion.so/2098cfa15876455085ebcc7de6a2ab27?pvs=4")
+          case .privacyPolicy:
+            url = URL(string: "https://www.notion.so/803896b9686a4acdad1c56cb18eab17a?pvs=4")
+          }
+          if let url = url {
+              UIApplication.shared.open(url)
           }
         }
         .disposed(by: disposeBag)
