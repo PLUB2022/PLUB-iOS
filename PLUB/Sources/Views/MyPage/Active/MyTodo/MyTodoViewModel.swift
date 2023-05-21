@@ -13,6 +13,7 @@ import RxCocoa
 protocol MyTodoViewModelType {
   // MARK: Property
   var plubbingID: Int { get }
+  var plubbingTitle: String { get }
   var todoList: [TodoContent] { get }
   
   // MARK: Input
@@ -32,6 +33,7 @@ final class MyTodoViewModel {
   
   // MARK: Property
   private(set) var plubbingID: Int
+  private(set) var plubbingTitle: String
   private(set) var todoList = [TodoContent]()
   private let pagingManager = PagingManager<TodoContent>(threshold: 700)
   
@@ -49,9 +51,11 @@ final class MyTodoViewModel {
   
   init(
     plubbingID: Int,
+    plubbingTitle: String,
     inquireMyTodoUseCase: InquireMyTodoUseCase
   ) {
     self.plubbingID = plubbingID
+    self.plubbingTitle = plubbingTitle
     self.inquireMyTodoUseCase = inquireMyTodoUseCase
     
     pagingSetup(plubbingID: plubbingID)

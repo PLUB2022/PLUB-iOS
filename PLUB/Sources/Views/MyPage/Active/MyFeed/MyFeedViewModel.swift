@@ -13,6 +13,7 @@ import RxCocoa
 protocol MyFeedViewModelType {
   // MARK: Property
   var plubbingID: Int { get }
+  var plubbingTitle: String { get }
   var feedList: [FeedsContent] { get }
   
   // MARK: Input
@@ -27,6 +28,7 @@ final class MyFeedViewModel {
   
   // MARK: Property
   private(set) var plubbingID: Int
+  private(set) var plubbingTitle: String
   private(set) var feedList = [FeedsContent]()
   private let pagingManager = PagingManager<FeedsContent>(threshold: 700)
   
@@ -39,9 +41,11 @@ final class MyFeedViewModel {
   
   init(
     plubbingID: Int,
+    plubbingTitle: String,
     inquireMyFeedUseCase: InquireMyFeedUseCase
   ) {
     self.plubbingID = plubbingID
+    self.plubbingTitle = plubbingTitle
     self.inquireMyFeedUseCase = inquireMyFeedUseCase
     
     pagingSetup(plubbingID: plubbingID)

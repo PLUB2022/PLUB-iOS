@@ -171,6 +171,7 @@ extension MyTodoViewController: TodoAlertDelegate {
 extension MyTodoViewController: MyTodoSectionHeaderViewPlannerDelegate {
   func todoPlannerButtonTapped() {
     let vc = TodoPlannerViewController(plubbingID: viewModel.plubbingID)
+    vc.title = viewModel.plubbingTitle
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

@@ -132,7 +132,7 @@ extension ActiveMeetingViewController: UITableViewDelegate {
       let vc = BoardDetailViewController(
         viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: viewModel.plubbingID, feedID: feed.feedID)
       )
-      vc.title = title
+      vc.title = recruitingHeaderView.getPlubbingTitle()
       navigationController?.pushViewController(vc, animated: true)
     }
   }
@@ -214,6 +214,7 @@ extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
         viewModel:
           MyTodoViewModel(
             plubbingID: viewModel.plubbingID,
+            plubbingTitle: recruitingHeaderView.getPlubbingTitle(),
             inquireMyTodoUseCase: DefaultInquireMyTodoUseCase()
           )
       )
@@ -223,6 +224,7 @@ extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
       viewModel:
         MyFeedViewModel(
           plubbingID: viewModel.plubbingID,
+          plubbingTitle: recruitingHeaderView.getPlubbingTitle(),
           inquireMyFeedUseCase: DefaultInquireMyFeedUseCase()
         )
     )

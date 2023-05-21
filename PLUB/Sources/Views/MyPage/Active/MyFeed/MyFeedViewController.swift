@@ -101,7 +101,7 @@ extension MyFeedViewController: UITableViewDelegate {
     let vc = BoardDetailViewController(
       viewModel: BoardDetailViewModelWithFeedsFactory.make(plubbingID: viewModel.plubbingID, feedID: feed.feedID)
     )
-    vc.title = title
+    vc.title = viewModel.plubbingTitle
     navigationController?.pushViewController(vc, animated: true)
   }
 }
