@@ -153,7 +153,8 @@ extension ActiveMeetingViewController: UITableViewDataSource {
         ) as? MyTodoTableViewCell else { return UITableViewCell() }
 
         cell.setupData(with: todo)
-
+        cell.delegate = self
+        
         return cell
       }
       
@@ -165,7 +166,7 @@ extension ActiveMeetingViewController: UITableViewDataSource {
         ) as? NoActivityTableViewCell else { return UITableViewCell() }
 
         cell.setupData(type: .feed)
-
+        
         return cell
       } else {
         let feed = viewModel.feedList[indexPath.row]
@@ -215,5 +216,27 @@ extension ActiveMeetingViewController: MyTodoSectionHeaderViewDelegate {
     )
     navigationController?.pushViewController(vc, animated: true)
     }
+  }
+}
+
+extension ActiveMeetingViewController: MyTodoTableViewCellDelegate {
+  func didTappedCheckButton(todo: Todo) {
+    viewModel.selectTodolistID.onNext(todo.todoID)
+    viewModel.selectComplete.onNext(!todo.isChecked)
+    
+    if !todo.isChecked {
+      let alert = TodoAlertController()
+      alert.modalPresentationStyle = .overFullScreen
+      alert.delegate = self
+      alert.configureUI(with: todo.toTodoAlertModel)
+      present(alert, animated: false)
+    }
+  }
+}
+
+
+extension ActiveMeetingViewController: TodoAlertDelegate {
+  func whichProofImage(image: UIImage) {
+    viewModel.whichProofImage.onNext(image)
   }
 }
