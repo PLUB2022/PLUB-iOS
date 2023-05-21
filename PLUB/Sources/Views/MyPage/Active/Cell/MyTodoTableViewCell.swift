@@ -136,7 +136,9 @@ final class MyTodoTableViewCell: UITableViewCell {
       .dateWithHypen
       .date(from: todo.date) ?? Date()
     
-    let isPast = (Date().compare(date) == .orderedDescending) ? true : false
+    let isPast = (Date().compare(date) == .orderedDescending)
+                 && !Calendar.current.isDateInToday(date)
+                 ? true : false
     
     setupLineAndPointView(isPast: isPast)
     setupTodoViewStyle(isPast: isPast)
@@ -164,7 +166,7 @@ final class MyTodoTableViewCell: UITableViewCell {
   private func setupDateLabel(date: Date, isPast: Bool) {
     dateLabel.textColor = isPast ? .deepGray : .main
     
-    let todoDateText =  Calendar.current.isDateInToday(date)
+    let todoDateText = Calendar.current.isDateInToday(date)
     ?  "오늘"
     : DateFormatterFactory
       .todolistDate.string(from: date)
