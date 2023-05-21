@@ -85,6 +85,8 @@ extension MyTodoViewController: UITableViewDelegate {
     }
 
     headerView.setupData(type: .todo, isViewAll: false, isDetail: true)
+    headerView.plannerDelegate = self
+    
     return headerView
   }
 
@@ -163,5 +165,13 @@ extension MyTodoViewController: MyTodoTableViewCellDelegate {
 extension MyTodoViewController: TodoAlertDelegate {
   func whichProofImage(image: UIImage) {
     viewModel.whichProofImage.onNext(image)
+  }
+}
+
+extension MyTodoViewController: MyTodoSectionHeaderViewPlannerDelegate {
+  func todoPlannerButtonTapped() {
+    let vc = TodoPlannerViewController(plubbingID: viewModel.plubbingID)
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
   }
 }

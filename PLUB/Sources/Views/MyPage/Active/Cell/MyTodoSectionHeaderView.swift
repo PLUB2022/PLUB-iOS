@@ -37,9 +37,15 @@ protocol MyTodoSectionHeaderViewDelegate: AnyObject {
   func moreButtonTapped(type: MyActivityType)
 }
 
+protocol MyTodoSectionHeaderViewPlannerDelegate: AnyObject {
+  func todoPlannerButtonTapped()
+}
+
 final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
   static let identifier = "MyTodoSectionHeaderView"
   weak var delegate: MyTodoSectionHeaderViewDelegate?
+  weak var plannerDelegate: MyTodoSectionHeaderViewPlannerDelegate?
+  
   private let disposeBag = DisposeBag()
   private var type: MyActivityType?
   
@@ -54,6 +60,10 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
     $0.setTitleColor(.black, for: .normal)
   }
   
+  private let todoPlannerButton = UIButton().then {
+    $0.setImage(UIImage(named: "planner"), for: .normal)
+  }
+  
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
     setupLayouts()
@@ -66,7 +76,7 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
   }
   
   private func setupLayouts() {
-    [titleLabel, moreButton].forEach {
+    [titleLabel, moreButton, todoPlannerButton].forEach {
       contentView.addSubview($0)
     }
   }
@@ -83,6 +93,12 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
       $0.centerY.equalTo(titleLabel.snp.centerY)
       $0.trailing.equalToSuperview().inset(16)
     }
+    
+    todoPlannerButton.snp.makeConstraints {
+      $0.size.equalTo(32)
+      $0.top.equalToSuperview()
+      $0.trailing.equalToSuperview().inset(21)
+    }
   }
   
   private func bind() {
@@ -91,6 +107,13 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
       .drive(with: self) { owner, _ in
         guard let type = owner.type else { return }
         owner.delegate?.moreButtonTapped(type: type)
+      }
+      .disposed(by: disposeBag)
+    
+    todoPlannerButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.plannerDelegate?.todoPlannerButtonTapped()
       }
       .disposed(by: disposeBag)
   }
@@ -103,6 +126,7 @@ final class MyTodoSectionHeaderView: UITableViewHeaderFooterView {
     self.type = type
     titleLabel.text = type.titleText
     moreButton.isHidden = !isViewAll
+    todoPlannerButton.isHidden = !(!isViewAll && type == .todo)
     if isDetail {
       titleLabel.snp.updateConstraints {
         $0.top.equalToSuperview()
