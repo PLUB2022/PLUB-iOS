@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -122,6 +123,17 @@ final class TodolistViewController: BaseViewController {
         let alert = ProofTodoAlertViewController()
         alert.modalPresentationStyle = .overFullScreen
         owner.present(alert, animated: false)
+      }
+      .disposed(by: disposeBag)
+    
+    todoCollectionView.rx.didScroll
+      .subscribe(with: self) { owner, _ in
+        let offSetY = owner.todoCollectionView.contentOffset.y
+        let contentHeight = owner.todoCollectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.todoCollectionView.frame.size.height) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
       }
       .disposed(by: disposeBag)
   
