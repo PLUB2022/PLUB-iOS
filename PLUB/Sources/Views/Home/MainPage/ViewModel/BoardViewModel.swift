@@ -149,10 +149,3 @@ final class BoardViewModel: BoardViewModelType {
   }
   
 }
-
-struct MockModel {
-  let type: PostType
-  let viewType: ViewType
-  let content: String
-  let feedImageURL: String?
-}
