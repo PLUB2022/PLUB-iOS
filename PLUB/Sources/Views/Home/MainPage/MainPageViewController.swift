@@ -50,14 +50,6 @@ final class MainPageViewController: BaseViewController {
     }
   }
   
-  private lazy var headerView = MainPageHeaderView().then {
-    $0.backgroundColor = .red
-    $0.layer.masksToBounds = true
-    $0.clipsToBounds = true
-    $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
-    $0.delegate = self
-  }
-  
   private let segmentedControl = UnderlineSegmentedControl(
     items: MainPageFilterType.allCases.map { $0.title }
   ).then {
@@ -112,16 +104,6 @@ final class MainPageViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    if headerView.isHidden {
-      navigationController?.navigationBar.isHidden = false
-    } else {
-      navigationController?.navigationBar.isHidden = true
-    }
-    
-  }
-  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.navigationBar.isHidden = false
@@ -141,20 +123,14 @@ final class MainPageViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [headerView, segmentedControl, pageViewController.view, writeButton].forEach { view.addSubview($0) }
+    [segmentedControl, pageViewController.view, writeButton].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    headerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
-      $0.height.equalTo(292)
-    }
-    
     segmentedControl.snp.makeConstraints {
-      $0.top.equalTo(headerView.snp.bottom).offset(16)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
       $0.height.equalTo(32)
     }
     
@@ -248,35 +224,6 @@ extension MainPageViewController: BoardViewControllerDelegate {
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
-  
-  func calculateHeight(_ height: CGFloat) {
-    headerView.snp.updateConstraints {
-      $0.height.equalTo(height)
-    }
-    if height == Device.navigationBarHeight {
-      self.navigationController?.navigationBar.isHidden = false
-      self.headerView.isHidden = true
-//      headerView.snp.updateConstraints {
-//        $0.height.equalTo(0)
-//      }
-    } else {
-      self.navigationController?.navigationBar.isHidden = true
-      self.headerView.isHidden = false
-    }
-  }
-}
-
-extension MainPageViewController: MainPageHeaderViewDelegate {
-  func didTappedMainPageBackButton() {
-    self.navigationController?.popViewController(animated: true)
-  }
-  
-  func didTappedNoticeButton() {
-    let vc = NotificationViewController(viewModel: NotificationViewModel())
-    vc.title = title
-    vc.navigationItem.largeTitleDisplayMode = .never
-    navigationController?.pushViewController(vc, animated: true)
-  }
 }
 
 extension MainPageViewController: MainPageNavigationViewDelegate {
@@ -290,6 +237,13 @@ extension MainPageViewController: MainPageNavigationViewDelegate {
     )
     vc.title = title
     vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
+  func didTappedNoticeButton() {
+    let vc = NotificationViewController(viewModel: NotificationViewModel())
+    vc.navigationItem.largeTitleDisplayMode = .never
+    vc.title = title
     navigationController?.pushViewController(vc, animated: true)
   }
 }

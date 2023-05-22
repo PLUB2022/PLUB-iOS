@@ -39,7 +39,6 @@
 		705F81C329AFAA3B00830C4F /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C229AFAA3B00830C4F /* BoardViewController.swift */; };
 		705F81C529AFAA5200830C4F /* TodolistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F81C429AFAA5200830C4F /* TodolistViewController.swift */; };
 		705F820929B0EE6600830C4F /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820829B0EE6600830C4F /* BoardViewModel.swift */; };
-		705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820D29B1142800830C4F /* MainPageHeaderView.swift */; };
 		705F821029B127DF00830C4F /* MainPageNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F820F29B127DF00830C4F /* MainPageNavigationView.swift */; };
 		705F821229B2FCEC00830C4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 705F821129B2FCEC00830C4F /* GoogleService-Info.plist */; };
 		705FD2742A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2732A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift */; };
@@ -478,7 +477,6 @@
 		705F81C229AFAA3B00830C4F /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		705F81C429AFAA5200830C4F /* TodolistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodolistViewController.swift; sourceTree = "<group>"; };
 		705F820829B0EE6600830C4F /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
-		705F820D29B1142800830C4F /* MainPageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageHeaderView.swift; sourceTree = "<group>"; };
 		705F820F29B127DF00830C4F /* MainPageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageNavigationView.swift; sourceTree = "<group>"; };
 		705F821129B2FCEC00830C4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		705FD2732A0E895800F353FE /* TodoPlannerBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPlannerBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -1106,7 +1104,6 @@
 		705F820A29B0F1B800830C4F /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				705F820D29B1142800830C4F /* MainPageHeaderView.swift */,
 				705F820F29B127DF00830C4F /* MainPageNavigationView.swift */,
 				70727A2A29C81DCE003DE956 /* BoardBottomSheetViewController.swift */,
 				70727A3C29D447D7003DE956 /* CheckTodoView.swift */,
@@ -2826,7 +2823,6 @@
 				BA4CCDF329EAA33B0040D0D7 /* DateFormatterFactory.swift in Sources */,
 				705E70BC29E29F6800156B1F /* RecruitmentFilterDateCollectionViewCell.swift in Sources */,
 				0A3E42DC28E734E800F62BF0 /* Device.swift in Sources */,
-				705F820E29B1142800830C4F /* MainPageHeaderView.swift in Sources */,
 				C3100CB429BD8980005FCCAD /* MyInfoResponse.swift in Sources */,
 				70F1DFF1297DA3CE00F9BC83 /* DetailRecruitmentModel.swift in Sources */,
 				70CF3337299921100077FF47 /* RecruitmentFilterCollectionHeaderView.swift in Sources */,

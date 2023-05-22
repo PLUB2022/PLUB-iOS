@@ -16,7 +16,6 @@ enum BoardHeaderViewType {
 }
 
 protocol BoardViewControllerDelegate: AnyObject {
-  func calculateHeight(_ height: CGFloat)
   func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel)
   func didTappedBoardClipboardHeaderView()
 }
@@ -26,10 +25,6 @@ final class BoardViewController: BaseViewController {
   weak var delegate: BoardViewControllerDelegate?
   
   private let viewModel: BoardViewModelType
-  
-  /// 스크롤 영역에 따른 헤더 뷰 높이변경을 위한 프로퍼티
-  private let min: CGFloat = Device.navigationBarHeight
-  private let max: CGFloat = 292
   
   /// 아래 타입의 ClipboardType에 따라 다른 UI를 구성
   private let plubbingID: Int
@@ -64,7 +59,6 @@ final class BoardViewController: BaseViewController {
     $0.register(BoardClipboardHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardClipboardHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-    //    $0.bounces = false
     $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
   }
   
@@ -164,17 +158,7 @@ final class BoardViewController: BaseViewController {
 
 extension BoardViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let scroll = scrollView.contentOffset.y
     
-    let heightTemp = max - scroll
-    
-    if heightTemp > max {
-      delegate?.calculateHeight(max)
-    } else if heightTemp < min {
-      delegate?.calculateHeight(min)
-    } else {
-      delegate?.calculateHeight(heightTemp)
-    }
   }
 }
 
