@@ -14,9 +14,10 @@ protocol BoardViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   var selectFeedID: AnyObserver<Int> { get }
   var selectFix: AnyObserver<Void> { get }
-//  var selectModify: AnyObserver<Void> { get }
-//  var selectReport: AnyObserver<Void> { get }
+  //  var selectModify: AnyObserver<Void> { get }
+  //  var selectReport: AnyObserver<Void> { get }
   var selectDelete: AnyObserver<Void> { get }
+  var fetchMoreDatas: AnyObserver<Void> { get }
   
   // Output
   var fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]> { get }
@@ -35,9 +36,10 @@ final class BoardViewModel: BoardViewModelType {
   let selectPlubbingID: AnyObserver<Int>
   let selectFeedID: AnyObserver<Int>
   let selectFix: AnyObserver<Void>
-//  let selectModify: AnyObserver<Void>
-//  let selectReport: AnyObserver<Void>
+  //  let selectModify: AnyObserver<Void>
+  //  let selectReport: AnyObserver<Void>
   let selectDelete: AnyObserver<Void>
+  let fetchMoreDatas: AnyObserver<Void>
   
   // Output
   let fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]>
@@ -53,28 +55,44 @@ final class BoardViewModel: BoardViewModelType {
     let selectingDelete = PublishSubject<Void>()
     let fetchingMainpageClipboardViewModel = BehaviorRelay<[MainPageClipboardViewModel]>(value: [])
     let fetchingBoardModel = BehaviorRelay<[BoardModel]>(value: [])
+    let fetchingMoreDatas = PublishSubject<Void>()
+    let currentCursorID = BehaviorRelay<Int>(value: 0)
+    let isLastPage = BehaviorSubject<Bool>(value: false)
+    let isLoading = BehaviorSubject<Bool>(value: false)
     
     self.selectFeedID = selectingFeedID.asObserver()
     self.selectPlubbingID = selectingPlubbingID.asObserver()
     self.selectFix = selectingFix.asObserver()
     self.selectDelete = selectingDelete.asObserver()
+    self.fetchMoreDatas = fetchingMoreDatas.asObserver()
     
     // Input
-    let fetchingBoards = selectingPlubbingID
-      .flatMapLatest { plubbingID in
-        return FeedsService.shared.fetchBoards(plubbingID: plubbingID)
-      }
+    let fetchingBoards =
+    Observable.combineLatest(
+      selectingPlubbingID,
+      currentCursorID
+    )
+    .filter { _ in try !isLastPage.value() && !isLoading.value() }
+    .flatMapLatest { plubbingID, cursorID in
+        isLoading.onNext(true)
+        return FeedsService.shared.fetchBoards(
+          plubbingID: plubbingID,
+          nextCursorID: cursorID
+        )
+    }
+    
+    fetchingBoards.subscribe(onNext: { boards in
+      let boardModels = boards.content.map { $0.toBoardModel }
+      fetchingBoardModel.accept(boardModels)
+      isLoading.onNext(false)
+      isLastPage.onNext(boards.isLast)
+    })
+    .disposed(by: disposeBag)
     
     let fetchingClipboards = selectingPlubbingID
       .flatMapLatest { plubbingID in
         return FeedsService.shared.fetchClipboards(plubbingID: plubbingID)
       }
-    
-    fetchingBoards.subscribe(onNext: { boards in
-      let boardModels = boards.content.map { $0.toBoardModel }
-      fetchingBoardModel.accept(boardModels)
-    })
-    .disposed(by: disposeBag)
     
     fetchingClipboards.subscribe(onNext: { contents in
       let mainPageClipboardViewModel = contents.pinnedFeedList.map {
@@ -104,6 +122,14 @@ final class BoardViewModel: BoardViewModelType {
     )
       .flatMapLatest(FeedsService.shared.deleteFeed)
       .map { _ in Void() }
+    
+    fetchingMoreDatas.withLatestFrom(currentCursorID)
+      .filter({ page in
+        try isLastPage.value() || isLoading.value() ? false : true
+      })
+      .map { $0 + 1 }
+      .bind(to: currentCursorID)
+      .disposed(by: disposeBag)
     
     // Output
     fetchedMainpageClipboardViewModel = fetchingMainpageClipboardViewModel.asDriver(onErrorDriveWith: .empty())
