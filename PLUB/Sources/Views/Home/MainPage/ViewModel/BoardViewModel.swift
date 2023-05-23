@@ -66,9 +66,9 @@ final class BoardViewModel {
     ) { ($0, $1) }
       .withUnretained(self)
       .filter { owner, _ in try !owner.isLastPage.value() && !owner.isLoading.value() }
-      .do(onNext: { owner, _ in owner.isLoading.onNext(true) })
       .flatMapLatest { owner, result in
         let (plubbingID, cursorID) = result
+        owner.isLoading.onNext(true)
         return FeedsService.shared.fetchBoards(
           plubbingID: plubbingID,
           nextCursorID: cursorID
@@ -76,7 +76,6 @@ final class BoardViewModel {
       }
     
     fetchingBoards.subscribe(with: self) { owner, boards in
-      print("게시판 \(boards)")
       let boardModels = boards.content.map { $0.toBoardModel }
       owner.fetchingBoardModel.accept(boardModels)
       owner.isLoading.onNext(false)
@@ -107,7 +106,7 @@ final class BoardViewModel {
   private func tryFetchingMoreDatas() {
     fetchingMoreDatas.withLatestFrom(currentCursorID)
       .withUnretained(self)
-      .filter({ owner, page in
+      .filter({ owner, _ in
         try owner.isLastPage.value() || owner.isLoading.value() ? false : true
       })
       .map { $1 + 1 }

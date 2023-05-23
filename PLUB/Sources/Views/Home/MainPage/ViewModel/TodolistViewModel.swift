@@ -61,9 +61,9 @@ final class TodolistViewModel {
   
   private func tryFetchMoreDatas() {
     fetchingMoreDatas
-      .withLatestFrom(currentCursorID) { $1 }
+      .withLatestFrom(currentCursorID)
       .withUnretained(self)
-      .filter({ owner, cursorID in
+      .filter({ owner, _ in
         try owner.isLastPage.value() || owner.isLoading.value() ? false : true
       })
       .map { $1 + 1 }
