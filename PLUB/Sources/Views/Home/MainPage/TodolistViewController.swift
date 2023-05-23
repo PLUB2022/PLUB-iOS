@@ -39,6 +39,17 @@ final class TodolistViewController: BaseViewController {
     }
   }
   
+  private let scrollView = UIScrollView().then {
+    $0.showsVerticalScrollIndicator = true
+    $0.showsHorizontalScrollIndicator = false
+    $0.isScrollEnabled = true
+    $0.alwaysBounceVertical = true
+  }
+  
+  private let scrollContainerView = UIView().then {
+    $0.backgroundColor = .clear
+  }
+  
   private let titleLabel = UILabel().then {
     $0.font = .appFont(family: .nanum, size: 32)
     $0.textAlignment = .center
@@ -59,6 +70,9 @@ final class TodolistViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
+    $0.isScrollEnabled = false
+    $0.showsVerticalScrollIndicator = false
+    $0.showsHorizontalScrollIndicator = false
   }
   
   init(plubbingID: Int, goal: String, viewModel: TodolistViewModelType = TodolistViewModel()) {
@@ -81,27 +95,38 @@ final class TodolistViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [goalBackgroundView, titleLabel, todoCollectionView].forEach { view.addSubview($0) }
+    view.addSubview(scrollView)
+    scrollView.addSubview(scrollContainerView)
+    [goalBackgroundView, titleLabel, todoCollectionView].forEach { scrollContainerView.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    scrollView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    scrollContainerView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
+    }
+    
     goalBackgroundView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(32)
+      $0.top.equalToSuperview().inset(40)
       $0.centerX.equalToSuperview()
       $0.width.equalTo(187)
       $0.height.equalTo(19)
     }
     
     titleLabel.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(16)
+      $0.top.equalToSuperview().inset(24)
       $0.directionalHorizontalEdges.equalToSuperview()
     }
     
     todoCollectionView.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom)
+      $0.top.equalTo(goalBackgroundView.snp.bottom).offset(26)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.equalTo(UIScreen.main.bounds.height - Device.navigationBarHeight - 32 - 24 - 21 - 40)
     }
   }
   
