@@ -23,6 +23,8 @@ protocol TodolistViewModelType {
   var todoTimelineModel: Driver<[TodolistModel]> { get }
   var successCompleteTodolist: Signal<Bool> { get }
   var successProofTodolist: Signal<String> { get }
+  
+  func clearStatus()
 }
 
 final class TodolistViewModel {
@@ -51,6 +53,12 @@ final class TodolistViewModel {
     tryFetchMoreDatas()
   }
   
+  func clearStatus() {
+    isLastPage.onNext(false)
+    isLoading.onNext(false)
+    currentCursorID.accept(0)
+  }
+  
   private func tryFetchMoreDatas() {
     fetchingMoreDatas
       .withLatestFrom(currentCursorID) { $1 }
@@ -69,16 +77,14 @@ final class TodolistViewModel {
       currentCursorID
     ) { ($0, $1) }
     .withUnretained(self)
+    .filter { owner, _ in try !owner.isLastPage.value() && !owner.isLoading.value() }
     .flatMapLatest { owner, result in
       let (plubbingID, cursorID) = result
-      if try !owner.isLastPage.value() && !owner.isLoading.value() { // 마지막 페이지가 아니고 로딩중이 아닐때
         owner.isLoading.onNext(true)
         return TodolistService.shared.inquireAllTodoTimeline(
           plubbingID: plubbingID,
           cursorID: cursorID
         )
-      }
-      return .empty()
     }
     
     inquireAllTodoTimeline

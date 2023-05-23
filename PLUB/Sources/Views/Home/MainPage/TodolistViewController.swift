@@ -75,6 +75,7 @@ final class TodolistViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    viewModel.clearStatus()
     viewModel.selectPlubbingID.onNext(plubbingID)
   }
   

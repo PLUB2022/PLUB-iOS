@@ -26,75 +26,72 @@ protocol BoardViewModelType {
   var isPinnedFeed: Driver<Int> { get }
   var successDeleteFeed: Driver<Void> { get }
   
+  func clearStatus()
+  
 }
 
-final class BoardViewModel: BoardViewModelType {
+final class BoardViewModel {
   
   private let disposeBag = DisposeBag()
   
-  // Input
-  let selectPlubbingID: AnyObserver<Int>
-  let selectFeedID: AnyObserver<Int>
-  let selectFix: AnyObserver<Void>
-  //  let selectModify: AnyObserver<Void>
-  //  let selectReport: AnyObserver<Void>
-  let selectDelete: AnyObserver<Void>
-  let fetchMoreDatas: AnyObserver<Void>
+  private let selectingPlubbingID = PublishSubject<Int>()
+  private let selectingFeedID = PublishSubject<Int>()
+  private let selectingFix = PublishSubject<Void>()
+  private let selectingDelete = PublishSubject<Void>()
+  private let fetchingMainpageClipboardViewModel = BehaviorRelay<[MainPageClipboardViewModel]>(value: [])
+  private let fetchingBoardModel = BehaviorRelay<[BoardModel]>(value: [])
+  private let fetchingMoreDatas = PublishSubject<Void>()
+  private let currentCursorID = BehaviorRelay<Int>(value: 0)
+  private let isLastPage = BehaviorSubject<Bool>(value: false)
+  private let isLoading = BehaviorSubject<Bool>(value: false)
   
-  // Output
-  let fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]>
-  let fetchedBoardModel: Driver<[BoardModel]>
-  let clipboardListIsEmpty: Driver<Bool>
-  let isPinnedFeed: Driver<Int>
-  let successDeleteFeed: Driver<Void>
   
   init() {
-    let selectingPlubbingID = PublishSubject<Int>()
-    let selectingFeedID = PublishSubject<Int>()
-    let selectingFix = PublishSubject<Void>()
-    let selectingDelete = PublishSubject<Void>()
-    let fetchingMainpageClipboardViewModel = BehaviorRelay<[MainPageClipboardViewModel]>(value: [])
-    let fetchingBoardModel = BehaviorRelay<[BoardModel]>(value: [])
-    let fetchingMoreDatas = PublishSubject<Void>()
-    let currentCursorID = BehaviorRelay<Int>(value: 0)
-    let isLastPage = BehaviorSubject<Bool>(value: false)
-    let isLoading = BehaviorSubject<Bool>(value: false)
-    
-    self.selectFeedID = selectingFeedID.asObserver()
-    self.selectPlubbingID = selectingPlubbingID.asObserver()
-    self.selectFix = selectingFix.asObserver()
-    self.selectDelete = selectingDelete.asObserver()
-    self.fetchMoreDatas = fetchingMoreDatas.asObserver()
-    
-    // Input
+    tryFetchingBoards()
+    tryFetchingClipboards()
+    tryFetchingMoreDatas()
+  }
+  
+  func clearStatus() {
+    isLastPage.onNext(false)
+    isLoading.onNext(false)
+    currentCursorID.accept(0)
+  }
+  
+  private func tryFetchingBoards() {
     let fetchingBoards =
     Observable.combineLatest(
       selectingPlubbingID,
       currentCursorID
-    )
-    .filter { _ in try !isLastPage.value() && !isLoading.value() }
-    .flatMapLatest { plubbingID, cursorID in
-        isLoading.onNext(true)
+    ) { ($0, $1) }
+      .withUnretained(self)
+      .filter { owner, _ in try !owner.isLastPage.value() && !owner.isLoading.value() }
+      .do(onNext: { owner, _ in owner.isLoading.onNext(true) })
+      .flatMapLatest { owner, result in
+        let (plubbingID, cursorID) = result
         return FeedsService.shared.fetchBoards(
           plubbingID: plubbingID,
           nextCursorID: cursorID
         )
-    }
+      }
     
-    fetchingBoards.subscribe(onNext: { boards in
+    fetchingBoards.subscribe(with: self) { owner, boards in
+      print("게시판 \(boards)")
       let boardModels = boards.content.map { $0.toBoardModel }
-      fetchingBoardModel.accept(boardModels)
-      isLoading.onNext(false)
-      isLastPage.onNext(boards.isLast)
-    })
+      owner.fetchingBoardModel.accept(boardModels)
+      owner.isLoading.onNext(false)
+      owner.isLastPage.onNext(boards.isLast)
+    }
     .disposed(by: disposeBag)
-    
+  }
+  
+  private func tryFetchingClipboards() {
     let fetchingClipboards = selectingPlubbingID
       .flatMapLatest { plubbingID in
         return FeedsService.shared.fetchClipboards(plubbingID: plubbingID)
       }
     
-    fetchingClipboards.subscribe(onNext: { contents in
+    fetchingClipboards.subscribe(with: self) { owner, contents in
       let mainPageClipboardViewModel = contents.pinnedFeedList.map {
         return MainPageClipboardViewModel(
           type: $0.type,
@@ -102,50 +99,85 @@ final class BoardViewModel: BoardViewModelType {
           contentText: $0.content
         )
       }
-      fetchingMainpageClipboardViewModel.accept(mainPageClipboardViewModel)
-    })
+      owner.fetchingMainpageClipboardViewModel.accept(mainPageClipboardViewModel)
+    }
     .disposed(by: disposeBag)
-    
-    let requestPinFeed = selectingFix.withLatestFrom(
-      Observable.zip(
-        selectingPlubbingID,
-        selectingFeedID
-      )
-    )
-      .flatMapLatest(FeedsService.shared.pinFeed)
-    
-    let requestDeleteFeed = selectingDelete.withLatestFrom(
-      Observable.zip(
-        selectingPlubbingID,
-        selectingFeedID
-      )
-    )
-      .flatMapLatest(FeedsService.shared.deleteFeed)
-      .map { _ in Void() }
-    
-    fetchingMoreDatas.withLatestFrom(currentCursorID)
-      .filter({ page in
-        try isLastPage.value() || isLoading.value() ? false : true
-      })
-      .map { $0 + 1 }
-      .bind(to: currentCursorID)
-      .disposed(by: disposeBag)
-    
-    // Output
-    fetchedMainpageClipboardViewModel = fetchingMainpageClipboardViewModel.asDriver(onErrorDriveWith: .empty())
-    
-    clipboardListIsEmpty = fetchingMainpageClipboardViewModel
-      .map { $0.isEmpty }
-      .asDriver(onErrorDriveWith: .empty())
-    
-    fetchedBoardModel = fetchingBoardModel
-      .asDriver(onErrorDriveWith: .empty())
-    
-    isPinnedFeed = requestPinFeed
-      .map { $0.feedID }
-      .asDriver(onErrorDriveWith: .empty())
-    
-    successDeleteFeed = requestDeleteFeed.asDriver(onErrorDriveWith: .empty())
   }
   
+  private func tryFetchingMoreDatas() {
+    fetchingMoreDatas.withLatestFrom(currentCursorID)
+      .withUnretained(self)
+      .filter({ owner, page in
+        try owner.isLastPage.value() || owner.isLoading.value() ? false : true
+      })
+      .map { $1 + 1 }
+      .bind(to: currentCursorID)
+      .disposed(by: disposeBag)
+  }
+}
+
+extension BoardViewModel: BoardViewModelType {
+  
+  // Input
+  var selectPlubbingID: AnyObserver<Int> {
+    selectingPlubbingID.asObserver()
+  }
+  
+  var selectFeedID: AnyObserver<Int> {
+    selectingFeedID.asObserver()
+  }
+  
+  var selectFix: AnyObserver<Void> {
+    selectingFix.asObserver()
+  }
+  
+  //  let selectModify: AnyObserver<Void>
+  //  let selectReport: AnyObserver<Void>
+  var selectDelete: AnyObserver<Void> {
+    selectingDelete.asObserver()
+  }
+  
+  var fetchMoreDatas: AnyObserver<Void> {
+    fetchingMoreDatas.asObserver()
+  }
+  
+  // Output
+  var fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]> {
+    fetchingMainpageClipboardViewModel.asDriver(onErrorDriveWith: .empty())
+  }
+  
+  var fetchedBoardModel: Driver<[BoardModel]> {
+    fetchingBoardModel
+      .asDriver(onErrorDriveWith: .empty())
+  }
+  
+  var clipboardListIsEmpty: Driver<Bool> {
+    fetchingMainpageClipboardViewModel
+      .map { $0.isEmpty }
+      .asDriver(onErrorDriveWith: .empty())
+  }
+  
+  var isPinnedFeed: Driver<Int> {
+    selectingFix.withLatestFrom(
+      Observable.zip(
+        selectingPlubbingID,
+        selectingFeedID
+      )
+    )
+    .flatMapLatest(FeedsService.shared.pinFeed)
+    .map { $0.feedID }
+    .asDriver(onErrorDriveWith: .empty())
+  }
+  
+  var successDeleteFeed: Driver<Void> {
+    selectingDelete.withLatestFrom(
+      Observable.zip(
+        selectingPlubbingID,
+        selectingFeedID
+      )
+    )
+    .flatMapLatest(FeedsService.shared.deleteFeed)
+    .map { _ in Void() }
+    .asDriver(onErrorDriveWith: .empty())
+  }
 }
