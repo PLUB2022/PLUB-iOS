@@ -44,7 +44,7 @@ final class BoardViewModel {
   private let currentCursorID = BehaviorRelay<Int>(value: 0)
   private let isLastPage = BehaviorSubject<Bool>(value: false)
   private let isLoading = BehaviorSubject<Bool>(value: false)
-  
+  private let lastID = BehaviorSubject<Int>(value: 0)
   
   init() {
     tryFetchingBoards()
@@ -55,6 +55,7 @@ final class BoardViewModel {
   func clearStatus() {
     isLastPage.onNext(false)
     isLoading.onNext(false)
+    fetchingBoardModel.accept([])
     currentCursorID.accept(0)
   }
   
@@ -75,13 +76,19 @@ final class BoardViewModel {
         )
       }
     
-    fetchingBoards.subscribe(with: self) { owner, boards in
-      let boardModels = boards.content.map { $0.toBoardModel }
-      owner.fetchingBoardModel.accept(boardModels)
-      owner.isLoading.onNext(false)
-      owner.isLastPage.onNext(boards.isLast)
-    }
-    .disposed(by: disposeBag)
+    fetchingBoards
+      .subscribe(with: self) { owner, boards in
+        owner.isLastPage.onNext(boards.isLast)
+        guard !boards.isLast,
+              let feedID = boards.content.last?.feedID else { return }
+        var entireModel = owner.fetchingBoardModel.value
+        let boardModels = boards.content.map { $0.toBoardModel }
+        entireModel.append(contentsOf: boardModels)
+        owner.fetchingBoardModel.accept(entireModel)
+        owner.isLoading.onNext(false)
+        owner.lastID.onNext(feedID)
+      }
+      .disposed(by: disposeBag)
   }
   
   private func tryFetchingClipboards() {
@@ -104,13 +111,15 @@ final class BoardViewModel {
   }
   
   private func tryFetchingMoreDatas() {
-    fetchingMoreDatas.withLatestFrom(currentCursorID)
+    fetchingMoreDatas
+      .withLatestFrom(lastID)
       .withUnretained(self)
       .filter({ owner, _ in
-        try owner.isLastPage.value() || owner.isLoading.value() ? false : true
+        try !owner.isLastPage.value() && !owner.isLoading.value()
       })
-      .map { $1 + 1 }
-      .bind(to: currentCursorID)
+      .subscribe(onNext: { owner, cursorID in
+        owner.currentCursorID.accept(cursorID)
+      })
       .disposed(by: disposeBag)
   }
 }
