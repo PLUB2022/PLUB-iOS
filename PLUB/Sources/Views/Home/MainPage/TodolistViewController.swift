@@ -70,12 +70,11 @@ final class TodolistViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     viewModel.clearStatus()
-    viewModel.selectPlubbingID.onNext(plubbingID)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [todoCollectionView].forEach { view.addSubview($0) }
+    view.addSubview(todoCollectionView)
   }
   
   override func setupConstraints() {
