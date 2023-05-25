@@ -43,6 +43,7 @@ final class TodolistViewModel {
   private let currentCursorID = BehaviorRelay<Int>(value: 0)
   private let isLastPage = BehaviorSubject<Bool>(value: false)
   private let isLoading = BehaviorSubject<Bool>(value: false)
+  private let lastID = BehaviorSubject<Int>(value: 0)
   
   init() {
     inquireAllTodoTimeline()
@@ -56,18 +57,20 @@ final class TodolistViewModel {
   func clearStatus() {
     isLastPage.onNext(false)
     isLoading.onNext(false)
+    allTodoTimeline.onNext([])
     currentCursorID.accept(0)
   }
   
   private func tryFetchMoreDatas() {
     fetchingMoreDatas
-      .withLatestFrom(currentCursorID)
+      .withLatestFrom(lastID)
       .withUnretained(self)
       .filter({ owner, _ in
         try owner.isLastPage.value() || owner.isLoading.value() ? false : true
       })
-      .map { $1 + 1 }
-      .bind(to: currentCursorID)
+      .subscribe(onNext: { owner, cursorID in
+        owner.currentCursorID.accept(cursorID)
+      })
       .disposed(by: disposeBag)
   }
   
@@ -89,6 +92,9 @@ final class TodolistViewModel {
     
     inquireAllTodoTimeline
       .subscribe(with: self) { owner, response in
+        guard let todoTimelineID = response.content.last?.todoTimelineID else { return }
+        owner.lastID.onNext(todoTimelineID)
+        
         let model = owner.parseFromResponseToModel(response: response.content)
         owner.allTodoTimeline.onNext(model)
         owner.isLoading.onNext(false)
