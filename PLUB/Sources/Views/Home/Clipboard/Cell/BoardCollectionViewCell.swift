@@ -114,6 +114,17 @@ final class BoardCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    profileImageView.image = nil
+    authorLabel.text = nil
+    dateLabel.text = nil
+    heartCountLabel.text = nil
+    commentCountLabel.text = nil
+    titleLabel.text = nil
+    contentLabel.text = nil
+  }
+  
   // MARK: - Configuration
   
   private func setupLayouts() {
