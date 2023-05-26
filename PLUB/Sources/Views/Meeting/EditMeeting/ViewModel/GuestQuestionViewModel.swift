@@ -21,6 +21,7 @@ final class GuestQuestionViewModel {
   // Output
   let fetchedMeetingData = PublishSubject<Void>()
   let allQuestionFilled: BehaviorRelay<Bool>
+  let successEditQuestion = PublishSubject<Void>()
   
   init(plubbingID: Int) {
     self.plubbingID = plubbingID
@@ -108,8 +109,8 @@ final class GuestQuestionViewModel {
       .withUnretained(self)
       .subscribe(onNext: { owner, result in
         switch result {
-        case .success(let model):
-          print(model)
+        case .success(_):
+          owner.successEditQuestion.onNext(())
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })
