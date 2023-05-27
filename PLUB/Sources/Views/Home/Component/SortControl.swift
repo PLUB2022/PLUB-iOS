@@ -16,6 +16,15 @@ enum SortType {
   case popular
   case new
   
+  var toEng: String {
+    switch self {
+    case .new:
+      return "new"
+    case .popular:
+      return "popular"
+    }
+  }
+  
   var text: String {
     switch self {
     case .new:
