@@ -26,8 +26,8 @@ extension RecruitmentService {
     return sendRequest(RecruitmentRouter.inquireAllBookmark, type: BookmarkAllResponse.self)
   }
   
-  func searchRecruitment(searchParameter: SearchParameter) -> PLUBResult<SearchRecruitmentResponse> {
-    return sendRequest(RecruitmentRouter.searchRecruitment(searchParameter), type: SearchRecruitmentResponse.self)
+  func searchRecruitment(searchParameter: SearchParameter) -> Observable<PaginatedDataResponse<CategoryContent>> {
+    return sendObservableRequest(RecruitmentRouter.searchRecruitment(searchParameter))
   }
   
   func requestBookmark(plubbingID: Int) -> PLUBResult<RequestBookmarkResponse> {
