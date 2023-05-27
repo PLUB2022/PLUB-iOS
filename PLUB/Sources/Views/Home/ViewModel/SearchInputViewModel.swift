@@ -137,7 +137,7 @@ final class SearchInputViewModel {
       .subscribe(with: self) { owner, response in
         guard let lastPlubbingID = response.content.last?.plubbingID else { return }
         owner.lastID.onNext(lastPlubbingID)
-        print("준이응답 \(response)")
+        
         let model = response.content.map { SelectedCategoryCollectionViewCellModel(content: $0) }
         
         var cellData = owner.fetchingSearchOutput.value
