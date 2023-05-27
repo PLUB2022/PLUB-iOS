@@ -43,6 +43,7 @@ final class HomeViewModel: HomeViewModelType {
     let currentCursorID = BehaviorRelay<Int>(value: 0)
     let isLastPage = BehaviorSubject<Bool>(value: false)
     let isLoading = BehaviorSubject<Bool>(value: false)
+    let lastID = BehaviorSubject<Int>(value: 0)
     
     isSelectedInterest = isSelectingInterest.asDriver(onErrorDriveWith: .empty())
     tappedBookmark = whichBookmark.asObserver()
@@ -84,11 +85,13 @@ final class HomeViewModel: HomeViewModelType {
     .disposed(by: disposeBag)
     
     successFetchingRecommendationMeeting.subscribe(onNext: { contents in
+      guard let lastPlubbingID = contents.last?.plubbingID else { return }
       let contents = contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
       var cellData = fetchingRecommendation.value
       cellData.append(contentsOf: contents)
       fetchingRecommendation.accept(cellData)
       isLoading.onNext(false)
+      lastID.onNext(lastPlubbingID)
     })
     .disposed(by: disposeBag)
     
@@ -96,12 +99,14 @@ final class HomeViewModel: HomeViewModelType {
       .bind(to: fetchingMainCategoryList)
       .disposed(by: disposeBag)
     
-    fetchingDatas.withLatestFrom(currentCursorID)
+    fetchingDatas
+      .withLatestFrom(lastID)
       .filter({ page in
         try isLastPage.value() || isLoading.value() ? false : true
       })
-      .map { $0 + 1 }
-      .bind(to: currentCursorID)
+      .subscribe(onNext: { id in
+        currentCursorID.accept(id)
+      })
       .disposed(by: disposeBag)
     
     let requestBookmark = whichBookmark
