@@ -17,11 +17,14 @@ protocol TodolistViewModelType {
   var selectTodolistID: AnyObserver<Int> { get }
   var whichProofImage: AnyObserver<UIImage?> { get }
   var selectLikeButton: AnyObserver<Int> { get }
+  var fetchMoreDatas: AnyObserver<Void> { get }
   
   // Output
   var todoTimelineModel: Driver<[TodolistModel]> { get }
   var successCompleteTodolist: Signal<Bool> { get }
   var successProofTodolist: Signal<String> { get }
+  
+  func clearStatus()
 }
 
 final class TodolistViewModel {
@@ -36,6 +39,11 @@ final class TodolistViewModel {
   private let whichUploadingImage = PublishSubject<UIImage?>()
   private let selectingLikeButton = PublishSubject<Int>()
   private let successProofImage = PublishSubject<String>()
+  private let fetchingMoreDatas = PublishSubject<Void>()
+  private let currentCursorID = BehaviorRelay<Int>(value: 0)
+  private let isLastPage = BehaviorSubject<Bool>(value: false)
+  private let isLoading = BehaviorSubject<Bool>(value: false)
+  private let lastID = BehaviorSubject<Int>(value: 0)
   
   init() {
     inquireAllTodoTimeline()
@@ -43,20 +51,55 @@ final class TodolistViewModel {
     tryCancelCompleteTodolist()
     tryProofTodolist()
     tryLikeTodolist()
+    tryFetchMoreDatas()
+  }
+  
+  func clearStatus() {
+    isLastPage.onNext(false)
+    isLoading.onNext(false)
+    allTodoTimeline.onNext([])
+    currentCursorID.accept(0)
+  }
+  
+  private func tryFetchMoreDatas() {
+    fetchingMoreDatas
+      .withLatestFrom(lastID)
+      .withUnretained(self)
+      .filter({ owner, _ in
+        try owner.isLastPage.value() || owner.isLoading.value() ? false : true
+      })
+      .subscribe(onNext: { owner, cursorID in
+        owner.currentCursorID.accept(cursorID)
+      })
+      .disposed(by: disposeBag)
   }
   
   private func inquireAllTodoTimeline() {
-    let inquireAllTodoTimeline = selectingPlubbingID.flatMapLatest {
-      return TodolistService.shared.inquireAllTodoTimeline(
-        plubbingID: $0,
-        cursorID: 0
-      )
+    let inquireAllTodoTimeline = Observable.combineLatest(
+      selectingPlubbingID,
+      currentCursorID
+    ) { ($0, $1) }
+    .withUnretained(self)
+    .filter { owner, _ in try !owner.isLastPage.value() && !owner.isLoading.value() }
+    .flatMapLatest { owner, result in
+      let (plubbingID, cursorID) = result
+        owner.isLoading.onNext(true)
+        return TodolistService.shared.inquireAllTodoTimeline(
+          plubbingID: plubbingID,
+          cursorID: cursorID
+        )
     }
     
     inquireAllTodoTimeline
-      .withUnretained(self)
-      .map { $0.parseFromResponseToModel(response: $1.content) }
-      .bind(to: allTodoTimeline)
+      .subscribe(with: self) { owner, response in
+        guard let todoTimelineID = response.content.last?.todoTimelineID else { return }
+        owner.lastID.onNext(todoTimelineID)
+        
+        let model = owner.parseFromResponseToModel(response: response.content)
+        owner.allTodoTimeline.onNext(model)
+        owner.isLoading.onNext(false)
+        owner.isLastPage.onNext(response.isLast)
+      }
       .disposed(by: disposeBag)
   }
   
@@ -223,5 +266,9 @@ extension TodolistViewModel: TodolistViewModelType {
   
   var successProofTodolist: Signal<String> {
     successProofImage.asSignal(onErrorSignalWith: .empty())
+  }
+  
+  var fetchMoreDatas: AnyObserver<Void> {
+    fetchingMoreDatas.asObserver()
   }
 }

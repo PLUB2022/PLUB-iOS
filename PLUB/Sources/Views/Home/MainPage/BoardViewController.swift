@@ -84,7 +84,7 @@ final class BoardViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    viewModel.selectPlubbingID.onNext(plubbingID)
+    viewModel.clearStatus()
   }
   
   override func setupStyles() {
@@ -134,6 +134,17 @@ final class BoardViewController: BaseViewController {
         Log.debug("해당 게시글 삭제 성공")
       })
       .disposed(by: disposeBag)
+    
+    collectionView.rx.didScroll
+      .subscribe(with: self, onNext: { owner, _ in
+        let offSetY = owner.collectionView.contentOffset.y
+        let contentHeight = owner.collectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.collectionView.frame.size.height) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
+      })
+      .disposed(by: disposeBag)
   }
   
   @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
@@ -154,12 +165,6 @@ final class BoardViewController: BaseViewController {
     }
   }
   
-}
-
-extension BoardViewController: UIScrollViewDelegate {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    
-  }
 }
 
 extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSource {

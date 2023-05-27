@@ -52,7 +52,7 @@ struct SignUpRequest: Codable {
   var marketing: Bool
 
   init() {
-    fcmToken = UserManager.shared.fcmToken!
+    fcmToken = UserManager.shared.fcmToken ?? ""
     signToken = UserManager.shared.signToken!
     categoryList = []
     birthday = ""
