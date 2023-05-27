@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 enum TodolistBottomSheetType {
-  case todoPlanner // 투두리스트 작성자일때
+  case todoPlanner(Date) // 투두리스트 작성자일때
   case report // 투두리스트 작성자아닐때
   
   var text: String {
@@ -34,7 +34,7 @@ enum TodolistBottomSheetType {
 }
 
 protocol TodolistBottomSheetDelegate: AnyObject {
-  func didTappedTodoPlanner()
+  func didTappedTodoPlanner(date: Date)
   func didTappedReport()
 }
 
@@ -61,8 +61,8 @@ final class TodolistBottomSheetViewController: BottomSheetViewController {
     bottomSheetView.button.rx.tap
       .subscribe(with: self) { owner, _ in
         switch owner.type {
-        case .todoPlanner:
-          owner.delegate?.didTappedTodoPlanner()
+        case .todoPlanner(let date):
+          owner.delegate?.didTappedTodoPlanner(date: date)
         case .report:
           owner.delegate?.didTappedReport()
         }
