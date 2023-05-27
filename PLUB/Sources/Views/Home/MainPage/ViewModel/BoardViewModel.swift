@@ -78,15 +78,14 @@ final class BoardViewModel {
     
     fetchingBoards
       .subscribe(with: self) { owner, boards in
-        owner.isLastPage.onNext(boards.isLast)
-        guard !boards.isLast,
-              let feedID = boards.content.last?.feedID else { return }
+        guard let feedID = boards.content.last?.feedID else { return }
         var entireModel = owner.fetchingBoardModel.value
         let boardModels = boards.content.map { $0.toBoardModel }
         entireModel.append(contentsOf: boardModels)
         owner.fetchingBoardModel.accept(entireModel)
         owner.isLoading.onNext(false)
         owner.lastID.onNext(feedID)
+        owner.isLastPage.onNext(boards.isLast)
       }
       .disposed(by: disposeBag)
   }
