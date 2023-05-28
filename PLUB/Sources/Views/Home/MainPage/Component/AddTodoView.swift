@@ -81,6 +81,8 @@ final class AddTodoView: UIView {
       let isToday = Calendar.current.isDateInToday(date)
       self?.dateLabel.text = isToday ? "\(dateString) (오늘)" : dateString
       self?.dateLabel.textColor = isToday ? .main : .black
+      self?.layer.borderColor = isToday ? UIColor.main.cgColor : UIColor.lightGray.cgColor
+      self?.backgroundColor = isToday ? .subMain : .white
     }
   }
   
@@ -99,8 +101,7 @@ final class AddTodoView: UIView {
     todoContainerView.addArrangedSubview(dateLabel)
     todoContainerView.addArrangedSubview(inputTodoView)
     
-    let today = DateFormatterFactory.todolistDate.string(from: Date())
-    dateLabel.text = "\(today) (오늘)"
+
   }
   
   func configureUI(with model: AddTodoViewModel) {

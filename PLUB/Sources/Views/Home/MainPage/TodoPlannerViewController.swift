@@ -13,7 +13,7 @@ import Then
 
 enum TodoPlannerType {
   case addNewTodo
-  case manageMyPlanner
+  case manageMyPlanner(Date)
   
   var title: String {
     switch self {
@@ -64,7 +64,6 @@ final class TodoPlannerViewController: BaseViewController {
     $0.appearance.todayColor = .white
     $0.appearance.weekdayTextColor = .gray
     $0.appearance.titleWeekendColor = .red
-    $0.select(Date())
   }
   
   private lazy var addTodoView = AddTodoView().then {
@@ -120,7 +119,18 @@ final class TodoPlannerViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    viewModel.whichInquireDate.onNext(Date())
+    let date: Date
+    
+    switch type {
+    case .addNewTodo:
+      date = Date()
+    case .manageMyPlanner(let selectedDate):
+      date = selectedDate
+    }
+    
+    viewModel.whichInquireDate.onNext(date)
+    calendarView.select(date)
+    addTodoView.completionHandler?(date)
     navigationItem.title = title
     view.addGestureRecognizer(tapGesture)
   }
@@ -172,13 +182,6 @@ extension TodoPlannerViewController: FSCalendarDelegate, FSCalendarDataSource, F
   func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
     addTodoView.completionHandler?(date)
     viewModel.whichInquireDate.onNext(date)
-    if Calendar.current.isDateInToday(date) {
-      addTodoView.layer.borderColor = UIColor.main.cgColor
-      addTodoView.backgroundColor = .subMain
-    } else {
-      addTodoView.layer.borderColor = UIColor.lightGray.cgColor
-      addTodoView.backgroundColor = .white
-    }
   }
   func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
     if Calendar.current.isDateInToday(date) {

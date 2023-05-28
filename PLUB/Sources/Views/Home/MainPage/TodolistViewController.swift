@@ -17,7 +17,7 @@ struct TodolistModel {
 }
 
 protocol TodolistDelegate: AnyObject {
-  func didTappedTodoPlanner()
+  func didTappedTodoPlanner(date: Date)
 }
 
 final class TodolistViewController: BaseViewController {
@@ -197,9 +197,12 @@ extension TodolistViewController: TodoCollectionViewCellDelegate {
     viewModel.selectLikeButton.onNext(timelineID)
   }
   
-  func didTappedMoreButton(isAuthor: Bool) { /// 투두리스트 작성자에 따른 type 지정해줘야함
-    ///
-    let bottomSheet = isAuthor ? TodolistBottomSheetViewController(type: .todoPlanner) : TodolistBottomSheetViewController(type: .report)
+  func didTappedMoreButton(isAuthor: Bool, date: String) { /// 투두리스트 작성자에 따른 type 지정해줘야함
+    guard let date = DateFormatterFactory.dateWithHypen.date(from: date) else {
+      return
+    }
+    
+    let bottomSheet = isAuthor ? TodolistBottomSheetViewController(type: .todoPlanner(date)) : TodolistBottomSheetViewController(type: .report)
     bottomSheet.delegate = self
     present(bottomSheet, animated: true)
   }
@@ -212,8 +215,8 @@ extension TodolistViewController: TodoAlertDelegate {
 }
 
 extension TodolistViewController: TodolistBottomSheetDelegate {
-  func didTappedTodoPlanner() {
-    delegate?.didTappedTodoPlanner()
+  func didTappedTodoPlanner(date: Date) {
+    delegate?.didTappedTodoPlanner(date: date)
   }
   
   func didTappedReport() {

@@ -249,8 +249,8 @@ extension MainPageViewController: MainPageNavigationViewDelegate {
 }
 
 extension MainPageViewController: TodolistDelegate {
-  func didTappedTodoPlanner() {
-    let vc = TodoPlannerViewController(plubbingID: plubbingID, type: .manageMyPlanner)
+  func didTappedTodoPlanner(date: Date) {
+    let vc = TodoPlannerViewController(plubbingID: plubbingID, type: .manageMyPlanner(date))
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)

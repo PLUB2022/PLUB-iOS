@@ -13,7 +13,7 @@ import SnapKit
 import Then
 
 protocol TodoCollectionViewCellDelegate: AnyObject {
-  func didTappedMoreButton(isAuthor: Bool)
+  func didTappedMoreButton(isAuthor: Bool, date: String)
   func didTappedLikeButton(timelineID: Int)
   func didTappedTodo(todoID: Int, isCompleted: Bool, model: TodoAlertModel)
 }
@@ -141,8 +141,10 @@ final class TodoCollectionViewCell: UICollectionViewCell {
   private func bind() {
     moreButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        guard let isAuthor = owner.model?.isAuthor else { return }
-        owner.delegate?.didTappedMoreButton(isAuthor: isAuthor)
+        guard let model = owner.model else {
+          return
+        }
+        owner.delegate?.didTappedMoreButton(isAuthor: model.isAuthor, date: model.date)
       }
       .disposed(by: disposeBag)
     
