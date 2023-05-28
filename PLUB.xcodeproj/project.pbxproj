@@ -100,7 +100,6 @@
 		70A420BD29914B690026E9F9 /* DetailRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420B929914B690026E9F9 /* DetailRecruitmentResponse.swift */; };
 		70A420BE29914B690026E9F9 /* RecruitmentQuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420BA29914B690026E9F9 /* RecruitmentQuestionResponse.swift */; };
 		70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */; };
-		70A420C029914B690026E9F9 /* SearchRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */; };
 		70A420C229914B890026E9F9 /* InquireInterestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A420C129914B890026E9F9 /* InquireInterestResponse.swift */; };
 		70BD5F272959F718002CBA89 /* Ex+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F262959F718002CBA89 /* Ex+UIView.swift */; };
 		70BD5F2C2963204D002CBA89 /* DetailRecruitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */; };
@@ -538,7 +537,6 @@
 		70A420B929914B690026E9F9 /* DetailRecruitmentResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70A420BA29914B690026E9F9 /* RecruitmentQuestionResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruitmentQuestionResponse.swift; sourceTree = "<group>"; };
 		70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestBookmarkResponse.swift; sourceTree = "<group>"; };
-		70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70A420C129914B890026E9F9 /* InquireInterestResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InquireInterestResponse.swift; sourceTree = "<group>"; };
 		70BD5F262959F718002CBA89 /* Ex+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIView.swift"; sourceTree = "<group>"; };
 		70BD5F2B2963204D002CBA89 /* DetailRecruitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRecruitmentViewController.swift; sourceTree = "<group>"; };
@@ -2314,7 +2312,6 @@
 				70A420B929914B690026E9F9 /* DetailRecruitmentResponse.swift */,
 				70A420BA29914B690026E9F9 /* RecruitmentQuestionResponse.swift */,
 				70A420BB29914B690026E9F9 /* RequestBookmarkResponse.swift */,
-				70A420BC29914B690026E9F9 /* SearchRecruitmentResponse.swift */,
 				702876BA299E4DBA00E57509 /* BookmarkAllResponse.swift */,
 				70727A2829C709E9003DE956 /* ApplyForRecruitmentResponse.swift */,
 				C3E0390929C2125700C4744C /* InquireApplicantResponse.swift */,
@@ -2815,7 +2812,6 @@
 				70A420BF29914B690026E9F9 /* RequestBookmarkResponse.swift in Sources */,
 				BAE1AD952944775C00CE36B9 /* PolicyViewController.swift in Sources */,
 				BA5DEB302974D8E200650788 /* NetworkResult.swift in Sources */,
-				70A420C029914B690026E9F9 /* SearchRecruitmentResponse.swift in Sources */,
 				C3C7197C29DC81C700A6DFD9 /* ProfileEditViewController.swift in Sources */,
 				70F1DFDE297A8A6C00F9BC83 /* MeetingRouter.swift in Sources */,
 				70727A3B29D32E4C003DE956 /* InquireAllTodoTimelineResponse.swift in Sources */,

@@ -25,6 +25,7 @@ final class SearchInputViewController: BaseViewController {
   
   private var type: SortType = .popular {
     didSet {
+      viewModel.clearStatus()
       viewModel.whichSortType.onNext(type)
       searchOutputHeaderView.filterChanged = type
       interestListCollectionView.reloadData()
@@ -138,6 +139,7 @@ final class SearchInputViewController: BaseViewController {
       .filter { $0.count != 0 }
       .withUnretained(self)
       .subscribe(onNext: { owner, text in
+        owner.viewModel.clearStatus()
         owner.presentSearchOutput(keyword: text)
       })
       .disposed(by: disposeBag)
@@ -329,6 +331,7 @@ extension SearchInputViewController: RecentSearchListHeaderViewDelegate {
 
 extension SearchInputViewController: SearchOutputHeaderViewDelegate {
   func whichTappedSegmentControl(type: FilterType) {
+    viewModel.clearStatus()
     viewModel.whichFilterType.onNext(type)
   }
   

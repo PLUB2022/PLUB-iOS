@@ -50,6 +50,7 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     let currentCursorID = BehaviorRelay<Int>(value: 0)
     let isLastPage = BehaviorRelay<Bool>(value: false)
     let isLoading = BehaviorRelay<Bool>(value: false)
+    let lastID = BehaviorSubject<Int>(value: 0)
     
     isEmpty = dataIsEmpty.asSignal(onErrorSignalWith: .empty())
     whichSortType = searchSortType.asObserver()
@@ -82,9 +83,9 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
         return .empty()
       }
     
-    let fetchMore = fetchingDatas.withLatestFrom(currentCursorID)
+    let fetchMore = fetchingDatas
+      .withLatestFrom(lastID)
       .filter { _ in !isLastPage.value && !isLoading.value }
-      .map { $0 + 1 }
       .do(onNext: { page in
         currentCursorID.accept(page)
         isLoading.accept(true)
@@ -138,11 +139,13 @@ final class SelectedCategoryViewModel: SelectedCategoryViewModelType {
     selectingContents
       .do(onNext: { dataIsEmpty.onNext($0.isEmpty) })
       .subscribe(onNext: { contents in
+        guard let plubbingID = contents.last?.plubbingID else { return }
         let model = contents.map { SelectedCategoryCollectionViewCellModel(content: $0) }
         var cellData = updatingCellData.value
         cellData.append(contentsOf: model)
         updatingCellData.accept(cellData)
         isLoading.accept(false)
+        lastID.onNext(plubbingID)
       })
       .disposed(by: disposeBag)
     

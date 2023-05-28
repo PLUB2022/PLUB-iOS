@@ -13,8 +13,8 @@ struct SearchParameter: Encodable {
   /// 검색한 키워드
   let keyword: String
   
-  @available(*, deprecated)
-  let page: Int?
+  /// 커서 아이디
+  let cursorID: Int?
   
   /// 필터링 타입
   ///
@@ -26,9 +26,14 @@ struct SearchParameter: Encodable {
   /// popular(인기순), 최신순(new) 중 하나로 기입됩니다.
   let sort: String
   
-  init(keyword: String, page: Int? = 1, type: String? = "mix", sort: String = "popular") {
+  enum CodingKeys: String, CodingKey {
+    case cursorID = "cursorId"
+    case keyword, type, sort
+  }
+  
+  init(keyword: String, cursorID: Int? = 1, type: String? = "mix", sort: String = "popular") {
     self.keyword = keyword
-    self.page = page
+    self.cursorID = cursorID
     self.type = type
     self.sort = sort
   }
