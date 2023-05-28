@@ -119,16 +119,18 @@ final class TodoPlannerViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    let date: Date
+    
     switch type {
     case .addNewTodo:
-      viewModel.whichInquireDate.onNext(Date())
-      calendarView.select(Date())
-      addTodoView.completionHandler?(Date())
-    case .manageMyPlanner(let date):
-      viewModel.whichInquireDate.onNext(date)
-      calendarView.select(date)
-      addTodoView.completionHandler?(date)
+      date = Date()
+    case .manageMyPlanner(let selectedDate):
+      date = selectedDate
     }
+    
+    viewModel.whichInquireDate.onNext(date)
+    calendarView.select(date)
+    addTodoView.completionHandler?(date)
     navigationItem.title = title
     view.addGestureRecognizer(tapGesture)
   }
