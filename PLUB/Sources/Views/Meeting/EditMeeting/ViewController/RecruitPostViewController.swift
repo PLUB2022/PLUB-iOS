@@ -119,7 +119,7 @@ final class RecruitPostViewController: BaseViewController {
     }
     
     contentStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(40)
+      $0.top.equalToSuperview().inset(24)
       $0.leading.trailing.bottom.equalToSuperview()
       $0.width.equalTo(scrollView.snp.width)
     }

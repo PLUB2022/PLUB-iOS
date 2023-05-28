@@ -92,7 +92,7 @@ final class GuestQuestionViewController: BaseViewController {
     super.setupConstraints()
     
     questionStackView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(24)
       $0.leading.trailing.equalToSuperview().inset(24)
       $0.height.equalTo(46)
     }
