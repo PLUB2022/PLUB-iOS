@@ -10,68 +10,38 @@ import UIKit
 import SnapKit
 import Then
 
-protocol EditMeetingChildViewControllerDelegate : AnyObject {
-  func checkValidation(index:Int, state : Bool)
-}
-
-enum EditMeetingType: CaseIterable {
-  case meetingPost
-  case meetingInfo
-  case meetingQuestion
+enum EditMeetingType: String, CaseIterable {
+  case myMeetingSetting = "내 모임 설정"
+  case editRecruitment = "모집글 수정"
+  case questionList = "질문 리스트"
 }
 
 final class EditMeetingViewController: BaseViewController {
-  private let viewModel: EditMeetingViewModel
-  private let segmentedControl = UnderlineSegmentedControl(
-    items: ["모집글", "모임 정보", "게스트 질문"]
-  ).then {
-    $0.setTitleTextAttributes([.foregroundColor: UIColor.black, .font: UIFont.h5], for: .normal)
-    $0.setTitleTextAttributes([.foregroundColor: UIColor.main, .font: UIFont.h5], for: .selected)
-    $0.selectedSegmentIndex = 0
+  private let plubbingID: Int
+  
+  private let contentStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 16
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = .init(top: 15, left: 0, bottom: 15, right: 0)
   }
   
-  private lazy var pageViewController = UIPageViewController(
-    transitionStyle: .scroll,
-    navigationOrientation: .horizontal,
-    options: nil
-  ).then {
-      $0.setViewControllers([viewControllers[0]], direction: .forward, animated: true)
-      $0.delegate = self
-      $0.dataSource = self
+  private let titleLabel = UILabel().then {
+    $0.text = "설정"
+    $0.font = .h2
   }
   
-  private let saveButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "저장")
+  let subStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 0
+    $0.layer.cornerRadius = 10
+    $0.backgroundColor = .white
   }
   
-  private lazy var recruitPostViewController = RecruitPostViewController(viewModel: viewModel.recruitPostViewModel).then {
-    $0.delegate = self
-  }
-  private lazy var meetingInfoViewController = MeetingInfoViewController(viewModel: viewModel.meetingInfoViewModel).then {
-    $0.delegate = self
-  }
-  private lazy var guestQuestionViewController = GuestQuestionViewController(viewModel: viewModel.guestQuestionViewModel).then {
-    $0.delegate = self
-  }
-  
-  private var viewControllers: [UIViewController] {
-    [recruitPostViewController, meetingInfoViewController, guestQuestionViewController]
-  }
-  
-  var currentPage = 0 {
-    didSet {
-      let direction: UIPageViewController.NavigationDirection = oldValue <= currentPage ? .forward : .reverse
-      pageViewController.setViewControllers(
-          [viewControllers[currentPage]], direction: direction, animated: true
-      )
-      saveButton.isEnabled = isSaveButtonEnable[currentPage]
-    }
-  }
-  
-  private var isSaveButtonEnable = [true, true, true]
+  let subView = SettingSubview("모임 설정")
   
   init(plubbingID: Int) {
-    viewModel = EditMeetingViewModel(plubbingID: plubbingID)
+    self.plubbingID = plubbingID
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -83,42 +53,28 @@ final class EditMeetingViewController: BaseViewController {
     super.viewDidLoad()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerKeyboardNotification()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeKeyboardNotification()
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
-
-    [segmentedControl, pageViewController.view, saveButton].forEach {
-      view.addSubview($0)
+    view.addSubview(contentStackView)
+    
+    [titleLabel, subStackView].forEach {
+      contentStackView.addArrangedSubview($0)
     }
+    
+    subStackView.addArrangedSubview(subView)
+    addSubViews(stackView: subStackView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    segmentedControl.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
+    
+    contentStackView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview().inset(16)
-      $0.height.equalTo(52)
+      $0.top.equalToSuperview()
     }
     
-    pageViewController.view.snp.makeConstraints {
-      $0.top.equalTo(segmentedControl.snp.bottom)
-      $0.leading.trailing.equalToSuperview()
-      $0.bottom.equalToSuperview()
-    }
-    
-    saveButton.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(26)
-      $0.height.width.equalTo(46)
-      $0.leading.trailing.equalToSuperview().inset(16)
+    subView.snp.makeConstraints {
+      $0.height.equalTo(50)
     }
   }
   
@@ -126,88 +82,45 @@ final class EditMeetingViewController: BaseViewController {
     super.setupStyles()
   }
   
-  override func bind() {
-    super.bind()
-    
-    segmentedControl.rx.value
-      .asDriver()
-      .drive(with: self) { owner, index in
-        owner.currentPage = index
+  private func addSubViews(stackView: UIStackView) {
+    EditMeetingType.allCases.enumerated().forEach { index, type in
+      let isLast = index == EditMeetingType.allCases.count - 1
+      
+      let detailSubview = SettingDetailSubView(type.rawValue, isLast: isLast)
+      stackView.addArrangedSubview(detailSubview)
+      detailSubview.snp.makeConstraints {
+        $0.height.equalTo(52)
       }
-      .disposed(by: disposeBag)
-    
-    saveButton.rx.tap
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        switch EditMeetingType.allCases[owner.currentPage] {
-        case .meetingPost:
-          owner.viewModel.recruitPostViewModel.editMeetingPost()
-        case .meetingInfo:
-          owner.viewModel.meetingInfoViewModel.requestEditMeeting()
-        case .meetingQuestion:
-          owner.viewModel.guestQuestionViewModel.requestEditMeeting()
+      
+      detailSubview.button
+        .rx.tap
+        .asDriver()
+        .drive(with: self) { owner, _ in
+          switch type {
+          case .myMeetingSetting:
+            owner.moveToMyMeetingSetting()
+          case .editRecruitment:
+            owner.moveToEditRecruitment()
+          case .questionList:
+            owner.moveToQuestionList()
+          }
         }
-      }
-      .disposed(by: disposeBag)
-  }
-}
-
-extension EditMeetingViewController: EditMeetingChildViewControllerDelegate {
-  func checkValidation(index:Int, state: Bool) {
-    isSaveButtonEnable[index] = state
-    saveButton.isEnabled = isSaveButtonEnable[currentPage]
-  }
-}
-
-extension EditMeetingViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-  func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-    guard let index = viewControllers.firstIndex(of: viewController),
-          index - 1 >= 0 else { return nil }
-    return viewControllers[index - 1]
-  }
-
-  func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-    guard let index = viewControllers.firstIndex(of: viewController),
-          index + 1 < viewControllers.count else { return nil }
-    return viewControllers[index + 1]
-  }
-    
-  func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-    guard let viewController = pageViewController.viewControllers?[0],
-          let index = viewControllers.firstIndex(of: viewController) else { return }
-    currentPage = index
-    segmentedControl.selectedSegmentIndex = index
-  }
-}
-
-extension EditMeetingViewController {
-  func registerKeyboardNotification() {
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
-                                             name: UIResponder.keyboardWillShowNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
-                                             name: UIResponder.keyboardWillHideNotification, object: nil)
-  }
-  
-  func removeKeyboardNotification() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  func keyboardWillShow(_ sender: Notification) {
-    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-      let keyboardHeight: CGFloat = keyboardSize.height
-      saveButton.snp.updateConstraints {
-        $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
-      }
-      view.layoutIfNeeded()
+        .disposed(by: disposeBag)
     }
   }
   
-  @objc
-  func keyboardWillHide(_ sender: Notification) {
-    saveButton.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(26)
-    }
-    view.layoutIfNeeded()
+  private func moveToMyMeetingSetting() {
+    let vc = MeetingInfoViewController(viewModel: MeetingInfoViewModel(plubbingID: plubbingID))
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
+  private func moveToEditRecruitment() {
+    let vc = RecruitPostViewController(viewModel: RecruitPostViewModel(plubbingID: plubbingID))
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
+  private func moveToQuestionList() {
+    let vc = GuestQuestionViewController(viewModel: GuestQuestionViewModel(plubbingID: plubbingID))
+    navigationController?.pushViewController(vc, animated: true)
   }
 }

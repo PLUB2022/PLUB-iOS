@@ -12,7 +12,6 @@ import RxCocoa
 
 final class GuestQuestionViewController: BaseViewController {
   private let viewModel: GuestQuestionViewModel
-  weak var delegate: EditMeetingChildViewControllerDelegate?
   
   private let questionStackView = UIStackView().then {
     $0.axis = .horizontal
@@ -39,6 +38,10 @@ final class GuestQuestionViewController: BaseViewController {
     $0.register(QuestionTableViewCell.self, forCellReuseIdentifier: QuestionTableViewCell.identifier)
     $0.register(AddQuestionTableViewCell.self, forCellReuseIdentifier: AddQuestionTableViewCell.identifier)
     $0.keyboardDismissMode = .onDrag
+  }
+  
+  private let saveButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "저장")
   }
   
   private let tapGesture = UITapGestureRecognizer(
@@ -76,7 +79,7 @@ final class GuestQuestionViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [questionStackView, tableView].forEach {
+    [questionStackView, tableView, saveButton].forEach {
       view.addSubview($0)
     }
     
@@ -89,7 +92,7 @@ final class GuestQuestionViewController: BaseViewController {
     super.setupConstraints()
     
     questionStackView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
+      $0.top.equalTo(view.safeAreaLayoutGuide).inset(24)
       $0.leading.trailing.equalToSuperview().inset(24)
       $0.height.equalTo(46)
     }
@@ -97,6 +100,12 @@ final class GuestQuestionViewController: BaseViewController {
     tableView.snp.makeConstraints {
       $0.top.equalTo(questionStackView.snp.bottom).offset(48)
       $0.leading.bottom.trailing.equalToSuperview()
+    }
+    
+    saveButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+      $0.height.width.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
     }
     
     [questionButton, noquestionButton].forEach{
@@ -108,6 +117,7 @@ final class GuestQuestionViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    title = "질문 리스트"
   }
   
   override func bind() {
@@ -151,10 +161,7 @@ final class GuestQuestionViewController: BaseViewController {
     )
       .withUnretained(self)
       .subscribe(onNext: { owner, tuple in
-        owner.delegate?.checkValidation(
-          index: 2,
-          state: tuple.0 || tuple.1
-        )
+        owner.saveButton.isEnabled = tuple.0 || tuple.1
       })
       .disposed(by: disposeBag)
     
@@ -163,6 +170,20 @@ final class GuestQuestionViewController: BaseViewController {
       .drive(onNext: { [weak self] _ in
         guard let self = self else { return }
         self.view.endEditing(true)
+      })
+      .disposed(by: disposeBag)
+    
+    saveButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.viewModel.requestEditMeeting()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successEditQuestion
+      .withUnretained(self)
+      .subscribe(onNext: { owner, state in
+        owner.navigationController?.popViewController(animated: true)
       })
       .disposed(by: disposeBag)
   }
@@ -359,11 +380,22 @@ extension GuestQuestionViewController {
   
   @objc
   func keyboardWillShow(_ sender: Notification) {
-      tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 56 + 26))
+    tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 56 + 26))
+    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+      let keyboardHeight: CGFloat = keyboardSize.height
+      saveButton.snp.updateConstraints {
+        $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
+      }
+      view.layoutIfNeeded()
+    }
   }
   
   @objc
   func keyboardWillHide(_ sender: Notification) {
     tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 56))
+    saveButton.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+    }
+    view.layoutIfNeeded()
   }
 }

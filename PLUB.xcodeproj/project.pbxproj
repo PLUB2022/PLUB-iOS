@@ -345,7 +345,6 @@
 		C359FEA8299FE3AB00B2F561 /* CreateScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEA7299FE3AB00B2F561 /* CreateScheduleViewModel.swift */; };
 		C359FEAA29A08B7E00B2F561 /* ScheduleTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */; };
 		C359FEAC29A09C5200B2F561 /* ScheduleDateSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */; };
-		C35AFD012998B0A500AB5CD3 /* EditMeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */; };
 		C35C062F2A065A3400DCB8EB /* InquireMyFeedUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35C062E2A065A3400DCB8EB /* InquireMyFeedUseCase.swift */; };
 		C361743129AF95E2006AEAB1 /* MyMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C361743029AF95E2006AEAB1 /* MyMeetingResponse.swift */; };
 		C361743329AF9B2D006AEAB1 /* MeetingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C361743229AF9B2D006AEAB1 /* MeetingViewModel.swift */; };
@@ -769,7 +768,6 @@
 		C359FEA7299FE3AB00B2F561 /* CreateScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleViewModel.swift; sourceTree = "<group>"; };
 		C359FEA929A08B7E00B2F561 /* ScheduleTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTitleView.swift; sourceTree = "<group>"; };
 		C359FEAB29A09C5200B2F561 /* ScheduleDateSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateSubView.swift; sourceTree = "<group>"; };
-		C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMeetingViewModel.swift; sourceTree = "<group>"; };
 		C35C062E2A065A3400DCB8EB /* InquireMyFeedUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireMyFeedUseCase.swift; sourceTree = "<group>"; };
 		C361743029AF95E2006AEAB1 /* MyMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMeetingResponse.swift; sourceTree = "<group>"; };
 		C361743229AF9B2D006AEAB1 /* MeetingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewModel.swift; sourceTree = "<group>"; };
@@ -1932,7 +1930,6 @@
 		C33FB0702993F81800BEB15B /* EditMeeting */ = {
 			isa = PBXGroup;
 			children = (
-				C35AFD002998B0A500AB5CD3 /* EditMeetingViewModel.swift */,
 				C33FB0712993F84A00BEB15B /* EditMeetingViewController.swift */,
 				C3413E13299548C8004B8DBD /* ViewController */,
 				C3160515299770BF00D27488 /* ViewModel */,
@@ -2920,7 +2917,6 @@
 				BA85BAA829A738DF00B4C59A /* BoardsResponse.swift in Sources */,
 				7063159A2A0BAAE200DD8EFE /* CreateTodoResponse.swift in Sources */,
 				70727A3529D32CBD003DE956 /* TodolistRouter.swift in Sources */,
-				C35AFD012998B0A500AB5CD3 /* EditMeetingViewModel.swift in Sources */,
 				BA8D949A29E96FF00075ACD8 /* ArchivePopUpViewController.swift in Sources */,
 				C359FEA8299FE3AB00B2F561 /* CreateScheduleViewModel.swift in Sources */,
 				BA780E1529714AAB0032C178 /* GeneralResponse.swift in Sources */,

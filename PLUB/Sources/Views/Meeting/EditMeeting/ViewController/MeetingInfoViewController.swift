@@ -9,12 +9,6 @@ import UIKit
 
 final class MeetingInfoViewController: BaseViewController {
   private let viewModel: MeetingInfoViewModel
-  weak var delegate: EditMeetingChildViewControllerDelegate?
-  
-  private let scrollView = UIScrollView().then {
-    $0.bounces = false
-    $0.showsVerticalScrollIndicator = false
-  }
   
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
@@ -112,6 +106,10 @@ final class MeetingInfoViewController: BaseViewController {
     $0.textAlignment = .right
   }
   
+  private let saveButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "저장")
+  }
+  
   init(viewModel: MeetingInfoViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -128,7 +126,7 @@ final class MeetingInfoViewController: BaseViewController {
 
   override func setupLayouts() {
     super.setupLayouts()
-    [contentStackView, peopleNumberToolTip].forEach {
+    [contentStackView, peopleNumberToolTip, saveButton].forEach {
       view.addSubview($0)
     }
     
@@ -143,13 +141,19 @@ final class MeetingInfoViewController: BaseViewController {
     [minCountLabel, maxCountLabel].forEach {
       countStactView.addArrangedSubview($0)
     }
+    
+    saveButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+      $0.height.width.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     contentStackView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview().inset(24)
-      $0.top.equalToSuperview().inset(40)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
     dateCollectionView.snp.makeConstraints {
@@ -190,6 +194,7 @@ final class MeetingInfoViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    title = "내 모임 설정"
   }
   
   override func bind() {
@@ -267,11 +272,22 @@ final class MeetingInfoViewController: BaseViewController {
     viewModel.isBtnEnabled
       .distinctUntilChanged()
       .drive(with: self){ owner, state in
-        owner.delegate?.checkValidation(
-          index: 1,
-          state: state
-        )
+        owner.saveButton.isEnabled = state
       }
+      .disposed(by: disposeBag)
+    
+    saveButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.viewModel.requestEditMeeting()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successEditQuestion
+      .withUnretained(self)
+      .subscribe(onNext: { owner, state in
+        owner.navigationController?.popViewController(animated: true)
+      })
       .disposed(by: disposeBag)
   }
 }

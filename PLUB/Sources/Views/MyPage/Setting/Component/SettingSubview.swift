@@ -25,25 +25,25 @@ final class SettingSubview: UIView {
     }
   }
 
-  init(_ type: SettingType) {
-    label.text = type.rawValue
+  init(_ title: String, isSubLabel: Bool = false) {
+    label.text = title
     super.init(frame: .zero)
-    setupLayouts(type: type)
-    setupConstraints(type: type)
+    setupLayouts(isSubLabel: isSubLabel)
+    setupConstraints(isSubLabel: isSubLabel)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  private func setupLayouts(type: SettingType) {
+  private func setupLayouts(isSubLabel: Bool) {
     addSubview(label)
-    if type == .version {
+    if isSubLabel {
       addSubview(versionLabel)
     }
   }
 
-  private func setupConstraints(type: SettingType) {
+  private func setupConstraints(isSubLabel: Bool) {
     label.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(12)
       $0.centerY.equalToSuperview()
@@ -52,7 +52,7 @@ final class SettingSubview: UIView {
       $0.bottom.equalToSuperview().inset(10)
     }
     
-    if type == .version {
+    if isSubLabel {
       versionLabel.snp.makeConstraints {
         $0.centerY.equalTo(label.snp.centerY)
         $0.leading.equalTo(label.snp.trailing).offset(12)

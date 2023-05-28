@@ -27,6 +27,7 @@ final class MeetingInfoViewModel {
   // Output
   let fetchedMeetingData = PublishSubject<EditMeetingInfoRequest>()
   let isBtnEnabled: Driver<Bool>
+  let successEditQuestion = PublishSubject<Void>()
   
   private let editMeetingRelay = BehaviorRelay(value: EditMeetingInfoRequest())
   
@@ -166,7 +167,7 @@ final class MeetingInfoViewModel {
       .subscribe(onNext: { owner, result in
         switch result {
         case .success(let model):
-          print(model)
+          owner.successEditQuestion.onNext(())
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })

@@ -25,6 +25,7 @@ final class RecruitPostViewModel {
   // Output
   let isBtnEnabled: Driver<Bool>
   let fetchedMeetingData = PublishSubject<EditMeetingPostRequest>()
+  let successEditQuestion = PublishSubject<Void>()
   
   private let introduceTitleSubject = PublishSubject<String>()
   private let nameTitleSubject = PublishSubject<String>()
@@ -171,7 +172,7 @@ final class RecruitPostViewModel {
       .subscribe(onNext: { owner, result in
         switch result {
         case .success(let model):
-          print(model)
+          owner.successEditQuestion.onNext(())
         default: break// TODO: 수빈 - PLUB 에러 Alert 띄우기
         }
       })

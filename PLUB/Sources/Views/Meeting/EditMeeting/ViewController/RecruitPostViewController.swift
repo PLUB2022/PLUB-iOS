@@ -9,7 +9,6 @@ import UIKit
 
 final class RecruitPostViewController: BaseViewController {
   private let viewModel: RecruitPostViewModel
-  weak var delegate: EditMeetingChildViewControllerDelegate?
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
@@ -58,6 +57,10 @@ final class RecruitPostViewController: BaseViewController {
 
   private let photoSelectView = PhotoSelectView()
   
+  private let saveButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.plubButton(label: "저장")
+  }
+  
   private let tapGesture = UITapGestureRecognizer(
     target: RecruitPostViewController.self,
       action: nil
@@ -81,9 +84,22 @@ final class RecruitPostViewController: BaseViewController {
     viewModel.fetchMeetingData()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
+    [scrollView, saveButton].forEach {
+      view.addSubview($0)
+    }
+    
     scrollView.addSubview(contentStackView)
     
     [introduceTitleView, nameTitleView, goalView, introduceView, photoStackView].forEach {
@@ -103,7 +119,7 @@ final class RecruitPostViewController: BaseViewController {
     }
     
     contentStackView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(40)
+      $0.top.equalToSuperview().inset(24)
       $0.leading.trailing.bottom.equalToSuperview()
       $0.width.equalTo(scrollView.snp.width)
     }
@@ -117,10 +133,17 @@ final class RecruitPostViewController: BaseViewController {
       $0.height.equalTo(100)
       $0.leading.trailing.equalToSuperview()
     }
+    
+    saveButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+      $0.height.width.equalTo(46)
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
   }
   
   override func setupStyles() {
     super.setupStyles()
+    title = "모집글 새로 쓰기"
   }
   
   override func bind() {
@@ -165,10 +188,7 @@ final class RecruitPostViewController: BaseViewController {
     viewModel.isBtnEnabled
       .distinctUntilChanged()
       .drive(with: self){ owner, state in
-        self.delegate?.checkValidation(
-          index: 0,
-          state: state
-        )
+        owner.saveButton.isEnabled = state
       }
       .disposed(by: disposeBag)
 
@@ -181,6 +201,20 @@ final class RecruitPostViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     scrollView.addGestureRecognizer(tapGesture)
+    
+    saveButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.viewModel.editMeetingPost()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successEditQuestion
+      .withUnretained(self)
+      .subscribe(onNext: { owner, state in
+        owner.navigationController?.popViewController(animated: true)
+      })
+      .disposed(by: disposeBag)
   }
   
   private func setupMeetingData(data: EditMeetingPostRequest) {
@@ -203,5 +237,37 @@ extension RecruitPostViewController: PhotoBottomSheetDelegate {
     }
     
     viewModel.meetingImage.onNext(image)
+  }
+}
+
+extension RecruitPostViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                             name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                             name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+      let keyboardHeight: CGFloat = keyboardSize.height
+      saveButton.snp.updateConstraints {
+        $0.bottom.equalToSuperview().inset(keyboardHeight + 26)
+      }
+      view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    saveButton.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(26)
+    }
+    view.layoutIfNeeded()
   }
 }
