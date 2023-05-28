@@ -9,7 +9,6 @@ import UIKit
 
 final class MeetingInfoViewController: BaseViewController {
   private let viewModel: MeetingInfoViewModel
-  weak var delegate: EditMeetingChildViewControllerDelegate?
   
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical

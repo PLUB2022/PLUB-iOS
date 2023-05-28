@@ -12,7 +12,6 @@ import RxCocoa
 
 final class GuestQuestionViewController: BaseViewController {
   private let viewModel: GuestQuestionViewModel
-  weak var delegate: EditMeetingChildViewControllerDelegate?
   
   private let questionStackView = UIStackView().then {
     $0.axis = .horizontal

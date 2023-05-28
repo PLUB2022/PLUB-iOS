@@ -9,7 +9,6 @@ import UIKit
 
 final class RecruitPostViewController: BaseViewController {
   private let viewModel: RecruitPostViewModel
-  weak var delegate: EditMeetingChildViewControllerDelegate?
   
   private let scrollView = UIScrollView().then {
     $0.bounces = false
