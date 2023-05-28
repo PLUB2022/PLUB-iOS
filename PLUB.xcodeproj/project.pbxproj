@@ -45,6 +45,7 @@
 		705FD29D2A14E06900F353FE /* ProofTodoAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29C2A14E06900F353FE /* ProofTodoAlertViewController.swift */; };
 		705FD2B52A1734CE00F353FE /* EditTodolistRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2B42A1734CE00F353FE /* EditTodolistRequest.swift */; };
 		705FD2B72A17CA4700F353FE /* DeleteTodolistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2B62A17CA4700F353FE /* DeleteTodolistResponse.swift */; };
+		705FD2C12A1E51E800F353FE /* TodoGoalHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2C02A1E51E800F353FE /* TodoGoalHeaderView.swift */; };
 		706315962A0BA93400DD8EFE /* TodoPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315952A0BA93400DD8EFE /* TodoPlannerViewModel.swift */; };
 		706315982A0BAA6000DD8EFE /* CreateTodoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315972A0BAA6000DD8EFE /* CreateTodoRequest.swift */; };
 		7063159A2A0BAAE200DD8EFE /* CreateTodoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706315992A0BAAE200DD8EFE /* CreateTodoResponse.swift */; };
@@ -483,6 +484,7 @@
 		705FD29C2A14E06900F353FE /* ProofTodoAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProofTodoAlertViewController.swift; sourceTree = "<group>"; };
 		705FD2B42A1734CE00F353FE /* EditTodolistRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTodolistRequest.swift; sourceTree = "<group>"; };
 		705FD2B62A17CA4700F353FE /* DeleteTodolistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTodolistResponse.swift; sourceTree = "<group>"; };
+		705FD2C02A1E51E800F353FE /* TodoGoalHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoGoalHeaderView.swift; sourceTree = "<group>"; };
 		706315952A0BA93400DD8EFE /* TodoPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPlannerViewModel.swift; sourceTree = "<group>"; };
 		706315972A0BAA6000DD8EFE /* CreateTodoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTodoRequest.swift; sourceTree = "<group>"; };
 		706315992A0BAAE200DD8EFE /* CreateTodoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTodoResponse.swift; sourceTree = "<group>"; };
@@ -1085,6 +1087,7 @@
 				70727A1E29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift */,
 				70727A3229D2C635003DE956 /* TodoCollectionViewCell.swift */,
 				70C9CC922A01CE8B00BEB5F2 /* TodoCollectionHeaderView.swift */,
+				705FD2C02A1E51E800F353FE /* TodoGoalHeaderView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2627,6 +2630,7 @@
 				C3B3435D29BE4A3000935B73 /* MyPlubbingParameter.swift in Sources */,
 				C374E79729FC2F4D004738C2 /* MyTodoResponse.swift in Sources */,
 				BA72BCF029BB03FF007165E5 /* BaseNavigationController.swift in Sources */,
+				705FD2C12A1E51E800F353FE /* TodoGoalHeaderView.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
 				70727A2529C4C21A003DE956 /* CreateBoardViewModel.swift in Sources */,
 				BA5EC6CD29F167D7000A68B7 /* BoardDetailViewModelFactory.swift in Sources */,
