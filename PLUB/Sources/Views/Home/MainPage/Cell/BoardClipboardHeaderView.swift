@@ -77,6 +77,7 @@ final class BoardClipboardHeaderView: UICollectionReusableView {
   override func prepareForReuse() {
     super.prepareForReuse()
     entireStackView.subviews.forEach { $0.removeFromSuperview() }
+    verticalStackView.subviews.forEach { $0.removeFromSuperview() }
   }
   
   private func bind() {
