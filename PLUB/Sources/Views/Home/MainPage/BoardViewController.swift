@@ -18,6 +18,7 @@ enum BoardHeaderViewType {
 protocol BoardViewControllerDelegate: AnyObject {
   func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel)
   func didTappedBoardClipboardHeaderView()
+  func didTappedModifyBoard()
 }
 
 final class BoardViewController: BaseViewController {
@@ -31,7 +32,7 @@ final class BoardViewController: BaseViewController {
   
   private var headerType: BoardHeaderViewType = .clipboard {
     didSet {
-      collectionView.reloadSections([0])
+      collectionView.reloadData()
     }
   }
   
@@ -60,6 +61,7 @@ final class BoardViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
     $0.contentInset = .init(top: 16, left: 16, bottom: 16, right: 16)
+    $0.alwaysBounceVertical = true
   }
   
   private lazy var longPressedGesture = UILongPressGestureRecognizer(
@@ -122,18 +124,7 @@ final class BoardViewController: BaseViewController {
     viewModel.fetchedBoardModel
       .drive(rx.boardModel)
       .disposed(by: disposeBag)
-    
-    viewModel.isPinnedFeed
-      .drive(onNext: { isPinned in
-        Log.debug("고정 성공 !! \(isPinned)")
-      })
-      .disposed(by: disposeBag)
-    
-    viewModel.successDeleteFeed
-      .drive(onNext: { success in
-        Log.debug("해당 게시글 삭제 성공")
-      })
-      .disposed(by: disposeBag)
+  
     
     collectionView.rx.didScroll
       .subscribe(with: self, onNext: { owner, _ in
@@ -151,17 +142,30 @@ final class BoardViewController: BaseViewController {
     
     let location = gestureRecognizer.location(in: collectionView)
     guard let indexPath = collectionView.indexPathForItem(at: location),
-          let cell = collectionView.cellForItem(at: indexPath) as? BoardCollectionViewCell else { return }
+          boardModel[indexPath.row].viewType == .normal else { return }
     
+    let model = boardModel[indexPath.row]
     if gestureRecognizer.state == .began {
       // 롱 프레스 터치가 시작될 떄
-      let bottomSheet = BoardBottomSheetViewController(accessType: .normal, isPinned: false)
+      let isPinned = model.isPinned
+      let isHost = model.isHost
+      let isAuthor = model.isAuthor
+      let bottomSheet: BoardBottomSheetViewController
+      
+      if !isAuthor && !isHost {
+        bottomSheet = BoardBottomSheetViewController(accessType: .normal, isPinned: isPinned)
+      } else if isHost {
+        bottomSheet = BoardBottomSheetViewController(accessType: .host, isPinned: isPinned)
+      } else {
+        bottomSheet = BoardBottomSheetViewController(accessType: .author, isPinned: isPinned)
+      }
+      
+      let feedID = model.feedID
+      viewModel.selectFeedID.onNext(feedID)
+      
       bottomSheet.delegate = self
       present(bottomSheet, animated: true)
-    } else if gestureRecognizer.state == .ended {
-      // 롱 프레스 터치가 끝날 떄
-      guard let feedID = cell.feedID else { return }
-      viewModel.selectFeedID.onNext(feedID)
+      
     }
   }
   
@@ -249,7 +253,7 @@ extension BoardViewController: BoardBottomSheetDelegate {
     case .fix:
       viewModel.selectFix.onNext(())
     case .modify:
-      viewModel.selectFix.onNext(())
+      delegate?.didTappedModifyBoard()
     case .report:
       viewModel.selectFix.onNext(())
     case .delete:
