@@ -14,7 +14,7 @@ protocol BoardViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   var selectFeedID: AnyObserver<Int> { get }
   var selectFix: AnyObserver<Void> { get }
-  //  var selectModify: AnyObserver<Void> { get }
+  var selectModify: AnyObserver<BoardsRequest?> { get }
   //  var selectReport: AnyObserver<Void> { get }
   var selectDelete: AnyObserver<Void> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
@@ -23,8 +23,6 @@ protocol BoardViewModelType {
   var fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]> { get }
   var fetchedBoardModel: Driver<[BoardModel]> { get }
   var clipboardListIsEmpty: Driver<Bool> { get }
-  var isPinnedFeed: Driver<Int> { get }
-  var successDeleteFeed: Driver<Void> { get }
   
   func clearStatus()
   
@@ -38,6 +36,7 @@ final class BoardViewModel {
   private let selectingFeedID = PublishSubject<Int>()
   private let selectingFix = PublishSubject<Void>()
   private let selectingDelete = PublishSubject<Void>()
+  private let selectingModify = BehaviorSubject<BoardsRequest?>(value: nil)
   private let fetchingMainpageClipboardViewModel = BehaviorRelay<[MainPageClipboardViewModel]>(value: [])
   private let fetchingBoardModel = BehaviorRelay<[BoardModel]>(value: [])
   private let fetchingMoreDatas = PublishSubject<Void>()
@@ -50,6 +49,9 @@ final class BoardViewModel {
     tryFetchingBoards()
     tryFetchingClipboards()
     tryFetchingMoreDatas()
+    tryDeleteBoard()
+    tryPinnedBoard()
+    tryUpdateBoard()
   }
   
   func clearStatus() {
@@ -121,9 +123,89 @@ final class BoardViewModel {
       })
       .disposed(by: disposeBag)
   }
+  
+  private func tryDeleteBoard() {
+    let selectingDelete = selectingDelete.share()
+    
+    selectingDelete.withLatestFrom(
+      Observable.combineLatest(
+        selectingPlubbingID,
+        selectingFeedID
+      )
+    )
+    .flatMapLatest(FeedsService.shared.deleteFeed)
+    .map { _ in Void() }
+    .subscribe(with: self) { owner, _ in
+      Log.debug("해당 게시글을 삭제하였습니다")
+    }
+    .disposed(by: disposeBag)
+    
+    selectingDelete.withLatestFrom(selectingFeedID)
+      .subscribe(with: self) { owner, feedID in
+        let boardModel = owner.fetchingBoardModel.value
+        let deleteBoardModel = boardModel.filter { $0.feedID != feedID }
+        owner.fetchingBoardModel.accept(deleteBoardModel)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func tryPinnedBoard() {
+    selectingFix.withLatestFrom(
+      Observable.combineLatest(selectingPlubbingID, selectingFeedID)
+    )
+    .flatMapLatest(FeedsService.shared.pinFeed)
+    .map { $0.feedID }
+    .subscribe(with: self) { owner, feedID in
+      var boardModel = owner.fetchingBoardModel.value
+      var clipboardModel = owner.fetchingMainpageClipboardViewModel.value
+      
+      guard let findBoardModel = boardModel.filter({ $0.feedID == feedID }).first else { return }
+      boardModel.removeAll(where: { $0.feedID == feedID })
+      owner.fetchingBoardModel.accept(boardModel)
+      
+      let model = MainPageClipboardViewModel(model: findBoardModel)
+      clipboardModel.insert(model, at: 0)
+      owner.fetchingMainpageClipboardViewModel.accept(clipboardModel)
+      Log.debug("피드 아이디\(feedID ) 고정완료하였습니다")
+    }
+    .disposed(by: disposeBag)
+  }
+  
+  private func tryUpdateBoard() {
+    selectingModify.withLatestFrom(
+      Observable.combineLatest(
+        selectingPlubbingID,
+        selectingFeedID
+      )
+    ) { ($0, $1) }
+      .flatMapLatest { request, result in
+        let (plubbingID, feedID) = result
+        return FeedsService.shared.updateFeed(plubbingID: plubbingID, feedID: feedID, model: request!)
+      }
+    .map { $0.feedID }
+    .subscribe(with: self) { owner, feedID in
+      let boardModel = owner.fetchingBoardModel.value
+      guard let tryRequest = try? owner.selectingModify.value() else { return }
+      
+      let updateBoardModel = boardModel.map { model in
+        if model.feedID == feedID {
+          return model.updateBoardModel(request: tryRequest)
+        }
+        return model
+      }
+
+      owner.fetchingBoardModel.accept(updateBoardModel)
+      Log.debug("피드 아이디\(feedID) 수정완료하였습니다")
+    }
+    .disposed(by: disposeBag)
+  }
 }
 
 extension BoardViewModel: BoardViewModelType {
+  
+  var selectModify: AnyObserver<BoardsRequest?> {
+    selectingModify.asObserver()
+  }
   
   // Input
   var selectPlubbingID: AnyObserver<Int> {
@@ -166,25 +248,13 @@ extension BoardViewModel: BoardViewModelType {
   
   var isPinnedFeed: Driver<Int> {
     selectingFix.withLatestFrom(
-      Observable.zip(
+      Observable.combineLatest(
         selectingPlubbingID,
-        selectingFeedID
+        selectingFeedID.do(onNext: { print("피드아이디 들어옴 ? \($0)") })
       )
     )
     .flatMapLatest(FeedsService.shared.pinFeed)
     .map { $0.feedID }
-    .asDriver(onErrorDriveWith: .empty())
-  }
-  
-  var successDeleteFeed: Driver<Void> {
-    selectingDelete.withLatestFrom(
-      Observable.zip(
-        selectingPlubbingID,
-        selectingFeedID
-      )
-    )
-    .flatMapLatest(FeedsService.shared.deleteFeed)
-    .map { _ in Void() }
     .asDriver(onErrorDriveWith: .empty())
   }
 }
