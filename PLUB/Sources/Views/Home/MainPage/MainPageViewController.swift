@@ -209,6 +209,13 @@ extension MainPageViewController: UIScrollViewDelegate {
 }
 
 extension MainPageViewController: BoardViewControllerDelegate {
+  func didTappedModifyBoard() {
+    let vc = CreateBoardViewController(plubbingID: plubbingID)
+    vc.navigationItem.largeTitleDisplayMode = .never
+    vc.title = title
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
   func didTappedBoardClipboardHeaderView() {
     let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: plubbingID))
     vc.title = title
