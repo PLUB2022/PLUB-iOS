@@ -32,6 +32,18 @@ struct MainPageClipboardViewModel {
   let type: PostType
   let contentImageString: String?
   let contentText: String?
+  
+  init(type: PostType, contentImageString: String?, contentText: String?) {
+    self.type = type
+    self.contentImageString = contentImageString
+    self.contentText = contentText
+  }
+  
+  init(model: BoardModel) {
+    type = model.type
+    contentImageString = model.imageLink
+    contentText = model.content
+  }
 }
 
 final class MainPageClipboardView: UIView {
