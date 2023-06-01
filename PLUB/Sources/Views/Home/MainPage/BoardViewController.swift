@@ -151,13 +151,13 @@ final class BoardViewController: BaseViewController {
       let isHost = model.isHost
       let isAuthor = model.isAuthor
       let bottomSheet: BoardBottomSheetViewController
-      
+
       if !isAuthor && !isHost {
         bottomSheet = BoardBottomSheetViewController(accessType: .normal, isPinned: isPinned)
-      } else if isHost {
-        bottomSheet = BoardBottomSheetViewController(accessType: .host, isPinned: isPinned)
-      } else {
+      } else if isAuthor {
         bottomSheet = BoardBottomSheetViewController(accessType: .author, isPinned: isPinned)
+      } else {
+        bottomSheet = BoardBottomSheetViewController(accessType: .host, isPinned: isPinned)
       }
       
       let feedID = model.feedID
