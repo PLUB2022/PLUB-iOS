@@ -86,7 +86,31 @@ extension FeedsContent {
       commentCount: commentCount,
       title: title,
       imageLink: feedImageURL,
-      content: content
+      content: content,
+      isPinned: isPinned,
+      isAuthor: isAuthor,
+      isHost: isHost
+    )
+  }
+}
+
+extension BoardModel {
+  func updateBoardModel(request: BoardsRequest) -> BoardModel {
+    BoardModel(
+      feedID: feedID,
+      viewType: viewType,
+      author: author,
+      authorProfileImageLink: authorProfileImageLink,
+      date: date,
+      isLike: isLike,
+      likeCount: likeCount,
+      commentCount: commentCount,
+      title: request.title,
+      imageLink: request.feedImage,
+      content: request.content,
+      isPinned: isPinned,
+      isAuthor: isAuthor,
+      isHost: isHost
     )
   }
 }
