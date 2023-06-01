@@ -15,10 +15,6 @@ final class BoardCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "BoardsCollectionViewCell"
   
-  // MARK: - Properties
-  
-  var feedID: Int?
-  
   // MARK: - UI Components
   
   private let wholeStackView = UIStackView().then {
@@ -165,7 +161,6 @@ final class BoardCollectionViewCell: UICollectionViewCell {
   }
   
   func configure(with model: BoardModel) {
-    feedID = model.feedID
     if let profileImageLink = model.authorProfileImageLink {
       profileImageView.kf.setImage(with: URL(string: profileImageLink))
     }
