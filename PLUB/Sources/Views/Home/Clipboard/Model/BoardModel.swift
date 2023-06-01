@@ -42,6 +42,15 @@ struct BoardModel {
   
   /// 내용
   let content: String?
+  
+  /// 고정 여부
+  let isPinned: Bool
+  
+  /// 작성자인지 여부
+  let isAuthor: Bool
+  
+  /// 호스트인지 여부
+  let isHost: Bool
 }
 
 extension BoardModel {
