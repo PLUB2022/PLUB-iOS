@@ -29,6 +29,9 @@ final class CreateBoardViewController: BaseViewController {
     }
   }
   
+  typealias CompletionHandler = ((String, String?, UIImage?)) -> Void
+  private(set) var completionHandler: CompletionHandler?
+  
   private let boardTypeLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .subtitle
@@ -89,9 +92,10 @@ final class CreateBoardViewController: BaseViewController {
     action: nil
   )
   
-  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int, createBoardType: CreateBoardType = .edit) {
+  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int, createBoardType: CreateBoardType = .edit, completionHandler: CompletionHandler? = nil) {
     self.viewModel = viewModel
     self.createBoardType = createBoardType
+    self.completionHandler = completionHandler
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
@@ -113,7 +117,7 @@ final class CreateBoardViewController: BaseViewController {
     super.setupLayouts()
     [photoButton, textButton, photoAndTextButton].forEach { buttonStackView.addArrangedSubview($0) }
     
-    if createBoardType == .edit {
+    if createBoardType == .edit || type == .photo {
       [photoAddLabel, addPhotoImageView].forEach { boardTypeStackView.addArrangedSubview($0) }
     }
     [boardTypeLabel, buttonStackView, titleInputTextView, boardTypeStackView, uploadButton].forEach { view.addSubview($0) }
@@ -188,15 +192,36 @@ final class CreateBoardViewController: BaseViewController {
     uploadButton.rx.tap
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
+        guard let title = owner.titleInputTextView.textView.text else { return }
+        let content = owner.boardContentInputTextView.textView.text
+        let feedImage = owner.addPhotoImageView.image
+        
         switch owner.createBoardType {
-        case .edit:
-          guard let title = owner.titleInputTextView.textView.text else { return }
-          owner.viewModel.tappedUploadButton.onNext(())
-          owner.viewModel.writeTitle.onNext(title)
-          owner.viewModel.writeContent.onNext(owner.boardContentInputTextView.textView.text)
-          owner.viewModel.whichBoardImage.onNext(owner.addPhotoImageView.image)
+          case .edit:
+            owner.viewModel.tappedUploadButton.onNext(())
+            switch owner.type {
+            case .photo:
+              owner.viewModel.writeTitle.onNext(title)
+              owner.viewModel.whichBoardImage.onNext(feedImage!)
+            case .text:
+              owner.viewModel.writeTitle.onNext(title)
+              owner.viewModel.writeContent.onNext(content!)
+            case .photoAndText:
+              owner.viewModel.writeTitle.onNext(title)
+              owner.viewModel.writeContent.onNext(content!)
+              owner.viewModel.whichBoardImage.onNext(feedImage!)
+          }
         case .modify:
-          print("수정입니다")
+          let request: (String, String?, UIImage?)
+          switch owner.type {
+            case .photo:
+              request = (title, nil, feedImage!)
+            case .text:
+              request = (title, content!, nil)
+            case .photoAndText:
+              request = (title, content!, feedImage!)
+          }
+          owner.completionHandler?(request)
         }
       }
       .disposed(by: disposeBag)

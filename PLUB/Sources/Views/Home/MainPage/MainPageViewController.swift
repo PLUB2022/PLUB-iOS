@@ -210,7 +210,10 @@ extension MainPageViewController: UIScrollViewDelegate {
 
 extension MainPageViewController: BoardViewControllerDelegate {
   func didTappedModifyBoard(model: BoardModel) {
-    let vc = CreateBoardViewController(plubbingID: plubbingID, createBoardType: .modify)
+    let vc = CreateBoardViewController(plubbingID: plubbingID, createBoardType: .modify) { [weak self] request in
+      guard let self = self else { return }
+      self.boardViewController.requestUpdateBoard(request: request)
+    }
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     vc.updateForModify(model: model)
