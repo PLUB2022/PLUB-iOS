@@ -182,10 +182,13 @@ final class BoardViewModel {
     )
     
     let tryImageToString = uploadImage
-      .flatMap { response -> Observable<String?> in
+      .withUnretained(self)
+      .flatMap { owner, response -> Observable<String?> in
         switch response {
         case let .success(imageModel):
-          return .just(imageModel.data?.files.first?.fileURL)
+          let fileURL = imageModel.data?.files.first?.fileURL
+          owner.modifyImageString.onNext(fileURL)
+          return .just(fileURL)
         default:
           // 이미지 등록이 되지 못함 (오류 발생)
           return .empty()
@@ -198,11 +201,11 @@ final class BoardViewModel {
   private func tryUpdateBoard() {
     selectingModify.compactMap { $0 }
       .withLatestFrom(
-      Observable.combineLatest(
-        selectingPlubbingID,
-        selectingFeedID
-      )
-    ) { ($0, $1) }
+        Observable.combineLatest(
+          selectingPlubbingID,
+          selectingFeedID
+        )
+      ) { ($0, $1) }
       .withUnretained(self)
       .flatMapLatest { (owner, arg1) -> Observable<BoardsResponse> in
         let (request, result) = arg1
@@ -210,31 +213,32 @@ final class BoardViewModel {
         let (title, content, feedImage) = request
         return owner.setupImageToString(image: feedImage)
           .flatMap { feedImage in
-            print("여기오나\(feedImage)")
-          return FeedsService.shared.updateFeed(
-            plubbingID: plubbingID,
-            feedID: feedID,
-            model: BoardsRequest(
-              title: title,
-              content: content,
-              feedImage: feedImage
+            return FeedsService.shared.updateFeed(
+              plubbingID: plubbingID,
+              feedID: feedID,
+              model: BoardsRequest(
+                title: title,
+                content: content,
+                feedImage: feedImage
+              )
             )
-          )
-        }
+          }
       }
       .map { $0.feedID }
       .subscribe(with: self) { owner, feedID in
+        guard let tryRequest = try? owner.selectingModify.value(),
+              let modifiedImageString = try? owner.modifyImageString.value() else { return }
         let boardModel = owner.fetchingBoardModel.value
-        guard let tryRequest = try? owner.selectingModify.value() else { return }
-
-//        let updateBoardModel = boardModel.map { model in
-//          if model.feedID == feedID {
-//            return model.updateBoardModel(request: tryRequest)
-//          }
-//          return model
-//        }
-
-//        owner.fetchingBoardModel.accept(updateBoardModel)
+        let (title, content, _) = tryRequest
+        
+        let updateBoardModel = boardModel.map { model in
+          if model.feedID == feedID {
+            return model.updateBoardModel(title: title, content: content, feedImage: modifiedImageString)
+          }
+          return model
+        }
+        
+        owner.fetchingBoardModel.accept(updateBoardModel)
         Log.debug("수정완료하였습니다")
       }
       .disposed(by: disposeBag)
@@ -259,9 +263,7 @@ extension BoardViewModel: BoardViewModelType {
   var selectFix: AnyObserver<Void> {
     selectingFix.asObserver()
   }
-  
-  //  let selectModify: AnyObserver<Void>
-  //  let selectReport: AnyObserver<Void>
+
   var selectDelete: AnyObserver<Void> {
     selectingDelete.asObserver()
   }
@@ -290,7 +292,7 @@ extension BoardViewModel: BoardViewModelType {
     selectingFix.withLatestFrom(
       Observable.combineLatest(
         selectingPlubbingID,
-        selectingFeedID.do(onNext: { print("피드아이디 들어옴 ? \($0)") })
+        selectingFeedID
       )
     )
     .flatMapLatest(FeedsService.shared.pinFeed)
