@@ -95,7 +95,7 @@ extension FeedsContent {
 }
 
 extension BoardModel {
-  func updateBoardModel(request: BoardsRequest) -> BoardModel {
+  func updateBoardModel(title: String, content: String?, feedImage: String?) -> BoardModel {
     BoardModel(
       feedID: feedID,
       viewType: viewType,
@@ -105,9 +105,9 @@ extension BoardModel {
       isLike: isLike,
       likeCount: likeCount,
       commentCount: commentCount,
-      title: request.title,
-      imageLink: request.feedImage,
-      content: request.content,
+      title: title,
+      imageLink: feedImage,
+      content: content,
       isPinned: isPinned,
       isAuthor: isAuthor,
       isHost: isHost
