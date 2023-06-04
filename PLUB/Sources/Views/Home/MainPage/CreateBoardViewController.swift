@@ -197,19 +197,17 @@ final class CreateBoardViewController: BaseViewController {
         let feedImage = owner.addPhotoImageView.image
         
         switch owner.createBoardType {
-          case .edit:
-            owner.viewModel.tappedUploadButton.onNext(())
-            switch owner.type {
-            case .photo:
-              owner.viewModel.writeTitle.onNext(title)
-              owner.viewModel.whichBoardImage.onNext(feedImage!)
-            case .text:
-              owner.viewModel.writeTitle.onNext(title)
-              owner.viewModel.writeContent.onNext(content!)
-            case .photoAndText:
-              owner.viewModel.writeTitle.onNext(title)
-              owner.viewModel.writeContent.onNext(content!)
-              owner.viewModel.whichBoardImage.onNext(feedImage!)
+        case .edit:
+          owner.viewModel.tappedUploadButton.onNext(())
+          owner.viewModel.writeTitle.onNext(title)
+          switch owner.type {
+          case .photo:
+            owner.viewModel.whichBoardImage.onNext(feedImage!)
+          case .text:
+            owner.viewModel.writeContent.onNext(content!)
+          case .photoAndText:
+            owner.viewModel.writeContent.onNext(content!)
+            owner.viewModel.whichBoardImage.onNext(feedImage!)
           }
         case .modify:
           let request: (String, String?, UIImage?)
@@ -223,6 +221,7 @@ final class CreateBoardViewController: BaseViewController {
           }
           owner.completionHandler?(request)
         }
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -241,12 +240,6 @@ final class CreateBoardViewController: BaseViewController {
         let bottomSheet = PhotoBottomSheetViewController()
         bottomSheet.delegate = owner
         owner.present(bottomSheet, animated: true)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isSuccessCreateBoard
-      .emit(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
