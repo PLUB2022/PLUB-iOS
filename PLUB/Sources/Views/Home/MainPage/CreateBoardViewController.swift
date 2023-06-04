@@ -11,9 +11,15 @@ import RxSwift
 import SnapKit
 import Then
 
+enum CreateBoardType {
+  case edit // 게시글 작성용
+  case modify // 개시글 수정용
+}
+
 final class CreateBoardViewController: BaseViewController {
   
   private let viewModel: CreateBoardViewModelType
+  private let createBoardType: CreateBoardType
   
   private var type: PostType = .photo {
     didSet {
@@ -36,7 +42,6 @@ final class CreateBoardViewController: BaseViewController {
   
   private let photoButton: UIButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.list(label: "사진 Only")
-    $0.isSelected = true
   }
   
   private let textButton = UIButton(configuration: .plain()).then {
@@ -84,8 +89,9 @@ final class CreateBoardViewController: BaseViewController {
     action: nil
   )
   
-  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int) {
+  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int, createBoardType: CreateBoardType = .edit) {
     self.viewModel = viewModel
+    self.createBoardType = createBoardType
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
@@ -98,13 +104,18 @@ final class CreateBoardViewController: BaseViewController {
     super.setupStyles()
     addPhotoImageView.addGestureRecognizer(tapGesture)
     navigationItem.title = title
+    if createBoardType == .edit {
+      photoButton.isSelected = true
+    }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     [photoButton, textButton, photoAndTextButton].forEach { buttonStackView.addArrangedSubview($0) }
     
-    [photoAddLabel, addPhotoImageView].forEach { boardTypeStackView.addArrangedSubview($0) }
+    if createBoardType == .edit {
+      [photoAddLabel, addPhotoImageView].forEach { boardTypeStackView.addArrangedSubview($0) }
+    }
     [boardTypeLabel, buttonStackView, titleInputTextView, boardTypeStackView, uploadButton].forEach { view.addSubview($0) }
   }
   
@@ -177,11 +188,16 @@ final class CreateBoardViewController: BaseViewController {
     uploadButton.rx.tap
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
-        guard let title = owner.titleInputTextView.textView.text else { return }
-        owner.viewModel.tappedUploadButton.onNext(())
-        owner.viewModel.writeTitle.onNext(title)
-        owner.viewModel.writeContent.onNext(owner.boardContentInputTextView.textView.text)
-        owner.viewModel.whichBoardImage.onNext(owner.addPhotoImageView.image)
+        switch owner.createBoardType {
+        case .edit:
+          guard let title = owner.titleInputTextView.textView.text else { return }
+          owner.viewModel.tappedUploadButton.onNext(())
+          owner.viewModel.writeTitle.onNext(title)
+          owner.viewModel.writeContent.onNext(owner.boardContentInputTextView.textView.text)
+          owner.viewModel.whichBoardImage.onNext(owner.addPhotoImageView.image)
+        case .modify:
+          print("수정입니다")
+        }
       }
       .disposed(by: disposeBag)
     
@@ -237,6 +253,27 @@ final class CreateBoardViewController: BaseViewController {
       }
       
       boardTypeStackView.setCustomSpacing(24, after: addPhotoImageView)
+    }
+  }
+  
+  func updateForModify(model: BoardModel) {
+    guard createBoardType == .modify else { return }
+    let type = model.type
+    self.type = type
+    
+    switch type {
+    case .photo:
+      photoButton.isSelected = true
+      titleInputTextView.textView.text = model.title
+    case .text:
+      textButton.isSelected = true
+      titleInputTextView.textView.text = model.title
+      boardContentInputTextView.textView.text = model.content
+    case .photoAndText:
+      photoAndTextButton.isSelected = true
+      titleInputTextView.textView.text = model.title
+      boardContentInputTextView.textView.text = model.content
+      
     }
   }
 }
