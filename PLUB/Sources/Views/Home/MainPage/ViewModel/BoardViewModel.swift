@@ -5,6 +5,8 @@
 //  Created by 이건준 on 2023/03/02.
 //
 
+import UIKit
+
 import RxSwift
 import RxCocoa
 import Foundation
@@ -14,7 +16,7 @@ protocol BoardViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   var selectFeedID: AnyObserver<Int> { get }
   var selectFix: AnyObserver<Void> { get }
-  var selectModify: AnyObserver<BoardsRequest?> { get }
+  var selectModify: AnyObserver<(String, String?, UIImage?)?> { get }
   //  var selectReport: AnyObserver<Void> { get }
   var selectDelete: AnyObserver<Void> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
@@ -36,7 +38,7 @@ final class BoardViewModel {
   private let selectingFeedID = PublishSubject<Int>()
   private let selectingFix = PublishSubject<Void>()
   private let selectingDelete = PublishSubject<Void>()
-  private let selectingModify = BehaviorSubject<BoardsRequest?>(value: nil)
+  private let selectingModify = BehaviorSubject<(String, String?, UIImage?)?>(value: nil)
   private let fetchingMainpageClipboardViewModel = BehaviorRelay<[MainPageClipboardViewModel]>(value: [])
   private let fetchingBoardModel = BehaviorRelay<[BoardModel]>(value: [])
   private let fetchingMoreDatas = PublishSubject<Void>()
@@ -44,6 +46,7 @@ final class BoardViewModel {
   private let isLastPage = BehaviorSubject<Bool>(value: false)
   private let isLoading = BehaviorSubject<Bool>(value: false)
   private let lastID = BehaviorSubject<Int>(value: 0)
+  private let modifyImageString = BehaviorSubject<String?>(value: nil)
   
   init() {
     tryFetchingBoards()
@@ -171,39 +174,76 @@ final class BoardViewModel {
     .disposed(by: disposeBag)
   }
   
+  private func setupImageToString(image: UIImage?) -> Observable<String?> {
+    guard let image = image else { return .just(nil) }
+    let uploadImage = ImageService.shared.uploadImage(
+      images: [image],
+      params: .init(type: .feed)
+    )
+    
+    let tryImageToString = uploadImage
+      .flatMap { response -> Observable<String?> in
+        switch response {
+        case let .success(imageModel):
+          return .just(imageModel.data?.files.first?.fileURL)
+        default:
+          // 이미지 등록이 되지 못함 (오류 발생)
+          return .empty()
+        }
+      }
+    
+    return tryImageToString
+  }
+  
   private func tryUpdateBoard() {
-    selectingModify.withLatestFrom(
+    selectingModify.compactMap { $0 }
+      .withLatestFrom(
       Observable.combineLatest(
         selectingPlubbingID,
         selectingFeedID
       )
     ) { ($0, $1) }
-      .flatMapLatest { request, result in
+      .withUnretained(self)
+      .flatMapLatest { (owner, arg1) -> Observable<BoardsResponse> in
+        let (request, result) = arg1
         let (plubbingID, feedID) = result
-        return FeedsService.shared.updateFeed(plubbingID: plubbingID, feedID: feedID, model: request!)
-      }
-    .map { $0.feedID }
-    .subscribe(with: self) { owner, feedID in
-      let boardModel = owner.fetchingBoardModel.value
-      guard let tryRequest = try? owner.selectingModify.value() else { return }
-      
-      let updateBoardModel = boardModel.map { model in
-        if model.feedID == feedID {
-          return model.updateBoardModel(request: tryRequest)
+        let (title, content, feedImage) = request
+        return owner.setupImageToString(image: feedImage)
+          .flatMap { feedImage in
+            print("여기오나\(feedImage)")
+          return FeedsService.shared.updateFeed(
+            plubbingID: plubbingID,
+            feedID: feedID,
+            model: BoardsRequest(
+              title: title,
+              content: content,
+              feedImage: feedImage
+            )
+          )
         }
-        return model
       }
+      .map { $0.feedID }
+      .subscribe(with: self) { owner, feedID in
+        let boardModel = owner.fetchingBoardModel.value
+        guard let tryRequest = try? owner.selectingModify.value() else { return }
 
-      owner.fetchingBoardModel.accept(updateBoardModel)
-      Log.debug("피드 아이디\(feedID) 수정완료하였습니다")
-    }
-    .disposed(by: disposeBag)
+//        let updateBoardModel = boardModel.map { model in
+//          if model.feedID == feedID {
+//            return model.updateBoardModel(request: tryRequest)
+//          }
+//          return model
+//        }
+
+//        owner.fetchingBoardModel.accept(updateBoardModel)
+        Log.debug("수정완료하였습니다")
+      }
+      .disposed(by: disposeBag)
   }
 }
 
 extension BoardViewModel: BoardViewModelType {
   
-  var selectModify: AnyObserver<BoardsRequest?> {
+  var selectModify: AnyObserver<(String, String?, UIImage?)?> {
     selectingModify.asObserver()
   }
   
