@@ -18,7 +18,7 @@ enum BoardHeaderViewType {
 protocol BoardViewControllerDelegate: AnyObject {
   func didTappedBoardCollectionViewCell(plubbingID: Int, content: BoardModel)
   func didTappedBoardClipboardHeaderView()
-  func didTappedModifyBoard()
+  func didTappedModifyBoard(model: BoardModel)
 }
 
 final class BoardViewController: BaseViewController {
@@ -156,6 +156,7 @@ final class BoardViewController: BaseViewController {
         bottomSheet = BoardBottomSheetViewController(accessType: .normal, isPinned: isPinned)
       } else if isAuthor {
         bottomSheet = BoardBottomSheetViewController(accessType: .author, isPinned: isPinned)
+        bottomSheet.updateSelectedModel(selectedModel: model)
       } else {
         bottomSheet = BoardBottomSheetViewController(accessType: .host, isPinned: isPinned)
       }
@@ -248,12 +249,13 @@ extension BoardViewController: BoardClipboardHeaderViewDelegate {
 }
 
 extension BoardViewController: BoardBottomSheetDelegate {
-  func selectedBoardSheetType(type: BoardBottomSheetType) {
+  func selectedBoardSheetType(type: BoardBottomSheetType, model: BoardModel?) {
     switch type {
     case .fix:
       viewModel.selectFix.onNext(())
     case .modify:
-      delegate?.didTappedModifyBoard()
+      guard let model = model else { return }
+      delegate?.didTappedModifyBoard(model: model)
     case .report:
       viewModel.selectFix.onNext(())
     case .delete:
