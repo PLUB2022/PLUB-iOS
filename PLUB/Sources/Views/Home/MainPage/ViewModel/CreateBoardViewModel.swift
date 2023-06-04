@@ -21,7 +21,6 @@ protocol CreateBoardViewModelType {
   var tappedUploadButton: AnyObserver<Void> { get }
   
   // Output
-  var isSuccessCreateBoard: Signal<Int> { get }
   var uploadButtonIsActivated: Driver<Bool> { get }
 }
 
