@@ -170,6 +170,10 @@ final class BoardViewController: BaseViewController {
     }
   }
   
+  func requestUpdateBoard(request: (String, String?, UIImage?)) {
+    viewModel.selectModify.onNext(request)
+  }
+  
 }
 
 extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSource {
