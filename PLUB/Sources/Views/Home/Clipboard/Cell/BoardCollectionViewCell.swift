@@ -119,6 +119,7 @@ final class BoardCollectionViewCell: UICollectionViewCell {
     commentCountLabel.text = nil
     titleLabel.text = nil
     contentLabel.text = nil
+    contentImageView.image = nil
   }
   
   // MARK: - Configuration

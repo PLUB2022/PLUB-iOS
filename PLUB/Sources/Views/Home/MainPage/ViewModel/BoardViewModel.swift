@@ -226,10 +226,10 @@ final class BoardViewModel {
       }
       .map { $0.feedID }
       .subscribe(with: self) { owner, feedID in
-        guard let tryRequest = try? owner.selectingModify.value(),
-              let modifiedImageString = try? owner.modifyImageString.value() else { return }
+        guard let tryRequest = try? owner.selectingModify.value() else { return }
         let boardModel = owner.fetchingBoardModel.value
         let (title, content, _) = tryRequest
+        let modifiedImageString = try? owner.modifyImageString.value()
         
         let updateBoardModel = boardModel.map { model in
           if model.feedID == feedID {
@@ -263,7 +263,7 @@ extension BoardViewModel: BoardViewModelType {
   var selectFix: AnyObserver<Void> {
     selectingFix.asObserver()
   }
-
+  
   var selectDelete: AnyObserver<Void> {
     selectingDelete.asObserver()
   }
