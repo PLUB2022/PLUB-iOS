@@ -84,11 +84,6 @@ final class BoardViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    viewModel.clearStatus()
-  }
-  
   override func setupStyles() {
     super.setupStyles()
     collectionView.addGestureRecognizer(longPressedGesture)

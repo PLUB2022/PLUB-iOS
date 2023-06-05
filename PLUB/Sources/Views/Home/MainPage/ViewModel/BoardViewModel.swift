@@ -26,8 +26,6 @@ protocol BoardViewModelType {
   var fetchedBoardModel: Driver<[BoardModel]> { get }
   var clipboardListIsEmpty: Driver<Bool> { get }
   
-  func clearStatus()
-  
 }
 
 final class BoardViewModel {
@@ -55,13 +53,6 @@ final class BoardViewModel {
     tryDeleteBoard()
     tryPinnedBoard()
     tryUpdateBoard()
-  }
-  
-  func clearStatus() {
-    isLastPage.onNext(false)
-    isLoading.onNext(false)
-    fetchingBoardModel.accept([])
-    currentCursorID.accept(0)
   }
   
   private func tryFetchingBoards() {
@@ -233,6 +224,9 @@ final class BoardViewModel {
         
         let updateBoardModel = boardModel.map { model in
           if model.feedID == feedID {
+            if model.type == .text {
+              return model.updateBoardModel(title: title, content: content, feedImage: nil)
+            }
             return model.updateBoardModel(title: title, content: content, feedImage: modifiedImageString)
           }
           return model
