@@ -11,15 +11,15 @@ import RxSwift
 import SnapKit
 import Then
 
-enum CreateBoardType {
+enum WriteBoardType {
   case create // 게시글 작성용
   case modify // 개시글 수정용
 }
 
-final class CreateBoardViewController: BaseViewController {
+final class WriteBoardViewController: BaseViewController {
   
-  private let viewModel: CreateBoardViewModelType
-  private let createBoardType: CreateBoardType
+  private let viewModel: WriteBoardViewModelType
+  private let createBoardType: WriteBoardType
   
   private var type: PostType = .photo {
     didSet {
@@ -88,11 +88,11 @@ final class CreateBoardViewController: BaseViewController {
   )
   
   private let tapGesture = UITapGestureRecognizer(
-    target: CreateBoardViewController.self,
+    target: WriteBoardViewController.self,
     action: nil
   )
   
-  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int, createBoardType: CreateBoardType = .create, completionHandler: CompletionHandler? = nil) {
+  init(viewModel: WriteBoardViewModelType = WriteBoardViewModel(), plubbingID: Int, createBoardType: WriteBoardType = .create, completionHandler: CompletionHandler? = nil) {
     self.viewModel = viewModel
     self.createBoardType = createBoardType
     self.completionHandler = completionHandler
@@ -296,7 +296,7 @@ final class CreateBoardViewController: BaseViewController {
   }
 }
 
-extension CreateBoardViewController: PhotoBottomSheetDelegate {
+extension WriteBoardViewController: PhotoBottomSheetDelegate {
   func selectImage(image: UIImage) {
     addPhotoImageView.image = image
     viewModel.isSelectImage.onNext(true)
