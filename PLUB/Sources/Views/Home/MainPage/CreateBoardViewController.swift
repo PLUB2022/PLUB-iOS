@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 enum CreateBoardType {
-  case edit // 게시글 작성용
+  case create // 게시글 작성용
   case modify // 개시글 수정용
 }
 
@@ -92,7 +92,7 @@ final class CreateBoardViewController: BaseViewController {
     action: nil
   )
   
-  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int, createBoardType: CreateBoardType = .edit, completionHandler: CompletionHandler? = nil) {
+  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int, createBoardType: CreateBoardType = .create, completionHandler: CompletionHandler? = nil) {
     self.viewModel = viewModel
     self.createBoardType = createBoardType
     self.completionHandler = completionHandler
@@ -108,7 +108,7 @@ final class CreateBoardViewController: BaseViewController {
     super.setupStyles()
     addPhotoImageView.addGestureRecognizer(tapGesture)
     navigationItem.title = title
-    if createBoardType == .edit {
+    if createBoardType == .create {
       photoButton.isSelected = true
     }
   }
@@ -117,7 +117,7 @@ final class CreateBoardViewController: BaseViewController {
     super.setupLayouts()
     [photoButton, textButton, photoAndTextButton].forEach { buttonStackView.addArrangedSubview($0) }
     
-    if createBoardType == .edit || type == .photo {
+    if createBoardType == .create || type == .photo {
       [photoAddLabel, addPhotoImageView].forEach { boardTypeStackView.addArrangedSubview($0) }
     }
     [boardTypeLabel, buttonStackView, titleInputTextView, boardTypeStackView, uploadButton].forEach { view.addSubview($0) }
@@ -197,7 +197,7 @@ final class CreateBoardViewController: BaseViewController {
         let feedImage = owner.addPhotoImageView.image
         
         switch owner.createBoardType {
-        case .edit:
+        case .create:
           owner.viewModel.tappedUploadButton.onNext(())
           owner.viewModel.writeTitle.onNext(title)
           switch owner.type {
