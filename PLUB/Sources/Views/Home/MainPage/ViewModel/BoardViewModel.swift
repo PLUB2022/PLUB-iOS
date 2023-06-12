@@ -5,6 +5,8 @@
 //  Created by 이건준 on 2023/03/02.
 //
 
+import UIKit
+
 import RxSwift
 import RxCocoa
 import Foundation
@@ -14,7 +16,7 @@ protocol BoardViewModelType {
   var selectPlubbingID: AnyObserver<Int> { get }
   var selectFeedID: AnyObserver<Int> { get }
   var selectFix: AnyObserver<Void> { get }
-  //  var selectModify: AnyObserver<Void> { get }
+  var selectModify: AnyObserver<(String, String?, UIImage?)?> { get }
   //  var selectReport: AnyObserver<Void> { get }
   var selectDelete: AnyObserver<Void> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
@@ -23,10 +25,6 @@ protocol BoardViewModelType {
   var fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]> { get }
   var fetchedBoardModel: Driver<[BoardModel]> { get }
   var clipboardListIsEmpty: Driver<Bool> { get }
-  var isPinnedFeed: Driver<Int> { get }
-  var successDeleteFeed: Driver<Void> { get }
-  
-  func clearStatus()
   
 }
 
@@ -38,6 +36,7 @@ final class BoardViewModel {
   private let selectingFeedID = PublishSubject<Int>()
   private let selectingFix = PublishSubject<Void>()
   private let selectingDelete = PublishSubject<Void>()
+  private let selectingModify = BehaviorSubject<(String, String?, UIImage?)?>(value: nil)
   private let fetchingMainpageClipboardViewModel = BehaviorRelay<[MainPageClipboardViewModel]>(value: [])
   private let fetchingBoardModel = BehaviorRelay<[BoardModel]>(value: [])
   private let fetchingMoreDatas = PublishSubject<Void>()
@@ -45,18 +44,15 @@ final class BoardViewModel {
   private let isLastPage = BehaviorSubject<Bool>(value: false)
   private let isLoading = BehaviorSubject<Bool>(value: false)
   private let lastID = BehaviorSubject<Int>(value: 0)
+  private let modifyImageString = BehaviorSubject<String?>(value: nil)
   
   init() {
     tryFetchingBoards()
     tryFetchingClipboards()
     tryFetchingMoreDatas()
-  }
-  
-  func clearStatus() {
-    isLastPage.onNext(false)
-    isLoading.onNext(false)
-    fetchingBoardModel.accept([])
-    currentCursorID.accept(0)
+    tryDeleteBoard()
+    tryPinnedBoard()
+    tryUpdateBoard()
   }
   
   private func tryFetchingBoards() {
@@ -121,9 +117,133 @@ final class BoardViewModel {
       })
       .disposed(by: disposeBag)
   }
+  
+  private func tryDeleteBoard() {
+    let selectingDelete = selectingDelete.share()
+    
+    selectingDelete.withLatestFrom(
+      Observable.combineLatest(
+        selectingPlubbingID,
+        selectingFeedID
+      )
+    )
+    .flatMapLatest(FeedsService.shared.deleteFeed)
+    .map { _ in Void() }
+    .subscribe(with: self) { owner, _ in
+      Log.debug("해당 게시글을 삭제하였습니다")
+    }
+    .disposed(by: disposeBag)
+    
+    selectingDelete.withLatestFrom(selectingFeedID)
+      .subscribe(with: self) { owner, feedID in
+        let boardModel = owner.fetchingBoardModel.value
+        let deleteBoardModel = boardModel.filter { $0.feedID != feedID }
+        owner.fetchingBoardModel.accept(deleteBoardModel)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func tryPinnedBoard() {
+    selectingFix.withLatestFrom(
+      Observable.combineLatest(selectingPlubbingID, selectingFeedID)
+    )
+    .flatMapLatest(FeedsService.shared.pinFeed)
+    .map { $0.feedID }
+    .subscribe(with: self) { owner, feedID in
+      var boardModel = owner.fetchingBoardModel.value
+      var clipboardModel = owner.fetchingMainpageClipboardViewModel.value
+      
+      guard let findBoardModel = boardModel.filter({ $0.feedID == feedID }).first else { return }
+      boardModel.removeAll(where: { $0.feedID == feedID })
+      owner.fetchingBoardModel.accept(boardModel)
+      
+      let model = MainPageClipboardViewModel(model: findBoardModel)
+      clipboardModel.insert(model, at: 0)
+      owner.fetchingMainpageClipboardViewModel.accept(clipboardModel)
+      Log.debug("피드 아이디\(feedID ) 고정완료하였습니다")
+    }
+    .disposed(by: disposeBag)
+  }
+  
+  private func setupImageToString(image: UIImage?) -> Observable<String?> {
+    guard let image = image else { return .just(nil) }
+    let uploadImage = ImageService.shared.uploadImage(
+      images: [image],
+      params: .init(type: .feed)
+    )
+    
+    let tryImageToString = uploadImage
+      .withUnretained(self)
+      .flatMap { owner, response -> Observable<String?> in
+        switch response {
+        case let .success(imageModel):
+          let fileURL = imageModel.data?.files.first?.fileURL
+          owner.modifyImageString.onNext(fileURL)
+          return .just(fileURL)
+        default:
+          // 이미지 등록이 되지 못함 (오류 발생)
+          return .empty()
+        }
+      }
+    
+    return tryImageToString
+  }
+  
+  private func tryUpdateBoard() {
+    selectingModify.compactMap { $0 }
+      .withLatestFrom(
+        Observable.combineLatest(
+          selectingPlubbingID,
+          selectingFeedID
+        )
+      ) { ($0, $1) }
+      .withUnretained(self)
+      .flatMapLatest { (owner, arg1) -> Observable<BoardsResponse> in
+        let (request, result) = arg1
+        let (plubbingID, feedID) = result
+        let (title, content, feedImage) = request
+        return owner.setupImageToString(image: feedImage)
+          .flatMap { feedImage in
+            return FeedsService.shared.updateFeed(
+              plubbingID: plubbingID,
+              feedID: feedID,
+              model: BoardsRequest(
+                title: title,
+                content: content,
+                feedImage: feedImage
+              )
+            )
+          }
+      }
+      .map { $0.feedID }
+      .subscribe(with: self) { owner, feedID in
+        guard let tryRequest = try? owner.selectingModify.value() else { return }
+        let boardModel = owner.fetchingBoardModel.value
+        let (title, content, _) = tryRequest
+        let modifiedImageString = try? owner.modifyImageString.value()
+        
+        let updateBoardModel = boardModel.map { model in
+          if model.feedID == feedID {
+            if model.type == .text {
+              return model.updateBoardModel(title: title, content: content, feedImage: nil)
+            }
+            return model.updateBoardModel(title: title, content: content, feedImage: modifiedImageString)
+          }
+          return model
+        }
+        
+        owner.fetchingBoardModel.accept(updateBoardModel)
+        Log.debug("수정완료하였습니다")
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 extension BoardViewModel: BoardViewModelType {
+  
+  var selectModify: AnyObserver<(String, String?, UIImage?)?> {
+    selectingModify.asObserver()
+  }
   
   // Input
   var selectPlubbingID: AnyObserver<Int> {
@@ -138,8 +258,6 @@ extension BoardViewModel: BoardViewModelType {
     selectingFix.asObserver()
   }
   
-  //  let selectModify: AnyObserver<Void>
-  //  let selectReport: AnyObserver<Void>
   var selectDelete: AnyObserver<Void> {
     selectingDelete.asObserver()
   }
@@ -166,25 +284,13 @@ extension BoardViewModel: BoardViewModelType {
   
   var isPinnedFeed: Driver<Int> {
     selectingFix.withLatestFrom(
-      Observable.zip(
+      Observable.combineLatest(
         selectingPlubbingID,
         selectingFeedID
       )
     )
     .flatMapLatest(FeedsService.shared.pinFeed)
     .map { $0.feedID }
-    .asDriver(onErrorDriveWith: .empty())
-  }
-  
-  var successDeleteFeed: Driver<Void> {
-    selectingDelete.withLatestFrom(
-      Observable.zip(
-        selectingPlubbingID,
-        selectingFeedID
-      )
-    )
-    .flatMapLatest(FeedsService.shared.deleteFeed)
-    .map { _ in Void() }
     .asDriver(onErrorDriveWith: .empty())
   }
 }

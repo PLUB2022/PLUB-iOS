@@ -53,8 +53,8 @@
 		7063159E2A0BBF6B00DD8EFE /* InquireTodolistByDateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7063159D2A0BBF6B00DD8EFE /* InquireTodolistByDateResponse.swift */; };
 		70727A1F29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A1E29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift */; };
 		70727A2129BF8F2A003DE956 /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2029BF8F2A003DE956 /* Ex+Date.swift */; };
-		70727A2329C4A9E4003DE956 /* CreateBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2229C4A9E4003DE956 /* CreateBoardViewController.swift */; };
-		70727A2529C4C21A003DE956 /* CreateBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2429C4C21A003DE956 /* CreateBoardViewModel.swift */; };
+		70727A2329C4A9E4003DE956 /* WriteBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2229C4A9E4003DE956 /* WriteBoardViewController.swift */; };
+		70727A2529C4C21A003DE956 /* WriteBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2429C4C21A003DE956 /* WriteBoardViewModel.swift */; };
 		70727A2729C708A6003DE956 /* ApplyForRecruitmentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2629C708A6003DE956 /* ApplyForRecruitmentRequest.swift */; };
 		70727A2929C709E9003DE956 /* ApplyForRecruitmentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2829C709E9003DE956 /* ApplyForRecruitmentResponse.swift */; };
 		70727A2B29C81DCE003DE956 /* BoardBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A2A29C81DCE003DE956 /* BoardBottomSheetViewController.swift */; };
@@ -490,8 +490,8 @@
 		7063159D2A0BBF6B00DD8EFE /* InquireTodolistByDateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireTodolistByDateResponse.swift; sourceTree = "<group>"; };
 		70727A1E29BF7FC6003DE956 /* BoardSystemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSystemCollectionViewCell.swift; sourceTree = "<group>"; };
 		70727A2029BF8F2A003DE956 /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
-		70727A2229C4A9E4003DE956 /* CreateBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBoardViewController.swift; sourceTree = "<group>"; };
-		70727A2429C4C21A003DE956 /* CreateBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBoardViewModel.swift; sourceTree = "<group>"; };
+		70727A2229C4A9E4003DE956 /* WriteBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteBoardViewController.swift; sourceTree = "<group>"; };
+		70727A2429C4C21A003DE956 /* WriteBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteBoardViewModel.swift; sourceTree = "<group>"; };
 		70727A2629C708A6003DE956 /* ApplyForRecruitmentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyForRecruitmentRequest.swift; sourceTree = "<group>"; };
 		70727A2829C709E9003DE956 /* ApplyForRecruitmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyForRecruitmentResponse.swift; sourceTree = "<group>"; };
 		70727A2A29C81DCE003DE956 /* BoardBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -1069,7 +1069,7 @@
 				705F81BE29AF35B700830C4F /* MainPageViewController.swift */,
 				705F81C229AFAA3B00830C4F /* BoardViewController.swift */,
 				705F81C429AFAA5200830C4F /* TodolistViewController.swift */,
-				70727A2229C4A9E4003DE956 /* CreateBoardViewController.swift */,
+				70727A2229C4A9E4003DE956 /* WriteBoardViewController.swift */,
 				70727A4029D485E0003DE956 /* TodoPlannerViewController.swift */,
 			);
 			path = MainPage;
@@ -1093,7 +1093,7 @@
 			children = (
 				705F81C029AF8E7300830C4F /* MainPageViewModel.swift */,
 				705F820829B0EE6600830C4F /* BoardViewModel.swift */,
-				70727A2429C4C21A003DE956 /* CreateBoardViewModel.swift */,
+				70727A2429C4C21A003DE956 /* WriteBoardViewModel.swift */,
 				70C9CC8E2A00864400BEB5F2 /* TodolistViewModel.swift */,
 				706315952A0BA93400DD8EFE /* TodoPlannerViewModel.swift */,
 			);
@@ -2626,7 +2626,7 @@
 				BA72BCF029BB03FF007165E5 /* BaseNavigationController.swift in Sources */,
 				705FD2C12A1E51E800F353FE /* TodoGoalHeaderView.swift in Sources */,
 				70197B722953698F000503F6 /* SelectedCategoryViewController.swift in Sources */,
-				70727A2529C4C21A003DE956 /* CreateBoardViewModel.swift in Sources */,
+				70727A2529C4C21A003DE956 /* WriteBoardViewModel.swift in Sources */,
 				BA5EC6CD29F167D7000A68B7 /* BoardDetailViewModelFactory.swift in Sources */,
 				70727A4729D6D507003DE956 /* TodoInfoView.swift in Sources */,
 				C3775E2429C61B9C003A812F /* CustomAlertView.swift in Sources */,
@@ -2866,7 +2866,7 @@
 				7028770729A8C9A100E57509 /* RecruitmentFilterViewModel.swift in Sources */,
 				C3413E1729954910004B8DBD /* MeetingInfoViewController.swift in Sources */,
 				BA1FC12929A5FD3C00AB3F91 /* PaginatedDataResponse.swift in Sources */,
-				70727A2329C4A9E4003DE956 /* CreateBoardViewController.swift in Sources */,
+				70727A2329C4A9E4003DE956 /* WriteBoardViewController.swift in Sources */,
 				C3100CBC29BD8ABB005FCCAD /* MyProfileView.swift in Sources */,
 				70C42454296C86A400DECA0D /* HomeMainCollectionHeaderView.swift in Sources */,
 				BAC5EF31298B6F2D00F3955E /* CongratulationViewController.swift in Sources */,

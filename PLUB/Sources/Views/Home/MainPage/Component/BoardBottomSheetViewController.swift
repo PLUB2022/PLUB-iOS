@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 protocol BoardBottomSheetDelegate: AnyObject {
-  func selectedBoardSheetType(type: BoardBottomSheetType)
+  func selectedBoardSheetType(type: BoardBottomSheetType, model: BoardModel?)
 }
 
 
@@ -40,6 +40,7 @@ final class BoardBottomSheetViewController: BottomSheetViewController, BoardBott
   
   private let accessType: AccessType
   private let isPinned: Bool
+  private var selectedModel: BoardModel?
   
   // MARK: - UI Components
   
@@ -115,7 +116,7 @@ final class BoardBottomSheetViewController: BottomSheetViewController, BoardBott
     if accessType != .normal {
       clipboardFixView.button.rx.tap
         .subscribe(with: self) { owner, _ in
-          owner.delegate?.selectedBoardSheetType(type: .fix)
+          owner.delegate?.selectedBoardSheetType(type: .fix, model: nil)
         }
         .disposed(by: disposeBag)
     }
@@ -123,22 +124,27 @@ final class BoardBottomSheetViewController: BottomSheetViewController, BoardBott
     if accessType == .author {
       modifyBoardView.button.rx.tap
         .subscribe(with: self) { owner, _ in
-          owner.delegate?.selectedBoardSheetType(type: .modify)
+          guard let model = owner.selectedModel else { return }
+          owner.delegate?.selectedBoardSheetType(type: .modify, model: model)
         }
         .disposed(by: disposeBag)
       
       deleteBoardView.button.rx.tap
         .subscribe(with: self) { owner, _ in
-          owner.delegate?.selectedBoardSheetType(type: .delete)
+          owner.delegate?.selectedBoardSheetType(type: .delete, model: nil)
         }
         .disposed(by: disposeBag)
     } else {
       reportBoardView.button.rx.tap
         .subscribe(with: self) { owner, _ in
-          owner.delegate?.selectedBoardSheetType(type: .report)
+          owner.delegate?.selectedBoardSheetType(type: .report, model: nil)
         }
         .disposed(by: disposeBag)
     }
+  }
+  
+  func updateSelectedModel(selectedModel: BoardModel) {
+    self.selectedModel = selectedModel
   }
 }
 

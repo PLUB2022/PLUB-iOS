@@ -160,7 +160,7 @@ final class MainPageViewController: BaseViewController {
     writeButton.rx.tap
       .subscribe(with: self) { owner, _ in
         if owner.currentPage == 0 {
-          let vc = CreateBoardViewController(plubbingID: owner.plubbingID)
+          let vc = WriteBoardViewController(plubbingID: owner.plubbingID)
           vc.navigationItem.largeTitleDisplayMode = .never
           vc.title = owner.title
           owner.navigationController?.pushViewController(vc, animated: true)
@@ -209,6 +209,17 @@ extension MainPageViewController: UIScrollViewDelegate {
 }
 
 extension MainPageViewController: BoardViewControllerDelegate {
+  func didTappedModifyBoard(model: BoardModel) {
+    let vc = WriteBoardViewController(plubbingID: plubbingID, createBoardType: .modify) { [weak self] request in
+      guard let self = self else { return }
+      self.boardViewController.requestUpdateBoard(request: request)
+    }
+    vc.navigationItem.largeTitleDisplayMode = .never
+    vc.title = title
+    vc.updateForModify(model: model)
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
   func didTappedBoardClipboardHeaderView() {
     let vc = ClipboardViewController(viewModel: ClipboardViewModel(plubbingID: plubbingID))
     vc.title = title

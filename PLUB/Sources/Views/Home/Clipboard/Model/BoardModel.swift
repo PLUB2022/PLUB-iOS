@@ -42,6 +42,15 @@ struct BoardModel {
   
   /// 내용
   let content: String?
+  
+  /// 고정 여부
+  let isPinned: Bool
+  
+  /// 작성자인지 여부
+  let isAuthor: Bool
+  
+  /// 호스트인지 여부
+  let isHost: Bool
 }
 
 extension BoardModel {
@@ -77,7 +86,31 @@ extension FeedsContent {
       commentCount: commentCount,
       title: title,
       imageLink: feedImageURL,
-      content: content
+      content: content,
+      isPinned: isPinned,
+      isAuthor: isAuthor,
+      isHost: isHost
+    )
+  }
+}
+
+extension BoardModel {
+  func updateBoardModel(title: String, content: String?, feedImage: String?) -> BoardModel {
+    BoardModel(
+      feedID: feedID,
+      viewType: viewType,
+      author: author,
+      authorProfileImageLink: authorProfileImageLink,
+      date: date,
+      isLike: isLike,
+      likeCount: likeCount,
+      commentCount: commentCount,
+      title: title,
+      imageLink: feedImage,
+      content: content,
+      isPinned: isPinned,
+      isAuthor: isAuthor,
+      isHost: isHost
     )
   }
 }

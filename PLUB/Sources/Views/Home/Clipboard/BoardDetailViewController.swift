@@ -216,7 +216,7 @@ extension BoardDetailViewController: CommentOptionBottomSheetDelegate {
 // MARK: - BoardBottomSheetDelegate
 
 extension BoardDetailViewController: BoardBottomSheetDelegate {
-  func selectedBoardSheetType(type: BoardBottomSheetType) {
+  func selectedBoardSheetType(type: BoardBottomSheetType, model: BoardModel?) {
     viewModel.boardOptionObserver.onNext(type)
     dismiss(animated: true)
   }

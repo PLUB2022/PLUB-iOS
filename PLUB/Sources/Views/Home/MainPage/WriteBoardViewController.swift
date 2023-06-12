@@ -11,9 +11,15 @@ import RxSwift
 import SnapKit
 import Then
 
-final class CreateBoardViewController: BaseViewController {
+enum WriteBoardType {
+  case create // 게시글 작성용
+  case modify // 개시글 수정용
+}
+
+final class WriteBoardViewController: BaseViewController {
   
-  private let viewModel: CreateBoardViewModelType
+  private let viewModel: WriteBoardViewModelType
+  private let createBoardType: WriteBoardType
   
   private var type: PostType = .photo {
     didSet {
@@ -22,6 +28,9 @@ final class CreateBoardViewController: BaseViewController {
       changedLayout(type: type)
     }
   }
+  
+  typealias CompletionHandler = ((String, String?, UIImage?)) -> Void
+  private(set) var completionHandler: CompletionHandler?
   
   private let boardTypeLabel = UILabel().then {
     $0.textColor = .black
@@ -36,7 +45,6 @@ final class CreateBoardViewController: BaseViewController {
   
   private let photoButton: UIButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.list(label: "사진 Only")
-    $0.isSelected = true
   }
   
   private let textButton = UIButton(configuration: .plain()).then {
@@ -80,12 +88,14 @@ final class CreateBoardViewController: BaseViewController {
   )
   
   private let tapGesture = UITapGestureRecognizer(
-    target: CreateBoardViewController.self,
+    target: WriteBoardViewController.self,
     action: nil
   )
   
-  init(viewModel: CreateBoardViewModelType = CreateBoardViewModel(), plubbingID: Int) {
+  init(viewModel: WriteBoardViewModelType = WriteBoardViewModel(), plubbingID: Int, createBoardType: WriteBoardType = .create, completionHandler: CompletionHandler? = nil) {
     self.viewModel = viewModel
+    self.createBoardType = createBoardType
+    self.completionHandler = completionHandler
     super.init(nibName: nil, bundle: nil)
     bind(plubbingID: plubbingID)
   }
@@ -98,13 +108,18 @@ final class CreateBoardViewController: BaseViewController {
     super.setupStyles()
     addPhotoImageView.addGestureRecognizer(tapGesture)
     navigationItem.title = title
+    if createBoardType == .create {
+      photoButton.isSelected = true
+    }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     [photoButton, textButton, photoAndTextButton].forEach { buttonStackView.addArrangedSubview($0) }
     
-    [photoAddLabel, addPhotoImageView].forEach { boardTypeStackView.addArrangedSubview($0) }
+    if createBoardType == .create || type == .photo {
+      [photoAddLabel, addPhotoImageView].forEach { boardTypeStackView.addArrangedSubview($0) }
+    }
     [boardTypeLabel, buttonStackView, titleInputTextView, boardTypeStackView, uploadButton].forEach { view.addSubview($0) }
   }
   
@@ -178,10 +193,35 @@ final class CreateBoardViewController: BaseViewController {
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
         guard let title = owner.titleInputTextView.textView.text else { return }
-        owner.viewModel.tappedUploadButton.onNext(())
-        owner.viewModel.writeTitle.onNext(title)
-        owner.viewModel.writeContent.onNext(owner.boardContentInputTextView.textView.text)
-        owner.viewModel.whichBoardImage.onNext(owner.addPhotoImageView.image)
+        let content = owner.boardContentInputTextView.textView.text
+        let feedImage = owner.addPhotoImageView.image
+        
+        switch owner.createBoardType {
+        case .create:
+          owner.viewModel.tappedUploadButton.onNext(())
+          owner.viewModel.writeTitle.onNext(title)
+          switch owner.type {
+          case .photo:
+            owner.viewModel.whichBoardImage.onNext(feedImage!)
+          case .text:
+            owner.viewModel.writeContent.onNext(content!)
+          case .photoAndText:
+            owner.viewModel.writeContent.onNext(content!)
+            owner.viewModel.whichBoardImage.onNext(feedImage!)
+          }
+        case .modify:
+          let request: (String, String?, UIImage?)
+          switch owner.type {
+            case .photo:
+              request = (title, nil, feedImage!)
+            case .text:
+              request = (title, content!, nil)
+            case .photoAndText:
+              request = (title, content!, feedImage!)
+          }
+          owner.completionHandler?(request)
+        }
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -200,12 +240,6 @@ final class CreateBoardViewController: BaseViewController {
         let bottomSheet = PhotoBottomSheetViewController()
         bottomSheet.delegate = owner
         owner.present(bottomSheet, animated: true)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isSuccessCreateBoard
-      .emit(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -239,9 +273,30 @@ final class CreateBoardViewController: BaseViewController {
       boardTypeStackView.setCustomSpacing(24, after: addPhotoImageView)
     }
   }
+  
+  func updateForModify(model: BoardModel) {
+    guard createBoardType == .modify else { return }
+    let type = model.type
+    self.type = type
+    
+    switch type {
+    case .photo:
+      photoButton.isSelected = true
+      titleInputTextView.textView.text = model.title
+    case .text:
+      textButton.isSelected = true
+      titleInputTextView.textView.text = model.title
+      boardContentInputTextView.textView.text = model.content
+    case .photoAndText:
+      photoAndTextButton.isSelected = true
+      titleInputTextView.textView.text = model.title
+      boardContentInputTextView.textView.text = model.content
+      
+    }
+  }
 }
 
-extension CreateBoardViewController: PhotoBottomSheetDelegate {
+extension WriteBoardViewController: PhotoBottomSheetDelegate {
   func selectImage(image: UIImage) {
     addPhotoImageView.image = image
     viewModel.isSelectImage.onNext(true)

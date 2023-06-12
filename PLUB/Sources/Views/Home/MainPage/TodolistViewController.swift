@@ -53,6 +53,7 @@ final class TodolistViewController: BaseViewController {
     $0.contentInset = UIEdgeInsets(top: .zero, left: 16, bottom: .zero, right: 16)
     $0.showsVerticalScrollIndicator = false
     $0.showsHorizontalScrollIndicator = false
+    $0.alwaysBounceVertical = true
   }
   
   init(plubbingID: Int, goal: String, viewModel: TodolistViewModelType = TodolistViewModel()) {

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol CreateBoardViewModelType {
+protocol WriteBoardViewModelType {
   // Input
   var selectMeeting: AnyObserver<Int> { get }
   var writeTitle: AnyObserver<String> { get }
@@ -21,11 +21,10 @@ protocol CreateBoardViewModelType {
   var tappedUploadButton: AnyObserver<Void> { get }
   
   // Output
-  var isSuccessCreateBoard: Signal<Int> { get }
   var uploadButtonIsActivated: Driver<Bool> { get }
 }
 
-final class CreateBoardViewModel: CreateBoardViewModelType {
+final class WriteBoardViewModel: WriteBoardViewModelType {
   
   private let disposeBag = DisposeBag()
   
@@ -174,7 +173,7 @@ final class CreateBoardViewModel: CreateBoardViewModelType {
   }
 }
 
-extension CreateBoardViewModel {
+extension WriteBoardViewModel {
   struct Constants {
     static let titlePlaceholder = "제목을 입력해주세요"
     static let contentPlaceholder = "내용을 입력해주세요"

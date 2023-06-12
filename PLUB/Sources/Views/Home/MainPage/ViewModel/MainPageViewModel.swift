@@ -52,7 +52,10 @@ final class MainPageViewModel: MainPageViewModelType {
             commentCount: feedContent.commentCount,
             title: feedContent.title,
             imageLink: feedContent.feedImageURL,
-            content: feedContent.content
+            content: feedContent.content,
+            isPinned: feedContent.isPinned,
+            isAuthor: feedContent.isAuthor,
+            isHost: feedContent.isHost
           )
         }
         fetchingBoardModel.accept(boardModels)
