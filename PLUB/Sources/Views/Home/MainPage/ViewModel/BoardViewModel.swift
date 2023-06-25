@@ -55,10 +55,10 @@ final class BoardViewModel {
     tryDeleteBoard()
     tryPinnedBoard()
     tryUpdateBoard()
-    tryCreateBoard()
+    tryUpToDateWithFetchFeedDetails()
   }
   
-  private func tryCreateBoard() {
+  private func tryUpToDateWithFetchFeedDetails() {
     let fetchingDetailBoard = Observable.combineLatest(
       selectingPlubbingID,
       whichCreatingBoard
