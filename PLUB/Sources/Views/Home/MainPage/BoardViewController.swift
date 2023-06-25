@@ -169,6 +169,10 @@ final class BoardViewController: BaseViewController {
     viewModel.selectModify.onNext(request)
   }
   
+  func requestCreateBoard(feedID: Int) {
+    viewModel.whichCreateBoard.onNext(feedID)
+  }
+  
 }
 
 extension BoardViewController: UICollectionViewDelegate, UICollectionViewDataSource {

@@ -163,6 +163,7 @@ final class MainPageViewController: BaseViewController {
           let vc = WriteBoardViewController(plubbingID: owner.plubbingID)
           vc.navigationItem.largeTitleDisplayMode = .never
           vc.title = owner.title
+          vc.delegate = owner
           owner.navigationController?.pushViewController(vc, animated: true)
         }
         else {
@@ -265,5 +266,11 @@ extension MainPageViewController: TodolistDelegate {
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension MainPageViewController: WriteBoardViewControllerDelegate {
+  func whichCreateBoardFeedID(feedID: Int) {
+    boardViewController.requestCreateBoard(feedID: feedID)
   }
 }
