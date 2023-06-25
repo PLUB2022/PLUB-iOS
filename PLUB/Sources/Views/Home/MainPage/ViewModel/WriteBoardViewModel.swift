@@ -22,6 +22,7 @@ protocol WriteBoardViewModelType {
   
   // Output
   var uploadButtonIsActivated: Driver<Bool> { get }
+  var whichSuccessCreateBoard: Signal<Int> { get }
 }
 
 final class WriteBoardViewModel: WriteBoardViewModelType {
@@ -38,7 +39,7 @@ final class WriteBoardViewModel: WriteBoardViewModelType {
   let tappedUploadButton: AnyObserver<Void>
   
   // Output
-  let isSuccessCreateBoard: Signal<Int>
+  let whichSuccessCreateBoard: Signal<Int>
   let uploadButtonIsActivated: Driver<Bool>
   
   init() {
@@ -141,7 +142,7 @@ final class WriteBoardViewModel: WriteBoardViewModelType {
       .disposed(by: disposeBag)
     
     // Output
-    isSuccessCreateBoard = isSuccessCreatingBoard
+    whichSuccessCreateBoard = isSuccessCreatingBoard
       .asSignal(onErrorSignalWith: .empty())
     
     uploadButtonIsActivated = selectingPostType
