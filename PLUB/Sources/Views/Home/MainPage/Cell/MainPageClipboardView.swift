@@ -64,7 +64,7 @@ final class MainPageClipboardView: UIView {
     $0.textColor = .black
     $0.numberOfLines = 0
     $0.lineBreakMode = .byTruncatingTail
-    $0.backgroundColor = .subMain
+    $0.textAlignment = .left
   }
   
   override init(frame: CGRect) {
@@ -82,8 +82,10 @@ final class MainPageClipboardView: UIView {
     case .text:
       addSubview(contentLabel)
       contentLabel.snp.makeConstraints {
-        $0.directionalEdges.equalToSuperview()
+        $0.top.directionalHorizontalEdges.equalToSuperview()
+        $0.bottom.lessThanOrEqualToSuperview()
       }
+      backgroundColor = .subMain
     default:
       addSubview(contentImageView)
       contentImageView.snp.makeConstraints {
