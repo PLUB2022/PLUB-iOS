@@ -16,10 +16,15 @@ enum WriteBoardType {
   case modify // 개시글 수정용
 }
 
+protocol WriteBoardViewControllerDelegate: AnyObject {
+  func whichCreateBoardFeedID(feedID: Int)
+}
+
 final class WriteBoardViewController: BaseViewController {
   
   private let viewModel: WriteBoardViewModelType
   private let createBoardType: WriteBoardType
+  weak var delegate: WriteBoardViewControllerDelegate?
   
   private var type: PostType = .photo {
     didSet {
@@ -245,6 +250,12 @@ final class WriteBoardViewController: BaseViewController {
     
     viewModel.uploadButtonIsActivated
       .drive(uploadButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    viewModel.whichSuccessCreateBoard
+      .emit(with: self){ owner, feedID in
+        owner.delegate?.whichCreateBoardFeedID(feedID: feedID)
+      }
       .disposed(by: disposeBag)
     
   }

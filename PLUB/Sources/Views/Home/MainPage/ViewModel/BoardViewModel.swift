@@ -20,6 +20,7 @@ protocol BoardViewModelType {
   //  var selectReport: AnyObserver<Void> { get }
   var selectDelete: AnyObserver<Void> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
+  var whichCreateBoard: AnyObserver<Int> { get }
   
   // Output
   var fetchedMainpageClipboardViewModel: Driver<[MainPageClipboardViewModel]> { get }
@@ -45,6 +46,7 @@ final class BoardViewModel {
   private let isLoading = BehaviorSubject<Bool>(value: false)
   private let lastID = BehaviorSubject<Int>(value: 0)
   private let modifyImageString = BehaviorSubject<String?>(value: nil)
+  private let whichCreatingBoard = PublishSubject<Int>()
   
   init() {
     tryFetchingBoards()
@@ -53,6 +55,24 @@ final class BoardViewModel {
     tryDeleteBoard()
     tryPinnedBoard()
     tryUpdateBoard()
+    tryUpToDateWithFetchFeedDetails()
+  }
+  
+  private func tryUpToDateWithFetchFeedDetails() {
+    let fetchingDetailBoard = Observable.combineLatest(
+      selectingPlubbingID,
+      whichCreatingBoard
+    )
+      .flatMapLatest(FeedsService.shared.fetchFeedDetails)
+    
+    fetchingDetailBoard
+      .subscribe(with: self) { owner, createFeedsContent in
+        var boards = owner.fetchingBoardModel.value
+        let createBoardModel = createFeedsContent.toBoardModel
+        boards.insert(createBoardModel, at: 0)
+        owner.fetchingBoardModel.accept(boards)
+      }
+      .disposed(by: disposeBag)
   }
   
   private func tryFetchingBoards() {
@@ -240,6 +260,10 @@ final class BoardViewModel {
 }
 
 extension BoardViewModel: BoardViewModelType {
+  var whichCreateBoard: AnyObserver<Int> {
+    whichCreatingBoard.asObserver()
+  }
+  
   
   var selectModify: AnyObserver<(String, String?, UIImage?)?> {
     selectingModify.asObserver()
